@@ -69,6 +69,11 @@ endif(ENABLE_ODB)
 file(GLOB_RECURSE tests_sources "tests/*.cpp")
 file(GLOB_RECURSE tests_headers "tests/*.h")
 
+# BAIK_MOD_BEGIN
+file(GLOB_RECURSE baik_sources "custom/*.cpp")
+file(GLOB_RECURSE baik_headers "custom/*.h")
+# BAIK_MOD_END
+
 set(core3tests_libs)
 set(gmock_libs)
 
@@ -83,11 +88,11 @@ if(COMPILE_TESTS)
 endif(COMPILE_TESTS)
 
 # Create core3 binary
-add_executable(core3 main.cpp server/ServerCore.cpp ${core3tests_libs} ${tre3_sources} ${tre3_headers} ${zone3_sources} ${zone3_headers})
+add_executable(core3 main.cpp server/ServerCore.cpp ${core3tests_libs} ${tre3_sources} ${tre3_headers} ${zone3_sources} ${zone3_headers} ${baik_sources} ${baik_headers}) # BAIK_MOD_ONELINE
 
 if(ENABLE_ODB)
 	add_executable(odb3 server/ServerCore.cpp ${odb3_sources} ${odb3_headers} ${autogen_sources} ${autogen_headers} ${zone3_sources} ${zone3_headers}
-		${tre3_sources} ${tre3_headers} ${odb_internals} ${odb_internals_h} ${tests_sources})
+		${tre3_sources} ${tre3_headers} ${odb_internals} ${odb_internals_h} ${tests_sources} ${baik_sources} ${baik_headers}) # BAIK_MOD_ONELINE
 	target_compile_definitions(odb3 PUBLIC -DODB_SERIALIZATION)
 endif(ENABLE_ODB)
 
