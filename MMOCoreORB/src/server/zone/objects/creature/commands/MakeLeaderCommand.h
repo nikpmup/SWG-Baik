@@ -10,6 +10,7 @@
 #include "server/zone/managers/group/GroupManager.h"
 #include "server/zone/objects/creature/CreatureObject.h"
 
+#include "custom/utils/ObjectUtils.h" // BAIK_MOD_ONELINE
 
 class MakeLeaderCommand : public QueueCommand {
 public:
@@ -29,7 +30,7 @@ public:
 
 		GroupManager* groupManager = GroupManager::instance();
 
-		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
+		ManagedReference<SceneObject*> object = baik::object_utils::getPlayer<SceneObject>(*server, target, arguments.toString()); // BAIK_MOD_ONELINE
 
 		if (object == nullptr || !object->isPlayerCreature())
 			return GENERALERROR;
