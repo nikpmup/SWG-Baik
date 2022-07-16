@@ -11,14 +11,11 @@
 #include "server/zone/packets/MessageCallback.h"
 #include "server/zone/managers/auction/AuctionManager.h"
 
-
 class GetAuctionDetailsCallback : public MessageCallback {
 	uint64 objectid;
 
 public:
-	GetAuctionDetailsCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-			MessageCallback(client, server), objectid(0) {
-
+	GetAuctionDetailsCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), objectid(0) {
 	}
 
 	void parse(Message* message) {
@@ -36,7 +33,6 @@ public:
 		if (auctionManager != nullptr)
 			auctionManager->getItemAttributes(player, objectid);
 	}
-
 };
 
 #endif

@@ -18,10 +18,7 @@
 
 class GiveItemCommand : public QueueCommand {
 public:
-
-	GiveItemCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GiveItemCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -52,7 +49,6 @@ public:
 		ManagedReference<SceneObject*> sceno = server->getZoneServer()->getObject(targetObjectID);
 
 		if (object != nullptr) {
-
 			ManagedReference<SceneObject*> objectsParent = object->getParent().get();
 
 			if (objectsParent == nullptr)
@@ -65,10 +61,10 @@ public:
 				return GENERALERROR;
 
 			if (object->isAttachment()) {
-				Attachment* attachment = cast<Attachment*>( object.get());
+				Attachment* attachment = cast<Attachment*>(object.get());
 
 				if (sceno->isWearableObject() && sceno->isASubChildOf(creature)) {
-					WearableObject* wearable = cast<WearableObject*>( sceno.get());
+					WearableObject* wearable = cast<WearableObject*>(sceno.get());
 					wearable->applyAttachment(creature, attachment);
 					return SUCCESS;
 				}
@@ -77,14 +73,11 @@ public:
 				Locker clocker(sceno, creature);
 
 				if (sceno->isVendor() && sceno->isCreatureObject()) {
-
 					if (object->isWearableObject() || object->isWeaponObject()) {
-
 						CreatureObject* vendor = cast<CreatureObject*>(sceno.get());
 
 						CreatureObject* player = cast<CreatureObject*>(creature);
 						if (player->getSkillMod("hiring") < 90) {
-
 							UnicodeString message("@player_structure:wear_noway");
 							ChatManager* chatMan = server->getChatManager();
 							chatMan->broadcastChatMessage(vendor, message, object->getObjectID(), 0, vendor->getMoodID());
@@ -92,13 +85,13 @@ public:
 						}
 
 						DataObjectComponentReference* data = sceno->getDataObjectComponent();
-						if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
+						if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
 							error("Vendor has no data component");
 							return GENERALERROR;
 						}
 
 						VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-						if(vendorData == nullptr) {
+						if (vendorData == nullptr) {
 							error("Vendor has invalid data component");
 							return GENERALERROR;
 						}
@@ -108,64 +101,57 @@ public:
 						if (creature->getObjectID() != vendorData->getOwnerId())
 							return GENERALERROR;
 
-						if(vendor == nullptr || vendor->getZone() == nullptr || vendor->getZone()->getCreatureManager() == nullptr)
+						if (vendor == nullptr || vendor->getZone() == nullptr || vendor->getZone()->getCreatureManager() == nullptr)
 							return GENERALERROR;
 
-						if(vendor->getZone()->getCreatureManager()->addWearableItem(vendor, clothing))
+						if (vendor->getZone()->getCreatureManager()->addWearableItem(vendor, clothing))
 							return SUCCESS;
 						else
 							return GENERALERROR;
-
 					}
-				}
-				else if( sceno->isPet() && object->getGameObjectType() == SceneObjectType::FOOD){
+				} else if (sceno->isPet() && object->getGameObjectType() == SceneObjectType::FOOD) {
 					Reference<AiAgent*> aiAgent = sceno.castTo<AiAgent*>();
-					if( aiAgent != nullptr ){
-
+					if (aiAgent != nullptr) {
 						Locker crossLocker(aiAgent, creature);
 
 						PetManager* petManager = aiAgent->getZoneServer()->getPetManager();
 						if (petManager == nullptr)
 							return GENERALERROR;
 
-						petManager->enqueueOwnerOnlyPetCommand(creature, aiAgent, STRING_HASHCODE("petfeed"), String::valueOf( object->getObjectID() ) );
-
+						petManager->enqueueOwnerOnlyPetCommand(creature, aiAgent, STRING_HASHCODE("petfeed"), String::valueOf(object->getObjectID()));
 					}
 
-				}
-				else if (sceno->isPet() && sceno->isDroidObject() && object->getGameObjectType() == SceneObjectType::STIMPACK) {
+				} else if (sceno->isPet() && sceno->isDroidObject() && object->getGameObjectType() == SceneObjectType::STIMPACK) {
 					Reference<DroidObject*> droid = sceno.castTo<DroidObject*>();
 					if (droid != nullptr) {
-						Locker cross(sceno,creature);
+						Locker cross(sceno, creature);
 						StimPack* medicine = cast<StimPack*>(object.get());
-						if(medicine != nullptr) {
+						if (medicine != nullptr) {
 							auto module = droid->getModule("stimpack_module").castTo<DroidStimpackModuleDataComponent*>();
 							CreatureObject* player = cast<CreatureObject*>(creature);
-							if(module != nullptr)
-								module->handleInsertStimpack(player,medicine);
+							if (module != nullptr)
+								module->handleInsertStimpack(player, medicine);
 							else
 								creature->sendSystemMessage("@pet/droid_modules:not_stimpack_droid");
 						} else {
 							return GENERALERROR;
 						}
 					}
-				}
-				else if(sceno->isPet() && sceno->isDroidObject() && object->isTrapObject()) {
+				} else if (sceno->isPet() && sceno->isDroidObject() && object->isTrapObject()) {
 					Reference<DroidObject*> droid = sceno.castTo<DroidObject*>();
 					if (droid != nullptr) {
-						Locker cross(sceno,creature);
+						Locker cross(sceno, creature);
 						TangibleObject* trap = cast<TangibleObject*>(object.get());
-						if(trap != nullptr) {
+						if (trap != nullptr) {
 							auto module = droid->getModule("trap_module").castTo<DroidTrapModuleDataComponent*>();
 							CreatureObject* player = cast<CreatureObject*>(creature);
-							if(module != nullptr)
-								module->handleInsertTrap(player,trap);
+							if (module != nullptr)
+								module->handleInsertTrap(player, trap);
 						} else {
 							return GENERALERROR;
 						}
 					}
-				}
-				else if (sceno->isCreatureObject()) {
+				} else if (sceno->isCreatureObject()) {
 					String err;
 					Locker objLocker(object);
 					if (sceno->canAddObject(object, -1, err) == 0) {
@@ -175,10 +161,8 @@ public:
 			}
 		}
 
-
 		return SUCCESS;
 	}
-
 };
 
-#endif //GIVEITEMCOMMAND_H_
+#endif // GIVEITEMCOMMAND_H_

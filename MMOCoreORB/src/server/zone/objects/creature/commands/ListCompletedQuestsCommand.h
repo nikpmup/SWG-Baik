@@ -7,14 +7,10 @@
 
 class ListCompletedQuestsCommand : public QueueCommand {
 public:
-
-	ListCompletedQuestsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ListCompletedQuestsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -36,7 +32,7 @@ public:
 		} else {
 			StringTokenizer args(arguments.toString());
 
-			if(!args.hasMoreTokens())
+			if (!args.hasMoreTokens())
 				return GENERALERROR;
 
 			String targetName = "";
@@ -73,7 +69,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //LISTCOMPLETEDQUESTSCOMMAND_H_
+#endif // LISTCOMPLETEDQUESTSCOMMAND_H_

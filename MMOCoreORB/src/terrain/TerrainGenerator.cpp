@@ -142,7 +142,6 @@ void TerrainGenerator::parseFromIffStream(engine::util::IffStream* iffStream, Ve
 		layers.getLayers()->add(layer);
 	} else
 		layers.readObject(iffStream);
-
 }
 
 void TerrainGenerator::addLayer(Layer* layer) {

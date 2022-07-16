@@ -9,13 +9,10 @@
 
 class LaunchMissileCommand : public CombatQueueCommand {
 public:
-
-	LaunchMissileCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	LaunchMissileCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //LAUNCHMISSILE_H_
+#endif // LAUNCHMISSILE_H_

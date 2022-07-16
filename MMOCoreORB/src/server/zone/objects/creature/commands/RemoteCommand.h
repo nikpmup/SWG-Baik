@@ -7,14 +7,10 @@
 
 class RemoteCommand : public QueueCommand {
 public:
-
-	RemoteCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RemoteCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REMOTECOMMAND_H_
+#endif // REMOTECOMMAND_H_

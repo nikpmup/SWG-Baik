@@ -7,14 +7,10 @@
 
 class RepairShipComponentInSlotCommand : public QueueCommand {
 public:
-
-	RepairShipComponentInSlotCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RepairShipComponentInSlotCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REPAIRSHIPCOMPONENTINSLOTCOMMAND_H_
+#endif // REPAIRSHIPCOMPONENTINSLOTCOMMAND_H_

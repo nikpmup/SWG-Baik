@@ -12,8 +12,7 @@
 
 class SurveyDroidSessionSuiCallback : public SuiCallback {
 public:
-	SurveyDroidSessionSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	SurveyDroidSessionSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -29,7 +28,7 @@ public:
 		ManagedReference<InterplanetarySurveyDroidSession*> session = dynamic_cast<InterplanetarySurveyDroidSession*>(facade.get());
 
 		if (session == nullptr) {
-			ManagedReference<TangibleObject*> obj = cast<TangibleObject*>( suiBox->getUsingObject().get().get());
+			ManagedReference<TangibleObject*> obj = cast<TangibleObject*>(suiBox->getUsingObject().get().get());
 			if (obj != nullptr) {
 				Locker crosslock(obj, player);
 				obj->dropActiveSession(SessionFacadeType::INTERPLANETARYSURVEYDROID);
@@ -43,9 +42,8 @@ public:
 		}
 
 		uint64 idx = Long::unsignedvalueOf(args->get(0).toString());
-		SuiListBox* box = cast<SuiListBox*>( suiBox);
+		SuiListBox* box = cast<SuiListBox*>(suiBox);
 		session->handleMenuSelect(player, idx, box);
-
 	}
 };
 

@@ -57,7 +57,7 @@ Behavior::Status RandomSelector::execute(AiAgent* agent, unsigned int startIdx) 
 	// as it makes no sense in this context, and handle a RUNNING result as a FAILURE.
 	// btree designers should not include children to an ND parent that could return
 	// running as it makes no sense.
-	Vector<Reference<Behavior*> > ranChildren = shuffleChildren();
+	Vector<Reference<Behavior*>> ranChildren = shuffleChildren();
 	for (int i = 0; i < ranChildren.size(); ++i) {
 		Behavior* currentChild = ranChildren.get(i);
 		assert(currentChild != nullptr);

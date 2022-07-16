@@ -54,7 +54,7 @@ public:
 		shuttleObject = ptp.shuttleObject;
 	}
 
-	PlanetTravelPoint& operator= (const PlanetTravelPoint& ptp) {
+	PlanetTravelPoint& operator=(const PlanetTravelPoint& ptp) {
 		if (this == &ptp)
 			return *this;
 
@@ -71,15 +71,11 @@ public:
 
 	void readLuaObject(LuaObject* luaObject) {
 		pointName = luaObject->getStringField("name");
-		arrivalVector.set(
-				luaObject->getFloatField("x"),
-				luaObject->getFloatField("z"),
-				luaObject->getFloatField("y")
-		);
+		arrivalVector.set(luaObject->getFloatField("x"), luaObject->getFloatField("z"), luaObject->getFloatField("y"));
 		departureVector = arrivalVector;
 
-		interplanetaryTravelAllowed = (bool) luaObject->getByteField("interplanetaryTravelAllowed");
-		incomingTravelAllowed = (bool) luaObject->getByteField("incomingTravelAllowed");
+		interplanetaryTravelAllowed = (bool)luaObject->getByteField("interplanetaryTravelAllowed");
+		incomingTravelAllowed = (bool)luaObject->getByteField("incomingTravelAllowed");
 	}
 
 	// Called by the shuttles and transports to set the shuttle object for the nearest travel point
@@ -90,7 +86,7 @@ public:
 		departureVector = shuttle->getWorldPosition();
 	}
 
-	void setPointName(const String& name){
+	void setPointName(const String& name) {
 		pointName = name;
 	}
 
@@ -173,15 +169,9 @@ public:
 	String toString() const {
 		StringBuffer buf;
 
-		buf << "[PlanetTravelPoint 0x" + String::hexvalueOf((int64)this)
-			<< " Zone = '" << pointZone
-			<< "' Name = '" << pointName
-			<< "' StarPort = " << interplanetaryTravelAllowed
-			<< " Departure: " << departureVector.load().toString()
-			<< " Arrival: " << arrivalVector.toString()
-			<< " shuttle = ";
+		buf << "[PlanetTravelPoint 0x" + String::hexvalueOf((int64)this) << " Zone = '" << pointZone << "' Name = '" << pointName << "' StarPort = " << interplanetaryTravelAllowed << " Departure: " << departureVector.load().toString() << " Arrival: " << arrivalVector.toString() << " shuttle = ";
 
-			buf << "[oid:" << shuttleObject.getSavedObjectID() << "]";
+		buf << "[oid:" << shuttleObject.getSavedObjectID() << "]";
 
 		buf << "]";
 

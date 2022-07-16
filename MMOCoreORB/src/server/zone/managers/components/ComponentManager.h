@@ -14,13 +14,13 @@
 
 class ComponentManager : public Singleton<ComponentManager>, public Object, public ReadWriteLock {
 protected:
-	HashTable<String, Reference<SceneObjectComponent*> > components;
-	ObjectFactory<DataObjectComponent* (), String> dataObjectFactory;
+	HashTable<String, Reference<SceneObjectComponent*>> components;
+	ObjectFactory<DataObjectComponent*(), String> dataObjectFactory;
 
 public:
 	ComponentManager();
 
-	template<class K>
+	template <class K>
 	K getComponent(const String& name) {
 		K comp;
 
@@ -53,6 +53,5 @@ public:
 		return components.size();
 	}
 };
-
 
 #endif /* COMPONENTMANAGER_H_ */

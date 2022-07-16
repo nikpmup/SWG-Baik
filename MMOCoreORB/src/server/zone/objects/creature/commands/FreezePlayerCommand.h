@@ -9,14 +9,10 @@
 
 class FreezePlayerCommand : public QueueCommand {
 public:
-
-	FreezePlayerCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	FreezePlayerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -28,15 +24,14 @@ public:
 
 		String syntaxerror = "Invalid arguments: /freezePlayer <firstname> <reason>";
 
-		ManagedReference<SceneObject* > object = server->getZoneServer()->getObject(target);
+		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
 
-		ManagedReference<CreatureObject* > targetPlayer = nullptr;
+		ManagedReference<CreatureObject*> targetPlayer = nullptr;
 		CreatureObject* player = cast<CreatureObject*>(creature);
 		StringTokenizer args(arguments.toString());
 		StringBuffer fullReason;
 
 		if (object == nullptr || !object->isPlayerCreature()) {
-
 			String firstName;
 			if (args.hasMoreTokens()) {
 				args.getStringToken(firstName);
@@ -44,7 +39,7 @@ public:
 			}
 
 		} else {
-			targetPlayer = cast<CreatureObject*>( object.get());
+			targetPlayer = cast<CreatureObject*>(object.get());
 		}
 
 		if (targetPlayer == nullptr) {
@@ -66,14 +61,13 @@ public:
 		}
 
 		try {
-
 			Locker playerlocker(targetPlayer);
 
 			targetGhost->setMutedState(true);
 			targetPlayer->setRootedState(3600);
 			targetPlayer->setSpeedMultiplierBase(0.f, true);
 
-			if(fullReason.toString().isEmpty()) {
+			if (fullReason.toString().isEmpty()) {
 				targetPlayer->sendSystemMessage("You have been frozen and muted by " + player->getFirstName() + ".");
 				player->sendSystemMessage(targetPlayer->getFirstName() + " is now frozen and muted.");
 			} else {
@@ -95,7 +89,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //FREEZEPLAYERCOMMAND_H_
+#endif // FREEZEPLAYERCOMMAND_H_

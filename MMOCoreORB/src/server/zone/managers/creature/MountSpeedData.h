@@ -10,7 +10,6 @@ namespace managers {
 namespace creature {
 
 class MountSpeedData : public Object {
-
 protected:
 	StringParam appearanceFilename;
 	float runSpeed;
@@ -30,7 +29,6 @@ public:
 	}
 
 	~MountSpeedData() {
-
 	}
 
 	String getAppearanceFilename() {
@@ -54,9 +52,9 @@ public:
 	}
 };
 
-}
-}
-}
-}
+} // namespace creature
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 #endif /* MOUNTSPEEDDATA_H_ */

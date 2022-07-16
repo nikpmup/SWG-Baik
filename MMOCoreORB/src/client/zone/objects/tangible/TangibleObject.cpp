@@ -36,8 +36,7 @@ void TangibleObject::parseBaseline3(Message* message) {
 
 	optionsBitmask = message->parseInt();
 	count = message->parseInt();
-	conditionDamage = message->parseInt(),
-	maxCondition = message->parseInt();
+	conditionDamage = message->parseInt(), maxCondition = message->parseInt();
 
 	unknown = message->parseByte();
 
@@ -53,5 +52,4 @@ void TangibleObject::parseBaseline3(Message* message) {
 }
 
 void TangibleObject::parseBaseline6(Message* message) {
-
 }

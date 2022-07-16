@@ -57,5 +57,4 @@ public:
 	}
 };
 
-
 #endif /* LOOTGROUPCOLLECTIONENTRY_H_ */

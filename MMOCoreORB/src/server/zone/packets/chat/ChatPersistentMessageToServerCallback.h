@@ -28,9 +28,7 @@ class ChatPersistentMessageToServerCallback : public MessageCallback {
 	WaypointChatParameterVector waypointParameters;
 
 public:
-	ChatPersistentMessageToServerCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	ChatPersistentMessageToServerCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 		sequence = 0;
 
 		setCustomTaskQueue("slowQueue");
@@ -46,20 +44,18 @@ public:
 
 			while (message->getOffset() < initialOffset + parametersSize) {
 				uint16 appendedByte = message->parseShort();
-				message->shiftOffset(1); //Skip the initial type byte. We'll switch on the second type.
+				message->shiftOffset(1); // Skip the initial type byte. We'll switch on the second type.
 				int type = message->parseInt();
 
 				switch (type) {
 				default:
-				case ChatParameter::STRINGID:
-				{
+				case ChatParameter::STRINGID: {
 					StringIdChatParameter param;
 					param.parse(message);
 					stringIdParameters.add(param);
 					break;
 				}
-				case ChatParameter::WAYPOINT:
-				{
+				case ChatParameter::WAYPOINT: {
 					WaypointChatParameter param;
 					param.parse(message);
 					waypointParameters.add(param);
@@ -73,8 +69,8 @@ public:
 		}
 
 		sequence = message->parseInt();
-		message->parseUnicode(header); //mail subject
-		message->shiftOffset(4); //skip spacer
+		message->parseUnicode(header); // mail subject
+		message->shiftOffset(4);	   // skip spacer
 		message->parseAscii(recipientName);
 	}
 
@@ -113,8 +109,7 @@ public:
 			}
 
 			return 0;
-		}
-		else if (recipient == "citizens") {
+		} else if (recipient == "citizens") {
 			PlayerObject* ghost = player->getPlayerObject();
 			if (ghost == nullptr)
 				return 0;
@@ -122,7 +117,7 @@ public:
 			// Pull the player's residence
 			uint64 declaredOidResidence = ghost->getDeclaredResidence();
 			ManagedReference<BuildingObject*> declaredResidence = player->getZoneServer()->getObject(declaredOidResidence).castTo<BuildingObject*>();
-			if (declaredResidence == nullptr){
+			if (declaredResidence == nullptr) {
 				player->sendSystemMessage("@error_message:insufficient_permissions");
 				return 0;
 			}
@@ -130,7 +125,6 @@ public:
 			// Player must be the mayor of the city where he resides
 			ManagedReference<CityRegion*> declaredCity = declaredResidence->getCityRegion().get();
 			if (declaredCity != nullptr && declaredCity->isMayor(player->getObjectID())) {
-
 				Locker cityLocker(declaredCity);
 
 				CitizenList* citizenList = declaredCity->getCitizenList();
@@ -158,8 +152,7 @@ public:
 				player->sendSystemMessage("@error_message:insufficient_permissions");
 				return 0;
 			}
-		}
-		else if (recipient == "@online") {
+		} else if (recipient == "@online") {
 			auto ghost = player->getPlayerObject();
 
 			if (ghost == nullptr)
@@ -308,7 +301,6 @@ public:
 		ChatOnSendPersistentMessage* cospm = new ChatOnSendPersistentMessage(sequence, result);
 		player->sendMessage(cospm);
 	}
-
 };
 
 #endif /* CHATPERSISTENTMESSAGETOSERVERCALLBACK_H_ */

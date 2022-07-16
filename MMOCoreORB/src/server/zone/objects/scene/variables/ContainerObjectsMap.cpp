@@ -106,12 +106,14 @@ void ContainerObjectsMap::loadObjects() {
 	if (sceno != nullptr) {
 		const auto name = sceno->getLoggingName() + " OnContainerLoadedLambda" + String::valueOf(size);
 
-		Core::getTaskManager()->executeTask([sceno] () {
-			if (sceno->getZoneServer()->isServerShuttingDown())
-				return;
+		Core::getTaskManager()->executeTask(
+			[sceno]() {
+				if (sceno->getZoneServer()->isServerShuttingDown())
+					return;
 
-			sceno->onContainerLoaded();
-		}, name.toCharArray(), "slowQueue");
+				sceno->onContainerLoaded();
+			},
+			name.toCharArray(), "slowQueue");
 	}
 }
 
@@ -141,7 +143,7 @@ void ContainerObjectsMap::unloadObjects() {
 	auto parent = container.get();
 	auto zone = parent->getZone();
 
-	Vector<ManagedReference<SceneObject*> > containerCopy;
+	Vector<ManagedReference<SceneObject*>> containerCopy;
 
 	for (int i = 0; i < containerObjects.size(); i++) {
 		SceneObject* obj = containerObjects.get(i);
@@ -178,7 +180,6 @@ void ContainerObjectsMap::unloadObjects() {
 }
 
 void ContainerObjectsMap::notifyLoadFromDatabase() {
-
 }
 
 bool ContainerObjectsMap::toBinaryStream(ObjectOutputStream* stream) {
@@ -223,7 +224,7 @@ void ContainerObjectsMap::setContainer(SceneObject* obj) {
 	}
 }
 
-VectorMap<uint64, ManagedReference<SceneObject*> >* ContainerObjectsMap::getContainerObjects() {
+VectorMap<uint64, ManagedReference<SceneObject*>>* ContainerObjectsMap::getContainerObjects() {
 	loadObjects();
 
 	return &containerObjects;

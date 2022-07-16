@@ -8,14 +8,8 @@
 #ifndef IGNORELIST_H_
 #define IGNORELIST_H_
 
-
 #include "PlayerList.h"
 
-
-class IgnoreList : public PlayerList<8> {
-
-};
-
-
+class IgnoreList : public PlayerList<8> {};
 
 #endif /* IGNORELIST_H_ */

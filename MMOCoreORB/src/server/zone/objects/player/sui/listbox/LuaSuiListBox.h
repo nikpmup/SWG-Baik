@@ -11,34 +11,33 @@ namespace objects {
 namespace player {
 namespace sui {
 namespace listbox {
-	class SuiListBox;
+class SuiListBox;
 
-	class LuaSuiListBox : public LuaSuiBox {
-	public:
-		static const char className[];
-		static Luna<LuaSuiListBox>::RegType Register[];
+class LuaSuiListBox : public LuaSuiBox {
+public:
+	static const char className[];
+	static Luna<LuaSuiListBox>::RegType Register[];
 
-		LuaSuiListBox(lua_State *L);
-		~LuaSuiListBox();
+	LuaSuiListBox(lua_State* L);
+	~LuaSuiListBox();
 
-		int _setObject(lua_State* L);
+	int _setObject(lua_State* L);
 
-		int getMenuSize(lua_State* L);
-		int getMenuItemName(lua_State* L);
-		int getMenuObjectID(lua_State* L);
+	int getMenuSize(lua_State* L);
+	int getMenuItemName(lua_State* L);
+	int getMenuObjectID(lua_State* L);
 
-	private:
-		Reference<SuiListBox*> realObject;
-	};
+private:
+	Reference<SuiListBox*> realObject;
+};
 
-}
-}
-}
-}
-}
-}
+} // namespace listbox
+} // namespace sui
+} // namespace player
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::player::sui::listbox;
-
 
 #endif /* LUASUILISTBOX_H_ */

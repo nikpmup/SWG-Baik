@@ -29,7 +29,7 @@ void BuffImplementation::initializeTransientMembers() {
 }
 
 void BuffImplementation::loadBuffDurationEvent(CreatureObject* creo) {
-	if(nextExecutionTime.getTime() - time(0) > buffDuration) {
+	if (nextExecutionTime.getTime() - time(0) > buffDuration) {
 		error("Buff timer was f'ed in the a!  Serialized Time:" + String::valueOf((int)(nextExecutionTime.getTime() - time(0))) + " Duration: " + String::valueOf(buffDuration));
 		nextExecutionTime = Time((uint32)(time(0) + (int)buffDuration));
 	}
@@ -37,25 +37,25 @@ void BuffImplementation::loadBuffDurationEvent(CreatureObject* creo) {
 	if (nextExecutionTime.isPast()) {
 		buffEvent = new BuffDurationEvent(creo, _this.getReferenceUnsafeStaticCast());
 		buffEvent->execute();
-		//info("nextExeutionTime.isPast()", true);
+		// info("nextExeutionTime.isPast()", true);
 	} else {
 		buffEvent = new BuffDurationEvent(creo, _this.getReferenceUnsafeStaticCast());
 		buffEvent->schedule(nextExecutionTime);
 
-		//info("scheduling buffEvent with nextExecutionTime difference from now" + String::valueOf(nextExecutionTime.miliDifference()), true);
+		// info("scheduling buffEvent with nextExecutionTime difference from now" + String::valueOf(nextExecutionTime.miliDifference()), true);
 	}
 }
 
 void BuffImplementation::notifyLoadFromDatabase() {
-/*
-	if (buffEvent != nullptr && buffEvent->isScheduled()) {
-		buffEvent->cancel();
-		error("Buff had event scheduled before it was loaded!");
-	}
+	/*
+		if (buffEvent != nullptr && buffEvent->isScheduled()) {
+			buffEvent->cancel();
+			error("Buff had event scheduled before it was loaded!");
+		}
 
-	*/
+		*/
 
-	//info("initializeTransientMembers() nextExecutionTime difference from now" + String::valueOf(nextExecutionTime.miliDifference()), true);
+	// info("initializeTransientMembers() nextExecutionTime difference from now" + String::valueOf(nextExecutionTime.miliDifference()), true);
 }
 
 void BuffImplementation::renew(float newDuration) {
@@ -212,7 +212,7 @@ void BuffImplementation::parseSkillModifierString(const String& modifierstring) 
 		String modname = token.subString(0, tokpos);
 		float value = Float::valueOf(token.subString(tokpos + 1, token.length()));
 
-		skillModifiers.put(modname, (int) value);
+		skillModifiers.put(modname, (int)value);
 	}
 }
 
@@ -224,8 +224,7 @@ String BuffImplementation::getAttributeModifierString() const {
 
 	for (int i = 0; i < attributeModifiers.size(); i++) {
 		const auto& entry = attributeModifiers.elementAt(i);
-		retString << CreatureAttribute::getName(entry.getKey()) << " +"
-			<< entry.getValue() << ";";
+		retString << CreatureAttribute::getName(entry.getKey()) << " +" << entry.getValue() << ";";
 	}
 
 	return retString.toString();
@@ -247,7 +246,7 @@ String BuffImplementation::getSkillModifierString() const {
 
 void BuffImplementation::scheduleBuffEvent() {
 	buffEvent = new BuffDurationEvent(creature.get(), _this.getReferenceUnsafeStaticCast());
-	buffEvent->schedule((int) (buffDuration * 1000));
+	buffEvent->schedule((int)(buffDuration * 1000));
 	AtomicTime time;
 	Core::getTaskManager()->getNextExecutionTime(buffEvent, time);
 
@@ -256,7 +255,7 @@ void BuffImplementation::scheduleBuffEvent() {
 
 float BuffImplementation::getTimeLeft() const {
 	if (buffEvent == nullptr || !buffEvent->isScheduled()) {
-		//info("buffEvent == nullptr || !buffEvent->isScheduled()", true);
+		// info("buffEvent == nullptr || !buffEvent->isScheduled()", true);
 		return 0.0f;
 	}
 
@@ -266,7 +265,7 @@ float BuffImplementation::getTimeLeft() const {
 
 	float timeleft = round(Time().miliDifference(next.getTimeObject()) / 1000.0f);
 
-	//info("timeLeft = " + String::valueOf(timeleft), true);
+	// info("timeLeft = " + String::valueOf(timeleft), true);
 
 	return Math::max(0.0f, timeleft);
 }
@@ -296,7 +295,7 @@ void BuffImplementation::applyAttributeModifiers() {
 
 			int newMaxHAM = currentMaxHAM + value;
 			if (newMaxHAM < 1)
-					newMaxHAM = 1;
+				newMaxHAM = 1;
 
 			int buffAmount = newMaxHAM - currentMaxHAM;
 			attributeModifiers.drop(attribute);
@@ -320,7 +319,6 @@ void BuffImplementation::applyAttributeModifiers() {
 			e.printStackTrace();
 		}
 	}
-
 }
 
 void BuffImplementation::applySkillModifiers() {
@@ -355,7 +353,6 @@ void BuffImplementation::applyStates() {
 	int size = states.size();
 
 	for (int i = 0; i < size; ++i) {
-
 		creo->setState(states.get(i), true);
 	}
 }
@@ -381,7 +378,6 @@ void BuffImplementation::removeAttributeModifiers() {
 			continue;
 
 		try {
-
 			int attributemax = creo->getMaxHAM(attribute) - value;
 
 			int currentVal = creo->getHAM(attribute);
@@ -389,7 +385,7 @@ void BuffImplementation::removeAttributeModifiers() {
 			creo->setMaxHAM(attribute, attributemax);
 
 			if (currentVal >= attributemax) {
-				//creature.get()->inflictDamage(creature.get(), attribute, currentVal - attributemax, isSpiceBuff());
+				// creature.get()->inflictDamage(creature.get(), attribute, currentVal - attributemax, isSpiceBuff());
 
 				if (attribute % 3 == 0) {
 					creo->inflictDamage(creo, attribute, currentVal - attributemax, false);
@@ -401,12 +397,10 @@ void BuffImplementation::removeAttributeModifiers() {
 			e.printStackTrace();
 		}
 
-
 		/*int attributeval = Math::min(attributemax, creature.get()->getHAM(attribute) - value);
 
 		creature.get()->setHAM(attribute, attributeval);*/
 	}
-
 }
 
 void BuffImplementation::removeSkillModifiers() {
@@ -424,7 +418,6 @@ void BuffImplementation::removeSkillModifiers() {
 		int value = entry->getValue();
 
 		creo->addSkillMod(SkillModManager::BUFF, key, -value, true);
-
 	}
 
 	// if there was a speed or acceleration mod change, this will take care of immediately setting them.

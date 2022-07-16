@@ -26,8 +26,8 @@ void HolocronManager::loadBugCategories() {
 
 		while (result->next()) {
 			UnicodeString categoryName = result->getString(0);
-			BugCategory category(categoryName, 0); //Category Id is also irrelevant to Mantis.
-			category.addCategory(BugCategory("None", 0, 1, 1)); //Mantis doesn't allow sub categories. Kill it here.
+			BugCategory category(categoryName, 0);				// Category Id is also irrelevant to Mantis.
+			category.addCategory(BugCategory("None", 0, 1, 1)); // Mantis doesn't allow sub categories. Kill it here.
 			categories.put(category);
 		}
 
@@ -48,8 +48,7 @@ void HolocronManager::sendRequestCategoriesResponseTo(ZoneClientSession* client)
 }
 
 void HolocronManager::submitTicket(ZoneClientSession* client, const UnicodeString& ticketBody) {
-	//return; // disabled for now
-
+	// return; // disabled for now
 
 	String sanitizedBody(ticketBody.toString());
 	Database::escapeString(sanitizedBody);
@@ -64,7 +63,7 @@ void HolocronManager::submitTicket(ZoneClientSession* client, const UnicodeStrin
 	try {
 		result = MantisDatabase::instance()->executeQuery(query.toString());
 
-		uint32 bugTextId = (uint32) result->getLastAffectedRow();
+		uint32 bugTextId = (uint32)result->getLastAffectedRow();
 		uint32 reporterId = getReporterId(client);
 		String category = getTokenValue("Bug Type: ", ticketBody);
 		uint32 sev = getSeverityFromString(getTokenValue("Severity: ", ticketBody));
@@ -89,14 +88,13 @@ void HolocronManager::submitTicket(ZoneClientSession* client, const UnicodeStrin
 		result = nullptr;
 	}
 
-	//TODO: Find out why this is causing a crash!
-	//CreateTicketResponseMessage* ctrm = new CreateTicketResponseMessage();
-	//client->sendMessage(ctrm);
+	// TODO: Find out why this is causing a crash!
+	// CreateTicketResponseMessage* ctrm = new CreateTicketResponseMessage();
+	// client->sendMessage(ctrm);
 }
 
 uint32 HolocronManager::getReporterId(ZoneClientSession* client) {
-
-	if(processor->getZoneServer() == nullptr)
+	if (processor->getZoneServer() == nullptr)
 		return 0;
 
 	ManagedReference<Account*> account = AccountManager::getAccount(client->getAccountID());
@@ -147,7 +145,7 @@ uint32 HolocronManager::getSeverityFromString(const String& str) {
 	} else if (str.indexOf("Cannot be bypassed") != -1) {
 		return 80;
 	} else {
-		return 50; //Unknown
+		return 50; // Unknown
 	}
 }
 uint32 HolocronManager::getReproducibilityFromString(const String& str) {

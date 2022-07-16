@@ -38,10 +38,7 @@ protected:
 	String holoEmote;
 
 public:
-	ImageDesignData() : sessionID(0), timestamp(0), requiredPayment(0),
-		offeredPayment(0), designerAccepted(0), targetAccepted(0), statMigrationRequested(0),
-		bodySkillMod(0), faceSkillMod(0), markingsSkillMod(0), hairSkillMod(0) {
-
+	ImageDesignData() : sessionID(0), timestamp(0), requiredPayment(0), offeredPayment(0), designerAccepted(0), targetAccepted(0), statMigrationRequested(0), bodySkillMod(0), faceSkillMod(0), markingsSkillMod(0), hairSkillMod(0) {
 	}
 
 	ImageDesignData(const ImageDesignData& idd) : Object() {
@@ -63,7 +60,7 @@ public:
 		holoEmote = idd.holoEmote;
 	}
 
-	ImageDesignData& operator= (const ImageDesignData& idd) {
+	ImageDesignData& operator=(const ImageDesignData& idd) {
 		if (this == &idd)
 			return *this;
 
@@ -89,47 +86,47 @@ public:
 
 	void parse(Message* message) {
 		message->parseAscii(hairTemplate);
-		//System::out << "hairTemplate " << hairTemplate << "\n";
+		// System::out << "hairTemplate " << hairTemplate << "\n";
 
 		String customizationString;
 		message->parseAscii(customizationString);
 
-		//System::out << "parsing customization string size:" << customizationString.length() << "\n";
+		// System::out << "parsing customization string size:" << customizationString.length() << "\n";
 
 		hairCustomizationVariables.parseFromClientString(customizationString);
 
 		sessionID = message->parseInt();
-		//System::out << "sessionID " << sessionID << "\n";
+		// System::out << "sessionID " << sessionID << "\n";
 
 		timestamp = message->parseInt();
-		//System::out << "timestamp " << timestamp << "\n";
+		// System::out << "timestamp " << timestamp << "\n";
 
 		requiredPayment = message->parseInt();
-		//System::out << "requiredPayment " << requiredPayment << "\n";
+		// System::out << "requiredPayment " << requiredPayment << "\n";
 
 		offeredPayment = message->parseInt();
-		//System::out << "offeredPayment " << offeredPayment << "\n";
+		// System::out << "offeredPayment " << offeredPayment << "\n";
 
 		designerAccepted = message->parseByte();
-		//System::out << "designerAccepted " << designerAccepted << "\n";
+		// System::out << "designerAccepted " << designerAccepted << "\n";
 
 		targetAccepted = message->parseInt();
-		//System::out << "targetAccepted " << targetAccepted << "\n";
+		// System::out << "targetAccepted " << targetAccepted << "\n";
 
 		statMigrationRequested = message->parseByte();
 
 		bodySkillMod = message->parseInt();
-		//System::out << "unk1 " << unk1 << "\n";
+		// System::out << "unk1 " << unk1 << "\n";
 		faceSkillMod = message->parseInt();
-		//System::out << "unk2 " << unk2 << "\n";
+		// System::out << "unk2 " << unk2 << "\n";
 		markingsSkillMod = message->parseInt();
-		//System::out << "unk3 " << unk3 << "\n";
+		// System::out << "unk3 " << unk3 << "\n";
 		hairSkillMod = message->parseInt();
-		//System::out << "unk4 " << unk4 << "\n";
+		// System::out << "unk4 " << unk4 << "\n";
 
 		int size = message->parseInt();
 
-		//System::out << "body parts " << size << "\n";
+		// System::out << "body parts " << size << "\n";
 
 		for (int i = 0; i < size; ++i) {
 			String attr;
@@ -144,7 +141,7 @@ public:
 
 		size = message->parseInt();
 
-		//System::out << "color parts " << size << "\n";
+		// System::out << "color parts " << size << "\n";
 
 		for (int i = 0; i < size; ++i) {
 			String attr;
@@ -205,15 +202,15 @@ public:
 	}
 
 	inline bool isAcceptedByDesigner() {
-		return (bool) designerAccepted;
+		return (bool)designerAccepted;
 	}
 
 	inline bool isAcceptedByTarget() {
-		return (bool) targetAccepted;
+		return (bool)targetAccepted;
 	}
 
 	inline bool isStatMigrationRequested() {
-		return (bool) statMigrationRequested;
+		return (bool)statMigrationRequested;
 	}
 
 	inline uint32 getRequiredPayment() {
@@ -246,7 +243,7 @@ public:
 		return &colorAttributes;
 	}
 
-	inline String getHoloEmote(){
+	inline String getHoloEmote() {
 		return holoEmote;
 	}
 };

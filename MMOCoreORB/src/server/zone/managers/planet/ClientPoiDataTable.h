@@ -20,7 +20,6 @@ protected:
 
 public:
 	PoiData() : x(0), y(0), z(0) {
-
 	}
 
 	void readObject(DataTableRow* row) {
@@ -54,7 +53,8 @@ public:
 };
 
 class ClientPoiDataTable : public Object {
-	VectorMap<String, Vector<Reference<PoiData*> > > pois;
+	VectorMap<String, Vector<Reference<PoiData*>>> pois;
+
 public:
 	ClientPoiDataTable() {
 		pois.setAllowOverwriteInsertPlan();
@@ -65,7 +65,7 @@ public:
 			PoiData* data = new PoiData();
 			data->readObject(dataTable->getRow(i));
 
-			Vector<Reference<PoiData*> > vector = pois.get(data->getPlanet());
+			Vector<Reference<PoiData*>> vector = pois.get(data->getPlanet());
 			vector.add(data);
 
 			pois.put(data->getPlanet(), vector);
@@ -76,7 +76,7 @@ public:
 		return pois.contains(name);
 	}
 
-	const Vector<Reference<PoiData*> >& getPois(const String& planetName) {
+	const Vector<Reference<PoiData*>>& getPois(const String& planetName) {
 		return pois.get(planetName);
 	}
 
@@ -89,6 +89,5 @@ public:
 		return count;
 	}
 };
-
 
 #endif /* CLIENTPOIDATATABLE_H_ */

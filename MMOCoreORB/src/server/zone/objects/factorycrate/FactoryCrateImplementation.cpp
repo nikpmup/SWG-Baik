@@ -24,8 +24,6 @@ void FactoryCrateImplementation::initializeTransientMembers() {
 
 void FactoryCrateImplementation::loadTemplateData(SharedObjectTemplate* templateData) {
 	TangibleObjectImplementation::loadTemplateData(templateData);
-
-
 }
 
 void FactoryCrateImplementation::sendBaselinesTo(SceneObject* player) {
@@ -38,16 +36,14 @@ void FactoryCrateImplementation::sendBaselinesTo(SceneObject* player) {
 
 	BaseMessage* fctyMsg6 = new FactoryCrateObjectMessage6(_this.getReferenceUnsafeStaticCast());
 	player->sendMessage(fctyMsg6);
-
 }
 
 void FactoryCrateImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* object) {
-
 	TangibleObjectImplementation::fillAttributeList(alm, object);
 
 	Reference<TangibleObject*> prototype = getPrototype();
 
-	if(prototype == nullptr || !prototype->isTangibleObject()) {
+	if (prototype == nullptr || !prototype->isTangibleObject()) {
 		if (object != nullptr) {
 			object->sendSystemMessage("This crate is broken, please contact support if you get this message.");
 		}
@@ -59,13 +55,12 @@ void FactoryCrateImplementation::fillAttributeList(AttributeListMessage* alm, Cr
 	alm->insertAttribute("factory_attribs", "\\#pcontrast2 --------------");
 
 	StringBuffer type;
-	type << "@" << prototype->getObjectNameStringIdFile() << ":"
-			<< prototype->getObjectNameStringIdName();
+	type << "@" << prototype->getObjectNameStringIdFile() << ":" << prototype->getObjectNameStringIdName();
 
 	alm->insertAttribute("object_type", "@got_n:component");
 	alm->insertAttribute("original_name", type);
 
-	if(prototype != nullptr)
+	if (prototype != nullptr)
 		prototype->fillAttributeList(alm, object);
 }
 
@@ -74,9 +69,7 @@ void FactoryCrateImplementation::fillObjectMenuResponse(ObjectMenuResponse* menu
 }
 
 int FactoryCrateImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
-
 	switch (selectedID) {
-
 	case 77:
 
 		break;
@@ -90,15 +83,14 @@ int FactoryCrateImplementation::handleObjectMenuSelect(CreatureObject* player, b
 }
 
 Reference<TangibleObject*> FactoryCrateImplementation::getPrototype() {
-
-	if(getContainerObjectsSize() == 0) {
+	if (getContainerObjectsSize() == 0) {
 		error("FactoryCrateImplementation::getPrototype there isn't an object in the container");
 		return nullptr;
 	}
 
 	Reference<TangibleObject*> prototype = getContainerObject(0).castTo<TangibleObject*>();
 
-	if(prototype == nullptr || !prototype->isTangibleObject()) {
+	if (prototype == nullptr || !prototype->isTangibleObject()) {
 		error("FactoryCrateImplementation::getPrototype has a nullptr or non-tangible item");
 		return nullptr;
 	}
@@ -107,10 +99,9 @@ Reference<TangibleObject*> FactoryCrateImplementation::getPrototype() {
 }
 
 String FactoryCrateImplementation::getCraftersName() {
-
 	Reference<TangibleObject*> prototype = getPrototype();
 
-	if(prototype == nullptr || !prototype->isTangibleObject()) {
+	if (prototype == nullptr || !prototype->isTangibleObject()) {
 		error("FactoryCrateImplementation::getCraftersName has a nullptr or non-tangible item");
 		return "";
 	}
@@ -119,10 +110,9 @@ String FactoryCrateImplementation::getCraftersName() {
 }
 
 String FactoryCrateImplementation::getSerialNumber() {
-
 	Reference<TangibleObject*> prototype = getPrototype();
 
-	if(prototype == nullptr || !prototype->isTangibleObject()) {
+	if (prototype == nullptr || !prototype->isTangibleObject()) {
 		error("FactoryCrateImplementation::getCraftersSerial has a nullptr or non-tangible item");
 		return "";
 	}
@@ -131,7 +121,6 @@ String FactoryCrateImplementation::getSerialNumber() {
 }
 
 bool FactoryCrateImplementation::extractObjectToInventory(CreatureObject* player) {
-
 	Locker locker(_this.getReferenceUnsafeStaticCast());
 
 	if (!isValidFactoryCrate()) {
@@ -139,7 +128,7 @@ bool FactoryCrateImplementation::extractObjectToInventory(CreatureObject* player
 		return false;
 	}
 
-	if(getUseCount() < 1) {
+	if (getUseCount() < 1) {
 		this->setUseCount(0, true);
 		return false;
 	}
@@ -154,11 +143,10 @@ bool FactoryCrateImplementation::extractObjectToInventory(CreatureObject* player
 
 	ObjectManager* objectManager = ObjectManager::instance();
 
-	ManagedReference<TangibleObject*> protoclone = cast<TangibleObject*>( objectManager->cloneObject(prototype));
+	ManagedReference<TangibleObject*> protoclone = cast<TangibleObject*>(objectManager->cloneObject(prototype));
 
 	if (protoclone != nullptr) {
-
-		if(protoclone->hasAntiDecayKit()){
+		if (protoclone->hasAntiDecayKit()) {
 			protoclone->removeAntiDecayKit();
 		}
 
@@ -169,7 +157,7 @@ bool FactoryCrateImplementation::extractObjectToInventory(CreatureObject* player
 
 		if ((errorNumber = inventory->canAddObject(protoclone, -1, errorDescription)) != 0) {
 			if (errorDescription.length() > 1) {
-					player->sendMessage(new ChatSystemMessage(errorDescription));
+				player->sendMessage(new ChatSystemMessage(errorDescription));
 			} else {
 				inventory->error("cannot extratObjectToInventory " + String::valueOf(errorNumber));
 			}
@@ -184,7 +172,7 @@ bool FactoryCrateImplementation::extractObjectToInventory(CreatureObject* player
 		 * if the item it contained has the yellow magic bit set. So I stripped the yellow magic bit off when the item is placed inside
 		 * the crate, and added it back here.
 		 */
-		if(protoclone->getIsCraftedEnhancedItem()) {
+		if (protoclone->getIsCraftedEnhancedItem()) {
 			protoclone->addMagicBit(false);
 		}
 
@@ -209,7 +197,6 @@ bool FactoryCrateImplementation::extractObjectToInventory(CreatureObject* player
 }
 
 Reference<TangibleObject*> FactoryCrateImplementation::extractObject(int count) {
-
 	Locker locker(_this.getReferenceUnsafeStaticCast());
 
 	if (!isValidFactoryCrate()) {
@@ -217,24 +204,24 @@ Reference<TangibleObject*> FactoryCrateImplementation::extractObject(int count) 
 		return nullptr;
 	}
 
-	if(count > getUseCount())
+	if (count > getUseCount())
 		return nullptr;
 
 	Reference<TangibleObject*> prototype = getPrototype();
 
-	if(prototype == nullptr || !prototype->isTangibleObject()) {
+	if (prototype == nullptr || !prototype->isTangibleObject()) {
 		error("FactoryCrateImplementation::extractObject has a nullptr or non-tangible item");
 		return nullptr;
 	}
 
 	ObjectManager* objectManager = ObjectManager::instance();
 
-	Reference<TangibleObject*> protoclone = cast<TangibleObject*>( objectManager->cloneObject(prototype));
+	Reference<TangibleObject*> protoclone = cast<TangibleObject*>(objectManager->cloneObject(prototype));
 
-	if(protoclone != nullptr) {
+	if (protoclone != nullptr) {
 		Locker protoLocker(protoclone);
 
-		if(protoclone->hasAntiDecayKit()){
+		if (protoclone->hasAntiDecayKit()) {
 			protoclone->removeAntiDecayKit();
 		}
 
@@ -264,32 +251,31 @@ void FactoryCrateImplementation::split(int newStackSize) {
 	if (getUseCount() <= newStackSize)
 		return;
 
-	if(newStackSize > getUseCount())
+	if (newStackSize > getUseCount())
 		newStackSize = getUseCount();
 
 	Reference<TangibleObject*> prototype = getPrototype();
 
-	if(prototype == nullptr || !prototype->isTangibleObject()) {
+	if (prototype == nullptr || !prototype->isTangibleObject()) {
 		error("FactoryCrateImplementation::split has a nullptr or non-tangible item");
 		return;
 	}
 
-	if(parent.get() == nullptr)
+	if (parent.get() == nullptr)
 		return;
 
 	ObjectManager* objectManager = ObjectManager::instance();
 
-	ManagedReference<TangibleObject*> protoclone = cast<TangibleObject*>( objectManager->cloneObject(prototype));
+	ManagedReference<TangibleObject*> protoclone = cast<TangibleObject*>(objectManager->cloneObject(prototype));
 
-	if(protoclone == nullptr)
+	if (protoclone == nullptr)
 		return;
 
 	Locker plocker(protoclone);
 
-	ManagedReference<FactoryCrate*> newCrate =
-			(server->getZoneServer()->createObject(getServerObjectCRC(), 2)).castTo<FactoryCrate*>();
+	ManagedReference<FactoryCrate*> newCrate = (server->getZoneServer()->createObject(getServerObjectCRC(), 2)).castTo<FactoryCrate*>();
 
-	if(newCrate == nullptr) {
+	if (newCrate == nullptr) {
 		protoclone->destroyObjectFromDatabase(true);
 		return;
 	}
@@ -309,7 +295,7 @@ void FactoryCrateImplementation::split(int newStackSize) {
 
 	ManagedReference<SceneObject*> strongParent = getParent().get();
 	if (strongParent != nullptr) {
-		if(	strongParent->transferObject(newCrate, -1, false)) {
+		if (strongParent->transferObject(newCrate, -1, false)) {
 			strongParent->broadcastObject(newCrate, true);
 			setUseCount(getUseCount() - newStackSize, true);
 		} else {

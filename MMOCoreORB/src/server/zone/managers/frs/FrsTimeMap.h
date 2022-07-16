@@ -13,4 +13,4 @@ public:
 		setNoDuplicateInsertPlan();
 	}
 };
-#endif //CORE3_FRSTIMEMAP_H
+#endif // CORE3_FRSTIMEMAP_H

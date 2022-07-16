@@ -38,11 +38,11 @@ public:
 		assert(child != nullptr);
 
 		// Get player targets we want to apply our child tree to
-		CloseObjectsVector* vec = (CloseObjectsVector*) agent->getCloseObjects();
+		CloseObjectsVector* vec = (CloseObjectsVector*)agent->getCloseObjects();
 		if (vec == nullptr)
 			return FAILURE;
 
-		SortedVector<QuadTreeEntry* > closeObjects;
+		SortedVector<QuadTreeEntry*> closeObjects;
 		vec->safeCopyReceiversTo(closeObjects, CloseObjectsVector::PLAYERTYPE);
 
 		// Shuffle closeobjects to randomize target checks
@@ -81,12 +81,12 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
-}
-}
+} // namespace decorator
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif // LOOKFORPLAYER_H_

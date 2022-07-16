@@ -8,14 +8,11 @@
 #ifndef UPLINKTERMINALMENUCOMPONENT_H_
 #define UPLINKTERMINALMENUCOMPONENT_H_
 
-
 #include "engine/engine.h"
 #include "server/zone/objects/scene/components/ObjectMenuComponent.h"
 
 class UplinkTerminalMenuComponent : public ObjectMenuComponent {
-
 public:
-
 	/**
 	 * Fills the radial options, needs to be overriden
 	 * @pre { this object is locked }
@@ -33,7 +30,6 @@ public:
 	 * @returns 0 if successfull
 	 */
 	virtual int handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const;
-
 };
 
 #endif /* UPLINKTERMINALMENUCOMPONENT_H_ */

@@ -16,7 +16,6 @@ class LockMockSceneObject : public MockSceneObject {
 	MOCK_LOCKS(LockMockSceneObject, MockSceneObject);
 };
 
-
 class DISABLED_GeneralDeadlockTestBase : public ::testing::Test {
 public:
 	Reference<LockMockSceneObject*> sceneObject1;
@@ -191,19 +190,19 @@ void DeadlockDetector::detectDeadlock() {
 				if (lastTrace != nullptr && lastTrace->monitorLike)
 					throw DeadlockException(lock->lockable, "Monitor trying to perform a lock!");
 
-				//ASSERT_FALSE(lastTrace->monitorLike) << "Monitor trying to perform a lock!";
+				// ASSERT_FALSE(lastTrace->monitorLike) << "Monitor trying to perform a lock!";
 
 				if (locked.size() < 2 && !lock->monitorLike && !lock->crossedTo) {
 					throw DeadlockException(lock->lockable, "Locking a second object without a crosslock!");
 				}
 
-				//ASSERT_FALSE(locked.size() < 2 && !lock->monitorLike && !lock->crossedTo) << "Locking a second object without a crosslock!";
+				// ASSERT_FALSE(locked.size() < 2 && !lock->monitorLike && !lock->crossedTo) << "Locking a second object without a crosslock!";
 
 				if (locked.size() >= 2 && !lock->monitorLike) {
 					throw DeadlockException(lock->lockable, "Locking an object that is not a monitor while there are 2 objects already locked!");
 				}
 
-				//ASSERT_FALSE(locked.size() >= 2 && !lock->monitorLike) << "Locking an object that is not a monitor while there are 2 objects already locked!";
+				// ASSERT_FALSE(locked.size() >= 2 && !lock->monitorLike) << "Locking an object that is not a monitor while there are 2 objects already locked!";
 			}
 
 			locked.add(lock->lockable);
@@ -211,4 +210,3 @@ void DeadlockDetector::detectDeadlock() {
 			locked.removeElement(lock->lockable);
 	}
 }
-

@@ -31,7 +31,7 @@ void FireworkObjectImplementation::loadTemplateData(SharedObjectTemplate* templa
 
 	fireworkObject = templ->getFireworkObject();
 
-	if(templ->isFireworkShow()) {
+	if (templ->isFireworkShow()) {
 		isShow = true;
 	}
 }
@@ -40,22 +40,19 @@ void FireworkObjectImplementation::destroyObjectFromDatabase(bool destroyContain
 	ManagedReference<FireworkObject*> firework = _this.getReferenceUnsafeStaticCast();
 
 	if (firework != nullptr && firework->isFireworkObject()) {
-
 		DataObjectComponent* data = firework->getDataObjectComponent()->get();
 
-		if(data != nullptr && data->isFireworkShowData()) {
+		if (data != nullptr && data->isFireworkShowData()) {
 			FireworkShowDataComponent* fireworkShowData = cast<FireworkShowDataComponent*>(data);
 			if (fireworkShowData->getTotalFireworkCount() > 0) {
-				for (int i=0; i< fireworkShowData->getTotalFireworkCount(); i++) {
+				for (int i = 0; i < fireworkShowData->getTotalFireworkCount(); i++) {
 					ManagedReference<FireworkObject*> firework = fireworkShowData->getFirework(0);
 					fireworkShowData->removeFirework(0);
 					if (firework != nullptr)
 						firework->destroyObjectFromDatabase(false);
 				}
 			}
-
 		}
-
 	}
 
 	TangibleObjectImplementation::destroyObjectFromDatabase(destroyContainedObjects);
@@ -94,13 +91,10 @@ void FireworkObjectImplementation::fillAttributeList(AttributeListMessage* alm, 
 			String effect = "@firework_n:" + fireworkObj.subString(fireworkObj.lastIndexOf("/") + 1, fireworkObj.lastIndexOf("."));
 			alm->insertAttribute("pattern", effect);
 		}
-
 	}
-
 }
 
 void FireworkObjectImplementation::updateCraftingValues(CraftingValues* values, bool firstUpdate) {
-
 	ManagedReference<FireworkObject*> firework = _this.getReferenceUnsafeStaticCast();
 
 	if (firework == nullptr)
@@ -122,7 +116,6 @@ void FireworkObjectImplementation::updateCraftingValues(CraftingValues* values, 
 }
 
 int FireworkObjectImplementation::getDisplayedUseCount() {
-
 	ManagedReference<FireworkObject*> firework = _this.getReferenceUnsafeStaticCast();
 
 	if (firework == nullptr)
@@ -146,7 +139,7 @@ void FireworkObjectImplementation::launch(CreatureObject* player, int removeDela
 	if (player == nullptr)
 		return;
 
-	if(getDelay() == 0) {
+	if (getDelay() == 0) {
 		completeLaunch(player, removeDelay);
 		return;
 	}
@@ -193,7 +186,6 @@ void FireworkObjectImplementation::completeLaunch(CreatureObject* player, int re
 
 	Reference<FireworkRemoveEvent*> fireworkRemoveEvent = new FireworkRemoveEvent(player, launcherObject);
 	fireworkRemoveEvent->schedule(removeDelay * 1000);
-
 }
 
 void FireworkObjectImplementation::beginShowLaunch(CreatureObject* player) {
@@ -207,7 +199,7 @@ void FireworkObjectImplementation::beginShowLaunch(CreatureObject* player) {
 
 	DataObjectComponent* data = fireworkShow->getDataObjectComponent()->get();
 
-	if(data == nullptr || !data->isFireworkShowData())
+	if (data == nullptr || !data->isFireworkShowData())
 		return;
 
 	FireworkShowDataComponent* fireworkShowData = cast<FireworkShowDataComponent*>(data);
@@ -244,6 +236,4 @@ void FireworkObjectImplementation::beginShowLaunch(CreatureObject* player) {
 	int launchDelay = fireworkShowData->getFireworkDelay(0);
 	Reference<FireworkShowLaunchFireworkEvent*> fireworkShowLaunchFireworkEvent = new FireworkShowLaunchFireworkEvent(player, fireworkShow, fireworkShowData, showLauncherObject);
 	fireworkShowLaunchFireworkEvent->schedule(launchDelay);
-
 }
-

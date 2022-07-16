@@ -8,14 +8,12 @@
 #ifndef CHATQUERYROOMCALLBACK_H_
 #define CHATQUERYROOMCALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 #include "server/chat/ChatManager.h"
 
 class ChatQueryRoomCallback : public MessageCallback {
 	int requestID;
 	String roomPath;
-
 
 public:
 	ChatQueryRoomCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
@@ -38,8 +36,6 @@ public:
 		if (chatManager != nullptr)
 			chatManager->handleChatQueryRoom(player, roomPath, requestID);
 	}
-
 };
-
 
 #endif /* CHATQUERYROOMCALLBACK_H_ */

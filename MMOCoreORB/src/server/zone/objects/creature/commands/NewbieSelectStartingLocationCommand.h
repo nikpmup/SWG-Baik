@@ -11,14 +11,10 @@
 
 class NewbieSelectStartingLocationCommand : public QueueCommand {
 public:
-
-	NewbieSelectStartingLocationCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	NewbieSelectStartingLocationCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -69,14 +65,11 @@ public:
 				ghost->setBankLocation(startingLocation->getZoneName());
 		}
 
-
 		if (tutorial != nullptr)
 			StructureManager::instance()->destroyStructure(tutorial->asBuildingObject(), false);
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //NEWBIESELECTSTARTINGLOCATIONCOMMAND_H_
-
+#endif // NEWBIESELECTSTARTINGLOCATIONCOMMAND_H_

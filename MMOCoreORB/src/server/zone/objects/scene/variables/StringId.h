@@ -24,7 +24,7 @@ protected:
 public:
 	StringId();
 	StringId(const StringId& id);
-	StringId(const char * cstr);
+	StringId(const char* cstr);
 	StringId(const String& fullPath);
 	StringId(const String& fil, const String& stringId);
 	StringId(StringId&& id);
@@ -55,8 +55,7 @@ public:
 		if (&id == this)
 			return true;
 
-		if(file == id.file &&
-				stringID == id.stringID)
+		if (file == id.file && stringID == id.stringID)
 			return true;
 
 		return false;
@@ -107,14 +106,12 @@ public:
 	}
 
 	bool toBinaryStream(ObjectOutputStream* stream) {
-		return file.toBinaryStream(stream) &&
-				TypeInfo<int >::toBinaryStream(&filler, stream) &&
-				stringID.toBinaryStream(stream);
+		return file.toBinaryStream(stream) && TypeInfo<int>::toBinaryStream(&filler, stream) && stringID.toBinaryStream(stream);
 	}
 
 	bool parseFromBinaryStream(ObjectInputStream* stream) {
 		file.parseFromBinaryStream(stream);
-		TypeInfo<int >::parseFromBinaryStream(&filler, stream);
+		TypeInfo<int>::parseFromBinaryStream(&filler, stream);
 		stringID.parseFromBinaryStream(stream);
 
 		return true;
@@ -129,11 +126,11 @@ public:
 
 void to_json(nlohmann::json& k, const server::zone::objects::scene::variables::StringId& str);
 
-}
-}
-}
-}
-}
+} // namespace variables
+} // namespace scene
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::scene::variables;
 #endif /* STRINGID_H_ */

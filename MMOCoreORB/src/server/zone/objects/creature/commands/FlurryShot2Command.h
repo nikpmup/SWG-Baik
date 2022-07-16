@@ -9,13 +9,10 @@
 
 class FlurryShot2Command : public CombatQueueCommand {
 public:
-
-	FlurryShot2Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	FlurryShot2Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //FLURRYSHOT2COMMAND_H_
+#endif // FLURRYSHOT2COMMAND_H_

@@ -9,14 +9,10 @@
 
 class SetGodModeCommand : public QueueCommand {
 public:
-
-	SetGodModeCommand(const String& name, ZoneProcessServer* server)
-	: QueueCommand(name, server) {
-
+	SetGodModeCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -85,8 +81,7 @@ public:
 				if (permissionLevelList->containsLevel(param)) {
 					int permissionLevel = permissionLevelList->getLevelNumber(param);
 					playerManager->updatePermissionLevel(targetPlayer, permissionLevel);
-					creature->sendSystemMessage("You have set " + targetPlayer->getFirstName()
-							+ "'s permission level to " + param);
+					creature->sendSystemMessage("You have set " + targetPlayer->getFirstName() + "'s permission level to " + param);
 				} else {
 					creature->sendSystemMessage("Invalid permission level: " + param);
 					error("Invalid parameter for setGodMode");
@@ -97,7 +92,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETGODMODECOMMAND_H_
+#endif // SETGODMODECOMMAND_H_

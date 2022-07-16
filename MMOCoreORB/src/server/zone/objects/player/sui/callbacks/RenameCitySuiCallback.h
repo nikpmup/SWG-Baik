@@ -14,7 +14,6 @@
 #include "server/zone/managers/name/NameManager.h"
 #include "server/zone/managers/planet/PlanetManager.h"
 
-
 class RenameCitySuiCallback : public SuiCallback {
 	ManagedWeakReference<Zone*> zne;
 	ManagedWeakReference<CityRegion*> city;
@@ -28,11 +27,11 @@ public:
 	void run(CreatureObject* creature, SuiBox* sui, uint32 eventIndex, Vector<UnicodeString>* args) {
 		bool cancelPressed = (eventIndex == 1);
 
-		if(cancelPressed || server == nullptr)
+		if (cancelPressed || server == nullptr)
 			return;
 
 		ManagedReference<CityRegion*> cityObject = city.get();
-		if(cityObject == nullptr)
+		if (cityObject == nullptr)
 			return;
 
 		ManagedReference<Zone*> zone = this->zne.get();
@@ -55,7 +54,7 @@ public:
 		case NameManagerResult::DECLINED_DEVELOPER:
 		case NameManagerResult::DECLINED_FICT_RESERVED:
 		case NameManagerResult::DECLINED_RESERVED:
-			creature->sendSystemMessage("@player_structure:obscene"); //That name was rejected by the name filter. Try a different name.
+			creature->sendSystemMessage("@player_structure:obscene"); // That name was rejected by the name filter. Try a different name.
 			return;
 			break;
 
@@ -73,16 +72,16 @@ public:
 		PlanetManager* planetManager = zone->getPlanetManager();
 
 		if (!planetManager->validateRegionName(cityName) || !cityManager->validateCityName(cityName)) {
-			creature->sendSystemMessage("@player_structure:cityname_not_unique"); //Another city already has this name. Your city's name must be unique.
+			creature->sendSystemMessage("@player_structure:cityname_not_unique"); // Another city already has this name. Your city's name must be unique.
 			return;
 		}
 
-		if(cityObject->getMayorID() != creature->getObjectID() && !ghost->isStaff())
+		if (cityObject->getMayorID() != creature->getObjectID() && !ghost->isStaff())
 			return;
 
 		Locker mlock(cityManager, creature);
 
-		if(!cityManager->renameCity(cityObject, cityName))
+		if (!cityManager->renameCity(cityObject, cityName))
 			return;
 
 		mlock.release();
@@ -92,15 +91,15 @@ public:
 		String oldName = cityObject->getRegionName();
 		bool isRegistered = cityObject->isRegistered();
 
-		if(isRegistered)
+		if (isRegistered)
 			cityManager->unregisterCity(cityObject, creature);
 
 		cityObject->setCustomRegionName(cityName);
 
-		if(cityObject->hasShuttleInstallation()) {
+		if (cityObject->hasShuttleInstallation()) {
 			Reference<PlanetTravelPoint*> tp = planetManager->getPlanetTravelPoint(oldName);
 
-			if(tp != nullptr) {
+			if (tp != nullptr) {
 				Reference<PlanetTravelPoint*> newTP = tp;
 				newTP->setPointName(cityName);
 				planetManager->removePlayerCityTravelPoint(oldName);
@@ -108,15 +107,12 @@ public:
 			}
 		}
 
-		if(isRegistered)
+		if (isRegistered)
 			cityManager->registerCity(cityObject, creature);
 
 		creature->addCooldown("rename_city_cooldown", 604800 * 4); // 4 week cooldown.  need to investigate
-		creature->sendSystemMessage("@city/city:name_changed"); // The city name has been successfully changed.");
+		creature->sendSystemMessage("@city/city:name_changed");	   // The city name has been successfully changed.");
 	}
 };
-
-
-
 
 #endif /* RENAMECITYSUICALLBACK_H_ */

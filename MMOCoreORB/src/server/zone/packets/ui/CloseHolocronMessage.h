@@ -12,13 +12,12 @@
 
 class CloseHolocronMessage : public BaseMessage {
 public:
-   CloseHolocronMessage() : BaseMessage() {
+	CloseHolocronMessage() : BaseMessage() {
 		insertShort(0x01);
-		insertInt(0xC0938A9D);  // CRC
+		insertInt(0xC0938A9D); // CRC
 
-		//Closes the Holocron Screen.
-   }
-
+		// Closes the Holocron Screen.
+	}
 };
 
 #endif /* CLOSEHOLOCRONMESSAGE_H_ */

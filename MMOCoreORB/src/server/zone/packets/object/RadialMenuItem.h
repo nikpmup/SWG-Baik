@@ -23,7 +23,7 @@ class RadialMenuItem : public Object {
 
 	RadialMenuItem* parent;
 
-	Vector<Reference<RadialMenuItem*> > children;
+	Vector<Reference<RadialMenuItem*>> children;
 
 	int itemIndex;
 
@@ -51,7 +51,7 @@ public:
 		/*for (int i = 0; i < children.size(); ++i)
 			delete children.get(i);*/
 
-		//children.removeAll();
+		// children.removeAll();
 	}
 
 	void addRadialMenuItem(int itemidx, uint8 radialid, uint8 callback, const UnicodeString& text = "") {
@@ -97,7 +97,7 @@ public:
 		return returnItem;
 	}
 
-	//Setters
+	// Setters
 	inline void setRadialID(uint8 radialid) {
 		radialID = radialid;
 	}
@@ -118,7 +118,7 @@ public:
 		itemIndex = idx;
 	}
 
-	//Getters
+	// Getters
 	inline uint8 getRadialID() {
 		return radialID;
 	}

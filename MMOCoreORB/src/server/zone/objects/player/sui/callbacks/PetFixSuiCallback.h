@@ -10,11 +10,11 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 
@@ -22,8 +22,7 @@ class PetFixSuiCallback : public SuiCallback {
 	ManagedWeakReference<PetControlDevice*> controlDevice;
 
 public:
-	PetFixSuiCallback(ZoneServer* server, PetControlDevice* device)
-		: SuiCallback(server) {
+	PetFixSuiCallback(ZoneServer* server, PetControlDevice* device) : SuiCallback(server) {
 		controlDevice = device;
 	}
 
@@ -50,11 +49,10 @@ public:
 		Locker lock(pet, player);
 
 		if (otherPressed) {
-			deed->adjustPetLevel(player,pet);
-		}
-		else {
-			if(deed->adjustPetStats(player,pet)){
-                          	Locker locker(device);
+			deed->adjustPetLevel(player, pet);
+		} else {
+			if (deed->adjustPetStats(player, pet)) {
+				Locker locker(device);
 				device->growPet(player, true);
 			}
 		}

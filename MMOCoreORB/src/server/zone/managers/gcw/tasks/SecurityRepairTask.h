@@ -4,7 +4,6 @@
 #include "server/zone/managers/gcw/GCWManager.h"
 
 class SecurityRepairTask : public Task {
-
 	ManagedReference<TangibleObject*> terminal;
 	ManagedReference<GCWManager*> gcwManager;
 	ManagedReference<CreatureObject*> creature;
@@ -32,18 +31,18 @@ public:
 		}
 
 		switch (terminalID) {
-			case 367428: // Corellia - Stronghold
-				building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-				break;
-			case 923854: // Rori - Imperial Encampment
-				building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-				break;
-			case 923864: // Rori - Rebel Military Base
-				building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-				break;
-			default:
-				building = terminal->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-				break;
+		case 367428: // Corellia - Stronghold
+			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+			break;
+		case 923854: // Rori - Imperial Encampment
+			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+			break;
+		case 923864: // Rori - Rebel Military Base
+			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+			break;
+		default:
+			building = terminal->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+			break;
 		}
 
 		if (building == nullptr) {

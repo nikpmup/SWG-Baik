@@ -9,13 +9,10 @@
 
 class PointBlankSingle2Command : public CombatQueueCommand {
 public:
-
-	PointBlankSingle2Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	PointBlankSingle2Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //POINTBLANKSINGLE2COMMAND_H_
+#endif // POINTBLANKSINGLE2COMMAND_H_

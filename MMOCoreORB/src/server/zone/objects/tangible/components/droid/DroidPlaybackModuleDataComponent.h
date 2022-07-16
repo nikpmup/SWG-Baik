@@ -16,7 +16,6 @@ namespace components {
 namespace droid {
 
 class DroidPlaybackModuleDataComponent : public BaseDroidModuleComponent {
-
 protected:
 	bool currentlyRecording;
 	int recordingTrack;
@@ -28,10 +27,7 @@ protected:
 	ManagedReference<DroidPlaybackObserver*> observer;
 
 	// states of recording
-	enum {
-		STATE_WAITING_TO_RECORD = 1,
-		STATE_RECORDING_TRACK   = 2
-	};
+	enum { STATE_WAITING_TO_RECORD = 1, STATE_RECORDING_TRACK = 2 };
 
 	Vector<uint64> listeners;
 
@@ -49,11 +45,13 @@ public:
 	void onCall();
 	void onStore();
 	void addListener(uint64 id);
-	virtual bool isStackable() { return true; }
+	virtual bool isStackable() {
+		return true;
+	}
 	virtual void addToStack(BaseDroidModuleComponent* other);
 	virtual void copy(BaseDroidModuleComponent* other);
 	void deleteTrack(CreatureObject* player, int slotIndex);
-	void setTrack( CreatureObject* player, int perfIndex);
+	void setTrack(CreatureObject* player, int perfIndex);
 	bool toBinaryStream(ObjectOutputStream* stream);
 	bool parseFromBinaryStream(ObjectInputStream* stream);
 	void sessionTimeout(CreatureObject* player, int state);
@@ -96,20 +94,20 @@ public:
 		SERIALIZE_JSON_MEMBER(totalTracks);
 		SERIALIZE_JSON_MEMBER(trackList);
 		SERIALIZE_JSON_MEMBER(observer);
-
 	}
+
 private:
 	void stopRecording(CreatureObject* player, bool success);
 	int writeObjectMembers(ObjectOutputStream* stream);
 	bool readObjectMember(ObjectInputStream* stream, const String& name);
 };
 
-} // droid
-} // components
-} // tangible
-} // objects
-} // zone
-} // server
+} // namespace droid
+} // namespace components
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 using namespace server::zone::objects::tangible::components::droid;
 
 #endif /* DROIDPLAYBACKMODULEDATACOMPONENT_H_ */

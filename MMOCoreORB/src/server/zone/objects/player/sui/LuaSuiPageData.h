@@ -16,7 +16,7 @@ public:
 	static const char className[];
 	static Luna<LuaSuiPageData>::RegType Register[];
 
-	LuaSuiPageData(lua_State *L);
+	LuaSuiPageData(lua_State* L);
 	~LuaSuiPageData();
 
 	int _setObject(lua_State* L);
@@ -40,6 +40,7 @@ public:
 	int getStoredData(lua_State* L);
 	int setStoredData(lua_State* L);
 	int deleteStoredData(lua_State* L);
+
 private:
 	Reference<SuiPageData*> realObject;
 };

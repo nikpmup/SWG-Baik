@@ -8,7 +8,6 @@
 #ifndef LUACONVERSATIONSESSION_H_
 #define LUACONVERSATIONSESSION_H_
 
-
 #include "server/zone/objects/player/sessions/ConversationSession.h"
 
 #include "engine/engine.h"
@@ -20,7 +19,7 @@ public:
 	static Luna<LuaConversationSession>::RegType Register[];
 
 	// Initialize the pointer
-	LuaConversationSession(lua_State *L);
+	LuaConversationSession(lua_State* L);
 	~LuaConversationSession();
 
 	int _setObject(lua_State* L);
@@ -28,12 +27,9 @@ public:
 	int setLastConversationScreen(lua_State* L);
 	int getLastConversationScreen(lua_State* L);
 
-
 private:
 	// The pointer to the 'real object' defined in object.cc
 	Reference<ConversationSession*> realObject;
 };
-
-
 
 #endif /* LUACONVERSATIONSESSION_H_ */

@@ -10,10 +10,7 @@
 
 class TransferForceCommand : public CombatQueueCommand {
 public:
-
-	TransferForceCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
-
+	TransferForceCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -33,7 +30,7 @@ public:
 		if (object == nullptr || !object->isPlayerCreature())
 			return INVALIDTARGET;
 
-		CreatureObject* targetCreature = cast<CreatureObject*>( object.get());
+		CreatureObject* targetCreature = cast<CreatureObject*>(object.get());
 
 		if (targetCreature == nullptr || targetCreature->isDead() || targetCreature->isIncapacitated())
 			return INVALIDTARGET;
@@ -50,14 +47,14 @@ public:
 			return GENERALERROR;
 
 		if (!CollisionManager::checkLineOfSight(creature, targetCreature)) {
-			creature->sendSystemMessage("@cbt_spam:los_fail");// You lost sight of your target.
+			creature->sendSystemMessage("@cbt_spam:los_fail"); // You lost sight of your target.
 			return GENERALERROR;
 		}
 
 		if (!checkDistance(creature, targetCreature, range))
 			return TOOFAR;
 
-		int transfer = System::random(75) + minDamage; //Value set in command lua
+		int transfer = System::random(75) + minDamage; // Value set in command lua
 
 		FrsManager* frsManager = server->getZoneServer()->getFrsManager();
 
@@ -72,14 +69,14 @@ public:
 		}
 
 		if (playerGhost->getForcePower() < forceCost) {
-			creature->sendSystemMessage("@jedi_spam:no_force_power"); //You do not have enough force to do that.
+			creature->sendSystemMessage("@jedi_spam:no_force_power"); // You do not have enough force to do that.
 			return GENERALERROR;
 		}
 
 		int forceSpace = targetGhost->getForcePowerMax() - targetGhost->getForcePower();
 		int forceTransfer = 0;
 
-		if (forceSpace > 0) { //Only allows amount to be transfered that the target can hold and fails if target has full Force.
+		if (forceSpace > 0) { // Only allows amount to be transfered that the target can hold and fails if target has full Force.
 			forceTransfer = forceSpace >= transfer ? transfer : forceSpace;
 		} else {
 			return GENERALERROR;
@@ -100,7 +97,6 @@ public:
 	float getCommandDuration(CreatureObject* object, const UnicodeString& arguments) const {
 		return defaultTime;
 	}
-
 };
 
-#endif //TRANSFERFORCECOMMAND_H_
+#endif // TRANSFERFORCECOMMAND_H_

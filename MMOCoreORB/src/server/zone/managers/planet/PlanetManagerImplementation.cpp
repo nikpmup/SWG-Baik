@@ -86,8 +86,7 @@ void PlanetManagerImplementation::initialize() {
 	}
 
 	if (zone->getZoneName() == "tatooine") {
-		Reference<ActiveArea*> area = zone->getZoneServer()->createObject(
-				STRING_HASHCODE("object/sarlacc_area.iff"), 0).castTo<ActiveArea *>();
+		Reference<ActiveArea*> area = zone->getZoneServer()->createObject(STRING_HASHCODE("object/sarlacc_area.iff"), 0).castTo<ActiveArea*>();
 
 		Locker locker(area);
 		area->setRadius(30.f);
@@ -96,8 +95,7 @@ void PlanetManagerImplementation::initialize() {
 
 		locker.release();
 
-		Reference<ActiveArea*> preArea = zone->getZoneServer()->createObject(
-				STRING_HASHCODE("object/sarlacc_area.iff"), 0).castTo<ActiveArea *>();
+		Reference<ActiveArea*> preArea = zone->getZoneServer()->createObject(STRING_HASHCODE("object/sarlacc_area.iff"), 0).castTo<ActiveArea*>();
 
 		Locker locker2(preArea);
 
@@ -120,13 +118,12 @@ void PlanetManagerImplementation::loadLuaConfig() {
 
 	lua->runFile("scripts/managers/planet_manager.lua");
 
-	//Get's the configuration settings object for this planet.
+	// Get's the configuration settings object for this planet.
 	LuaObject luaObject = lua->getGlobalObject(planetName);
 
 	if (luaObject.isValidTable()) {
-
 		bool weatherEnabled = luaObject.getIntField("weatherEnabled");
-		if(weatherEnabled) {
+		if (weatherEnabled) {
 			weatherManager = new WeatherManager(zone);
 			weatherManager->initialize();
 		} else {
@@ -134,7 +131,7 @@ void PlanetManagerImplementation::loadLuaConfig() {
 		}
 
 		bool gcwEnabled = luaObject.getIntField("gcwEnabled");
-		if(gcwEnabled) {
+		if (gcwEnabled) {
 			gcwManager = new GCWManager(zone);
 			gcwManager->initialize();
 		}
@@ -170,28 +167,28 @@ void PlanetManagerImplementation::loadLuaConfig() {
 
 	// Configure shuttleport timing
 	if ((shuttleportAwayTime = lua->getGlobalInt("shuttleportAwayTime")) <= 0)
-	  shuttleportAwayTime = 300;
+		shuttleportAwayTime = 300;
 
 	if ((shuttleportLandedTime = lua->getGlobalInt("shuttleportLandedTime")) <= 0)
-	  shuttleportLandedTime = 120;
+		shuttleportLandedTime = 120;
 
 	if ((shuttleportLandingTime = lua->getGlobalInt("shuttleportLandingTime")) <= 0)
-	  shuttleportLandingTime = 11;
+		shuttleportLandingTime = 11;
 
 	// Configure starport timing
 	if ((starportAwayTime = lua->getGlobalInt("starportAwayTime")) <= 0)
-	  starportAwayTime = 60;
+		starportAwayTime = 60;
 
 	if ((starportLandedTime = lua->getGlobalInt("starportLandedTime")) <= 0)
-	  starportLandedTime = 120;
+		starportLandedTime = 120;
 
 	if ((starportLandingTime = lua->getGlobalInt("starportLandingTime")) <= 0)
-	  starportLandingTime = 120;
+		starportLandingTime = 120;
 
 	ReadLocker rLock(&regionMap);
 	int numRegions = regionMap.getTotalRegions();
 	bool forceRebuild = server->getZoneServer()->shouldDeleteNavAreas();
-	for (int i=0; i<numRegions; i++) {
+	for (int i = 0; i < numRegions; i++) {
 		CityRegion* city = regionMap.getRegion(i);
 		Locker locker(city);
 		city->createNavMesh(NavMeshManager::MeshQueue, forceRebuild);
@@ -394,11 +391,13 @@ void PlanetManagerImplementation::loadNavAreas(LuaObject* areas) {
 			if (area != nullptr) {
 				navMeshAreas.drop(name);
 
-				Core::getTaskManager()->executeTask([area] {
-					Locker locker(area);
-					area->destroyObjectFromWorld(true);
-					area->destroyObjectFromDatabase(true);
-				}, "destroyNavAreaLambda");
+				Core::getTaskManager()->executeTask(
+					[area] {
+						Locker locker(area);
+						area->destroyObjectFromWorld(true);
+						area->destroyObjectFromDatabase(true);
+					},
+					"destroyNavAreaLambda");
 			}
 
 			create = true;
@@ -440,27 +439,27 @@ void PlanetManagerImplementation::loadTravelFares() {
 
 	delete iffStream;
 
-	//Initialize the rows so we can do a symmetric insert
-	for(int i = 0; i < dtiff.getTotalRows(); i++) {
+	// Initialize the rows so we can do a symmetric insert
+	for (int i = 0; i < dtiff.getTotalRows(); i++) {
 		VectorMap<String, int> planetFares;
-		DataTableRow* row =  dtiff.getRow(i);
+		DataTableRow* row = dtiff.getRow(i);
 		String departurePlanet = "";
 		row->getCell(0)->getValue(departurePlanet);
 		travelFares.put(departurePlanet, planetFares);
 	}
 
-	//Insert values
-	for(int i = 0; i < dtiff.getTotalRows(); i++) {
-		DataTableRow* row =  dtiff.getRow(i);
+	// Insert values
+	for (int i = 0; i < dtiff.getTotalRows(); i++) {
+		DataTableRow* row = dtiff.getRow(i);
 		String departurePlanet = "";
 		row->getCell(0)->getValue(departurePlanet);
 
-		for(int j=i+1; j<dtiff.getTotalColumns(); j++) {
+		for (int j = i + 1; j < dtiff.getTotalColumns(); j++) {
 			String arrivalPlanet = dtiff.getColumnNameByIndex(j);
 			int fare = 0;
 			row->getCell(j)->getValue(fare);
 			travelFares.get(departurePlanet).put(arrivalPlanet, fare);
-			if(arrivalPlanet != departurePlanet)
+			if (arrivalPlanet != departurePlanet)
 				travelFares.get(arrivalPlanet).put(departurePlanet, fare);
 		}
 	}
@@ -486,7 +485,7 @@ Reference<SceneObject*> PlanetManagerImplementation::loadSnapshotObject(WorldSna
 	/*if (ConfigManager::instance()->isProgressMonitorActivated())
 		printf("\r\tLoading snapshot objects: [%d] / [?]\t", totalObjects);*/
 
-	//Object already exists, exit.
+	// Object already exists, exit.
 	if (object != nullptr)
 		return nullptr;
 
@@ -517,13 +516,13 @@ Reference<SceneObject*> PlanetManagerImplementation::loadSnapshotObject(WorldSna
 		error("parent id " + String::valueOf(node->getParentID()));
 
 	if (parentObject == nullptr) {
-		//object->insertToZone(zone);
+		// object->insertToZone(zone);
 		Locker clocker(object);
 
 		zone->transferObject(object, -1, true);
 	}
 
-	//Load child nodes
+	// Load child nodes
 	for (int i = 0; i < node->getNodeCount(); ++i) {
 		WorldSnapshotNode* childNode = node->getNode(i);
 
@@ -533,7 +532,7 @@ Reference<SceneObject*> PlanetManagerImplementation::loadSnapshotObject(WorldSna
 		loadSnapshotObject(childNode, wsiff, totalObjects);
 	}
 
-	//object->createChildObjects();
+	// object->createChildObjects();
 
 	return object;
 }
@@ -563,15 +562,17 @@ void PlanetManagerImplementation::loadSnapshotObjects() {
 #ifdef PARALLEL_SNAPSHOT_LOADING
 		++totalObjects;
 
-		Core::getTaskManager()->executeTask([this, node, wsiff, totalObjects]() mutable {
-			auto sceno = loadSnapshotObject(node, wsiff, totalObjects);
+		Core::getTaskManager()->executeTask(
+			[this, node, wsiff, totalObjects]() mutable {
+				auto sceno = loadSnapshotObject(node, wsiff, totalObjects);
 
-			if (sceno != nullptr) {
-				Locker locker(sceno);
+				if (sceno != nullptr) {
+					Locker locker(sceno);
 
-				sceno->createChildObjects();
-			}
-		}, "LoadSnapshotObjectLambda");
+					sceno->createChildObjects();
+				}
+			},
+			"LoadSnapshotObjectLambda");
 
 #else
 		auto sceno = loadSnapshotObject(node, wsiff, totalObjects);
@@ -599,11 +600,11 @@ void PlanetManagerImplementation::loadSnapshotObjects() {
 }
 
 bool PlanetManagerImplementation::isTravelToLocationPermitted(const String& departurePoint, const String& arrivalPlanet, const String& arrivalPoint) {
-	//Check to see that the departure point exists.
+	// Check to see that the departure point exists.
 	if (!isExistingPlanetTravelPoint(departurePoint))
 		return false;
 
-	//Check to see that the arrival planet exists.
+	// Check to see that the arrival planet exists.
 	ManagedReference<Zone*> arrivalZone = zone->getZoneServer()->getZone(arrivalPlanet);
 
 	if (arrivalZone == nullptr)
@@ -611,19 +612,19 @@ bool PlanetManagerImplementation::isTravelToLocationPermitted(const String& depa
 
 	PlanetManager* arrivalPlanetManager = arrivalZone->getPlanetManager();
 
-	//Check to see that the arrival point exists.
+	// Check to see that the arrival point exists.
 	if (!arrivalPlanetManager->isExistingPlanetTravelPoint(arrivalPoint))
 		return false;
 
-	//Check to see if incoming Travel is allowed
+	// Check to see if incoming Travel is allowed
 	if (!arrivalPlanetManager->isIncomingTravelAllowed(arrivalPoint))
 		return false;
 
-	//If both zones are the same, then intraplanetary travel is allowed.
+	// If both zones are the same, then intraplanetary travel is allowed.
 	if (arrivalZone == zone)
 		return true;
 
-	//Check to see if interplanetary travel is allowed between both points.
+	// Check to see if interplanetary travel is allowed between both points.
 	if (!isInterplanetaryTravelAllowed(departurePoint) || !arrivalPlanetManager->isInterplanetaryTravelAllowed(arrivalPoint))
 		return false;
 
@@ -641,19 +642,14 @@ PlanetTravelPoint* PlanetManagerImplementation::getNearestPlanetTravelPoint(Scen
 #if DEBUG_TRAVEL
 	StringBuffer callDesc;
 
-	callDesc << "getNearestPlanetTravelPoint("
-			<< object->getObjectNameStringIdName()
-			<< ":" << object->getObjectID()
-			<< ", " << searchrange
-			<< ") @ " << object->getWorldPosition().toString()
-			<< "\n";
+	callDesc << "getNearestPlanetTravelPoint(" << object->getObjectNameStringIdName() << ":" << object->getObjectID() << ", " << searchrange << ") @ " << object->getWorldPosition().toString() << "\n";
 #endif
 
 	Reference<PlanetTravelPoint*> planetTravelPoint = getNearestPlanetTravelPoint(object->getWorldPosition(), searchrange);
 
 #if DEBUG_TRAVEL
 
-	if(planetTravelPoint == nullptr)
+	if (planetTravelPoint == nullptr)
 		callDesc << ": DID NOT FIND POINT IN RANGE \n";
 	else
 		callDesc << ": returning: " << planetTravelPoint->toString() << "\n";
@@ -681,7 +677,7 @@ PlanetTravelPoint* PlanetManagerImplementation::getNearestPlanetTravelPoint(cons
 }
 
 PlanetTravelPoint* PlanetManagerImplementation::getRandomStarport() {
-	Vector<Reference<PlanetTravelPoint*> > planetStarports;
+	Vector<Reference<PlanetTravelPoint*>> planetStarports;
 
 	for (int i = 0; i < planetTravelPointList->size(); ++i) {
 		Reference<PlanetTravelPoint*> ptp = planetTravelPointList->get(i);
@@ -774,7 +770,6 @@ bool PlanetManagerImplementation::noInterferingObjects(CreatureObject* creature,
 }
 
 void PlanetManagerImplementation::loadClientPoiData() {
-
 	Locker locker(&poiMutex);
 
 	if (clientPoiDataTable.size() != 0)
@@ -798,7 +793,7 @@ void PlanetManagerImplementation::loadClientPoiData() {
 }
 
 void PlanetManagerImplementation::loadClientRegions(LuaObject* outposts) {
-	VectorMap<String, Vector<float> > outpostData;
+	VectorMap<String, Vector<float>> outpostData;
 
 	if (outposts->isValidTable()) {
 		for (int i = 1; i <= outposts->getTableSize(); ++i) {
@@ -874,7 +869,7 @@ void PlanetManagerImplementation::loadClientRegions(LuaObject* outposts) {
 		if (region != nullptr) {
 			Locker rlocker(region);
 
-			if (cityRegion->getRegionsCount() == 1) {//Register the first region only.
+			if (cityRegion->getRegionsCount() == 1) { // Register the first region only.
 				region->setPlanetMapCategory(cityCat);
 				zone->registerObjectWithPlanetaryMap(region);
 			}
@@ -989,7 +984,6 @@ void PlanetManagerImplementation::initializeTransientMembers() {
 	terrainManager = new TerrainManager();
 }
 
-
 void PlanetManagerImplementation::finalize() {
 	terrainManager = nullptr;
 	weatherManager = nullptr;
@@ -1012,7 +1006,7 @@ bool PlanetManagerImplementation::isInRangeWithPoi(float x, float y, float range
 
 	Vector3 target(x, y, 0);
 
-	const Vector<Reference<PoiData*> >& pois = clientPoiDataTable.getPois(zoneName);
+	const Vector<Reference<PoiData*>>& pois = clientPoiDataTable.getPois(zoneName);
 
 	for (int i = 0; i < pois.size(); ++i) {
 		if (pois.get(i)->getPosition().squaredDistanceTo(target) <= range * range)
@@ -1106,7 +1100,7 @@ bool PlanetManagerImplementation::isBuildingPermittedAt(float x, float y, SceneO
 	if (!zone->isWithinBoundaries(targetPos))
 		return false;
 
-	//targetPos.setZ(zone->getHeight(x, y)); not needed
+	// targetPos.setZ(zone->getHeight(x, y)); not needed
 
 	zone->getInRangeActiveAreas(x, y, &activeAreas, true);
 
@@ -1133,7 +1127,7 @@ bool PlanetManagerImplementation::isBuildingPermittedAt(float x, float y, SceneO
 }
 
 bool PlanetManagerImplementation::isCampingPermittedAt(float x, float y, float margin) {
-	SortedVector<ManagedReference<ActiveArea* > > activeAreas;
+	SortedVector<ManagedReference<ActiveArea*>> activeAreas;
 
 	Vector3 targetPos(x, y, zone->getHeight(x, y));
 
@@ -1149,7 +1143,7 @@ bool PlanetManagerImplementation::isCampingPermittedAt(float x, float y, float m
 
 		// Honor no-build after checking for areas that camping is explicitly allowed
 		if (area->isNoBuildArea()) {
-				return false;
+			return false;
 		}
 	}
 
@@ -1164,36 +1158,33 @@ bool PlanetManagerImplementation::isCampingPermittedAt(float x, float y, float m
 }
 
 Reference<SceneObject*> PlanetManagerImplementation::findObjectTooCloseToDecoration(float x, float y, float margin) {
-	SortedVector<ManagedReference<QuadTreeEntry* > > closeObjects;
+	SortedVector<ManagedReference<QuadTreeEntry*>> closeObjects;
 
-	Vector3 targetPos(x, y,0);
+	Vector3 targetPos(x, y, 0);
 
 	zone->getInRangeObjects(x, y, 256, &closeObjects, true, false);
 
 	for (int i = 0; i < closeObjects.size(); ++i) {
-
 		ManagedReference<SceneObject*> obj = cast<SceneObject*>(closeObjects.get(i).get());
 
-		if(obj == nullptr || obj->isCreatureObject() || obj->getObjectTemplate() == nullptr)
+		if (obj == nullptr || obj->isCreatureObject() || obj->getObjectTemplate() == nullptr)
 			continue;
 
-		Vector3 objVec(obj->getPositionX(), obj->getPositionY(),0);
+		Vector3 objVec(obj->getPositionX(), obj->getPositionY(), 0);
 
 		int squaredDistance = (obj->getObjectTemplate()->getNoBuildRadius() + margin) * (obj->getObjectTemplate()->getNoBuildRadius() + margin);
 
-		if(objVec.squaredDistanceTo(targetPos) < squaredDistance){
+		if (objVec.squaredDistanceTo(targetPos) < squaredDistance) {
 			return obj;
 		}
 
-		if(obj->isStructureObject() && StructureManager::instance()->isInStructureFootprint(cast<StructureObject*>(obj.get()), x, y, margin) ){
-				return obj;
+		if (obj->isStructureObject() && StructureManager::instance()->isInStructureFootprint(cast<StructureObject*>(obj.get()), x, y, margin)) {
+			return obj;
 		}
 	}
 
 	return nullptr;
-
 }
-
 
 Reference<SceneObject*> PlanetManagerImplementation::createTicket(const String& departurePoint, const String& arrivalPlanet, const String& arrivalPoint) {
 	ManagedReference<SceneObject*> obj = server->getZoneServer()->createObject(STRING_HASHCODE("object/tangible/travel/travel_ticket/base/base_travel_ticket.iff"), 1);
@@ -1206,14 +1197,14 @@ Reference<SceneObject*> PlanetManagerImplementation::createTicket(const String& 
 		return nullptr;
 	}
 
-	TangibleObject* tano = cast<TangibleObject*>( obj.get());
+	TangibleObject* tano = cast<TangibleObject*>(obj.get());
 
 	if (!tano->isTicketObject()) {
 		tano->destroyObjectFromDatabase(true);
 		return nullptr;
 	}
 
-	TicketObject* ticket = cast<TicketObject*>( tano);
+	TicketObject* ticket = cast<TicketObject*>(tano);
 	ticket->setDeparturePlanet(zone->getZoneName());
 	ticket->setDeparturePoint(departurePoint);
 	ticket->setArrivalPlanet(arrivalPlanet);
@@ -1266,23 +1257,22 @@ bool PlanetManagerImplementation::checkShuttleStatus(CreatureObject* creature, C
 bool PlanetManagerImplementation::isInWater(float x, float y) {
 	float z = zone->getHeight(x, y);
 	float waterHeight = z;
-	if(getTerrainManager()->getWaterHeight(x, y, waterHeight))
-		if(waterHeight >= z)
+	if (getTerrainManager()->getWaterHeight(x, y, waterHeight))
+		if (waterHeight >= z)
 			return true;
 
 	return false;
 }
 
 float PlanetManagerImplementation::findClosestWorldFloor(float x, float y, float z, float swimHeight, IntersectionResults* intersections, CloseObjectsVector* closeObjects) {
-
-	//SortedVector<IntersectionResult> intersections;
+	// SortedVector<IntersectionResult> intersections;
 
 	Reference<IntersectionResults*> ref;
 
-    if (intersections == nullptr) {
-    	ref = intersections = new IntersectionResults();
-    	CollisionManager::getWorldFloorCollisions(x, y, zone, intersections, closeObjects);
-    }
+	if (intersections == nullptr) {
+		ref = intersections = new IntersectionResults();
+		CollisionManager::getWorldFloorCollisions(x, y, zone, intersections, closeObjects);
+	}
 
 	float terrainHeight = zone->getHeight(x, y);
 	float diff = fabs(z - terrainHeight);
@@ -1290,7 +1280,7 @@ float PlanetManagerImplementation::findClosestWorldFloor(float x, float y, float
 
 	for (int i = 0; i < intersections->size(); i++) {
 		float newDiff = fabs(16384.f - intersections->get(i).getIntersectionDistance() - z);
-		if ( newDiff < diff) {
+		if (newDiff < diff) {
 			diff = newDiff;
 			closestHeight = 16384.f - intersections->get(i).getIntersectionDistance();
 		}
@@ -1306,16 +1296,12 @@ float PlanetManagerImplementation::findClosestWorldFloor(float x, float y, float
 	return closestHeight;
 }
 
-void PlanetManagerImplementation::addPlayerCityTravelPoint(PlanetTravelPoint* planetTravelPoint){
-
+void PlanetManagerImplementation::addPlayerCityTravelPoint(PlanetTravelPoint* planetTravelPoint) {
 	planetTravelPointList->addPlayerCityTravelPoint(planetTravelPoint);
-
 }
 
-void PlanetManagerImplementation::removePlayerCityTravelPoint(const String& cityName){
-
+void PlanetManagerImplementation::removePlayerCityTravelPoint(const String& cityName) {
 	planetTravelPointList->removePlayerCityTravelPoint(cityName);
-
 }
 
 void PlanetManagerImplementation::scheduleShuttle(CreatureObject* shuttle, int shuttleType) {
@@ -1347,7 +1333,6 @@ void PlanetManagerImplementation::scheduleShuttle(CreatureObject* shuttle, int s
 
 	shuttleMap.put(oid, task);
 
-
 	task->schedule((task->getLandedTime() + task->getLandingTime()) * 1000);
 }
 
@@ -1360,15 +1345,16 @@ int PlanetManagerImplementation::destroyEventObject(uint64 objectID) {
 			return 0;
 		}
 
-		Core::getTaskManager()->executeTask([object] () {
-			Locker locker(object);
+		Core::getTaskManager()->executeTask(
+			[object]() {
+				Locker locker(object);
 
-			if (object->isPersistent())
-				object->destroyObjectFromDatabase(true);
+				if (object->isPersistent())
+					object->destroyObjectFromDatabase(true);
 
-			object->destroyObjectFromWorld(true);
-
-		}, "DestroyEventObjectLambda");
+				object->destroyObjectFromWorld(true);
+			},
+			"DestroyEventObjectLambda");
 
 		spawnedEventObjects.drop(objectID);
 

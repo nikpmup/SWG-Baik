@@ -12,16 +12,14 @@
 #include "server/zone/ZoneProcessServer.h"
 
 void ShellfishHarvesterMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
 	if (!sceneObject->isTangibleObject())
 		return;
 
 	TangibleObject* tano = cast<TangibleObject*>(sceneObject);
-	if(tano == nullptr)
+	if (tano == nullptr)
 		return;
 
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
-
 }
 
 int ShellfishHarvesterMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
@@ -31,7 +29,7 @@ int ShellfishHarvesterMenuComponent::handleObjectMenuSelect(SceneObject* sceneOb
 	if (!sceneObject->isTangibleObject())
 		return 0;
 
-	if(selectedID == 20) {
+	if (selectedID == 20) {
 		ForageManager* forageManager = player->getZoneProcessServer()->getForageManager();
 		forageManager->startForaging(player, ForageManager::SHELLFISH);
 		return 0;
@@ -39,4 +37,3 @@ int ShellfishHarvesterMenuComponent::handleObjectMenuSelect(SceneObject* sceneOb
 
 	return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject, player, selectedID);
 }
-

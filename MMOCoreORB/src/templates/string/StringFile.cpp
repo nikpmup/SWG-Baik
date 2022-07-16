@@ -12,7 +12,6 @@ StringFile::StringFile() {
 }
 
 StringFile::~StringFile() {
-
 }
 
 bool StringFile::load(ObjectInputStream* inputFile) {
@@ -44,8 +43,7 @@ bool StringFile::load(ObjectInputStream* inputFile) {
 
 			desc.put(num, description);
 
-			debug() << "num = " << num
-					<< " description = " << description;
+			debug() << "num = " << num << " description = " << description;
 		}
 
 		for (int j = 0; j < stringCount; ++j) {

@@ -10,14 +10,12 @@
 
 class CommandQueueEnqueue : public ObjectControllerMessage {
 public:
-	CommandQueueEnqueue(CreatureObject* creo, uint32 actioncnt, uint32 actionCRC) 
-			: ObjectControllerMessage(creo->getObjectID(), 0x0B, 0x116) {
+	CommandQueueEnqueue(CreatureObject* creo, uint32 actioncnt, uint32 actionCRC) : ObjectControllerMessage(creo->getObjectID(), 0x0B, 0x116) {
 		insertInt(actioncnt);
 		insertInt(actionCRC);
 		insertLong(creo->getTargetID());
 		insertInt(0); // UnicodeString shit
 	}
-
 };
 
 class CommandQueueEnqueueCallback : public MessageCallback {
@@ -31,6 +29,7 @@ class CommandQueueEnqueueCallback : public MessageCallback {
 	const char* actionName;
 
 	ObjectControllerMessageCallback* objectControllerMain;
+
 public:
 	CommandQueueEnqueueCallback(ObjectControllerMessageCallback* objectControllerCallback);
 

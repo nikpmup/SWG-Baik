@@ -7,10 +7,7 @@
 
 class ForceSpeed1Command : public JediQueueCommand {
 public:
-
-	ForceSpeed1Command(const String& name, ZoneProcessServer* server)
-	: JediQueueCommand(name, server) {
-
+	ForceSpeed1Command(const String& name, ZoneProcessServer* server) : JediQueueCommand(name, server) {
 		buffCRC = BuffCRC::JEDI_FORCE_SPEED_1;
 
 		blockingCRCs.add(BuffCRC::JEDI_FORCE_SPEED_2);
@@ -21,7 +18,6 @@ public:
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
 		return doJediSelfBuffCommand(creature);
 	}
-
 };
 
-#endif //FORCESPEED1COMMAND_H_
+#endif // FORCESPEED1COMMAND_H_

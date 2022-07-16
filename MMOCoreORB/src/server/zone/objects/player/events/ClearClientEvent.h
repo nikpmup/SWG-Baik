@@ -29,9 +29,6 @@ public:
 		if (player->getClient() == client)
 			player->setClient(nullptr);
 	}
-
-
 };
-
 
 #endif /* CLEARCLIENTEVENT_H_ */

@@ -14,8 +14,7 @@
 
 class GuildMemberOptionsSuiCallback : public SuiCallback {
 public:
-	GuildMemberOptionsSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	GuildMemberOptionsSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -32,7 +31,7 @@ public:
 		if (index == -1)
 			return;
 
-		SuiListBox* listBox = cast<SuiListBox*>( suiBox);
+		SuiListBox* listBox = cast<SuiListBox*>(suiBox);
 
 		uint64 memberID = listBox->getMenuObjectID(index);
 
@@ -46,12 +45,12 @@ public:
 		if (obj == nullptr || !obj->isTerminal())
 			return;
 
-		Terminal* terminal = cast<Terminal*>( obj.get());
+		Terminal* terminal = cast<Terminal*>(obj.get());
 
 		if (!terminal->isGuildTerminal())
 			return;
 
-		GuildTerminal* guildTerminal = cast<GuildTerminal*>( terminal);
+		GuildTerminal* guildTerminal = cast<GuildTerminal*>(terminal);
 
 		ManagedReference<GuildObject*> guild = player->getGuildObject().get();
 
@@ -63,16 +62,16 @@ public:
 		if (playObj == nullptr || !playObj->isPlayerCreature())
 			return;
 
-		CreatureObject* target = cast<CreatureObject*>( playObj.get());
+		CreatureObject* target = cast<CreatureObject*>(playObj.get());
 
 		switch (index) {
-		case 0: //Set Title
+		case 0: // Set Title
 			guildManager->sendGuildSetTitleTo(player, target);
 			break;
-		case 1: //Kick
+		case 1: // Kick
 			guildManager->sendGuildKickPromptTo(player, target);
 			break;
-		case 2: //Change Permissions
+		case 2: // Change Permissions
 			guildManager->sendMemberPermissionsTo(player, memberID, guildTerminal);
 			break;
 		default:

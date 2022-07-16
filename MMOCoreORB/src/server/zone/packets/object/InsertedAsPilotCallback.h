@@ -14,10 +14,9 @@ class InsertedAsPilotCallback : public MessageCallback {
 	uint32 movementCounter;
 
 	ObjectControllerMessageCallback* objectControllerMain;
+
 public:
-	InsertedAsPilotCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-		movementCounter(0), objectControllerMain(objectControllerCallback) {
+	InsertedAsPilotCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), movementCounter(0), objectControllerMain(objectControllerCallback) {
 	}
 
 	void parse(Message* message) {
@@ -36,6 +35,5 @@ public:
 			ghost->setTeleporting(false);
 	}
 };
-
 
 #endif /* INSERTEDASPILOTCALLBACK_H_ */

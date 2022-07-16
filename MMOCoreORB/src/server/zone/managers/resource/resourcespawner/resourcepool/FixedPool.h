@@ -21,9 +21,8 @@ class ResourceSpawner;
  * Iron and the JTL resources.  It spawns random
  * resources based on the scripted entries.
  */
-class FixedPool: public ResourcePool {
+class FixedPool : public ResourcePool {
 private:
-
 public:
 	/**
 	 * Ctor
@@ -51,7 +50,6 @@ public:
 	void print();
 
 private:
-
 	/**
 	 * Adds resource to this pool
 	 * \param resourceSpawn Spawn object to add to the pool

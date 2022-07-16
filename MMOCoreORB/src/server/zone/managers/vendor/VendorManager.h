@@ -26,11 +26,9 @@ protected:
 	Reference<NameManager*> nameManager;
 
 public:
-
 	VendorManager();
 
 	~VendorManager() {
-
 	}
 
 	void initialize(ZoneProcessServer* zserv);
@@ -66,10 +64,10 @@ public:
 	}
 };
 
-}
-}
-}
-}
+} // namespace vendor
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::vendor;
 

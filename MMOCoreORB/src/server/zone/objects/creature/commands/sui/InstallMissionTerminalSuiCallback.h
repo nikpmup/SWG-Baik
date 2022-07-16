@@ -15,8 +15,7 @@
 
 class InstallMissionTerminalSuiCallback : public SuiCallback {
 public:
-	InstallMissionTerminalSuiCallback(ZoneServer* server)
-	: SuiCallback(server) {
+	InstallMissionTerminalSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -66,33 +65,39 @@ public:
 		String terminalTemplatePath = "";
 
 		switch (option) {
+		case 0:
+			terminalTemplatePath = "object/tangible/terminal/terminal_mission.iff";
+			break;
 
-		case 0: terminalTemplatePath = "object/tangible/terminal/terminal_mission.iff";
-		break;
+		case 1:
+			terminalTemplatePath = "object/tangible/terminal/terminal_mission_artisan.iff";
+			break;
 
-		case 1: terminalTemplatePath = "object/tangible/terminal/terminal_mission_artisan.iff";
-		break;
+		case 2:
+			terminalTemplatePath = "object/tangible/terminal/terminal_mission_bounty.iff";
+			break;
 
-		case 2: terminalTemplatePath = "object/tangible/terminal/terminal_mission_bounty.iff";
-		break;
+		case 3:
+			terminalTemplatePath = "object/tangible/terminal/terminal_mission_entertainer.iff";
+			break;
 
-		case 3: terminalTemplatePath = "object/tangible/terminal/terminal_mission_entertainer.iff";
-		break;
+		case 4:
+			terminalTemplatePath = "object/tangible/terminal/terminal_mission_scout.iff";
+			break;
 
-		case 4: terminalTemplatePath = "object/tangible/terminal/terminal_mission_scout.iff";
-		break;
+		case 5:
+			terminalTemplatePath = "object/tangible/terminal/terminal_mission_imperial.iff";
+			break;
 
-		case 5: terminalTemplatePath = "object/tangible/terminal/terminal_mission_imperial.iff";
-		break;
-
-		case 6: terminalTemplatePath = "object/tangible/terminal/terminal_mission_rebel.iff";
-		break;
+		case 6:
+			terminalTemplatePath = "object/tangible/terminal/terminal_mission_rebel.iff";
+			break;
 		}
 
 		if (terminalTemplatePath != "") {
 			Locker clocker(city, player);
 
-			if(city->getCityTreasury() < 1000){
+			if (city->getCityTreasury() < 1000) {
 				StringIdChatParameter msg;
 				msg.setStringId("@city/city:action_no_money");
 				msg.setDI(1000);
@@ -113,7 +118,7 @@ public:
 
 			Locker locker(sceneObject);
 
-			sceneObject->initializePosition(player->getWorldPositionX(), player->getWorldPositionZ(),player->getWorldPositionY());
+			sceneObject->initializePosition(player->getWorldPositionX(), player->getWorldPositionZ(), player->getWorldPositionY());
 			sceneObject->rotate(player->getDirectionAngle());
 
 			Locker clocker2(cityHall, player);

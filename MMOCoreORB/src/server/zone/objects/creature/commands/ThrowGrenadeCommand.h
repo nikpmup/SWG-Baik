@@ -9,14 +9,10 @@
 
 class ThrowGrenadeCommand : public CombatQueueCommand {
 public:
-
-	ThrowGrenadeCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
-
+	ThrowGrenadeCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -28,7 +24,6 @@ public:
 			return INVALIDPARAMETERS;
 
 		try {
-
 			uint64 weaponID = tokenizer.getLongToken();
 			Reference<WeaponObject*> grenade = server->getZoneServer()->getObject(weaponID).castTo<WeaponObject*>();
 			if (grenade == nullptr)
@@ -65,16 +60,17 @@ public:
 				// We need to give some time for the combat animation to start playing before destroying the tano
 				// otherwise our character will play the wrong animations
 
-				Core::getTaskManager()->scheduleTask([grenade] {
-					Locker lock(grenade);
-					grenade->decreaseUseCount();
-				}, "ThrowGrenadeTanoDecrementTask", 100);
+				Core::getTaskManager()->scheduleTask(
+					[grenade] {
+						Locker lock(grenade);
+						grenade->decreaseUseCount();
+					},
+					"ThrowGrenadeTanoDecrementTask", 100);
 			}
 
 			return result;
 
 		} catch (Exception& e) {
-
 		}
 
 		return GENERALERROR;
@@ -106,7 +102,7 @@ public:
 		return "throw_grenade" + distance + type;
 	}
 
-	float getCommandDuration(CreatureObject *object, const UnicodeString& arguments) const {
+	float getCommandDuration(CreatureObject* object, const UnicodeString& arguments) const {
 		StringTokenizer tokenizer(arguments.toString());
 		uint64 weaponID = tokenizer.getLongToken();
 
@@ -117,7 +113,6 @@ public:
 		else
 			return defaultTime * speedMultiplier;
 	}
-
 };
 
-#endif //THROWGRENADECOMMAND_H_
+#endif // THROWGRENADECOMMAND_H_

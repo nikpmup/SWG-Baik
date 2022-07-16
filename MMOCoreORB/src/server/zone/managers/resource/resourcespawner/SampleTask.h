@@ -15,10 +15,9 @@
 #include "server/zone/objects/player/sessions/survey/SurveySession.h"
 
 class SampleTask : public Task {
-
 protected:
 	ManagedReference<CreatureObject*> playerCreature;
-	ManagedReference<SurveyTool* > surveyTool;
+	ManagedReference<SurveyTool*> surveyTool;
 	bool cancelled;
 
 public:
@@ -35,7 +34,7 @@ public:
 			playerCreature->removePendingTask("sample");
 
 			ManagedReference<SurveySession*> session = playerCreature->getActiveSession(SessionFacadeType::SURVEY).castTo<SurveySession*>();
-			if(session != nullptr) {
+			if (session != nullptr) {
 				session->reSample();
 			}
 			return;
@@ -45,16 +44,13 @@ public:
 		cancelled = false;
 	}
 
-
 	void stopSampling() {
 		cancelled = true;
-
 	}
 
 	bool isCancelled() {
 		return cancelled;
 	}
-
 };
 
 #endif /* SAMPLETASK_H_ */

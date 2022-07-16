@@ -14,11 +14,9 @@
 class DragIncapacitatedPlayerCommand : public QueueCommand {
 	float maxMovement;
 	bool needsConsent;
+
 public:
-
-	DragIncapacitatedPlayerCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DragIncapacitatedPlayerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		maxMovement = 5.0;
 		needsConsent = true;
 	}
@@ -52,8 +50,8 @@ public:
 
 		IntersectionResults intersections;
 
-		CollisionManager::getWorldFloorCollisions(newPosition->getX(), newPosition->getY(), zone, &intersections, (CloseObjectsVector*) object->getCloseObjects());
-		float newZ = zone->getPlanetManager()->findClosestWorldFloor(newPosition->getX(), newPosition->getY(), zPosition, 0, &intersections, (CloseObjectsVector*) object->getCloseObjects());
+		CollisionManager::getWorldFloorCollisions(newPosition->getX(), newPosition->getY(), zone, &intersections, (CloseObjectsVector*)object->getCloseObjects());
+		float newZ = zone->getPlanetManager()->findClosestWorldFloor(newPosition->getX(), newPosition->getY(), zPosition, 0, &intersections, (CloseObjectsVector*)object->getCloseObjects());
 
 		newPosition->setZ(newZ);
 
@@ -72,12 +70,12 @@ public:
 
 		float sqDistance = targetPlayer->getWorldPosition().squaredDistanceTo(player->getWorldPosition());
 
-		//Check minimum range.
-		if (sqDistance < 0.01f*0.01f) {
+		// Check minimum range.
+		if (sqDistance < 0.01f * 0.01f) {
 			return false;
 		}
 
-		if (sqDistance > maxRange*maxRange) {
+		if (sqDistance > maxRange * maxRange) {
 			StringIdChatParameter stringId("healing_response", "healing_response_b1"); //"Your maximum drag range is %DI meters! Try getting closer."
 			stringId.setDI(maxRange);
 			player->sendSystemMessage(stringId);
@@ -166,7 +164,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		int result = doCommonMedicalCommandChecks(creature);
 
 		if (result != SUCCESS) {
@@ -184,7 +181,7 @@ public:
 			return GENERALERROR;
 		}
 
-		CreatureObject* targetPlayer = cast<CreatureObject*>( object.get());
+		CreatureObject* targetPlayer = cast<CreatureObject*>(object.get());
 		CreatureObject* player = cast<CreatureObject*>(creature);
 
 		Locker clocker(targetPlayer, player);
@@ -208,13 +205,13 @@ public:
 		}
 
 		if (!targetPlayer->isHealableBy(creature)) {
-			player->sendSystemMessage("@healing:pvp_no_help"); //It would be unwise to help such a patient.
+			player->sendSystemMessage("@healing:pvp_no_help"); // It would be unwise to help such a patient.
 			return GENERALERROR;
 		}
 
 		if (!CollisionManager::checkLineOfSight(creature, targetPlayer)) {
 			StringIdChatParameter nocansee;
-			nocansee.setStringId("@container_error_message:container18_prose"); //You can't see %TT. You may have to move closer to it.
+			nocansee.setStringId("@container_error_message:container18_prose"); // You can't see %TT. You may have to move closer to it.
 			nocansee.setTT(target);
 			player->sendSystemMessage(nocansee);
 			return GENERALERROR;
@@ -222,14 +219,14 @@ public:
 
 		if (player->getLocalZone() == nullptr) {
 			if (targetPlayer->getLocalZone() != nullptr) {
-				player->sendSystemMessage("@error_message:corpse_drag_into"); //You cannot drag a corpse into a structure.
+				player->sendSystemMessage("@error_message:corpse_drag_into"); // You cannot drag a corpse into a structure.
 				return GENERALERROR;
 			} else {
-				player->sendSystemMessage("@error_message:corpse_drag_inside"); //You cannot drag a corpse within a building. Go outside to have your corpse ejected.
+				player->sendSystemMessage("@error_message:corpse_drag_inside"); // You cannot drag a corpse within a building. Go outside to have your corpse ejected.
 				return GENERALERROR;
 			}
 		} else if (targetPlayer->getLocalZone() == nullptr) {
-			player->sendSystemMessage("@error_message:corpse_drag_inside"); //You cannot drag a corpse within a building. Go outside to have your corpse ejected.
+			player->sendSystemMessage("@error_message:corpse_drag_inside"); // You cannot drag a corpse within a building. Go outside to have your corpse ejected.
 			return GENERALERROR;
 		}
 
@@ -239,7 +236,6 @@ public:
 		maxRange += (rangeMod * 0.2);
 
 		if (drag(player, targetPlayer, maxRange, maxMovement, needsConsent)) {
-
 			checkForTef(player, targetPlayer);
 
 			return SUCCESS;
@@ -247,7 +243,6 @@ public:
 
 		return GENERALERROR;
 	}
-
 };
 
-#endif //DRAGINCAPACITATEDPLAYERCOMMAND_H_
+#endif // DRAGINCAPACITATEDPLAYERCOMMAND_H_

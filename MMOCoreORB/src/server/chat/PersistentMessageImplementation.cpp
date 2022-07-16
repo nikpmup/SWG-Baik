@@ -25,7 +25,6 @@ void PersistentMessageImplementation::sendTo(CreatureObject* player, bool sendBo
 	player->sendMessage(mail);
 }
 
-
 void PersistentMessageImplementation::addStringIdParameter(StringIdChatParameter& param) {
 	stringIdParameters.add(param);
 }

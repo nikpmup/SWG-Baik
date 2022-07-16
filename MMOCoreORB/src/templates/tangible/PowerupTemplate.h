@@ -11,9 +11,8 @@
 #include "templates/SharedTangibleObjectTemplate.h"
 #include "templates/tangible/PowerupStat.h"
 
-class PowerupTemplate: public SharedTangibleObjectTemplate {
+class PowerupTemplate : public SharedTangibleObjectTemplate {
 protected:
-
 	String baseName;
 	String pupType;
 
@@ -22,11 +21,9 @@ protected:
 
 public:
 	PowerupTemplate() {
-
 	}
 
 	~PowerupTemplate() {
-
 	}
 
 	PowerupStat getRandomPrimaryAttribute() {
@@ -58,13 +55,12 @@ public:
 
 		lua_State* L = templateData->getLuaState();
 
-		if(!templateData->isValidTable()) {
+		if (!templateData->isValidTable()) {
 			return;
 		}
 
 		lua_pushnil(L);
 		while (lua_next(L, -2) != 0) {
-
 			int type = lua_type(L, -2);
 
 			if (type == LUA_TSTRING) {
@@ -116,11 +112,9 @@ public:
 			}
 			data->pop();
 		} else if (varName == "baseName") {
-
 			baseName = Lua::getStringParameter(state);
 
 		} else if (varName == "pupType") {
-
 			pupType = Lua::getStringParameter(state);
 
 		} else {

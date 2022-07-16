@@ -13,8 +13,7 @@
 
 class GuildSponsorVerifySuiCallback : public SuiCallback {
 public:
-	GuildSponsorVerifySuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	GuildSponsorVerifySuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -33,7 +32,7 @@ public:
 		if (obj == nullptr || !obj->isPlayerCreature())
 			return;
 
-		CreatureObject* sponsor = cast<CreatureObject*>( obj.get());
+		CreatureObject* sponsor = cast<CreatureObject*>(obj.get());
 
 		if (!sponsor->isOnline())
 			return;

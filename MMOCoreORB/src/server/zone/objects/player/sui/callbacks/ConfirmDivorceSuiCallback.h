@@ -11,24 +11,20 @@
 #include "server/zone/objects/player/sui/SuiCallback.h"
 
 class ConfirmDivorceSuiCallback : public SuiCallback {
-
 public:
-
-	ConfirmDivorceSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	ConfirmDivorceSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* creature, SuiBox* sui, uint32 eventIndex, Vector<UnicodeString>* args) {
 		bool cancelPressed = (eventIndex == 1);
 
 		PlayerManager* playerManager = creature->getZoneServer()->getPlayerManager();
-		if( playerManager == nullptr )
+		if (playerManager == nullptr)
 			return;
 
-		if( !cancelPressed ){
-			playerManager->grantDivorce( creature );
+		if (!cancelPressed) {
+			playerManager->grantDivorce(creature);
 		}
-
 	}
 };
 

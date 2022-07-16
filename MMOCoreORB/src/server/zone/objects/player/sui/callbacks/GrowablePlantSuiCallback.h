@@ -9,8 +9,7 @@
 
 class GrowablePlantSuiCallback : public SuiCallback {
 public:
-	GrowablePlantSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	GrowablePlantSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {

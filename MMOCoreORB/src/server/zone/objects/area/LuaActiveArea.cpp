@@ -10,34 +10,32 @@
 
 const char LuaActiveArea::className[] = "LuaActiveArea";
 
-Luna<LuaActiveArea>::RegType LuaActiveArea::Register[] = {
-		{ "_setObject", &LuaActiveArea::_setObject },
-		{ "_getObject", &LuaSceneObject::_getObject },
-		{ "setRadius", &LuaActiveArea::setRadius },
-		{ "getRadius", &LuaActiveArea::getRadius },
-		{ "setNoBuildArea", &LuaActiveArea::setNoBuildArea },
-		{ "isNoBuildArea", &LuaActiveArea::isNoBuildArea },
-		{ "getObjectID", &LuaSceneObject::getObjectID },
-		{ "setCellObjectID", &LuaActiveArea::setCellObjectID },
-		{ "getCellObjectID", &LuaActiveArea::getCellObjectID },
-		{ "isNoSpawnArea", &LuaActiveArea::isNoSpawnArea },
-		{ "setNoSpawnArea", &LuaActiveArea::setNoSpawnArea },
-		{ "isPvpArea", &LuaActiveArea::isPvpArea },
-		{ "setPvpArea", &LuaActiveArea::setPvpArea },
-		{ "isRebelOnlyArea", &LuaActiveArea::isRebelOnlyArea },
-		{ "setRebelOnlyArea", &LuaActiveArea::setRebelOnlyArea },
-		{ "isImperialOnlyArea", &LuaActiveArea::isImperialOnlyArea },
-		{ "setImperialOnlyArea", &LuaActiveArea::setImperialOnlyArea },
-		{ "isNoCombatArea", &LuaActiveArea::isNoCombatArea },
-		{ "setNoCombatArea", &LuaActiveArea::setNoCombatArea },
-		{ "isNoPetArea", &LuaActiveArea::isNoPetArea },
-		{ "setNoPetArea", &LuaActiveArea::setNoPetArea },
-		{ "isLockedArea", &LuaActiveArea::isLockedArea },
-		{ "setLockedArea", &LuaActiveArea::setLockedArea },
-		{ 0, 0 }
-};
+Luna<LuaActiveArea>::RegType LuaActiveArea::Register[] = {{"_setObject", &LuaActiveArea::_setObject},
+														  {"_getObject", &LuaSceneObject::_getObject},
+														  {"setRadius", &LuaActiveArea::setRadius},
+														  {"getRadius", &LuaActiveArea::getRadius},
+														  {"setNoBuildArea", &LuaActiveArea::setNoBuildArea},
+														  {"isNoBuildArea", &LuaActiveArea::isNoBuildArea},
+														  {"getObjectID", &LuaSceneObject::getObjectID},
+														  {"setCellObjectID", &LuaActiveArea::setCellObjectID},
+														  {"getCellObjectID", &LuaActiveArea::getCellObjectID},
+														  {"isNoSpawnArea", &LuaActiveArea::isNoSpawnArea},
+														  {"setNoSpawnArea", &LuaActiveArea::setNoSpawnArea},
+														  {"isPvpArea", &LuaActiveArea::isPvpArea},
+														  {"setPvpArea", &LuaActiveArea::setPvpArea},
+														  {"isRebelOnlyArea", &LuaActiveArea::isRebelOnlyArea},
+														  {"setRebelOnlyArea", &LuaActiveArea::setRebelOnlyArea},
+														  {"isImperialOnlyArea", &LuaActiveArea::isImperialOnlyArea},
+														  {"setImperialOnlyArea", &LuaActiveArea::setImperialOnlyArea},
+														  {"isNoCombatArea", &LuaActiveArea::isNoCombatArea},
+														  {"setNoCombatArea", &LuaActiveArea::setNoCombatArea},
+														  {"isNoPetArea", &LuaActiveArea::isNoPetArea},
+														  {"setNoPetArea", &LuaActiveArea::setNoPetArea},
+														  {"isLockedArea", &LuaActiveArea::isLockedArea},
+														  {"setLockedArea", &LuaActiveArea::setLockedArea},
+														  {0, 0}};
 
-LuaActiveArea::LuaActiveArea(lua_State *L) : LuaSceneObject(L) {
+LuaActiveArea::LuaActiveArea(lua_State* L) : LuaSceneObject(L) {
 #ifdef DYNAMIC_CAST_LUAOBJECTS
 	realObject = dynamic_cast<ActiveArea*>(_getRealSceneObject());
 
@@ -47,7 +45,7 @@ LuaActiveArea::LuaActiveArea(lua_State *L) : LuaSceneObject(L) {
 #endif
 }
 
-LuaActiveArea::~LuaActiveArea(){
+LuaActiveArea::~LuaActiveArea() {
 }
 
 int LuaActiveArea::_setObject(lua_State* L) {

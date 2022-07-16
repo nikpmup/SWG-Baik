@@ -10,7 +10,7 @@
 using namespace server::zone;
 
 bool QuadTreeReference::toBinaryStream(ObjectOutputStream* stream) {
-	//if ()
+	// if ()
 	/*Vector<ManagedReference<QuadTreeEntry*> >* vector = nullptr;
 
 	if (get() != nullptr)
@@ -23,7 +23,6 @@ bool QuadTreeReference::toBinaryStream(ObjectOutputStream* stream) {
 	delete vector;*/
 
 	return true;
-
 }
 
 bool QuadTreeReference::parseFromBinaryStream(ObjectInputStream* stream) {
@@ -45,4 +44,3 @@ QuadTree* QuadTreeReference::operator=(QuadTree* obj) {
 
 	return obj;
 }
-

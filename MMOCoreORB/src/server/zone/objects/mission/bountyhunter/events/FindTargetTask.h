@@ -30,7 +30,7 @@ class FindTargetTask : public Task, public Logger {
 	int trackingsLeft;
 	String zoneName;
 
-	enum states { Init, DroidSent, Searching, Tracking, Completed};
+	enum states { Init, DroidSent, Searching, Tracking, Completed };
 
 	states state;
 
@@ -229,7 +229,7 @@ class FindTargetTask : public Task, public Logger {
 			ManagedReference<CreatureObject*> target = player->getZoneServer()->getObject(strong->getTargetObjectId()).castTo<CreatureObject*>();
 
 			if (target != nullptr) {
-				//TODO: modify this to better suit the calculation.
+				// TODO: modify this to better suit the calculation.
 				return player->getZoneServer()->getPlayerManager()->calculatePlayerLevel(target);
 			}
 		}
@@ -292,8 +292,7 @@ class FindTargetTask : public Task, public Logger {
 	}
 
 public:
-	FindTargetTask(CreatureObject* droid, CreatureObject* player, BountyMissionObjective* objective, bool track, bool arakyd) :
-		Logger("FindTargetTask") {
+	FindTargetTask(CreatureObject* droid, CreatureObject* player, BountyMissionObjective* objective, bool track, bool arakyd) : Logger("FindTargetTask") {
 		weakDroid = droid;
 		weakPlayer = player;
 		weakObjective = objective;
@@ -333,11 +332,11 @@ public:
 		}
 
 		if (state != Init && !arakyd && player->getZone() != nullptr && player->getZone()->getZoneName() != zoneName) {
-			//Fail seekers if player leaves zone.
+			// Fail seekers if player leaves zone.
 			success = false;
 		}
 
-		switch(state) {
+		switch (state) {
 		case Init:
 			if (droid == nullptr || droid->getZone() == nullptr) {
 				return;

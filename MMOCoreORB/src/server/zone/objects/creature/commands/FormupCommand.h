@@ -9,13 +9,10 @@
 
 class FormupCommand : public SquadLeaderCommand {
 public:
-
-	FormupCommand(const String& name, ZoneProcessServer* server)
-		: SquadLeaderCommand(name, server) {
+	FormupCommand(const String& name, ZoneProcessServer* server) : SquadLeaderCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -40,7 +37,7 @@ public:
 		if (!checkGroupLeader(player, group))
 			return GENERALERROR;
 
-		int hamCost = (int) (50.0f * calculateGroupModifier(group));
+		int hamCost = (int)(50.0f * calculateGroupModifier(group));
 
 		int healthCost = creature->calculateCostAdjustment(CreatureAttribute::STRENGTH, hamCost);
 		int actionCost = creature->calculateCostAdjustment(CreatureAttribute::QUICKNESS, hamCost);
@@ -49,15 +46,15 @@ public:
 		if (!inflictHAM(player, healthCost, actionCost, mindCost))
 			return GENERALERROR;
 
-//		shoutCommand(player, group);
+		//		shoutCommand(player, group);
 
 		if (!doFormUp(player, group))
 			return GENERALERROR;
 
 		if (!ghost->getCommandMessageString(STRING_HASHCODE("formup")).isEmpty() && creature->checkCooldownRecovery("command_message")) {
 			UnicodeString shout(ghost->getCommandMessageString(STRING_HASHCODE("formup")));
- 	 	 	server->getChatManager()->broadcastChatMessage(player, shout, 0, 80, player->getMoodID(), 0, ghost->getLanguageID());
- 	 	 	creature->updateCooldownTimer("command_message", 30 * 1000);
+			server->getChatManager()->broadcastChatMessage(player, shout, 0, 80, player->getMoodID(), 0, ghost->getLanguageID());
+			creature->updateCooldownTimer("command_message", 30 * 1000);
 		}
 
 		return SUCCESS;
@@ -68,7 +65,6 @@ public:
 			return false;
 
 		for (int i = 0; i < group->getGroupSize(); i++) {
-
 			ManagedReference<CreatureObject*> member = group->getGroupMember(i);
 
 			if (member == nullptr || !member->isPlayerCreature())
@@ -83,7 +79,7 @@ public:
 
 			if (member->isDizzied())
 				member->removeStateBuff(CreatureState::DIZZY);
-					
+
 			if (member->isStunned())
 				member->removeStateBuff(CreatureState::STUNNED);
 
@@ -92,7 +88,6 @@ public:
 
 		return true;
 	}
-
 };
 
-#endif //FORMUPCOMMAND_H_
+#endif // FORMUPCOMMAND_H_

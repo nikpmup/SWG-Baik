@@ -8,14 +8,11 @@
 #ifndef AFFECTOREXCLUDE_H_
 #define AFFECTOREXCLUDE_H_
 
-
 #include "../ProceduralRule.h"
 
 class AffectorExclude : public ProceduralRule<'AEXC'>, public AffectorProceduralRule {
-
 public:
 	AffectorExclude() {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {
@@ -43,8 +40,5 @@ public:
 		iffStream->closeChunk('DATA');
 	}
 };
-
-
-
 
 #endif /* AFFECTOREXCLUDE_H_ */

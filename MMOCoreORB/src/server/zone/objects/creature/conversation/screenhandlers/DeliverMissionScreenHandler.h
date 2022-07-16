@@ -32,7 +32,8 @@ protected:
 public:
 	static const String STARTSCREENHANDLERID;
 
-	DeliverMissionScreenHandler() : ScreenHandler(), Logger("DeliverMissionScreenHandler") {}
+	DeliverMissionScreenHandler() : ScreenHandler(), Logger("DeliverMissionScreenHandler") {
+	}
 
 	ConversationScreen* handleScreen(CreatureObject* conversingPlayer, CreatureObject* conversingNPC, int selectedOption, ConversationScreen* conversationScreen);
 

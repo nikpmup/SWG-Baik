@@ -19,7 +19,7 @@ namespace creation {
 
 class ProfessionDefaultsInfo : public Object {
 	Reference<Skill*> skill;
-	VectorMap<String, SortedVector<String> > professionItems;
+	VectorMap<String, SortedVector<String>> professionItems;
 	VectorMap<uint8, int> professionMods;
 	Vector<String> startingItems;
 
@@ -32,7 +32,6 @@ public:
 	}
 
 	~ProfessionDefaultsInfo() {
-
 	}
 
 	void readObject(IffStream* iffStream) {
@@ -41,8 +40,7 @@ public:
 		uint32 version = iffStream->getNextFormType();
 		Chunk* chunk = iffStream->openForm(version);
 		switch (version) {
-		case '0000':
-		{
+		case '0000': {
 			String skillName;
 			iffStream->openForm('SKLS');
 			Chunk* skil = iffStream->openChunk('SKIL');
@@ -53,7 +51,7 @@ public:
 			SkillManager* skillManager = SkillManager::instance();
 			skill = skillManager->getSkill(skillName);
 
-			//Load the individual clothing templates.
+			// Load the individual clothing templates.
 			for (int i = 1; i < chunk->getChunksSize(); ++i) {
 				Chunk* chunkPTMP = iffStream->openForm('PTMP');
 				Chunk* chunkName = iffStream->openChunk('NAME');
@@ -76,8 +74,7 @@ public:
 				professionItems.put(ptmpName, items);
 				iffStream->closeChunk('PTMP');
 			}
-		}
-			break;
+		} break;
 		}
 
 		iffStream->closeForm(version);
@@ -112,13 +109,12 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace creation
+} // namespace player
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::player::creation;
-
 
 #endif /* PROFESSIONDEFAULTSINFO_H_ */

@@ -9,14 +9,10 @@
 
 class PlanetCommand : public QueueCommand {
 public:
-
-	PlanetCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	PlanetCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,11 +20,10 @@ public:
 			return INVALIDLOCOMOTION;
 
 		ChatManager* chatManager = server->getZoneServer()->getChatManager();
-		chatManager->handlePlanetChat( creature, arguments);
+		chatManager->handlePlanetChat(creature, arguments);
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //PLANETCOMMAND_H_
+#endif // PLANETCOMMAND_H_

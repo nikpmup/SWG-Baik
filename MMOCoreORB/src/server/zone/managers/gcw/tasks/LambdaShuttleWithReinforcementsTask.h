@@ -57,52 +57,13 @@ private:
 		bool singleSpawn;
 	};
 
-	LambdaTroop IMPERIALTROOPS[11] = {
-		{"crackdown_stormtrooper_squad_leader", true},
-		{"crackdown_stormtrooper", false},
-		{"crackdown_stormtrooper", false},
-		{"crackdown_stormtrooper_sniper", false},
-		{"crackdown_stormtrooper", false},
-		{"crackdown_stormtrooper_rifleman", false},
-		{"crackdown_stormtrooper_medic", false},
-		{"crackdown_stormtrooper_sniper", false},
-		{"crackdown_stormtrooper_rifleman", false},
-		{"crackdown_stormtrooper", false},
-		{"crackdown_stormtrooper_bombardier", false}
-	};
+	LambdaTroop IMPERIALTROOPS[11] = {{"crackdown_stormtrooper_squad_leader", true}, {"crackdown_stormtrooper", false},		   {"crackdown_stormtrooper", false},		   {"crackdown_stormtrooper_sniper", false}, {"crackdown_stormtrooper", false},			  {"crackdown_stormtrooper_rifleman", false},
+									  {"crackdown_stormtrooper_medic", false},		 {"crackdown_stormtrooper_sniper", false}, {"crackdown_stormtrooper_rifleman", false}, {"crackdown_stormtrooper", false},		 {"crackdown_stormtrooper_bombardier", false}};
 
-	LambdaTroop REBELTROOPS[11] = {
-		{"crackdown_rebel_guard_captain", true},
-		{"crackdown_rebel_cadet", false},
-		{"crackdown_rebel_soldier", false},
-		{"crackdown_rebel_liberator", false},
-		{"crackdown_rebel_soldier", false},
-		{"crackdown_rebel_guardsman", false},
-		{"crackdown_rebel_elite_sand_rat", false},
-		{"crackdown_rebel_command_security_guard", false},
-		{"crackdown_rebel_commando", false},
-		{"crackdown_rebel_comm_operator", false},
-		{"crackdown_rebel_soldier", false}
-	};
+	LambdaTroop REBELTROOPS[11] = {{"crackdown_rebel_guard_captain", true},			  {"crackdown_rebel_cadet", false},	   {"crackdown_rebel_soldier", false},		 {"crackdown_rebel_liberator", false}, {"crackdown_rebel_soldier", false}, {"crackdown_rebel_guardsman", false}, {"crackdown_rebel_elite_sand_rat", false},
+								   {"crackdown_rebel_command_security_guard", false}, {"crackdown_rebel_commando", false}, {"crackdown_rebel_comm_operator", false}, {"crackdown_rebel_soldier", false}};
 
-	enum LamdaShuttleState {
-		SPAWNSHUTTLE,
-		UPRIGHT,
-		ZONEIN,
-		LAND,
-		SPAWNTROOPS,
-		TAKEOFF,
-		CLOSINGIN,
-		DELAY,
-		PICKUPSPAWN,
-		PICKUPUPRIGHT,
-		PICKUPZONEIN,
-		PICKUPLAND,
-		DESPAWN,
-		PICKUPTAKEOFF,
-		PICKUPDESPAWN,
-		FINISHED
-	};
+	enum LamdaShuttleState { SPAWNSHUTTLE, UPRIGHT, ZONEIN, LAND, SPAWNTROOPS, TAKEOFF, CLOSINGIN, DELAY, PICKUPSPAWN, PICKUPUPRIGHT, PICKUPZONEIN, PICKUPLAND, DESPAWN, PICKUPTAKEOFF, PICKUPDESPAWN, FINISHED };
 
 	LamdaShuttleState state;
 
@@ -213,7 +174,6 @@ private:
 			squadLeader->addCreatureFlag(CreatureFlag::FOLLOW);
 			squadLeader->setFollowObject(player);
 		}
-
 	}
 
 	void spawnTroops(SceneObject* lambdaShuttle, CreatureObject* player) {
@@ -424,94 +384,93 @@ public:
 		}
 
 		try {
-
-		if (--timeToDespawnLambdaShuttle == 0) {
-			lambdaShuttle->destroyObjectFromWorld(true);
-			weakLambdaShuttle = nullptr;
-		}
-
-		switch (state) {
-		case SPAWNSHUTTLE:
-			lambdaShuttleSpawn(lambdaShuttle, player);
-			state = UPRIGHT;
-			reschedule(TASKDELAY);
-			break;
-		case UPRIGHT:
-			lambdaShuttleUpright(lambdaShuttle);
-			state = ZONEIN;
-			reschedule(TASKDELAY);
-			break;
-		case ZONEIN:
-			if (transferLambdaShuttle(player, lambdaShuttle)) {
-				state = LAND;
-			} else {
-				state = FINISHED;
+			if (--timeToDespawnLambdaShuttle == 0) {
+				lambdaShuttle->destroyObjectFromWorld(true);
+				weakLambdaShuttle = nullptr;
 			}
-			reschedule(TASKDELAY);
-			break;
-		case LAND:
-			lambdaShuttleLanding(lambdaShuttle);
-			state = SPAWNTROOPS;
-			reschedule(LANDINGTIME);
-			break;
-		case SPAWNTROOPS:
-			spawnTroops(lambdaShuttle, player);
-			break;
-		case TAKEOFF:
-			lambdaShuttleTakeoff(lambdaShuttle);
-			if (reinforcementType != LAMBDASHUTTLEONLY) {
-				state = CLOSINGIN;
-			} else {
+
+			switch (state) {
+			case SPAWNSHUTTLE:
+				lambdaShuttleSpawn(lambdaShuttle, player);
+				state = UPRIGHT;
+				reschedule(TASKDELAY);
+				break;
+			case UPRIGHT:
+				lambdaShuttleUpright(lambdaShuttle);
+				state = ZONEIN;
+				reschedule(TASKDELAY);
+				break;
+			case ZONEIN:
+				if (transferLambdaShuttle(player, lambdaShuttle)) {
+					state = LAND;
+				} else {
+					state = FINISHED;
+				}
+				reschedule(TASKDELAY);
+				break;
+			case LAND:
+				lambdaShuttleLanding(lambdaShuttle);
+				state = SPAWNTROOPS;
+				reschedule(LANDINGTIME);
+				break;
+			case SPAWNTROOPS:
+				spawnTroops(lambdaShuttle, player);
+				break;
+			case TAKEOFF:
+				lambdaShuttleTakeoff(lambdaShuttle);
+				if (reinforcementType != LAMBDASHUTTLEONLY) {
+					state = CLOSINGIN;
+				} else {
+					state = PICKUPDESPAWN;
+				}
+				reschedule(TASKDELAY);
+				break;
+			case CLOSINGIN:
+				closingInOnPlayer(player);
+				break;
+			case DELAY:
+				delay();
+				break;
+			case PICKUPSPAWN:
+				lambdaShuttleSpawn(lambdaShuttle, player);
+				state = PICKUPUPRIGHT;
+				reschedule(TASKDELAY);
+				break;
+			case PICKUPUPRIGHT:
+				lambdaShuttleUpright(lambdaShuttle);
+				state = PICKUPZONEIN;
+				reschedule(TASKDELAY);
+				break;
+			case PICKUPZONEIN:
+				if (transferLambdaShuttle(player, lambdaShuttle)) {
+					state = PICKUPLAND;
+				} else {
+					state = FINISHED;
+				}
+				reschedule(TASKDELAY);
+				break;
+			case PICKUPLAND:
+				lambdaShuttleLanding(lambdaShuttle);
+				state = DESPAWN;
+				reschedule(LANDINGTIME);
+				break;
+			case DESPAWN:
+				despawnNpcs(lambdaShuttle);
+				break;
+			case PICKUPTAKEOFF:
+				lambdaShuttleTakeoff(lambdaShuttle);
 				state = PICKUPDESPAWN;
+				reschedule(TASKDELAY);
+				break;
+			case PICKUPDESPAWN:
+				if (timeToDespawnLambdaShuttle == 0) {
+					state = FINISHED;
+				}
+				reschedule(TASKDELAY);
+				break;
+			default:
+				break;
 			}
-			reschedule(TASKDELAY);
-			break;
-		case CLOSINGIN:
-			closingInOnPlayer(player);
-			break;
-		case DELAY:
-			delay();
-			break;
-		case PICKUPSPAWN:
-			lambdaShuttleSpawn(lambdaShuttle, player);
-			state = PICKUPUPRIGHT;
-			reschedule(TASKDELAY);
-			break;
-		case PICKUPUPRIGHT:
-			lambdaShuttleUpright(lambdaShuttle);
-			state = PICKUPZONEIN;
-			reschedule(TASKDELAY);
-			break;
-		case PICKUPZONEIN:
-			if (transferLambdaShuttle(player, lambdaShuttle)) {
-				state = PICKUPLAND;
-			} else {
-				state = FINISHED;
-			}
-			reschedule(TASKDELAY);
-			break;
-		case PICKUPLAND:
-			lambdaShuttleLanding(lambdaShuttle);
-			state = DESPAWN;
-			reschedule(LANDINGTIME);
-			break;
-		case DESPAWN:
-			despawnNpcs(lambdaShuttle);
-			break;
-		case PICKUPTAKEOFF:
-			lambdaShuttleTakeoff(lambdaShuttle);
-			state = PICKUPDESPAWN;
-			reschedule(TASKDELAY);
-			break;
-		case PICKUPDESPAWN:
-			if (timeToDespawnLambdaShuttle == 0) {
-				state = FINISHED;
-			}
-			reschedule(TASKDELAY);
-			break;
-		default:
-			break;
-		}
 
 		} catch (Exception& e) {
 			player->error() << "exception caught in LambdaShuttleWithReinforcementsTask " << e.what();

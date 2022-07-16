@@ -11,17 +11,13 @@
 
 const char LuaSuiBox::className[] = "LuaSuiBox";
 
-Luna<LuaSuiBox>::RegType LuaSuiBox::Register[] = {
-		{ "_setObject", &LuaSuiBox::_setObject },
-		{ "getUsingObject", &LuaSuiBox::getUsingObject },
-		{ 0, 0 }
-};
+Luna<LuaSuiBox>::RegType LuaSuiBox::Register[] = {{"_setObject", &LuaSuiBox::_setObject}, {"getUsingObject", &LuaSuiBox::getUsingObject}, {0, 0}};
 
-LuaSuiBox::LuaSuiBox(lua_State *L) {
+LuaSuiBox::LuaSuiBox(lua_State* L) {
 	realObject = static_cast<SuiBox*>(lua_touserdata(L, 1));
 }
 
-LuaSuiBox::~LuaSuiBox(){
+LuaSuiBox::~LuaSuiBox() {
 }
 
 int LuaSuiBox::_setObject(lua_State* L) {

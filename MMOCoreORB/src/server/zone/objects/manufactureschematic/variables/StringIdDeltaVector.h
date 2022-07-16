@@ -17,25 +17,21 @@ namespace objects {
 namespace manufactureschematic {
 namespace variables {
 
-class StringIdDeltaVector: public DeltaVector<StringId> {
+class StringIdDeltaVector : public DeltaVector<StringId> {
 public:
 	StringIdDeltaVector() {
-		
-	}
-	
-	~StringIdDeltaVector() {
-		
 	}
 
+	~StringIdDeltaVector() {
+	}
 };
 
-}
-}
-}
-}
-}
+} // namespace variables
+} // namespace manufactureschematic
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::manufactureschematic::variables;
-
 
 #endif /* STRINGIDDELTAVECTOR_H_ */

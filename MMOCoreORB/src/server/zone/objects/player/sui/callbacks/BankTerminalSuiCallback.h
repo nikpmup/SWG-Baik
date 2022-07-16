@@ -31,14 +31,14 @@ public:
 		if (cash < 0 || bank < 0)
 			return;
 
-		SuiBankTransferBox* suiBank = cast<SuiBankTransferBox*>( sui);
+		SuiBankTransferBox* suiBank = cast<SuiBankTransferBox*>(sui);
 
 		ManagedReference<SceneObject*> bankObject = suiBank->getBank();
 
 		if (bankObject == nullptr)
 			return;
 
-		if (!player->isInRange(bankObject, 8)){
+		if (!player->isInRange(bankObject, 8)) {
 			StringIdChatParameter params;
 			params.setStringId("@ui:radial_out_of_range_prose");
 			params.setTT("@terminal_name:terminal_bank");

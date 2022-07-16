@@ -13,9 +13,7 @@
 
 class HarvesterSetupSharedNetworkMessage : public ObjectControllerMessage {
 public:
-	HarvesterSetupSharedNetworkMessage(InstallationObject* inso)
-		: ObjectControllerMessage(inso->getObjectID(), 0x1B, 0x022B) {
-
+	HarvesterSetupSharedNetworkMessage(InstallationObject* inso) : ObjectControllerMessage(inso->getObjectID(), 0x1B, 0x022B) {
 	}
 };
 

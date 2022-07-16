@@ -33,7 +33,7 @@ public:
 	PlanetMapCategory(const PlanetMapCategory& pmc) : Object() {
 		name = pmc.name;
 		nameCRC = pmc.nameCRC;
-		index =  pmc.index;
+		index = pmc.index;
 		category = pmc.category;
 		subCategory = pmc.subCategory;
 		activatable = pmc.activatable;
@@ -41,13 +41,13 @@ public:
 		factionVisibleOnly = pmc.factionVisibleOnly;
 	}
 
-	PlanetMapCategory& operator= (const PlanetMapCategory& pmc) {
+	PlanetMapCategory& operator=(const PlanetMapCategory& pmc) {
 		if (this == &pmc)
 			return *this;
 
 		name = pmc.name;
 		nameCRC = pmc.nameCRC;
-		index =  pmc.index;
+		index = pmc.index;
 		category = pmc.category;
 		subCategory = pmc.subCategory;
 		activatable = pmc.activatable;
@@ -58,7 +58,6 @@ public:
 	}
 
 	inline ~PlanetMapCategory() {
-
 	}
 
 	int compareTo(const PlanetMapCategory& pmc) const {
@@ -79,7 +78,6 @@ public:
 		} catch (const Exception& ex) {
 			System::out << "Error parsing PlanetMapCategory: " + ex.getMessage() << endl;
 		}
-
 	}
 
 	inline const String& getName() const {
@@ -113,7 +111,6 @@ public:
 	inline bool isFactionVisibleOnly() const {
 		return factionVisibleOnly;
 	}
-
 };
 
 #endif /* PLANETMAPCATEGORY_H_ */

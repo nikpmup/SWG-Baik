@@ -54,7 +54,7 @@ void FlagGameMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, Obj
 			menuResponse->addRadialMenuItemToRadialID(68, 73, 3, "@event_perk:flag_game_set_time_60");
 			menuResponse->addRadialMenuItemToRadialID(68, 74, 3, "@event_perk:flag_game_start");
 			menuResponse->addRadialMenuItem(132, 3, "@event_perk:mnu_show_exp_time"); // Show Expiration Time
-			menuResponse->addRadialMenuItem(128, 3, "@event_perk:mnu_redeed"); // Reclaim Rental Deed
+			menuResponse->addRadialMenuItem(128, 3, "@event_perk:mnu_redeed");		  // Reclaim Rental Deed
 		}
 	}
 	if (flagGame->isGameEnded()) {
@@ -63,7 +63,6 @@ void FlagGameMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, Obj
 }
 
 int FlagGameMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
-
 	FlagGameDataComponent* data = cast<FlagGameDataComponent*>(sceneObject->getDataObjectComponent()->get());
 
 	if (data == nullptr) {

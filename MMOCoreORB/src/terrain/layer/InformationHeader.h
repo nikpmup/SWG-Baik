@@ -16,7 +16,6 @@ class InformationHeader : public TemplateVariable<'IHDR'> {
 
 public:
 	InformationHeader() : IffTemplateVariable(), var1(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {
@@ -57,6 +56,5 @@ public:
 		return description;
 	}
 };
-
 
 #endif /* INFORMATIONHEADER_H_ */

@@ -12,8 +12,7 @@ class PlayerObjectDeltaMessage9 : public DeltaMessage {
 	PlayerObject* play;
 
 public:
-	PlayerObjectDeltaMessage9(PlayerObject* pl)
-			: DeltaMessage(pl->getObjectID(), 0x504C4159, 9) {
+	PlayerObjectDeltaMessage9(PlayerObject* pl) : DeltaMessage(pl->getObjectID(), 0x504C4159, 9) {
 		play = pl;
 	}
 
@@ -39,15 +38,14 @@ public:
 
 	void setExperimentationEnabled(bool experimenting) {
 		startUpdate(1);
-		if (experimenting){
-			insertInt(3);  // 3 // 4
-		}
-		else {
+		if (experimenting) {
+			insertInt(3); // 3 // 4
+		} else {
 			insertInt(1);
 		}
 	}
 
-	void setExperimentationPoints(int points){
+	void setExperimentationPoints(int points) {
 		startUpdate(5);
 		insertInt(points); // Number of experimentation points
 	}
@@ -201,7 +199,6 @@ public:
 		addIntUpdate(0x0C, play->getDrinkFilling());
 		addIntUpdate(0x0D, play->getDrinkFillingMax());
 	}*/
-
 };
 
 #endif /*PLAYEROBJECTDELTAMESSAGE9_H_*/

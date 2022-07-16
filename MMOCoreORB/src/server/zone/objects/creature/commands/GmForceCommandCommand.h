@@ -7,14 +7,10 @@
 
 class GmForceCommandCommand : public QueueCommand {
 public:
-
-	GmForceCommandCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GmForceCommandCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //GMFORCECOMMANDCOMMAND_H_
+#endif // GMFORCECOMMANDCOMMAND_H_

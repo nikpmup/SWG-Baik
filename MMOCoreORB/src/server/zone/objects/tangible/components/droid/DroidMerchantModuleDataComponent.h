@@ -16,7 +16,6 @@ namespace components {
 namespace droid {
 
 class DroidMerchantModuleDataComponent : public BaseDroidModuleComponent {
-
 protected:
 	String message;
 	bool active;
@@ -32,23 +31,29 @@ public:
 	void fillAttributeList(AttributeListMessage* msg, CreatureObject* droid);
 	void fillObjectMenuResponse(SceneObject* droidObject, ObjectMenuResponse* menuResponse, CreatureObject* player);
 	int handleObjectMenuSelect(CreatureObject* player, byte selectedID, PetControlDevice* controller);
-	void handlePetCommand(String cmd, CreatureObject* speaker) ;
+	void handlePetCommand(String cmd, CreatureObject* speaker);
 	int getBatteryDrain();
 	String toString() const;
-	const String& getMessage() const { return message; }
-	bool isActive(){ return active; }
+	const String& getMessage() const {
+		return message;
+	}
+	bool isActive() {
+		return active;
+	}
 	void onCall();
 	void deactivate();
 	void onStore();
-	bool isStackable() { return false; }
+	bool isStackable() {
+		return false;
+	}
 };
 
-} // droid
-} // components
-} // tangible
-} // objects
-} // zone
-} // server
+} // namespace droid
+} // namespace components
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 using namespace server::zone::objects::tangible::components::droid;
 
 #endif /* DROIDMERCHANTODULEDATACOMPONENT_H_ */

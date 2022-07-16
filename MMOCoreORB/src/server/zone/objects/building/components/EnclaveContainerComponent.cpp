@@ -71,7 +71,6 @@ bool EnclaveContainerComponent::checkBuildingPermission(SceneObject* sceneObject
 	return false;
 }
 
-
 bool EnclaveContainerComponent::checkCellPermission(SceneObject* sceneObject, CreatureObject* creature, uint16 permission) const {
 	if (permission != ContainerPermissions::WALKIN)
 		return ContainerComponent::checkContainerPermission(sceneObject, creature, permission);

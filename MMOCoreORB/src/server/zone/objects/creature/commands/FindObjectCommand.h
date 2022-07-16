@@ -10,14 +10,10 @@
 
 class FindObjectCommand : public QueueCommand {
 public:
-
-	FindObjectCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	FindObjectCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -55,7 +51,7 @@ public:
 			}
 
 			Zone* zone = creature->getZone();
-			if(zone == nullptr)
+			if (zone == nullptr)
 				return GENERALERROR;
 
 			String objectFilter;
@@ -76,7 +72,7 @@ public:
 
 			StringBuffer results;
 
-			SortedVector<ManagedReference<QuadTreeEntry*> > objects(512, 512);
+			SortedVector<ManagedReference<QuadTreeEntry*>> objects(512, 512);
 			zone->getInRangeObjects(creature->getPositionX(), creature->getPositionY(), range, &objects, true);
 
 			for (int i = 0; i < objects.size(); ++i) {
@@ -121,7 +117,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //FINDOBJECTCOMMAND_H_
+#endif // FINDOBJECTCOMMAND_H_

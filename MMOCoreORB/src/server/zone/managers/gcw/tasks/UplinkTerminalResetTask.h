@@ -17,7 +17,6 @@ public:
 	}
 
 	void run() {
-
 		if (building == nullptr || gcwManager == nullptr || baseData == nullptr) {
 			return;
 		}

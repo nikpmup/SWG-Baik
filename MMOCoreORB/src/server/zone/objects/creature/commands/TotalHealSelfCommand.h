@@ -9,7 +9,8 @@
 
 class TotalHealSelfCommand : public ForceHealQueueCommand {
 public:
-	TotalHealSelfCommand(const String& name, ZoneProcessServer* server) : ForceHealQueueCommand(name, server) {}
+	TotalHealSelfCommand(const String& name, ZoneProcessServer* server) : ForceHealQueueCommand(name, server) {
+	}
 };
 
 #endif /* TOTALHEALSELFCOMMAND_H_ */

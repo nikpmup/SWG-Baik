@@ -12,14 +12,10 @@
 
 class TransferItemArmorCommand : public QueueCommand {
 public:
-
-	TransferItemArmorCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	TransferItemArmorCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -147,9 +143,10 @@ public:
 
 		} /*else if (transferType == 4) {
 
-						}*/ else {
-							creature->error("unknown transferType in transferitemarmor command");
-						}
+						}*/
+		else {
+			creature->error("unknown transferType in transferitemarmor command");
+		}
 
 		/*
 
@@ -169,8 +166,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //TRANSFERITEMARMORCOMMAND_H_
-
+#endif // TRANSFERITEMARMORCOMMAND_H_

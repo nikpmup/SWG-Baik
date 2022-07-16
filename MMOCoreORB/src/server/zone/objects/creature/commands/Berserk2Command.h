@@ -7,14 +7,10 @@
 
 class Berserk2Command : public QueueCommand {
 public:
-
-	Berserk2Command(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	Berserk2Command(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -52,16 +48,14 @@ public:
 		creature->inflictDamage(creature, CreatureAttribute::ACTION, actionCost, true);
 
 		creature->setBerserkedState(40);
-		//creature->setBerserkDamage(25);
+		// creature->setBerserkDamage(25);
 
 		if (creature->isPlayerCreature())
 			(cast<CreatureObject*>(creature))->sendSystemMessage("@cbt_spam:berserk_success_single");
 
-
 		creature->sendStateCombatSpam("cbt_spam", "berserk_success", 0);
 		return SUCCESS;
 	}
-
 };
 
-#endif //BERSERK2COMMAND_H_
+#endif // BERSERK2COMMAND_H_

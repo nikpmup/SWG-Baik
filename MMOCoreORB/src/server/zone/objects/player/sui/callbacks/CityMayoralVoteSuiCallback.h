@@ -15,14 +15,14 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
 namespace region {
-	class CityRegion;
+class CityRegion;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 using namespace server::zone::objects::region;
@@ -31,9 +31,7 @@ class CityMayoralVoteSuiCallback : public SuiCallback {
 	ManagedWeakReference<CityRegion*> cityRegion;
 
 public:
-	CityMayoralVoteSuiCallback(ZoneServer* server, CityRegion* city)
-		: SuiCallback(server) {
-
+	CityMayoralVoteSuiCallback(ZoneServer* server, CityRegion* city) : SuiCallback(server) {
 		cityRegion = city;
 	}
 

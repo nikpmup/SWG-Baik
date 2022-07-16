@@ -15,12 +15,11 @@ class ChatRequestPersistentMessageCallback : public MessageCallback {
 	uint32 mailid;
 
 public:
-	ChatRequestPersistentMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), mailid(0) {
+	ChatRequestPersistentMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), mailid(0) {
 	}
 
 	void parse(Message* message) {
-		message->shiftOffset(4); //skip spacer/unk
+		message->shiftOffset(4); // skip spacer/unk
 		mailid = message->parseInt();
 	}
 
@@ -35,8 +34,6 @@ public:
 		if (chatManager != nullptr)
 			chatManager->handleRequestPersistentMsg(player, mailid);
 	}
-
 };
-
 
 #endif /* CHATREQUESTPERSISTENTMESSAGECALLBACK_H_ */

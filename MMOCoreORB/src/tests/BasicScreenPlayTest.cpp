@@ -14,7 +14,6 @@
 
 class BasicScreenPlayTest : public ::testing::Test {
 public:
-
 	BasicScreenPlayTest() {
 		// Perform creation setup here.
 		ConfigManager::instance()->loadConfigData();

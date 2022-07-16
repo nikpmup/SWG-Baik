@@ -13,10 +13,9 @@
 
 class LayersGroup : public TemplateVariable<'LYRS'> {
 	Vector<Layer*> layers;
+
 public:
-
 	LayersGroup() {
-
 	}
 
 	~LayersGroup() {

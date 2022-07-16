@@ -9,12 +9,8 @@
 
 class ForceCurePoisonCommand : public ForceHealQueueCommand {
 public:
-
-	ForceCurePoisonCommand(const String& name, ZoneProcessServer* server)
-	: ForceHealQueueCommand(name, server) {
-
+	ForceCurePoisonCommand(const String& name, ZoneProcessServer* server) : ForceHealQueueCommand(name, server) {
 	}
-
 };
 
-#endif //FORCECUREPOISONCOMMAND_H_
+#endif // FORCECUREPOISONCOMMAND_H_

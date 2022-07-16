@@ -28,7 +28,7 @@ public:
 		if (obj == nullptr || !obj->isBuildingObject())
 			return;
 
-		BuildingObject* building = cast<BuildingObject*>( obj.get());
+		BuildingObject* building = cast<BuildingObject*>(obj.get());
 
 		Locker _lock(building, creature);
 
@@ -43,7 +43,7 @@ public:
 
 		building->destroyAllPlayerItems();
 
-		creature->sendSystemMessage("@player_structure:items_deleted"); //All of the objects in your house have been deleted.
+		creature->sendSystemMessage("@player_structure:items_deleted"); // All of the objects in your house have been deleted.
 	}
 };
 

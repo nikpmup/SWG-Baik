@@ -13,13 +13,12 @@
 class AffectorFCN : public ProceduralRule<'AFCN'>, public AffectorProceduralRule {
 	int familyId;
 	int var2;
-	int flag; //add/remove
+	int flag; // add/remove
 	int featheringType;
 	float featheringAmount;
 
 public:
 	AffectorFCN() : familyId(0), var2(0), flag(0), featheringType(0), featheringAmount(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {

@@ -18,10 +18,9 @@
  */
 class WeatherMap : public Serializable {
 protected:
-
-	uint32 seed;  /// Random value to determine map shape
+	uint32 seed;	/// Random value to determine map shape
 	float modifier; /// Value to determine map type (ore, or other)
-	float density; /// Max density of map
+	float density;	/// Max density of map
 	uint64 startTime;
 	uint64 endTime;
 
@@ -57,7 +56,6 @@ public:
 	}
 
 	~WeatherMap() {
-
 	}
 
 	WeatherMap& operator=(const WeatherMap& map) {
@@ -77,17 +75,15 @@ public:
 		return *this;
 	}
 
-
 	byte getWeatherAt(float x, float y) {
-
-		if(time(0) > endTime || time(0) < startTime)
+		if (time(0) > endTime || time(0) < startTime)
 			return 0;
 
 		float current = time(0) - startTime; // cannot be negative
 		float end = endTime - startTime;
 		float mid = end / 2.f;
 
-		if(current > mid)
+		if (current > mid)
 			current = end - current;
 
 		float currentDensity = (current / mid) * density;
@@ -107,12 +103,11 @@ public:
 	}
 
 	String printInfo(float x, float y) {
-
 		float current = time(0) - startTime;
 		float end = endTime - startTime;
 		float mid = end / 2.f;
 
-		if(current > mid)
+		if (current > mid)
 			current = end - current;
 
 		float currentDensity = (current / mid) * density;
@@ -123,12 +118,10 @@ public:
 		float value = (SimplexNoise::noise(x * modifier, y * modifier, seed * modifier) + 1) / 2.0f;
 
 		StringBuffer valueString;
-		valueString << "Density: " << density << " Density: " << currentDensity
-				//<< " Value: " << String::valueOf(value)
-				<< " Equation: " << String::valueOf((((value * currentDensity) * 100) / 20.f))
-				<< " Weather: " << String::valueOf((byte)(((value * currentDensity) * 100) / 20.f))
-				<< " Seed: " << seed
-				<< " time: " << time(0) - startTime << "/" << endTime - startTime;
+		valueString << "Density: " << density << " Density: "
+					<< currentDensity
+					//<< " Value: " << String::valueOf(value)
+					<< " Equation: " << String::valueOf((((value * currentDensity) * 100) / 20.f)) << " Weather: " << String::valueOf((byte)(((value * currentDensity) * 100) / 20.f)) << " Seed: " << seed << " time: " << time(0) - startTime << "/" << endTime - startTime;
 
 		return valueString.toString();
 	}
@@ -144,15 +137,15 @@ private:
 
 		modifier = .00017f;
 
-		if(System::random(100) > weatherStability) {
+		if (System::random(100) > weatherStability) {
 			density = (System::random(30) + 60) / 100.0f;
 		} else {
 			density = (System::random(100 - weatherStability + 30) + 20) / 100.0f;
 		}
 
-		if(density > 1)
+		if (density > 1)
 			density = 1;
-		if(density < 0)
+		if (density < 0)
 			density = 0;
 
 		addSerializableVariables();
@@ -173,6 +166,5 @@ private:
 		addSerializableVariable("endTime", &endTime);
 	}
 };
-
 
 #endif /* WEATHERMAP_H_ */

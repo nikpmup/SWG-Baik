@@ -46,7 +46,6 @@ public:
 	inline float getValidScaleMax() {
 		return validScaleMax;
 	}
-
 };
 
 #endif /* VALIDMOUNTSCALERANGE_H_ */

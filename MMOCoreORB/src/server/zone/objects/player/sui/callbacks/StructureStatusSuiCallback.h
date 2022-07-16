@@ -12,7 +12,6 @@
 #include "server/zone/objects/structure/StructureObject.h"
 #include "server/zone/managers/gcw/GCWManager.h"
 
-
 class StructureStatusSuiCallback : public SuiCallback {
 public:
 	StructureStatusSuiCallback(ZoneServer* serv) : SuiCallback(serv) {
@@ -44,7 +43,7 @@ public:
 		}
 
 		if ((structure->isGCWBase() && !gcwMan->canUseTerminals(creature, structure->asBuildingObject(), obj)) || !structure->isOnAdminList(creature)) {
-			creature->sendSystemMessage("@player_structure:no_valid_structurestatus"); //Your /structureStatus target is no longer valid. Cancelling refresh.
+			creature->sendSystemMessage("@player_structure:no_valid_structurestatus"); // Your /structureStatus target is no longer valid. Cancelling refresh.
 			return;
 		}
 

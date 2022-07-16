@@ -10,9 +10,9 @@
 #include "server/zone/objects/scene/SceneObject.h"
 
 namespace server {
- namespace zone {
-  namespace packets {
-   namespace scene {
+namespace zone {
+namespace packets {
+namespace scene {
 
 class AttributeListMessage : public BaseMessage {
 	int listcount;
@@ -32,8 +32,7 @@ public:
 		countLocation = 18;
 	}
 
-	AttributeListMessage(uint64 objectID, int listCount) : BaseMessage(), listcount(listCount),
-			countLocation(18) {
+	AttributeListMessage(uint64 objectID, int listCount) : BaseMessage(), listcount(listCount), countLocation(18) {
 		insertShort(0x04);
 		insertInt(0xF3F12F2A); // opcode
 
@@ -133,15 +132,13 @@ public:
 	void updateListCount() {
 		insertInt(countLocation, ++listcount);
 	}
-
 };
 
-   }
-  }
- }
-}
+} // namespace scene
+} // namespace packets
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::packets::scene;
-
 
 #endif /*ATTRIBUTELISTMESSAGE_H_*/

@@ -24,7 +24,7 @@ void AffectorHeightFractal::process(float x, float y, float transformValue, floa
 
 	float noiseResult = mfrc->getNoise(x, y, 0, 0) * height;
 
-	//System::out << "noiseResult " << noiseResult << " height:" << height << endl;
+	// System::out << "noiseResult " << noiseResult << " height:" << height << endl;
 
 	float result;
 

@@ -7,8 +7,8 @@
 #define UPDATETOOLCOUNTDOWNTASK_H_
 
 class UpdateToolCountdownTask : public Task {
-	ManagedWeakReference<TangibleObject* > craftTool;
-	ManagedWeakReference<CreatureObject* > player;
+	ManagedWeakReference<TangibleObject*> craftTool;
+	ManagedWeakReference<CreatureObject*> player;
 	int timeLeft;
 
 public:
@@ -20,8 +20,8 @@ public:
 
 	void run() {
 		try {
-			ManagedReference<TangibleObject* > craftingTool = craftTool.get();
-			ManagedReference<CreatureObject* > crafter = player.get();
+			ManagedReference<TangibleObject*> craftingTool = craftTool.get();
+			ManagedReference<CreatureObject*> crafter = player.get();
 
 			if (craftingTool == nullptr || crafter == nullptr)
 				return;

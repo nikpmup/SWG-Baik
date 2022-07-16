@@ -838,8 +838,4 @@
 #include "InspacerrCommand.h"
 #include "RequestSpaceTrainerCommand.h"
 
-
-
-
 #endif /* COMMANDSNEW_H_ */
-

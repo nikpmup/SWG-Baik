@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #include "ServerCore.h"
@@ -43,26 +43,25 @@ bool ServerCore::truncateAllData = false;
 ServerCore* ServerCore::instance = nullptr;
 
 namespace coredetail {
-	class ConsoleReaderService final : public ServiceThread {
-		ServerCore* core;
+class ConsoleReaderService final : public ServiceThread {
+	ServerCore* core;
 
-	public:
-		ConsoleReaderService(ServerCore* serverCoreInstance);
+public:
+	ConsoleReaderService(ServerCore* serverCoreInstance);
 
-		bool inputAvailable() const;
+	bool inputAvailable() const;
 
-		void run() override;
-	};
+	void run() override;
+};
 
 #ifdef PLATFORM_WIN
-	static const char* EngineConfigName = "core3engine_windows";
+static const char* EngineConfigName = "core3engine_windows";
 #else
-	static const char* EngineConfigName = "core3engine";
+static const char* EngineConfigName = "core3engine";
 #endif
-}
+} // namespace coredetail
 
-ServerCore::ServerCore(bool truncateDatabases, const SortedVector<String>& args) :
-		Core("log/core3.log", coredetail::EngineConfigName, LogLevel::LOG), Logger("Core") {
+ServerCore::ServerCore(bool truncateDatabases, const SortedVector<String>& args) : Core("log/core3.log", coredetail::EngineConfigName, LogLevel::LOG), Logger("Core") {
 	orb = nullptr;
 
 	loginServer = nullptr;
@@ -100,17 +99,14 @@ void ServerCore::registerConsoleCommmands() {
 
 	consoleCommands.setNoDuplicateInsertPlan();
 
-	const auto addCommand = [this](auto name, auto lambda) {
-		consoleCommands.put(name, lambda);
-	};
+	const auto addCommand = [this](auto name, auto lambda) { consoleCommands.put(name, lambda); };
 
 	addCommand("exit", [this](const String& arguments) -> CommandResult {
 		ZoneServer* zoneServer = zoneServerRef.getForUpdate();
 
 		if (zoneServer != nullptr) {
 			ChatManager* chatManager = zoneServer->getChatManager();
-			chatManager->broadcastGalaxy(nullptr,
-					"Server is shutting down NOW!");
+			chatManager->broadcastGalaxy(nullptr, "Server is shutting down NOW!");
 		}
 
 		return SHUTDOWN;
@@ -123,7 +119,7 @@ void ServerCore::registerConsoleCommmands() {
 	});
 
 	addCommand("info", [this](const String& arguments) -> CommandResult {
-		//TaskManager::instance()->printInfo();
+		// TaskManager::instance()->printInfo();
 
 		ZoneServer* zoneServer = zoneServerRef.getForUpdate();
 
@@ -257,8 +253,7 @@ void ServerCore::registerConsoleCommmands() {
 		}
 
 		if (crc != 0) {
-			String file = TemplateManager::instance()->getTemplateFile(
-					crc);
+			String file = TemplateManager::instance()->getTemplateFile(crc);
 
 			System::out << "result: " << file << endl;
 		}
@@ -506,9 +501,7 @@ void ServerCore::registerConsoleCommmands() {
 	addCommand("dumpconfig", dumpConfigLambda);
 
 #ifdef WITH_SESSION_API
-	const auto sessionApiLambda = [this](const String& arguments) -> CommandResult {
-		return SessionAPIClient::instance()->consoleCommand(arguments) ? SUCCESS : ERROR;
-	};
+	const auto sessionApiLambda = [this](const String& arguments) -> CommandResult { return SessionAPIClient::instance()->consoleCommand(arguments) ? SUCCESS : ERROR; };
 
 	addCommand("sessions", sessionApiLambda);
 	addCommand("sessionapi", sessionApiLambda);
@@ -598,7 +591,7 @@ ServerCore::~ServerCore() {
 	finalizeContext();
 }
 
-class ZoneStatisticsTask: public Task {
+class ZoneStatisticsTask : public Task {
 	Reference<ZoneServer*> zoneServer;
 
 public:
@@ -645,8 +638,7 @@ void ServerCore::signalShutdown(ShutdownFlags flags) {
 void ServerCore::initialize() {
 	StatisticsManager::instance()->markCoreStart(Thread::getProcessID());
 
-	info(true) << "Server start, pid: "
-		<< Thread::getProcessID() << ", time: " << Time().getFormattedTime();
+	info(true) << "Server start, pid: " << Thread::getProcessID() << ", time: " << Time().getFormattedTime();
 
 	processConfig();
 
@@ -665,19 +657,15 @@ void ServerCore::initialize() {
 		mantisDatabase = new MantisDatabase(configManager);
 
 		const String& orbaddr = configManager->getORBNamingDirectoryAddress();
-		orb = DistributedObjectBroker::initialize(orbaddr,
-				configManager->getORBNamingDirectoryPort());
+		orb = DistributedObjectBroker::initialize(orbaddr, configManager->getORBNamingDirectoryPort());
 
 		orb->setCustomObjectManager(objectManager);
 
-		info() << "MetricsServer: " << configManager->shouldUseMetrics()
-			<< " " << configManager->getMetricsHost() << " " << configManager->getMetricsPort();
+		info() << "MetricsServer: " << configManager->shouldUseMetrics() << " " << configManager->getMetricsHost() << " " << configManager->getMetricsPort();
 
 		if (configManager->shouldUseMetrics()) {
 			metricsManager->setGlobalPrefix(configManager->getMetricsPrefix());
-			metricsManager->initializeStatsDConnection(
-					configManager->getMetricsHost().toCharArray(),
-					configManager->getMetricsPort());
+			metricsManager->initializeStatsDConnection(configManager->getMetricsHost().toCharArray(), configManager->getMetricsPort());
 		}
 
 		if (configManager->getMakeLogin()) {
@@ -719,23 +707,20 @@ void ServerCore::initialize() {
 		if (zoneServer != nullptr) {
 			int zonePort = configManager->getZoneServerPort();
 
-			int zoneAllowedConnections =
-					configManager->getZoneAllowedConnections();
+			int zoneAllowedConnections = configManager->getZoneAllowedConnections();
 
 			if (arguments.contains("deleteNavMeshes") && zoneServer != nullptr) {
 				zoneServer->setShouldDeleteNavAreas(true);
 			}
 
-			ObjectDatabaseManager* dbManager =
-					ObjectDatabaseManager::instance();
+			ObjectDatabaseManager* dbManager = ObjectDatabaseManager::instance();
 			dbManager->loadDatabases(truncateDatabases());
 
 			int galaxyID = configManager->getZoneGalaxyID();
 
 			try {
 				if (zonePort == 0) {
-					const String query = "SELECT port FROM galaxy WHERE galaxy_id = "
-								   + String::valueOf(galaxyID);
+					const String query = "SELECT port FROM galaxy WHERE galaxy_id = " + String::valueOf(galaxyID);
 					UniqueReference<ResultSet*> result(database->instance()->executeQuery(query));
 
 					if (result != nullptr && result->next()) {
@@ -743,10 +728,8 @@ void ServerCore::initialize() {
 					}
 				}
 
-				database->instance()->executeStatement(
-						"DELETE FROM characters_dirty WHERE galaxy_id = "
-						+ String::valueOf(galaxyID));
-			} catch (const DatabaseException &e) {
+				database->instance()->executeStatement("DELETE FROM characters_dirty WHERE galaxy_id = " + String::valueOf(galaxyID));
+			} catch (const DatabaseException& e) {
 				fatal(e.getMessage());
 			}
 
@@ -755,24 +738,21 @@ void ServerCore::initialize() {
 
 		if (statusServer != nullptr) {
 			int statusPort = configManager->getStatusPort();
-			int statusAllowedConnections =
-					configManager->getStatusAllowedConnections();
+			int statusAllowedConnections = configManager->getStatusAllowedConnections();
 
 			statusServer->start(statusPort, statusAllowedConnections);
 		}
 
 		if (pingServer != nullptr) {
 			int pingPort = configManager->getPingPort();
-			int pingAllowedConnections =
-					configManager->getPingAllowedConnections();
+			int pingAllowedConnections = configManager->getPingAllowedConnections();
 
 			pingServer->start(pingPort, pingAllowedConnections);
 		}
 
 		if (loginServer != nullptr) {
 			int loginPort = configManager->getLoginPort();
-			int loginAllowedConnections =
-					configManager->getLoginAllowedConnections();
+			int loginAllowedConnections = configManager->getLoginAllowedConnections();
 
 			loginServer->start(loginPort, loginAllowedConnections);
 		}
@@ -819,11 +799,7 @@ void ServerCore::run() {
 }
 
 void ServerCore::shutdown() {
-	info(true) << "shutting down server.. flags = "
-		<< (nextShutdownFlags == ShutdownFlags::DEFAULT) << " DEFAULT"
-		<< (nextShutdownFlags & ShutdownFlags::FAST) << " FAST"
-		<< (nextShutdownFlags & ShutdownFlags::DUMP_JSON) << " DUMP_JSON"
-		;
+	info(true) << "shutting down server.. flags = " << (nextShutdownFlags == ShutdownFlags::DEFAULT) << " DEFAULT" << (nextShutdownFlags & ShutdownFlags::FAST) << " FAST" << (nextShutdownFlags & ShutdownFlags::DUMP_JSON) << " DUMP_JSON";
 
 	handleCmds = false;
 
@@ -936,7 +912,7 @@ void ServerCore::shutdown() {
 
 	DistributedObjectDirectory* dir = objectManager->getLocalObjectDirectory();
 
-	HashTable<uint64, Reference<DistributedObject*> > tbl;
+	HashTable<uint64, Reference<DistributedObject*>> tbl;
 	auto objects = dir->getDistributedObjectMap();
 	auto objectsIterator = objects->iterator();
 	typedef std::remove_reference<decltype(*objects)>::type ObjectsMapType;
@@ -1013,7 +989,7 @@ ServerCore::CommandResult ServerCore::processConsoleCommand(const String& comman
 			result = CommandResult::NOTFOUND;
 		}
 	} catch (const Exception& e) {
-		error() << commandString << " EXCEPTION: " <<  e.getMessage();
+		error() << commandString << " EXCEPTION: " << e.getMessage();
 
 		return CommandResult::ERROR;
 	}
@@ -1116,13 +1092,13 @@ bool coredetail::ConsoleReaderService::inputAvailable() const {
 
 	return FD_ISSET(STDIN_FILENO, &fds);
 #else
-	static auto stdinHandle = [this] () {
+	static auto stdinHandle = [this]() {
 		auto handle = GetStdHandle(STD_INPUT_HANDLE);
 
 		fatal(handle) << "GetStdHandle returned null stdin handle";
 
 		return handle;
-	} ();
+	}();
 
 	switch (WaitForSingleObject(stdinHandle, 1000)) {
 	case WAIT_OBJECT_0:
@@ -1161,4 +1137,3 @@ void coredetail::ConsoleReaderService::run() {
 		core->queueConsoleCommand(cmd);
 	}
 }
-

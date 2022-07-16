@@ -80,8 +80,6 @@ public:
 	inline const MapFractal* getMfrc(int idx) const {
 		return mapGroup.getMfrc(idx);
 	}
-
 };
-
 
 #endif /* TERRAINGENERATOR_H_ */

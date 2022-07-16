@@ -9,14 +9,10 @@
 
 class Saber1hComboHit1Command : public JediCombatQueueCommand {
 public:
-
-	Saber1hComboHit1Command(const String& name, ZoneProcessServer* server)
-		: JediCombatQueueCommand(name, server) {
-
+	Saber1hComboHit1Command(const String& name, ZoneProcessServer* server) : JediCombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -36,7 +32,6 @@ public:
 
 		return doCombatAction(creature, target, args);
 	}
-
 };
 
-#endif //SABER1HCOMBOHIT1COMMAND_H_
+#endif // SABER1HCOMBOHIT1COMMAND_H_

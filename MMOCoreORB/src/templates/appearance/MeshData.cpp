@@ -44,7 +44,7 @@ AABB MeshData::buildAABB() const {
 	return AABB(Vector3(minx, miny, minz), Vector3(maxx, maxy, maxz));
 }
 
-Vector <MeshTriangle>* MeshData::getMeshWithinBounds(AABB& bounds) const {
+Vector<MeshTriangle>* MeshData::getMeshWithinBounds(AABB& bounds) const {
 	float bminx = bounds.getXMin();
 	float bminy = bounds.getYMin();
 	float bminz = bounds.getZMin();
@@ -53,7 +53,7 @@ Vector <MeshTriangle>* MeshData::getMeshWithinBounds(AABB& bounds) const {
 	float bmaxy = bounds.getYMax();
 	float bmaxz = bounds.getZMax();
 
-	Vector <MeshTriangle>* tris = new Vector<MeshTriangle>();
+	Vector<MeshTriangle>* tris = new Vector<MeshTriangle>();
 
 	for (int i = 0; i < triangles.size(); i++) {
 		const MeshTriangle& tri = triangles.getUnsafe(i);
@@ -102,7 +102,7 @@ void MeshData::readObject(IffStream* iffStream) {
 	iffStream->openForm('0003');
 	iffStream->openChunk('INFO');
 
-	iffStream->getInt(); //unk
+	iffStream->getInt(); // unk
 
 	int numVertices = iffStream->getInt();
 

@@ -14,21 +14,21 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
 namespace tangible {
 namespace deed {
 namespace structure {
-	class StructureDeed;
+class StructureDeed;
 }
-}
-}
+} // namespace deed
+} // namespace tangible
 namespace structure {
-	class StructureObject;
+class StructureObject;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 using namespace server::zone::objects::tangible::deed::structure;
@@ -39,6 +39,5 @@ public:
 	virtual int placeStructure(StructureDeed* deed, CreatureObject* creature, float x, float y, int angle) const;
 	virtual int notifyStructurePlaced(StructureDeed* deed, CreatureObject* creature, StructureObject* structure) const;
 };
-
 
 #endif /* PLACESTRUCTURECOMPONENT_H_ */

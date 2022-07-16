@@ -51,15 +51,13 @@ public:
 		float y = structureObject->getPositionY();
 		float z = zone->getHeight(x, y);
 
-		if (playEffect)
-		{
+		if (playEffect) {
 			PlayClientEffectLoc* explodeLoc = new PlayClientEffectLoc("clienteffect/combat_explosion_lair_large.cef", structureObject->getZone()->getZoneName(), structureObject->getPositionX(), structureObject->getPositionZ(), structureObject->getPositionY());
 			structureObject->broadcastMessage(explodeLoc, false);
 		}
 
 		if (structureObject->isBuildingObject()) {
-			ManagedReference<BuildingObject*> buildingObject =
-					cast<BuildingObject*>(structureObject.get());
+			ManagedReference<BuildingObject*> buildingObject = cast<BuildingObject*>(structureObject.get());
 
 			for (uint32 i = 1; i <= buildingObject->getTotalCellNumber(); ++i) {
 				ManagedReference<CellObject*> cellObject = buildingObject->getCell(i);
@@ -72,14 +70,12 @@ public:
 				if (childObjects <= 0)
 					continue;
 
-				//Traverse the vector backwards since the size will change as objects are removed.
+				// Traverse the vector backwards since the size will change as objects are removed.
 				for (int j = childObjects - 1; j >= 0; --j) {
-					ManagedReference<SceneObject*> obj =
-							cellObject->getContainerObject(j);
+					ManagedReference<SceneObject*> obj = cellObject->getContainerObject(j);
 
 					if (obj->isPlayerCreature() || obj->isPet()) {
-						CreatureObject* playerCreature =
-								cast<CreatureObject*>(obj.get());
+						CreatureObject* playerCreature = cast<CreatureObject*>(obj.get());
 
 						structureObject->unlock();
 
@@ -101,12 +97,10 @@ public:
 					}
 				}
 			}
-
 		}
 
-		//Get the owner of the structure, and remove the structure from their possession.
-		ManagedReference<SceneObject*> owner = zone->getZoneServer()->getObject(
-				structureObject->getOwnerObjectID());
+		// Get the owner of the structure, and remove the structure from their possession.
+		ManagedReference<SceneObject*> owner = zone->getZoneServer()->getObject(structureObject->getOwnerObjectID());
 
 		if (owner != nullptr) {
 			ManagedReference<SceneObject*> ghost = owner->getSlottedObject("ghost");
@@ -129,4 +123,3 @@ public:
 };
 
 #endif /* DESTROYSTRUCTURETASK_H_ */
-

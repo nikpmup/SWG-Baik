@@ -19,9 +19,9 @@ class SuiPageData : public Logger, public Object {
 	float forceCloseDistance;
 	uint64 unknownNetworkId;
 
-	Vector<Reference<SuiCommand*> > commands;
+	Vector<Reference<SuiCommand*>> commands;
 	VectorMap<String, String> storedData;
-	VectorMap<byte, Reference<SuiCommand*> > callbacks;
+	VectorMap<byte, Reference<SuiCommand*>> callbacks;
 
 public:
 	SuiPageData(const String& rootPage) : Object() {
@@ -107,7 +107,6 @@ private:
 		this->forceCloseDistance = forceCloseDistance;
 		this->unknownNetworkId = 0;
 	}
-
 };
 
 #endif /* SUIPAGEDATA_H_ */

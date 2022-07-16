@@ -9,13 +9,10 @@
 
 class LightEngineScrambleCommand : public CombatQueueCommand {
 public:
-
-	LightEngineScrambleCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	LightEngineScrambleCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //LIGHTENGINESCRAMBLE_H_
+#endif // LIGHTENGINESCRAMBLE_H_

@@ -9,14 +9,10 @@
 
 class HarvesterDeactivateCommand : public QueueCommand {
 public:
-
-	HarvesterDeactivateCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HarvesterDeactivateCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -30,7 +26,7 @@ public:
 		if (object == nullptr || !object->isInstallationObject())
 			return GENERALERROR;
 
-		InstallationObject* inso = cast<InstallationObject*>( object.get());
+		InstallationObject* inso = cast<InstallationObject*>(object.get());
 
 		try {
 			Locker clocker(inso, player);
@@ -45,7 +41,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //HARVESTERDEACTIVATECOMMAND_H_
+#endif // HARVESTERDEACTIVATECOMMAND_H_

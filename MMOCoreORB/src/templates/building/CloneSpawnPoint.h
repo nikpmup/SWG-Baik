@@ -15,6 +15,7 @@ class CloneSpawnPoint : public Object {
 	Coordinate coordinate;
 	Quaternion direction;
 	int cellid;
+
 public:
 	CloneSpawnPoint() : cellid(0) {
 	}

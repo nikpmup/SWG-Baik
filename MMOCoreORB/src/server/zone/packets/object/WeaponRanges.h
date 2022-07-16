@@ -21,7 +21,6 @@ public:
 		insertInt(weao->getIdealAccuracy());
 		insertInt(weao->getMaxRangeAccuracy());
 	}
-
 };
 
 #endif /* WEAPONRANGES_H_ */

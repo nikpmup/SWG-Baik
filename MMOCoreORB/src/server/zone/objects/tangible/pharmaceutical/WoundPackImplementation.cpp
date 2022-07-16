@@ -18,10 +18,10 @@ uint32 WoundPackImplementation::calculatePower(CreatureObject* healer, CreatureO
 		return power;
 	}
 
-	int droidBuff = healer->getSkillModOfType("private_medical_rating",SkillModManager::DROID);
+	int droidBuff = healer->getSkillModOfType("private_medical_rating", SkillModManager::DROID);
 	int bldBuff = healer->getSkillModOfType("private_medical_rating", SkillModManager::STRUCTURE);
 	int mod = healer->getSkillModOfType("private_medical_rating", SkillModManager::CITY);
-	mod +=  droidBuff > bldBuff ? droidBuff : bldBuff;
+	mod += droidBuff > bldBuff ? droidBuff : bldBuff;
 
 	int factionPerk = healer->getSkillMod("private_faction_medical_rating");
 
@@ -36,7 +36,7 @@ uint32 WoundPackImplementation::calculatePower(CreatureObject* healer, CreatureO
 		}
 	}
 
-	float modEnvironment = 1 + ((float) mod / 100.0f);
-	float modSkill = (float) healer->getSkillMod("healing_wound_treatment");
+	float modEnvironment = 1 + ((float)mod / 100.0f);
+	float modSkill = (float)healer->getSkillMod("healing_wound_treatment");
 	return (power * modEnvironment * (100.0f + modSkill) / 100.0f);
 }

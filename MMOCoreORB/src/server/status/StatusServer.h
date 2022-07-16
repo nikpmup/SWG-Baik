@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef STATUSSERVER_H_
@@ -13,7 +13,7 @@
 
 class StatusHandler;
 
-class StatusServer: public StreamServiceThread {
+class StatusServer : public StreamServiceThread {
 	ZoneServer* zoneServer;
 	StatusHandler* statusHandler;
 
@@ -25,7 +25,7 @@ class StatusServer: public StreamServiceThread {
 	bool lastStatus;
 
 public:
-	StatusServer(ConfigManager* conf, ZoneServer * server);
+	StatusServer(ConfigManager* conf, ZoneServer* server);
 
 	~StatusServer();
 

@@ -4,7 +4,6 @@
 #include "templates/datatables/DataTableRow.h"
 
 class QuestInfo : public Object {
-
 protected:
 	String questName, questParent, journalSummary, questParameter, questTarget;
 	String attachScript, taskOnComplete, taskOnFail;

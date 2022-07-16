@@ -11,32 +11,30 @@
 
 const char LuaSuiPageData::className[] = "LuaSuiPageData";
 
-Luna<LuaSuiPageData>::RegType LuaSuiPageData::Register[] = {
-		{ "_setObject", &LuaSuiPageData::_setObject },
-		{ "_getObject", &LuaSuiPageData::_getObject },
-		{ "sendTo", &LuaSuiPageData::sendTo },
-		{ "sendUpdateTo", &LuaSuiPageData::sendUpdateTo },
-		{ "getPageId", &LuaSuiPageData::getPageId },
-		{ "setTargetNetworkId", &LuaSuiPageData::setTargetNetworkId },
-		{ "getTargetNetworkId", &LuaSuiPageData::getTargetNetworkId },
-		{ "setForceCloseDistance", &LuaSuiPageData::setForceCloseDistance },
-		{ "setProperty", &LuaSuiPageData::setProperty },
-		{ "setDefaultCallback", &LuaSuiPageData::setDefaultCallback },
-		{ "addDataItem", &LuaSuiPageData::addDataItem },
-		{ "clearDataSource", &LuaSuiPageData::clearDataSource },
-		{ "addDataSourceContainer", &LuaSuiPageData::addDataSourceContainer },
-		{ "clearDataSourceContainer", &LuaSuiPageData::clearDataSourceContainer },
-		{ "addChildWidget", &LuaSuiPageData::addChildWidget },
-		{ "subscribeToEvent", &LuaSuiPageData::subscribeToEvent },
-		{ "subscribeToPropertyForEvent", &LuaSuiPageData::subscribeToPropertyForEvent },
-		{ "setStoredData", &LuaSuiPageData::setStoredData },
-		{ "getStoredData", &LuaSuiPageData::getStoredData },
-		{ "deleteStoredData", &LuaSuiPageData::deleteStoredData },
-		{ "getPropertyValue", &LuaSuiPageData::getPropertyValue },
-		{ 0, 0 }
-};
+Luna<LuaSuiPageData>::RegType LuaSuiPageData::Register[] = {{"_setObject", &LuaSuiPageData::_setObject},
+															{"_getObject", &LuaSuiPageData::_getObject},
+															{"sendTo", &LuaSuiPageData::sendTo},
+															{"sendUpdateTo", &LuaSuiPageData::sendUpdateTo},
+															{"getPageId", &LuaSuiPageData::getPageId},
+															{"setTargetNetworkId", &LuaSuiPageData::setTargetNetworkId},
+															{"getTargetNetworkId", &LuaSuiPageData::getTargetNetworkId},
+															{"setForceCloseDistance", &LuaSuiPageData::setForceCloseDistance},
+															{"setProperty", &LuaSuiPageData::setProperty},
+															{"setDefaultCallback", &LuaSuiPageData::setDefaultCallback},
+															{"addDataItem", &LuaSuiPageData::addDataItem},
+															{"clearDataSource", &LuaSuiPageData::clearDataSource},
+															{"addDataSourceContainer", &LuaSuiPageData::addDataSourceContainer},
+															{"clearDataSourceContainer", &LuaSuiPageData::clearDataSourceContainer},
+															{"addChildWidget", &LuaSuiPageData::addChildWidget},
+															{"subscribeToEvent", &LuaSuiPageData::subscribeToEvent},
+															{"subscribeToPropertyForEvent", &LuaSuiPageData::subscribeToPropertyForEvent},
+															{"setStoredData", &LuaSuiPageData::setStoredData},
+															{"getStoredData", &LuaSuiPageData::getStoredData},
+															{"deleteStoredData", &LuaSuiPageData::deleteStoredData},
+															{"getPropertyValue", &LuaSuiPageData::getPropertyValue},
+															{0, 0}};
 
-LuaSuiPageData::LuaSuiPageData(lua_State *L) {
+LuaSuiPageData::LuaSuiPageData(lua_State* L) {
 	if (lua_isstring(L, 1))
 		realObject = new SuiPageData(lua_tostring(L, 1));
 	else
@@ -77,14 +75,13 @@ int LuaSuiPageData::setForceCloseDistance(lua_State* L) {
 	return 0;
 }
 
-
 int LuaSuiPageData::getPageId(lua_State* L) {
 	lua_pushinteger(L, realObject->getPageId());
 
 	return 1;
 }
 
-//const String& defaultCallback
+// const String& defaultCallback
 int LuaSuiPageData::setDefaultCallback(lua_State* L) {
 	String callback = lua_tostring(L, -1);
 
@@ -94,7 +91,7 @@ int LuaSuiPageData::setDefaultCallback(lua_State* L) {
 	return 0;
 }
 
-//const String& widget, const String& property, const UnicodeString& value
+// const String& widget, const String& property, const UnicodeString& value
 int LuaSuiPageData::setProperty(lua_State* L) {
 	String widget = lua_tostring(L, -3);
 	String property = lua_tostring(L, -2);
@@ -105,7 +102,7 @@ int LuaSuiPageData::setProperty(lua_State* L) {
 	return 0;
 }
 
-//const String& widget, const String& property, const UnicodeString& value
+// const String& widget, const String& property, const UnicodeString& value
 int LuaSuiPageData::addDataItem(lua_State* L) {
 	String widget = lua_tostring(L, -3);
 	String property = lua_tostring(L, -2);
@@ -151,7 +148,7 @@ int LuaSuiPageData::addChildWidget(lua_State* L) {
 	return 0;
 }
 
-//const byte& eventType, const String& parent, const String& callback
+// const byte& eventType, const String& parent, const String& callback
 int LuaSuiPageData::subscribeToEvent(lua_State* L) {
 	byte eventType = lua_tonumber(L, -3);
 	String parent = lua_tostring(L, -2);
@@ -162,7 +159,7 @@ int LuaSuiPageData::subscribeToEvent(lua_State* L) {
 	return 0;
 }
 
-//const byte& eventType, const String& widget, const String& property
+// const byte& eventType, const String& widget, const String& property
 int LuaSuiPageData::subscribeToPropertyForEvent(lua_State* L) {
 	byte eventType = lua_tonumber(L, -3);
 	String widget = lua_tostring(L, -2);

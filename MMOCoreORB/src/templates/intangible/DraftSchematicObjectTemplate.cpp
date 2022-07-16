@@ -20,17 +20,17 @@ DraftSchematicObjectTemplate::DraftSchematicObjectTemplate() {
 
 	tanoCRC = 0;
 
-	ingredientTemplateNames = new Vector<String> ();
-	ingredientTitleNames = new Vector<String> ();
-	ingredientSlotType = new Vector<short> ();
+	ingredientTemplateNames = new Vector<String>();
+	ingredientTitleNames = new Vector<String>();
+	ingredientSlotType = new Vector<short>();
 	ingredientAppearance = new Vector<String>();
-	resourceTypes = new Vector<String> ();
-	resourceQuantities = new Vector<int> ();
-	contribution = new Vector<short> ();
+	resourceTypes = new Vector<String>();
+	resourceQuantities = new Vector<int>();
+	contribution = new Vector<short>();
 
-	draftSlots = new Vector<Reference<DraftSlot*> > ();
+	draftSlots = new Vector<Reference<DraftSlot*>>();
 
-	additionalTemplates = new Vector<String> ();
+	additionalTemplates = new Vector<String>();
 
 	tangibleTemplate = nullptr;
 
@@ -184,7 +184,6 @@ void DraftSchematicObjectTemplate::parseVariableData(const String& varName, LuaO
 	} else {
 		data->pop();
 	}
-
 }
 
 void DraftSchematicObjectTemplate::readObject(LuaObject* templateData) {
@@ -200,7 +199,7 @@ void DraftSchematicObjectTemplate::readObject(LuaObject* templateData) {
 	lua_pushnil(L);
 	while (lua_next(L, -2) != 0) {
 		// 'key' is at index -2 and 'value' at index -1
-		//printf("%s - %s\n",
+		// printf("%s - %s\n",
 		//		lua_tostring(L, -2), lua_typename(L, lua_type(L, -1)));
 
 		int type = lua_type(L, -2);
@@ -212,7 +211,6 @@ void DraftSchematicObjectTemplate::readObject(LuaObject* templateData) {
 			parseVariableData(varName, templateData);
 		} else
 			lua_pop(L, 1);
-
 
 		++i;
 	}
@@ -226,8 +224,7 @@ void DraftSchematicObjectTemplate::readObject(LuaObject* templateData) {
 	draftSlots->removeAll();
 	for (int i = 0; i < ingredientTemplateNames->size(); ++i) {
 		DraftSlot* newSlot = new DraftSlot();
-		newSlot->setStringId(ingredientTemplateNames->get(i),
-				ingredientTitleNames->get(i));
+		newSlot->setStringId(ingredientTemplateNames->get(i), ingredientTitleNames->get(i));
 		newSlot->setSlotType(ingredientSlotType->get(i));
 		newSlot->setResourceType(resourceTypes->get(i));
 		newSlot->setQuantity(resourceQuantities->get(i));
@@ -237,24 +234,19 @@ void DraftSchematicObjectTemplate::readObject(LuaObject* templateData) {
 	}
 }
 
-const Vector<Reference<ResourceWeight*> >* DraftSchematicObjectTemplate::getResourceWeights() {
-
+const Vector<Reference<ResourceWeight*>>* DraftSchematicObjectTemplate::getResourceWeights() {
 	try {
 		if (tangibleTemplate == nullptr)
-			tangibleTemplate = dynamic_cast<SharedTangibleObjectTemplate*> (TemplateManager::instance()->getTemplate(tanoCRC));
+			tangibleTemplate = dynamic_cast<SharedTangibleObjectTemplate*>(TemplateManager::instance()->getTemplate(tanoCRC));
 
 		if (tangibleTemplate == nullptr) {
-			Logger::console.error(
-					"Template not found for server crc: "
-							+ additionalTemplates->get(0));
+			Logger::console.error("Template not found for server crc: " + additionalTemplates->get(0));
 			return nullptr;
 		}
 	} catch (...) {
-		Logger::console.error(
-				"Unhandled exception in DraftSchematicObjectTemplate::getResourceWeights");
+		Logger::console.error("Unhandled exception in DraftSchematicObjectTemplate::getResourceWeights");
 		return nullptr;
 	}
 
 	return tangibleTemplate->getResourceWeights();
-
 }

@@ -9,14 +9,13 @@
 #include "server/zone/objects/intangible/PetControlDevice.h"
 #include "server/zone/managers/creature/PetManager.h"
 
-void VitalityPackImplementation::fillAttributeList(AttributeListMessage* msg, CreatureObject* player){
+void VitalityPackImplementation::fillAttributeList(AttributeListMessage* msg, CreatureObject* player) {
 	TangibleObjectImplementation::fillAttributeList(msg, player);
 
 	msg->insertAttribute("power", effectiveness);
 }
 
 int VitalityPackImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
-
 	if (player == nullptr)
 		return 0;
 
@@ -100,9 +99,7 @@ int VitalityPackImplementation::handleObjectMenuSelect(CreatureObject* player, b
 	// Use a charge
 	decreaseUseCount();
 
-	player->sendSystemMessage("You restore your pet to " + String::valueOf(controlDevice->getMaxVitality()) +
-							  " vitality but it permanently lost " + String::valueOf(vitalityLoss) + " vitality.");
+	player->sendSystemMessage("You restore your pet to " + String::valueOf(controlDevice->getMaxVitality()) + " vitality but it permanently lost " + String::valueOf(vitalityLoss) + " vitality.");
 
 	return 0;
-
 }

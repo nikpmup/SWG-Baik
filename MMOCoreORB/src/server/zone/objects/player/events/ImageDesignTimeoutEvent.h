@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 /**
@@ -20,7 +20,7 @@ namespace objects {
 namespace player {
 namespace events {
 
-class ImageDesignTimeoutEvent: public Task {
+class ImageDesignTimeoutEvent : public Task {
 	ManagedWeakReference<ImageDesignSession*> idSession;
 
 public:
@@ -36,13 +36,12 @@ public:
 
 		session->sessionTimeout();
 	}
-
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace player
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif /* IMAGEDESIGNTIMEOUTEVENT_H_ */

@@ -12,10 +12,10 @@
 #define RESOURCESHIFTTASK_H_
 
 class ResourceShiftTask : public Task {
-	ManagedReference<ResourceManager* > resourceManager;
+	ManagedReference<ResourceManager*> resourceManager;
 
 public:
-	ResourceShiftTask(ManagedReference<ResourceManager* >  resMan) {
+	ResourceShiftTask(ManagedReference<ResourceManager*> resMan) {
 		resourceManager = resMan;
 
 		setCustomTaskQueue("slowQueue");

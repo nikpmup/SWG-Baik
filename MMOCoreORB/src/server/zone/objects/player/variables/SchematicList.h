@@ -14,21 +14,20 @@
 #include "server/zone/objects/scene/variables/DeltaVector.h"
 #include "server/zone/objects/draftschematic/DraftSchematic.h"
 
-class SchematicList : public DeltaVector<ManagedReference<DraftSchematic* > > {
+class SchematicList : public DeltaVector<ManagedReference<DraftSchematic*>> {
 protected:
-
 	/// This vector is for schematics without skills when we need to reload them
 	/// when skills are dropped
-	VectorMap<ManagedReference<DraftSchematic* >, int > rewardedSchematics;
+	VectorMap<ManagedReference<DraftSchematic*>, int> rewardedSchematics;
 
 public:
-	enum {MISSION = 0, LOOT, QUEST};
+	enum { MISSION = 0, LOOT, QUEST };
 
 	SchematicList() {
 		rewardedSchematics.setNoDuplicateInsertPlan();
 	}
 
-	SchematicList(const SchematicList& list) : DeltaVector<ManagedReference<DraftSchematic* > >(list) {
+	SchematicList(const SchematicList& list) : DeltaVector<ManagedReference<DraftSchematic*>>(list) {
 		rewardedSchematics.setNoDuplicateInsertPlan();
 		rewardedSchematics = list.rewardedSchematics;
 	}
@@ -66,6 +65,5 @@ public:
 
 	void insertToMessage(BaseMessage* msg) const override;
 };
-
 
 #endif /* SCHEMATICLIST_H_ */

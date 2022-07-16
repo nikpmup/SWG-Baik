@@ -217,7 +217,6 @@ ComponentManager::ComponentManager() {
 	components.put("MinefieldMenuComponent", new MinefieldMenuComponent());
 	components.put("InstallationObjectMenuComponent", new InstallationObjectMenuComponent());
 
-
 	components.put("HQMenuComponent", new HQMenuComponent());
 	components.put("ContainerObjectComponent", new ContainerObjectComponent());
 	components.put("StructureContainerComponent", new StructureContainerComponent());
@@ -320,11 +319,11 @@ ComponentManager::ComponentManager() {
 	dataObjectFactory.registerObject<CoaMessageDataComponent>("CoaMessageDataComponent");
 	components.put("CoaEncodedDiskMenuComponent", new CoaEncodedDiskMenuComponent());
 
-	components.put("EventPerkMenuComponent", new EventPerkMenuComponent() );
-	components.put("EventPerkAttributeListComponent", new EventPerkAttributeListComponent() );
+	components.put("EventPerkMenuComponent", new EventPerkMenuComponent());
+	components.put("EventPerkAttributeListComponent", new EventPerkAttributeListComponent());
 	dataObjectFactory.registerObject<EventPerkDataComponent>("EventPerkDataComponent");
 
-	components.put("FlagGameMenuComponent", new FlagGameMenuComponent() );
+	components.put("FlagGameMenuComponent", new FlagGameMenuComponent());
 	dataObjectFactory.registerObject<FlagGameDataComponent>("FlagGameDataComponent");
 
 	// Droid components

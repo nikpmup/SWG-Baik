@@ -8,19 +8,15 @@
 #ifndef RETRIEVEAUCTIONITEMMESSAGECALLBACK_H_
 #define RETRIEVEAUCTIONITEMMESSAGECALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 #include "server/zone/managers/auction/AuctionManager.h"
-
 
 class RetrieveAuctionItemMessageCallback : public MessageCallback {
 	uint64 objectid;
 	uint64 bazaarid;
 
 public:
-	RetrieveAuctionItemMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-			MessageCallback(client, server), objectid(0), bazaarid(0) {
-
+	RetrieveAuctionItemMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), objectid(0), bazaarid(0) {
 	}
 
 	void parse(Message* message) {
@@ -41,8 +37,6 @@ public:
 		if (auctionManager != nullptr)
 			auctionManager->retrieveItem(player, objectid, bazaarid);
 	}
-
 };
-
 
 #endif /* RETRIEVEAUCTIONITEMMESSAGECALLBACK_H_ */

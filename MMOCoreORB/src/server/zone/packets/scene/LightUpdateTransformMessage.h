@@ -22,12 +22,12 @@ public:
 	LightUpdateTransformMessage(SceneObject* scno) : UNRELIABLE_LIGHT_BASE_CLASS(50) {
 		insertShort(0x08);
 		insertInt(0x1B24F808);
-	    insertLong(scno->getObjectID());
+		insertLong(scno->getObjectID());
 
 		// add coordinates
-		insertSignedShort((int16) (scno->getPositionX() * 4));
-		insertSignedShort((int16) (scno->getPositionZ() * 4));
-		insertSignedShort((int16) (scno->getPositionY() * 4));
+		insertSignedShort((int16)(scno->getPositionX() * 4));
+		insertSignedShort((int16)(scno->getPositionZ() * 4));
+		insertSignedShort((int16)(scno->getPositionY() * 4));
 
 		// add movement counter
 		insertInt(scno->getMovementCounter());
@@ -38,24 +38,24 @@ public:
 			insertByte((int8)creo->getCurrentSpeed());
 		else
 			insertByte(0);
-		
+
 		// add direction
-		insertByte((byte) scno->getSpecialDirectionAngle());
-		
-		/*System::out << "Position Update [" << player->getObjectID() << "] (" 
-			 << (int) (player->getPositionX()) << "," << (int) (player->getPositionZ()) << "," 
+		insertByte((byte)scno->getSpecialDirectionAngle());
+
+		/*System::out << "Position Update [" << player->getObjectID() << "] ("
+			 << (int) (player->getPositionX()) << "," << (int) (player->getPositionZ()) << ","
 			 << (int) (player->getPositionY()) << ") - Dir = " << (int) (player->getDirectionAngle()) << "\n";*/
 	}
-	
+
 	LightUpdateTransformMessage(SceneObject* scno, float posX, float posZ, float posY) : UNRELIABLE_LIGHT_BASE_CLASS(50) {
 		insertShort(0x08);
 		insertInt(0x1B24F808);
 		insertLong(scno->getObjectID());
 
 		// add coordinates
-		insertSignedShort((int16) (posX * 4));
-		insertSignedShort((int16) (posZ * 4));
-		insertSignedShort((int16) (posY * 4));
+		insertSignedShort((int16)(posX * 4));
+		insertSignedShort((int16)(posZ * 4));
+		insertSignedShort((int16)(posY * 4));
 
 		// add movement counter
 		insertInt(scno->getMovementCounter());
@@ -68,13 +68,12 @@ public:
 			insertByte(0);
 
 		// add direction
-		insertByte((byte) scno->getSpecialDirectionAngle());
+		insertByte((byte)scno->getSpecialDirectionAngle());
 
-		/*System::out << "Position Update [" << player->getObjectID() << "] (" 
-				 << (int) (player->getPositionX()) << "," << (int) (player->getPositionZ()) << "," 
+		/*System::out << "Position Update [" << player->getObjectID() << "] ("
+				 << (int) (player->getPositionX()) << "," << (int) (player->getPositionZ()) << ","
 				 << (int) (player->getPositionY()) << ") - Dir = " << (int) (player->getDirectionAngle()) << "\n";*/
 	}
-
 };
 
 #endif /*LIGHTUPDATETRANSFORMMESSAGE_H_*/

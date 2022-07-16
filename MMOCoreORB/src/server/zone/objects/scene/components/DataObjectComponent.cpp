@@ -7,19 +7,15 @@
 #include "server/zone/objects/scene/SceneObject.h"
 
 DataObjectComponent::DataObjectComponent() {
-
 }
 
 DataObjectComponent::~DataObjectComponent() {
-
 }
 
 void DataObjectComponent::initializeTransientMembers() {
-
 }
 
 void DataObjectComponent::notifyObjectDestroyingFromDatabase() {
-
 }
 
 void DataObjectComponent::setParent(SceneObject* object) {

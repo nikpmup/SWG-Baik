@@ -14,7 +14,7 @@ class CreateNebulaLightningMessage : public BaseMessage {
 public:
 	CreateNebulaLightningMessage() : BaseMessage() {
 		insertShort(0x11);
-		insertInt(0x65F27987);  // CRC
+		insertInt(0x65F27987); // CRC
 
 		insertShort(0);
 		insertInt(0);
@@ -26,8 +26,7 @@ public:
 		insertInt(0);
 		insertInt(0);
 		insertInt(0);
-   }
-
+	}
 };
 
 #endif /* CREATENEBULALIGHTNINGMESSAGE_H_ */

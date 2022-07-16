@@ -12,27 +12,23 @@
 #include "system/util/Vector.h"
 
 class LootLotteryBallot : public Object {
-
 protected:
-
 	ManagedWeakReference<CreatureObject*> player;
 	SortedVector<uint64> lootSelections;
 
 public:
+	LootLotteryBallot(CreatureObject* pl, Vector<uint64> selection) {
+		player = pl;
+		selection.clone(lootSelections);
+	}
 
-     LootLotteryBallot(CreatureObject* pl, Vector<uint64> selection) {
-    	 player = pl;
-    	 selection.clone(lootSelections);
-     }
+	bool hasSelection(uint64 objectID) {
+		return lootSelections.contains(objectID);
+	}
 
-     bool hasSelection(uint64 objectID) {
-    	 return lootSelections.contains(objectID);
-     }
-
-     CreatureObject* getPlayer() {
-    	 return player.get();
-     }
-
+	CreatureObject* getPlayer() {
+		return player.get();
+	}
 };
 
 #endif /* LOOTLOTTERYBALLOT_H_ */

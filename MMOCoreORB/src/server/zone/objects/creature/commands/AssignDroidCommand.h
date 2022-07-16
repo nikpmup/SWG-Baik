@@ -7,14 +7,10 @@
 
 class AssignDroidCommand : public QueueCommand {
 public:
-
-	AssignDroidCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	AssignDroidCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //ASSIGNDROIDCOMMAND_H_
+#endif // ASSIGNDROIDCOMMAND_H_

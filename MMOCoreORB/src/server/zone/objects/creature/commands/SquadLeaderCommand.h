@@ -17,7 +17,6 @@ protected:
 	uint32 actionCRC;
 
 public:
-
 	SquadLeaderCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 		combatSpam = "";
 		action = "";
@@ -101,23 +100,23 @@ public:
 		return true;
 	}
 
-/*	bool shoutCommand(CreatureObject* player, GroupObject* group) {
-		if (player == nullptr || group == nullptr)
-			return false;
+	/*	bool shoutCommand(CreatureObject* player, GroupObject* group) {
+			if (player == nullptr || group == nullptr)
+				return false;
 
-		ManagedReference<ChatManager*> chatManager = server->getChatManager();
-		if (chatManager == nullptr)
-			return false;
+			ManagedReference<ChatManager*> chatManager = server->getChatManager();
+			if (chatManager == nullptr)
+				return false;
 
-		if (!player->getPlayerObject()->hasCommandMessageString(actionCRC))
-			return false;
+			if (!player->getPlayerObject()->hasCommandMessageString(actionCRC))
+				return false;
 
-		UnicodeString shout = player->getPlayerObject()->getCommandMessageString(actionCRC);
-		chatManager->broadcastMessage(player, shout, 0, 0, 80);
+			UnicodeString shout = player->getPlayerObject()->getCommandMessageString(actionCRC);
+			chatManager->broadcastMessage(player, shout, 0, 0, 80);
 
-		return true;
-	}
-*/
+			return true;
+		}
+	*/
 
 	float calculateGroupModifier(GroupObject* group) const {
 		if (group == nullptr)
@@ -125,7 +124,7 @@ public:
 
 		float modifier = 1.0f + ((float)(group->getGroupSize()) / 20.0f);
 
-			return modifier;
+		return modifier;
 	}
 
 	bool inflictHAM(CreatureObject* player, int health, int action, int mind) const {
@@ -160,33 +159,33 @@ public:
 		player->sendSystemMessage("@cbt_spam:" + combatSpam);
 	}
 
-/*    bool setCommandMessage(CreatureObject* creature, String message){
-        if(!creature->isPlayerCreature())
-            return false;
+	/*    bool setCommandMessage(CreatureObject* creature, String message){
+			if(!creature->isPlayerCreature())
+				return false;
 
-        ManagedReference<CreatureObject*> player = (creature);
-        ManagedReference<PlayerObject*> playerObject = player->getPlayerObject();
+			ManagedReference<CreatureObject*> player = (creature);
+			ManagedReference<PlayerObject*> playerObject = player->getPlayerObject();
 
-		if (message.length()>128){
-			player->sendSystemMessage("Your message can only be up to 128 characters long.");
-			return false;
+			if (message.length()>128){
+				player->sendSystemMessage("Your message can only be up to 128 characters long.");
+				return false;
+			}
+			if (NameManager::instance()->isProfane(message)){
+				player->sendSystemMessage("Your message has failed the profanity filter.");
+				return false;
+			}
+
+			if(message.isEmpty()) {
+				playerObject->removeCommandMessageString(actionCRC);
+				player->sendSystemMessage("Your message has been removed.");
+			} else {
+				playerObject->setCommandMessageString(actionCRC, message);
+				player->sendSystemMessage("Your message was set to :-\n" + message);
+			}
+
+			return true;
 		}
-		if (NameManager::instance()->isProfane(message)){
-			player->sendSystemMessage("Your message has failed the profanity filter.");
-			return false;
-		}
-
-        if(message.isEmpty()) {
-            playerObject->removeCommandMessageString(actionCRC);
-			player->sendSystemMessage("Your message has been removed.");
-		} else {
-            playerObject->setCommandMessageString(actionCRC, message);
-			player->sendSystemMessage("Your message was set to :-\n" + message);
-		}
-
-        return true;
-    }
-*/
+	*/
 
 	bool isSquadLeaderCommand() {
 		return true;

@@ -14,14 +14,14 @@
 #include "server/zone/objects/cell/CellObject.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace scene {
-   	   class SceneObject;
-   }
-  }
- }
+namespace zone {
+namespace objects {
+namespace scene {
+class SceneObject;
 }
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::scene;
 
@@ -38,7 +38,6 @@ public:
 
 #ifdef CXX11_COMPILER
 	WorldCoordinates(WorldCoordinates&& c) : Object(), point(c.point), cell(std::move(c.cell)) {
-
 	}
 #endif
 
@@ -119,10 +118,7 @@ public:
 	inline String toString() const {
 		StringBuffer buf;
 
-		buf <<"WorldCoordinates(x:" << point.getX()
-			<< ", y:" << point.getY()
-			<< ", z:" << point.getZ()
-			<< ", cell: ";
+		buf << "WorldCoordinates(x:" << point.getX() << ", y:" << point.getY() << ", z:" << point.getZ() << ", cell: ";
 
 		if (cell == nullptr) {
 			buf << "nullptr";
@@ -139,6 +135,5 @@ public:
 		return toString();
 	}
 };
-
 
 #endif /* WORLDCOORDINATE_H_ */

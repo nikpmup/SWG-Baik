@@ -9,14 +9,10 @@
 
 class ColorlightsCommand : public QueueCommand {
 public:
-
-	ColorlightsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ColorlightsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -35,7 +31,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //COLORLIGHTSCOMMAND_H_
+#endif // COLORLIGHTSCOMMAND_H_

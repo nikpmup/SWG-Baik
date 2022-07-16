@@ -22,7 +22,7 @@ void DelegateSuiCallback::run(CreatureObject* creature, SuiBox* sui, uint32 even
 	uint32 received = Integer::valueOf(args->get(0).toString());
 	uint32 tipAmount = Integer::valueOf(args->get(1).toString());
 
-	//printf("received %d transferred %d\n", received, transferred);
+	// printf("received %d transferred %d\n", received, transferred);
 
 	if (tipAmount == 0)
 		return;

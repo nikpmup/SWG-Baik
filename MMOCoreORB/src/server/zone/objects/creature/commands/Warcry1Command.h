@@ -10,13 +10,10 @@
 
 class Warcry1Command : public CombatQueueCommand {
 public:
-
-	Warcry1Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	Warcry1Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -37,14 +34,13 @@ public:
 			ManagedReference<PlayerObject*> ghost = creature->getPlayerObject();
 
 			if (ghost != nullptr && !ghost->getCommandMessageString(STRING_HASHCODE("warcry1")).isEmpty() && creature->checkCooldownRecovery("command_message")) {
-					UnicodeString shout(ghost->getCommandMessageString(STRING_HASHCODE("warcry1")));
-					server->getChatManager()->broadcastChatMessage(creature, shout, 0, 80, creature->getMoodID(), 0, ghost->getLanguageID());
-					creature->updateCooldownTimer("command_message", 30 * 1000);
+				UnicodeString shout(ghost->getCommandMessageString(STRING_HASHCODE("warcry1")));
+				server->getChatManager()->broadcastChatMessage(creature, shout, 0, 80, creature->getMoodID(), 0, ghost->getLanguageID());
+				creature->updateCooldownTimer("command_message", 30 * 1000);
 			}
 		}
 		return res;
 	}
-
 };
 
-#endif //WARCRY1COMMAND_H_
+#endif // WARCRY1COMMAND_H_

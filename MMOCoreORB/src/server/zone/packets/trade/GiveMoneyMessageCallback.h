@@ -15,9 +15,7 @@ class GiveMoneyMessageCallback : public MessageCallback {
 	uint32 money;
 
 public:
-	GiveMoneyMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), money(0) {
-
+	GiveMoneyMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), money(0) {
 	}
 
 	void parse(Message* message) {
@@ -33,8 +31,6 @@ public:
 		PlayerManager* playerManager = server->getZoneServer()->getPlayerManager();
 		playerManager->handleGiveMoneyMessage(player, money);
 	}
-
 };
-
 
 #endif /* GIVEMONEYMESSAGECALLBACK_H_ */

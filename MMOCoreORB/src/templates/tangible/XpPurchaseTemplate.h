@@ -3,15 +3,13 @@
 
 #include "templates/SharedTangibleObjectTemplate.h"
 
-class XpPurchaseTemplate: public SharedTangibleObjectTemplate {
+class XpPurchaseTemplate : public SharedTangibleObjectTemplate {
 protected:
-
 	String requiredSkill;
 	String xpType;
 	String grantType, grantName;
 	int xpAmount;
 	bool noRemove;
-
 
 public:
 	XpPurchaseTemplate() {
@@ -21,11 +19,9 @@ public:
 		grantName = "";
 		xpAmount = 0;
 		noRemove = false;
-
 	}
 
 	~XpPurchaseTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -37,7 +33,6 @@ public:
 		xpType = templateData->getStringField("xpType");
 		xpAmount = templateData->getIntField("xpAmount");
 		noRemove = templateData->getBooleanField("noRemove");
-
 	}
 
 	const String& getRequiredSkill() {
@@ -63,8 +58,6 @@ public:
 	int getXpAmount() {
 		return xpAmount;
 	}
-
 };
-
 
 #endif /* XPPURCHASETEMPLATE_H */

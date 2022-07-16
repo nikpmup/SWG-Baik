@@ -15,99 +15,98 @@ namespace zone {
 namespace managers {
 namespace creature {
 
-	class LairSpawn : public Object {
-	protected:
-		int spawnLimit;
-		int minDifficulty;
-		int maxDifficulty;
-		int numberToSpawn;
-		int weighting;
-		float size;
+class LairSpawn : public Object {
+protected:
+	int spawnLimit;
+	int minDifficulty;
+	int maxDifficulty;
+	int numberToSpawn;
+	int weighting;
+	float size;
 
-		String lairTemplateName;
+	String lairTemplateName;
 
-	public:
-		LairSpawn() : Object() {
-			spawnLimit = -1;
-			minDifficulty = 1;
-			maxDifficulty = 1;
-			numberToSpawn = 0;
-			weighting = 1;
-			size = 25;
-		}
+public:
+	LairSpawn() : Object() {
+		spawnLimit = -1;
+		minDifficulty = 1;
+		maxDifficulty = 1;
+		numberToSpawn = 0;
+		weighting = 1;
+		size = 25;
+	}
 
-		LairSpawn(const LairSpawn& sp) : Object() {
-			spawnLimit = sp.spawnLimit;
-			minDifficulty = sp.minDifficulty;
-			maxDifficulty = sp.maxDifficulty;
-			numberToSpawn = sp.numberToSpawn;
-			weighting = sp.weighting;
-			size = sp.size;
+	LairSpawn(const LairSpawn& sp) : Object() {
+		spawnLimit = sp.spawnLimit;
+		minDifficulty = sp.minDifficulty;
+		maxDifficulty = sp.maxDifficulty;
+		numberToSpawn = sp.numberToSpawn;
+		weighting = sp.weighting;
+		size = sp.size;
 
-			lairTemplateName = sp.lairTemplateName;
-		}
+		lairTemplateName = sp.lairTemplateName;
+	}
 
-		LairSpawn& operator=(const LairSpawn& sp) {
-			if (this == &sp)
-				return *this;
-
-			spawnLimit = sp.spawnLimit;
-			minDifficulty = sp.minDifficulty;
-			maxDifficulty = sp.maxDifficulty;
-			numberToSpawn = sp.numberToSpawn;
-			weighting = sp.weighting;
-			size = sp.size;
-
-			lairTemplateName = sp.lairTemplateName;
-
+	LairSpawn& operator=(const LairSpawn& sp) {
+		if (this == &sp)
 			return *this;
-		}
 
-		void readObject(LuaObject& obj) {
-			spawnLimit = obj.getIntField("spawnLimit");
-			minDifficulty = obj.getIntField("minDifficulty");
-			maxDifficulty = obj.getIntField("maxDifficulty");
-			numberToSpawn = obj.getIntField("numberToSpawn");
-			weighting = obj.getIntField("weighting");
-			size = obj.getFloatField("size");
-			lairTemplateName = obj.getStringField("lairTemplateName");
-		}
+		spawnLimit = sp.spawnLimit;
+		minDifficulty = sp.minDifficulty;
+		maxDifficulty = sp.maxDifficulty;
+		numberToSpawn = sp.numberToSpawn;
+		weighting = sp.weighting;
+		size = sp.size;
 
-		int getSpawnLimit() const {
-			return spawnLimit;
-		}
+		lairTemplateName = sp.lairTemplateName;
 
-		int getMinDifficulty() const {
-			return minDifficulty;
-		}
+		return *this;
+	}
 
-		int getMaxDifficulty() const {
-			return maxDifficulty;
-		}
+	void readObject(LuaObject& obj) {
+		spawnLimit = obj.getIntField("spawnLimit");
+		minDifficulty = obj.getIntField("minDifficulty");
+		maxDifficulty = obj.getIntField("maxDifficulty");
+		numberToSpawn = obj.getIntField("numberToSpawn");
+		weighting = obj.getIntField("weighting");
+		size = obj.getFloatField("size");
+		lairTemplateName = obj.getStringField("lairTemplateName");
+	}
 
-		int getNumberToSpawn() const {
-			return numberToSpawn;
-		}
+	int getSpawnLimit() const {
+		return spawnLimit;
+	}
 
-		int getWeighting() const {
-			return weighting;
-		}
+	int getMinDifficulty() const {
+		return minDifficulty;
+	}
 
-		float getSize() const {
-			return size;
-		}
+	int getMaxDifficulty() const {
+		return maxDifficulty;
+	}
 
-		const String& getLairTemplateName() const {
-			return lairTemplateName;
-		}
-	};
+	int getNumberToSpawn() const {
+		return numberToSpawn;
+	}
 
-}
-}
-}
-}
+	int getWeighting() const {
+		return weighting;
+	}
+
+	float getSize() const {
+		return size;
+	}
+
+	const String& getLairTemplateName() const {
+		return lairTemplateName;
+	}
+};
+
+} // namespace creature
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::creature;
-
 
 #endif /* LAIRSPAWN_H_ */

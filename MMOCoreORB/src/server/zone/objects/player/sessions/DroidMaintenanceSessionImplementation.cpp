@@ -26,13 +26,13 @@ void DroidMaintenanceSessionImplementation::initialize() {
 	Reference<DroidMaintenanceModuleDataComponent*> module = this->maintModule.get();
 	// get the total credits this guy has right now!
 	availableCredits = creature->getCashCredits() + creature->getBankCredits();
-	module->getStructureList(&structures, creature->getZoneServer(),creature->getZone()->getZoneCRC());
+	module->getStructureList(&structures, creature->getZoneServer(), creature->getZone()->getZoneCRC());
 	maintenance.removeAll();
 	selectedFees = 0;
 	fees.removeAll();
 }
 
-void DroidMaintenanceSessionImplementation::sendMaintanceRunBox(){
+void DroidMaintenanceSessionImplementation::sendMaintanceRunBox() {
 	// main ui
 	selectedStructure = nullptr;
 
@@ -56,13 +56,13 @@ void DroidMaintenanceSessionImplementation::sendMaintanceRunBox(){
 	box->setPromptTitle("@pet/droid_modules:droid_maint_list_title"); // Maintenance Run
 	SuiListBox* b;
 	box->setOkButton(true, "@go");
-	box->setOtherButton(true,"@add");
+	box->setOtherButton(true, "@add");
 	box->setCancelButton(true, "@cancel");
 	// we have all we need in the session.
 	int addCount = 0;
 	// we need to add a line item for every structure on this droids list, then track amount per structure + fees + interplanetary. i.e. if not interplanetary capable, dont show them.
-	//Vector<StructureObject*> list = module->getStructureList(creature->getZoneServer(),creature->getZone()->getZoneCRC());
-	for(int i=0;i<structures.size();i++) {
+	// Vector<StructureObject*> list = module->getStructureList(creature->getZoneServer(),creature->getZone()->getZoneCRC());
+	for (int i = 0; i < structures.size(); i++) {
 		ManagedReference<StructureObject*> obj = structures.elementAt(i);
 		StringBuffer buff;
 		String zoneName = "the void";
@@ -75,7 +75,7 @@ void DroidMaintenanceSessionImplementation::sendMaintanceRunBox(){
 		buff << obj->getDisplayedName();
 		if (nameLength < 30) {
 			// pad the diff to teh end
-			for(int x=0;x<30-nameLength;x++)
+			for (int x = 0; x < 30 - nameLength; x++)
 				buff << " ";
 			nameLength = 30;
 		}
@@ -88,12 +88,12 @@ void DroidMaintenanceSessionImplementation::sendMaintanceRunBox(){
 			addCount += 1;
 			promptText << buff.toString();
 			if (finalOffset < 30) {
-				for(int x=0;x<30-finalOffset;x++)
+				for (int x = 0; x < 30 - finalOffset; x++)
 					promptText << " ";
 			}
 			promptText << "+" << maintenance.get(obj->getObjectID()) << "\n";
 		} else {
-			box->addMenuItem( buff.toString(), obj->getObjectID());
+			box->addMenuItem(buff.toString(), obj->getObjectID());
 		}
 	}
 	if (addCount > 0)
@@ -104,7 +104,7 @@ void DroidMaintenanceSessionImplementation::sendMaintanceRunBox(){
 	creature->sendMessage(box->generateMessage());
 }
 
-void DroidMaintenanceSessionImplementation::sendMaintenanceTransferBox(){
+void DroidMaintenanceSessionImplementation::sendMaintenanceTransferBox() {
 	// add result
 	if (selectedStructure == nullptr) {
 		cancelSession();
@@ -125,9 +125,9 @@ void DroidMaintenanceSessionImplementation::sendMaintenanceTransferBox(){
 	}
 
 	// create transfer box
-	ManagedReference<SuiTransferBox*> sui = new SuiTransferBox(creature,SuiWindowType::DROID_ADD_STRUCTURE_AMOUNT);
+	ManagedReference<SuiTransferBox*> sui = new SuiTransferBox(creature, SuiWindowType::DROID_ADD_STRUCTURE_AMOUNT);
 	sui->setCallback(new DroidMaintenanceSessionAddCreditsSuiCallback(creature->getZoneServer()));
-	sui->setPromptTitle("@pet/droid_modules:droid_maint_amount_title"); //Select Amount
+	sui->setPromptTitle("@pet/droid_modules:droid_maint_amount_title"); // Select Amount
 	bool offplanet = false;
 	Zone* zoneStructure = selectedStructure->getZone();
 	Zone* zoneCreature = creature->getZone();
@@ -140,7 +140,7 @@ void DroidMaintenanceSessionImplementation::sendMaintenanceTransferBox(){
 	if (zoneStructure != zoneCreature)
 		offplanet = true;
 
-	StringBuffer promptText = "@pet/droid_modules:droid_maint_amount_prompt \n@player_structure:current_maint_pool "+ String::valueOf(selectedStructure->getSurplusMaintenance())+"cr";
+	StringBuffer promptText = "@pet/droid_modules:droid_maint_amount_prompt \n@player_structure:current_maint_pool " + String::valueOf(selectedStructure->getSurplusMaintenance()) + "cr";
 	selectedFees = 0;
 	if (offplanet) {
 		PlanetManager* planetManager = zoneCreature->getPlanetManager();
@@ -148,13 +148,13 @@ void DroidMaintenanceSessionImplementation::sendMaintenanceTransferBox(){
 			cancelSession();
 			return;
 		}
-		int fee = planetManager->getTravelFare(zoneStructure->getZoneName(),zoneCreature->getZoneName());
+		int fee = planetManager->getTravelFare(zoneStructure->getZoneName(), zoneCreature->getZoneName());
 		selectedFees = fee;
 		promptText << "\n@pet/droid_modules:droid_maint_diff_planet_prefix " << fee << " @pet/droid_modules:droid_maint_diff_planet_suffix \n";
 	}
 	sui->setPromptText(promptText.toString());
 	// check for off planet, it has a fee
-	sui->addFrom("@player_structure:total_funds",String::valueOf(availableCredits),String::valueOf(availableCredits), "1");
+	sui->addFrom("@player_structure:total_funds", String::valueOf(availableCredits), String::valueOf(availableCredits), "1");
 	sui->addTo("@player_structure:to_pay", "0", "0", "1");
 	creature->getPlayerObject()->addSuiBox(sui);
 	creature->sendMessage(sui->generateMessage());
@@ -165,13 +165,13 @@ void DroidMaintenanceSessionImplementation::addCreditsToCurrentStructure(int amo
 		cancelSession();
 		return;
 	}
-	this->maintenance.put(selectedStructure->getObjectID(),amount);
-	if (selectedFees > 0){
+	this->maintenance.put(selectedStructure->getObjectID(), amount);
+	if (selectedFees > 0) {
 		fees.add(selectedFees);
 	}
 }
-void DroidMaintenanceSessionImplementation::performMaintenanceRun(){
-    // launch the task and set droid cooldown.
+void DroidMaintenanceSessionImplementation::performMaintenanceRun() {
+	// launch the task and set droid cooldown.
 	ManagedReference<CreatureObject*> creature = this->player.get();
 
 	if (creature == nullptr) {
@@ -208,9 +208,9 @@ void DroidMaintenanceSessionImplementation::performMaintenanceRun(){
 	// pay all structures
 	long totalCosts = 0;
 	long totalFees = 0;
-	for(int i=0;i<fees.size();i++)
+	for (int i = 0; i < fees.size(); i++)
 		totalFees += fees.elementAt(i);
-	for(int i =0; i< maintenance.size();i++)
+	for (int i = 0; i < maintenance.size(); i++)
 		totalCosts += maintenance.elementAt(i).getValue();
 	// pay fees
 	if (availableCredits < totalCosts + totalFees) {
@@ -224,7 +224,7 @@ void DroidMaintenanceSessionImplementation::performMaintenanceRun(){
 	// he had enough credits, so lets perform the run .
 
 	long time = module->calculateRunTime(maintenance, zone->getZoneName(), droid);
-	long powerCost = time/1000/60/15;
+	long powerCost = time / 1000 / 60 / 15;
 	// check for power now as it may hit zero while we are in the menu
 	if (!droid->hasPower()) {
 		creature->sendSystemMessage("@pet/droid_modules:not_enough_power"); // Your droid dosnt have enough power to do that.
@@ -245,20 +245,20 @@ void DroidMaintenanceSessionImplementation::performMaintenanceRun(){
 		creature->subtractBankCredits(totalFees - payedSoFar);
 	}
 	// now the structures.
-	module->payStructures(creature,maintenance);
+	module->payStructures(creature, maintenance);
 	// calculate time
 	// we got milliseconds convert to minutes
-	long minutes = time/1000; // seconds
-	const static String abbrvs[3] = { "seconds", "minutes, ", "hours" };
-	const static int intervals[3] = { 1, 60, 3600 };
-	int values[3] = { 0, 0, 0 };
+	long minutes = time / 1000; // seconds
+	const static String abbrvs[3] = {"seconds", "minutes, ", "hours"};
+	const static int intervals[3] = {1, 60, 3600};
+	int values[3] = {0, 0, 0};
 	StringBuffer str;
 	str << "Maintenance run started. Completion ETA: ";
 	for (int i = 2; i > -1; --i) {
-		values[i] = floor((float) minutes / intervals[i]);
+		values[i] = floor((float)minutes / intervals[i]);
 		minutes -= values[i] * intervals[i];
 		if (values[i] > 0) {
-			if (str.length() > 0){
+			if (str.length() > 0) {
 				str << " ";
 			}
 			str << values[i] << " " << abbrvs[i];
@@ -268,7 +268,7 @@ void DroidMaintenanceSessionImplementation::performMaintenanceRun(){
 	creature->sendSystemMessage(str.toString());
 
 	// store the pet off and set the call cooldown.
-	droid->getCooldownTimerMap()->updateToCurrentAndAddMili("call_cooldown",time);
+	droid->getCooldownTimerMap()->updateToCurrentAndAddMili("call_cooldown", time);
 	Reference<StorePetTask*> task = new StorePetTask(this->player.get(), droid);
 	droid->usePower(DroidObject::MAX_POWER); // According to what i read, doing the run drains all power from teh droid.
 	task->execute();

@@ -22,27 +22,25 @@
 class ShipUpdateTransformCallback : public MessageCallback {
 	uint16 shipId;
 
-	//PackedTransform dir is multiplied by 127, positions by 4.0958748
+	// PackedTransform dir is multiplied by 127, positions by 4.0958748
 	uint8 dirX, dirY, dirZ, dirW;
 	int16 posX, posZ, posY;
 
-	//PackedVelocity
-	//int16 velocitySpeed, velocityDirection;
+	// PackedVelocity
+	// int16 velocitySpeed, velocityDirection;
 	PackedVelocity velocity;
 
-	//3 PackedRotationRate
+	// 3 PackedRotationRate
 	PackedRotationRate yawRate, pitchRate, rollRate;
 
 	uint32 counter;
 
 public:
-	ShipUpdateTransformCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), shipId(0), dirX(0), dirY(0), dirZ(0), dirW(0),
-		posX(0), posZ(0), posY(0), counter(0) {
+	ShipUpdateTransformCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), shipId(0), dirX(0), dirY(0), dirZ(0), dirW(0), posX(0), posZ(0), posY(0), counter(0) {
 	}
 
 	void parse(Message* message) {
-		//info(message->toStringData(), true);
+		// info(message->toStringData(), true);
 		shipId = message->parseShort();
 
 		dirX = message->parseByte();
@@ -130,9 +128,9 @@ public:
 		Vector3 collisionPoint, targetPosition(positionX, positionY, positionZ);
 
 		if (CollisionManager::checkShipCollision(ship, targetPosition, collisionPoint)) {
-			//ship->teleport(ship->getPositionX(), ship->getPositionZ(), ship->getPositionY());
-			//ship->info("colliding with terrain", true);
-			//ship->setDirection(directionW, directionX, directionY, directionZ);
+			// ship->teleport(ship->getPositionX(), ship->getPositionZ(), ship->getPositionY());
+			// ship->info("colliding with terrain", true);
+			// ship->setDirection(directionW, directionX, directionY, directionZ);
 			ship->setMovementCounter(counter);
 
 			ShipUpdateTransformCollisionMessage* msg = new ShipUpdateTransformCollisionMessage(ship);
@@ -150,12 +148,11 @@ public:
 		ship->updateZone(false, false);
 
 		object->setPosition(positionX, positionZ, positionY);
-		//object->setDirection(directionW, directionX, directionY, directionZ);
+		// object->setDirection(directionW, directionX, directionY, directionZ);
 
 		object->updateZone(false, false);
 
-		ShipUpdateTransformMessage* msga = new ShipUpdateTransformMessage(ship, dirX, dirY, dirZ, dirW, posX, posZ, posY,
-				velocity, yawRate, pitchRate, rollRate);
+		ShipUpdateTransformMessage* msga = new ShipUpdateTransformMessage(ship, dirX, dirY, dirZ, dirW, posX, posZ, posY, velocity, yawRate, pitchRate, rollRate);
 		object->broadcastMessage(msga, false);
 
 		ValidatedPosition* last = ghost->getLastValidatedPosition();
@@ -163,6 +160,5 @@ public:
 		ghost->updateServerLastMovementStamp();
 	}
 };
-
 
 #endif /* SHIPUPDATETRANSFORMCALLBACK_H_ */

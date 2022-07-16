@@ -8,7 +8,6 @@
 #include "SpaceTerrainAppearance.h"
 
 SpaceTerrainAppearance::SpaceTerrainAppearance() : Logger("SpaceTerrainAppearance") {
-
 }
 
 bool SpaceTerrainAppearance::load(IffStream* iffStream) {
@@ -112,7 +111,7 @@ void SpaceTerrainAppearance::parsePLAN(engine::util::IffStream* iffStream) {
 	String var1;
 	iffStream->getString(var1);
 
-	//these are their own struct posible 3d point
+	// these are their own struct posible 3d point
 	float x = iffStream->getFloat();
 	float z = iffStream->getFloat();
 	float y = iffStream->getFloat();
@@ -145,7 +144,6 @@ void SpaceTerrainAppearance::parsePARA(engine::util::IffStream* iffStream) {
 	float x = iffStream->getFloat();
 	float z = iffStream->getFloat();
 	float y = iffStream->getFloat();
-
 
 	iffStream->closeChunk('0000');
 	iffStream->closeForm('PARA');
@@ -218,9 +216,9 @@ void SpaceTerrainAppearance::parseCLEA(engine::util::IffStream* iffStream) {
 	float var3 = iffStream->getFloat();
 	var3 = Math::max(Math::min(var1, 1.f), 0.f);
 
-	uint8 thisVar1 = (uint8) (var1 * 255.f);
-	uint8 thisVar2 = (uint8) (var2 * 255.f);
-	uint8 thisVar3 = (uint8) (var3 * 255.f);
+	uint8 thisVar1 = (uint8)(var1 * 255.f);
+	uint8 thisVar2 = (uint8)(var2 * 255.f);
+	uint8 thisVar3 = (uint8)(var3 * 255.f);
 
 	iffStream->closeChunk('0000');
 	iffStream->closeForm('CLEA');
@@ -235,7 +233,7 @@ void SpaceTerrainAppearance::parseCELE(engine::util::IffStream* iffStream) {
 	iffStream->getString(var1);
 	float var2 = iffStream->getFloat();
 	iffStream->getString(var3);
-	float var4 = iffStream->getFloat(); //might be int
+	float var4 = iffStream->getFloat(); // might be int
 
 	float x = iffStream->getFloat();
 	float z = iffStream->getFloat();

@@ -27,11 +27,9 @@ void CreatureImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuResp
 	AiAgentImplementation::fillObjectMenuResponse(menuResponse, player);
 
 	if (canMilkMe(player)) {
-
 		menuResponse->addRadialMenuItem(112, 3, "@pet/pet_menu:milk_me");
 
 	} else if (canHarvestMe(player)) {
-
 		menuResponse->addRadialMenuItem(112, 3, "@sui:harvest_corpse");
 
 		if (getMeatType() != "")
@@ -77,10 +75,10 @@ int CreatureImplementation::handleObjectMenuSelect(CreatureObject* player, byte 
 void CreatureImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* player) {
 	AiAgentImplementation::fillAttributeList(alm, player);
 
-	int creaKnowledge = player != nullptr ?  player->getSkillMod("creature_knowledge") : 100;
+	int creaKnowledge = player != nullptr ? player->getSkillMod("creature_knowledge") : 100;
 
 	if (getHideType().isEmpty() && getBoneType().isEmpty() && getMeatType().isEmpty()) {
-		if(!isPet()) // we do want to show this for pets
+		if (!isPet()) // we do want to show this for pets
 			return;
 	}
 
@@ -131,13 +129,13 @@ void CreatureImplementation::fillAttributeList(AttributeListMessage* alm, Creatu
 	}
 
 	if (creaKnowledge >= 40) {
-		alm->insertAttribute("ferocity", (int) getFerocity());
+		alm->insertAttribute("ferocity", (int)getFerocity());
 	}
 
 	if (creaKnowledge >= 45)
 		alm->insertAttribute("challenge_level", getAdultLevel());
 
-	//int skillNum = skillCommands.size();
+	// int skillNum = skillCommands.size();
 	const CreatureAttackMap* attackMap = getAttackMap();
 	int skillNum = 0;
 	if (attackMap != nullptr)
@@ -189,8 +187,8 @@ void CreatureImplementation::scheduleDespawn() {
 		return;
 
 	Reference<DespawnCreatureTask*> despawn = new DespawnCreatureTask(_this.getReferenceUnsafeStaticCast());
-	//despawn->schedule(300000); /// 5 minutes
-	//addPendingTask("despawn", despawn, 45000); /// 45 second
+	// despawn->schedule(300000); /// 5 minutes
+	// addPendingTask("despawn", despawn, 45000); /// 45 second
 	addPendingTask("despawn", despawn, 300000);
 }
 
@@ -212,7 +210,6 @@ bool CreatureImplementation::hasDNA() {
 	return (dnaState == CreatureManager::HASDNA);
 }
 
-
 bool CreatureImplementation::hasMilk() {
 	if (isBaby())
 		return false;
@@ -227,7 +224,7 @@ void CreatureImplementation::addAlreadyHarvested(CreatureObject* player) {
 void CreatureImplementation::setMilkState(short milk) {
 	milkState = milk;
 }
-void CreatureImplementation::setDnaState(short dna){
+void CreatureImplementation::setDnaState(short dna) {
 	dnaState = dna;
 }
 void CreatureImplementation::notifyDespawn(Zone* zone) {
@@ -240,9 +237,7 @@ void CreatureImplementation::notifyDespawn(Zone* zone) {
 }
 
 bool CreatureImplementation::canHarvestMe(CreatureObject* player) {
-
-	if(!player->isInRange(_this.getReferenceUnsafeStaticCast(), 10.0f) || player->isInCombat() || !player->hasSkill("outdoors_scout_novice")
-			|| player->isDead() || player->isIncapacitated() || isPet())
+	if (!player->isInRange(_this.getReferenceUnsafeStaticCast(), 10.0f) || player->isInCombat() || !player->hasSkill("outdoors_scout_novice") || player->isDead() || player->isIncapacitated() || isPet())
 		return false;
 
 	if (!hasOrganics())
@@ -266,11 +261,9 @@ bool CreatureImplementation::canHarvestMe(CreatureObject* player) {
 
 	return false;
 }
-bool CreatureImplementation::canDroidHarvestMe(CreatureObject* player,CreatureObject* droid) {
-
+bool CreatureImplementation::canDroidHarvestMe(CreatureObject* player, CreatureObject* droid) {
 	// droid should be able to harvest if in range, with current AI
-	if(!droid->isInRange(_this.getReferenceUnsafeStaticCast(), (10.0f + droid->getTemplateRadius() + getTemplateRadius())) || droid->isInCombat() || !player->hasSkill("outdoors_scout_novice")
-			|| droid->isDead() || droid->isIncapacitated() || isPet()) {
+	if (!droid->isInRange(_this.getReferenceUnsafeStaticCast(), (10.0f + droid->getTemplateRadius() + getTemplateRadius())) || droid->isInCombat() || !player->hasSkill("outdoors_scout_novice") || droid->isDead() || droid->isIncapacitated() || isPet()) {
 		return false;
 	}
 
@@ -300,8 +293,7 @@ bool CreatureImplementation::canDroidHarvestMe(CreatureObject* player,CreatureOb
 }
 
 bool CreatureImplementation::hasSkillToHarvestMe(CreatureObject* player) {
-
-	if(!player->hasSkill("outdoors_scout_novice"))
+	if (!player->hasSkill("outdoors_scout_novice"))
 		return false;
 
 	if (!hasOrganics())
@@ -322,7 +314,7 @@ bool CreatureImplementation::canTameMe(CreatureObject* player) {
 	if (!isBaby() || _this.getReferenceUnsafeStaticCast()->isInCombat() || _this.getReferenceUnsafeStaticCast()->isDead() || isPet())
 		return false;
 
-	if(player->isInCombat() || player->isDead() || player->isIncapacitated() || player->isRidingMount())
+	if (player->isInCombat() || player->isDead() || player->isIncapacitated() || player->isRidingMount())
 		return false;
 
 	return true;
@@ -351,19 +343,17 @@ bool CreatureImplementation::isVicious() {
 }
 
 bool CreatureImplementation::canMilkMe(CreatureObject* player) {
-
-	if (!hasMilk() || milkState != CreatureManager::NOTMILKED  || _this.getReferenceUnsafeStaticCast()->isInCombat() || _this.getReferenceUnsafeStaticCast()->isDead() || isPet())
+	if (!hasMilk() || milkState != CreatureManager::NOTMILKED || _this.getReferenceUnsafeStaticCast()->isInCombat() || _this.getReferenceUnsafeStaticCast()->isDead() || isPet())
 		return false;
 
-	if(!player->isInRange(_this.getReferenceUnsafeStaticCast(), 5.0f) || player->isInCombat() || player->isDead() || player->isIncapacitated() || !(player->hasState(CreatureState::MASKSCENT)))
+	if (!player->isInRange(_this.getReferenceUnsafeStaticCast(), 5.0f) || player->isInCombat() || player->isDead() || player->isIncapacitated() || !(player->hasState(CreatureState::MASKSCENT)))
 		return false;
 
 	return true;
 }
 
 bool CreatureImplementation::hasSkillToSampleMe(CreatureObject* player) {
-
-	if(!player->hasSkill("outdoors_bio_engineer_novice"))
+	if (!player->hasSkill("outdoors_bio_engineer_novice"))
 		return false;
 
 	if (!hasDNA())
@@ -382,7 +372,7 @@ bool CreatureImplementation::hasSkillToSampleMe(CreatureObject* player) {
 }
 
 bool CreatureImplementation::canCollectDna(CreatureObject* player) {
-	if (!hasDNA() ||  _this.getReferenceUnsafeStaticCast()->isInCombat() || _this.getReferenceUnsafeStaticCast()->isDead() || !player->hasSkill("outdoors_bio_engineer_novice")){
+	if (!hasDNA() || _this.getReferenceUnsafeStaticCast()->isInCombat() || _this.getReferenceUnsafeStaticCast()->isDead() || !player->hasSkill("outdoors_bio_engineer_novice")) {
 		return false;
 	}
 	if (player->getSkillMod("dna_harvesting") < 1)
@@ -391,7 +381,7 @@ bool CreatureImplementation::canCollectDna(CreatureObject* player) {
 	if (_this.getReferenceUnsafeStaticCast()->isNonPlayerCreatureObject()) {
 		return false;
 	}
-	if(!player->isInRange(_this.getReferenceUnsafeStaticCast(), 16.0f) || player->isInCombat() || player->isDead() || player->isIncapacitated() ){
+	if (!player->isInRange(_this.getReferenceUnsafeStaticCast(), 16.0f) || player->isInCombat() || player->isDead() || player->isIncapacitated()) {
 		return false;
 	}
 
@@ -444,7 +434,7 @@ void CreatureImplementation::setPetLevel(int newLevel) {
 	maxDmg *= ratio;
 
 	if (primaryWeapon != nullptr && primaryWeapon != defaultWeapon) {
-		float mod = 1.f - 0.1f*float(primaryWeapon->getArmorPiercing());
+		float mod = 1.f - 0.1f * float(primaryWeapon->getArmorPiercing());
 
 		primaryWeapon->setMinDamage(minDmg * mod);
 		primaryWeapon->setMaxDamage(maxDmg * mod);
@@ -493,11 +483,11 @@ void CreatureImplementation::sendMessage(BasePacket* msg) {
 #ifdef LOCKFREE_BCLIENT_BUFFERS
 		if (!msg->getReferenceCount())
 #endif
-		delete msg;
+			delete msg;
 		return;
 	}
 
-	ManagedReference<CreatureObject* > linkedCreature = this->linkedCreature.get();
+	ManagedReference<CreatureObject*> linkedCreature = this->linkedCreature.get();
 
 	if (linkedCreature != nullptr && linkedCreature->getParent().get() == _this.getReferenceUnsafeStaticCast())
 		linkedCreature->sendMessage(msg);
@@ -505,6 +495,6 @@ void CreatureImplementation::sendMessage(BasePacket* msg) {
 #ifdef LOCKFREE_BCLIENT_BUFFERS
 		if (!msg->getReferenceCount())
 #endif
-		delete msg;
+			delete msg;
 	}
 }

@@ -6,18 +6,10 @@
 
 const char LuaStringIdChatParameter::className[] = "LuaStringIdChatParameter";
 
-Luna<LuaStringIdChatParameter>::RegType LuaStringIdChatParameter::Register[] = {
-		{ "_setObject", &LuaStringIdChatParameter::_setObject },
-		{ "_getObject", &LuaStringIdChatParameter::_getObject },
-		{ "setTT", &LuaStringIdChatParameter::setTT },
-		{ "setTU", &LuaStringIdChatParameter::setTU },
-		{ "setTO", &LuaStringIdChatParameter::setTO },
-		{ "setDI", &LuaStringIdChatParameter::setDI },
-		{ "setDF", &LuaStringIdChatParameter::setDF },
-		{ 0, 0 }
-};
+Luna<LuaStringIdChatParameter>::RegType LuaStringIdChatParameter::Register[] = {{"_setObject", &LuaStringIdChatParameter::_setObject}, {"_getObject", &LuaStringIdChatParameter::_getObject}, {"setTT", &LuaStringIdChatParameter::setTT}, {"setTU", &LuaStringIdChatParameter::setTU},
+																				{"setTO", &LuaStringIdChatParameter::setTO},		   {"setDI", &LuaStringIdChatParameter::setDI},			  {"setDF", &LuaStringIdChatParameter::setDF}, {0, 0}};
 
-LuaStringIdChatParameter::LuaStringIdChatParameter(lua_State * L) {
+LuaStringIdChatParameter::LuaStringIdChatParameter(lua_State *L) {
 	String fullPath = lua_tostring(L, 1);
 	realObject = new StringIdChatParameter(fullPath);
 }
@@ -25,13 +17,13 @@ LuaStringIdChatParameter::LuaStringIdChatParameter(lua_State * L) {
 LuaStringIdChatParameter::~LuaStringIdChatParameter() {
 }
 
-int LuaStringIdChatParameter::_setObject(lua_State* L) {
-	realObject = static_cast<StringIdChatParameter*>(lua_touserdata(L, -1));
+int LuaStringIdChatParameter::_setObject(lua_State *L) {
+	realObject = static_cast<StringIdChatParameter *>(lua_touserdata(L, -1));
 
 	return 0;
 }
 
-int LuaStringIdChatParameter::_getObject(lua_State* L) {
+int LuaStringIdChatParameter::_getObject(lua_State *L) {
 	lua_pushlightuserdata(L, realObject.get());
 
 	return 1;

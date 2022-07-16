@@ -36,7 +36,7 @@ public:
 
 	TangibleObject* createHairObject(CreatureObject* imageDesigner, CreatureObject* targetObject, const String& hairTemplate, const String& hairCustomization);
 
-	//skillLevel: -1 creation, 0 novice... 5 master
+	// skillLevel: -1 creation, 0 novice... 5 master
 	static bool validateCustomizationString(CustomizationVariables* data, const String& appearanceFilename, int skillLevel);
 	static bool validatePalette(PaletteColorCustomizationVariable* variable, int value, int skillLevel);
 };

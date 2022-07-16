@@ -20,10 +20,9 @@ class ChatInstantMessageToCharacter : public MessageCallback {
 	UnicodeString message;
 
 	uint32 sequence;
-public:
-	ChatInstantMessageToCharacter(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), sequence(0) {
 
+public:
+	ChatInstantMessageToCharacter(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), sequence(0) {
 	}
 
 	void parse(Message* pack) {
@@ -31,14 +30,14 @@ public:
 		pack->parseAscii(galaxy);
 
 		pack->parseAscii(name);
-		
+
 		pack->parseUnicode(message);
-		
+
 		pack->shiftOffset(4);
-		
+
 		sequence = pack->parseInt();
 	}
-	
+
 	void run() {
 		ChatManager* chatManager = server->getChatManager();
 
@@ -64,13 +63,12 @@ public:
 	inline int getSequence() const {
 		return sequence;
 	}
-
 };
 
-}
-}
-}
-}
+} // namespace chat
+} // namespace packets
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::packets::chat;
 

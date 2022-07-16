@@ -1,6 +1,6 @@
 /*
-                Copyright <SWGEmu>
-        See file COPYING for copying conditions.*/
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
 
 /**
  * @author      : lordkator (lordkator@swgemu.com)
@@ -24,7 +24,7 @@
 #include "APIRequest.h"
 
 namespace server {
- namespace web3 {
+namespace web3 {
 
 server::zone::managers::player::PlayerManager* APIProxyPlayerManager::getPlayerManager() {
 	auto server = getZoneServer();
@@ -51,11 +51,11 @@ void APIProxyPlayerManager::lookupCharacter(APIRequest& apiRequest) {
 
 	auto qName = apiRequest.getQueryFieldString("name", false);
 	auto qNames = apiRequest.getQueryFieldString("names", false);
-    auto qSearch = apiRequest.getQueryFieldString("search", false, "").toLowerCase();
+	auto qSearch = apiRequest.getQueryFieldString("search", false, "").toLowerCase();
 	auto qRecursive = apiRequest.getQueryFieldBool("recursive", false, false);
 	auto qMaxDepth = apiRequest.getQueryFieldUnsignedLong("maxdepth", false, 3);
-    auto qLimit = apiRequest.getQueryFieldUnsignedLong("limit", false, 20);
-    auto qOffset = apiRequest.getQueryFieldUnsignedLong("offset", false, 0);
+	auto qLimit = apiRequest.getQueryFieldUnsignedLong("limit", false, 20);
+	auto qOffset = apiRequest.getQueryFieldUnsignedLong("offset", false, 0);
 	bool findMode = apiRequest.getPathFieldString("mode", true) == "find";
 
 	if (qName.isEmpty() && qNames.isEmpty() && qSearch.isEmpty()) {
@@ -208,16 +208,16 @@ void APIProxyPlayerManager::lookupCharacter(APIRequest& apiRequest) {
 	metadata["msSearch"] = msSearch.getElapsedTimeMs();
 	metadata["msExport"] = msExport.getElapsedTimeMs();
 
-    // Pagination data
-    metadata["offset"] = qOffset;
-    metadata["limit"] = qLimit;
-    metadata["total"] = hits.size();
+	// Pagination data
+	metadata["offset"] = qOffset;
+	metadata["limit"] = qLimit;
+	metadata["total"] = hits.size();
 
-    if (hits.size() > qOffset + qLimit) {
-        metadata["resultsRemaining"] = hits.size() - (qOffset + qLimit);
-    } else {
-        metadata["resultsRemaining"] = 0;
-    }
+	if (hits.size() > qOffset + qLimit) {
+		metadata["resultsRemaining"] = hits.size() - (qOffset + qLimit);
+	} else {
+		metadata["resultsRemaining"] = 0;
+	}
 
 	JSONSerializationType result;
 
@@ -361,17 +361,14 @@ void APIProxyPlayerManager::handle(APIRequest& apiRequest) {
 		adminCreo->sendSystemMessage("API command ban: " + String(result["action_result"]));
 	}
 
-	apiRequest.info(true)
-		<< adminName << " "
-		<< result["action"].get<std::string>() << " "
-		<< result["target"].get<std::string>() << " "
-		<< "for '" << reason << "' "
-		<< "expires = " << expires << ", "
-		<< "result = " << result["action_result"].get<std::string>();
+	apiRequest.info(true) << adminName << " " << result["action"].get<std::string>() << " " << result["target"].get<std::string>() << " "
+						  << "for '" << reason << "' "
+						  << "expires = " << expires << ", "
+						  << "result = " << result["action_result"].get<std::string>();
 
 	apiRequest.success(result);
 }
-}
-}
+} // namespace web3
+} // namespace server
 
 #endif // WITH_REST_API

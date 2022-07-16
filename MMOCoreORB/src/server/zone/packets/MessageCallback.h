@@ -17,56 +17,53 @@ namespace server {
 namespace zone {
 namespace packets {
 
-	class MessageCallback : public Task, public Logger {
-	protected:
-		Reference<ZoneClientSession*> client;
+class MessageCallback : public Task, public Logger {
+protected:
+	Reference<ZoneClientSession*> client;
 
-		ManagedReference<ZoneProcessServer*> server;
+	ManagedReference<ZoneProcessServer*> server;
 
-	public:
-		MessageCallback(ZoneClientSession* client, ZoneProcessServer* server) {
-			MessageCallback::client = client;
-			MessageCallback::server = server;
+public:
+	MessageCallback(ZoneClientSession* client, ZoneProcessServer* server) {
+		MessageCallback::client = client;
+		MessageCallback::server = server;
 
-			setLoggingName("MessageCallback");
+		setLoggingName("MessageCallback");
+	}
+
+	virtual ~MessageCallback() {
+	}
+
+	virtual void parse(Message* message) = 0;
+
+	bool parseMessage(Message* packet) {
+		try {
+			parse(packet);
+
+		} catch (const Exception& e) {
+			error("exception while parsing message in ZonePacketHandler");
+			error(e.getMessage());
+			e.printStackTrace();
+
+			return false;
 		}
 
-		virtual ~MessageCallback() {
-		}
+		return true;
+	}
 
-		virtual void parse(Message* message) = 0;
+	inline ZoneClientSession* getClient() const {
+		return client.get();
+	}
 
-		bool parseMessage(Message* packet) {
-			try {
+	inline ZoneProcessServer* getServer() const {
+		return server;
+	}
+};
 
-				parse(packet);
-
-			} catch (const Exception& e) {
-				error("exception while parsing message in ZonePacketHandler");
-				error(e.getMessage());
-				e.printStackTrace();
-
-				return false;
-			}
-
-			return true;
-		}
-
-		inline ZoneClientSession* getClient() const {
-			return client.get();
-		}
-
-		inline ZoneProcessServer* getServer() const {
-			return server;
-		}
-
-	};
-
-}
-}
-}
+} // namespace packets
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::packets;
-
 
 #endif /* MESSAGECALLBACK_H_ */

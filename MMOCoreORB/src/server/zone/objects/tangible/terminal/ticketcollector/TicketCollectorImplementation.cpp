@@ -40,7 +40,7 @@ void TicketCollectorImplementation::fillObjectMenuResponse(ObjectMenuResponse* m
 
 int TicketCollectorImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
 	if (selectedID == 20) {
-		player->executeObjectControllerAction(0x5DCD41A2); //boardShuttle
+		player->executeObjectControllerAction(0x5DCD41A2); // boardShuttle
 	} else if (selectedID == 193 && JediManager::instance()->getJediProgressionType() == JediManager::VILLAGEJEDIPROGRESSION) {
 		Zone* thisZone = getZone();
 
@@ -70,4 +70,3 @@ int TicketCollectorImplementation::handleObjectMenuSelect(CreatureObject* player
 
 	return 0;
 }
-

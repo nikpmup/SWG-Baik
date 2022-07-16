@@ -17,7 +17,7 @@ class RecastNavMesh : public Object, public Logger {
 	void loadAll(ObjectInputStream* stream);
 	void saveAll(ObjectOutputStream* stream);
 
-	dtNavMesh *navMesh;
+	dtNavMesh* navMesh;
 	NavMeshSetHeader header;
 	String name;
 

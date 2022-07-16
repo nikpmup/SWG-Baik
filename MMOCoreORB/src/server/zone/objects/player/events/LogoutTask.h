@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 /**
@@ -16,7 +16,7 @@
 
 #include "server/zone/packets/player/LogoutMessage.h"
 
-class LogoutTask: public Task {
+class LogoutTask : public Task {
 	ManagedReference<CreatureObject*> creature;
 	int timeLeft;
 
@@ -34,7 +34,7 @@ public:
 	void cancelLogout() {
 		creature->removePendingTask("logout");
 
-		if(isScheduled())
+		if (isScheduled())
 			cancel();
 
 		StringIdChatParameter abortMsg("logout", "aborted");

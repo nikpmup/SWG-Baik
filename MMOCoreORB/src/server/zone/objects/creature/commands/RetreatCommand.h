@@ -9,9 +9,7 @@
 
 class RetreatCommand : public SquadLeaderCommand {
 public:
-
-	RetreatCommand(const String& name, ZoneProcessServer* server)
-		: SquadLeaderCommand(name, server) {
+	RetreatCommand(const String& name, ZoneProcessServer* server) : SquadLeaderCommand(name, server) {
 	}
 
 	bool checkRetreat(CreatureObject* creature) const {
@@ -27,7 +25,7 @@ public:
 		}
 
 		if (zone->getZoneName() == "dungeon1") {
-			creature->sendSystemMessage("@combat_effects:burst_run_space_dungeon"); //The artificial gravity makes burst running impossible here.
+			creature->sendSystemMessage("@combat_effects:burst_run_space_dungeon"); // The artificial gravity makes burst running impossible here.
 			return false;
 		}
 
@@ -37,12 +35,12 @@ public:
 		uint32 forceRun3CRC = BuffCRC::JEDI_FORCE_RUN_3;
 
 		if (creature->hasBuff(burstCRC) || creature->hasBuff(forceRun1CRC) || creature->hasBuff(forceRun2CRC) || creature->hasBuff(forceRun3CRC)) {
-			creature->sendSystemMessage("@combat_effects:burst_run_no"); //You cannot burst run right now.
+			creature->sendSystemMessage("@combat_effects:burst_run_no"); // You cannot burst run right now.
 			return false;
 		}
 
 		if (!creature->checkCooldownRecovery("retreat")) {
-			creature->sendSystemMessage("@combat_effects:burst_run_no"); //You cannot burst run right now.
+			creature->sendSystemMessage("@combat_effects:burst_run_no"); // You cannot burst run right now.
 			return false;
 		}
 
@@ -50,7 +48,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -75,8 +72,8 @@ public:
 		if (!checkGroupLeader(player, group))
 			return GENERALERROR;
 
-		float groupBurstRunMod = (float) player->getSkillMod("group_burst_run");
-		int hamCost = (int) (100.0f * (1.0f - (groupBurstRunMod / 100.0f))) * calculateGroupModifier(group);
+		float groupBurstRunMod = (float)player->getSkillMod("group_burst_run");
+		int hamCost = (int)(100.0f * (1.0f - (groupBurstRunMod / 100.0f))) * calculateGroupModifier(group);
 
 		int actionCost = creature->calculateCostAdjustment(CreatureAttribute::QUICKNESS, hamCost);
 		int mindCost = creature->calculateCostAdjustment(CreatureAttribute::FOCUS, hamCost);
@@ -103,13 +100,12 @@ public:
 
 		if (!ghost->getCommandMessageString(STRING_HASHCODE("retreat")).isEmpty() && creature->checkCooldownRecovery("command_message")) {
 			UnicodeString shout(ghost->getCommandMessageString(STRING_HASHCODE("retreat")));
- 	 	 	server->getChatManager()->broadcastChatMessage(player, shout, 0, 80, player->getMoodID(), 0, ghost->getLanguageID());
- 	 	 	creature->updateCooldownTimer("command_message", 30 * 1000);
+			server->getChatManager()->broadcastChatMessage(player, shout, 0, 80, player->getMoodID(), 0, ghost->getLanguageID());
+			creature->updateCooldownTimer("command_message", 30 * 1000);
 		}
 
 		return SUCCESS;
 	}
-
 
 	void doRetreat(CreatureObject* player) const {
 		if (player == nullptr)
@@ -124,7 +120,7 @@ public:
 			return;
 		}
 
-		float groupRunMod = (float) player->getSkillMod("group_burst_run");
+		float groupRunMod = (float)player->getSkillMod("group_burst_run");
 
 		if (groupRunMod > 100.0f)
 			groupRunMod = 100.0f;
@@ -146,9 +142,7 @@ public:
 		player->addBuff(buff);
 
 		player->updateCooldownTimer("retreat", 30000);
-
 	}
-
 };
 
-#endif //RETREATCOMMAND_H_
+#endif // RETREATCOMMAND_H_

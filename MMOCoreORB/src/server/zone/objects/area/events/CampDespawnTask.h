@@ -14,7 +14,7 @@ namespace objects {
 namespace area {
 namespace events {
 
-class CampDespawnTask: public Task {
+class CampDespawnTask : public Task {
 	ManagedReference<CampSiteActiveArea*> campSite;
 
 public:
@@ -39,11 +39,10 @@ public:
 	}
 };
 
-
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace area
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif /* CAMPDESPAWNTASK_H_ */

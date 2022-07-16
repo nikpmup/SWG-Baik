@@ -11,15 +11,12 @@
 float const PI_2 = 3.14159265358979323846f / 2.f;
 
 class PackedRotationRate {
-	enum
-	{
-		packedSize = 1
-	};
+	enum { packedSize = 1 };
 
 	int8 rate;
+
 public:
 	PackedRotationRate() : rate(0) {
-
 	}
 
 	PackedRotationRate(float rate) {
@@ -27,11 +24,11 @@ public:
 	}
 
 	void set(float rate) {
-		rate = static_cast<int8>(clamp(-(PI_2), rate, (PI_2))*(127.f / (PI_2)));
+		rate = static_cast<int8>(clamp(-(PI_2), rate, (PI_2)) * (127.f / (PI_2)));
 	}
 
 	float get() {
-		return rate*((PI_2)/127.f);
+		return rate * ((PI_2) / 127.f);
 	}
 
 	void parse(Message* message) {

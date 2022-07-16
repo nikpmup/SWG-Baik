@@ -37,8 +37,8 @@ void VendorAdBarkingSessionImplementation::sendPhraseOptions() {
 	}
 
 	ManagedReference<SuiListBox*> phrases = new SuiListBox(player, SuiWindowType::VENDOR_PHRASES);
-	phrases->setPromptTitle("@player_structure:vendor_strcats_t"); //Select Phrase Category
-	phrases->setPromptText("@player_structure:vendor_strcats_d"); //Select the type of phrase for the vendor to bark. If you have "Advanced Vocalization" an option to customize the advertisement will appear on the list.
+	phrases->setPromptTitle("@player_structure:vendor_strcats_t"); // Select Phrase Category
+	phrases->setPromptText("@player_structure:vendor_strcats_d");  // Select the type of phrase for the vendor to bark. If you have "Advanced Vocalization" an option to customize the advertisement will appear on the list.
 	phrases->setUsingObject(vendor);
 	phrases->setOkButton(true, "@ok");
 	phrases->setCancelButton(true, "@cancel");
@@ -168,13 +168,13 @@ void VendorAdBarkingSessionImplementation::completeSession() {
 	}
 
 	DataObjectComponentReference* data = vendor->getDataObjectComponent();
-	if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
+	if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
 		cancelSession();
 		return;
 	}
 
 	VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-	if(vendorData == nullptr) {
+	if (vendorData == nullptr) {
 		cancelSession();
 		return;
 	}

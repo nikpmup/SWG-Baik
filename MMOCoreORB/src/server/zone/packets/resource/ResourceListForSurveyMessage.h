@@ -42,8 +42,7 @@ public:
 	void finish(String resourceType, long playerID) {
 		insertAscii(resourceType);
 		insertLong(playerID);
-		insertInt(10,listSize);
+		insertInt(10, listSize);
 	}
-
 };
 #endif /*RESOURCELISTFORSURVEYMESSAGE_H_*/

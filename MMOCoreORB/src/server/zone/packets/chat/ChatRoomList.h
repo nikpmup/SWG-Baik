@@ -20,9 +20,9 @@ class ChatRoomList : public BaseMessage {
 public:
 	ChatRoomList() : BaseMessage() {
 		insertShort(0x02);
-		insertInt(0x70DEB197);  // Opcode
+		insertInt(0x70DEB197); // Opcode
 
-		insertInt(0); //List Count
+		insertInt(0); // List Count
 
 		channelCounter = 0;
 
@@ -50,33 +50,28 @@ public:
 		insertAscii(channel->getGalaxyName());
 		insertAscii(channel->getOwnerName());
 
-		//This struct is a ChatAvatarId
+		// This struct is a ChatAvatarId
 		insertAscii("SWG");
 		insertAscii(channel->getGalaxyName());
 		insertAscii(channel->getCreator());
 
 		insertUnicode(channel->getTitle());
 
-		insertInt(0); //Moderator & Player lists not needed in this packet.
+		insertInt(0); // Moderator & Player lists not needed in this packet.
 		insertInt(0);
-
 	}
 
 	void insertChannelListCount() {
 		insertInt(10, channelCounter);
 	}
-
 };
 
 class ChatRequestRoomListCallback : public MessageCallback {
 public:
-	ChatRequestRoomListCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	ChatRequestRoomListCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {
-
 	}
 
 	void run() {
@@ -89,10 +84,10 @@ public:
 	}
 };
 
-}
-}
-}
-}
+} // namespace chat
+} // namespace packets
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::packets::chat;
 

@@ -8,13 +8,12 @@
 #ifndef CHATREMOVEMODERATORFROMROOMCALLBACK_H_
 #define CHATREMOVEMODERATORFROMROOMCALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 #include "server/chat/ChatManager.h"
 
 class ChatRemoveModeratorFromRoomCallback : public MessageCallback {
-	String deopeeName; //Player to deop.
-	String roomPath; //Room to deop the player in.
+	String deopeeName; // Player to deop.
+	String roomPath;   // Room to deop the player in.
 	int requestID;
 
 public:
@@ -27,12 +26,11 @@ public:
 	void parse(Message* message) {
 		String unused;
 
-		message->parseAscii(unused); //Game name
-		message->parseAscii(unused); //Galaxy name
-		message->parseAscii(deopeeName); //Player to deop
-		message->parseAscii(roomPath); //Path to room
-		requestID = message->parseInt(); //requestID
-
+		message->parseAscii(unused);	 // Game name
+		message->parseAscii(unused);	 // Galaxy name
+		message->parseAscii(deopeeName); // Player to deop
+		message->parseAscii(roomPath);	 // Path to room
+		requestID = message->parseInt(); // requestID
 	}
 
 	void run() {
@@ -45,8 +43,6 @@ public:
 		if (chatManager != nullptr)
 			chatManager->handleChatRemoveModerator(deoper, deopeeName, roomPath, requestID);
 	}
-
 };
-
 
 #endif /* CHATREMOVEMODERATORFROMROOMCALLBACK_H_ */

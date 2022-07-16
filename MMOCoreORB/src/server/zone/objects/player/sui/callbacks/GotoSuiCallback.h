@@ -13,10 +13,8 @@
 #include "server/zone/objects/waypoint/WaypointObject.h"
 
 class GotoSuiCallback : public SuiCallback {
-
 public:
 	GotoSuiCallback(ZoneServer* serv) : SuiCallback(serv) {
-
 	}
 
 	void run(CreatureObject* creature, SuiBox* sui, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -28,14 +26,14 @@ public:
 		if (!sui->isListBox() || cancelPressed)
 			return;
 
-		SuiListBox* listBox = cast<SuiListBox*>( sui);
+		SuiListBox* listBox = cast<SuiListBox*>(sui);
 
-		if(!creature->isPlayerCreature())
+		if (!creature->isPlayerCreature())
 			return;
 
 		int index = Integer::valueOf(args->get(0).toString());
 
-		if(index < 0)
+		if (index < 0)
 			return;
 
 		uint64 objectID = listBox->getMenuObjectID(index);
@@ -48,7 +46,7 @@ public:
 		ManagedReference<WaypointObject*> wp = cast<WaypointObject*>(object.get());
 
 		if (wp == nullptr)
-		    return;
+			return;
 
 		Locker locker(wp, creature);
 
@@ -67,7 +65,7 @@ public:
 		}
 
 		if (zoneName != "")
-		    creature->switchZone(zoneName, wp->getPositionX(), wp->getPositionZ(), wp->getPositionY(), 0);
+			creature->switchZone(zoneName, wp->getPositionX(), wp->getPositionZ(), wp->getPositionY(), 0);
 	}
 };
 

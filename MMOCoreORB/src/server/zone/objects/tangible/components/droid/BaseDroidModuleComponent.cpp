@@ -15,7 +15,6 @@ BaseDroidModuleComponent::BaseDroidModuleComponent() {
 }
 
 BaseDroidModuleComponent::~BaseDroidModuleComponent() {
-
 }
 
 String BaseDroidModuleComponent::getModuleName() const {
@@ -23,19 +22,15 @@ String BaseDroidModuleComponent::getModuleName() const {
 }
 
 void BaseDroidModuleComponent::initializeTransientMembers() {
-
 }
 
 void BaseDroidModuleComponent::initialize(DroidObject* droid) {
-
 }
 
 void BaseDroidModuleComponent::fillAttributeList(AttributeListMessage* msg, CreatureObject* droid) {
-
 }
 
 void BaseDroidModuleComponent::fillObjectMenuResponse(SceneObject* droidObject, ObjectMenuResponse* menuResponse, CreatureObject* player) {
-
 }
 
 int BaseDroidModuleComponent::handleObjectMenuSelect(CreatureObject* player, byte selectedID, PetControlDevice* controller) {
@@ -43,19 +38,16 @@ int BaseDroidModuleComponent::handleObjectMenuSelect(CreatureObject* player, byt
 }
 
 void BaseDroidModuleComponent::loadSkillMods(CreatureObject* player) {
-
 }
 
 void BaseDroidModuleComponent::unloadSkillMods(CreatureObject* player) {
-
 }
 
 bool BaseDroidModuleComponent::skillsByRange() {
 	return false;
 }
 
-void BaseDroidModuleComponent::handlePetCommand(String cmd, CreatureObject* speaker){
-
+void BaseDroidModuleComponent::handlePetCommand(String cmd, CreatureObject* speaker) {
 }
 
 int BaseDroidModuleComponent::getBatteryDrain() {
@@ -63,7 +55,6 @@ int BaseDroidModuleComponent::getBatteryDrain() {
 }
 
 void BaseDroidModuleComponent::deactivate() {
-
 }
 
 bool BaseDroidModuleComponent::actsAsCraftingStation() {
@@ -77,11 +68,9 @@ String BaseDroidModuleComponent::toString() const {
 }
 
 void BaseDroidModuleComponent::onCall() {
-
 }
 
 void BaseDroidModuleComponent::onStore() {
-
 }
 
 Reference<DroidObject*> BaseDroidModuleComponent::getDroidObject() {
@@ -95,5 +84,4 @@ Reference<DroidObject*> BaseDroidModuleComponent::getDroidObject() {
 }
 
 void BaseDroidModuleComponent::updateCraftingValues(CraftingValues* values, bool firstUpdate) {
-
 }

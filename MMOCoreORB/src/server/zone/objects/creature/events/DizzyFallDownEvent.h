@@ -18,8 +18,8 @@ namespace events {
 
 class DizzyFallDownEvent : public Task {
 	ManagedReference<CreatureObject*> creature;
-public:
 
+public:
 	DizzyFallDownEvent(CreatureObject* creat) : Task(200) {
 		creature = creat;
 	}
@@ -51,11 +51,10 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
-
+} // namespace events
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif /* DIZZYFALLDOWNEVENT_H_ */

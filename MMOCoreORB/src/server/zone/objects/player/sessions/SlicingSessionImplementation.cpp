@@ -70,14 +70,13 @@ void SlicingSessionImplementation::initalizeSlicingMenu(CreatureObject* pl, Tang
 		return;
 	}
 
-	//bugfix 814,819
+	// bugfix 814,819
 	ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
 	if (inventory == nullptr)
 		return;
 
-	if(!isBaseSlice() && !isKeypadSlice()){
-		if (!inventory->hasObjectInContainer(tangibleObject->getObjectID()) && tangibleObject->getGameObjectType() != SceneObjectType::STATICLOOTCONTAINER
-				&& tangibleObject->getGameObjectType() != SceneObjectType::MISSIONTERMINAL ) {
+	if (!isBaseSlice() && !isKeypadSlice()) {
+		if (!inventory->hasObjectInContainer(tangibleObject->getObjectID()) && tangibleObject->getGameObjectType() != SceneObjectType::STATICLOOTCONTAINER && tangibleObject->getGameObjectType() != SceneObjectType::MISSIONTERMINAL) {
 			player->sendSystemMessage("The object must be in your inventory in order to perform the slice.");
 			return;
 		}
@@ -151,7 +150,6 @@ void SlicingSessionImplementation::generateSliceMenu(SuiListBox* suiBox) {
 	suiBox->setPromptText(prompt.toString());
 	player->getPlayerObject()->addSuiBox(suiBox);
 	player->sendMessage(suiBox->generateMessage());
-
 }
 
 void SlicingSessionImplementation::handleMenuSelect(CreatureObject* pl, byte menuID, SuiListBox* suiBox) {
@@ -165,7 +163,7 @@ void SlicingSessionImplementation::handleMenuSelect(CreatureObject* pl, byte men
 	if (inventory == nullptr)
 		return;
 
-	if(!isBaseSlice() && !isKeypadSlice() && tangibleObject->getGameObjectType() != SceneObjectType::STATICLOOTCONTAINER && tangibleObject->getGameObjectType() != SceneObjectType::MISSIONTERMINAL){
+	if (!isBaseSlice() && !isKeypadSlice() && tangibleObject->getGameObjectType() != SceneObjectType::STATICLOOTCONTAINER && tangibleObject->getGameObjectType() != SceneObjectType::MISSIONTERMINAL) {
 		if (!inventory->hasObjectInContainer(tangibleObject->getObjectID())) {
 			player->sendSystemMessage("The object must be in your inventory in order to perform the slice.");
 			return;
@@ -175,7 +173,7 @@ void SlicingSessionImplementation::handleMenuSelect(CreatureObject* pl, byte men
 	uint8 progress = getProgress();
 
 	if (progress == 0) {
-		switch(menuID) {
+		switch (menuID) {
 		case 0: {
 			if (hasPrecisionLaserKnife()) {
 				if (firstCable != 0)
@@ -220,7 +218,6 @@ void SlicingSessionImplementation::handleMenuSelect(CreatureObject* pl, byte men
 	}
 
 	generateSliceMenu(suiBox);
-
 }
 
 void SlicingSessionImplementation::endSlicing() {
@@ -236,11 +233,9 @@ void SlicingSessionImplementation::endSlicing() {
 		player->addCooldown("slicing.terminal", (2 * (60 * 1000))); // 2min Cooldown
 
 	cancelSession();
-
 }
 
 int SlicingSessionImplementation::getSlicingSkill(CreatureObject* slicer) {
-
 	String skill0 = "combat_smuggler_novice";
 	String skill1 = "combat_smuggler_slicing_01";
 	String skill2 = "combat_smuggler_slicing_02";
@@ -262,7 +257,6 @@ int SlicingSessionImplementation::getSlicingSkill(CreatureObject* slicer) {
 		return 0;
 
 	return -1;
-
 }
 
 bool SlicingSessionImplementation::hasPrecisionLaserKnife(bool removeItem) {
@@ -363,13 +357,13 @@ void SlicingSessionImplementation::useClampFromInventory(SlicingTool* clamp) {
 
 	Locker locker(clamp);
 
-	//inventory->removeObject(clamp, true);
+	// inventory->removeObject(clamp, true);
 	clamp->destroyObjectFromWorld(true);
 	clamp->destroyObjectFromDatabase(true);
 	player->sendSystemMessage("@slicing/slicing:used_clamp");
 	usedClamp = true;
 
-	//if (player->hasSuiBox(slicingSuiBox->getBoxID()))
+	// if (player->hasSuiBox(slicingSuiBox->getBoxID()))
 	//	player->closeSuiWindowType(SuiWindowType::SLICING_MENU);
 }
 
@@ -458,7 +452,7 @@ void SlicingSessionImplementation::handleSlice(SuiListBox* suiBox) {
 	PlayerManager* playerManager = player->getZoneServer()->getPlayerManager();
 
 	suiBox->removeAllMenuItems();
-	suiBox->setCancelButton(false,"@cancel");
+	suiBox->setCancelButton(false, "@cancel");
 
 	StringBuffer prompt;
 	prompt << "@slicing/slicing:";
@@ -472,7 +466,7 @@ void SlicingSessionImplementation::handleSlice(SuiListBox* suiBox) {
 		handleContainerSlice();
 		playerManager->awardExperience(player, "slicing", 250, true); // Container Slice XP
 	} else if (tangibleObject->isMissionTerminal()) {
-		MissionTerminal* term = cast<MissionTerminal*>( tangibleObject.get());
+		MissionTerminal* term = cast<MissionTerminal*>(tangibleObject.get());
 		playerManager->awardExperience(player, "slicing", 100, true); // Terminal Slice XP
 		term->addSlicer(player);
 		player->sendSystemMessage("@slicing/slicing:terminal_success");
@@ -482,26 +476,24 @@ void SlicingSessionImplementation::handleSlice(SuiListBox* suiBox) {
 	} else if (tangibleObject->isArmorObject()) {
 		handleArmorSlice();
 		playerManager->awardExperience(player, "slicing", 250, true); // Armor Slice XP
-	} else if ( isBaseSlice()){
-		playerManager->awardExperience(player,"slicing", 1000, true); // Base slicing
+	} else if (isBaseSlice()) {
+		playerManager->awardExperience(player, "slicing", 1000, true); // Base slicing
 
 		Zone* zone = player->getZone();
 
-		if (zone != nullptr){
+		if (zone != nullptr) {
 			GCWManager* gcwMan = zone->getGCWManager();
 
-			if (gcwMan != nullptr){
+			if (gcwMan != nullptr) {
 				SecuritySliceTask* task = new SecuritySliceTask(gcwMan, tangibleObject.get(), player);
 				task->execute();
 			}
 		}
-
 	}
 
 	tangibleObject->notifyObservers(ObserverEventType::SLICED, player, 1);
 
 	endSlicing();
-
 }
 
 void SlicingSessionImplementation::handleWeaponSlice() {
@@ -529,12 +521,11 @@ void SlicingSessionImplementation::handleWeaponSlice() {
 		break;
 	default:
 		return;
-
 	}
 
 	uint8 percentage = System::random(max - min) + min;
 
-	switch(System::random(1)) {
+	switch (System::random(1)) {
 	case 0:
 		handleSliceDamage(percentage);
 		break;
@@ -556,10 +547,9 @@ void SlicingSessionImplementation::detachPowerUp(CreatureObject* player, WeaponO
 
 	locker.release();
 
-	StringIdChatParameter message("powerup", "prose_remove_powerup"); //You detach your powerup from %TT.
+	StringIdChatParameter message("powerup", "prose_remove_powerup"); // You detach your powerup from %TT.
 	message.setTT(weap->getDisplayedName());
 	player->sendSystemMessage(message);
-
 }
 
 void SlicingSessionImplementation::handleSliceDamage(uint8 percent) {
@@ -584,7 +574,6 @@ void SlicingSessionImplementation::handleSliceDamage(uint8 percent) {
 	params.setStringId("@slicing/slicing:dam_mod");
 
 	player->sendSystemMessage(params);
-
 }
 
 void SlicingSessionImplementation::handleSliceSpeed(uint8 percent) {
@@ -735,23 +724,21 @@ void SlicingSessionImplementation::handleContainerSlice() {
 		trx.commit();
 
 		if (inventory->hasObjectInContainer(tangibleObject->getObjectID())) {
-			//inventory->removeObject(tangibleObject, true);
+			// inventory->removeObject(tangibleObject, true);
 			tangibleObject->destroyObjectFromWorld(true);
 		}
 
 		tangibleObject->destroyObjectFromDatabase(true);
 
 	} else if (tangibleObject->isContainerObject()) {
-
 		Container* container = dynamic_cast<Container*>(tangibleObject.get());
-        if (container == nullptr)
+		if (container == nullptr)
 			return;
 
 		container->setSliced(true);
 		container->setLockedStatus(false);
 
-		if(!container->isRelocking())
-		{
+		if (!container->isRelocking()) {
 			relockEvent = new RelockLootContainerEvent(container);
 			relockEvent->schedule(container->getLockTime());
 		}
@@ -766,7 +753,7 @@ void SlicingSessionImplementation::handleSliceFailed() {
 	ManagedReference<TangibleObject*> tangibleObject = this->tangibleObject.get();
 
 	if (tangibleObject == nullptr || player == nullptr)
-			return;
+		return;
 
 	if (tangibleObject->isMissionTerminal())
 		player->sendSystemMessage("@slicing/slicing:terminal_fail");
@@ -784,28 +771,24 @@ void SlicingSessionImplementation::handleSliceFailed() {
 		player->sendSystemMessage("Your attempt to slice the object has failed.");
 
 	if (tangibleObject->isContainerObject()) {
-
 		ManagedReference<Container*> container = tangibleObject.castTo<Container*>();
-        Locker clocker(container, player);
+		Locker clocker(container, player);
 
 		if (!container)
 			return;
 
-        container->setSliced(true);
-		if (!container->isRelocking())
-		{
+		container->setSliced(true);
+		if (!container->isRelocking()) {
 			relockEvent = new RelockLootContainerEvent(container);
 			relockEvent->schedule(container->getLockTime()); // This will reactivate the 'broken' lock. (1 Hour)
 		}
 
-	} else if (isBaseSlice()){
-
+	} else if (isBaseSlice()) {
 		Zone* zone = player->getZone();
 		if (zone != nullptr) {
 			GCWManager* gcwMan = zone->getGCWManager();
-			if(gcwMan != nullptr)
+			if (gcwMan != nullptr)
 				gcwMan->failSecuritySlice(tangibleObject.get());
-
 		}
 	} else if (!tangibleObject->isMissionTerminal() && !isKeypadSlice()) {
 		tangibleObject->setSliced(true);
@@ -813,7 +796,6 @@ void SlicingSessionImplementation::handleSliceFailed() {
 
 	tangibleObject->notifyObservers(ObserverEventType::SLICED, player, 0);
 	endSlicing();
-
 }
 int SlicingSessionImplementation::cancelSession() {
 	ManagedReference<CreatureObject*> player = this->player.get();

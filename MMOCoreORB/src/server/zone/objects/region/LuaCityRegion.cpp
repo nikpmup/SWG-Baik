@@ -4,14 +4,9 @@
 
 const char LuaCityRegion::className[] = "LuaCityRegion";
 
-Luna<LuaCityRegion>::RegType LuaCityRegion::Register[] = {
-		{ "_setObject", &LuaCityRegion::_setObject },
-		{ "_getObject", &LuaCityRegion::_getObject },
-		{ "isClientRegion", &LuaCityRegion::isClientRegion },
-		{ 0, 0 }
-};
+Luna<LuaCityRegion>::RegType LuaCityRegion::Register[] = {{"_setObject", &LuaCityRegion::_setObject}, {"_getObject", &LuaCityRegion::_getObject}, {"isClientRegion", &LuaCityRegion::isClientRegion}, {0, 0}};
 
-LuaCityRegion::LuaCityRegion(lua_State *L) {
+LuaCityRegion::LuaCityRegion(lua_State* L) {
 	realObject = reinterpret_cast<CityRegion*>(lua_touserdata(L, 1));
 }
 

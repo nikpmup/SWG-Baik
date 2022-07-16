@@ -7,17 +7,13 @@
 
 class SampleCommand : public QueueCommand {
 public:
-
-	SampleCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SampleCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature)) {
-			if(creature->isPlayerCreature() && creature->isInCombat()) {
-				creature->sendSystemMessage("@survey:sample_cancel_attack"); //You can't take samples while under attack!
+			if (creature->isPlayerCreature() && creature->isInCombat()) {
+				creature->sendSystemMessage("@survey:sample_cancel_attack"); // You can't take samples while under attack!
 			}
 
 			return INVALIDSTATE;
@@ -28,7 +24,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SAMPLECOMMAND_H_
+#endif // SAMPLECOMMAND_H_

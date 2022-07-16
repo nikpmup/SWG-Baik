@@ -9,11 +9,8 @@
 
 class HealHealthWoundSelf1Command : public ForceHealQueueCommand {
 public:
-
-	HealHealthWoundSelf1Command(const String& name, ZoneProcessServer* server)
-		: ForceHealQueueCommand(name, server) {
-
+	HealHealthWoundSelf1Command(const String& name, ZoneProcessServer* server) : ForceHealQueueCommand(name, server) {
 	}
 };
 
-#endif //HEALHEALTHWOUNDSELF1COMMAND_H_
+#endif // HEALHEALTHWOUNDSELF1COMMAND_H_

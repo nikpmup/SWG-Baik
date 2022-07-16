@@ -21,7 +21,7 @@ protected:
 	Mutex mutex;
 
 public:
-	NavMeshJob(NavArea *area, const RecastSettings& config, const String& targetQueue) : queue(targetQueue), running(true)  {
+	NavMeshJob(NavArea* area, const RecastSettings& config, const String& targetQueue) : queue(targetQueue), running(true) {
 		this->area = area;
 		settings = config;
 	}
@@ -51,7 +51,7 @@ public:
 	}
 
 	const String& getQueue() const {
-	    return queue;
+		return queue;
 	}
 
 	void cancel() {
@@ -63,6 +63,5 @@ public:
 	}
 
 	void addArea(const AABB& area);
-
 };
 #endif

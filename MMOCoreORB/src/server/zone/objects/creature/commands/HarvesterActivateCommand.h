@@ -9,14 +9,10 @@
 
 class HarvesterActivateCommand : public QueueCommand {
 public:
-
-	HarvesterActivateCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HarvesterActivateCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -30,7 +26,7 @@ public:
 		if (object == nullptr || !object->isInstallationObject())
 			return GENERALERROR;
 
-		InstallationObject* inso = cast<InstallationObject*>( object.get());
+		InstallationObject* inso = cast<InstallationObject*>(object.get());
 
 		try {
 			Locker clocker(inso, player);
@@ -40,15 +36,11 @@ public:
 			else
 				player->sendSystemMessage("You are too far.");
 
-
 		} catch (Exception& e) {
-
 		}
-
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //HARVESTERACTIVATECOMMAND_H_
+#endif // HARVESTERACTIVATECOMMAND_H_

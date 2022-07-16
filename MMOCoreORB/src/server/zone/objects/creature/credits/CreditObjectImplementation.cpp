@@ -15,7 +15,7 @@ void CreditObjectImplementation::setCashCredits(int credits, bool notifyClient) 
 	cashCredits = credits;
 
 	if (notifyClient) {
-		Reference<CreatureObject*> creo = owner.get();
+		Reference<CreatureObject *> creo = owner.get();
 		if (creo == nullptr)
 			return;
 
@@ -27,11 +27,11 @@ void CreditObjectImplementation::setCashCredits(int credits, bool notifyClient) 
 	}
 }
 
-WeakReference<CreatureObject*> CreditObjectImplementation::getOwner() {
+WeakReference<CreatureObject *> CreditObjectImplementation::getOwner() {
 	return owner;
 }
 
-void CreditObjectImplementation::setOwner(CreatureObject* obj) {
+void CreditObjectImplementation::setOwner(CreatureObject *obj) {
 	ownerObjectID = obj->getObjectID();
 	owner = obj;
 }
@@ -49,7 +49,7 @@ void CreditObjectImplementation::setBankCredits(int credits, bool notifyClient) 
 	bankCredits = credits;
 
 	if (notifyClient) {
-		Reference<CreatureObject*> creo = owner.get();
+		Reference<CreatureObject *> creo = owner.get();
 		if (creo == nullptr)
 			return;
 
@@ -67,7 +67,7 @@ void CreditObjectImplementation::transferCredits(int cash, int bank, bool notify
 		return;
 	}
 
-	if ((uint32) cashCredits + (uint32) bankCredits != (uint32) cash + (uint32) bank) {
+	if ((uint32)cashCredits + (uint32)bankCredits != (uint32)cash + (uint32)bank) {
 		error() << "WARNING: unbalanced call to transferCredits(cash=" << cash << ", bank=" << bank << "), current: " << *this;
 		return;
 	}

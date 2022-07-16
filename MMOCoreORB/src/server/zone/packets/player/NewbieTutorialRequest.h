@@ -30,28 +30,27 @@
  */
 class NewbieTutorialRequest : public BaseMessage {
 public:
-   /**
-    * Sets a trigger on certain actions.
-    *
-    * The client can have multiple triggers set at once.
-    *
-    * Once a trigger is activated, a NewbieTutorialRequest
-    * packet is sent echoing the request and the trigger is reset.
-    *
-    * NOTE: there is a bug in the client which causes the
-    *       closeInventory trigger to never reset
-    *
-    * See list above for valid action strings
-    *
-    * @param action action to be monitored
-    */
-   NewbieTutorialRequest(const String& action) : BaseMessage() {
+	/**
+	 * Sets a trigger on certain actions.
+	 *
+	 * The client can have multiple triggers set at once.
+	 *
+	 * Once a trigger is activated, a NewbieTutorialRequest
+	 * packet is sent echoing the request and the trigger is reset.
+	 *
+	 * NOTE: there is a bug in the client which causes the
+	 *       closeInventory trigger to never reset
+	 *
+	 * See list above for valid action strings
+	 *
+	 * @param action action to be monitored
+	 */
+	NewbieTutorialRequest(const String& action) : BaseMessage() {
 		insertShort(0x02);
-		insertInt(0x90DD61AF);  // CRC
+		insertInt(0x90DD61AF); // CRC
 
-		insertAscii(action); //try openContainer openStatMigration etc.
-   }
-
+		insertAscii(action); // try openContainer openStatMigration etc.
+	}
 };
 
 /**
@@ -60,10 +59,9 @@ public:
  */
 class NewbieTutorialResponseCallback : public MessageCallback {
 	String response;
-public:
-	NewbieTutorialResponseCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
 
+public:
+	NewbieTutorialResponseCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {
@@ -81,7 +79,7 @@ public:
 
 		Locker locker(player);
 
-		//player->info("received response: " + response, true);
+		// player->info("received response: " + response, true);
 
 		if (response == "zoomCamera") {
 			player->notifyObservers(ObserverEventType::NEWBIETUTORIALZOOMCAMERA, nullptr, 0);
@@ -106,7 +104,6 @@ public:
 			}
 		}
 	}
-
 };
 
 #endif /* NEWBIETUTORIALREQUEST_H_ */

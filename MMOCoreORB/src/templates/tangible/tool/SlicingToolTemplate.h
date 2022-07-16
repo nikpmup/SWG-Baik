@@ -20,7 +20,6 @@ public:
 	}
 
 	~SlicingToolTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) override {
@@ -32,7 +31,6 @@ public:
 	float getEffectiveness() const {
 		return effectiveness;
 	}
-
 };
 
 #endif /* SLICINGTOOLTEMPLATE_H_ */

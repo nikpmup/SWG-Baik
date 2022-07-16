@@ -11,10 +11,8 @@
 #include "server/zone/objects/tangible/components//TangibleObjectMenuComponent.h"
 #include "templates/tangible/DiceTemplate.h"
 
-
 class DiceMenuComponent : public TangibleObjectMenuComponent {
 public:
-
 	/**
 	 * Fills the radial options, needs to be overriden
 	 * @pre { this object is locked }
@@ -35,6 +33,5 @@ public:
 
 	void doRoll(CreatureObject* player, DiceTemplate* diceTemplate, int sides, const String& sidesText, int numRoll) const;
 };
-
 
 #endif /* DICEMENUCOMPONENT_H_ */

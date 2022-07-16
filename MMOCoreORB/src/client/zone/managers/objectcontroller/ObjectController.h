@@ -16,6 +16,7 @@ class SceneObject;
 
 class ObjectController {
 	Zone* zone;
+
 public:
 	ObjectController(Zone* zn);
 

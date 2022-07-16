@@ -14,11 +14,10 @@
 #include "server/zone/objects/creature/CreatureObject.h"
 
 void FishingPoleObjectImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* object) {
-	TangibleObjectImplementation::fillAttributeList(alm,object);
+	TangibleObjectImplementation::fillAttributeList(alm, object);
 
 	alm->insertAttribute("quality", String::valueOf(quality));
 }
-
 
 int FishingPoleObjectImplementation::canAddObject(SceneObject* object, int containmentType, String& errorDescription) {
 	if (object->isFishingBait()) {
@@ -51,7 +50,7 @@ void FishingPoleObjectImplementation::updateCraftingValues(CraftingValues* value
 
 	quality = values->getCurrentValue("usemodifier");
 
-	//craftingValues->toString();
+	// craftingValues->toString();
 }
 
 void FishingPoleObjectImplementation::doFishing(CreatureObject* player) {
@@ -60,7 +59,7 @@ void FishingPoleObjectImplementation::doFishing(CreatureObject* player) {
 	if (manager->getFishingState(player) != FishingManager::NOTFISHING) {
 		manager->stopFishing(player, manager->getFishBoxID(player), true);
 	} else {
-		//manager->freeBait(player);
+		// manager->freeBait(player);
 		player->executeObjectControllerAction(STRING_HASHCODE("fish"));
 	}
 }

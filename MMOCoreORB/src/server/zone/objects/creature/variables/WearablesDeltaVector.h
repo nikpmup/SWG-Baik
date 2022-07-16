@@ -17,26 +17,25 @@
 #include "server/zone/objects/tangible/wearables/ArmorObject.h"
 #include "templates/tangible/ArmorObjectTemplate.h"
 
-class WearablesDeltaVector : public DeltaVector<ManagedReference<TangibleObject*> > {
+class WearablesDeltaVector : public DeltaVector<ManagedReference<TangibleObject*>> {
 protected:
-	VectorMap<uint8, Vector<ManagedReference<ArmorObject*> > > protectionArmorMap;
+	VectorMap<uint8, Vector<ManagedReference<ArmorObject*>>> protectionArmorMap;
 
 public:
-
-	WearablesDeltaVector() : DeltaVector<ManagedReference<TangibleObject*> >() {
+	WearablesDeltaVector() : DeltaVector<ManagedReference<TangibleObject*>>() {
 		protectionArmorMap.setAllowOverwriteInsertPlan();
 
-		//addSerializableVariable("protectionArmorMap", &protectionArmorMap);
+		// addSerializableVariable("protectionArmorMap", &protectionArmorMap);
 	}
 
 	bool readObjectMember(ObjectInputStream* stream, const String& name) {
 		if (name == "protectionArmorMap") {
-			TypeInfo<VectorMap<uint8, Vector<ManagedReference<ArmorObject*> > >>::parseFromBinaryStream(&protectionArmorMap, stream);
+			TypeInfo<VectorMap<uint8, Vector<ManagedReference<ArmorObject*>>>>::parseFromBinaryStream(&protectionArmorMap, stream);
 
 			return true;
 		}
 
-		return DeltaVector<ManagedReference<TangibleObject*> >::readObjectMember(stream, name);
+		return DeltaVector<ManagedReference<TangibleObject*>>::readObjectMember(stream, name);
 	}
 
 	int writeObjectMembers(ObjectOutputStream* stream) {
@@ -47,21 +46,20 @@ public:
 		_name.toBinaryStream(stream);
 		_offset = stream->getOffset();
 		stream->writeInt(0);
-		TypeInfo<VectorMap<uint8, Vector<ManagedReference<ArmorObject*> > >>::toBinaryStream(&protectionArmorMap, stream);
-		_totalSize = (uint32) (stream->getOffset() - (_offset + 4));
+		TypeInfo<VectorMap<uint8, Vector<ManagedReference<ArmorObject*>>>>::toBinaryStream(&protectionArmorMap, stream);
+		_totalSize = (uint32)(stream->getOffset() - (_offset + 4));
 		stream->writeInt(_offset, _totalSize);
 
-		return 1 + DeltaVector<ManagedReference<TangibleObject*> >::writeObjectMembers(stream);
+		return 1 + DeltaVector<ManagedReference<TangibleObject*>>::writeObjectMembers(stream);
 	}
 
 	friend void to_json(nlohmann::json& j, const WearablesDeltaVector& vec) {
 		j["protectionArmorMap"] = vec.protectionArmorMap;
 
-		const DeltaVector<ManagedReference<TangibleObject*> >& dv = vec;
+		const DeltaVector<ManagedReference<TangibleObject*>>& dv = vec;
 
 		to_json(j, dv);
 	}
-
 
 	bool toBinaryStream(ObjectOutputStream* stream) override {
 		int _currentOffset = stream->getOffset();
@@ -83,7 +81,7 @@ public:
 
 			int _currentOffset = stream->getOffset();
 
-			if(readObjectMember(stream, _name)) {
+			if (readObjectMember(stream, _name)) {
 			}
 
 			stream->setOffset(_currentOffset + _varSize);
@@ -99,9 +97,9 @@ public:
 		object->getCustomizationString(custString);
 
 		msg->insertAscii(custString);
-		msg->insertInt(object->getContainmentType()); //Equipped
-		msg->insertLong(object->getObjectID()); //object id
-		msg->insertInt(object->getClientObjectCRC()); //CRC of the object
+		msg->insertInt(object->getContainmentType()); // Equipped
+		msg->insertLong(object->getObjectID());		  // object id
+		msg->insertInt(object->getClientObjectCRC()); // CRC of the object
 	}
 
 	bool add(const ManagedReference<TangibleObject*>& element, DeltaMessage* message = nullptr, int updates = 1) override {
@@ -122,7 +120,7 @@ public:
 				addArmor(ArmorObjectTemplate::HEAD, armor);
 		}
 
-		return DeltaVector<ManagedReference<TangibleObject*> >::add(element, message, updates);
+		return DeltaVector<ManagedReference<TangibleObject*>>::add(element, message, updates);
 	}
 
 	ManagedReference<TangibleObject*> remove(int index, DeltaMessage* message = nullptr, int updates = 1) override {
@@ -145,51 +143,49 @@ public:
 				removeArmor(ArmorObjectTemplate::HEAD, armor);
 		}
 
-		return DeltaVector<ManagedReference<TangibleObject*> >::remove(index, message, updates);
+		return DeltaVector<ManagedReference<TangibleObject*>>::remove(index, message, updates);
 	}
 
-
-	Vector<ManagedReference<ArmorObject*> > getArmorAtHitLocation(uint8 hl) const {
-
+	Vector<ManagedReference<ArmorObject*>> getArmorAtHitLocation(uint8 hl) const {
 		// TODO: Migrate and remove this when the object versioning and migration system is in place
 
 		// HIT_LOCATION has a circular dependency nightmare with CombatManager and CreatureObject
-		switch(hl) {
-		case 1: // HIT_BODY
+		switch (hl) {
+		case 1:																  // HIT_BODY
 			return protectionArmorMap.get((uint8)ArmorObjectTemplate::CHEST); // CHEST
-		case 2: // HIT_LARM
-		case 3: // HIT_RARM
+		case 2:																  // HIT_LARM
+		case 3:																  // HIT_RARM
 		{
-			Vector<ManagedReference<ArmorObject*> > armArmor = protectionArmorMap.get((uint8)ArmorObjectTemplate::ARMS); // ARMS
-			Vector<ManagedReference<ArmorObject*> > armorAtLocation;
+			Vector<ManagedReference<ArmorObject*>> armArmor = protectionArmorMap.get((uint8)ArmorObjectTemplate::ARMS); // ARMS
+			Vector<ManagedReference<ArmorObject*>> armorAtLocation;
 
-			if(armArmor.isEmpty())
+			if (armArmor.isEmpty())
 				return armArmor;
 
-			if(hl == 2) {
-				for(int i=armArmor.size()-1; i>=0; i--) {
-					ArmorObject *obj = armArmor.get(i);
-					if(obj->hasArrangementDescriptor("bicep_l") || obj->hasArrangementDescriptor("bracer_upper_l") || obj->hasArrangementDescriptor("gloves"))
+			if (hl == 2) {
+				for (int i = armArmor.size() - 1; i >= 0; i--) {
+					ArmorObject* obj = armArmor.get(i);
+					if (obj->hasArrangementDescriptor("bicep_l") || obj->hasArrangementDescriptor("bracer_upper_l") || obj->hasArrangementDescriptor("gloves"))
 						armorAtLocation.add(obj);
 				}
 			} else {
-				for(int i=armArmor.size()-1; i>=0; i--) {
-					ArmorObject *obj = armArmor.get(i);
+				for (int i = armArmor.size() - 1; i >= 0; i--) {
+					ArmorObject* obj = armArmor.get(i);
 
-					if(obj->hasArrangementDescriptor("bicep_r") || obj->hasArrangementDescriptor("bracer_upper_r") || obj->hasArrangementDescriptor("gloves"))
+					if (obj->hasArrangementDescriptor("bicep_r") || obj->hasArrangementDescriptor("bracer_upper_r") || obj->hasArrangementDescriptor("gloves"))
 						armorAtLocation.add(obj);
 				}
 			}
 
-			if(armorAtLocation.isEmpty())
+			if (armorAtLocation.isEmpty())
 				return armArmor;
 			else
 				return armorAtLocation;
 		}
-		case 4: // HIT_LLEG
-		case 5: // HIT_RLEG
+		case 4:																 // HIT_LLEG
+		case 5:																 // HIT_RLEG
 			return protectionArmorMap.get((uint8)ArmorObjectTemplate::LEGS); // LEGS
-		case 6: // HIT_HEAD
+		case 6:																 // HIT_HEAD
 			return protectionArmorMap.get((uint8)ArmorObjectTemplate::HEAD); // HEAD
 		}
 
@@ -197,7 +193,7 @@ public:
 	}
 
 	void addArmor(uint8 hitLocation, ManagedReference<ArmorObject*> armor) {
-		Vector<ManagedReference<ArmorObject*> > armors = protectionArmorMap.get(hitLocation);
+		Vector<ManagedReference<ArmorObject*>> armors = protectionArmorMap.get(hitLocation);
 		armors.add(armor);
 
 		protectionArmorMap.drop(hitLocation);
@@ -205,13 +201,12 @@ public:
 	}
 
 	void removeArmor(uint8 hitLocation, ManagedReference<ArmorObject*> armor) {
-		Vector<ManagedReference<ArmorObject*> > armors = protectionArmorMap.get(hitLocation);
+		Vector<ManagedReference<ArmorObject*>> armors = protectionArmorMap.get(hitLocation);
 		armors.removeElement(armor);
 
 		protectionArmorMap.drop(hitLocation);
 		protectionArmorMap.put(hitLocation, armors);
 	}
 };
-
 
 #endif /* WEARABLESDELTAVECTOR_H_ */

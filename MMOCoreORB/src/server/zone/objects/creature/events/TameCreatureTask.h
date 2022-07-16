@@ -11,9 +11,8 @@
 #include "engine/engine.h"
 
 class TameCreatureTask : public Task {
-
 private:
-	enum Phase { INITIAL, SECOND, FINAL} currentPhase;
+	enum Phase { INITIAL, SECOND, FINAL } currentPhase;
 	int originalMask;
 	ManagedWeakReference<Creature*> mob;
 	ManagedWeakReference<CreatureObject*> play;
@@ -49,8 +48,8 @@ public:
 		}
 
 		if (!creature->isInRange(player, 8.0f)) {
-			player->sendSystemMessage("@hireling/hireling:taming_toofar"); // You are too far away to continue taming.
-			creature->showFlyText("npc_reaction/flytext","toofar", 204, 0, 0);  // You are too far away to tame the creature.
+			player->sendSystemMessage("@hireling/hireling:taming_toofar");		// You are too far away to continue taming.
+			creature->showFlyText("npc_reaction/flytext", "toofar", 204, 0, 0); // You are too far away to tame the creature.
 			resetStatus();
 			return;
 		}
@@ -85,8 +84,8 @@ public:
 			if (tamingChance > System::random(100))
 				success(false);
 			else {
-				player->sendSystemMessage("@hireling/hireling:taming_fail"); // You fail to tame the creature.
-				creature->showFlyText("npc_reaction/flytext","fail", 204, 0, 0);  // You fail to tame the creature.
+				player->sendSystemMessage("@hireling/hireling:taming_fail");	  // You fail to tame the creature.
+				creature->showFlyText("npc_reaction/flytext", "fail", 204, 0, 0); // You fail to tame the creature.
 				resetStatus();
 
 				int ferocity = creature->getFerocity();
@@ -188,7 +187,6 @@ public:
 			float respawn = agent->getRespawnTimer() * 1000;
 
 			if (respawn > 0 && agent->getHomeObject().get() == nullptr) {
-
 				if (agent->getRandomRespawn()) {
 					respawn = System::random(respawn) + (respawn / 2.f);
 				}
@@ -235,8 +233,8 @@ public:
 		else
 			playerManager->awardExperience(player, "creaturehandler", 20 * creature->getLevel());
 
-		player->sendSystemMessage("@hireling/hireling:taming_success"); // You successfully tame the creature.
-		creature->showFlyText("npc_reaction/flytext","success", 0, 204, 0);  // You tame the creature.
+		player->sendSystemMessage("@hireling/hireling:taming_success");		 // You successfully tame the creature.
+		creature->showFlyText("npc_reaction/flytext", "success", 0, 204, 0); // You tame the creature.
 	}
 
 	void resetStatus() {

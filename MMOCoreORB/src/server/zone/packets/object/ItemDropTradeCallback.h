@@ -17,15 +17,13 @@ class ItemDropTradeCallback : public MessageCallback {
 	uint64 targetToTrade;
 
 	ObjectControllerMessageCallback* objectControllerMain;
-public:
-	ItemDropTradeCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-		targetToTrade(0), objectControllerMain(objectControllerCallback) {
 
+public:
+	ItemDropTradeCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), targetToTrade(0), objectControllerMain(objectControllerCallback) {
 	}
 
 	void parse(Message* message) {
-		//System::out << message->toStringData() << endl;
+		// System::out << message->toStringData() << endl;
 		message->shiftOffset(16);
 		targetToTrade = message->parseLong();
 	}
@@ -49,11 +47,11 @@ public:
 		ManagedReference<SceneObject*> targetObject = server->getZoneServer()->getObject(targetToTrade);
 
 		if (targetObject == nullptr || !targetObject->isPlayerCreature() || targetObject == player) {
-			//player->error("invalid target to trade " + String::valueOf(targetToTrade));
+			// player->error("invalid target to trade " + String::valueOf(targetToTrade));
 			return;
 		}
 
-		CreatureObject* targetPlayer = cast<CreatureObject*>( targetObject.get());
+		CreatureObject* targetPlayer = cast<CreatureObject*>(targetObject.get());
 
 		if (targetPlayer->getPlayerObject()->isIgnoring(player->getFirstName()) && !godMode)
 			return;
@@ -88,6 +86,5 @@ public:
 		}
 	}
 };
-
 
 #endif /* ITEMDROPTRADECALLBACK_H_ */

@@ -11,24 +11,23 @@
 #include "ContainerComponent.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace scene {
-    class SceneObject;
-   }
-
-   namespace creature {
-    class CreatureObject;
-   }
-  }
-
-  class Zone;
- }
+namespace zone {
+namespace objects {
+namespace scene {
+class SceneObject;
 }
+
+namespace creature {
+class CreatureObject;
+}
+} // namespace objects
+
+class Zone;
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::scene;
 using namespace server::zone::objects::creature;
-
 
 class LuaContainerComponent : public ContainerComponent {
 	String luaClassName;
@@ -79,7 +78,6 @@ public:
 	 * @param object object that has been inserted
 	 */
 	virtual int notifyObjectRemoved(SceneObject* sceneObject, SceneObject* object, SceneObject* destination) const;
-
 };
 
 #endif /* LUACONTAINERCOMPONENT_H_ */

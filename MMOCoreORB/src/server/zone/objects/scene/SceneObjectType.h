@@ -12,7 +12,6 @@
 
 class SceneObjectType {
 public:
-
 	const static int OBJECT = 0; // Needs Research
 	const static int CORPSE = 1; // Needs Research
 	const static int GROUPOBJECT = 0x02;
@@ -23,7 +22,7 @@ public:
 	const static int LOADBEACON = 8; // Needs Research
 
 	/// Not in client ********
-	const static int CELLOBJECT = 11; //This is marked as 0x00 in the client types xls
+	const static int CELLOBJECT = 11; // This is marked as 0x00 in the client types xls
 	const static int PLAYEROBJECT = 12;
 	/// End not in client *******
 
@@ -60,11 +59,11 @@ public:
 	const static int POIBUILDING = 0x213;
 	/// End not in client *************
 
-	const static int CREATURE = 0x400;  // ENTITY
-	const static int NPCCREATURE = 0x401; // CHARACTER
-	const static int DROIDCREATURE = 0x402; // DROID
+	const static int CREATURE = 0x400;		 // ENTITY
+	const static int NPCCREATURE = 0x401;	 // CHARACTER
+	const static int DROIDCREATURE = 0x402;	 // DROID
 	const static int PROBOTCREATURE = 0x403; // PROBEDROID
-	//const static int CREATURE = 0x404;
+	// const static int CREATURE = 0x404;
 
 	/// Not in client **********
 	const static int PLAYERCREATURE = 0x409; // CREATURE
@@ -74,13 +73,13 @@ public:
 	const static int HELPERDROIDCREATURE = 0x40F;
 	/// End not in client ************
 
-	const static int INTANGIBLE = 0x800;  // DATA
+	const static int INTANGIBLE = 0x800; // DATA
 	const static int DRAFTSCHEMATIC = 0x801;
 	const static int MANUFACTURINGSCHEMATIC = 0x802;
 	const static int MISSIONOBJECT = 0x803;
 	const static int TOKEN = 0x804;
 	const static int WAYPOINT = 0x805;
-	const static int DATA2 = 0x806;  // DATA
+	const static int DATA2 = 0x806; // DATA
 	const static int PETCONTROLDEVICE = 0x807;
 	const static int VEHICLECONTROLDEVICE = 0x808;
 	const static int SHIPCONTROLDEVICE = 0x80A;
@@ -103,21 +102,21 @@ public:
 	const static int COVERTSCANNER = 0x1008;
 	/// End **************
 
-	const static int TANGIBLE = 0x2000;  // MISC
+	const static int TANGIBLE = 0x2000; // MISC
 	const static int AMMUNITION = 0x2001;
 	const static int CHEMICAL = 0x2002;
-	//const static int ? = 0x2003;
-	//const static int ? = 0x2004;
+	// const static int ? = 0x2003;
+	// const static int ? = 0x2004;
 	const static int CONTAINER = 0x2005;
 	const static int CRAFTINGSTATION = 0x2006;
-	//const static int ? = 0x2007;
+	// const static int ? = 0x2007;
 	const static int ELECTRONICS = 0x2008;
 	const static int FLORA = 0x2009;
 	const static int FOOD = 0x200A;
 	const static int FURNITURE = 0x200B;
 	const static int INSTRUMENT = 0x200C;
 	const static int PHARMACEUTICAL = 0x200D;
-	//const static int ? = 0x200E;
+	// const static int ? = 0x200E;
 	const static int SIGN = 0x200F;
 	const static int COUNTER = 0x2010;
 	const static int FACTORYCRATE = 0x2011;
@@ -148,7 +147,7 @@ public:
 	const static int CAMOKIT = 0x2028;
 	const static int LOOTKIT = 0x2029;
 	const static int FISH = 0x202A;
-	//const static int LAIR = 0x202B;
+	// const static int LAIR = 0x202B;
 	const static int STIMPACK = 0x202C;
 	const static int RANGEDSTIMPACK = 0x202D;
 	const static int ENHANCEPACK = 0x202E;
@@ -178,7 +177,7 @@ public:
 	const static int PERMISSIONSTERMINAL = 0x4007;
 	const static int PLAYERTERMINALSTRUCTURE = 0x4008;
 	const static int SHIPPINGTERMINAL = 0x4009;
-	//const static int TRAVELTERMINAL = 0x400A; -- This is in the client, (See 0x4012)
+	// const static int TRAVELTERMINAL = 0x400A; -- This is in the client, (See 0x4012)
 	const static int SPACETERMINAL = 0x400B;
 
 	/// Not in client **************
@@ -325,9 +324,8 @@ public:
 	const static int MISCCLOTHING = 0x1000011;
 	const static int SKIRT = 0x1000012;
 
-	//Seems unused in server and not in client
-	//const static int ITHOGARB = 0x1000013;
-
+	// Seems unused in server and not in client
+	// const static int ITHOGARB = 0x1000013;
 
 	// Not in client ************
 	const static int BADGEAREA = 0x2000000;

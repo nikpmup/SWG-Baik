@@ -25,7 +25,7 @@ class ProceduralTerrainAppearance : public TemplateVariable<'PTAT'>, public Logg
 
 	TerrainMaps* terrainMaps;
 
-	//float defaultHeight;
+	// float defaultHeight;
 
 	String terrainFile;
 	float size;
@@ -127,7 +127,6 @@ public:
 
 	TerrainGenerator* addTerrainModification(engine::util::IffStream* terrainGeneratorIffStream, float x, float y, uint64 objectid);
 	TerrainGenerator* removeTerrainModification(uint64 objectid);
-
 };
 
 #endif /* PROCEDURALTERRAINAPPEARANCE_H_ */

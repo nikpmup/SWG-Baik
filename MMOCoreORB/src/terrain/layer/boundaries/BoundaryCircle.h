@@ -19,7 +19,7 @@ class BoundaryCircle : public Boundary {
 
 public:
 	BoundaryCircle() : Boundary('BCIR'), centerX(0), centerY(0), radius(0), radiusSquared(0) {
-		//ruleType = BOUNDARYCIRCLE;
+		// ruleType = BOUNDARYCIRCLE;
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) final {
@@ -113,6 +113,5 @@ public:
 		return centerY + radius;
 	}
 };
-
 
 #endif /* BOUNDARYCIRCLE_H_ */

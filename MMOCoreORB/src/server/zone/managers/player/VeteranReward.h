@@ -9,7 +9,6 @@
 #define VETERANREWARD_H_
 
 class VeteranReward : public Object {
-
 protected:
 	String templateFile;
 	unsigned int milestone; // days
@@ -60,7 +59,7 @@ public:
 		oneTime = flag;
 	}
 
-	inline void setDescription( const String& desc ){
+	inline void setDescription(const String& desc) {
 		description = desc;
 	}
 
@@ -76,10 +75,9 @@ public:
 		return oneTime;
 	}
 
-	inline String& getDescription(){
+	inline String& getDescription() {
 		return description;
 	}
-
 };
 
 #endif /* VETERANREWARD_H_ */

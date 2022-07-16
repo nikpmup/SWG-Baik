@@ -15,12 +15,10 @@ namespace decorator {
 
 class UntilSuccess : public Decorator {
 public:
-	UntilSuccess(const String& className, const uint32 id, const LuaObject& args)
-			: Decorator(className, id, args) {
+	UntilSuccess(const String& className, const uint32 id, const LuaObject& args) : Decorator(className, id, args) {
 	}
 
-	UntilSuccess(const UntilSuccess& b)
-			: Decorator(b) {
+	UntilSuccess(const UntilSuccess& b) : Decorator(b) {
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
@@ -35,12 +33,12 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
-}
-}
+} // namespace decorator
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif // UNTILSUCCESS_H_

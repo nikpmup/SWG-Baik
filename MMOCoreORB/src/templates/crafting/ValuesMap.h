@@ -7,7 +7,7 @@
 
 #include "ValuesClasses.h"
 
-class ValuesMap : public VectorMap<String, Reference<Subclasses*> > {
+class ValuesMap : public VectorMap<String, Reference<Subclasses*>> {
 	const static String EMPTY;
 
 public:
@@ -21,9 +21,7 @@ public:
 	static const short OVERRIDECOMBINE = 0x04;
 	static const short LIMITEDCOMBINE = 0x05;
 
-	void addExperimentalProperty(const String& title, const String& subtitle,
-			const float min, const float max, const int precision,
-			const bool filler, const int combine);
+	void addExperimentalProperty(const String& title, const String& subtitle, const float min, const float max, const int precision, const bool filler, const int combine);
 
 	const String& getExperimentalPropertyTitle(const String& subtitle) const;
 	const String& getExperimentalPropertyTitle(const int i) const;
@@ -82,10 +80,10 @@ public:
 		int tempSize = 0;
 		const Subclasses* subclasses;
 
-		for(int i = 0; i < size(); ++i) {
+		for (int i = 0; i < size(); ++i) {
 			subclasses = get(i);
 
-			if(!subclasses->hasAllHiddenItems())
+			if (!subclasses->hasAllHiddenItems())
 				tempSize++;
 		}
 
@@ -112,7 +110,6 @@ public:
 		int counter = 0;
 
 		for (int j = 0; j < size(); ++j) {
-
 			subClasses = get(j);
 
 			exptitle = subClasses->getClassTitle();

@@ -61,7 +61,6 @@ public:
 			Reference<Task*> poppedTask;
 
 			while (!(poppedTask = pendingTasks->popNextOrderedTask())) {
-
 			}
 
 			auto nextTask = new OrderedTaskExecutioner<TaskOwner>(strongReference, std::move(poppedTask));

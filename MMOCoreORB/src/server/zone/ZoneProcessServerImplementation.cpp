@@ -53,7 +53,7 @@ void ZoneProcessServerImplementation::stop() {
 }
 
 void ZoneProcessServerImplementation::initialize() {
-	//StructureManager::instance();
+	// StructureManager::instance();
 
 	vendorManager = VendorManager::instance();
 	vendorManager->initialize(_this.getReferenceUnsafeStaticCast());
@@ -61,8 +61,8 @@ void ZoneProcessServerImplementation::initialize() {
 	professionManager = SkillManager::instance();
 	professionManager->loadLuaConfig();
 	professionManager->loadClientData();
-	//professionManager->setObjectController(objectController);
-	//professionManager->initialize();
+	// professionManager->setObjectController(objectController);
+	// professionManager->initialize();
 
 	playerCreationManager = PlayerCreationManager::instance();
 
@@ -70,7 +70,7 @@ void ZoneProcessServerImplementation::initialize() {
 	zonePacketHandler->setLogging(false);
 
 	nameManager = new NameManager(_this.getReferenceUnsafeStaticCast());
-	//nameManager->test();
+	// nameManager->test();
 	holocronManager = new HolocronManager(_this.getReferenceUnsafeStaticCast());
 	suiManager = SuiManager::instance();
 	suiManager->setZoneProcessServer(_this.getReferenceUnsafeStaticCast());
@@ -87,5 +87,4 @@ void ZoneProcessServerImplementation::initialize() {
 	forageManager->deploy();
 
 	ShipManager::instance();
-
 }

@@ -13,6 +13,7 @@
 class DiceDataComponent : public DataObjectComponent {
 protected:
 	byte sides;
+
 public:
 	DiceDataComponent() {
 		sides = 0;
@@ -20,7 +21,6 @@ public:
 	}
 
 	virtual ~DiceDataComponent() {
-
 	}
 
 	void writeJSON(nlohmann::json& j) const {
@@ -46,6 +46,5 @@ private:
 		addSerializableVariable("sides", &sides);
 	}
 };
-
 
 #endif /* DICEDATACOMPONENT_H_ */

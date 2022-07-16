@@ -15,7 +15,6 @@ namespace creature {
 namespace events {
 
 class DroidEffectsTask : public Task, public Logger {
-
 	Reference<DroidEffectsModuleDataComponent*> module;
 
 public:
@@ -24,8 +23,7 @@ public:
 	}
 
 	void run() {
-
-		if( module == nullptr || module->getDroidObject() == nullptr ){
+		if (module == nullptr || module->getDroidObject() == nullptr) {
 			return;
 		}
 
@@ -34,55 +32,52 @@ public:
 		Locker locker(droid);
 
 		// Check if module is still active
-		if( !module->isActive() ){
+		if (!module->isActive()) {
 			droid->removePendingTask("droid_effects");
 			return;
 		}
 
 		// Check if droid is spawned
-		if( droid->getLocalZone() == nullptr ){  // Not outdoors
+		if (droid->getLocalZone() == nullptr) { // Not outdoors
 
 			ManagedReference<SceneObject*> parent = droid->getParent().get();
-			if( parent == nullptr || !parent->isCellObject() ){ // Not indoors either
+			if (parent == nullptr || !parent->isCellObject()) { // Not indoors either
 				droid->removePendingTask("droid_effects");
 				return;
 			}
 		}
 
 		// Check droid states
-		if( droid->isDead() || droid->isIncapacitated() ){
+		if (droid->isDead() || droid->isIncapacitated()) {
 			droid->removePendingTask("droid_effects");
 			return;
 		}
 
-
 		// Droid must have power
-		if( !droid->hasPower() ){
-			droid->showFlyText("npc_reaction/flytext","low_power", 204, 0, 0);  // "*Low Power*"
+		if (!droid->hasPower()) {
+			droid->showFlyText("npc_reaction/flytext", "low_power", 204, 0, 0); // "*Low Power*"
 			droid->removePendingTask("droid_effects");
 			return;
 		}
 
 		// Play animation
-		droid->playEffect( module->getCurrentAnimation() );
+		droid->playEffect(module->getCurrentAnimation());
 
 		// Reschedule task if next effect is valid
 		uint64 delay = (uint64)module->getCurrentDelay() * 1000;
 		if (delay > 0 && module->nextEffect()) {
-			reschedule( delay );
+			reschedule(delay);
 		} else {
 			droid->removePendingTask("droid_effects");
 		}
-
 	}
-
 };
 
-} // events
-} // creature
-} // objects
-} // zone
-} // server
+} // namespace events
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::events;
 

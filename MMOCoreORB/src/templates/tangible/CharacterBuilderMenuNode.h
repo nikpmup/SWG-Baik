@@ -17,7 +17,7 @@ class CharacterBuilderMenuNode : public Object {
 	String templatePath;
 	uint32 templateCRC;
 
-	SortedVector<Reference<CharacterBuilderMenuNode*> > childNodes;
+	SortedVector<Reference<CharacterBuilderMenuNode*>> childNodes;
 
 public:
 	CharacterBuilderMenuNode(const String& name) {

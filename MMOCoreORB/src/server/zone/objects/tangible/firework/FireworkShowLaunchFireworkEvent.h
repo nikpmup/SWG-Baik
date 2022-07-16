@@ -5,7 +5,6 @@
 #ifndef FIREWORKSHOWLAUNCHFIREWORKEVENT_H_
 #define FIREWORKSHOWLAUNCHFIREWORKEVENT_H_
 
-
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/tangible/firework/FireworkObject.h"
 #include "server/zone/objects/tangible/firework/components/FireworkShowDataComponent.h"
@@ -83,6 +82,5 @@ public:
 		}
 	}
 };
-
 
 #endif /* FIREWORKSHOWLAUNCHFIREWORKEVENT_H_ */

@@ -9,14 +9,10 @@
 
 class SmokebombCommand : public QueueCommand {
 public:
-
-	SmokebombCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SmokebombCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -35,7 +31,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SMOKEBOMBCOMMAND_H_
+#endif // SMOKEBOMBCOMMAND_H_

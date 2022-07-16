@@ -4,14 +4,14 @@
 #include "server/zone/ZoneServer.h"
 
 namespace server {
-	namespace zone {
-		namespace objects {
-			namespace region {
-				class CityRegion;
-			}
-		}
-	}
+namespace zone {
+namespace objects {
+namespace region {
+class CityRegion;
 }
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 class CitizenAssessmentEvent : public Task {
 	Reference<ZoneServer*> zoneServer;

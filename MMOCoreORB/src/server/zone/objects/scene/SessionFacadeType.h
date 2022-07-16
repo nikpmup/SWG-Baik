@@ -10,7 +10,6 @@
 
 class SessionFacadeType {
 public:
-
 	enum {
 		ENTERTAINING = 1,
 		MIGRATESTATS = 2,
@@ -40,7 +39,6 @@ public:
 		CONTRABANDSCAN = 26,
 		WILDCONTRABANDSCAN = 27,
 	};
-
 };
 
 #endif /* SESSIONFACADETYPES_H_ */

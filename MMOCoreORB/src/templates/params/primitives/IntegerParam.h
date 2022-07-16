@@ -11,7 +11,6 @@
 #include "templates/params/TemplateBase.h"
 
 class IntegerParam : public TemplateBase<int> {
-
 public:
 	IntegerParam() : TemplateBase<int>(0) {
 		setType(INTEGER);
@@ -21,13 +20,13 @@ public:
 		setType(INTEGER);
 	}
 
-	IntegerParam& operator= (int val) {
+	IntegerParam& operator=(int val) {
 		create(val);
 
 		return *this;
 	}
 
-	IntegerParam& operator= (const IntegerParam& param) {
+	IntegerParam& operator=(const IntegerParam& param) {
 		if (this == &param) {
 			return *this;
 		}
@@ -70,14 +69,12 @@ public:
 
 			Logger::console.info(msg.toString());
 
-		}/* else {
-			create(0);
-		}*/
+		} /* else {
+			 create(0);
+		 }*/
 
 		return false;
 	}
-
 };
-
 
 #endif /* INTEGERPARAM_H_ */

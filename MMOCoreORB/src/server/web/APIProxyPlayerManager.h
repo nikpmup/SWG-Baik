@@ -1,6 +1,6 @@
 /*
-                Copyright <SWGEmu>
-        See file COPYING for copying conditions.*/
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
 
 /**
  * @author      : lordkator (lordkator@swgemu.com)
@@ -13,17 +13,17 @@
 #include "BaseAPIProxy.h"
 
 namespace server {
- namespace web3 {
-	class APIRequest;
+namespace web3 {
+class APIRequest;
 
-	class APIProxyPlayerManager : public BaseAPIProxy {
-	public:
-		APIProxyPlayerManager() : BaseAPIProxy("PlayerManager")  {
-		}
+class APIProxyPlayerManager : public BaseAPIProxy {
+public:
+	APIProxyPlayerManager() : BaseAPIProxy("PlayerManager") {
+	}
 
-		server::zone::managers::player::PlayerManager* getPlayerManager();
-		void handle(APIRequest& apiRequest);
-		void lookupCharacter(APIRequest& apiRequest);
-	};
- }
-}
+	server::zone::managers::player::PlayerManager* getPlayerManager();
+	void handle(APIRequest& apiRequest);
+	void lookupCharacter(APIRequest& apiRequest);
+};
+} // namespace web3
+} // namespace server

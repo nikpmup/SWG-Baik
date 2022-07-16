@@ -9,14 +9,10 @@
 
 class HarvesterSelectResourceCommand : public QueueCommand {
 public:
-
-	HarvesterSelectResourceCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HarvesterSelectResourceCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -33,7 +29,7 @@ public:
 		if (object == nullptr || !object->isInstallationObject())
 			return GENERALERROR;
 
-		InstallationObject* inso = cast<InstallationObject*>( object.get());
+		InstallationObject* inso = cast<InstallationObject*>(object.get());
 
 		uint64 spawnId = Long::valueOf(arguments.toString());
 
@@ -48,10 +44,8 @@ public:
 		} catch (Exception& e) {
 		}
 
-
 		return SUCCESS;
 	}
-
 };
 
-#endif //HARVESTERSELECTRESOURCECOMMAND_H_
+#endif // HARVESTERSELECTRESOURCECOMMAND_H_

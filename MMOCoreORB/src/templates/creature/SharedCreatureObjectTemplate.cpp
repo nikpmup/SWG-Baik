@@ -156,7 +156,7 @@ void SharedCreatureObjectTemplate::parseFileData(IffStream* iffStream) {
 	iffStream->closeChunk('PCNT');
 
 	for (int i = 0; i < variableCount; ++i) {
-	//while (iffStream->getRemainingSubChunksNumber() > 0) {
+		// while (iffStream->getRemainingSubChunksNumber() > 0) {
 		Chunk* chunk = iffStream->openChunk('XXXX');
 
 		if (chunk == nullptr)
@@ -165,19 +165,18 @@ void SharedCreatureObjectTemplate::parseFileData(IffStream* iffStream) {
 		String varName;
 		iffStream->getString(varName);
 
-		//std::cout << "parsing wtf shit:[" << varName.toStdString() << "]\n";
+		// std::cout << "parsing wtf shit:[" << varName.toStdString() << "]\n";
 		parseVariableData(varName, chunk);
 
 		iffStream->closeChunk();
 	}
 }
 
-
 void SharedCreatureObjectTemplate::readObject(IffStream* iffStream) {
 	uint32 nextType = iffStream->getNextFormType();
 
 	if (nextType != 'SCOT') {
-		//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+		// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 		SharedTangibleObjectTemplate::readObject(iffStream);
 
@@ -228,7 +227,7 @@ void SharedCreatureObjectTemplate::readObject(LuaObject* templateData) {
 	lua_pushnil(L);
 	while (lua_next(L, -2) != 0) {
 		// 'key' is at index -2 and 'value' at index -1
-		//printf("%s - %s\n",
+		// printf("%s - %s\n",
 		//		lua_tostring(L, -2), lua_typename(L, lua_type(L, -1)));
 
 		int type = lua_type(L, -2);
@@ -240,7 +239,6 @@ void SharedCreatureObjectTemplate::readObject(LuaObject* templateData) {
 			parseVariableData(varName, templateData);
 		} else
 			lua_pop(L, 1);
-
 
 		++i;
 	}
@@ -306,6 +304,4 @@ void SharedCreatureObjectTemplate::readObject(LuaObject* templateData) {
 	}
 
 	speedTempl.pop();*/
-
 }
-

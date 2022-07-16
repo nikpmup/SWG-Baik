@@ -10,7 +10,7 @@
 
 #include "templates/SharedTangibleObjectTemplate.h"
 
-class TrapTemplate: public SharedTangibleObjectTemplate {
+class TrapTemplate : public SharedTangibleObjectTemplate {
 protected:
 	int skillRequired;
 	int healthCost;
@@ -50,7 +50,6 @@ public:
 	}
 
 	~TrapTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -60,7 +59,7 @@ public:
 		actionCost = templateData->getIntField("actionCost");
 		mindCost = templateData->getIntField("mindCost");
 		maxRange = templateData->getFloatField("maxRange");
-		poolToDamage= templateData->getShortField("poolToDamage");
+		poolToDamage = templateData->getShortField("poolToDamage");
 		minDamage = templateData->getFloatField("minDamage");
 		maxDamage = templateData->getFloatField("maxDamage");
 		duration = templateData->getIntField("duration");
@@ -74,7 +73,7 @@ public:
 	}
 
 	int getActionCost() {
-	    return actionCost;
+		return actionCost;
 	}
 
 	int getDuration() {
@@ -82,23 +81,23 @@ public:
 	}
 
 	const String& getAnimation() {
-	    return animation;
+		return animation;
 	}
 
 	const String& getSuccessMessage() {
-	    return successMessage;
+		return successMessage;
 	}
 
 	const String& getFailMessage() {
-	    return failMessage;
+		return failMessage;
 	}
 
 	const String& getStartSpam() {
-	    return startSpam;
+		return startSpam;
 	}
 
 	const String& getStopSpam() {
-	    return stopSpam;
+		return stopSpam;
 	}
 
 	const String& getDefenseMod() {
@@ -106,23 +105,23 @@ public:
 	}
 
 	int getHealthCost() {
-	    return healthCost;
+		return healthCost;
 	}
 
 	float getMaxDamage() {
-	    return maxDamage;
+		return maxDamage;
 	}
 
 	float getMaxRange() {
-	    return maxRange;
+		return maxRange;
 	}
 
 	float getMinDamage() {
-	    return minDamage;
+		return minDamage;
 	}
 
 	int getMindCost() {
-	    return mindCost;
+		return mindCost;
 	}
 
 	int getSkillRequired() {
@@ -134,7 +133,7 @@ public:
 	}
 
 	uint64 getState() {
-	    return state;
+		return state;
 	}
 };
 

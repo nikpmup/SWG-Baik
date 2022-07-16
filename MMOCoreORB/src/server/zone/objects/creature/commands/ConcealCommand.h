@@ -142,7 +142,7 @@ public:
 		}
 
 		StringIdChatParameter startStringId("skl_use", "sys_conceal_start"); // You are now concealed from view by complex camouflage.
-		StringIdChatParameter endStringId("skl_use", "sys_conceal_stop");	// You are no longer concealed from view.
+		StringIdChatParameter endStringId("skl_use", "sys_conceal_stop");	 // You are no longer concealed from view.
 
 		int camoMod = creature->getSkillMod("camouflage") / 2;
 

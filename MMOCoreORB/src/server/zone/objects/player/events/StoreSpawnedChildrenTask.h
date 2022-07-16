@@ -6,12 +6,10 @@
 
 class StoreSpawnedChildrenTask : public Task {
 	ManagedWeakReference<CreatureObject*> play;
-	Vector<ManagedReference<CreatureObject*> > children;
-public:
-	StoreSpawnedChildrenTask(CreatureObject* creo,
-			Vector<ManagedReference<CreatureObject*> >&& ch) :
-		play(creo), children(std::move(ch)) {
+	Vector<ManagedReference<CreatureObject*>> children;
 
+public:
+	StoreSpawnedChildrenTask(CreatureObject* creo, Vector<ManagedReference<CreatureObject*>>&& ch) : play(creo), children(std::move(ch)) {
 	}
 
 	void run() {
@@ -37,10 +35,7 @@ public:
 				controlDevice->storeObject(player, true);
 			}
 		}
-
 	}
 };
-
-
 
 #endif /* STORESPAWNEDCHILDRENTASK_H_ */

@@ -9,9 +9,7 @@
 
 class TendWoundCommand : public TendCommand {
 public:
-
-	TendWoundCommand(const String& name, ZoneProcessServer* server)
-		: TendCommand(name, server) {
+	TendWoundCommand(const String& name, ZoneProcessServer* server) : TendCommand(name, server) {
 		effectName = "clienteffect/healing_healwound.cef";
 
 		mindCost = 400;
@@ -22,11 +20,9 @@ public:
 
 		tendWound = true;
 
-		//defaultTime = 5.0;
+		// defaultTime = 5.0;
 		range = 6.0;
 	}
-
-
 };
 
-#endif //TENDWOUNDCOMMAND_H_
+#endif // TENDWOUNDCOMMAND_H_

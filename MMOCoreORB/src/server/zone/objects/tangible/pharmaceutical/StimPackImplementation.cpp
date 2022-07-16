@@ -34,14 +34,13 @@ bool StimPackImplementation::isClassE() {
 }
 
 StimPack* StimPackImplementation::split(int charges) {
-
 	Locker locker(_this.getReferenceUnsafeStaticCast());
 	ObjectManager* objectManager = ObjectManager::instance();
-	ManagedReference<StimPack*> protoclone = cast<StimPack*>( objectManager->cloneObject(_this.getReferenceUnsafeStaticCast()));
+	ManagedReference<StimPack*> protoclone = cast<StimPack*>(objectManager->cloneObject(_this.getReferenceUnsafeStaticCast()));
 	if (protoclone != nullptr) {
 		Locker cloneLocker(protoclone);
 
-		if(protoclone->hasAntiDecayKit()){
+		if (protoclone->hasAntiDecayKit()) {
 			protoclone->removeAntiDecayKit();
 		}
 

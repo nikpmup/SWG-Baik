@@ -9,14 +9,10 @@
 
 class SetpermissionCommand : public QueueCommand {
 public:
-
-	SetpermissionCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetpermissionCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,7 +25,7 @@ public:
 		ManagedReference<SceneObject*> obj = playerManager->getInRangeStructureWithAdminRights(creature, targetid);
 
 		if (obj == nullptr || !obj->isStructureObject()) {
-			creature->sendSystemMessage("@player_structure:no_building"); //You must be in a building, be near an installation, or have one targeted to do that.
+			creature->sendSystemMessage("@player_structure:no_building"); // You must be in a building, be near an installation, or have one targeted to do that.
 			return INVALIDTARGET;
 		}
 
@@ -51,16 +47,15 @@ public:
 			tokenizer.getStringToken(listName);
 			tokenizer.getStringToken(targetName);
 		} catch (Exception& e) {
-			creature->sendSystemMessage("@player_structure:format_setpermission_type_player"); //Format: /setPermission <type> <player>
+			creature->sendSystemMessage("@player_structure:format_setpermission_type_player"); // Format: /setPermission <type> <player>
 			return INVALIDPARAMETERS;
 		}
 
 		UnicodeString args = targetName + " " + listName + " toggle";
-		creature->executeObjectControllerAction(0x896713F2, obj->getObjectID(), args); //PermissionListModify
+		creature->executeObjectControllerAction(0x896713F2, obj->getObjectID(), args); // PermissionListModify
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETPERMISSIONCOMMAND_H_
+#endif // SETPERMISSIONCOMMAND_H_

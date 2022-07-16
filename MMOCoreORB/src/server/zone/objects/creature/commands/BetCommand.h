@@ -10,14 +10,10 @@
 
 class BetCommand : public QueueCommand {
 public:
-
-	BetCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	BetCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -25,7 +21,6 @@ public:
 			return INVALIDLOCOMOTION;
 
 		if (creature->isPlayerCreature()) {
-
 			CreatureObject* player = cast<CreatureObject*>(creature);
 
 			if (player == nullptr)
@@ -53,9 +48,8 @@ public:
 
 					int targetBet = -1;
 
-					for (int i=0; i<gamblingManager->getRoulette()->size(); ++i) {
-
-						if (gamblingManager->getRoulette()->get(i)==bet) {
+					for (int i = 0; i < gamblingManager->getRoulette()->size(); ++i) {
+						if (gamblingManager->getRoulette()->get(i) == bet) {
 							targetBet = i;
 						}
 					}
@@ -70,12 +64,10 @@ public:
 			} catch (Exception& e) {
 				player->sendSystemMessage("@gambling/default_interface:bet_failed_amt");
 			}
-
 		}
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //BETCOMMAND_H_
+#endif // BETCOMMAND_H_

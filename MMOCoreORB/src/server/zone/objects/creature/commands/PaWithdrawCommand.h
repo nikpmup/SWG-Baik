@@ -7,14 +7,10 @@
 
 class PaWithdrawCommand : public QueueCommand {
 public:
-
-	PaWithdrawCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	PaWithdrawCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //PAWITHDRAWCOMMAND_H_
+#endif // PAWITHDRAWCOMMAND_H_

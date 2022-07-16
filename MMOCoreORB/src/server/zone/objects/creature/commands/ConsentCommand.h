@@ -10,10 +10,7 @@
 
 class ConsentCommand : public QueueCommand {
 public:
-
-	ConsentCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ConsentCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	static void consent(CreatureObject* player, CreatureObject* targetPlayer) {
@@ -22,7 +19,7 @@ public:
 		PlayerObject* ghost = player->getPlayerObject();
 		ghost->addToConsentList(name);
 
-		StringIdChatParameter stringId("base_player", "prose_consent"); //You give your consent to %TO.
+		StringIdChatParameter stringId("base_player", "prose_consent"); // You give your consent to %TO.
 		stringId.setTO(name);
 		player->sendSystemMessage(stringId);
 
@@ -76,7 +73,7 @@ public:
 				bool validName = playerManager->existsName(name);
 
 				if (!validName) {
-					creature->sendSystemMessage("@ui_cmnty:friend_location_failed_noname"); //No player with that name exists.
+					creature->sendSystemMessage("@ui_cmnty:friend_location_failed_noname"); // No player with that name exists.
 					return GENERALERROR;
 				} else if (creature->getFirstName().toLowerCase() == name) {
 					creature->sendSystemMessage("You cannot give consent to yourself!");
@@ -92,7 +89,7 @@ public:
 			}
 		} else {
 			ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(targetID);
-			CreatureObject* playerTarget = cast<CreatureObject*>( object.get());
+			CreatureObject* playerTarget = cast<CreatureObject*>(object.get());
 
 			if (playerTarget == nullptr || !playerTarget->isPlayerCreature() || playerTarget == creature) {
 				return INVALIDTARGET;
@@ -108,7 +105,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CONSENTCOMMAND_H_
+#endif // CONSENTCOMMAND_H_

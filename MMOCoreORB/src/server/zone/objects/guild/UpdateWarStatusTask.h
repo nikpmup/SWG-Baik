@@ -32,7 +32,7 @@ public:
 		PlayerManager* playerManager = server->getPlayerManager();
 		ChatManager* chatManager = server->getChatManager();
 
-		//Get online members
+		// Get online members
 		SortedVector<ManagedReference<CreatureObject*>> onlineMembers1;
 		SortedVector<ManagedReference<CreatureObject*>> onlineMembers2;
 
@@ -76,6 +76,5 @@ public:
 		}
 	}
 };
-
 
 #endif /* UPDATEWARSTATUSTASK_H_ */

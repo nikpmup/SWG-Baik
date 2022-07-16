@@ -15,7 +15,6 @@
 class TestCore : public Core, public Logger {
 public:
 	TestCore() : Core(0), Logger("TestCore") {
-
 	}
 
 	~TestCore() {
@@ -23,17 +22,15 @@ public:
 	}
 
 	void initialize() override {
-		 server::db::mysql::MySqlDatabase::initializeLibrary();
+		server::db::mysql::MySqlDatabase::initializeLibrary();
 	}
 
 	void run() override {
-
 	}
 
 	void finalizeContext() override {
 		server::db::mysql::MySqlDatabase::finalizeLibrary();
 	}
 };
-
 
 #endif /* TESTCORE_H_ */

@@ -20,13 +20,13 @@ namespace node {
 
 class Composite : public Behavior {
 protected:
-	Vector<Reference<Behavior*> > children;
+	Vector<Reference<Behavior*>> children;
 
-	Vector<Reference<Behavior*> > shuffleChildren() const {
-		Vector<Reference<Behavior*> > ran = children;
+	Vector<Reference<Behavior*>> shuffleChildren() const {
+		Vector<Reference<Behavior*>> ran = children;
 
 		for (int i = 0; i < ran.size(); ++i) {
-			int index = (int) System::random(ran.size() - 1 - i) + i;
+			int index = (int)System::random(ran.size() - 1 - i) + i;
 			Reference<Behavior*> temp = ran.set(i, ran.get(index));
 			ran.set(index, temp);
 		}
@@ -35,12 +35,10 @@ protected:
 	}
 
 public:
-	Composite(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	Composite(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
-	Composite(const Composite& b)
-			: Behavior(b), children(b.children) {
+	Composite(const Composite& b) : Behavior(b), children(b.children) {
 	}
 
 	Composite& operator=(const Composite& b) {
@@ -102,12 +100,12 @@ public:
 	Behavior::Status doAction(AiAgent* agent) const;
 };
 
-}
-}
-}
-}
-}
-}
-}
+} // namespace node
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif /* COMPOSITE_H_ */

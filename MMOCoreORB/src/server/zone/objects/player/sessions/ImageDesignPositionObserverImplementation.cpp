@@ -23,10 +23,10 @@ int ImageDesignPositionObserverImplementation::notifyObserverEvent(uint32 eventT
 		return 1;
 
 	if (scene->getParentRecursively(SceneObjectType::SALONBUILDING) == nullptr) {
-		//queue the timeout
+		// queue the timeout
 		strongRef->queueIdTimeoutEvent();
 	} else {
-		//cancel the timeout
+		// cancel the timeout
 		strongRef->checkDequeueEvent(scene);
 	}
 

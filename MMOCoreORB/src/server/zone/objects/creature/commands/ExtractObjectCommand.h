@@ -10,14 +10,10 @@
 
 class ExtractObjectCommand : public QueueCommand {
 public:
-
-	ExtractObjectCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ExtractObjectCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -25,10 +21,9 @@ public:
 			return INVALIDLOCOMOTION;
 
 		try {
+			ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
 
-			ManagedReference<SceneObject* > object = server->getZoneServer()->getObject(target);
-
-			if(object == nullptr || !object->isFactoryCrate()) {
+			if (object == nullptr || !object->isFactoryCrate()) {
 				creature->sendSystemMessage("Trying to 'ExtractObjectCommand' on item that isn't a factory crate");
 				return GENERALERROR;
 			}
@@ -36,10 +31,10 @@ public:
 			if (!object->isASubChildOf(creature))
 				return GENERALERROR;
 
-			ManagedReference<FactoryCrate*> crate = cast<FactoryCrate*>( object.get());
+			ManagedReference<FactoryCrate*> crate = cast<FactoryCrate*>(object.get());
 
 			if (!crate->extractObjectToInventory(creature)) {
-				//error("Error extracting object in ExtractObjectCommand");
+				// error("Error extracting object in ExtractObjectCommand");
 			}
 
 		} catch (Exception& e) {
@@ -47,10 +42,8 @@ public:
 			creature->sendSystemMessage("Unhandled Exception in ExtractObjectCommand");
 		}
 
-
 		return SUCCESS;
 	}
-
 };
 
-#endif //EXTRACTOBJECTCOMMAND_H_
+#endif // EXTRACTOBJECTCOMMAND_H_

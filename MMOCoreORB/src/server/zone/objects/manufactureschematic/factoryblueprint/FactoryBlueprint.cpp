@@ -8,24 +8,21 @@
 #include "FactoryBlueprint.h"
 #include "server/zone/objects/installation/factory/FactoryObject.h"
 
-FactoryBlueprint::FactoryBlueprint() :  Serializable() {
-
+FactoryBlueprint::FactoryBlueprint() : Serializable() {
 	addSerializableVariables();
 }
 
-FactoryBlueprint::FactoryBlueprint(const FactoryBlueprint& blueprint) :  Object(), Serializable()  {
-
-	for(int i = 0; i < blueprint.completeEntries.size(); ++i)
+FactoryBlueprint::FactoryBlueprint(const FactoryBlueprint& blueprint) : Object(), Serializable() {
+	for (int i = 0; i < blueprint.completeEntries.size(); ++i)
 		completeEntries.add(blueprint.completeEntries.get(i));
 
-	for(int i = 0; i < blueprint.consolidatedEntries.size(); ++i)
+	for (int i = 0; i < blueprint.consolidatedEntries.size(); ++i)
 		consolidatedEntries.add(blueprint.consolidatedEntries.get(i));
 
 	addSerializableVariables();
 }
 
 FactoryBlueprint::~FactoryBlueprint() {
-
 }
 
 FactoryBlueprint& FactoryBlueprint::operator=(const FactoryBlueprint& blueprint) {
@@ -34,16 +31,14 @@ FactoryBlueprint& FactoryBlueprint::operator=(const FactoryBlueprint& blueprint)
 
 	completeEntries.removeAll();
 
-	for(int i = 0; i < blueprint.completeEntries.size(); ++i)
+	for (int i = 0; i < blueprint.completeEntries.size(); ++i)
 		completeEntries.add(blueprint.completeEntries.get(i));
 
-	for(int i = 0; i < blueprint.consolidatedEntries.size(); ++i)
+	for (int i = 0; i < blueprint.consolidatedEntries.size(); ++i)
 		consolidatedEntries.add(blueprint.consolidatedEntries.get(i));
-
 
 	return *this;
 }
-
 
 void FactoryBlueprint::addIngredient(SceneObject* ingredient, int quantity, bool isIdentical) {
 	BlueprintEntry entry;
@@ -51,7 +46,6 @@ void FactoryBlueprint::addIngredient(SceneObject* ingredient, int quantity, bool
 	entry.setIdentical(isIdentical);
 
 	if (ingredient->isResourceSpawn()) {
-
 		ManagedReference<ResourceSpawn*> spawn = cast<ResourceSpawn*>(ingredient);
 
 		entry.setKey(spawn->getName());
@@ -60,7 +54,6 @@ void FactoryBlueprint::addIngredient(SceneObject* ingredient, int quantity, bool
 		entry.setQuantity(quantity);
 
 	} else {
-
 		ManagedReference<TangibleObject*> tano = cast<TangibleObject*>(ingredient);
 
 		entry.setKey(String::valueOf(tano->getServerObjectCRC()));
@@ -68,11 +61,10 @@ void FactoryBlueprint::addIngredient(SceneObject* ingredient, int quantity, bool
 		entry.setType("component");
 		entry.setQuantity(quantity);
 
-		if(isIdentical)
+		if (isIdentical)
 			entry.setSerial(tano->getSerialNumber());
 		else
 			entry.setSerial("");
-
 	}
 
 	completeEntries.add(entry);
@@ -84,11 +76,10 @@ int FactoryBlueprint::getConsolidatedSize() {
 }
 
 void FactoryBlueprint::addConsolidatedEntry(BlueprintEntry* entry) {
-
-	for(int i = 0; i < consolidatedEntries.size(); i++) {
+	for (int i = 0; i < consolidatedEntries.size(); i++) {
 		BlueprintEntry* existingEntry = &consolidatedEntries.get(i);
 
-		if(existingEntry->equals(entry)) {
+		if (existingEntry->equals(entry)) {
 			existingEntry->increaseQuantity(entry->getQuantity());
 			return;
 		}
@@ -108,12 +99,11 @@ BlueprintEntry* FactoryBlueprint::getCompleteEntry(int i) {
 	return &completeEntries.get(i);
 }
 
-void FactoryBlueprint::canManufactureItem(String &type, String &displayedName) {
-
-	for(int i = 0; i < consolidatedEntries.size(); ++i) {
+void FactoryBlueprint::canManufactureItem(String& type, String& displayedName) {
+	for (int i = 0; i < consolidatedEntries.size(); ++i) {
 		BlueprintEntry* entry = &consolidatedEntries.get(i);
 
-		if(!entry->hasEnoughResources()) {
+		if (!entry->hasEnoughResources()) {
 			type = entry->getType();
 			displayedName = entry->getDisplayedName();
 			return;
@@ -122,8 +112,7 @@ void FactoryBlueprint::canManufactureItem(String &type, String &displayedName) {
 }
 
 void FactoryBlueprint::manufactureItem(FactoryObject* factory) {
-
-	for(int i = 0; i < consolidatedEntries.size(); ++i) {
+	for (int i = 0; i < consolidatedEntries.size(); ++i) {
 		BlueprintEntry* entry = &consolidatedEntries.get(i);
 
 		entry->removeResources(factory);
@@ -136,10 +125,9 @@ void FactoryBlueprint::addSerializableVariables() {
 }
 
 void FactoryBlueprint::print() {
-
 	System::out << "***** Display *****" << endl;
 
-	for(int i = 0; i < completeEntries.size(); ++i) {
+	for (int i = 0; i < completeEntries.size(); ++i) {
 		BlueprintEntry* entry = &completeEntries.get(i);
 		entry->print();
 	}
@@ -147,7 +135,7 @@ void FactoryBlueprint::print() {
 	System::out << "*******************" << endl;
 	System::out << "** Consolidated ***" << endl;
 
-	for(int i = 0; i < consolidatedEntries.size(); ++i) {
+	for (int i = 0; i < consolidatedEntries.size(); ++i) {
 		BlueprintEntry* entry = &consolidatedEntries.get(i);
 		entry->print();
 	}

@@ -12,8 +12,7 @@ class InstallationObjectDeltaMessage3 : public TangibleObjectDeltaMessage3 {
 	InstallationObject* inso;
 
 public:
-	InstallationObjectDeltaMessage3(InstallationObject* ins)
-			: TangibleObjectDeltaMessage3(ins, 0x494E534F) {
+	InstallationObjectDeltaMessage3(InstallationObject* ins) : TangibleObjectDeltaMessage3(ins, 0x494E534F) {
 		inso = ins;
 	}
 
@@ -25,6 +24,5 @@ public:
 		addByteUpdate(0x0B, value);
 	}
 };
-
 
 #endif /* INSTALLATIONOBJECTDELTAMESSAGE3_H_ */

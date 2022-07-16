@@ -27,8 +27,7 @@ void RepairToolImplementation::updateCraftingValues(CraftingValues* values, bool
 	quality = values->getCurrentValue("quality");
 }
 int RepairToolImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
-
-	switch( selectedID ) {
+	switch (selectedID) {
 	case 20:
 		sendRepairListTo(player);
 		break;
@@ -40,7 +39,6 @@ int RepairToolImplementation::handleObjectMenuSelect(CreatureObject* player, byt
 }
 
 void RepairToolImplementation::sendRepairListTo(CreatureObject* player) {
-
 	if (!isASubChildOf(player))
 		return;
 
@@ -53,12 +51,11 @@ void RepairToolImplementation::sendRepairListTo(CreatureObject* player) {
 
 	RepairToolTemplate* repairToolData = templateObject.castTo<RepairToolTemplate*>().get();
 
-	if ( repairToolData == nullptr )
+	if (repairToolData == nullptr)
 		return;
-                
-	Vector<ManagedReference<SceneObject*> > repairableItems = playerManager->getInventoryItemsOfType(player, repairToolData -> getRepairType());
-	
-	
+
+	Vector<ManagedReference<SceneObject*>> repairableItems = playerManager->getInventoryItemsOfType(player, repairToolData->getRepairType());
+
 	ManagedReference<SuiListBox*> listbox = new SuiListBox(player, SuiWindowType::REPAIR_TOOL_DIALOG);
 
 	for (int i = 0; i < repairableItems.size(); i++) {
@@ -66,11 +63,11 @@ void RepairToolImplementation::sendRepairListTo(CreatureObject* player) {
 
 		ManagedReference<TangibleObject*> tano = cast<TangibleObject*>(item);
 
-		if (tano != nullptr ) {
+		if (tano != nullptr) {
 			// Not broken (1/1) but still damaged.
-			bool inNeedOfRepair = (!(tano -> isBroken()) && (tano -> getConditionDamage() > 0));
+			bool inNeedOfRepair = (!(tano->isBroken()) && (tano->getConditionDamage() > 0));
 			if (inNeedOfRepair) {
-				listbox->addMenuItem( tano->getDisplayedName(), tano->getObjectID());
+				listbox->addMenuItem(tano->getDisplayedName(), tano->getObjectID());
 			}
 		}
 	}

@@ -7,8 +7,7 @@
 #include "templates/datatables/DataTableIff.h"
 #include "templates/datatables/DataTableRow.h"
 
-class QuestTask : public Object  {
-
+class QuestTask : public Object {
 protected:
 	String prerequisiteTasks;
 	String exclusionTasks;
@@ -41,7 +40,6 @@ protected:
 
 	void taskListStringToVector(String taskList) {
 	}
-
 
 public:
 	QuestTask() {
@@ -122,13 +120,12 @@ public:
 	int getRadius() {
 		return radius;
 	}
-
 };
 
 class QuestTasks : public Object {
-
 protected:
 	Vector<QuestTask*> tasks;
+
 public:
 	QuestTasks() {
 	}

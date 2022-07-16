@@ -12,7 +12,6 @@ DroidCraftingModuleDataComponent::DroidCraftingModuleDataComponent() : craftingT
 }
 
 DroidCraftingModuleDataComponent::~DroidCraftingModuleDataComponent() {
-
 }
 
 String DroidCraftingModuleDataComponent::getModuleName() const {

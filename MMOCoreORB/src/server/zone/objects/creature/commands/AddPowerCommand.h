@@ -11,14 +11,10 @@
 
 class AddPowerCommand : public QueueCommand {
 public:
-
-	AddPowerCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	AddPowerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -33,7 +29,7 @@ public:
 		if (obj == nullptr || !obj->isStructureObject())
 			return INVALIDTARGET;
 
-		StructureObject* structure = cast<StructureObject*>( obj.get());
+		StructureObject* structure = cast<StructureObject*>(obj.get());
 
 		if (structure->getBasePowerRate() <= 0) {
 			return INVALIDTARGET;
@@ -46,12 +42,12 @@ public:
 			amount = tokenizer.getIntToken();
 
 		} catch (Exception& e) {
-			creature->sendSystemMessage("@player_structure:unable_to_parse"); //The system was unable to parse a valid power amount.
+			creature->sendSystemMessage("@player_structure:unable_to_parse"); // The system was unable to parse a valid power amount.
 			return INVALIDPARAMETERS;
 		}
 
 		if (amount < 0) {
-			creature->sendSystemMessage("@player_structure:enter_valid_over_zero"); //Please enter a valid power amount greater than 0.
+			creature->sendSystemMessage("@player_structure:enter_valid_over_zero"); // Please enter a valid power amount greater than 0.
 			return INVALIDPARAMETERS;
 		}
 
@@ -59,7 +55,7 @@ public:
 		uint32 totalPower = resourceManager->getAvailablePowerFromPlayer(creature);
 
 		if (totalPower < amount) {
-			StringIdChatParameter params("@player_structure:not_enough_energy"); //You do not have %DI units of energy in your inventory!
+			StringIdChatParameter params("@player_structure:not_enough_energy"); // You do not have %DI units of energy in your inventory!
 			params.setDI(amount);
 
 			creature->sendSystemMessage(params);
@@ -72,14 +68,13 @@ public:
 
 		structure->addPower(amount);
 
-		StringIdChatParameter params("@player_structure:deposit_successful"); //You successfully deposit %DI units of energy.
+		StringIdChatParameter params("@player_structure:deposit_successful"); // You successfully deposit %DI units of energy.
 		params.setDI(amount);
 
 		creature->sendSystemMessage(params);
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //ADDPOWERCOMMAND_H_
+#endif // ADDPOWERCOMMAND_H_

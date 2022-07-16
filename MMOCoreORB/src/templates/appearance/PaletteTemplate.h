@@ -12,9 +12,9 @@
 
 class PaletteTemplate : public Object {
 	Vector<PaletteColor> colors;
+
 public:
 	PaletteTemplate() {
-
 	}
 
 	void readObject(ObjectInputStream* stream) {
@@ -45,7 +45,7 @@ public:
 
 		uint32 unk = stream->readInt();
 
-		for (dataSize -= 4 ; dataSize > 0; dataSize -= 4) {
+		for (dataSize -= 4; dataSize > 0; dataSize -= 4) {
 			PaletteColor color;
 			color.readObject(stream);
 

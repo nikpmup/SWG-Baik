@@ -7,14 +7,10 @@
 
 class CsCancelTicketCommand : public QueueCommand {
 public:
-
-	CsCancelTicketCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CsCancelTicketCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CSCANCELTICKETCOMMAND_H_
+#endif // CSCANCELTICKETCOMMAND_H_

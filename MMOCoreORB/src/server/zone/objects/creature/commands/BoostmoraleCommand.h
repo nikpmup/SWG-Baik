@@ -11,13 +11,10 @@
 
 class BoostmoraleCommand : public SquadLeaderCommand {
 public:
-
-	BoostmoraleCommand(const String& name, ZoneProcessServer* server)
-		: SquadLeaderCommand(name, server) {
+	BoostmoraleCommand(const String& name, ZoneProcessServer* server) : SquadLeaderCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -42,7 +39,7 @@ public:
 		if (!checkGroupLeader(player, group))
 			return GENERALERROR;
 
-		int hamCost = (int) (100.0f * calculateGroupModifier(group));
+		int hamCost = (int)(100.0f * calculateGroupModifier(group));
 
 		int healthCost = creature->calculateCostAdjustment(CreatureAttribute::STRENGTH, hamCost);
 		int actionCost = creature->calculateCostAdjustment(CreatureAttribute::QUICKNESS, hamCost);
@@ -51,9 +48,9 @@ public:
 		if (!inflictHAM(player, healthCost, actionCost, mindCost))
 			return GENERALERROR;
 
-//		shoutCommand(player, group);
+		//		shoutCommand(player, group);
 
-		int wounds[2] = {0,0}; // members affected, total wounds
+		int wounds[2] = {0, 0}; // members affected, total wounds
 		getWounds(player, group, wounds);
 		if (wounds[0] == 0)
 			return GENERALERROR;
@@ -63,8 +60,8 @@ public:
 
 		if (!ghost->getCommandMessageString(STRING_HASHCODE("boostmorale")).isEmpty() && creature->checkCooldownRecovery("command_message")) {
 			UnicodeString shout(ghost->getCommandMessageString(STRING_HASHCODE("boostmorale")));
- 	 	 	server->getChatManager()->broadcastChatMessage(player, shout, 0, 80, player->getMoodID(), 0, ghost->getLanguageID());
- 	 	 	creature->updateCooldownTimer("command_message", 30 * 1000);
+			server->getChatManager()->broadcastChatMessage(player, shout, 0, 80, player->getMoodID(), 0, ghost->getLanguageID());
+			creature->updateCooldownTimer("command_message", 30 * 1000);
 		}
 
 		return SUCCESS;
@@ -75,7 +72,6 @@ public:
 			return;
 
 		for (int i = 0; i < group->getGroupSize(); i++) {
-
 			ManagedReference<CreatureObject*> member = group->getGroupMember(i);
 
 			if (member == nullptr)
@@ -102,12 +98,11 @@ public:
 		if (group == nullptr || leader == nullptr)
 			return false;
 
-		int woundsPerMember = ceil((float)wounds[1]/(float)wounds[0]);
-		int woundsPerAttribute = ceil((float)woundsPerMember/9.f);
+		int woundsPerMember = ceil((float)wounds[1] / (float)wounds[0]);
+		int woundsPerAttribute = ceil((float)woundsPerMember / 9.f);
 
 		int totalWoundsApplied = 0;
 		for (int i = 0; i < group->getGroupSize(); i++) {
-
 			ManagedReference<CreatureObject*> member = group->getGroupMember(i);
 
 			if (member == nullptr)
@@ -152,7 +147,6 @@ public:
 
 		return true;
 	}
-
 };
 
-#endif //BOOSTMORALECOMMAND_H_
+#endif // BOOSTMORALECOMMAND_H_

@@ -9,7 +9,6 @@
 
 class DraftSlot : public Object {
 private:
-
 	String stringIdFile;
 	String stringIdName;
 
@@ -26,21 +25,13 @@ private:
 	float contribution;
 
 public:
-	enum {
-		RESOURCESLOT,
-		IDENTICALSLOT,
-		MIXEDSLOT,
-		OPTIONALIDENTICALSLOT,
-		OPTIONALMIXEDSLOT
-	};
+	enum { RESOURCESLOT, IDENTICALSLOT, MIXEDSLOT, OPTIONALIDENTICALSLOT, OPTIONALMIXEDSLOT };
 
 public:
 	DraftSlot() : quantity(0), slotType(0), contribution(0) {
-
 	}
 
 	~DraftSlot() {
-
 	}
 
 	void insertToMessage(BaseMessage* msg) {
@@ -49,7 +40,7 @@ public:
 		msg->insertAscii(stringIdName); // ex: dried_fruit
 
 		if (slotType == OPTIONALIDENTICALSLOT || slotType == OPTIONALMIXEDSLOT)
-			msg->insertByte(1);  // ex: additive is optional so insertByte(1);
+			msg->insertByte(1); // ex: additive is optional so insertByte(1);
 		else
 			msg->insertByte(0);
 
@@ -63,7 +54,7 @@ public:
 		msg->insertUnicode(uniResourceType); // ex: organic
 
 		if (slotType == MIXEDSLOT || slotType == OPTIONALMIXEDSLOT) {
-			msg->insertByte(5);  // Enables Components
+			msg->insertByte(5);		  // Enables Components
 			msg->insertInt(quantity); // ex: 3
 		} else if (slotType == IDENTICALSLOT || slotType == OPTIONALIDENTICALSLOT) {
 			msg->insertByte(2);
@@ -75,59 +66,50 @@ public:
 		}
 	}
 
-    float getContribution() const
-    {
-        return contribution;
-    }
-	
+	float getContribution() const {
+		return contribution;
+	}
+
 	String getStringIdFile() const {
 		return stringIdFile;
 	}
-	
+
 	String getStringIdName() const {
 		return stringIdName;
 	}
 
-    uint32 getQuantity() const
-    {
-        return quantity;
-    }
+	uint32 getQuantity() const {
+		return quantity;
+	}
 
-    String getResourceType() const
-    {
-        return resourceType;
-    }
+	String getResourceType() const {
+		return resourceType;
+	}
 
-    int getSlotType() const
-    {
-        return slotType;
-    }
+	int getSlotType() const {
+		return slotType;
+	}
 
-    void setContribution(float contribution)
-    {
-        this->contribution = (contribution / 100.0f);
-    }
+	void setContribution(float contribution) {
+		this->contribution = (contribution / 100.0f);
+	}
 
-    void setQuantity(uint32 quantity)
-    {
-        this->quantity = quantity;
-    }
+	void setQuantity(uint32 quantity) {
+		this->quantity = quantity;
+	}
 
-    void setResourceType(String resourceType)
-    {
-        this->resourceType = resourceType;
-    }
+	void setResourceType(String resourceType) {
+		this->resourceType = resourceType;
+	}
 
-    void setSlotType(int slotType)
-    {
-        this->slotType = slotType;
-    }
+	void setSlotType(int slotType) {
+		this->slotType = slotType;
+	}
 
-    void setStringId(String file, String name)
-    {
+	void setStringId(String file, String name) {
 		stringIdFile = file;
 		stringIdName = name;
-    }
+	}
 };
 
 #endif /* DRAFTSLOT_H_ */

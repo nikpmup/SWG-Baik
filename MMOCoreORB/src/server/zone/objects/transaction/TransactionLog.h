@@ -117,11 +117,11 @@ enum class TrxCode {
 #endif
 
 #if use_builtin_FILE
-#define CAPTURE_CALLER_DECLARE const char* file = __builtin_FILE(), const char* function = __builtin_FUNCTION(), int line = __builtin_LINE()
+#define CAPTURE_CALLER_DECLARE const char *file = __builtin_FILE(), const char *function = __builtin_FUNCTION(), int line = __builtin_LINE()
 #else
-#define CAPTURE_CALLER_DECLARE const char* file = "unknown", const char* function = "unknown", int line = 0
+#define CAPTURE_CALLER_DECLARE const char *file = "unknown", const char *function = "unknown", int line = 0
 #endif
-#define CAPTURE_CALLER_ARGS const char* file, const char* function, int line
+#define CAPTURE_CALLER_ARGS const char *file, const char *function, int line
 
 class TransactionLog {
 	Time mStartTime;
@@ -148,32 +148,26 @@ public:
 
 	TransactionLog(SceneObject* src, SceneObject* dst, TrxCode code, int amount, bool isCash = true, CAPTURE_CALLER_DECLARE);
 
-	TransactionLog(SceneObject* src, SceneObject* dst, TrxCode code, bool exportSubject = false, CAPTURE_CALLER_DECLARE)
-		: TransactionLog(src, dst, (SceneObject*)nullptr, code, exportSubject, file, function, line) {
-			setType("apply");
+	TransactionLog(SceneObject* src, SceneObject* dst, TrxCode code, bool exportSubject = false, CAPTURE_CALLER_DECLARE) : TransactionLog(src, dst, (SceneObject*)nullptr, code, exportSubject, file, function, line) {
+		setType("apply");
 	}
 
-	TransactionLog(TrxCode code, SceneObject* dst, SceneObject* subject, bool exportSubject = false, CAPTURE_CALLER_DECLARE)
-		: TransactionLog((SceneObject*)nullptr, dst, subject, code, exportSubject, file, function, line) {
+	TransactionLog(TrxCode code, SceneObject* dst, SceneObject* subject, bool exportSubject = false, CAPTURE_CALLER_DECLARE) : TransactionLog((SceneObject*)nullptr, dst, subject, code, exportSubject, file, function, line) {
 	}
 
-	TransactionLog(SceneObject* src, TrxCode code, SceneObject* subject, bool exportSubject = false, CAPTURE_CALLER_DECLARE)
-		: TransactionLog(src, (SceneObject*)nullptr, subject, code, exportSubject, file, function, line) {
+	TransactionLog(SceneObject* src, TrxCode code, SceneObject* subject, bool exportSubject = false, CAPTURE_CALLER_DECLARE) : TransactionLog(src, (SceneObject*)nullptr, subject, code, exportSubject, file, function, line) {
 	}
 
-	TransactionLog(TrxCode code, SceneObject* dst, CAPTURE_CALLER_DECLARE)
-		: TransactionLog((SceneObject*)nullptr, dst, (SceneObject*)nullptr, code, false, file, function, line) {
-			if (!isStat(code)) {
-				mAutoCommit = false;
-			}
+	TransactionLog(TrxCode code, SceneObject* dst, CAPTURE_CALLER_DECLARE) : TransactionLog((SceneObject*)nullptr, dst, (SceneObject*)nullptr, code, false, file, function, line) {
+		if (!isStat(code)) {
+			mAutoCommit = false;
+		}
 	}
 
-	TransactionLog(SceneObject* src, TrxCode code, uint amount, bool isCash = true, CAPTURE_CALLER_DECLARE)
-		: TransactionLog(src, nullptr, code, amount, isCash, file, function, line) {
+	TransactionLog(SceneObject* src, TrxCode code, uint amount, bool isCash = true, CAPTURE_CALLER_DECLARE) : TransactionLog(src, nullptr, code, amount, isCash, file, function, line) {
 	}
 
-	TransactionLog(TrxCode code, SceneObject* dst, uint amount, bool isCash = true, CAPTURE_CALLER_DECLARE)
-		: TransactionLog((SceneObject*)nullptr, dst, code, amount, isCash, file, function, line) {
+	TransactionLog(TrxCode code, SceneObject* dst, uint amount, bool isCash = true, CAPTURE_CALLER_DECLARE) : TransactionLog((SceneObject*)nullptr, dst, code, amount, isCash, file, function, line) {
 	}
 
 	TransactionLog(uint64 srcObjectID, TrxCode code, uint amount, bool isCash = true, CAPTURE_CALLER_DECLARE);
@@ -324,7 +318,7 @@ public:
 
 	void addRelatedObject(SceneObject* obj, bool trackChildren = false);
 
-	template<typename T>
+	template <typename T>
 	void addState(const String& key, T value) {
 		catchAndLog(__FUNCTION__, [&]() -> void { mState[key] = value; });
 	}
@@ -384,25 +378,25 @@ private:
 
 	static bool isStat(TrxCode code) {
 		switch (code) {
-			case TrxCode::COMBATSTATS:
-			case TrxCode::CORPSEEXPIRATION:
-			case TrxCode::CRAFTINGSESSION:
-			case TrxCode::DATABASECOMMIT:
-			case TrxCode::EXPERIENCE:
-			case TrxCode::JABBASPALACE:
-			case TrxCode::NEWBIETUTORIAL:
-			case TrxCode::PLAYERDIED:
-			case TrxCode::PLAYERLINKDEAD:
-			case TrxCode::PLAYERLOGGINGOUT:
-			case TrxCode::PLAYEROFFLINE:
-			case TrxCode::PLAYERONLINE:
-			case TrxCode::POISYSTEM:
-			case TrxCode::SKILLTRAININGSYSTEM:
-			case TrxCode::TESTACCOUNT:
-				return true;
+		case TrxCode::COMBATSTATS:
+		case TrxCode::CORPSEEXPIRATION:
+		case TrxCode::CRAFTINGSESSION:
+		case TrxCode::DATABASECOMMIT:
+		case TrxCode::EXPERIENCE:
+		case TrxCode::JABBASPALACE:
+		case TrxCode::NEWBIETUTORIAL:
+		case TrxCode::PLAYERDIED:
+		case TrxCode::PLAYERLINKDEAD:
+		case TrxCode::PLAYERLOGGINGOUT:
+		case TrxCode::PLAYEROFFLINE:
+		case TrxCode::PLAYERONLINE:
+		case TrxCode::POISYSTEM:
+		case TrxCode::SKILLTRAININGSYSTEM:
+		case TrxCode::TESTACCOUNT:
+			return true;
 
-			default:
-				return false;
+		default:
+			return false;
 		}
 	}
 };

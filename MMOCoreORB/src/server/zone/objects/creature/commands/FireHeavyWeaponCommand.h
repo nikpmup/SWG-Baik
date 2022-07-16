@@ -7,13 +7,10 @@
 
 class FireHeavyWeaponCommand : public CombatQueueCommand {
 public:
-
-	FireHeavyWeaponCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	FireHeavyWeaponCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -25,7 +22,6 @@ public:
 			return INVALIDPARAMETERS;
 
 		try {
-
 			uint64 weaponID = tokenizer.getLongToken();
 			Reference<WeaponObject*> weapon = server->getZoneServer()->getObject(weaponID).castTo<WeaponObject*>();
 			if (weapon == nullptr || !weapon->isHeavyWeapon())
@@ -57,16 +53,17 @@ public:
 
 			if (result == SUCCESS) {
 				// We need to give some time for the combat animation to start playing before destroying the tano
-				Core::getTaskManager()->scheduleTask([weapon] {
-					Locker lock(weapon);
-					weapon->decreaseUseCount();
-				}, "FireHeavyWeaponTanoDecrementTask", 100);
+				Core::getTaskManager()->scheduleTask(
+					[weapon] {
+						Locker lock(weapon);
+						weapon->decreaseUseCount();
+					},
+					"FireHeavyWeaponTanoDecrementTask", 100);
 			}
 
 			return result;
 
 		} catch (Exception& e) {
-
 		}
 
 		return GENERALERROR;
@@ -83,7 +80,7 @@ public:
 		return "fire_heavy_" + weaponData->getAnimationType() + getIntensity(weapon->getMaxDamage() / 2.0f, damage);
 	}
 
-	float getCommandDuration(CreatureObject *object, const UnicodeString& arguments) const {
+	float getCommandDuration(CreatureObject* object, const UnicodeString& arguments) const {
 		StringTokenizer tokenizer(arguments.toString());
 		uint64 weaponID = tokenizer.getLongToken();
 		ManagedReference<WeaponObject*> weapon = server->getZoneServer()->getObject(weaponID).castTo<WeaponObject*>();
@@ -93,7 +90,6 @@ public:
 		else
 			return defaultTime * speedMultiplier;
 	}
-
 };
 
-#endif //FIREHEAVYWEAPONCOMMAND_H_
+#endif // FIREHEAVYWEAPONCOMMAND_H_

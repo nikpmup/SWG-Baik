@@ -9,12 +9,10 @@ void PlayerMap::put(const String& name, CreatureObject* player, bool doLock) {
 
 	try {
 		players.put(name.toLowerCase(), player);
-	}
-	catch (Exception & e) {
+	} catch (Exception& e) {
 		System::out << e.getMessage();
 		e.printStackTrace();
-	}
-	catch (...) {
+	} catch (...) {
 		unlock(doLock);
 
 		throw;
@@ -23,21 +21,18 @@ void PlayerMap::put(const String& name, CreatureObject* player, bool doLock) {
 	unlock(doLock);
 }
 
-CreatureObject* PlayerMap::get(const String& name, bool doLock ) {
+CreatureObject* PlayerMap::get(const String& name, bool doLock) {
 	CreatureObject* player = nullptr;
 
 	lock(doLock);
 
 	try {
-
 		player = players.get(name.toLowerCase());
 
-	}
-	catch (Exception & e) {
+	} catch (Exception& e) {
 		System::out << e.getMessage();
 		e.printStackTrace();
-	}
-	catch (...) {
+	} catch (...) {
 		unlock(doLock);
 
 		throw;
@@ -54,15 +49,12 @@ CreatureObject* PlayerMap::remove(const String& name, bool doLock) {
 	lock(doLock);
 
 	try {
-
 		player = players.remove(name.toLowerCase());
 
-	}
-	catch (Exception & e) {
+	} catch (Exception& e) {
 		System::out << e.getMessage();
 		e.printStackTrace();
-	}
-	catch (...) {
+	} catch (...) {
 		unlock(doLock);
 
 		throw;
@@ -73,7 +65,7 @@ CreatureObject* PlayerMap::remove(const String& name, bool doLock) {
 	return player;
 }
 
-CreatureObject* PlayerMap::getNextValue(bool doLock ) {
+CreatureObject* PlayerMap::getNextValue(bool doLock) {
 	CreatureObject* player = nullptr;
 
 	lock(doLock);

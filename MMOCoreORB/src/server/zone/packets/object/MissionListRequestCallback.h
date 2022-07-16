@@ -20,9 +20,7 @@ class MissionListRequestCallback : public MessageCallback {
 	ObjectControllerMessageCallback* objectControllerMain;
 
 public:
-	MissionListRequestCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-			MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-			flags(0), seq(0), terminalObjectID(0), objectControllerMain(objectControllerCallback) {
+	MissionListRequestCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), flags(0), seq(0), terminalObjectID(0), objectControllerMain(objectControllerCallback) {
 	}
 
 	void parse(Message* message) {
@@ -49,22 +47,18 @@ public:
 		if (!terminal->isMissionTerminal())
 			return;
 
-		MissionTerminal* missionTerminal = cast<MissionTerminal*>( terminal.get());
+		MissionTerminal* missionTerminal = cast<MissionTerminal*>(terminal.get());
 
 		StringBuffer taskName;
 
 		taskName << "MissionListRequestCallback for MissionTerminal(" << missionTerminal->getObjectID() << ")"
-			<< "; player=" << player->getObjectID()
-			<< "; flags=" << flags
-			<< "; seq=" << seq;
+				 << "; player=" << player->getObjectID() << "; flags=" << flags << "; seq=" << seq;
 
 		setTaskName(taskName.toString());
 
 		MissionManager* manager = server->getZoneServer()->getMissionManager();
 		manager->handleMissionListRequest(missionTerminal, player, seq);
 	}
-
 };
-
 
 #endif /* MISSIONLISTREQUESTCALLBACK_H_ */

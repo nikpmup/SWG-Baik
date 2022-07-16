@@ -306,9 +306,14 @@ void ForceHealQueueCommand::sendHealMessage(CreatureObject* creature, CreatureOb
 		String strVal = "@jedi_spam:";
 
 		switch (healType) {
-		case HEAL_DAMAGE: strVal = strVal + CreatureAttribute::getName(healSpec) + "_damage"; break;
-		case HEAL_WOUNDS: strVal = strVal + CreatureAttribute::getName(healSpec) + "_wounds"; break;
-		default: strVal = strVal + "battle_fatigue";
+		case HEAL_DAMAGE:
+			strVal = strVal + CreatureAttribute::getName(healSpec) + "_damage";
+			break;
+		case HEAL_WOUNDS:
+			strVal = strVal + CreatureAttribute::getName(healSpec) + "_wounds";
+			break;
+		default:
+			strVal = strVal + "battle_fatigue";
 		}
 
 		String statStr = StringIdManager::instance()->getStringId(strVal.hashCode()).toString();
@@ -400,7 +405,7 @@ int ForceHealQueueCommand::runCommandWithTarget(CreatureObject* creature, Creatu
 	if (creature->isKnockedDown())
 		return GENERALERROR;
 
-	if(!checkDistance(creature, targetCreature, range))
+	if (!checkDistance(creature, targetCreature, range))
 		return TOOFAR;
 
 	if (checkForArenaDuel(targetCreature)) {

@@ -1,7 +1,7 @@
 #include "HeightMap.h"
 
 HeightMap::HeightMap() : ReadWriteLock("HeightMap"), Logger() {
-	planes = (HeightMapPlane**) malloc(PLANESSIZE * PLANESSIZE * sizeof(HeightMapPlane*));
+	planes = (HeightMapPlane**)malloc(PLANESSIZE * PLANESSIZE * sizeof(HeightMapPlane*));
 
 	for (int i = 0; i < PLANESSIZE * PLANESSIZE; ++i) {
 		planes[i] = nullptr;
@@ -75,7 +75,6 @@ float HeightMap::getHeight(float x, float y) {
 	float retHeight = 0;
 
 	try {
-
 		int planePosition = getPlanePosition(x, y);
 
 		rlock();
@@ -83,7 +82,7 @@ float HeightMap::getHeight(float x, float y) {
 		HeightMapPlane* plane = planes[planePosition];
 
 		if (plane == nullptr) {
-			//System::out << "Streaming in heightplane number " << planePosition << ".\n";
+			// System::out << "Streaming in heightplane number " << planePosition << ".\n";
 			runlock();
 
 			plane = streamPlaneAt(x, y);
@@ -91,8 +90,8 @@ float HeightMap::getHeight(float x, float y) {
 			rlock();
 		}
 
-		int width = (int) (x + ORIGOSHIFT) % PLANEWIDTH;
-		int height = (int) (y + ORIGOSHIFT) % PLANEWIDTH;
+		int width = (int)(x + ORIGOSHIFT) % PLANEWIDTH;
+		int height = (int)(y + ORIGOSHIFT) % PLANEWIDTH;
 
 		retHeight = plane->getHeight(width, height);
 
@@ -112,8 +111,8 @@ float HeightMap::getHeightFrom(FileInputStream* file, float x, float y) {
 
 	float buffer;
 
-	int tableX = (int) x + 7680;
-	int tableY = (int) y + 7680;
+	int tableX = (int)x + 7680;
+	int tableY = (int)y + 7680;
 
 	uint32 offset = ((7680 * 2 + 1) * tableX + tableY) * sizeof(float);
 
@@ -155,16 +154,16 @@ HeightMapPlane* HeightMap::streamPlaneAt(float x, float y) {
 }
 
 int HeightMap::getPlanePosition(float x, float y) {
-	int planeX = (int) (x + ORIGOSHIFT) / PLANEWIDTH;
+	int planeX = (int)(x + ORIGOSHIFT) / PLANEWIDTH;
 	// check needed only for when x == ORIGOSHIFT because the plane with that
 	// x value doesn't exist
-	if(planeX > PLANESSIZE - 1)
+	if (planeX > PLANESSIZE - 1)
 		planeX = PLANESSIZE - 1;
 
-	int planeY = (int) (y + ORIGOSHIFT) / PLANEWIDTH;
+	int planeY = (int)(y + ORIGOSHIFT) / PLANEWIDTH;
 	// check needed only for when y == ORIGOSHIFT because the plane with that
 	// y value doesn't exist
-	if(planeY > PLANESSIZE - 1)
+	if (planeY > PLANESSIZE - 1)
 		planeY = PLANESSIZE - 1;
 
 	return planeX + planeY * PLANESSIZE;
@@ -189,7 +188,7 @@ void HeightMap::convert(const String& path) {
 		exit(1);
 	}
 
-	//FileOutputStream* writer = new FileOutputStream(new File("converted_" + path));
+	// FileOutputStream* writer = new FileOutputStream(new File("converted_" + path));
 
 	byte emptybuffer[PLANEWIDTH * HEIGHTSIZE];
 
@@ -218,7 +217,7 @@ void HeightMap::convert(const String& path) {
 			float plane[PLANEWIDTH * PLANEWIDTH];
 			readPlaneForConversion(reader, plane, planeIndexX - 2, planeIndexY - 2);
 
-			writer->write((byte*) plane, PLANEWIDTH * PLANEWIDTH * HEIGHTSIZE);
+			writer->write((byte*)plane, PLANEWIDTH * PLANEWIDTH * HEIGHTSIZE);
 
 			++planeIndexX;
 		}
@@ -231,7 +230,7 @@ void HeightMap::convert(const String& path) {
 			writer->write(emptybuffer, PLANEWIDTH * HEIGHTSIZE);
 	}
 
-	//last 2 lines
+	// last 2 lines
 	for (int i = 0; i < 2 * 64; ++i) {
 		for (int j = 0; j < PLANEWIDTH; ++j)
 			writer->write(emptybuffer, PLANEWIDTH * HEIGHTSIZE);
@@ -253,4 +252,3 @@ void HeightMap::readPlaneForConversion(FileInputStream* file, float* buffer, int
 		}
 	}
 }
-

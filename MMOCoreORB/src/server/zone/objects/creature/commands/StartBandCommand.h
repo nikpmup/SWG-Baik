@@ -12,14 +12,10 @@
 
 class StartBandCommand : public QueueCommand {
 public:
-
-	StartBandCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	StartBandCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -57,7 +53,7 @@ public:
 					continue;
 
 				ManagedReference<Facade*> facade = groupMember->getActiveSession(SessionFacadeType::ENTERTAINING);
-				ManagedReference<EntertainingSession*> session = dynamic_cast<EntertainingSession*> (facade.get());
+				ManagedReference<EntertainingSession*> session = dynamic_cast<EntertainingSession*>(facade.get());
 
 				if (session == nullptr)
 					continue;
@@ -178,10 +174,10 @@ public:
 		}
 
 		if (activeBandSong) {
-			performanceManager->performanceMessageToSelf(creature, nullptr, "performance", "music_band_join_song_self"); // You prepare the band to join in with the currently performed song.
+			performanceManager->performanceMessageToSelf(creature, nullptr, "performance", "music_band_join_song_self");	// You prepare the band to join in with the currently performed song.
 			performanceManager->performanceMessageToBand(creature, nullptr, "performance", "music_band_join_song_members"); // %TU prepares your band to join in with the currently playing song.
 		} else {
-			performanceManager->performanceMessageToSelf(creature, nullptr, "performance", "music_start_band_self"); // You prepare to start the band playing.
+			performanceManager->performanceMessageToSelf(creature, nullptr, "performance", "music_start_band_self");	// You prepare to start the band playing.
 			performanceManager->performanceMessageToBand(creature, nullptr, "performance", "music_start_band_members"); // %TU prepares to start your band playing.
 		}
 
@@ -194,4 +190,4 @@ public:
 	}
 };
 
-#endif //STARTBANDCOMMAND_H_
+#endif // STARTBANDCOMMAND_H_

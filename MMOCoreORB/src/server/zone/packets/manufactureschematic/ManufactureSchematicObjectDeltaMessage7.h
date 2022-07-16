@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef MANUFACTURESCHEMATICOBJECTDELTAMESSAGE7_H_
@@ -10,22 +10,20 @@
 
 class ManufactureSchematicObjectDeltaMessage7 : public DeltaMessage {
 public:
-	ManufactureSchematicObjectDeltaMessage7(SceneObject* schematic) :
-		DeltaMessage(schematic->getObjectID(), 0x4D53434F, 7) {
+	ManufactureSchematicObjectDeltaMessage7(SceneObject* schematic) : DeltaMessage(schematic->getObjectID(), 0x4D53434F, 7) {
 	}
 
-	void updateForAssembly(ManufactureSchematic* manufactureSchematic, float failureRate){
+	void updateForAssembly(ManufactureSchematic* manufactureSchematic, float failureRate) {
 		initialAssemblyUpdate(manufactureSchematic);
 		update9(manufactureSchematic, true);
-		//update0A(manufactureSchematic);
+		// update0A(manufactureSchematic);
 		update0B(manufactureSchematic);
 		update0C(manufactureSchematic);
 		update12(failureRate);
 		update13(manufactureSchematic);
 	}
 
-	void updateCustomizationOptions(VectorMap<String, Reference<CustomizationVariable*> >* vars,
-			int custpoints){
+	void updateCustomizationOptions(VectorMap<String, Reference<CustomizationVariable*>>* vars, int custpoints) {
 		update0D(vars);
 		update0E(vars);
 		update0F(vars);
@@ -35,7 +33,6 @@ public:
 
 	// update 8
 	void initialAssemblyUpdate(ManufactureSchematic* manufactureSchematic) {
-
 		CraftingValues* craftingValues = manufactureSchematic->getCraftingValues();
 
 		startUpdate(8);
@@ -51,7 +48,7 @@ public:
 
 			insertByte(1);
 			insertShort(i);
-			insertAscii("crafting");  // I think this is always "crafting"
+			insertAscii("crafting"); // I think this is always "crafting"
 			insertInt(0);
 			insertAscii(title);
 		}
@@ -59,10 +56,10 @@ public:
 		// Initialize update 9************
 		startUpdate(9);
 
-		startList(titleCount, titleCount);  // titleCount, counter
+		startList(titleCount, titleCount); // titleCount, counter
 
 		for (int i = 0; i < titleCount; i++) {
-			addListFloatElement(i, 0); //0
+			addListFloatElement(i, 0); // 0
 		}
 		//!*********************************
 		// Initialize update 0A************
@@ -92,12 +89,10 @@ public:
 			addListFloatElement(i, 0);
 		}
 		//!**********************************
-
 	}
 
 	// This sends the experimental values shown in the Screen after hitting assemble
 	void update9(ManufactureSchematic* manufactureSchematic, bool initial) {
-
 		int count;
 
 		startUpdate(9);
@@ -111,28 +106,25 @@ public:
 			manufactureSchematic->setExperimentingCounter(titleCount * 3);
 		}
 
-//System::out << "Visible: " << titleCount << "  Count: " << count << endl;
+		// System::out << "Visible: " << titleCount << "  Count: " << count << endl;
 
 		count = manufactureSchematic->getExperimentingCounterPrevious();
 
 		startList(titleCount, count);
 
 		for (int i = 0; i < titleCount; i++) {
-
 			String title = craftingValues->getVisibleExperimentalPropertyTitle(i);
 
 			float value = craftingValues->getCurrentVisiblePercentage(title);
 
-			if(value > 0 && value < .01)
+			if (value > 0 && value < .01)
 				value = .01f;
 
 			removeListFloatElement(i, value);
-
 		}
 	}
 
 	void update0A(ManufactureSchematic* manufactureSchematic) {
-
 		CraftingValues* craftingValues = manufactureSchematic->getCraftingValues();
 
 		startUpdate(0x0A);
@@ -147,7 +139,6 @@ public:
 	}
 	// I think this is usually 1.0
 	void update0B(ManufactureSchematic* manufactureSchematic) {
-
 		CraftingValues* craftingValues = manufactureSchematic->getCraftingValues();
 
 		startUpdate(0x0B);
@@ -162,7 +153,6 @@ public:
 	}
 	// This is the MAX experimental value.  How many bars
 	void update0C(ManufactureSchematic* manufactureSchematic) {
-
 		CraftingValues* craftingValues = manufactureSchematic->getCraftingValues();
 
 		startUpdate(0x0C);
@@ -174,26 +164,22 @@ public:
 		float value;
 
 		for (int i = 0; i < titleCount; i++) {
-
 			value = craftingValues->getMaxVisiblePercentage(i);
 
 			removeListFloatElement(i, value);
-
 		}
 	}
 
-	void update0D(VectorMap<String, Reference<CustomizationVariable*> >* vars) {
-
+	void update0D(VectorMap<String, Reference<CustomizationVariable*>>* vars) {
 		startUpdate(0x0D);
 
 		startList(vars->size(), vars->size());
 
 		for (int i = 0; i < vars->size(); ++i) {
-
 			insertByte(0x01);
 			insertShort(i);
 			RangedIntCustomizationVariable* var = cast<RangedIntCustomizationVariable*>(vars->get(i).get());
-			if(var == nullptr)
+			if (var == nullptr)
 				insertAscii("");
 			else
 				insertAscii(vars->elementAt(i).getKey());
@@ -201,26 +187,23 @@ public:
 	}
 
 	// Starting COlor chooser position
-	void update0E(VectorMap<String, Reference<CustomizationVariable*> >* vars) {
-
+	void update0E(VectorMap<String, Reference<CustomizationVariable*>>* vars) {
 		startUpdate(0x0E);
 
 		startList(vars->size(), vars->size());
 
 		for (int i = 0; i < vars->size(); ++i) {
-
 			insertByte(0x01);
 			insertShort(i);
 			RangedIntCustomizationVariable* var = cast<RangedIntCustomizationVariable*>(vars->get(i).get());
-			if(var == nullptr)
+			if (var == nullptr)
 				insertInt(0);
 			else
 				insertInt(var->getDefaultValue());
 		}
 	}
 
-	void update0F(VectorMap<String, Reference<CustomizationVariable*> >* vars) {
-
+	void update0F(VectorMap<String, Reference<CustomizationVariable*>>* vars) {
 		startUpdate(0x0F);
 
 		startList(vars->size(), vars->size());
@@ -233,8 +216,7 @@ public:
 	}
 
 	// Number of palette colors
-	void update10(VectorMap<String, Reference<CustomizationVariable*> >* vars, int custpoints) {
-
+	void update10(VectorMap<String, Reference<CustomizationVariable*>>* vars, int custpoints) {
 		startUpdate(0x10);
 
 		startList(vars->size(), vars->size());
@@ -247,20 +229,18 @@ public:
 	}
 
 	void update11() {
-
 		startUpdate(0x11);
 		insertByte(1);
 	}
 
-	void update12(float failureRate){
+	void update12(float failureRate) {
 		startUpdate(0x12);
 		insertFloat(failureRate);
 	}
 
-	void update13(ManufactureSchematic* manufactureSchematic){
-
+	void update13(ManufactureSchematic* manufactureSchematic) {
 		ManagedReference<DraftSchematic*> draftSchematic = manufactureSchematic->getDraftSchematic();
-		if(draftSchematic == nullptr)
+		if (draftSchematic == nullptr)
 			return;
 
 		startUpdate(0x13);
@@ -271,7 +251,7 @@ public:
 		startList(templateCount, templateCount);
 
 		/// The first template is the
-		for(int i = 0; i < templateCount; ++i) {
+		for (int i = 0; i < templateCount; ++i) {
 			insertByte(0x01);
 			insertShort(i);
 			insertAscii(draftSchematic->getTemplate(i));
@@ -279,11 +259,9 @@ public:
 	}
 
 	void update14() {
-
 		startUpdate(0x14);
 		insertByte(1);
 	}
-
 };
 
 #endif /*MANUFACTURESCHEMATICOBJECTMESSAGE7_H_*/

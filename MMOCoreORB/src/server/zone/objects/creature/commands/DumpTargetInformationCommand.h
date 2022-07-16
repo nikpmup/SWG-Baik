@@ -9,14 +9,10 @@
 
 class DumpTargetInformationCommand : public QueueCommand {
 public:
-
-	DumpTargetInformationCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DumpTargetInformationCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -28,8 +24,8 @@ public:
 
 		CreatureObject* player = cast<CreatureObject*>(creature);
 
-		//Apparently this command doesn't actually pass the targetid, so that probably means that it only accepts a player name
-		//TODO: Reimplement this command as @getPlayerInfo
+		// Apparently this command doesn't actually pass the targetid, so that probably means that it only accepts a player name
+		// TODO: Reimplement this command as @getPlayerInfo
 		uint64 targetID = player->getTargetID();
 
 		ManagedReference<SceneObject*> obj = server->getZoneServer()->getObject(targetID);
@@ -53,9 +49,7 @@ public:
 		float posX = obj->getPositionX(), posZ = obj->getPositionZ(), posY = obj->getPositionY();
 		const Quaternion* direction = obj->getDirection();
 
-		msg << "x = " << posX << ", z = " << posZ << ", y = " << posY << ", ow = " << direction->getW()
-				<< ", ox = " << direction->getX() << ", oz = " << direction->getZ() << ", oy = " << direction->getY()
-				<< ", cellid = " << cellid;
+		msg << "x = " << posX << ", z = " << posZ << ", y = " << posY << ", ow = " << direction->getW() << ", ox = " << direction->getX() << ", oz = " << direction->getZ() << ", oy = " << direction->getY() << ", cellid = " << cellid;
 
 		if (buildingTemplate != 0)
 			msg << endl << TemplateManager::instance()->getTemplateFile(buildingTemplate);
@@ -73,8 +67,7 @@ public:
 					buildingTemplate = building->getServerObjectCRC();
 				}
 
-				msg << endl << "homeX = " << home->getPositionX() << ", homeZ = " << home->getPositionZ() << ", homeY = " << home->getPositionY()
-						<< ", homeCell = " << cellid;
+				msg << endl << "homeX = " << home->getPositionX() << ", homeZ = " << home->getPositionZ() << ", homeY = " << home->getPositionY() << ", homeCell = " << cellid;
 
 				if (buildingTemplate != 0)
 					msg << endl << TemplateManager::instance()->getTemplateFile(buildingTemplate);
@@ -90,8 +83,7 @@ public:
 					buildingTemplate = building->getServerObjectCRC();
 				}
 
-				msg << endl << "nextX = " << nextPosition.getPositionX() << ", nextZ = " << nextPosition.getPositionZ() << ", nextY = " << nextPosition.getPositionY()
-						<< ", nextCell = " << cellid;
+				msg << endl << "nextX = " << nextPosition.getPositionX() << ", nextZ = " << nextPosition.getPositionZ() << ", nextY = " << nextPosition.getPositionY() << ", nextCell = " << cellid;
 
 				if (buildingTemplate != 0)
 					msg << endl << TemplateManager::instance()->getTemplateFile(buildingTemplate);
@@ -135,7 +127,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DUMPTARGETINFORMATIONCOMMAND_H_
+#endif // DUMPTARGETINFORMATIONCOMMAND_H_

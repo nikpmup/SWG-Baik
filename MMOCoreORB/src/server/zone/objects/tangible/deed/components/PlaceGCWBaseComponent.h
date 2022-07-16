@@ -16,7 +16,4 @@ public:
 	int notifyStructurePlaced(StructureDeed* deed, CreatureObject* creature, StructureObject* structure) const;
 };
 
-
-
-
 #endif /* PLACEGCWBASECOMPONENT_H_ */

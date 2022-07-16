@@ -54,16 +54,18 @@ void ActiveAreaImplementation::notifyEnter(SceneObject* obj) {
 
 	if (obj->isPlayerCreature() && attachedScenery.size() > 0) {
 		ManagedReference<SceneObject*> sceno = obj;
-		Vector<ManagedReference<SceneObject* > > scene = attachedScenery;
+		Vector<ManagedReference<SceneObject*>> scene = attachedScenery;
 
-		Core::getTaskManager()->executeTask([=] () {
-			for (int i = 0; i < scene.size(); i++) {
-				SceneObject* scenery = scene.get(i);
-				Locker locker(scenery);
+		Core::getTaskManager()->executeTask(
+			[=]() {
+				for (int i = 0; i < scene.size(); i++) {
+					SceneObject* scenery = scene.get(i);
+					Locker locker(scenery);
 
-				scenery->sendTo(sceno, true);
-			}
-		}, "SendSceneryLambda");
+					scenery->sendTo(sceno, true);
+				}
+			},
+			"SendSceneryLambda");
 	}
 }
 
@@ -73,16 +75,18 @@ void ActiveAreaImplementation::notifyExit(SceneObject* obj) {
 
 	if (obj->isPlayerCreature() && attachedScenery.size() > 0) {
 		ManagedReference<SceneObject*> sceno = obj;
-		Vector<ManagedReference<SceneObject* > > scene = attachedScenery;
+		Vector<ManagedReference<SceneObject*>> scene = attachedScenery;
 
-		Core::getTaskManager()->executeTask([=] () {
-			for (int i = 0; i < scene.size(); i++) {
-				SceneObject* scenery = scene.get(i);
-				Locker locker(scenery);
+		Core::getTaskManager()->executeTask(
+			[=]() {
+				for (int i = 0; i < scene.size(); i++) {
+					SceneObject* scenery = scene.get(i);
+					Locker locker(scenery);
 
-				scenery->sendDestroyTo(sceno);
-			}
-		}, "SendDestroySceneryLambda");
+					scenery->sendDestroyTo(sceno);
+				}
+			},
+			"SendDestroySceneryLambda");
 	}
 }
 

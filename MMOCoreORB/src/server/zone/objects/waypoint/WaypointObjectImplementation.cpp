@@ -31,7 +31,7 @@ String WaypointObjectImplementation::getDetailedDescription() const {
 void WaypointObjectImplementation::insertToMessage(BaseMessage* msg) {
 	msg->writeInt(cellID); // cellID
 	msg->writeFloat(getPositionX());
-	msg->writeFloat(getPositionZ()); //Z
+	msg->writeFloat(getPositionZ()); // Z
 	msg->writeFloat(getPositionY());
 	msg->writeLong(unknown); //?
 	msg->writeInt(planetCRC);

@@ -13,9 +13,8 @@
 
 class RangedIntCustomizationVariables : public Param {
 protected:
-	//QMap<QString, PaletteColorCustomizationVariable*> variables;
+	// QMap<QString, PaletteColorCustomizationVariable*> variables;
 	Vector<RangedIntCustomizationVariable*> variables;
-
 
 public:
 	RangedIntCustomizationVariables() : Param() {
@@ -30,14 +29,14 @@ public:
 		for (int i = 0; i < variables.size(); ++i)
 			delete variables.get(i);
 
-		//std::cout << "DELETING RangedIntCustomizationVariables\n";
+		// std::cout << "DELETING RangedIntCustomizationVariables\n";
 	}
 
 	String toString() const;
 
 	void toString(String& str) {
-		//std::cout << "entering void toString(QString& str)\n";
-		//str = test;
+		// std::cout << "entering void toString(QString& str)\n";
+		// str = test;
 	}
 
 	bool parse(Chunk* source);

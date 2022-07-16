@@ -10,9 +10,8 @@
 
 #include "server/zone/objects/tangible/components/generic/DataStorageUnitDataComponent.h"
 
-class DataStorageUnitAttributeListComponent: public AttributeListComponent {
+class DataStorageUnitAttributeListComponent : public AttributeListComponent {
 public:
-
 	/**
 	 * Fills the Attributes
 	 * @pre { this object is locked }
@@ -20,8 +19,7 @@ public:
 	 * @param menuResponse ObjectMenuResponse that will be sent to the client
 	 */
 	void fillAttributeList(AttributeListMessage* alm, CreatureObject* player, SceneObject* sceneObject) const {
-
-		if(!sceneObject->isTangibleObject())
+		if (!sceneObject->isTangibleObject())
 			return;
 
 		ManagedReference<TangibleObject*> tano = cast<TangibleObject*>(sceneObject);
@@ -30,18 +28,17 @@ public:
 			return;
 
 		DataObjectComponent* data = tano->getDataObjectComponent()->get();
-		if(data == nullptr || !data->isDataStorageUnitData())
+		if (data == nullptr || !data->isDataStorageUnitData())
 			return;
 
 		DataStorageUnitDataComponent* dsuData = cast<DataStorageUnitDataComponent*>(data);
-		if( dsuData == nullptr )
+		if (dsuData == nullptr)
 			return;
 
 		// ID is an integer from 1 to 12
-		String title = "@theme_park/book_text:title_" + String::valueOf( dsuData->getId() );
+		String title = "@theme_park/book_text:title_" + String::valueOf(dsuData->getId());
 		alm->insertAttribute("contents", title);
 	}
-
 };
 
 #endif /* DATASTORAGEUNITATTRIBUTELISTCOMPONENT_H_ */

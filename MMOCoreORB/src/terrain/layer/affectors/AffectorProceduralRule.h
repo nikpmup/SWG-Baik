@@ -25,7 +25,6 @@ public:
 	const static int ENVIRONMENT = 0x200;
 
 	virtual ~AffectorProceduralRule() {
-
 	}
 
 	virtual void process(float x, float y, float transformValue, float& baseValue, TerrainGenerator* terrainGenerator) {
@@ -46,7 +45,6 @@ public:
 	virtual bool isEnabled() {
 		return false;
 	}
-
 };
 
 #endif /* AFFECTORPROCEDURALRULE_H_ */

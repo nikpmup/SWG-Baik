@@ -12,9 +12,7 @@
 #include "server/zone/objects/player/sui/callbacks/FireworkShowReorderShowSuiCallback.h"
 #include "server/zone/objects/player/sui/listbox/SuiListBox.h"
 
-void FireworkShowMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject,
-		ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
+void FireworkShowMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
 	if (!sceneObject->isFireworkObject())
 		return;
 
@@ -25,7 +23,7 @@ void FireworkShowMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject,
 
 	DataObjectComponent* data = fireworkShow->getDataObjectComponent()->get();
 
-	if(data == nullptr || !data->isFireworkShowData())
+	if (data == nullptr || !data->isFireworkShowData())
 		return;
 
 	FireworkShowDataComponent* fireworkShowData = cast<FireworkShowDataComponent*>(data);
@@ -41,15 +39,11 @@ void FireworkShowMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject,
 		menuResponse->addRadialMenuItemToRadialID(68, 72, 3, "@firework:mnu_reorder_show");
 	}
 
-	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject,
-			menuResponse, player);
-
+	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
 }
 
-int FireworkShowMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
-		CreatureObject* player, byte selectedID) const {
-
-	if(!sceneObject->isASubChildOf(player))
+int FireworkShowMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
+	if (!sceneObject->isASubChildOf(player))
 		return 0;
 
 	if (!sceneObject->isFireworkObject())
@@ -63,32 +57,31 @@ int FireworkShowMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
 	FireworkObject* firework = cast<FireworkObject*>(sceneObject);
 
 	switch (selectedID) {
-		case 20:
-			firework->beginShowLaunch(player);
-			break;
-		case 68: // showData
-			showData(player, firework);
-			break;
-		case 69: // Add Event
-			addEvent(player, firework);
-			break;
-		case 70:  // Remove Event
-			removeEvent(player, firework);
-			break;
-		case 71:  // Modify Event
-			modifyEvent(player, firework);
-			break;
-		case 72:  // Reorder Show
-			reorderShow(player, firework);
-			break;
-		default:
-			return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject,	player, selectedID);
-		}
+	case 20:
+		firework->beginShowLaunch(player);
+		break;
+	case 68: // showData
+		showData(player, firework);
+		break;
+	case 69: // Add Event
+		addEvent(player, firework);
+		break;
+	case 70: // Remove Event
+		removeEvent(player, firework);
+		break;
+	case 71: // Modify Event
+		modifyEvent(player, firework);
+		break;
+	case 72: // Reorder Show
+		reorderShow(player, firework);
+		break;
+	default:
+		return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject, player, selectedID);
+	}
 	return 0;
 }
 
 void FireworkShowMenuComponent::addEvent(CreatureObject* player, FireworkObject* fireworkShow) const {
-
 	DataObjectComponent* data = fireworkShow->getDataObjectComponent()->get();
 
 	if (data == nullptr || !data->isFireworkShowData())
@@ -109,9 +102,8 @@ void FireworkShowMenuComponent::addEvent(CreatureObject* player, FireworkObject*
 		return;
 	}
 
-	if (ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_ADDEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REMOVEEVENT)
-			|| ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REORDERSHOW) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_MODIFYEVENT)
-				|| ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_DELAYSELECTION)) {
+	if (ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_ADDEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REMOVEEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REORDERSHOW) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_MODIFYEVENT) ||
+		ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_DELAYSELECTION)) {
 		return;
 	}
 
@@ -154,9 +146,8 @@ void FireworkShowMenuComponent::addEvent(CreatureObject* player, FireworkObject*
 
 void FireworkShowMenuComponent::showData(CreatureObject* player, FireworkObject* fireworkShow) const {
 	ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
-	if (ghost == nullptr || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_ADDEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REMOVEEVENT)
-			|| ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REORDERSHOW) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_MODIFYEVENT)
-				|| ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_DELAYSELECTION)) {
+	if (ghost == nullptr || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_ADDEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REMOVEEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REORDERSHOW) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_MODIFYEVENT) ||
+		ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_DELAYSELECTION)) {
 		return;
 	}
 
@@ -190,9 +181,8 @@ void FireworkShowMenuComponent::showData(CreatureObject* player, FireworkObject*
 
 void FireworkShowMenuComponent::removeEvent(CreatureObject* player, FireworkObject* fireworkShow) const {
 	ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
-	if (ghost == nullptr || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_ADDEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REMOVEEVENT)
-			|| ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REORDERSHOW) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_MODIFYEVENT)
-				|| ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_DELAYSELECTION)) {
+	if (ghost == nullptr || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_ADDEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REMOVEEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REORDERSHOW) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_MODIFYEVENT) ||
+		ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_DELAYSELECTION)) {
 		return;
 	}
 
@@ -228,9 +218,8 @@ void FireworkShowMenuComponent::removeEvent(CreatureObject* player, FireworkObje
 
 void FireworkShowMenuComponent::modifyEvent(CreatureObject* player, FireworkObject* fireworkShow) const {
 	ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
-	if (ghost == nullptr || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_ADDEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REMOVEEVENT)
-			|| ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REORDERSHOW) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_MODIFYEVENT)
-				|| ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_DELAYSELECTION)) {
+	if (ghost == nullptr || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_ADDEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REMOVEEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REORDERSHOW) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_MODIFYEVENT) ||
+		ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_DELAYSELECTION)) {
 		return;
 	}
 
@@ -266,9 +255,8 @@ void FireworkShowMenuComponent::modifyEvent(CreatureObject* player, FireworkObje
 
 void FireworkShowMenuComponent::reorderShow(CreatureObject* player, FireworkObject* fireworkShow) const {
 	ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
-	if (ghost == nullptr || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_ADDEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REMOVEEVENT)
-			|| ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REORDERSHOW) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_MODIFYEVENT)
-				|| ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_DELAYSELECTION)) {
+	if (ghost == nullptr || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_ADDEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REMOVEEVENT) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_REORDERSHOW) || ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_MODIFYEVENT) ||
+		ghost->hasSuiBoxWindowType(SuiWindowType::FIREWORK_SHOW_DELAYSELECTION)) {
 		return;
 	}
 

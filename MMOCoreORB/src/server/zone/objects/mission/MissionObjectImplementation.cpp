@@ -20,7 +20,7 @@ void MissionObjectImplementation::initializeTransientMembers() {
 
 	setLoggingName("MissionObject");
 
-	if(waypointToMission == nullptr)
+	if (waypointToMission == nullptr)
 		waypointToMission = createWaypoint();
 }
 
@@ -208,12 +208,12 @@ void MissionObjectImplementation::setTargetTemplate(SharedObjectTemplate* templa
 }
 
 WaypointObject* MissionObjectImplementation::createWaypoint() {
-	waypointToMission = ( getZoneServer()->createObject(0xc456e788, 1)).castTo<WaypointObject*>();
+	waypointToMission = (getZoneServer()->createObject(0xc456e788, 1)).castTo<WaypointObject*>();
 
 	Locker locker(waypointToMission);
 
-	//obj->setPlanetCRC(planet.hashCode());
-	//obj->setPosition(positionX, 0, positionY);
+	// obj->setPlanetCRC(planet.hashCode());
+	// obj->setPosition(positionX, 0, positionY);
 	waypointToMission->setActive(false);
 	waypointToMission->setColor(3);
 
@@ -226,8 +226,8 @@ void MissionObjectImplementation::updateMissionLocation() {
 	}
 
 	ManagedReference<CreatureObject*> playerCreature = getMissionObjective()->getPlayerOwner();
-	
-	ManagedReference<WaypointObject* > waypointToMission = this->waypointToMission;
+
+	ManagedReference<WaypointObject*> waypointToMission = this->waypointToMission;
 
 	if (playerCreature != nullptr && waypointToMission != nullptr) {
 		MissionObjectDeltaMessage3* dmiso3 = new MissionObjectDeltaMessage3(_this.getReferenceUnsafeStaticCast());
@@ -239,11 +239,13 @@ void MissionObjectImplementation::updateMissionLocation() {
 		if (playerCreature->isGrouped() && playerCreature->getGroup() != nullptr) {
 			Reference<GroupObject*> group = playerCreature->getGroup();
 
-			Core::getTaskManager()->executeTask([group, playerCreature] () {
-				Locker locker(group);
+			Core::getTaskManager()->executeTask(
+				[group, playerCreature]() {
+					Locker locker(group);
 
-				group->scheduleUpdateNearestMissionForGroup(playerCreature->getPlanetCRC());
-			}, "updateMissionLocationLambda");
+					group->scheduleUpdateNearestMissionForGroup(playerCreature->getPlanetCRC());
+				},
+				"updateMissionLocationLambda");
 		}
 	}
 }
@@ -270,7 +272,6 @@ void MissionObjectImplementation::destroyObjectFromDatabase(bool destroyContaine
 			missionObjective->destroyObjectFromDatabase();
 		}
 	}
-
 }
 
 void MissionObjectImplementation::setStartPosition(float posX, float posY, const String& planet, bool notifyClient) {

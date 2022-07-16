@@ -9,13 +9,10 @@
 
 class ConcealShotCommand : public CombatQueueCommand {
 public:
-
-	ConcealShotCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	ConcealShotCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -50,7 +47,7 @@ public:
 				Locker creoLock(agent);
 
 				if (targetMissCount != nullptr) {
-					for (int i = 0; i < targetMissCount->size(); ++i){
+					for (int i = 0; i < targetMissCount->size(); ++i) {
 						uint64 listTarget = targetMissCount->elementAt(i).getKey();
 
 						if (listTarget == creature->getObjectID()) {
@@ -90,7 +87,6 @@ public:
 
 		return result;
 	}
-
 };
 
-#endif //CONCEALSHOTCOMMAND_H_
+#endif // CONCEALSHOTCOMMAND_H_

@@ -37,5 +37,4 @@ public:
 	}
 };
 
-
 #endif /* RENAMEGUILDTASK_H_ */

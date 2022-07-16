@@ -21,9 +21,9 @@ protected:
 	int mindCost;
 	float range;
 	uint64 state;
+
 public:
-	CurePackCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
+	CurePackCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		range = 7;
 		mindCost = 100;
 		state = 0;
@@ -75,8 +75,8 @@ public:
 		if (!object->isPlayerCreature())
 			return;
 
-		CreatureObject* creature = cast<CreatureObject*>( object);
-		CreatureObject* creatureTarget = cast<CreatureObject*>( target);
+		CreatureObject* creature = cast<CreatureObject*>(object);
+		CreatureObject* creatureTarget = cast<CreatureObject*>(target);
 		StringBuffer msgTarget, msgPlayer;
 		String msgSelf, targetName;
 
@@ -120,7 +120,7 @@ public:
 		int delay = (int)round(20.0f - (modSkill / 5));
 
 		if (creature->hasBuff(BuffCRC::FOOD_HEAL_RECOVERY)) {
-			DelayedBuff* buff = cast<DelayedBuff*>( creature->getBuff(BuffCRC::FOOD_HEAL_RECOVERY));
+			DelayedBuff* buff = cast<DelayedBuff*>(creature->getBuff(BuffCRC::FOOD_HEAL_RECOVERY));
 
 			if (buff != nullptr) {
 				float percent = buff->getSkillModifierValue("heal_recovery");
@@ -129,10 +129,10 @@ public:
 			}
 		}
 
-		//Force the delay to be at least 4 seconds.
+		// Force the delay to be at least 4 seconds.
 		delay = (delay < 4) ? 4 : delay;
 
-		StringIdChatParameter message("healing_response", "healing_response_58"); //You are now ready to heal more damage.
+		StringIdChatParameter message("healing_response", "healing_response_58"); // You are now ready to heal more damage.
 		Reference<InjuryTreatmentTask*> task = new InjuryTreatmentTask(creature, message, "conditionTreatment");
 		creature->addPendingTask("conditionTreatment", task, delay * 1000);
 	}
@@ -143,7 +143,7 @@ public:
 
 		CreatureObject* player = cast<CreatureObject*>(creature);
 
-		int amount = (int) round((float) power * 1.0f);
+		int amount = (int)round((float)power * 1.0f);
 
 		if (amount <= 0)
 			return;
@@ -153,7 +153,6 @@ public:
 	}
 
 	bool checkTarget(CreatureObject* creature, CreatureObject* creatureTarget) const {
-
 		switch (state) {
 		case CreatureState::POISONED:
 			if (!creatureTarget->isPoisoned()) {
@@ -192,9 +191,7 @@ public:
 		return true;
 	}
 
-	void handleArea(CreatureObject* creature, CreatureObject* areaCenter, CurePack* pharma,
-			float range) const {
-
+	void handleArea(CreatureObject* creature, CreatureObject* areaCenter, CurePack* pharma, float range) const {
 		Zone* zone = creature->getZone();
 
 		if (zone == nullptr)
@@ -203,11 +200,11 @@ public:
 		// TODO: Convert this to a CombatManager::getAreaTargets() call
 		try {
 			SortedVector<QuadTreeEntry*> closeObjects;
-			CloseObjectsVector* vec = (CloseObjectsVector*) areaCenter->getCloseObjects();
+			CloseObjectsVector* vec = (CloseObjectsVector*)areaCenter->getCloseObjects();
 			vec->safeCopyReceiversTo(closeObjects, CloseObjectsVector::CREOTYPE);
 
 			for (int i = 0; i < closeObjects.size(); i++) {
-				SceneObject* object = static_cast<SceneObject*>( closeObjects.get(i));
+				SceneObject* object = static_cast<SceneObject*>(closeObjects.get(i));
 
 				if (!object->isPlayerCreature() && !object->isPet())
 					continue;
@@ -218,7 +215,7 @@ public:
 				if (areaCenter->getWorldPosition().distanceTo(object->getWorldPosition()) - object->getTemplateRadius() > range)
 					continue;
 
-				CreatureObject* creatureTarget = cast<CreatureObject*>( object);
+				CreatureObject* creatureTarget = cast<CreatureObject*>(object);
 
 				try {
 					Locker crossLocker(creatureTarget, creature);
@@ -233,7 +230,6 @@ public:
 				} catch (Exception& e) {
 					throw;
 				}
-
 			}
 
 		} catch (Exception& e) {
@@ -245,7 +241,7 @@ public:
 		CurePack* curePack = nullptr;
 
 		if (pharma->isCurePack())
-			curePack = cast<CurePack*>( pharma);
+			curePack = cast<CurePack*>(pharma);
 		else
 			return;
 
@@ -254,7 +250,7 @@ public:
 		sendCureMessage(creature, creatureTarget);
 
 		if (creatureTarget != creature && !creatureTarget->isPet())
-			awardXp(creature, "medical", 50); //No experience for healing yourself or pets.
+			awardXp(creature, "medical", 50); // No experience for healing yourself or pets.
 
 		checkForTef(creature, creatureTarget);
 	}
@@ -264,7 +260,7 @@ public:
 		case CreatureState::POISONED:
 			if (!creatureTarget->isPoisoned()) {
 				if (creature == creatureTarget)
-					creature->sendSystemMessage("@healing_response:healing_response_82"); //You are not poisoned.
+					creature->sendSystemMessage("@healing_response:healing_response_82"); // You are not poisoned.
 				else if (creatureTarget->isPlayerCreature()) {
 					StringIdChatParameter stringId("healing_response", "healing_response_84");
 					stringId.setTT(creatureTarget->getObjectID());
@@ -280,7 +276,7 @@ public:
 		case CreatureState::DISEASED:
 			if (!creatureTarget->isDiseased()) {
 				if (creature == creatureTarget)
-					creature->sendSystemMessage("@healing_response:healing_response_90"); //You are not diseased.
+					creature->sendSystemMessage("@healing_response:healing_response_90"); // You are not diseased.
 				else if (creatureTarget->isPlayerCreature()) {
 					StringIdChatParameter stringId("healing_response", "healing_response_92");
 					stringId.setTT(creatureTarget->getObjectID());
@@ -296,7 +292,7 @@ public:
 		case CreatureState::ONFIRE:
 			if (!creatureTarget->isOnFire()) {
 				if (creature == creatureTarget)
-					creature->sendSystemMessage("@healing_response:healing_response_86"); //You are not on fire.
+					creature->sendSystemMessage("@healing_response:healing_response_86"); // You are not on fire.
 				else if (creatureTarget->isPlayerCreature()) {
 					StringIdChatParameter stringId("healing_response", "healing_response_88");
 					stringId.setTT(creatureTarget->getObjectID());
@@ -312,12 +308,12 @@ public:
 		}
 
 		if (!creature->canTreatConditions()) {
-			creature->sendSystemMessage("@healing_response:healing_must_wait"); //You must wait before you can do that.
+			creature->sendSystemMessage("@healing_response:healing_must_wait"); // You must wait before you can do that.
 			return false;
 		}
 
 		if (curePack == nullptr) {
-			creature->sendSystemMessage("@healing_response:healing_response_60"); //No valid medicine found.
+			creature->sendSystemMessage("@healing_response:healing_response_60"); // No valid medicine found.
 			return false;
 		}
 
@@ -325,19 +321,19 @@ public:
 			return false;
 
 		if (!creatureTarget->isHealableBy(creature)) {
-			creature->sendSystemMessage("@healing:pvp_no_help"); //It would be unwise to help such a patient.
+			creature->sendSystemMessage("@healing:pvp_no_help"); // It would be unwise to help such a patient.
 			return false;
 		}
 
 		if (creature->getHAM(CreatureAttribute::MIND) < mindCostNew) {
-			creature->sendSystemMessage("@healing_response:not_enough_mind"); //You do not have enough mind to do that.
+			creature->sendSystemMessage("@healing_response:not_enough_mind"); // You do not have enough mind to do that.
 			return false;
 		}
 
 		PlayerManager* playerManager = server->getPlayerManager();
 
 		if (creature != creatureTarget && !CollisionManager::checkLineOfSight(creature, creatureTarget)) {
-			creature->sendSystemMessage("@healing:no_line_of_sight"); //You cannot see your target.
+			creature->sendSystemMessage("@healing:no_line_of_sight"); // You cannot see your target.
 			return false;
 		}
 
@@ -349,7 +345,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		int result = doCommonMedicalCommandChecks(creature);
 
 		if (result != SUCCESS)
@@ -362,7 +357,7 @@ public:
 		} else if (object == nullptr)
 			object = creature;
 
-		CreatureObject* targetCreature = cast<CreatureObject*>( object.get());
+		CreatureObject* targetCreature = cast<CreatureObject*>(object.get());
 
 		Locker clocker(targetCreature, creature);
 
@@ -385,7 +380,7 @@ public:
 			}
 		}
 
-		if(!checkDistance(creature, targetCreature, range))
+		if (!checkDistance(creature, targetCreature, range))
 			return TOOFAR;
 
 		int mindCostNew = creature->calculateCostAdjustment(CreatureAttribute::FOCUS, mindCost);
@@ -407,7 +402,7 @@ public:
 		}
 
 		if (targetCreature != creature && !targetCreature->isPet())
-			awardXp(creature, "medical", 50); //No experience for healing yourself or pets.
+			awardXp(creature, "medical", 50); // No experience for healing yourself or pets.
 
 		if (curePack->isArea()) {
 			if (creature != targetCreature)

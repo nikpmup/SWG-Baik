@@ -16,41 +16,43 @@ namespace managers {
 namespace crafting {
 namespace labratories {
 
-class GeneticLabratory: public SharedLabratory {
+class GeneticLabratory : public SharedLabratory {
 private:
 	String pickSpecialAttack(String a, String b, String c, String d, String e, int odds, String other);
+
 public:
 	GeneticLabratory();
 	virtual ~GeneticLabratory();
 	void setInitialCraftingValues(TangibleObject* prototype, ManufactureSchematic* manufactureSchematic, int assemblySuccess);
-	void experimentRow(CraftingValues* craftingValues,int rowEffected, int pointsAttempted, float failure, int experimentationResult);
+	void experimentRow(CraftingValues* craftingValues, int rowEffected, int pointsAttempted, float failure, int experimentationResult);
 	void initialize(ZoneServer* server);
 	int getCreationCount(ManufactureSchematic* manufactureSchematic);
+
 protected:
-	float calcResistMin(float input,float mod) {
+	float calcResistMin(float input, float mod) {
 		if (input < 0)
 			input = -1;
-		return (input * ((input/100) + 0.15)) * mod;
+		return (input * ((input / 100) + 0.15)) * mod;
 	}
 	// 12/22 == 12/22 = 0.5
-	float calcMaxPercentage(uint32 value,uint32 diff) {
-		float percent = ((float)diff/(float)value);
+	float calcMaxPercentage(uint32 value, uint32 diff) {
+		float percent = ((float)diff / (float)value);
 		if (percent > 1)
 			percent = 1;
 		return percent;
 	}
 	float getPercentagOfValue(int number, float percentage) {
 		float intermediate = ((float)number) * percentage;
-		return (float) ceil(intermediate);
+		return (float)ceil(intermediate);
 	}
 	void recalculateResist(CraftingValues* craftingValues);
 };
 
-}
-}
-}
-}
-}
+} // namespace labratories
+} // namespace crafting
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::crafting::labratories;
 

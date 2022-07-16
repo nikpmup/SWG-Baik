@@ -9,17 +9,12 @@
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/chat/StringIdChatParameter.h"
 
-
 class DeclineCommand : public QueueCommand {
 public:
-
-	DeclineCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DeclineCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -32,7 +27,7 @@ public:
 		if (object == nullptr || !object->isPlayerCreature())
 			return GENERALERROR;
 
-		CreatureObject* inviter = cast<CreatureObject*>( object.get());
+		CreatureObject* inviter = cast<CreatureObject*>(object.get());
 
 		creature->updateGroupInviterID(0);
 
@@ -59,8 +54,6 @@ public:
 				 uint64 target = packet->parseLong();
 				 combatManager->declineDuel(player, target);*/
 	}
-
 };
 
-#endif //DECLINECOMMAND_H_
-
+#endif // DECLINECOMMAND_H_

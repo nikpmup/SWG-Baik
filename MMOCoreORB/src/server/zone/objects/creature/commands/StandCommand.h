@@ -9,14 +9,10 @@
 
 class StandCommand : public QueueCommand {
 public:
-
-	StandCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	StandCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature)) {
 			return INVALIDSTATE;
 		}
@@ -25,7 +21,7 @@ public:
 			if (creature->isFeigningDeath() && !creature->hasIncapTimer()) {
 				creature->removeFeignedDeath();
 				creature->setPosture(CreaturePosture::KNOCKEDDOWN, false, true);
-				//Allow us to pass the state/locomotion checks below, but still enter dizzy/KD checks
+				// Allow us to pass the state/locomotion checks below, but still enter dizzy/KD checks
 			} else {
 				return INVALIDLOCOMOTION;
 			}
@@ -50,8 +46,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //STANDCOMMAND_H_
-
+#endif // STANDCOMMAND_H_

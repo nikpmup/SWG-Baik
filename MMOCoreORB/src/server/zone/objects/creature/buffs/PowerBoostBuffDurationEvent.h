@@ -9,46 +9,44 @@
 #include "server/zone/objects/creature/buffs/Buff.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace creature {
-    namespace buffs {
+namespace zone {
+namespace objects {
+namespace creature {
+namespace buffs {
 
-		class PowerBoostBuffDurationEvent : public Task {
-			ManagedWeakReference<CreatureObject*> creatureObject;
-			ManagedWeakReference<Buff*> buffObject;
+class PowerBoostBuffDurationEvent : public Task {
+	ManagedWeakReference<CreatureObject*> creatureObject;
+	ManagedWeakReference<Buff*> buffObject;
 
-		public:
-			PowerBoostBuffDurationEvent(CreatureObject* creature, Buff* buff) : Task((int64) buff->getBuffDuration() * 1000) {
-				creatureObject = creature;
-				buffObject = buff;
-			}
+public:
+	PowerBoostBuffDurationEvent(CreatureObject* creature, Buff* buff) : Task((int64)buff->getBuffDuration() * 1000) {
+		creatureObject = creature;
+		buffObject = buff;
+	}
 
-			void run() {
-				ManagedReference<CreatureObject*> creature = creatureObject.get();
-				ManagedReference<Buff*> buff = buffObject.get();
+	void run() {
+		ManagedReference<CreatureObject*> creature = creatureObject.get();
+		ManagedReference<Buff*> buff = buffObject.get();
 
-				if (creature == nullptr || buff == nullptr)
-					return;
+		if (creature == nullptr || buff == nullptr)
+			return;
 
-				Locker locker(creature);
-				Locker clocker(buff, creature);
+		Locker locker(creature);
+		Locker clocker(buff, creature);
 
-				buff->deactivate(false);
+		buff->deactivate(false);
+	}
 
-			}
+	void setBuffObject(Buff* buff) {
+		buffObject = buff;
+	}
+};
 
-			void setBuffObject(Buff* buff) {
-				buffObject = buff;
-			}
-
-		};
-
-    }
-   }
-  }
- }
-}
+} // namespace buffs
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::buffs;
 

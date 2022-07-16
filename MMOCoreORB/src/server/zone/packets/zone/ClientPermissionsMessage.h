@@ -15,9 +15,7 @@ public:
 		insertByte(1);
 		insertByte(1);
 		insertByte(0);
-		
 	}
-
 };
 
 #endif /*CLIENTPERMISSIONSMESSAGE_H_*/

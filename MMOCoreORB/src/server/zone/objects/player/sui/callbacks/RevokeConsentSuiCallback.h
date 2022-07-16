@@ -12,14 +12,13 @@
 
 class RevokeConsentSuiCallback : public SuiCallback {
 public:
-	RevokeConsentSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	RevokeConsentSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
 		bool cancelPressed = (eventIndex == 1);
 
-		if (cancelPressed || !suiBox->isListBox() || player == nullptr || args->size() <= 0 )
+		if (cancelPressed || !suiBox->isListBox() || player == nullptr || args->size() <= 0)
 			return;
 
 		int index = Integer::valueOf(args->get(0).toString());
@@ -33,7 +32,7 @@ public:
 
 		if (!entryName.isEmpty()) {
 			ghost->removeFromConsentList(entryName);
-			StringIdChatParameter stringId("base_player", "prose_unconsent"); //You revoke your consent from %TO.
+			StringIdChatParameter stringId("base_player", "prose_unconsent"); // You revoke your consent from %TO.
 			stringId.setTO(entryName);
 			player->sendSystemMessage(stringId);
 

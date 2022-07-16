@@ -11,9 +11,8 @@
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "templates/params/creature/CreatureAttribute.h"
 
-class SarlaccEruptTask: public Task {
+class SarlaccEruptTask : public Task {
 	ManagedReference<SarlaccArea*> sarlaccArea;
-
 
 public:
 	SarlaccEruptTask(SarlaccArea* area) {
@@ -26,7 +25,7 @@ public:
 
 		Zone* zone = sarlaccArea->getZone();
 
-		Reference<SortedVector<ManagedReference<QuadTreeEntry*> >*> closeObjects = new SortedVector<ManagedReference<QuadTreeEntry*> >();
+		Reference<SortedVector<ManagedReference<QuadTreeEntry*>>*> closeObjects = new SortedVector<ManagedReference<QuadTreeEntry*>>();
 		zone->getInRangeObjects(sarlaccArea->getWorldPositionX(), sarlaccArea->getWorldPositionY(), 60, closeObjects, true);
 
 		for (int i = 0; i < closeObjects->size(); ++i) {
@@ -48,7 +47,6 @@ public:
 				}
 			}
 		}
-
 	}
 };
 

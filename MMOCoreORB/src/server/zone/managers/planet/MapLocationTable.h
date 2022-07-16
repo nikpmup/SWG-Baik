@@ -10,7 +10,6 @@
 
 #include "MapLocationEntry.h"
 
-
 namespace server {
 namespace zone {
 namespace objects {
@@ -26,7 +25,7 @@ class SceneObject;
 using namespace server::zone::objects::scene;
 
 class MapLocationTable : public Object, public ReadWriteLock {
-	VectorMap<String, SortedVector<MapLocationEntry> > locations;
+	VectorMap<String, SortedVector<MapLocationEntry>> locations;
 
 public:
 	MapLocationTable() {

@@ -12,14 +12,10 @@
 
 class HarvestCorpseCommand : public QueueCommand {
 public:
-
-	HarvestCorpseCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HarvestCorpseCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,7 +25,7 @@ public:
 		if (!creature->isPlayerCreature())
 			return INVALIDTARGET;
 
-		ManagedReference<SceneObject* > object = server->getZoneServer()->getObject(target);
+		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
 
 		ManagedReference<CreatureObject*> player = cast<CreatureObject*>(creature);
 
@@ -38,12 +34,12 @@ public:
 		if (object == nullptr || !object->isCreatureObject() || player == nullptr)
 			return INVALIDTARGET;
 
-		CreatureObject* creo = cast<CreatureObject*>( object.get());
+		CreatureObject* creo = cast<CreatureObject*>(object.get());
 
 		if (!creo->isCreature())
 			return INVALIDTARGET;
 
-		Creature* cr = cast<Creature*>( creo);
+		Creature* cr = cast<Creature*>(creo);
 
 		Locker clocker(cr, player);
 
@@ -55,11 +51,11 @@ public:
 		harvesttype = harvesttype.toLowerCase();
 		byte type = 0;
 
-		if(harvesttype == "meat" && !cr->getMeatType().isEmpty())
+		if (harvesttype == "meat" && !cr->getMeatType().isEmpty())
 			type = 234;
-		else if(harvesttype == "hide" && !cr->getHideType().isEmpty())
+		else if (harvesttype == "hide" && !cr->getHideType().isEmpty())
 			type = 235;
-		else if(harvesttype == "bone" && !cr->getBoneType().isEmpty())
+		else if (harvesttype == "bone" && !cr->getBoneType().isEmpty())
 			type = 236;
 		else {
 			if (harvesttype != "") {
@@ -67,22 +63,22 @@ public:
 				return GENERALERROR;
 			}
 			Vector<int> types;
-			if(!cr->getMeatType().isEmpty()) {
+			if (!cr->getMeatType().isEmpty()) {
 				types.add(234);
 			}
 
-			if(!cr->getHideType().isEmpty()) {
+			if (!cr->getHideType().isEmpty()) {
 				types.add(235);
 			}
 
-			if(!cr->getBoneType().isEmpty()) {
+			if (!cr->getBoneType().isEmpty()) {
 				types.add(236);
 			}
-			if(types.size() > 0)
-				type = types.get(System::random(types.size() -1));
+			if (types.size() > 0)
+				type = types.get(System::random(types.size() - 1));
 		}
 
-		if(type == 0) {
+		if (type == 0) {
 			player->sendSystemMessage("This creature has no resources");
 			return GENERALERROR;
 		}
@@ -103,10 +99,8 @@ public:
 			manager->harvest(cr, player, type);
 		}
 
-
 		return SUCCESS;
 	}
-
 };
 
-#endif //HARVESTCORPSECOMMAND_H_
+#endif // HARVESTCORPSECOMMAND_H_

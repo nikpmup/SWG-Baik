@@ -48,7 +48,7 @@ void FactionManager::loadLuaConfig(String file) {
 	Lua* lua = new Lua();
 	lua->init();
 
-	//Load the faction manager lua file.
+	// Load the faction manager lua file.
 	lua->runFile(file);
 
 	LuaObject luaObject = lua->getGlobalObject("factionList");
@@ -111,7 +111,7 @@ void FactionManager::awardFactionStanding(CreatureObject* player, const String& 
 		gcw = true;
 	}
 
-	//Gain faction standing to enemies of the creature.
+	// Gain faction standing to enemies of the creature.
 	for (int i = 0; i < enemies->size(); ++i) {
 		const String& enemy = enemies->get(i);
 
@@ -132,7 +132,7 @@ void FactionManager::awardFactionStanding(CreatureObject* player, const String& 
 
 	ghost->decreaseFactionStanding(factionName, lose);
 
-	//Lose faction standing to allies of the creature.
+	// Lose faction standing to allies of the creature.
 	for (int i = 0; i < allies->size(); ++i) {
 		const String& ally = allies->get(i);
 
@@ -151,7 +151,6 @@ void FactionManager::awardFactionStanding(CreatureObject* player, const String& 
 		ghost->decreaseFactionStanding(ally, lose);
 	}
 }
-
 
 void FactionManager::awardPvpFactionPoints(TangibleObject* killer, CreatureObject* destructedObject) {
 	if (killer->isPlayerCreature() && destructedObject->isPlayerCreature()) {
@@ -217,7 +216,6 @@ bool FactionManager::isFaction(const String& faction) {
 }
 
 bool FactionManager::isEnemy(const String& faction1, const String& faction2) {
-
 	if (!factionMap.contains(faction1) || !factionMap.contains(faction2))
 		return false;
 
@@ -227,7 +225,6 @@ bool FactionManager::isEnemy(const String& faction1, const String& faction2) {
 }
 
 bool FactionManager::isAlly(const String& faction1, const String& faction2) {
-
 	if (!factionMap.contains(faction1) || !factionMap.contains(faction2))
 		return false;
 

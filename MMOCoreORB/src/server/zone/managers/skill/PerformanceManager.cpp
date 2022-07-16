@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #include "PerformanceManager.h"
@@ -12,8 +12,7 @@
 #include "server/zone/objects/player/sessions/EntertainingSession.h"
 #include "server/zone/objects/player/sui/callbacks/SelectPerformanceSuiCallback.h"
 
-PerformanceManager::PerformanceManager() :
-	Logger("PerformanceManager") {
+PerformanceManager::PerformanceManager() : Logger("PerformanceManager") {
 	loadPerformances();
 	loadPerformEffects();
 }
@@ -51,12 +50,12 @@ void PerformanceManager::loadPerformances() {
 
 	delete iffStream;
 
-	performances = new Vector<Performance*> ();
+	performances = new Vector<Performance*>();
 	for (int i = 0; i < dtable.getTotalRows(); ++i) {
 		DataTableRow* row = dtable.getRow(i);
 
 		Performance* performance = new Performance();
-		performance->parseDataTableRow(i+1, row);
+		performance->parseDataTableRow(i + 1, row);
 		performances->add(performance);
 	}
 
@@ -76,12 +75,12 @@ void PerformanceManager::loadPerformEffects() {
 
 	delete iffStream;
 
-	performEffects = new Vector<PerformEffect*> ();
+	performEffects = new Vector<PerformEffect*>();
 	for (int i = 0; i < dtable.getTotalRows(); ++i) {
 		DataTableRow* row = dtable.getRow(i);
 
 		PerformEffect* effect = new PerformEffect();
-		effect->parseDataTableRow(i+1, row);
+		effect->parseDataTableRow(i + 1, row);
 		performEffects->add(effect);
 	}
 
@@ -96,7 +95,6 @@ Vector<Performance*> PerformanceManager::getPerformanceListFromMod(const String&
 	Vector<Performance*> performanceList;
 
 	if (performances != nullptr) {
-
 		for (int i = 0; i < performances->size(); ++i) {
 			Performance* perform = performances->get(i);
 
@@ -104,15 +102,14 @@ Vector<Performance*> PerformanceManager::getPerformanceListFromMod(const String&
 				continue;
 
 			if (instrumentName != "") {
-				//Should be a music call, look only for performances with that instrument
+				// Should be a music call, look only for performances with that instrument
 				if (instrumentName == perform->getRequiredInstrument())
 					performanceList.add(perform);
 			} else {
-				//Should be a dance call
+				// Should be a dance call
 				performanceList.add(perform);
 			}
 		}
-
 	}
 
 	return performanceList;
@@ -136,8 +133,7 @@ Performance* PerformanceManager::getSong(const String& name, int instrumentType)
 		for (int i = 0; i < performances->size(); ++i) {
 			Performance* ret = performances->get(i);
 
-			if (ret->isMusic() && ret->getName().toLowerCase() == name.toLowerCase()
-					&& ret->getInstrumentAudioId() == instrumentType)
+			if (ret->isMusic() && ret->getName().toLowerCase() == name.toLowerCase() && ret->getInstrumentAudioId() == instrumentType)
 				return ret;
 		}
 	}
@@ -245,7 +241,7 @@ void PerformanceManager::sendAvailablePerformances(CreatureObject* player, int p
 		sui->setPromptText("@performance:select_dance");
 	} else {
 		sui->setPromptTitle("@performance:available_songs"); // Available Songs
-		sui->setPromptText("@performance:select_song"); // Select a song to play.
+		sui->setPromptText("@performance:select_song");		 // Select a song to play.
 	}
 
 	if (performances != nullptr) {
@@ -268,7 +264,7 @@ void PerformanceManager::sendAvailablePerformances(CreatureObject* player, int p
 
 			String perfName = perf->getName();
 
-			String displayName = perfName.subString(0,1).toUpperCase() + perfName.subString(1);
+			String displayName = perfName.subString(0, 1).toUpperCase() + perfName.subString(1);
 
 			sui->addMenuItem(displayName);
 		}
@@ -413,7 +409,7 @@ String PerformanceManager::getInstrument(int instrumentType) {
 		instrument = "nalargon";
 		break;
 	default:
-		//sendSystemMessage("Bad instrument type.");
+		// sendSystemMessage("Bad instrument type.");
 		break;
 	}
 
@@ -529,7 +525,7 @@ void PerformanceManager::performanceMessageToPatrons(CreatureObject* actor, Crea
 	if (session == nullptr)
 		return;
 
-	SortedVector<ManagedReference<CreatureObject*> > patrons = session->getPatrons();
+	SortedVector<ManagedReference<CreatureObject*>> patrons = session->getPatrons();
 
 	if (patrons.size() == 0)
 		return;

@@ -11,7 +11,7 @@
 #include "server/zone/objects/ship/ShipComponent.h"
 
 class ShipManager : public Singleton<ShipManager>, public Object, public Logger {
-	HashTable<uint32, Reference<ShipComponent*> > shipComponents;
+	HashTable<uint32, Reference<ShipComponent*>> shipComponents;
 
 public:
 	ShipManager();

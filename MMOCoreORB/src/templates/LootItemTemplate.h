@@ -11,7 +11,7 @@
 #include "templates/LuaTemplate.h"
 #include "templates/crafting/ValuesMap.h"
 
-class LootItemTemplate: public LuaTemplate {
+class LootItemTemplate : public LuaTemplate {
 protected:
 	String templateName;
 	String customObjectName;
@@ -25,12 +25,12 @@ protected:
 	bool suppressSerialNumber;
 
 	Vector<String> customizationStringNames;
-	Vector<Vector<int> > customizationValues;
+	Vector<Vector<int>> customizationValues;
 
 	float randomDotChance;
 	float staticDotChance;
 	int staticDotType;
-	VectorMap<String, SortedVector<int> > staticDotValues;
+	VectorMap<String, SortedVector<int>> staticDotValues;
 
 	VectorMap<String, int> skillMods;
 
@@ -56,7 +56,7 @@ public:
 		junkMinValue = templateData->getIntField("junkMinValue");
 		junkMaxValue = templateData->getIntField("junkMaxValue");
 
-		//TODO: At this point, we should go ahead and pull in the tangible objects stats
+		// TODO: At this point, we should go ahead and pull in the tangible objects stats
 
 		LuaObject craftvals = templateData->getObjectField("craftingValues");
 
@@ -85,8 +85,7 @@ public:
 					if (row.getTableSize() > 5)
 						combineType = row.getIntAt(6);
 
-					craftingValues.addExperimentalProperty(property, property,
-							min, max, prec, hidden, combineType);
+					craftingValues.addExperimentalProperty(property, property, min, max, prec, hidden, combineType);
 					craftingValues.setMaxPercentage(property, 1.0f);
 				}
 
@@ -177,13 +176,12 @@ public:
 					valuesVector.put(dot.getIntAt(2));
 					valuesVector.put(dot.getIntAt(3));
 				}
-					staticDotValues.put(property, valuesVector);
+				staticDotValues.put(property, valuesVector);
 
 				dot.pop();
 			}
 			dotValuesTable.pop();
 		}
-
 	}
 
 	const String& getTemplateName() const {
@@ -202,7 +200,7 @@ public:
 		return &customizationStringNames;
 	}
 
-	const Vector<Vector<int> >* getCustomizationValues() const {
+	const Vector<Vector<int>>* getCustomizationValues() const {
 		return &customizationValues;
 	}
 
@@ -242,7 +240,7 @@ public:
 		return junkMaxValue;
 	}
 
-	const VectorMap<String, SortedVector<int> >* getStaticDotValues() const {
+	const VectorMap<String, SortedVector<int>>* getStaticDotValues() const {
 		return &staticDotValues;
 	}
 };

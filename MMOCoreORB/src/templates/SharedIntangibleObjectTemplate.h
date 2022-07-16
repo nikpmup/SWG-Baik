@@ -8,28 +8,22 @@
 #ifndef SHAREDINTANGIBLEOBJECTTEMPLATE_H_
 #define SHAREDINTANGIBLEOBJECTTEMPLATE_H_
 
-
 #include "templates/SharedObjectTemplate.h"
-
 
 class SharedIntangibleObjectTemplate : public SharedObjectTemplate {
 protected:
-
-
 public:
 	SharedIntangibleObjectTemplate() {
-
 	}
 
 	~SharedIntangibleObjectTemplate() {
-
 	}
 
 	void readObject(IffStream* iffStream) {
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'SITN') {
-			//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 			SharedObjectTemplate::readObject(iffStream);
 
@@ -53,7 +47,7 @@ public:
 		iffStream->openForm(derv);
 
 		try {
-			//parseFileData(iffStream);
+			// parseFileData(iffStream);
 		} catch (Exception& e) {
 			String msg;
 			msg += "exception caught parsing file data ->";
@@ -74,8 +68,6 @@ public:
 	void readObject(LuaObject* templateData) {
 		SharedObjectTemplate::readObject(templateData);
 	}
-
 };
-
 
 #endif /* SHAREDINTANGIBLEOBJECTTEMPLATE_H_ */

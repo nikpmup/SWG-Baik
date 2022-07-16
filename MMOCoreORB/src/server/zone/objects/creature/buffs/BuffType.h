@@ -13,18 +13,7 @@
 
 class BuffType {
 public:
-	enum {
-		OTHER,
-		FOOD,
-		MEDICAL,
-		PERFORMANCE,
-		SPICE,
-		SKILL,
-		JEDI,
-		INNATE,
-		STATE
-	};
+	enum { OTHER, FOOD, MEDICAL, PERFORMANCE, SPICE, SKILL, JEDI, INNATE, STATE };
 };
-
 
 #endif /* BUFFTYPE_H_ */

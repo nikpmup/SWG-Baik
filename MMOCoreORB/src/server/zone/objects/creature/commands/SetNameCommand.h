@@ -9,14 +9,10 @@
 
 class SetNameCommand : public QueueCommand {
 public:
-
-	SetNameCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetNameCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -27,7 +23,7 @@ public:
 
 		Reference<SceneObject*> targetObj = zoneServer->getObject(target);
 
-		if(targetObj == nullptr) {
+		if (targetObj == nullptr) {
 			creature->sendSystemMessage("Invalid Target.");
 			return INVALIDTARGET;
 		}
@@ -61,7 +57,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETNAMECOMMAND_H_
+#endif // SETNAMECOMMAND_H_

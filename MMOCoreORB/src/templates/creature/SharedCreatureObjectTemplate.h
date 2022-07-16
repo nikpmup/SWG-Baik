@@ -13,7 +13,7 @@
 
 #include "engine/lua/Lua.h"
 
-class SharedCreatureObjectTemplate: public SharedTangibleObjectTemplate {
+class SharedCreatureObjectTemplate : public SharedTangibleObjectTemplate {
 protected:
 	IntegerParam gender;
 	IntegerParam niche;
@@ -48,11 +48,9 @@ protected:
 
 public:
 	SharedCreatureObjectTemplate() {
-
 	}
 
 	~SharedCreatureObjectTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData);
@@ -246,7 +244,6 @@ public:
 	void setWaterModPercent(float waterModPercent) {
 		this->waterModPercent = waterModPercent;
 	}
-
 };
 
 #endif /* SHAREDCREATUREOBJECTTEMPLATE_H_ */

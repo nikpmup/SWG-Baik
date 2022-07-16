@@ -8,7 +8,6 @@
 #ifndef AiThinkEvent_H_
 #define AiThinkEvent_H_
 
-
 #include "server/zone/objects/creature/ai/AiAgent.h"
 #include "server/zone/managers/creature/AiMap.h"
 
@@ -44,21 +43,19 @@ public:
 		strongRef->doRecovery(startTime.miliDifference());
 	}
 
-	void schedule(uint64 delay = 0)
-	{
+	void schedule(uint64 delay = 0) {
 		startTime.updateToCurrentTime();
 		Task::schedule(delay);
 	}
 };
 
-}
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::events;
-
 
 #endif /* AiThinkEvent_H_ */

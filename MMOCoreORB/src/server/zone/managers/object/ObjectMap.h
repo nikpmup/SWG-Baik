@@ -8,7 +8,7 @@
 #include "server/zone/objects/scene/SceneObject.h"
 
 class ObjectMap : public Object {
-	HashTable<uint64, ManagedReference<SceneObject*> > objects;
+	HashTable<uint64, ManagedReference<SceneObject*>> objects;
 
 	int maxConnections;
 
@@ -27,11 +27,11 @@ public:
 		return objects.remove(oid);
 	}
 
-	HashTableIterator<uint64, ManagedReference<SceneObject*> > iterator() {
+	HashTableIterator<uint64, ManagedReference<SceneObject*>> iterator() {
 		return objects.iterator();
 	}
 
-	HashTable<uint64, ManagedReference<SceneObject*> >* getMap() {
+	HashTable<uint64, ManagedReference<SceneObject*>>* getMap() {
 		return &objects;
 	}
 };

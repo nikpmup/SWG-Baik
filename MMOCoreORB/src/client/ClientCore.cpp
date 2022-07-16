@@ -161,7 +161,6 @@ void ClientCore::handleCommands() {
 			error(msg.toString());
 			error(e.getMessage());
 			e.printStackTrace();
-
 		}
 	}
 }

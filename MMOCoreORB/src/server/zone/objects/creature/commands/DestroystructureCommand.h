@@ -14,10 +14,7 @@
 
 class DestroystructureCommand : public QueueCommand {
 public:
-
-	DestroystructureCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DestroystructureCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -28,7 +25,7 @@ public:
 			return INVALIDLOCOMOTION;
 
 		if (creature->containsActiveSession(SessionFacadeType::DESTROYSTRUCTURE)) {
-			creature->sendSystemMessage("@player_structure:pending_destroy"); //You already have an outstanding destroy command for another structure. You must wait for that to expire before attempting a new structure destroy action.
+			creature->sendSystemMessage("@player_structure:pending_destroy"); // You already have an outstanding destroy command for another structure. You must wait for that to expire before attempting a new structure destroy action.
 			return GENERALERROR;
 		}
 
@@ -40,7 +37,7 @@ public:
 		if (obj == nullptr || !obj->isStructureObject())
 			return INVALIDTARGET;
 
-		StructureObject* structure = cast<StructureObject*>( obj.get());
+		StructureObject* structure = cast<StructureObject*>(obj.get());
 
 		ManagedReference<PlayerObject*> ghost = creature->getPlayerObject();
 
@@ -48,7 +45,7 @@ public:
 			return GENERALERROR;
 
 		if (!ghost->isOwnedStructure(structure) && !ghost->isStaff()) {
-			creature->sendSystemMessage("@player_structure:destroy_must_be_owner"); //You must be the owner to destroy a structure.
+			creature->sendSystemMessage("@player_structure:destroy_must_be_owner"); // You must be the owner to destroy a structure.
 			return INVALIDTARGET;
 		}
 
@@ -80,7 +77,7 @@ public:
 			return disbandCamp(creature, structure);
 
 		String message = structure->getRedeedMessage();
-		if(!message.isEmpty()) {
+		if (!message.isEmpty()) {
 			creature->sendSystemMessage("@player_structure:" + message);
 			return INVALIDTARGET;
 		}
@@ -93,11 +90,11 @@ public:
 
 	int disbandCamp(CreatureObject* creature, StructureObject* structure) const {
 		Reference<Terminal*> campTerminal = nullptr;
-		SortedVector < ManagedReference<SceneObject*> > *childObjects = structure->getChildObjects();
+		SortedVector<ManagedReference<SceneObject*>>* childObjects = structure->getChildObjects();
 
 		for (int i = 0; i < childObjects->size(); ++i) {
 			if (childObjects->get(i)->isTerminal()) {
-				campTerminal = cast<Terminal*> (childObjects->get(i).get());
+				campTerminal = cast<Terminal*>(childObjects->get(i).get());
 				break;
 			}
 		}
@@ -117,4 +114,4 @@ public:
 	}
 };
 
-#endif //DESTROYSTRUCTURECOMMAND_H_
+#endif // DESTROYSTRUCTURECOMMAND_H_

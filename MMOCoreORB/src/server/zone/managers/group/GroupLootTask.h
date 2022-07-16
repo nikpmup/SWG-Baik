@@ -36,7 +36,7 @@ public:
 		Locker clocker(corpse);
 		Locker gclocker(group, corpse);
 
-		//Get the corpse's inventory.
+		// Get the corpse's inventory.
 		SceneObject* lootContainer = corpse->getSlottedObject("inventory");
 		if (lootContainer == nullptr)
 			return;
@@ -46,33 +46,33 @@ public:
 			break;
 		case GroupManager::MASTERLOOTER:
 			if (!group->checkMasterLooter(player)) {
-				StringIdChatParameter masterOnly("group","master_only"); //"Only the Master Looter is allowed to loot!"
+				StringIdChatParameter masterOnly("group", "master_only"); //"Only the Master Looter is allowed to loot!"
 				masterOnly.setTO(group->getMasterLooterID());
 				player->sendSystemMessage(masterOnly);
 				return;
 			}
 			break;
 		case GroupManager::LOTTERY:
-			//Allow player to open corpse if there is nothing in it.
+			// Allow player to open corpse if there is nothing in it.
 			if (lootContainer->getContainerObjectsSize() < 1)
 				break;
 
-			//Stop player looting corpse if lottery in progress, otherwise open corpse to player.
+			// Stop player looting corpse if lottery in progress, otherwise open corpse to player.
 			if (corpse->containsActiveSession(SessionFacadeType::LOOTLOTTERY)) {
 				ManagedReference<LootLotterySession*> session = cast<LootLotterySession*>(corpse->getActiveSession(SessionFacadeType::LOOTLOTTERY).get());
 				if (session == nullptr) {
 					corpse->dropActiveSession(SessionFacadeType::LOOTLOTTERY);
 				} else if (!session->isLotteryFinished()) {
-					StringIdChatParameter msg("group","still_waiting"); //"Still waiting for your group members..."
+					StringIdChatParameter msg("group", "still_waiting"); //"Still waiting for your group members..."
 					player->sendSystemMessage(msg);
 					return;
 				} else
-					break; //Allow player to open the corpse.
+					break; // Allow player to open the corpse.
 			}
 
-			//Corpse doesn't have an existing lottery, so check if we should make one.
+			// Corpse doesn't have an existing lottery, so check if we should make one.
 			if (!membersInRange())
-				break; //If no other group members in range, function as if free for all.
+				break; // If no other group members in range, function as if free for all.
 
 			gclocker.release();
 			splitCredits();
@@ -93,7 +93,7 @@ public:
 			return;
 		}
 
-		//At this point, allow player to loot the corpse.
+		// At this point, allow player to loot the corpse.
 		if (lootAll) {
 			gclocker.release();
 			splitCredits();
@@ -104,7 +104,7 @@ public:
 
 			Locker groupLocker(group, corpse);
 			if (group->getLootRule() == GroupManager::MASTERLOOTER && lootContainer->getContainerObjectsSize() <= 0) {
-				StringIdChatParameter msg("group","master_loot_all"); //"The master looter has looted all items from the corpse."
+				StringIdChatParameter msg("group", "master_loot_all"); //"The master looter has looted all items from the corpse."
 				group->sendSystemMessage(msg, false);
 			}
 		} else {
@@ -113,19 +113,18 @@ public:
 			corpse->notifyObservers(ObserverEventType::LOOTCREATURE, player, 0);
 
 			if (lootContainer->getContainerObjectsSize() < 1) {
-				StringIdChatParameter msg("group","corpse_empty"); //"This corpse has no items in its inventory."
+				StringIdChatParameter msg("group", "corpse_empty"); //"This corpse has no items in its inventory."
 				player->sendSystemMessage(msg);
 				return;
 			} else {
 				lootContainer->openContainerTo(player);
 			}
 		}
-
 	}
 
 	void splitCredits() {
-		//Pre: Corpse is locked.
-		//Post: Corpse is locked.
+		// Pre: Corpse is locked.
+		// Post: Corpse is locked.
 
 		int lootCredits = corpse->getCashCredits();
 
@@ -139,7 +138,7 @@ public:
 
 		Locker clocker(group, corpse);
 
-		//Determine eligible group members to give credits.
+		// Determine eligible group members to give credits.
 		Vector<CreatureObject*> payees;
 		for (int i = 0; i < group->getGroupSize(); ++i) {
 			ManagedReference<CreatureObject*> object = group->getGroupMember(i);
@@ -155,13 +154,13 @@ public:
 		if (payees.size() == 0)
 			return;
 
-		//Send initial system message to the looter.
+		// Send initial system message to the looter.
 		StringIdChatParameter lootSelf("base_player", "prose_coin_loot"); //"You loot %DI credits from %TT."
 		lootSelf.setDI(lootCredits);
 		lootSelf.setTT(corpse->getObjectID());
 		player->sendSystemMessage(lootSelf);
 
-		//Send initial system message to everyone in group except the looter.
+		// Send initial system message to everyone in group except the looter.
 		StringIdChatParameter lootMember("group", "notify_coin_loot_int"); //"[GROUP] %TU looted %DI credits from %TT."
 		lootMember.setTU(player->getDisplayedName());
 		lootMember.setDI(lootCredits);
@@ -170,11 +169,11 @@ public:
 
 		clocker.release();
 
-		//Figure out how many credits each member gets.
+		// Figure out how many credits each member gets.
 		int memberBaseCredits = lootCredits / payees.size();
 		int memberOddCredits = lootCredits % payees.size();
 
-		//Create one cash payout per payee.
+		// Create one cash payout per payee.
 		Vector<int> cashPayouts;
 		for (int i = 0; i < payees.size(); ++i) {
 			int payout = memberBaseCredits;
@@ -185,7 +184,7 @@ public:
 			cashPayouts.add(payout);
 		}
 
-		//Hand out the payouts randomly since some may be larger.
+		// Hand out the payouts randomly since some may be larger.
 		for (int i = 0; i < payees.size(); ++i) {
 			CreatureObject* payee = payees.get(i);
 			int random = System::random(cashPayouts.size() - 1);
@@ -203,7 +202,7 @@ public:
 				corpse->subtractCashCredits(Math::min(payout, corpse->getCashCredits()));
 			}
 
-			//Send credit split system message.
+			// Send credit split system message.
 			if (payee == player) {
 				StringIdChatParameter splitLooter("group", "prose_split_coins_self"); //"[GROUP] You split %TU credits and receive %TT credits as your share."
 				splitLooter.setTU(String::valueOf(lootCredits));
@@ -235,7 +234,6 @@ public:
 
 		return false;
 	}
-
 };
 
 #endif /* GROUPLOOTTASK_H_ */

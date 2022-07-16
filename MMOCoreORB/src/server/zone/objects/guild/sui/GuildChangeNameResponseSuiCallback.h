@@ -10,9 +10,7 @@ class GuildChangeNameResponseSuiCallback : public SuiCallback {
 	ManagedWeakReference<GuildObject*> guildObject;
 
 public:
-	GuildChangeNameResponseSuiCallback(ZoneServer* server, GuildObject* guild)
-		: SuiCallback(server) {
-
+	GuildChangeNameResponseSuiCallback(ZoneServer* server, GuildObject* guild) : SuiCallback(server) {
 		guildObject = guild;
 	}
 
@@ -40,7 +38,7 @@ public:
 
 		ManagedReference<GuildManager*> guildManager = server->getGuildManager();
 
-		//Check if this player is already creating a guild...
+		// Check if this player is already creating a guild...
 		if (guildManager->isCreatingGuild(playerID))
 			return;
 
@@ -52,7 +50,7 @@ public:
 			return;
 		}
 
-		//Resend the create name box.
+		// Resend the create name box.
 		player->getPlayerObject()->addSuiBox(suiBox);
 		player->sendMessage(suiBox->generateMessage());
 	}

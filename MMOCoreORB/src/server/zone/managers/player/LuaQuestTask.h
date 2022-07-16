@@ -9,32 +9,31 @@ namespace zone {
 namespace managers {
 namespace player {
 
-	class LuaQuestTask {
-	public:
-		static const char className[];
-		static Luna<LuaQuestTask>::RegType Register[];
+class LuaQuestTask {
+public:
+	static const char className[];
+	static Luna<LuaQuestTask>::RegType Register[];
 
-		LuaQuestTask(lua_State *L);
-		~LuaQuestTask();
+	LuaQuestTask(lua_State* L);
+	~LuaQuestTask();
 
-		int _setObject(lua_State* L);
-		int getAttachScript(lua_State* L);
-		int getPlanetName(lua_State* L);
-		int getLocationX(lua_State* L);
-		int getLocationY(lua_State* L);
-		int getLocationZ(lua_State* L);
-		int getRadius(lua_State* L);
+	int _setObject(lua_State* L);
+	int getAttachScript(lua_State* L);
+	int getPlanetName(lua_State* L);
+	int getLocationX(lua_State* L);
+	int getLocationY(lua_State* L);
+	int getLocationZ(lua_State* L);
+	int getRadius(lua_State* L);
 
-	private:
-		Reference<QuestTask*> realObject;
-	};
+private:
+	Reference<QuestTask*> realObject;
+};
 
-}
-}
-}
-}
+} // namespace player
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::player;
-
 
 #endif /* LUAQUESTTASK_H_ */

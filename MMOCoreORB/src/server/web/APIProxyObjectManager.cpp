@@ -1,6 +1,6 @@
 /*
-                Copyright <SWGEmu>
-        See file COPYING for copying conditions.*/
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
 
 /**
  * @author      : lordkator (lordkator@swgemu.com)
@@ -26,7 +26,7 @@
 #include <iomanip>
 
 namespace server {
- namespace web3 {
+namespace web3 {
 
 int APIProxyObjectManager::writeObjectJSON(uint64 oid, bool recursive, bool parents, JSONSerializationType& objects, int maxDepth) {
 	int countFound = 0;
@@ -99,7 +99,7 @@ void APIProxyObjectManager::handleGET(APIRequest& apiRequest) {
 		StringTokenizer oidStrList(apiRequest.getQueryFieldString("oids"));
 		oidStrList.setDelimeter(",");
 
-		while(oidStrList.hasMoreTokens()) {
+		while (oidStrList.hasMoreTokens()) {
 			try {
 				uint64 oid = oidStrList.getUnsignedLongToken();
 
@@ -383,7 +383,7 @@ void APIProxyObjectManager::handleDELETE(APIRequest& apiRequest) {
 		StringTokenizer oidStrList(apiRequest.getQueryFieldString("oids"));
 		oidStrList.setDelimeter(",");
 
-		while(oidStrList.hasMoreTokens()) {
+		while (oidStrList.hasMoreTokens()) {
 			try {
 				uint64 oid = oidStrList.getUnsignedLongToken();
 
@@ -541,7 +541,7 @@ void APIProxyObjectManager::handle(APIRequest& apiRequest) {
 	apiRequest.fail("Unsupported method");
 }
 
-}
-}
+} // namespace web3
+} // namespace server
 
 #endif // WITH_REST_API

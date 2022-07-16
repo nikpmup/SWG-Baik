@@ -20,29 +20,35 @@
 
 using namespace server::zone::objects::creature::ai::bt::leaf;
 
-template<> bool CheckPosture::check(AiAgent* agent) const {
+template <>
+bool CheckPosture::check(AiAgent* agent) const {
 	return agent->getPosture() == checkVar;
 }
 
-template<> bool CheckDestination::check(AiAgent* agent) const {
+template <>
+bool CheckDestination::check(AiAgent* agent) const {
 	return agent->setDestination() > checkVar;
 }
 
-template<> bool CheckMovementState::check(AiAgent* agent) const {
+template <>
+bool CheckMovementState::check(AiAgent* agent) const {
 	return agent->getMovementState() == checkVar;
 }
 
-template<> bool CheckHasFollow::check(AiAgent* agent) const {
+template <>
+bool CheckHasFollow::check(AiAgent* agent) const {
 	return agent->getFollowObject() != nullptr;
 }
 
-template<> bool CheckAggroDelayPast::check(AiAgent* agent) const {
+template <>
+bool CheckAggroDelayPast::check(AiAgent* agent) const {
 	Time* delay = agent->getAggroDelay();
 
 	return delay != nullptr && delay->isPast();
 }
 
-template<> bool CheckFollowHasState::check(AiAgent* agent) const {
+template <>
+bool CheckFollowHasState::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> followCopy = agent->getFollowObject().get();
 	if (followCopy == nullptr)
 		return false;
@@ -52,10 +58,11 @@ template<> bool CheckFollowHasState::check(AiAgent* agent) const {
 	return followCreo != nullptr && followCreo->hasState(checkVar);
 }
 
-template<> bool CheckProspectInRange::check(AiAgent* agent) const {
+template <>
+bool CheckProspectInRange::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> tar = nullptr;
 	if (agent->peekBlackboard("targetProspect"))
-		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 	if (checkVar > 0.f) {
 		return tar != nullptr && agent->isInRange(tar, checkVar);
@@ -74,7 +81,8 @@ template<> bool CheckProspectInRange::check(AiAgent* agent) const {
 	return false;
 }
 
-template<> bool CheckFollowAggression::check(AiAgent* agent) const {
+template <>
+bool CheckFollowAggression::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> followCopy = agent->getFollowObject().get();
 	if (followCopy == nullptr)
 		return false;
@@ -84,10 +92,11 @@ template<> bool CheckFollowAggression::check(AiAgent* agent) const {
 	return followCreo != nullptr && agent->isAggressiveTo(followCreo);
 }
 
-template<> bool CheckProspectAggression::check(AiAgent* agent) const {
+template <>
+bool CheckProspectAggression::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> tar = nullptr;
 	if (agent->peekBlackboard("targetProspect"))
-		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 	if (tar == nullptr || !tar->isCreatureObject())
 		return false;
@@ -97,11 +106,12 @@ template<> bool CheckProspectAggression::check(AiAgent* agent) const {
 	return tarCreo != nullptr && agent->isAggressiveTo(tarCreo);
 }
 
-template<> bool CheckIsCamouflaged::check(AiAgent* agent) const {
+template <>
+bool CheckIsCamouflaged::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> target = nullptr;
 
 	if (agent->peekBlackboard("targetProspect"))
-		target = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		target = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 	if (target == nullptr || !target->isCreatureObject())
 		return false;
@@ -111,7 +121,8 @@ template<> bool CheckIsCamouflaged::check(AiAgent* agent) const {
 	return tarCreo != nullptr && !agent->isCamouflaged(tarCreo);
 }
 
-template<> bool CheckFollowPosture::check(AiAgent* agent) const {
+template <>
+bool CheckFollowPosture::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> followCopy = agent->getFollowObject().get();
 	if (followCopy == nullptr)
 		return false;
@@ -129,7 +140,8 @@ template<> bool CheckFollowPosture::check(AiAgent* agent) const {
 	return followCreo->getPosture() == checkVar;
 }
 
-template<> bool CheckFollowInWeaponRange::check(AiAgent* agent) const {
+template <>
+bool CheckFollowInWeaponRange::check(AiAgent* agent) const {
 	if (!agent->peekBlackboard("followRange"))
 		return false;
 
@@ -155,7 +167,8 @@ template<> bool CheckFollowInWeaponRange::check(AiAgent* agent) const {
 	return weao != nullptr && weao->getMaxRange() >= dist;
 }
 
-template<> bool CheckFollowClosestIdealRange::check(AiAgent* agent) const {
+template <>
+bool CheckFollowClosestIdealRange::check(AiAgent* agent) const {
 	if (!agent->peekBlackboard("followRange"))
 		return false;
 
@@ -187,11 +200,13 @@ template<> bool CheckFollowClosestIdealRange::check(AiAgent* agent) const {
 	return fabs(weao->getIdealRange() - dist) <= fabs(otherWeao->getIdealRange() - dist + 1.f);
 }
 
-template<> bool CheckRandomLevel::check(AiAgent* agent) const {
+template <>
+bool CheckRandomLevel::check(AiAgent* agent) const {
 	return System::random(agent->getLevel()) < checkVar;
 }
 
-template<> bool CheckAttackInRange::check(AiAgent* agent) const {
+template <>
+bool CheckAttackInRange::check(AiAgent* agent) const {
 	const QueueCommand* queueCommand = agent->getNextAction();
 	ManagedReference<SceneObject*> followCopy = agent->getFollowObject().get();
 
@@ -211,14 +226,16 @@ template<> bool CheckAttackInRange::check(AiAgent* agent) const {
 	return true;
 }
 
-template<> bool CheckAttackIsValid::check(AiAgent* agent) const {
+template <>
+bool CheckAttackIsValid::check(AiAgent* agent) const {
 	return agent->validateStateAttack();
 }
 
-template<> bool CheckTargetIsValid::check(AiAgent* agent) const {
+template <>
+bool CheckTargetIsValid::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> tar = nullptr;
 	if (agent->peekBlackboard("targetProspect"))
-		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 	if (tar == nullptr)
 		return false;
@@ -226,7 +243,8 @@ template<> bool CheckTargetIsValid::check(AiAgent* agent) const {
 	return agent->validateTarget(tar);
 }
 
-template<> bool CheckRetreat::check(AiAgent* agent) const {
+template <>
+bool CheckRetreat::check(AiAgent* agent) const {
 	if (agent->isRetreating())
 		return false;
 
@@ -242,7 +260,8 @@ template<> bool CheckRetreat::check(AiAgent* agent) const {
 	return !homeLocation->isInRange(agent, checkVar);
 }
 
-template<> bool CheckFlee::check(AiAgent* agent) const {
+template <>
+bool CheckFlee::check(AiAgent* agent) const {
 	if (agent == nullptr || agent->getParent().get() != nullptr || agent->getParentID() > 0)
 		return false;
 
@@ -255,24 +274,23 @@ template<> bool CheckFlee::check(AiAgent* agent) const {
 	if (fleeDelay == nullptr || !fleeDelay->isPast() || System::random(100) > fleeChance)
 		return false;
 
-	if ((agent->getHAM(CreatureAttribute::HEALTH) < agent->getMaxHAM(CreatureAttribute::HEALTH) * checkVar)
-		|| (agent->getHAM(CreatureAttribute::ACTION) < agent->getMaxHAM(CreatureAttribute::ACTION) * checkVar)
-		|| (agent->getHAM(CreatureAttribute::MIND) < agent->getMaxHAM(CreatureAttribute::MIND) * checkVar)) {
-
+	if ((agent->getHAM(CreatureAttribute::HEALTH) < agent->getMaxHAM(CreatureAttribute::HEALTH) * checkVar) || (agent->getHAM(CreatureAttribute::ACTION) < agent->getMaxHAM(CreatureAttribute::ACTION) * checkVar) || (agent->getHAM(CreatureAttribute::MIND) < agent->getMaxHAM(CreatureAttribute::MIND) * checkVar)) {
 		return true;
 	}
 
 	return false;
 }
 
-template<> bool CheckSpeed::check(AiAgent* agent) const {
+template <>
+bool CheckSpeed::check(AiAgent* agent) const {
 	return agent->getCurrentSpeed() > checkVar;
 }
 
-template<> bool CheckProspectSpeed::check(AiAgent* agent) const {
+template <>
+bool CheckProspectSpeed::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> tar = nullptr;
 	if (agent->peekBlackboard("targetProspect"))
-		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 	if (tar == nullptr || !tar->isCreatureObject())
 		return false;
@@ -282,10 +300,11 @@ template<> bool CheckProspectSpeed::check(AiAgent* agent) const {
 	return CreaturePosture::instance()->getSpeed(tarCreo->getPosture(), tarCreo->getLocomotion()) == checkVar;
 }
 
-template<> bool CheckProspectLOS::check(AiAgent* agent) const {
+template <>
+bool CheckProspectLOS::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> tar = nullptr;
 	if (agent->peekBlackboard("targetProspect"))
-		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 	if (tar == nullptr)
 		return false;
@@ -295,14 +314,16 @@ template<> bool CheckProspectLOS::check(AiAgent* agent) const {
 	return agent->checkLineOfSight(tar);
 }
 
-template<> bool CheckOutdoors::check(AiAgent* agent) const {
+template <>
+bool CheckOutdoors::check(AiAgent* agent) const {
 	return agent->getParent() == nullptr;
 }
 
-template<> bool CheckProspectLevel::check(AiAgent* agent) const {
+template <>
+bool CheckProspectLevel::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> tar = nullptr;
 	if (agent->peekBlackboard("targetProspect"))
-		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 	if (tar == nullptr || !tar->isCreatureObject())
 		return false;
@@ -316,10 +337,11 @@ template<> bool CheckProspectLevel::check(AiAgent* agent) const {
 	return agent->getLevel() * aggroMod < tarCreo->getLevel();
 }
 
-template<> bool CheckProspectBackAggression::check(AiAgent* agent) const {
+template <>
+bool CheckProspectBackAggression::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> tar = nullptr;
 	if (agent->peekBlackboard("targetProspect"))
-		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 	if (tar == nullptr)
 		return false;
@@ -334,10 +356,11 @@ template<> bool CheckProspectBackAggression::check(AiAgent* agent) const {
 	return tarAgent->isAggressiveTo(agent);
 }
 
-template<> bool CheckProspectFacing::check(AiAgent* agent) const {
+template <>
+bool CheckProspectFacing::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> tar = nullptr;
 	if (agent->peekBlackboard("targetProspect"))
-		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 	if (tar == nullptr)
 		return false;
@@ -345,7 +368,8 @@ template<> bool CheckProspectFacing::check(AiAgent* agent) const {
 	return tar->isFacingObject(agent);
 }
 
-template<> bool CheckPetCommand::check(AiAgent* agent) const {
+template <>
+bool CheckPetCommand::check(AiAgent* agent) const {
 	if (!agent->isPet())
 		return false;
 
@@ -356,7 +380,8 @@ template<> bool CheckPetCommand::check(AiAgent* agent) const {
 	return cd->getLastCommand() == checkVar;
 }
 
-template<> bool CheckProspectIsCommand::check(AiAgent* agent) const {
+template <>
+bool CheckProspectIsCommand::check(AiAgent* agent) const {
 	if (!agent->isPet())
 		return false;
 
@@ -366,23 +391,26 @@ template<> bool CheckProspectIsCommand::check(AiAgent* agent) const {
 
 	ManagedReference<SceneObject*> tar = nullptr;
 	if (agent->peekBlackboard("targetProspect"))
-		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 	return cd->getLastCommandTarget().get() == tar;
 }
 
-template<> bool CheckIsInCombat::check(AiAgent* agent) const {
+template <>
+bool CheckIsInCombat::check(AiAgent* agent) const {
 	return agent->isInCombat();
 }
 
-template<> bool CheckHasPatrol::check(AiAgent* agent) const {
+template <>
+bool CheckHasPatrol::check(AiAgent* agent) const {
 	return agent->getPatrolPointSize() > 0;
 }
 
-template<> bool CheckProspectIsType::check(AiAgent* agent) const {
+template <>
+bool CheckProspectIsType::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> tar = nullptr;
 	if (agent->peekBlackboard("targetProspect"))
-		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 	if (tar == nullptr)
 		return false;
@@ -405,7 +433,8 @@ template<> bool CheckProspectIsType::check(AiAgent* agent) const {
 	return false;
 }
 
-template<> bool CheckIsType::check(AiAgent* agent) const {
+template <>
+bool CheckIsType::check(AiAgent* agent) const {
 	if (agent == nullptr)
 		return false;
 
@@ -427,10 +456,11 @@ template<> bool CheckIsType::check(AiAgent* agent) const {
 	return false;
 }
 
-template<> bool CheckProspectJediTrial::check(AiAgent* agent) const {
+template <>
+bool CheckProspectJediTrial::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> tar = nullptr;
 	if (agent->peekBlackboard("targetProspect"))
-		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 	if (tar == nullptr || !tar->isCreatureObject())
 		return false;
@@ -442,14 +472,14 @@ template<> bool CheckProspectJediTrial::check(AiAgent* agent) const {
 	int councilType = ghost->getFrsData()->getCouncilType();
 	String objName = agent->getObjectNameStringIdName().toCharArray();
 
-	return (councilType == FrsManager::COUNCIL_DARK && objName != "dark_jedi_sentinel")
-		|| (councilType == FrsManager::COUNCIL_LIGHT && objName != "light_jedi_sentinel");
+	return (councilType == FrsManager::COUNCIL_DARK && objName != "dark_jedi_sentinel") || (councilType == FrsManager::COUNCIL_LIGHT && objName != "light_jedi_sentinel");
 }
 
-template<> bool CheckProspectIsIncapacitated::check(AiAgent* agent) const {
+template <>
+bool CheckProspectIsIncapacitated::check(AiAgent* agent) const {
 	ManagedReference<SceneObject*> tar = nullptr;
 	if (agent->peekBlackboard("targetProspect"))
-		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 	if (tar == nullptr || !tar->isCreatureObject())
 		return false;
@@ -462,15 +492,18 @@ template<> bool CheckProspectIsIncapacitated::check(AiAgent* agent) const {
 	return tarCreo->isIncapacitated();
 }
 
-template<> bool CheckIsKiller::check(AiAgent* agent) const {
+template <>
+bool CheckIsKiller::check(AiAgent* agent) const {
 	return agent->isKiller();
 }
 
-template<> bool CheckIsStalker::check(AiAgent* agent) const {
+template <>
+bool CheckIsStalker::check(AiAgent* agent) const {
 	return agent->isStalker();
 }
 
-template<> bool CheckOwnerInRange::check(AiAgent* agent) const {
+template <>
+bool CheckOwnerInRange::check(AiAgent* agent) const {
 	if (agent == nullptr || !agent->isPet())
 		return false;
 
@@ -488,13 +521,14 @@ template<> bool CheckOwnerInRange::check(AiAgent* agent) const {
 	return false;
 }
 
-template<> bool CheckTargetInOwnerRange::check(AiAgent* agent) const {
+template <>
+bool CheckTargetInOwnerRange::check(AiAgent* agent) const {
 	if (agent == nullptr || !agent->isPet())
 		return false;
 
 	ManagedReference<SceneObject*> tar = nullptr;
 	if (agent->peekBlackboard("targetProspect"))
-		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 	if (tar == nullptr)
 		return false;
@@ -513,11 +547,13 @@ template<> bool CheckTargetInOwnerRange::check(AiAgent* agent) const {
 	return false;
 }
 
-template<> bool CheckUseRanged::check(AiAgent* agent) const {
+template <>
+bool CheckUseRanged::check(AiAgent* agent) const {
 	return agent->getUseRanged();
 }
 
-template<> bool CheckWeaponIsRanged::check(AiAgent* agent) const {
+template <>
+bool CheckWeaponIsRanged::check(AiAgent* agent) const {
 	if (checkVar == PRIMARYWEAPON) {
 		WeaponObject* primaryWeapon = agent->getPrimaryWeapon();
 
@@ -535,15 +571,18 @@ template<> bool CheckWeaponIsRanged::check(AiAgent* agent) const {
 	return false;
 }
 
-template<> bool CheckIsDroid::check(AiAgent* agent) const {
+template <>
+bool CheckIsDroid::check(AiAgent* agent) const {
 	return agent->isDroid();
 }
 
-template<> bool CheckCrackdownScanner::check(AiAgent* agent) const {
+template <>
+bool CheckCrackdownScanner::check(AiAgent* agent) const {
 	return agent->getCreatureBitmask() & CreatureFlag::SCANNING_FOR_CONTRABAND;
 }
 
-template<> bool CheckCrackdownFollowTarget::check(AiAgent* agent) const {
+template <>
+bool CheckCrackdownFollowTarget::check(AiAgent* agent) const {
 	if (!(agent->getCreatureBitmask() & CreatureFlag::FOLLOW))
 		return false;
 
@@ -560,15 +599,18 @@ template<> bool CheckCrackdownFollowTarget::check(AiAgent* agent) const {
 	return false;
 }
 
-template<> bool CheckIsStationary::check(AiAgent* agent) const {
+template <>
+bool CheckIsStationary::check(AiAgent* agent) const {
 	return agent->getCreatureBitmask() & CreatureFlag::STATIONARY;
 }
 
-template<> bool CheckIsHealer::check(AiAgent* agent) const {
+template <>
+bool CheckIsHealer::check(AiAgent* agent) const {
 	return agent->isHealer();
 }
 
-template<> bool CheckHealChance::check(AiAgent* agent) const {
+template <>
+bool CheckHealChance::check(AiAgent* agent) const {
 	Time* healDelay = agent->getHealDelay();
 
 	if (healDelay == nullptr || !healDelay->isPast()) {
@@ -581,23 +623,27 @@ template<> bool CheckHealChance::check(AiAgent* agent) const {
 	return true;
 }
 
-template<> bool CheckIsHome::check(AiAgent* agent) const {
+template <>
+bool CheckIsHome::check(AiAgent* agent) const {
 	PatrolPoint* homeLocation = agent->getHomeLocation();
 
 	return homeLocation != nullptr && homeLocation->isReached() ? true : false;
 }
 
-template<> bool CheckHomeIsCell::check(AiAgent* agent) const {
+template <>
+bool CheckHomeIsCell::check(AiAgent* agent) const {
 	PatrolPoint* homeLocation = agent->getHomeLocation();
 
 	return homeLocation != nullptr && homeLocation->getCell() != nullptr ? true : false;
 }
 
-template<> bool CheckChatDelay::check(AiAgent* agent) const {
+template <>
+bool CheckChatDelay::check(AiAgent* agent) const {
 	return agent->getCooldownTimerMap()->isPast("reaction_chat") ? true : false;
 }
 
-template<> bool CheckCallForHelp::check(AiAgent* agent) const {
+template <>
+bool CheckCallForHelp::check(AiAgent* agent) const {
 	if (agent == nullptr || agent->isDead())
 		return false;
 
@@ -628,7 +674,8 @@ template<> bool CheckCallForHelp::check(AiAgent* agent) const {
 	return true;
 }
 
-template<> bool CheckIsHarvester::check(AiAgent* agent) const {
+template <>
+bool CheckIsHarvester::check(AiAgent* agent) const {
 	if (agent == nullptr || !agent->isDroid())
 		return false;
 
@@ -642,7 +689,8 @@ template<> bool CheckIsHarvester::check(AiAgent* agent) const {
 	return module != nullptr ? true : false;
 }
 
-template<> bool CheckHasHarvestTargets::check(AiAgent* agent) const {
+template <>
+bool CheckHasHarvestTargets::check(AiAgent* agent) const {
 	if (agent == nullptr || !agent->isDroid())
 		return false;
 
@@ -659,7 +707,8 @@ template<> bool CheckHasHarvestTargets::check(AiAgent* agent) const {
 	return module != nullptr && module->hasMoreTargets() ? true : false;
 }
 
-template<> bool CheckShouldRest::check(AiAgent* agent) const {
+template <>
+bool CheckShouldRest::check(AiAgent* agent) const {
 	if (agent == nullptr)
 		return false;
 
@@ -690,7 +739,8 @@ template<> bool CheckShouldRest::check(AiAgent* agent) const {
 	return true;
 }
 
-template<> bool CheckStopResting::check(AiAgent* agent) const {
+template <>
+bool CheckStopResting::check(AiAgent* agent) const {
 	if (agent == nullptr)
 		return false;
 

@@ -33,7 +33,6 @@ protected:
 	ManagedWeakReference<SceneObject*> parent;
 
 public:
-
 	DataObjectComponent();
 
 	~DataObjectComponent();
@@ -72,43 +71,43 @@ public:
 		return false;
 	}
 
-	virtual bool isBuildingData(){
+	virtual bool isBuildingData() {
 		return false;
 	}
 
-	virtual bool isDestructibleBuildingData(){
+	virtual bool isDestructibleBuildingData() {
 		return false;
 	}
 
-	virtual bool isTurretData(){
+	virtual bool isTurretData() {
 		return false;
 	}
 
-	virtual bool isScannerData(){
+	virtual bool isScannerData() {
 		return false;
 	}
 
-	virtual bool isGCWBaseData(){
+	virtual bool isGCWBaseData() {
 		return false;
 	}
 
-	virtual bool isSecurityTerminalData(){
+	virtual bool isSecurityTerminalData() {
 		return false;
 	}
 
-	virtual bool isMinefieldData(){
+	virtual bool isMinefieldData() {
 		return false;
 	}
 
-	virtual bool isTurretControlTerminalData(){
+	virtual bool isTurretControlTerminalData() {
 		return false;
 	}
 
-	virtual bool isDecoration(){
+	virtual bool isDecoration() {
 		return false;
 	}
 
-	virtual bool isCoaMessageData(){
+	virtual bool isCoaMessageData() {
 		return false;
 	}
 
@@ -131,7 +130,6 @@ public:
 	virtual bool isGamblingTerminalData() {
 		return false;
 	}
-
 };
 
 #endif /* DATAOBJECTCOMPONENT_H_ */

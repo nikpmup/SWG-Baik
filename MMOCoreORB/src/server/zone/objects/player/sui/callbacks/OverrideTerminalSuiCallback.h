@@ -12,23 +12,22 @@
 #include "server/zone/managers/gcw/GCWManager.h"
 
 class OverrideTerminalSuiCallback : public SuiCallback {
-
 public:
-	OverrideTerminalSuiCallback(ZoneServer* server) : SuiCallback(server) {}
-
+	OverrideTerminalSuiCallback(ZoneServer* server) : SuiCallback(server) {
+	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
 		bool cancelPressed = (eventIndex == 1);
 
-		if (cancelPressed || !suiBox->isListBox() || player == nullptr || args->size() <= 0 )
+		if (cancelPressed || !suiBox->isListBox() || player == nullptr || args->size() <= 0)
 			return;
 
-		if(player->isDead() || player->isIncapacitated())
+		if (player->isDead() || player->isIncapacitated())
 			return;
 
 		ManagedReference<SceneObject*> obj = suiBox->getUsingObject().get();
 
-		if(obj == nullptr || !obj->isTangibleObject())
+		if (obj == nullptr || !obj->isTangibleObject())
 			return;
 
 		ManagedReference<TangibleObject*> overrideTerminal = cast<TangibleObject*>(obj.get());
@@ -43,10 +42,5 @@ public:
 		gcwMan->processDNASample(player, overrideTerminal, index);
 	}
 };
-
-
-
-
-
 
 #endif /* OVERRIDETERMINALSUICALLBACK_H_ */

@@ -9,7 +9,7 @@
 #include "system/util/HashTable.h"
 
 namespace server {
- namespace features {
+namespace features {
 
 class Features {
 protected:
@@ -25,7 +25,7 @@ public:
 	}
 };
 
-}
-}
+} // namespace features
+} // namespace server
 
 #endif /* FEATURES_H_ */

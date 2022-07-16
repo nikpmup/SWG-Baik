@@ -1,4 +1,4 @@
-	/*
+/*
  * PortalLayout.cpp
  *
  *  Created on: 03/12/2010
@@ -8,35 +8,35 @@
 #include "PortalLayout.h"
 #include "engine/util/u3d/AStarAlgorithm.h"
 
-void PortalLayout::readPortalGeometry0003(IffStream *iff, int numPortals) {
+void PortalLayout::readPortalGeometry0003(IffStream* iff, int numPortals) {
 	portalGeometry.removeAll(numPortals);
 
-	for(int i=0; i<numPortals; i++) {
+	for (int i = 0; i < numPortals; i++) {
 		iff->openChunk('PRTL');
 		uint32 size = iff->getUnsignedInt();
 
 		Reference<PortalGeometry*> portal = new PortalGeometry();
 		Reference<MeshData*> mesh = portal->getGeometry();
-		Vector<Vector3> *verts = mesh->getVerts();
-		Vector<MeshTriangle> *tris = mesh->getTriangles();
+		Vector<Vector3>* verts = mesh->getVerts();
+		Vector<MeshTriangle>* tris = mesh->getTriangles();
 
 		Vector3 min(50000, 50000, 50000);
 		Vector3 max(-50000, -50000, -50000);
 
 		verts->removeAll(size);
 
-		for (int i=0; i<size; i++) {
+		for (int i = 0; i < size; i++) {
 			float x = iff->getFloat();
 			float y = iff->getFloat();
 			float z = iff->getFloat();
 
-			if(x < min.getX())
+			if (x < min.getX())
 				min.setX(x);
 
-			if(x > max.getX())
+			if (x > max.getX())
 				max.setX(x);
 
-			if(y < min.getY())
+			if (y < min.getY())
 				min.setY(y);
 
 			if (y > max.getY())
@@ -58,22 +58,22 @@ void PortalLayout::readPortalGeometry0003(IffStream *iff, int numPortals) {
 
 		tris->removeAll(size * 2, 2);
 
-		for (int i=0; i<size; i++) {
-			Vector3 &vert = verts->get(i);
+		for (int i = 0; i < size; i++) {
+			Vector3& vert = verts->get(i);
 
 			vert = center + ((vert - center) * 1.1f);
 
 			// Triangle fan
-			if ( i >= 2) {
+			if (i >= 2) {
 				MeshTriangle triA;
 				triA.set(2, 0);
-				triA.set(1, i-1);
+				triA.set(1, i - 1);
 				triA.set(0, i);
 				tris->add(triA);
 
 				MeshTriangle triB;
 				triB.set(0, 0);
-				triB.set(1, i-1);
+				triB.set(1, i - 1);
 				triB.set(2, i);
 				tris->add(triB);
 			}
@@ -82,37 +82,37 @@ void PortalLayout::readPortalGeometry0003(IffStream *iff, int numPortals) {
 	}
 }
 
-void PortalLayout::readPortalGeometry0004(IffStream *iff, int numPortals) {
+void PortalLayout::readPortalGeometry0004(IffStream* iff, int numPortals) {
 	portalGeometry.removeAll(numPortals);
 
-	for(int i=0; i<numPortals; i++) {
+	for (int i = 0; i < numPortals; i++) {
 		iff->openForm('IDTL');
 		iff->openForm('0000');
-		Chunk *vertChunk = iff->openChunk('VERT');
+		Chunk* vertChunk = iff->openChunk('VERT');
 		uint32 size = vertChunk->getChunkSize() / 12;
 
 		Reference<PortalGeometry*> portal = new PortalGeometry();
 		Reference<MeshData*> mesh = portal->getGeometry();
-		Vector<Vector3> *verts = mesh->getVerts();
-		Vector<MeshTriangle> *tris = mesh->getTriangles();
+		Vector<Vector3>* verts = mesh->getVerts();
+		Vector<MeshTriangle>* tris = mesh->getTriangles();
 
 		Vector3 min(50000, 50000, 50000);
 		Vector3 max(-50000, -50000, -50000);
 
 		verts->removeAll(size);
 
-		for (int i=0; i<size; i++) {
+		for (int i = 0; i < size; i++) {
 			float x = iff->getFloat();
 			float y = iff->getFloat();
 			float z = iff->getFloat();
 
-			if(x < min.getX())
+			if (x < min.getX())
 				min.setX(x);
 
-			if(x > max.getX())
+			if (x > max.getX())
 				max.setX(x);
 
-			if(y < min.getY())
+			if (y < min.getY())
 				min.setY(y);
 
 			if (y > max.getY())
@@ -133,13 +133,13 @@ void PortalLayout::readPortalGeometry0004(IffStream *iff, int numPortals) {
 		portal->setBoundingBox(AABB(min, max));
 		Vector3 center = portal->getBoundingBox().center();
 
-		Chunk *indxChunk = iff->openChunk('INDX');
+		Chunk* indxChunk = iff->openChunk('INDX');
 
 		uint32 numIdx = indxChunk->getChunkSize() / 12;
 
 		tris->removeAll(numIdx);
 
-		for (int i=0; i<numIdx; i++) {
+		for (int i = 0; i < numIdx; i++) {
 			int a = iff->getInt();
 			int b = iff->getInt();
 			int c = iff->getInt();
@@ -197,10 +197,10 @@ void PortalLayout::parse(IffStream* iffStream) {
 
 		iffStream->closeForm('PRTS');
 
-		//open CELS form
+		// open CELS form
 		parseCELSForm(iffStream, numCells);
 
-		//path graph
+		// path graph
 
 		uint32 nextType = iffStream->getNextFormType();
 
@@ -219,7 +219,7 @@ void PortalLayout::parse(IffStream* iffStream) {
 	}
 
 	for (auto& cell : cellProperties) {
-		for (int i=0; i<cell->getNumberOfPortals(); i++) {
+		for (int i = 0; i < cell->getNumberOfPortals(); i++) {
 			const CellPortal* portal = cell->getPortal(i);
 			int idx = portal->getGeometryIndex();
 
@@ -227,7 +227,7 @@ void PortalLayout::parse(IffStream* iffStream) {
 				if (cell == connected)
 					continue;
 
-				for (int j=0; j<connected->getNumberOfPortals(); j++) {
+				for (int j = 0; j < connected->getNumberOfPortals(); j++) {
 					const CellPortal* connectedPortal = connected->getPortal(j);
 					if (connectedPortal->getGeometryIndex() == idx) {
 						cell->addConnectedCell(connected->getCellID());
@@ -317,7 +317,7 @@ void PortalLayout::parseCELSForm(IffStream* iffStream, int numCells) {
 
 		uint32 nextType;
 
-		for (int i=0; i<numCells; i++) {
+		for (int i = 0; i < numCells; i++) {
 			Reference<CellProperty*> cell = new CellProperty(cellProperties.size());
 			cell->readObject(iffStream);
 			cellProperties.add(cell);
@@ -329,7 +329,7 @@ void PortalLayout::parseCELSForm(IffStream* iffStream, int numCells) {
 		error(e.getMessage());
 		error("parsing CELS for " + iffStream->getFileName());
 	} catch (...) {
-		//error("parsing CELS for " + iffStream->getFileName());
+		// error("parsing CELS for " + iffStream->getFileName());
 		throw;
 	}
 }
@@ -345,7 +345,7 @@ uint32 PortalLayout::loadCRC(IffStream* iffStream) {
 		uint32 type = iffStream->getNextFormType();
 		iffStream->openForm(type);
 
-		Chunk *chunk = iffStream->openChunk();
+		Chunk* chunk = iffStream->openChunk();
 		while (chunk != nullptr && chunk->getChunkID() != 'CRC ') // Yes the space is intentional
 		{
 			iffStream->closeChunk();

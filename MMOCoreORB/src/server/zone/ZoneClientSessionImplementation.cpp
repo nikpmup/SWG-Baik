@@ -12,8 +12,7 @@
 #include "server/zone/objects/player/events/DisconnectClientEvent.h"
 #include "server/zone/managers/player/PlayerManager.h"
 
-ZoneClientSessionImplementation::ZoneClientSessionImplementation(BaseClientProxy* session)
-		:  ManagedObjectImplementation() {
+ZoneClientSessionImplementation::ZoneClientSessionImplementation(BaseClientProxy* session) : ManagedObjectImplementation() {
 	ZoneClientSessionImplementation::session = session;
 
 	ipAddress = session != nullptr ? session->getIPAddress() : "";
@@ -36,7 +35,7 @@ ZoneClientSessionImplementation::ZoneClientSessionImplementation(BaseClientProxy
 
 	setupLogging();
 
-	//session->setDebugLogLevel();
+	// session->setDebugLogLevel();
 }
 
 void ZoneClientSessionImplementation::setupLogging() {
@@ -57,11 +56,7 @@ void ZoneClientSessionImplementation::setupLogging() {
 	auto addr = session->ServiceClient::getAddress();
 	Time now;
 	StringBuffer logFilename;
-	logFilename << "log/clients/"
-		<< now.getFormattedTime("%Y-%m-%d/%H")
-		<< "/" << session->getIPAddress()
-	    << "/BaseClientProxy-" << now.getTime() << "-" << addr.getIPAddress() << "-" << addr.getPort()
-		<< "-" << sequence.increment() << ".log";
+	logFilename << "log/clients/" << now.getFormattedTime("%Y-%m-%d/%H") << "/" << session->getIPAddress() << "/BaseClientProxy-" << now.getTime() << "-" << addr.getIPAddress() << "-" << addr.getPort() << "-" << sequence.increment() << ".log";
 
 	session->setFileLogger(logFilename.toString(), true, ConfigManager::instance()->getRotateLogAtStart());
 	session->setLogSynchronized(true);
@@ -97,7 +92,7 @@ void ZoneClientSessionImplementation::sendMessage(BasePacket* msg) {
 	session->sendPacket(msg);
 }
 
-//this needs to be run in a different thread
+// this needs to be run in a different thread
 void ZoneClientSessionImplementation::disconnect(bool doLock) {
 	Locker locker(_this.getReferenceUnsafeStaticCast());
 
@@ -130,10 +125,9 @@ void ZoneClientSessionImplementation::disconnect(bool doLock) {
 			//((CreatureObject*)player.get())->logout(true);
 			Reference<DisconnectClientEvent*> task = new DisconnectClientEvent(player, _this.getReferenceUnsafeStaticCast(), DisconnectClientEvent::LOGOUT);
 			Core::getTaskManager()->executeTask(task);
-		}
-		else {
+		} else {
 			try {
-				//player->wlock();
+				// player->wlock();
 				zoneClientSession = player->getClient();
 
 				if (zoneClientSession == _this.getReferenceUnsafeStaticCast()) {
@@ -142,15 +136,14 @@ void ZoneClientSessionImplementation::disconnect(bool doLock) {
 					Core::getTaskManager()->executeTask(task);
 				}
 
-				//player->unlock();
+				// player->unlock();
 			} catch (Exception& e) {
-				//player->unlock();
+				// player->unlock();
 			}
 
 			closeConnection(true, true);
 		}
 	}
-
 
 	/*info("references left " + String::valueOf(_this.getReferenceUnsafeStaticCast()->getReferenceCount()), true);
 	_this.getReferenceUnsafeStaticCast()->printReferenceHolders();*/
@@ -168,7 +161,6 @@ void ZoneClientSessionImplementation::setPlayer(CreatureObject* playerCreature) 
 				zoneServer->decreaseOnlinePlayers();
 
 				zoneServer->getPlayerManager()->decreaseOnlineCharCount(_this.getReferenceUnsafeStaticCast());
-
 			}
 		} else if (playerCreature != nullptr) {
 			// TODO: find a proper way to acqure zone server
@@ -196,10 +188,9 @@ void ZoneClientSessionImplementation::setPlayer(CreatureObject* playerCreature) 
 	this->player = playerCreature;
 }
 
-
 void ZoneClientSessionImplementation::closeConnection(bool lockPlayer, bool doLock) {
 	Locker locker(_this.getReferenceUnsafeStaticCast());
-	Reference<BaseClientProxy* > session = this->session;
+	Reference<BaseClientProxy*> session = this->session;
 
 	if (session == nullptr)
 		return;
@@ -276,8 +267,7 @@ int ZoneClientSessionImplementation::getCharacterCount(int galaxyId) const {
 
 bool ZoneClientSessionImplementation::hasCharacter(uint64 cid, unsigned int galaxyId) const {
 	for (int i = 0; i < characters.size(); ++i) {
-		if (characters.getKey(i) == galaxyId &&
-			characters.get(i) == cid)
+		if (characters.getKey(i) == galaxyId && characters.get(i) == cid)
 			return true;
 	}
 

@@ -11,8 +11,8 @@
 #include "server/zone/managers/player/PlayerManager.h"
 
 void ShipControlDeviceImplementation::generateObject(CreatureObject* player) {
-	//info("generating ship", true);
-	//return;
+	// info("generating ship", true);
+	// return;
 
 	ZoneServer* zoneServer = getZoneServer();
 
@@ -23,13 +23,13 @@ void ShipControlDeviceImplementation::generateObject(CreatureObject* player) {
 	controlledObject->initializePosition(player->getPositionX(), player->getPositionZ() + 10, player->getPositionY());
 
 	player->getZone()->transferObject(controlledObject, -1, true);
-	//controlledObject->insertToZone(player->getZone());
+	// controlledObject->insertToZone(player->getZone());
 
-	//removeObject(controlledObject, true);
+	// removeObject(controlledObject, true);
 
 	controlledObject->transferObject(player, 5, true);
 	player->setState(CreatureState::PILOTINGSHIP);
-	//controlledObject->inflictDamage(player, 0, System::random(50), true);
+	// controlledObject->inflictDamage(player, 0, System::random(50), true);
 
 	updateStatus(1);
 
@@ -58,24 +58,24 @@ void ShipControlDeviceImplementation::storeObject(CreatureObject* player, bool f
 		return;
 
 	zone->transferObject(player, -1, false);
-	
+
 	controlledObject->destroyObjectFromWorld(true);
 
 	transferObject(controlledObject, 4, true);
-	
+
 	updateStatus(0);
 }
 
 void ShipControlDeviceImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuResponse, CreatureObject* player) {
-	//ControlDeviceImplementation::fillObjectMenuResponse(menuResponse, player);
+	// ControlDeviceImplementation::fillObjectMenuResponse(menuResponse, player);
 
 	ManagedReference<TangibleObject*> controlledObject = this->controlledObject.get();
 
 	if (!controlledObject->isInQuadTree()) {
-		menuResponse->addRadialMenuItem(60, 3, "Launch Ship"); //Launch
+		menuResponse->addRadialMenuItem(60, 3, "Launch Ship"); // Launch
 	} else
-		menuResponse->addRadialMenuItem(61, 3, "Land Ship"); //Launch
-	//menuResponse->addRadialMenuItem(61, 3, "Launch Ship"); //Launch
+		menuResponse->addRadialMenuItem(61, 3, "Land Ship"); // Launch
+	// menuResponse->addRadialMenuItem(61, 3, "Launch Ship"); //Launch
 }
 
 bool ShipControlDeviceImplementation::canBeTradedTo(CreatureObject* player, CreatureObject* receiver, int numberInTrade) {
@@ -90,14 +90,14 @@ bool ShipControlDeviceImplementation::canBeTradedTo(CreatureObject* player, Crea
 	int maxStoredShips = playerManager->getBaseStoredShips();
 
 	for (int i = 0; i < datapad->getContainerObjectsSize(); i++) {
-		Reference<SceneObject*> obj =  datapad->getContainerObject(i).castTo<SceneObject*>();
+		Reference<SceneObject*> obj = datapad->getContainerObject(i).castTo<SceneObject*>();
 
-		if (obj != nullptr && obj->isShipControlDevice() ){
+		if (obj != nullptr && obj->isShipControlDevice()) {
 			shipsInDatapad++;
 		}
 	}
 
-	if( shipsInDatapad >= maxStoredShips){
+	if (shipsInDatapad >= maxStoredShips) {
 		player->sendSystemMessage("That person has too many ships in their datapad");
 		receiver->sendSystemMessage("You already have the maximum number of ships that you can own.");
 		return false;

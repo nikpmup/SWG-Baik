@@ -140,7 +140,7 @@ void ContainerPermissions::clearDenyPermission(uint32 group, uint16 permission) 
 }
 
 bool ContainerPermissions::toBinaryStream(ObjectOutputStream* stream) {
-	TypeInfo<HashTable<uint32, uint32> >::toBinaryStream(&groupPermissions, stream);
+	TypeInfo<HashTable<uint32, uint32>>::toBinaryStream(&groupPermissions, stream);
 	TypeInfo<uint64>::toBinaryStream(&ownerID, stream);
 	TypeInfo<bool>::toBinaryStream(&inheritPermissionsFromParent, stream);
 
@@ -148,7 +148,7 @@ bool ContainerPermissions::toBinaryStream(ObjectOutputStream* stream) {
 }
 
 bool ContainerPermissions::parseFromBinaryStream(ObjectInputStream* stream) {
-	TypeInfo<HashTable<uint32, uint32> >::parseFromBinaryStream(&groupPermissions, stream);
+	TypeInfo<HashTable<uint32, uint32>>::parseFromBinaryStream(&groupPermissions, stream);
 	TypeInfo<uint64>::parseFromBinaryStream(&ownerID, stream);
 	TypeInfo<bool>::parseFromBinaryStream(&inheritPermissionsFromParent, stream);
 

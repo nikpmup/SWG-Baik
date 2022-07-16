@@ -2,25 +2,23 @@
 
 const char LuaQuestInfo::className[] = "LuaQuestInfo";
 
-Luna<LuaQuestInfo>::RegType LuaQuestInfo::Register[] = {
-		{ "_setObject", &LuaQuestInfo::_setObject },
-		{ "shouldSendSystemMessage", &LuaQuestInfo::shouldSendSystemMessage },
-		{ "getQuestName", &LuaQuestInfo::getQuestName },
-		{ "getQuestParent", &LuaQuestInfo::getQuestParent },
-		{ "getQuestParameter", &LuaQuestInfo::getQuestParameter },
-		{ "getJournalSummary", &LuaQuestInfo::getJournalSummary },
-		{ "getAttachScript", &LuaQuestInfo::getAttachScript },
-		{ "getTaskOnComplete", &LuaQuestInfo::getTaskOnComplete },
-		{ "getTaskOnFail", &LuaQuestInfo::getTaskOnFail },
-		{ "getQuestTarget", &LuaQuestInfo::getQuestTarget },
-		{ 0, 0 }
-};
+Luna<LuaQuestInfo>::RegType LuaQuestInfo::Register[] = {{"_setObject", &LuaQuestInfo::_setObject},
+														{"shouldSendSystemMessage", &LuaQuestInfo::shouldSendSystemMessage},
+														{"getQuestName", &LuaQuestInfo::getQuestName},
+														{"getQuestParent", &LuaQuestInfo::getQuestParent},
+														{"getQuestParameter", &LuaQuestInfo::getQuestParameter},
+														{"getJournalSummary", &LuaQuestInfo::getJournalSummary},
+														{"getAttachScript", &LuaQuestInfo::getAttachScript},
+														{"getTaskOnComplete", &LuaQuestInfo::getTaskOnComplete},
+														{"getTaskOnFail", &LuaQuestInfo::getTaskOnFail},
+														{"getQuestTarget", &LuaQuestInfo::getQuestTarget},
+														{0, 0}};
 
-LuaQuestInfo::LuaQuestInfo(lua_State *L) {
+LuaQuestInfo::LuaQuestInfo(lua_State* L) {
 	realObject = static_cast<QuestInfo*>(lua_touserdata(L, 1));
 }
 
-LuaQuestInfo::~LuaQuestInfo(){
+LuaQuestInfo::~LuaQuestInfo() {
 }
 
 int LuaQuestInfo::_setObject(lua_State* L) {

@@ -11,14 +11,10 @@
 
 class GuildremoveCommand : public QueueCommand {
 public:
-
-	GuildremoveCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GuildremoveCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -31,44 +27,44 @@ public:
 		CreatureObject* player = cast<CreatureObject*>(creature);
 
 		if (!player->isInGuild()) {
-			player->sendSystemMessage("@base_player:guildremove_not_in_guild"); //You are not in a guild.
+			player->sendSystemMessage("@base_player:guildremove_not_in_guild"); // You are not in a guild.
 			return GENERALERROR;
 		}
 
-		if(server == nullptr)
+		if (server == nullptr)
 			return GENERALERROR;
 
-		ManagedReference<ZoneServer* > zserv = server->getZoneServer();
-		if( zserv == nullptr )
+		ManagedReference<ZoneServer*> zserv = server->getZoneServer();
+		if (zserv == nullptr)
 			return GENERALERROR;
 
 		ManagedReference<CreatureObject*> playerToKick = nullptr;
-		ManagedReference<SceneObject* > targetedObject = zserv->getObject(target);
+		ManagedReference<SceneObject*> targetedObject = zserv->getObject(target);
 		ManagedReference<GuildObject*> guild = player->getGuildObject().get();
 		ManagedReference<GuildManager*> guildManager = zserv->getGuildManager();
 		ManagedReference<PlayerManager*> playerManager = zserv->getPlayerManager();
 
-		if( guild == nullptr || guildManager == nullptr || playerManager == nullptr)
+		if (guild == nullptr || guildManager == nullptr || playerManager == nullptr)
 			return GENERALERROR;
 
 		String lowerNamedTarget = arguments.toString().toLowerCase();
 
-		if(!lowerNamedTarget.isEmpty()) {
+		if (!lowerNamedTarget.isEmpty()) {
 			playerToKick = playerManager->getPlayer(lowerNamedTarget);
-		} else if(targetedObject != nullptr && targetedObject->isPlayerCreature()) {
-			playerToKick = cast<CreatureObject*>( targetedObject.get());
+		} else if (targetedObject != nullptr && targetedObject->isPlayerCreature()) {
+			playerToKick = cast<CreatureObject*>(targetedObject.get());
 		} else {
 			playerToKick = player;
 		}
 
-		if(playerToKick == nullptr || !playerToKick->isInGuild() || !guild->hasMember(playerToKick->getObjectID())) {
-			player->sendSystemMessage("@guild:generic_fail_no_permission"); //You do not have permission to perform that operation.
+		if (playerToKick == nullptr || !playerToKick->isInGuild() || !guild->hasMember(playerToKick->getObjectID())) {
+			player->sendSystemMessage("@guild:generic_fail_no_permission"); // You do not have permission to perform that operation.
 			return GENERALERROR;
 		}
 
-		if(playerToKick->getObjectID() != creature->getObjectID()) {
-			if(!guild->hasKickPermission(creature->getObjectID())) {
-				player->sendSystemMessage("@guild:generic_fail_no_permission"); //You do not have permission to perform that operation.
+		if (playerToKick->getObjectID() != creature->getObjectID()) {
+			if (!guild->hasKickPermission(creature->getObjectID())) {
+				player->sendSystemMessage("@guild:generic_fail_no_permission"); // You do not have permission to perform that operation.
 				return GENERALERROR;
 			}
 			guildManager->sendGuildKickPromptTo(player, playerToKick);
@@ -79,7 +75,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //GUILDREMOVECOMMAND_H_
+#endif // GUILDREMOVECOMMAND_H_

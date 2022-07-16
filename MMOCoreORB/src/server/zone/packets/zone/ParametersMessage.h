@@ -20,14 +20,13 @@ public:
 	static void parse(Packet* pack) {
 		uint16 ackSequence = pack->parseShort();
 	}
-
 };
 
 class ParametersMessageCallback : public MessageCallback {
 	uint16 ackSequence;
+
 public:
-	ParametersMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), ackSequence(0) {
+	ParametersMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), ackSequence(0) {
 	}
 
 	void parse(Message* msg) {
@@ -35,7 +34,6 @@ public:
 	}
 
 	void execute() {
-
 	}
 };
 

@@ -30,7 +30,6 @@ DroidPlaybackModuleDataComponent::DroidPlaybackModuleDataComponent() {
 }
 
 DroidPlaybackModuleDataComponent::~DroidPlaybackModuleDataComponent() {
-
 }
 
 String DroidPlaybackModuleDataComponent::getModuleName() const {
@@ -63,7 +62,7 @@ void DroidPlaybackModuleDataComponent::doFlourish(int number) {
 	Locker dlock(droid);
 
 	if (!droid->hasPower()) {
-		droid->showFlyText("npc_reaction/flytext","low_power", 204, 0, 0);  // "*Low Power*"
+		droid->showFlyText("npc_reaction/flytext", "low_power", 204, 0, 0); // "*Low Power*"
 		return;
 	}
 
@@ -73,7 +72,7 @@ void DroidPlaybackModuleDataComponent::doFlourish(int number) {
 	if (performance == nullptr)
 		return;
 
-	float baseActionDrain =  performance->getActionPointsPerLoop();
+	float baseActionDrain = performance->getActionPointsPerLoop();
 	float flourishActionDrain = baseActionDrain / 2.0;
 	int actionDrain = (int)round((flourishActionDrain * 10 + 0.5) / 10.0); // Round to nearest dec for actual int cost
 	actionDrain = droid->calculateCostAdjustment(CreatureAttribute::QUICKNESS, actionDrain);
@@ -108,7 +107,7 @@ void DroidPlaybackModuleDataComponent::fillObjectMenuResponse(SceneObject* droid
 	// Novice Musician required to utilize this module
 	if (player->hasSkill("social_musician_novice")) {
 		if (!isPlayingMusic())
-			menuResponse->addRadialMenuItem(PLAYBACK_ACCESS_MENU, 3, "@pet/droid_modules:playback_menu_playback" );
+			menuResponse->addRadialMenuItem(PLAYBACK_ACCESS_MENU, 3, "@pet/droid_modules:playback_menu_playback");
 		else
 			menuResponse->addRadialMenuItem(PLAYBACK_STOP_MENU, 3, "@pet/droid_modules:playback_menu_stop_playback");
 	}
@@ -133,17 +132,17 @@ int DroidPlaybackModuleDataComponent::handleObjectMenuSelect(CreatureObject* pla
 		ManagedReference<SuiListBox*> box = new SuiListBox(player, SuiWindowType::DROID_PLAYBACK_MENU, SuiListBox::HANDLETHREEBUTTON);
 		box->setCallback(new SelectTrackSuiCallback(player->getZoneServer()));
 		box->setPromptText("@pet/droid_modules:playback_list_prompt");
-		box->setPromptTitle("@pet/droid_modules:playback_list_title"); // Playback Module
-		box->setOkButton(true,"@pet/droid_modules:playback_btn_play_record"); // Record/Play
-		box->setOtherButton(true, "@pet/droid_modules:playback_btn_delete"); // Delete
+		box->setPromptTitle("@pet/droid_modules:playback_list_title");		   // Playback Module
+		box->setOkButton(true, "@pet/droid_modules:playback_btn_play_record"); // Record/Play
+		box->setOtherButton(true, "@pet/droid_modules:playback_btn_delete");   // Delete
 		box->setCancelButton(true, "@cancel");
 
 		// Add tracks
-		for(int i = 0; i< trackList.size(); i++) {
+		for (int i = 0; i < trackList.size(); i++) {
 			int curTrack = trackList.elementAt(i);
 
 			if (curTrack == 0) {
-				String itemName = "@pet/droid_modules:playback_track " + String::valueOf(i+1) + " @pet/droid_modules:playback_blank_track";
+				String itemName = "@pet/droid_modules:playback_track " + String::valueOf(i + 1) + " @pet/droid_modules:playback_blank_track";
 				box->addMenuItem(itemName);
 			} else {
 				String itemName = getTrackName(curTrack);
@@ -234,7 +233,7 @@ void DroidPlaybackModuleDataComponent::playSong(CreatureObject* player, int perf
 				continue;
 
 			ManagedReference<Facade*> memberFacade = groupMember->getActiveSession(SessionFacadeType::ENTERTAINING);
-			ManagedReference<EntertainingSession*> memberSession = dynamic_cast<EntertainingSession*> (memberFacade.get());
+			ManagedReference<EntertainingSession*> memberSession = dynamic_cast<EntertainingSession*>(memberFacade.get());
 
 			if (memberSession == nullptr)
 				continue;
@@ -303,7 +302,7 @@ int DroidPlaybackModuleDataComponent::getMatchingIndex(DroidObject* droid, int m
 	if (memberPerformance == nullptr)
 		return 0;
 
-	for(int i = 0; i< trackList.size(); i++) {
+	for (int i = 0; i < trackList.size(); i++) {
 		int curTrack = trackList.elementAt(i);
 
 		if (curTrack == 0)
@@ -563,16 +562,16 @@ int DroidPlaybackModuleDataComponent::writeObjectMembers(ObjectOutputStream* str
 	_name.toBinaryStream(stream);
 	_offset = stream->getOffset();
 	stream->writeInt(0);
-	TypeInfo< Vector<int> >::toBinaryStream(&trackList, stream);
-	_totalSize = (uint32) (stream->getOffset() - (_offset + 4));
+	TypeInfo<Vector<int>>::toBinaryStream(&trackList, stream);
+	_totalSize = (uint32)(stream->getOffset() - (_offset + 4));
 	stream->writeInt(_offset, _totalSize);
 
 	_name = "totalTracks";
 	_name.toBinaryStream(stream);
 	_offset = stream->getOffset();
 	stream->writeInt(0);
-	TypeInfo< int >::toBinaryStream(&totalTracks, stream);
-	_totalSize = (uint32) (stream->getOffset() - (_offset + 4));
+	TypeInfo<int>::toBinaryStream(&totalTracks, stream);
+	_totalSize = (uint32)(stream->getOffset() - (_offset + 4));
 	stream->writeInt(_offset, _totalSize);
 
 	return 2;
@@ -580,10 +579,10 @@ int DroidPlaybackModuleDataComponent::writeObjectMembers(ObjectOutputStream* str
 
 bool DroidPlaybackModuleDataComponent::readObjectMember(ObjectInputStream* stream, const String& name) {
 	if (name == "trackList") {
-		TypeInfo< Vector<int> >::parseFromBinaryStream(&trackList, stream);
+		TypeInfo<Vector<int>>::parseFromBinaryStream(&trackList, stream);
 		return true;
 	} else if (name == "totalTracks") {
-		TypeInfo< int >::parseFromBinaryStream(&totalTracks, stream);
+		TypeInfo<int>::parseFromBinaryStream(&totalTracks, stream);
 	}
 
 	return false;

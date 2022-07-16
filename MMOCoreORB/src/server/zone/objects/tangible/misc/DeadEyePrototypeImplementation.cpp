@@ -32,7 +32,7 @@ int DeadEyePrototypeImplementation::handleObjectMenuSelect(CreatureObject* playe
 	uint32 buffCRC = STRING_HASHCODE("dead_eye");
 
 	if (player->hasBuff(buffCRC)) {
-		player->sendSystemMessage("@combat_effects:dead_eye_already"); //You are already under the effects of Dead Eye.
+		player->sendSystemMessage("@combat_effects:dead_eye_already"); // You are already under the effects of Dead Eye.
 		return 0;
 	}
 
@@ -55,38 +55,38 @@ int DeadEyePrototypeImplementation::handleObjectMenuSelect(CreatureObject* playe
 	// Send message to player
 	player->sendSystemMessage("@combat_effects:dead_eye_active"); // The chemical infusion immediately begins to heighten your awareness, agility, and visual acuity.
 
-	//Consume a charge from the item
+	// Consume a charge from the item
 	decreaseUseCount();
 
 	return 1;
 }
 
 void DeadEyePrototypeImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* player) {
-		if (player == nullptr)
-			return;
+	if (player == nullptr)
+		return;
 
-		int volume = getContainerVolumeLimit();
-		alm->insertAttribute("volume", volume);
+	int volume = getContainerVolumeLimit();
+	alm->insertAttribute("volume", volume);
 
-		String crafter = getCraftersName();
-		alm->insertAttribute("crafter", crafter);
+	String crafter = getCraftersName();
+	alm->insertAttribute("crafter", crafter);
 
-		String serial = getSerialNumber();
-		alm->insertAttribute("serial_number", serial);
+	String serial = getSerialNumber();
+	alm->insertAttribute("serial_number", serial);
 
-		// Effectiveness
-		StringBuffer effectivenessBuffer;
+	// Effectiveness
+	StringBuffer effectivenessBuffer;
 
-		effectivenessBuffer << effectiveness << "%";
-		alm->insertAttribute("effectiveness", effectivenessBuffer.toString());
+	effectivenessBuffer << effectiveness << "%";
+	alm->insertAttribute("effectiveness", effectivenessBuffer.toString());
 
-		// Duration
-		StringBuffer durationstring;
+	// Duration
+	StringBuffer durationstring;
 
-		int minutes = (int) floor(duration / 60.0f);
-		int seconds = Math::getPrecision(duration % 60, 2);
+	int minutes = (int)floor(duration / 60.0f);
+	int seconds = Math::getPrecision(duration % 60, 2);
 
-		durationstring << minutes << ":" << seconds;
+	durationstring << minutes << ":" << seconds;
 
-		alm->insertAttribute("duration", durationstring.toString());
+	alm->insertAttribute("duration", durationstring.toString());
 }

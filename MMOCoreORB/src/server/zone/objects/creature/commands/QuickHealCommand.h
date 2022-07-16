@@ -19,11 +19,9 @@ class QuickHealCommand : public QueueCommand {
 
 	float speed;
 	float range;
+
 public:
-
-	QuickHealCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	QuickHealCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		healthHealed = 0;
 		actionHealed = 0;
 		mindHealed = 0;
@@ -59,7 +57,7 @@ public:
 		} else if (actionDamage > 0) {
 			msgBody << actionDamage << " action";
 		} else {
-			return; //No damage to heal.
+			return; // No damage to heal.
 		}
 
 		msgTail << " damage.";
@@ -67,7 +65,7 @@ public:
 		if (creature == creatureTarget) {
 			msgPlayer << "You heal yourself for " << msgBody.toString() << msgTail.toString();
 			player->sendSystemMessage(msgPlayer.toString());
-		} else if (creatureTarget->isPlayerCreature()){
+		} else if (creatureTarget->isPlayerCreature()) {
 			msgPlayer << "You heal " << creatureTarget->getFirstName() << " for " << msgBody.toString() << msgTail.toString();
 			msgTarget << player->getFirstName() << " heals you for " << msgBody.toString() << msgTail.toString();
 
@@ -80,7 +78,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		int result = doCommonMedicalCommandChecks(creature);
 
 		if (result != SUCCESS)
@@ -95,7 +92,7 @@ public:
 				if (tangibleObject != nullptr && tangibleObject->isAttackableBy(creature)) {
 					object = creature;
 				} else {
-					creature->sendSystemMessage("@healing_response:healing_response_99"); //Target must be a player or a creature pet in order to quick heal.
+					creature->sendSystemMessage("@healing_response:healing_response_99"); // Target must be a player or a creature pet in order to quick heal.
 					return GENERALERROR;
 				}
 			}
@@ -103,11 +100,11 @@ public:
 			object = creature;
 		}
 
-		CreatureObject* creatureTarget = cast<CreatureObject*>( object.get());
+		CreatureObject* creatureTarget = cast<CreatureObject*>(object.get());
 
 		Locker clocker(creatureTarget, creature);
 
-		if(!checkDistance(creature, creatureTarget, range))
+		if (!checkDistance(creature, creatureTarget, range))
 			return TOOFAR;
 
 		if ((creatureTarget->isAiAgent() && !creatureTarget->isPet()) || creatureTarget->isDroidObject() || creatureTarget->isDead() || creatureTarget->isRidingMount() || creatureTarget->isAttackableBy(creature))
@@ -119,20 +116,20 @@ public:
 		}
 
 		if (!creatureTarget->isHealableBy(creature)) {
-			creature->sendSystemMessage("@healing:pvp_no_help");  //It would be unwise to help such a patient.
+			creature->sendSystemMessage("@healing:pvp_no_help"); // It would be unwise to help such a patient.
 			return GENERALERROR;
 		}
 
 		int mindCostNew = creature->calculateCostAdjustment(CreatureAttribute::FOCUS, mindCost);
 
 		if (creature->getHAM(CreatureAttribute::MIND) < abs(mindCostNew)) {
-			creature->sendSystemMessage("@healing_response:not_enough_mind"); //You do not have enough mind to do that.
+			creature->sendSystemMessage("@healing_response:not_enough_mind"); // You do not have enough mind to do that.
 			return GENERALERROR;
 		}
 
 		if (!creatureTarget->hasDamage(CreatureAttribute::HEALTH) && !creatureTarget->hasDamage(CreatureAttribute::ACTION)) {
 			if (creatureTarget == creature)
-				creature->sendSystemMessage("@healing_response:healing_response_61"); //You have no damage to heal.
+				creature->sendSystemMessage("@healing_response:healing_response_61"); // You have no damage to heal.
 			else if (creatureTarget->isPlayerCreature()) {
 				StringIdChatParameter stringId("healing_response", "healing_response_63"); //%NT has no damage to heal.
 				stringId.setTT(creatureTarget->getObjectID());
@@ -146,7 +143,7 @@ public:
 			return GENERALERROR;
 		}
 
-		int healPower = (int) round(150 + System::random(600));
+		int healPower = (int)round(150 + System::random(600));
 
 		int healedHealth = creatureTarget->healDamage(creature, CreatureAttribute::HEALTH, healPower);
 		int healedAction = creatureTarget->healDamage(creature, CreatureAttribute::ACTION, healPower);
@@ -168,7 +165,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //QUICKHEALCOMMAND_H_
+#endif // QUICKHEALCOMMAND_H_

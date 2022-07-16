@@ -16,7 +16,6 @@ namespace managers {
 namespace creature {
 
 class DnaSampleRange : public Object {
-
 protected:
 	uint32 vhqMax;
 	uint32 vhqMin;
@@ -36,25 +35,17 @@ protected:
 public:
 	DnaSampleRange(LuaObject& obj);
 	virtual ~DnaSampleRange();
-	enum {
-		VHQ = 1,
-		HQ  = 2,
-		AA  = 3,
-		A   = 4,
-		BA  = 5,
-		LQ  = 6,
-		VLQ = 7
-	};
+	enum { VHQ = 1, HQ = 2, AA = 3, A = 4, BA = 5, LQ = 6, VLQ = 7 };
 
 	int generateValue(int quality) const;
 	String toString() const;
 	bool inRange(int amount) const;
 };
 
-}
-}
-}
-}
+} // namespace creature
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::creature;
 

@@ -29,6 +29,4 @@
 #include "affectors/AffectorShaderConstant.h"
 #include "affectors/AffectorShaderReplace.h"
 
-
-
 #endif /* AFFECTORS_H_ */

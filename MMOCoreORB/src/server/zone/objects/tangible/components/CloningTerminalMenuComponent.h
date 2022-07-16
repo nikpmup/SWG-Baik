@@ -12,7 +12,6 @@
 
 class CloningTerminalMenuComponent : public TangibleObjectMenuComponent {
 public:
-
 	/**
 	 * Fills the radial options, needs to be overriden
 	 * @pre { this object is locked }
@@ -34,6 +33,5 @@ public:
 	// Check if player has cloning coupon in their inventory
 	virtual bool hasCloningCoupon(CreatureObject* object) const;
 };
-
 
 #endif /* CloningTerminalMENUCOMPONENT_H_ */

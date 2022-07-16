@@ -7,12 +7,11 @@
 
 #ifndef VEHICLECUSTOMKITOBJECTMENUCOMPONENT_H_
 #define VEHICLECUSTOMKITOBJECTMENUCOMPONENT_H_
- 
+
 #include "TangibleObjectMenuComponent.h"
 
 class VehicleCustomKitObjectMenuComponent : public TangibleObjectMenuComponent {
 public:
-
 	/**
 	 * Fills the radial options, needs to be overriden
 	 * @pre { this object is locked }
@@ -30,8 +29,6 @@ public:
 	 * @returns 0 if successfull
 	 */
 	virtual int handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const;
-
 };
 
 #endif /* VEHICLECUSTOMKITOBJECTMENUCOMPONENT_H_ */
-

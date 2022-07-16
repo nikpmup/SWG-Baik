@@ -22,7 +22,7 @@ namespace factory {
 class FactoryObject;
 
 } // namespace factory
-} // namespace installtion
+} // namespace installation
 } // namespace objects
 } // namespace zone
 } // namespace server
@@ -36,7 +36,6 @@ using namespace server::zone::objects::installation::factory;
  */
 class BlueprintEntry : public Serializable {
 private:
-
 	/// Type of resource
 	SerializableString type;
 
@@ -56,13 +55,12 @@ private:
 	int quantity;
 
 	/// Input hopper
-	ManagedReference<SceneObject* > inputHopper;
+	ManagedReference<SceneObject*> inputHopper;
 
 	/// Matching items from factory hopper
-	Vector<ManagedReference<TangibleObject*> > matchingHopperItems;
+	Vector<ManagedReference<TangibleObject*>> matchingHopperItems;
 
 public:
-
 	/// Default Constructor
 	BlueprintEntry();
 
@@ -169,7 +167,6 @@ public:
 	}
 
 private:
-
 	/// Adds members to be serialized
 	void addSerializableVariables();
 };

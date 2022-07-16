@@ -10,14 +10,10 @@
 
 class ShowCouncilRankCommand : public QueueCommand {
 public:
-
-	ShowCouncilRankCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ShowCouncilRankCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -58,7 +54,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SHOWCOUNCILRANKCOMMAND_H_
+#endif // SHOWCOUNCILRANKCOMMAND_H_

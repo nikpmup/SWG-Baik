@@ -46,7 +46,7 @@ public:
 		maxScale = 0.f;
 	}
 
-	CustomizationData(const CustomizationData& c) :	Object() {
+	CustomizationData(const CustomizationData& c) : Object() {
 		speciesGender = c.speciesGender;
 		customizationGroup = c.customizationGroup;
 		type = c.type;
@@ -221,7 +221,6 @@ public:
 	inline void setMaxScale(float max) {
 		maxScale = max;
 	}
-
 };
 
 #endif /* CUSTOMIZATIONDATA_H_ */

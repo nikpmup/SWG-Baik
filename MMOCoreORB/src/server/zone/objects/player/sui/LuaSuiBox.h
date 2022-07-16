@@ -15,30 +15,30 @@ namespace zone {
 namespace objects {
 namespace player {
 namespace sui {
-	class SuiBox;
+class SuiBox;
 
-	class LuaSuiBox {
-	public:
-		static const char className[];
-		static Luna<LuaSuiBox>::RegType Register[];
+class LuaSuiBox {
+public:
+	static const char className[];
+	static Luna<LuaSuiBox>::RegType Register[];
 
-		LuaSuiBox(lua_State *L);
-		~LuaSuiBox();
+	LuaSuiBox(lua_State* L);
+	~LuaSuiBox();
 
-		int _setObject(lua_State* L);
+	int _setObject(lua_State* L);
 
-		int getUsingObject(lua_State* L);
-	private:
-		Reference<SuiBox*> realObject;
-	};
+	int getUsingObject(lua_State* L);
 
-}
-}
-}
-}
-}
+private:
+	Reference<SuiBox*> realObject;
+};
+
+} // namespace sui
+} // namespace player
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::player::sui;
-
 
 #endif /* LUASUIBOX_H_ */

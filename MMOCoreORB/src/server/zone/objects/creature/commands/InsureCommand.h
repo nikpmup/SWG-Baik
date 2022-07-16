@@ -10,14 +10,10 @@
 
 class InsureCommand : public QueueCommand {
 public:
-
-	InsureCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	InsureCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -26,12 +22,12 @@ public:
 
 		SceneObject* term = nullptr;
 
-		CloseObjectsVector* closeSceneObjects = (CloseObjectsVector*) creature->getCloseObjects();
+		CloseObjectsVector* closeSceneObjects = (CloseObjectsVector*)creature->getCloseObjects();
 
 		SortedVector<QuadTreeEntry*> closeObjects;
 		closeSceneObjects->safeCopyTo(closeObjects);
 
-		for (int i=0; i < closeObjects.size(); i++) {
+		for (int i = 0; i < closeObjects.size(); i++) {
 			SceneObject* scno = cast<SceneObject*>(closeObjects.get(i));
 
 			if (scno == nullptr)
@@ -47,7 +43,6 @@ public:
 			return GENERALERROR;
 		}
 
-
 		if (creature->isInRange(term, 15.0f)) {
 			ManagedReference<SuiListBox*> suiInsuranceMenuBox = new SuiListBox(creature, SuiWindowType::INSURANCE_MENU, SuiListBox::HANDLETHREEBUTTON);
 
@@ -56,7 +51,7 @@ public:
 
 			PlayerManager* playerManager = creature->getZoneServer()->getPlayerManager();
 
-			Vector<ManagedReference<SceneObject*> > insurableItems = playerManager->getInsurableItems(creature);
+			Vector<ManagedReference<SceneObject*>> insurableItems = playerManager->getInsurableItems(creature);
 
 			if (insurableItems.size() == 0) {
 				creature->sendSystemMessage("@terminal_ui:no_insurable_items");
@@ -88,11 +83,8 @@ public:
 			return GENERALERROR;
 		}
 
-
-
 		return SUCCESS;
 	}
-
 };
 
-#endif //INSURECOMMAND_H_
+#endif // INSURECOMMAND_H_

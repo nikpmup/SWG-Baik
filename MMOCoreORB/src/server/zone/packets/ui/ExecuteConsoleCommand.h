@@ -10,14 +10,12 @@
 
 class ExecuteConsoleCommand : public BaseMessage {
 public:
-   ExecuteConsoleCommand(const String& com) : BaseMessage() {
+	ExecuteConsoleCommand(const String& com) : BaseMessage() {
 		insertShort(0x01);
-		insertInt(0xB1CFCE1C);  // CRC
+		insertInt(0xB1CFCE1C); // CRC
 
-		insertAscii(com); //Command to execute. With slash. Multiple commands seperated by ;
-
-   }
-
+		insertAscii(com); // Command to execute. With slash. Multiple commands seperated by ;
+	}
 };
 
 #endif /* EXECUTECONSOLECOMMAND_H_ */

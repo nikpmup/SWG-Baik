@@ -17,5 +17,4 @@ public:
 	int handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* creature, byte selectedID) const;
 };
 
-
 #endif /* FACTORYOBJECTMENUCOMPONENT_H_ */

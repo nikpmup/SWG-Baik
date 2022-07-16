@@ -5,7 +5,7 @@
 #include "templates/manager/TemplateManager.h"
 
 void ContractCrateImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* object) {
-	TangibleObjectImplementation::fillAttributeList(alm,object);
+	TangibleObjectImplementation::fillAttributeList(alm, object);
 
 	alm->insertAttribute("item_required", itemName);
 
@@ -15,9 +15,8 @@ void ContractCrateImplementation::fillAttributeList(AttributeListMessage* alm, C
 		alm->insertAttribute("job_status", String::valueOf(currentAmount) + " of " + String::valueOf(amountNeeded) + " required");
 }
 
-
 int ContractCrateImplementation::canAddObject(SceneObject* object, int containmentType, String& errorDescription) {
-	ManagedReference<CreatureObject*>  player = getParentRecursively(SceneObjectType::PLAYERCREATURE).castTo<CreatureObject*>();
+	ManagedReference<CreatureObject*> player = getParentRecursively(SceneObjectType::PLAYERCREATURE).castTo<CreatureObject*>();
 
 	if (player == nullptr)
 		return TransferErrorCode::MUSTBEINPLAYERINVENTORY;
@@ -35,7 +34,7 @@ int ContractCrateImplementation::canAddObject(SceneObject* object, int containme
 		return TransferErrorCode::INVALIDTYPE;
 
 	if (tano->getCraftersName() == "") {
-		errorDescription =  "@quest/crafting_contract/system_messages:not_crafted";
+		errorDescription = "@quest/crafting_contract/system_messages:not_crafted";
 		return TransferErrorCode::INVALIDTYPE;
 	}
 

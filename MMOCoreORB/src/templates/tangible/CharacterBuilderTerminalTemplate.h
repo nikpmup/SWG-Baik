@@ -22,7 +22,7 @@ public:
 
 	~CharacterBuilderTerminalTemplate() {
 		if (rootNode != nullptr) {
-			//delete rootNode;
+			// delete rootNode;
 			rootNode = nullptr;
 		}
 	}
@@ -48,7 +48,7 @@ public:
 
 		LuaObject luaItemList = templateData->getObjectField("itemList");
 
-		//Ensure that the luaItemList root level is of an even order.
+		// Ensure that the luaItemList root level is of an even order.
 		if (luaItemList.getTableSize() % 2 != 0) {
 			System::out << "[CharacterBuilderTerminalTemplate] Dimension mismatch in itemList. Item count must be a multiple of 2." << endl;
 			luaItemList.pop();
@@ -59,21 +59,19 @@ public:
 		rootNode->readLuaObject(luaItemList, true);
 
 		luaItemList.pop();
-    }
+	}
 
-    inline const CharacterBuilderMenuNode* getItemList() const {
-        return rootNode;
-    }
+	inline const CharacterBuilderMenuNode* getItemList() const {
+		return rootNode;
+	}
 
-    inline const Vector<int>& getGlowyBadgeIds() const {
-        return glowyBadgeIds;
-    }
+	inline const Vector<int>& getGlowyBadgeIds() const {
+		return glowyBadgeIds;
+	}
 
-    inline const Vector<String>& getVillageBranchUnlocks() const {
-        return villageBranchUnlocks;
-    }
+	inline const Vector<String>& getVillageBranchUnlocks() const {
+		return villageBranchUnlocks;
+	}
 };
-
-
 
 #endif /* CHARACTERBUILDTERTERMINALTEMPLATE_H_ */

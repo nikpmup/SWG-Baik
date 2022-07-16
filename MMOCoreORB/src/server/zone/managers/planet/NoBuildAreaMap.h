@@ -8,13 +8,13 @@
 #include "server/zone/objects/region/Region.h"
 
 class NoBuildAreaMap : public Object {
-	Vector<ManagedReference<Region*> > areas;
+	Vector<ManagedReference<Region*>> areas;
 
 public:
-	NoBuildAreaMap() { }
+	NoBuildAreaMap() {
+	}
 
 	~NoBuildAreaMap() {
-
 	}
 
 	bool add(Region* region) {
@@ -25,7 +25,7 @@ public:
 		for (int i = 0; i < areas.size(); i++) {
 			Region* region = areas.get(i);
 
-			if (region->containsPoint(x,y)) {
+			if (region->containsPoint(x, y)) {
 				fullAreaName = *region->getObjectName();
 
 				return true;

@@ -2,7 +2,6 @@
 				Copyright <SWGEmu>
 		See file COPYING for copying conditions.*/
 
-
 #include "server/zone/objects/resource/ResourceContainer.h"
 #include "server/zone/packets/resource/ResourceContainerObjectDeltaMessage3.h"
 #include "server/zone/packets/resource/ResourceContainerObjectMessage3.h"
@@ -44,7 +43,6 @@ void ResourceContainerImplementation::setQuantity(uint32 quantity, bool doNotify
 	stackQuantity = quantity;
 
 	if (stackQuantity < 1) {
-
 		if (parent != nullptr) {
 			destroyObjectFromWorld(true);
 		}
@@ -56,14 +54,12 @@ void ResourceContainerImplementation::setQuantity(uint32 quantity, bool doNotify
 	int newStackSize = 0;
 
 	if (!ignoreMax && stackQuantity > ResourceContainer::MAXSIZE) {
-
 		newStackSize = stackQuantity - ResourceContainer::MAXSIZE;
 		stackQuantity = ResourceContainer::MAXSIZE;
 	}
 
 	if (newStackSize > 0) {
 		if (parent != nullptr) {
-
 			Locker locker(spawnObject);
 
 			Reference<ResourceContainer*> harvestedResource = spawnObject->createResource(newStackSize);
@@ -80,11 +76,10 @@ void ResourceContainerImplementation::setQuantity(uint32 quantity, bool doNotify
 		}
 	}
 
-	if(!doNotify)
+	if (!doNotify)
 		return;
 
-	ResourceContainerObjectDeltaMessage3* rcnod3 =
-			new ResourceContainerObjectDeltaMessage3(_this.getReferenceUnsafeStaticCast());
+	ResourceContainerObjectDeltaMessage3* rcnod3 = new ResourceContainerObjectDeltaMessage3(_this.getReferenceUnsafeStaticCast());
 
 	rcnod3->updateQuantity();
 	rcnod3->close();
@@ -96,7 +91,7 @@ void ResourceContainerImplementation::split(int newStackSize) {
 	if (getQuantity() <= newStackSize)
 		return;
 
-	if(newStackSize > getQuantity())
+	if (newStackSize > getQuantity())
 		newStackSize = getQuantity();
 
 	ManagedReference<SceneObject*> sceneParent = cast<SceneObject*>(parent.get().get());
@@ -110,7 +105,7 @@ void ResourceContainerImplementation::split(int newStackSize) {
 
 	locker.release();
 
-	if(newResource == nullptr)
+	if (newResource == nullptr)
 		return;
 
 	Locker rlocker(newResource);
@@ -120,7 +115,7 @@ void ResourceContainerImplementation::split(int newStackSize) {
 		return;
 	}
 
-	if(sceneParent->transferObject(newResource, -1, true)) {
+	if (sceneParent->transferObject(newResource, -1, true)) {
 		sceneParent->broadcastObject(newResource, true);
 
 		setQuantity(getQuantity() - newStackSize);
@@ -134,7 +129,6 @@ void ResourceContainerImplementation::split(int newStackSize) {
 }
 
 void ResourceContainerImplementation::split(int newStackSize, CreatureObject* player) {
-
 	ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
 
 	if (inventory == nullptr)
@@ -156,7 +150,7 @@ void ResourceContainerImplementation::split(int newStackSize, CreatureObject* pl
 		return;
 	}
 
-	if(inventory->transferObject(newResource, -1, true)) {
+	if (inventory->transferObject(newResource, -1, true)) {
 		newResource->sendTo(player, true);
 
 		setQuantity(getQuantity() - newStackSize);

@@ -9,7 +9,6 @@
 
 #include "../../TerrainGenerator.h"
 
-
 float FilterFractal::process(float x, float y, float transformValue, float& baseValue, TerrainGenerator* terrainGenerator, FilterRectangle* rect) {
 	if (mfrc == nullptr) {
 		mfrc = terrainGenerator->getMfrc(fractalId);
@@ -64,7 +63,7 @@ void FilterFractal::parseFromIffStream(engine::util::IffStream* iffStream, Versi
 
 	iffStream->openChunk('PARM');
 
-	//6 vars
+	// 6 vars
 	fractalId = iffStream->getInt();
 	featheringType = iffStream->getInt();
 	featheringAmount = iffStream->getFloat();
@@ -76,4 +75,3 @@ void FilterFractal::parseFromIffStream(engine::util::IffStream* iffStream, Versi
 
 	iffStream->closeForm('DATA');
 }
-

@@ -9,7 +9,7 @@
 
 #include "ObjectControllerMessageCallback.h"
 
-UniqueReference<MessageCallbackFactory<MessageCallback* (ObjectControllerMessageCallback*), uint32>*> ObjectControllerMessageCallback::objectMessageControllerFactory;
+UniqueReference<MessageCallbackFactory<MessageCallback*(ObjectControllerMessageCallback*), uint32>*> ObjectControllerMessageCallback::objectMessageControllerFactory;
 
 void ObjectControllerMessageCallback::parse(Message* message) {
 	priority = message->parseInt();
@@ -61,7 +61,7 @@ void ObjectControllerMessageCallback::run() {
 
 	if (objectID != player->getObjectID()) {
 		if (player->getParentID() != objectID) {
-			//player->error("wrong object id in object controller message?");
+			// player->error("wrong object id in object controller message?");
 
 			return;
 		}

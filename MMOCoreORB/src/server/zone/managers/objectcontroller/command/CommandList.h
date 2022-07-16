@@ -14,7 +14,7 @@ namespace objectcontroller {
 namespace command {
 
 class CommandList : public Logger, public Object {
-	HashTable<uint32, Reference<QueueCommand*> > commands;
+	HashTable<uint32, Reference<QueueCommand*>> commands;
 
 public:
 	CommandList() : commands(700) {
@@ -60,7 +60,7 @@ public:
 		return commands.get(crc);
 	}
 
-	HashTableIterator<uint32, Reference<QueueCommand*> > iterator() const {
+	HashTableIterator<uint32, Reference<QueueCommand*>> iterator() const {
 		return commands.iterator();
 	}
 
@@ -69,12 +69,11 @@ public:
 	}
 };
 
-
-}
-}
-}
-}
-}
+} // namespace command
+} // namespace objectcontroller
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::objectcontroller::command;
 

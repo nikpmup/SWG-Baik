@@ -16,7 +16,6 @@ namespace conversation {
 namespace screenhandlers {
 
 class PetTrainingScreenHandler : public ScreenHandler, Logger {
-
 public:
 	static const String STARTSCREENHANDLERID;
 	static const String PETCOMMANDREPAIR;
@@ -35,7 +34,8 @@ public:
 	static const String PETGROUPCOMMAND;
 	static const String PETRELEASECOMMAND;
 
-	PetTrainingScreenHandler() : ScreenHandler(), Logger("PetTrainingScreenHandler") {}
+	PetTrainingScreenHandler() : ScreenHandler(), Logger("PetTrainingScreenHandler") {
+	}
 
 	ConversationScreen* handleScreen(CreatureObject* conversingPlayer, CreatureObject* conversingNPC, int selectedOption, ConversationScreen* conversationScreen);
 

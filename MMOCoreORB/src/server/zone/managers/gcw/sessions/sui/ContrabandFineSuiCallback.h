@@ -13,8 +13,7 @@
 
 class ContrabandFineSuiCallback : public SuiCallback {
 public:
-	ContrabandFineSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	ContrabandFineSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {

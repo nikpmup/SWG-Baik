@@ -55,10 +55,10 @@ void EnclaveTerminalMenuComponent::fillObjectMenuResponse(SceneObject* sceneObje
 		return;
 
 	if (terminalType == VOTING) {
-		menuResponse->addRadialMenuItem(69, 3, "@force_rank:vote_status"); // Voting Status
-		menuResponse->addRadialMenuItemToRadialID(69, 70, 3,"@force_rank:record_vote"); // Record Vote
-		menuResponse->addRadialMenuItemToRadialID(69, 71, 3,"@force_rank:accept_promotion"); // Accept Promotion
-		menuResponse->addRadialMenuItemToRadialID(69, 73, 3,"@force_rank:petition"); // Petition
+		menuResponse->addRadialMenuItem(69, 3, "@force_rank:vote_status");					  // Voting Status
+		menuResponse->addRadialMenuItemToRadialID(69, 70, 3, "@force_rank:record_vote");	  // Record Vote
+		menuResponse->addRadialMenuItemToRadialID(69, 71, 3, "@force_rank:accept_promotion"); // Accept Promotion
+		menuResponse->addRadialMenuItemToRadialID(69, 73, 3, "@force_rank:petition");		  // Petition
 
 		if (playerRank > 7 && enclaveType == FrsManager::COUNCIL_LIGHT)
 			menuResponse->addRadialMenuItem(75, 3, "@force_rank:demote_member"); // Demote Lower Tier Member
@@ -72,18 +72,18 @@ void EnclaveTerminalMenuComponent::fillObjectMenuResponse(SceneObject* sceneObje
 		menuResponse->addRadialMenuItem(69, 3, "@force_rank:challenge_vote_status"); // No-Confidence Vote Status
 
 		if (playerRank > 0) {
-			menuResponse->addRadialMenuItemToRadialID(69, 70, 3,"@force_rank:record_challenge_vote"); // Record No-Confidence Vote
-			menuResponse->addRadialMenuItemToRadialID(69, 71, 3,"@force_rank:issue_challenge_vote"); // Issue No-Confidence Vote
+			menuResponse->addRadialMenuItemToRadialID(69, 70, 3, "@force_rank:record_challenge_vote"); // Record No-Confidence Vote
+			menuResponse->addRadialMenuItemToRadialID(69, 71, 3, "@force_rank:issue_challenge_vote");  // Issue No-Confidence Vote
 		}
 	} else if (terminalType == DARK_CHALLENGE) {
-		menuResponse->addRadialMenuItem(69, 3, "@pvp_rating:ch_terminal_view_scores"); // View Challenge Scores
+		menuResponse->addRadialMenuItem(69, 3, "@pvp_rating:ch_terminal_view_scores");	// View Challenge Scores
 		menuResponse->addRadialMenuItem(70, 3, "@pvp_rating:ch_terminal_arena_status"); // Arena Status
 
 		if (frsManager->rankHasOpenChallenges(-1))
 			menuResponse->addRadialMenuItem(71, 3, "@pvp_rating:ch_terminal_view_challenges"); // View Issued Challenges
 
 		if (frsManager->canPlayerIssueArenaChallenge(player))
-			menuResponse->addRadialMenuItem(73, 3,"@pvp_rating:ch_terminal_issue_challenge"); // Issue Challenge
+			menuResponse->addRadialMenuItem(73, 3, "@pvp_rating:ch_terminal_issue_challenge"); // Issue Challenge
 
 		if (frsManager->canPlayerAcceptArenaChallenge(player))
 			menuResponse->addRadialMenuItem(72, 3, "@pvp_rating:ch_terminal_accept_challenge"); // Accept a Challenge

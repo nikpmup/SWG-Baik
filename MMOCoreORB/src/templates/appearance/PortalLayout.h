@@ -19,8 +19,10 @@
 class PortalGeometry : public Object {
 	Reference<MeshData*> geometry;
 	AABB boundingBox;
+
 public:
-	PortalGeometry() : geometry(new MeshData()), boundingBox(Vector3(0, 0, 0), Vector3(0, 0, 0)) { }
+	PortalGeometry() : geometry(new MeshData()), boundingBox(Vector3(0, 0, 0), Vector3(0, 0, 0)) {
+	}
 
 	MeshData* getGeometry() {
 		return geometry;
@@ -41,18 +43,19 @@ public:
 
 class PortalLayout : public IffTemplate, public Logger {
 	PathGraph* pathGraph;
-	Vector<Reference<PortalGeometry*> > portalGeometry;
-	Vector<Reference<CellProperty*> > cellProperties;
+	Vector<Reference<PortalGeometry*>> portalGeometry;
+	Vector<Reference<CellProperty*>> cellProperties;
+
 public:
 	PortalLayout();
 	~PortalLayout();
 
-	const PathGraph *getPathGraph() const {
+	const PathGraph* getPathGraph() const {
 		return pathGraph;
 	}
 
-	void readPortalGeometry0003(IffStream *iff, int numPortals);
-	void readPortalGeometry0004(IffStream *iff, int numPortals);
+	void readPortalGeometry0003(IffStream* iff, int numPortals);
+	void readPortalGeometry0004(IffStream* iff, int numPortals);
 
 	void readObject(IffStream* templateData) {
 		parse(templateData);
@@ -71,7 +74,7 @@ public:
 	int getCellID(const String& cellName) const;
 
 	inline int getCellTotalNumber() const {
-		//exclude the outside cell
+		// exclude the outside cell
 		return Math::max(0, cellProperties.size() - 1);
 	}
 
@@ -91,7 +94,7 @@ public:
 		return cellProperties.get(cellIndex)->getAppearanceTemplate();
 	}
 
-	const Vector<Reference<CellProperty*> >& getCellProperties() const {
+	const Vector<Reference<CellProperty*>>& getCellProperties() const {
 		return cellProperties;
 	}
 

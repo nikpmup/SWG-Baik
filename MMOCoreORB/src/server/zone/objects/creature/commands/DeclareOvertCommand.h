@@ -7,10 +7,7 @@
 
 class DeclareOvertCommand : public QueueCommand {
 public:
-
-	DeclareOvertCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DeclareOvertCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -34,7 +31,7 @@ public:
 			return GENERALERROR;
 
 		// 	This command allows a covert faction member to declare overt faction status. Usage of this command is restricted to a 50m radius around friendly player-placed faction headquarters.
-		CloseObjectsVector* vec = (CloseObjectsVector*) creature->getCloseObjects();
+		CloseObjectsVector* vec = (CloseObjectsVector*)creature->getCloseObjects();
 		SortedVector<QuadTreeEntry*> closeObjects;
 
 		if (vec != nullptr) {
@@ -42,9 +39,9 @@ public:
 
 			vec->safeCopyReceiversTo(closeObjects, CloseObjectsVector::STRUCTURETYPE);
 		} else {
-	#ifdef COV_DEBUG
+#ifdef COV_DEBUG
 			sourceCreature->info("Null closeobjects vector in DeclareOvertCommand", true);
-	#endif
+#endif
 			zone->getInRangeObjects(creature->getWorldPositionX(), creature->getWorldPositionY(), 50, &closeObjects, true);
 		}
 
@@ -75,4 +72,4 @@ public:
 	}
 };
 
-#endif //DECLAREOVERTCOMMAND_H_
+#endif // DECLAREOVERTCOMMAND_H_

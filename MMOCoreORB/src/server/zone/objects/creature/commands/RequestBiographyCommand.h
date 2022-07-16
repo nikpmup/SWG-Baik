@@ -10,14 +10,10 @@
 
 class RequestBiographyCommand : public QueueCommand {
 public:
-
-	RequestBiographyCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RequestBiographyCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -35,7 +31,7 @@ public:
 		if (!creature->isPlayerCreature())
 			return GENERALERROR;
 
-		CreatureObject* playerCreature = cast<CreatureObject*>( object.get());
+		CreatureObject* playerCreature = cast<CreatureObject*>(object.get());
 
 		PlayerObject* ghost = playerCreature->getPlayerObject();
 
@@ -47,7 +43,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REQUESTBIOGRAPHYCOMMAND_H_
+#endif // REQUESTBIOGRAPHYCOMMAND_H_

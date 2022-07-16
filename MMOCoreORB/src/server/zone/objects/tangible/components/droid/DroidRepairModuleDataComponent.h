@@ -14,11 +14,8 @@ namespace tangible {
 namespace components {
 namespace droid {
 
-
 class DroidRepairModuleDataComponent : public BaseDroidModuleComponent {
-
 protected:
-
 public:
 	DroidRepairModuleDataComponent();
 	~DroidRepairModuleDataComponent();
@@ -27,7 +24,7 @@ public:
 	void fillAttributeList(AttributeListMessage* msg, CreatureObject* droid);
 	void fillObjectMenuResponse(SceneObject* droidObject, ObjectMenuResponse* menuResponse, CreatureObject* player);
 	int handleObjectMenuSelect(CreatureObject* player, byte selectedID, PetControlDevice* controller);
-	void handlePetCommand(String cmd, CreatureObject* speaker) ;
+	void handlePetCommand(String cmd, CreatureObject* speaker);
 	int getBatteryDrain();
 	String toString() const;
 
@@ -37,15 +34,16 @@ public:
 	 * adding radial selections, handling commands, etc
 	 * copy() and addToStack() NO OPS from the base class (no stats to copy/add)
 	 */
-	bool isStackable() { return true; }
+	bool isStackable() {
+		return true;
+	}
 };
 
-
-} // droid
-} // components
-} // tangible
-} // objects
-} // zone
-} // server
+} // namespace droid
+} // namespace components
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 using namespace server::zone::objects::tangible::components::droid;
 #endif /* DROIDREPAIRMODULEDATACOMPONENT_H_ */

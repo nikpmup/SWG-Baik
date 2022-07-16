@@ -11,8 +11,7 @@
 
 class DroidMaintenanceSessionAddCreditsSuiCallback : public SuiCallback {
 public:
-	DroidMaintenanceSessionAddCreditsSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	DroidMaintenanceSessionAddCreditsSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* sui, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -22,7 +21,6 @@ public:
 			return;
 
 		int amount = Integer::valueOf(args->get(1).toString());
-
 
 		ManagedReference<Facade*> facade = player->getActiveSession(SessionFacadeType::DROIDMAINTENANCERUN);
 		ManagedReference<DroidMaintenanceSession*> session = dynamic_cast<DroidMaintenanceSession*>(facade.get());

@@ -45,7 +45,6 @@ int FsBuffItemImplementation::handleObjectMenuSelect(CreatureObject* player, byt
 }
 
 void FsBuffItemImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* player) {
-
 	if (player != nullptr) {
 		if (!player->checkCooldownRecovery("fs_buff_item_" + BuffAttribute::getName(buffAttribute))) {
 			const Time* timeRemaining = player->getCooldownTime("fs_buff_item_" + BuffAttribute::getName(buffAttribute));
@@ -62,18 +61,30 @@ void FsBuffItemImplementation::fillAttributeList(AttributeListMessage* alm, Crea
 
 uint32 FsBuffItemImplementation::getBuffCRC() {
 	switch (buffAttribute) {
-	case 0: return BuffCRC::MEDICAL_ENHANCE_HEALTH;
-	case 1: return BuffCRC::MEDICAL_ENHANCE_STRENGTH;
-	case 2: return BuffCRC::MEDICAL_ENHANCE_CONSTITUTION;
-	case 3: return BuffCRC::MEDICAL_ENHANCE_ACTION;
-	case 4: return BuffCRC::MEDICAL_ENHANCE_QUICKNESS;
-	case 5: return BuffCRC::MEDICAL_ENHANCE_STAMINA;
-	case 6: return BuffCRC::PERFORMANCE_ENHANCE_DANCE_MIND;
-	case 7: return BuffCRC::PERFORMANCE_ENHANCE_MUSIC_FOCUS;
-	case 8: return BuffCRC::PERFORMANCE_ENHANCE_MUSIC_WILLPOWER;
-	case 9: return BuffCRC::MEDICAL_ENHANCE_POISON;
-	case 10: return BuffCRC::MEDICAL_ENHANCE_DISEASE;
-	default: return BuffCRC::MEDICAL_ENHANCE_HEALTH;
+	case 0:
+		return BuffCRC::MEDICAL_ENHANCE_HEALTH;
+	case 1:
+		return BuffCRC::MEDICAL_ENHANCE_STRENGTH;
+	case 2:
+		return BuffCRC::MEDICAL_ENHANCE_CONSTITUTION;
+	case 3:
+		return BuffCRC::MEDICAL_ENHANCE_ACTION;
+	case 4:
+		return BuffCRC::MEDICAL_ENHANCE_QUICKNESS;
+	case 5:
+		return BuffCRC::MEDICAL_ENHANCE_STAMINA;
+	case 6:
+		return BuffCRC::PERFORMANCE_ENHANCE_DANCE_MIND;
+	case 7:
+		return BuffCRC::PERFORMANCE_ENHANCE_MUSIC_FOCUS;
+	case 8:
+		return BuffCRC::PERFORMANCE_ENHANCE_MUSIC_WILLPOWER;
+	case 9:
+		return BuffCRC::MEDICAL_ENHANCE_POISON;
+	case 10:
+		return BuffCRC::MEDICAL_ENHANCE_DISEASE;
+	default:
+		return BuffCRC::MEDICAL_ENHANCE_HEALTH;
 	}
 }
 

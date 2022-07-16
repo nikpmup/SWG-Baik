@@ -16,14 +16,10 @@
 
 class SnoopCommand : public QueueCommand {
 public:
-
-	SnoopCommand(const String& name, ZoneProcessServer* server)
-	: QueueCommand(name, server) {
-
+	SnoopCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -45,7 +41,7 @@ public:
 		if (creature->getTargetID() != 0) {
 			targetObj = server->getZoneServer()->getObject(creature->getTargetID()).castTo<CreatureObject*>();
 		} else {
-			if(!args.hasMoreTokens())
+			if (!args.hasMoreTokens())
 				return GENERALERROR;
 
 			args.getStringToken(targetName);
@@ -80,7 +76,7 @@ public:
 
 			creatureDatapad->sendWithoutParentTo(creature);
 			creatureDatapad->openContainerTo(creature);
-		}  else if (container == "bank") {
+		} else if (container == "bank") {
 			SceneObject* creatureBank = targetObj->getSlottedObject("bank");
 
 			if (creatureBank == nullptr)
@@ -124,7 +120,7 @@ public:
 			return sendVendorInfo(creature, targetObj);
 		} else if (container == "veteranrewards") {
 			return sendVeteranRewardInfo(creature, targetObj);
-		} else if(container == "faction") {
+		} else if (container == "faction") {
 			return sendFactionInfo(creature, targetObj);
 		} else if (container == "screenplaydata") {
 			if (!args.hasMoreTokens()) {
@@ -210,8 +206,6 @@ public:
 			creatureInventory->openContainerTo(creature);
 		}
 
-
-
 		return SUCCESS;
 	}
 
@@ -221,7 +215,7 @@ public:
 		if (ghost == nullptr)
 			return GENERALERROR;
 
-		Vector<Reference<ScreenPlayTask*> > eventList = DirectorManager::instance()->getObjectEvents(target);
+		Vector<Reference<ScreenPlayTask*>> eventList = DirectorManager::instance()->getObjectEvents(target);
 
 		ManagedReference<SuiListBox*> box = new SuiListBox(creature, 0);
 		box->setPromptTitle("LUA Events");
@@ -291,15 +285,15 @@ public:
 		StringBuffer body;
 		body << "Player Name:\t" << target->getFirstName() << endl;
 		body << "Claimed Rewards:" << endl;
-		body << "\tMilestone\tReward"<< endl;
-		for( int i = 0; i < playerManager->getNumVeteranRewardMilestones(); i++ ){
+		body << "\tMilestone\tReward" << endl;
+		for (int i = 0; i < playerManager->getNumVeteranRewardMilestones(); i++) {
 			int milestone = playerManager->getVeteranRewardMilestone(i);
 			body << "\t" << String::valueOf(milestone);
 			String claimedReward = targetGhost->getChosenVeteranReward(milestone);
-			if( claimedReward.isEmpty() ){
-				body << "\t\t" << "Unclaimed" << endl;
-			}
-			else{
+			if (claimedReward.isEmpty()) {
+				body << "\t\t"
+					 << "Unclaimed" << endl;
+			} else {
 				body << "\t\t" << claimedReward << endl;
 			}
 		}
@@ -314,7 +308,6 @@ public:
 		creature->sendMessage(box->generateMessage());
 
 		return SUCCESS;
-
 	}
 
 	int sendFactionInfo(CreatureObject* creature, CreatureObject* target) const {
@@ -362,9 +355,7 @@ public:
 		creature->sendMessage(box->generateMessage());
 
 		return SUCCESS;
-
 	}
-
 
 	int sendVendorInfo(CreatureObject* creature, CreatureObject* target) const {
 		ManagedReference<PlayerObject*> targetGhost = target->getPlayerObject();
@@ -375,7 +366,7 @@ public:
 			return GENERALERROR;
 
 		ManagedReference<AuctionsMap*> auctionsMap = auctionManager->getAuctionMap();
-		if(auctionsMap == nullptr)
+		if (auctionsMap == nullptr)
 			return GENERALERROR;
 
 		StringBuffer body;
@@ -400,13 +391,13 @@ public:
 			body << "VendorID:\t" << vendor->getObjectID() << endl;
 
 			DataObjectComponentReference* data = vendor->getDataObjectComponent();
-			if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
+			if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
 				body << "    nullptr Data Component" << endl << endl;
 				continue;
 			}
 
 			VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-			if(vendorData == nullptr) {
+			if (vendorData == nullptr) {
 				body << "    nullptr Vendor Data Component" << endl << endl;
 				continue;
 			}
@@ -435,7 +426,6 @@ public:
 				body << zone->getZoneName() << endl;
 				body << "    World Position:\t" << vendor->getWorldPositionX() << ", " << vendor->getWorldPositionY() << endl;
 			}
-
 		}
 
 		ManagedReference<SuiMessageBox*> box = new SuiMessageBox(creature, 0);
@@ -535,7 +525,7 @@ public:
 			}
 		}
 
-		if(targetGhost != nullptr) { // if we're not a PlayerObject, we don't hold force values
+		if (targetGhost != nullptr) { // if we're not a PlayerObject, we don't hold force values
 			body << "Force Power:\t" << targetGhost->getForcePower() << " / " << targetGhost->getForcePowerMax() << endl;
 			body << "Force Regen:\t" << target->getSkillMod("jedi_force_power_regen") << endl;
 		}
@@ -568,12 +558,12 @@ public:
 
 		for (int i = 0; i < bList->getBuffListSize(); i++) {
 			Buff* buff = bList->getBuffByIndex(i);
-			buffText << buff->getBuffName() << ":" <<endl;
+			buffText << buff->getBuffName() << ":" << endl;
 			buffText << "\tCRC: 0x" << hex << buff->getBuffCRC() << endl;
 
 			const Vector<uint64>* secondaryCRCs = buff->getSecondaryBuffCRCs();
 			if (secondaryCRCs != nullptr && secondaryCRCs->size() > 0) {
-				buffText << "\tSecondary CRCs: "<< endl;
+				buffText << "\tSecondary CRCs: " << endl;
 				for (int j = 0; j < secondaryCRCs->size(); j++) {
 					buffText << "\t\t 0x" << hex << buff->getSecondaryBuffCRCs() << endl;
 				}
@@ -598,4 +588,4 @@ public:
 	}
 };
 
-#endif //SNOOPCOMMAND_H_
+#endif // SNOOPCOMMAND_H_

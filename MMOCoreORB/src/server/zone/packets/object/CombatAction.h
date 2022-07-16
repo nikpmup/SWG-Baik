@@ -11,13 +11,10 @@
 class CombatAction : public StandaloneObjectControllerMessage {
 	int defenderSize;
 
-
 public:
 	// set the new posture of attacker and defender BEFORE constructing a CombatAction
 
-	CombatAction(CreatureObject* attacker, TangibleObject* defender, uint32 animcrc, uint8 hit, uint8 trails, long weaponID = 0) :
-			StandaloneObjectControllerMessage(attacker->getObjectID(), 0x1B, 0xCC) {
-
+	CombatAction(CreatureObject* attacker, TangibleObject* defender, uint32 animcrc, uint8 hit, uint8 trails, long weaponID = 0) : StandaloneObjectControllerMessage(attacker->getObjectID(), 0x1B, 0xCC) {
 		insertInt(animcrc);
 
 		insertLong(attacker->getObjectID());
@@ -32,7 +29,6 @@ public:
 
 		defenderSize = 1;
 
-
 		insertShort(1);
 		insertLong(defender->getObjectID());
 		insertByte((defender->isCreatureObject() ? defender->asCreatureObject()->getPosture() : 0x00));
@@ -40,8 +36,7 @@ public:
 		insertByte(0);
 	}
 
-	CombatAction(CreatureObject* attacker, uint32 animcrc) :
-			StandaloneObjectControllerMessage(attacker->getObjectID(), 0x1B, 0xCC) {
+	CombatAction(CreatureObject* attacker, uint32 animcrc) : StandaloneObjectControllerMessage(attacker->getObjectID(), 0x1B, 0xCC) {
 		insertInt(animcrc);
 
 		insertLong(attacker->getObjectID());
@@ -55,8 +50,7 @@ public:
 		insertShort(0); // number of defenders
 	}
 
-	CombatAction(CreatureObject* attacker, uint32 animcrc, long weaponID) :
-			StandaloneObjectControllerMessage(attacker->getObjectID(), 0x1B, 0xCC) {
+	CombatAction(CreatureObject* attacker, uint32 animcrc, long weaponID) : StandaloneObjectControllerMessage(attacker->getObjectID(), 0x1B, 0xCC) {
 		insertInt(animcrc);
 
 		insertLong(attacker->getObjectID());
@@ -70,31 +64,26 @@ public:
 		insertShort(0); // number of defenders
 	}
 
+	CombatAction(TangibleObject* attacker, CreatureObject* defender, uint32 animcrc, uint8 hit, long wpnID = 0) : StandaloneObjectControllerMessage(attacker->getObjectID(), 0x1B, 0xCC) {
+		insertInt(animcrc);
 
-	CombatAction(TangibleObject* attacker, CreatureObject* defender, uint32 animcrc, uint8 hit, long wpnID = 0) :
-			StandaloneObjectControllerMessage(attacker->getObjectID(), 0x1B, 0xCC) {
-			insertInt(animcrc);
+		insertLong(attacker->getObjectID());
+		insertLong(wpnID);
 
-			insertLong(attacker->getObjectID());
-			insertLong(wpnID);
+		insertByte(0x0);
+		insertByte(0xFF);
+		insertByte(0xFF);
 
-			insertByte(0x0);
-			insertByte(0xFF);
-			insertByte(0xFF);
+		defenderSize = 1;
 
-			defenderSize = 1;
-
-			insertShort(1);
-			insertLong(defender->getObjectID());
-			insertByte(defender->getPosture());
-			insertByte(hit);
-			insertByte(0);
+		insertShort(1);
+		insertLong(defender->getObjectID());
+		insertByte(defender->getPosture());
+		insertByte(hit);
+		insertByte(0);
 	}
 
-
-	CombatAction(CreatureObject* attacker, CreatureObject* defender,
-			uint32 animcrc,uint8 hit, long wpnID) :
-			StandaloneObjectControllerMessage(attacker->getObjectID(), 0x1B, 0xCC) {
+	CombatAction(CreatureObject* attacker, CreatureObject* defender, uint32 animcrc, uint8 hit, long wpnID) : StandaloneObjectControllerMessage(attacker->getObjectID(), 0x1B, 0xCC) {
 		insertInt(animcrc);
 
 		insertLong(attacker->getObjectID());
@@ -113,9 +102,7 @@ public:
 		insertByte(0);
 	}
 
-	CombatAction(TangibleObject* attacker, SortedVector<DefenderHitList*> targetDefenders, uint32 animcrc, uint8 trails, long weaponID) :
-		StandaloneObjectControllerMessage(attacker->getObjectID(), 0x1B, 0xCC, true) {
-
+	CombatAction(TangibleObject* attacker, SortedVector<DefenderHitList*> targetDefenders, uint32 animcrc, uint8 trails, long weaponID) : StandaloneObjectControllerMessage(attacker->getObjectID(), 0x1B, 0xCC, true) {
 		insertInt(animcrc);
 		insertLong(attacker->getObjectID());
 		if (weaponID == 0) {

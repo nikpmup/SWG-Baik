@@ -14,10 +14,7 @@ class DismountCommand : public QueueCommand {
 	uint32 gallopCRC;
 
 public:
-
-	DismountCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DismountCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		gallopCRC = STRING_HASHCODE("gallop");
 
 		restrictedBuffCRCs.add(gallopCRC); // Remove the old buff off of any players on dismount
@@ -26,11 +23,9 @@ public:
 		restrictedBuffCRCs.add(BuffCRC::JEDI_FORCE_RUN_1);
 		restrictedBuffCRCs.add(BuffCRC::JEDI_FORCE_RUN_2);
 		restrictedBuffCRCs.add(BuffCRC::JEDI_FORCE_RUN_3);
-
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -78,21 +73,20 @@ public:
 		zone->transferObject(creature, -1, false);
 
 		IntersectionResults intersections;
-		CollisionManager::getWorldFloorCollisions(creature->getPositionX(), creature->getPositionY(), zone, &intersections, (CloseObjectsVector*) creature->getCloseObjects());
-		float z = planetManager->findClosestWorldFloor(creature->getPositionX(), creature->getPositionY(), creature->getPositionZ(), creature->getSwimHeight(), &intersections, (CloseObjectsVector*) creature->getCloseObjects());
+		CollisionManager::getWorldFloorCollisions(creature->getPositionX(), creature->getPositionY(), zone, &intersections, (CloseObjectsVector*)creature->getCloseObjects());
+		float z = planetManager->findClosestWorldFloor(creature->getPositionX(), creature->getPositionY(), creature->getPositionZ(), creature->getSwimHeight(), &intersections, (CloseObjectsVector*)creature->getCloseObjects());
 
 		creature->teleport(creature->getPositionX(), z, creature->getPositionY(), 0);
 
 		clocker.release(); // Buff needs to be locked below
 
-		//reapply speed buffs if they exist
-		for (int i=0; i<restrictedBuffCRCs.size(); i++) {
-
+		// reapply speed buffs if they exist
+		for (int i = 0; i < restrictedBuffCRCs.size(); i++) {
 			uint32 buffCRC = restrictedBuffCRCs.get(i);
 
 			if (creature->hasBuff(buffCRC)) {
 				ManagedReference<Buff*> buff = creature->getBuff(buffCRC);
-				if(buff != nullptr) {
+				if (buff != nullptr) {
 					Locker lock(buff, creature);
 					buff->applyAllModifiers();
 				}
@@ -126,7 +120,7 @@ public:
 		creature->updateToDatabase();
 
 		SharedObjectTemplate* templateData = creature->getObjectTemplate();
-		SharedCreatureObjectTemplate* playerTemplate = dynamic_cast<SharedCreatureObjectTemplate*> (templateData);
+		SharedCreatureObjectTemplate* playerTemplate = dynamic_cast<SharedCreatureObjectTemplate*>(templateData);
 
 		if (playerTemplate != nullptr) {
 			Vector<FloatParam> speedTempl = playerTemplate->getSpeed();
@@ -141,17 +135,18 @@ public:
 		if (vehicle->hasBuff(gallopCRC)) {
 			ManagedReference<Buff*> buff = vehicle->getBuff(gallopCRC);
 			if (buff != nullptr) {
-				Core::getTaskManager()->executeTask([=] () {
-					Locker lock(vehicle);
-					Locker buffLocker(buff, vehicle);
-					buff->removeAllModifiers();
-				}, "RemoveGallopModsLambda");
+				Core::getTaskManager()->executeTask(
+					[=]() {
+						Locker lock(vehicle);
+						Locker buffLocker(buff, vehicle);
+						buff->removeAllModifiers();
+					},
+					"RemoveGallopModsLambda");
 			}
 		}
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DISMOUNTCOMMAND_H_
+#endif // DISMOUNTCOMMAND_H_

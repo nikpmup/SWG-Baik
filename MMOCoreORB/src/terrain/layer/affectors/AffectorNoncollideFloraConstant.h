@@ -13,13 +13,12 @@
 class AffectorNoncollideFloraConstant : public ProceduralRule<'AFSC'>, public AffectorProceduralRule {
 	int familyId;
 	int var2;
-	int flag; //add/remove
+	int flag; // add/remove
 	int featheringType;
 	float featheringAmount;
 
 public:
 	AffectorNoncollideFloraConstant() : familyId(0), var2(0), flag(0), featheringType(0), featheringAmount(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {
@@ -53,6 +52,5 @@ public:
 		iffStream->closeChunk('DATA');
 	}
 };
-
 
 #endif /* AFFECTORNONCOLLIDEFLORACONSTANT_H_ */

@@ -13,20 +13,20 @@
 #include "server/zone/objects/scene/components/ZoneComponent.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace scene {
-    class SceneObject;
-   }
-
-   namespace building {
-    class BuildingObject;
-   }
-  }
-
-  class Zone;
- }
+namespace zone {
+namespace objects {
+namespace scene {
+class SceneObject;
 }
+
+namespace building {
+class BuildingObject;
+}
+} // namespace objects
+
+class Zone;
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::scene;
 using namespace server::zone::objects::building;
@@ -36,7 +36,5 @@ class CityHallZoneComponent : public ZoneComponent {
 public:
 	void destroyObjectFromWorld(SceneObject* sceneObject, bool sendSelfDestroy) const;
 };
-
-
 
 #endif /* CITYHALLZONECOMPONENT_H_ */

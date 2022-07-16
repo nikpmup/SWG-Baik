@@ -21,7 +21,6 @@ class ResourceSpawner;
  * scripts.
  */
 class MinimumPool : public ResourcePool {
-
 public:
 	/**
 	 * Ctor
@@ -49,7 +48,6 @@ public:
 	void print();
 
 private:
-
 	/**
 	 * Adds resource to this pool
 	 * \param resourceSpawn Spawn object to add to the pool
@@ -65,7 +63,6 @@ private:
 	 * \return if update was successful
 	 */
 	bool update();
-
 
 	friend class ResourceSpawner;
 };

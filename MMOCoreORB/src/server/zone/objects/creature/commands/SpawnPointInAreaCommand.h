@@ -44,4 +44,4 @@ public:
 	}
 };
 
-#endif //SPAWNPOINTINAREACOMMAND_H
+#endif // SPAWNPOINTINAREACOMMAND_H

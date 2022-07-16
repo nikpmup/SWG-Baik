@@ -10,10 +10,7 @@
 
 class SetFactionStandingCommand : public QueueCommand {
 public:
-
-	SetFactionStandingCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetFactionStandingCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	void sendInvalidParameterMessage(CreatureObject* creature) const {
@@ -27,17 +24,17 @@ public:
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
 
-		//make sure that the target is a player
+		// make sure that the target is a player
 		ManagedReference<SceneObject*> obj = server->getZoneServer()->getObject(target);
 
-		if (obj == nullptr || !obj->isPlayerCreature() ) {
+		if (obj == nullptr || !obj->isPlayerCreature()) {
 			sendInvalidParameterMessage(creature);
 			return INVALIDTARGET;
 		}
 
-		CreatureObject* targetCreature = cast<CreatureObject*>( obj.get());
+		CreatureObject* targetCreature = cast<CreatureObject*>(obj.get());
 
-		if ( targetCreature == nullptr ) {
+		if (targetCreature == nullptr) {
 			sendInvalidParameterMessage(creature);
 			return GENERALERROR;
 		}
@@ -63,8 +60,7 @@ public:
 		}
 
 		// get the amount of faction points
-		if (!tokenizer.hasMoreTokens())
-		{
+		if (!tokenizer.hasMoreTokens()) {
 			sendInvalidParameterMessage(creature);
 			return INVALIDPARAMETERS;
 		}
@@ -73,35 +69,34 @@ public:
 
 		try {
 			factionValue = tokenizer.getIntToken();
-		} catch ( Exception& err ) {
+		} catch (Exception& err) {
 			error("error parsing faction value in setfactionstandingcommand");
 		}
 
 		PlayerObject* targetPlayer = targetCreature->getPlayerObject();
 
-		if ( targetPlayer == nullptr )
+		if (targetPlayer == nullptr)
 			return GENERALERROR;
 
 		int intCurrentFaction = targetPlayer->getFactionStanding(faction);
 		int factionDif = intCurrentFaction - factionValue;
 
-		if ( factionValue >= -5000 && factionValue <= 100000 && factionDif != 0) {
-			if ( factionValue > intCurrentFaction)
-				targetPlayer->increaseFactionStanding(faction,factionValue-intCurrentFaction);
+		if (factionValue >= -5000 && factionValue <= 100000 && factionDif != 0) {
+			if (factionValue > intCurrentFaction)
+				targetPlayer->increaseFactionStanding(faction, factionValue - intCurrentFaction);
 			else
 				targetPlayer->decreaseFactionStanding(faction, intCurrentFaction - factionValue);
 
 			creature->sendSystemMessage(faction + " faction standing set to " + String::valueOf(factionValue) + " for " + targetCreature->getFirstName());
 
 		} else {
-			if ( factionDif == 0 )
+			if (factionDif == 0)
 				creature->sendSystemMessage("No faction change");
 			else
 				creature->sendSystemMessage("Invalid faction amount.  Must be between -5000 and 100k");
 		}
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETFACTIONSTANDINGCOMMAND_H_
+#endif // SETFACTIONSTANDINGCOMMAND_H_

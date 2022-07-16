@@ -10,24 +10,22 @@
 
 class CommoditiesItemTypeListResponse : public BaseMessage {
 public:
-   CommoditiesItemTypeListResponse() : BaseMessage() {
+	CommoditiesItemTypeListResponse() : BaseMessage() {
 		insertShort(0x02);
-		insertInt(0xD4E937FC);  // CRC
+		insertInt(0xD4E937FC); // CRC
 
 		insertAscii("Core3.0");
 		insertInt(0);
 
 		setCompression(true);
-   }
-
+	}
 };
 
 class CommoditiesItemTypeListRequestCallback : public MessageCallback {
 	String request;
-public:
-	CommoditiesItemTypeListRequestCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
 
+public:
+	CommoditiesItemTypeListRequestCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {

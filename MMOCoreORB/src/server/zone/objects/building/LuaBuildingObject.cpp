@@ -13,33 +13,31 @@
 
 const char LuaBuildingObject::className[] = "LuaBuildingObject";
 
-Luna<LuaBuildingObject>::RegType LuaBuildingObject::Register[] = {
-		{ "_setObject", &LuaBuildingObject::_setObject },
-		{ "_getObject", &LuaSceneObject::_getObject },
-		{ "getCell", &LuaBuildingObject::getCell },
-		{ "getTotalCellNumber", &LuaBuildingObject::getTotalCellNumber },
-		{ "getNamedCell", &LuaBuildingObject::getNamedCell },
-		{ "getOwnerID", &LuaBuildingObject::getOwnerID },
-		{ "getParent", &LuaSceneObject::getParent },
-		{ "getObjectID", &LuaSceneObject::getObjectID },
-		{ "getPositionX", &LuaSceneObject::getPositionX },
-		{ "getPositionY", &LuaSceneObject::getPositionY },
-		{ "getPositionZ", &LuaSceneObject::getPositionZ },
-		{ "getParentID", &LuaSceneObject::getParentID },
-		{ "getServerObjectCRC", &LuaSceneObject::getServerObjectCRC },
-		{ "getFaction", &LuaTangibleObject::getFaction },
-		{ "grantPermission", &LuaBuildingObject::grantPermission },
-		{ "broadcastSpecificCellPermissions", &LuaBuildingObject::broadcastSpecificCellPermissions },
-		{ "spawnChildCreature", &LuaBuildingObject::spawnChildCreature },
-		{ "spawnChildSceneObject", &LuaBuildingObject::spawnChildSceneObject },
-		{ "destroyChildObjects", &LuaBuildingObject::destroyChildObjects },
-		{ "initializeStaticGCWBase", &LuaBuildingObject::initializeStaticGCWBase },
-		{ "isPrivateStructure", &LuaBuildingObject::isPrivateStructure },
-		{ "getCellName", &LuaBuildingObject::getCellName },
-		{ 0, 0 }
-};
+Luna<LuaBuildingObject>::RegType LuaBuildingObject::Register[] = {{"_setObject", &LuaBuildingObject::_setObject},
+																  {"_getObject", &LuaSceneObject::_getObject},
+																  {"getCell", &LuaBuildingObject::getCell},
+																  {"getTotalCellNumber", &LuaBuildingObject::getTotalCellNumber},
+																  {"getNamedCell", &LuaBuildingObject::getNamedCell},
+																  {"getOwnerID", &LuaBuildingObject::getOwnerID},
+																  {"getParent", &LuaSceneObject::getParent},
+																  {"getObjectID", &LuaSceneObject::getObjectID},
+																  {"getPositionX", &LuaSceneObject::getPositionX},
+																  {"getPositionY", &LuaSceneObject::getPositionY},
+																  {"getPositionZ", &LuaSceneObject::getPositionZ},
+																  {"getParentID", &LuaSceneObject::getParentID},
+																  {"getServerObjectCRC", &LuaSceneObject::getServerObjectCRC},
+																  {"getFaction", &LuaTangibleObject::getFaction},
+																  {"grantPermission", &LuaBuildingObject::grantPermission},
+																  {"broadcastSpecificCellPermissions", &LuaBuildingObject::broadcastSpecificCellPermissions},
+																  {"spawnChildCreature", &LuaBuildingObject::spawnChildCreature},
+																  {"spawnChildSceneObject", &LuaBuildingObject::spawnChildSceneObject},
+																  {"destroyChildObjects", &LuaBuildingObject::destroyChildObjects},
+																  {"initializeStaticGCWBase", &LuaBuildingObject::initializeStaticGCWBase},
+																  {"isPrivateStructure", &LuaBuildingObject::isPrivateStructure},
+																  {"getCellName", &LuaBuildingObject::getCellName},
+																  {0, 0}};
 
-LuaBuildingObject::LuaBuildingObject(lua_State *L) : LuaTangibleObject(L) {
+LuaBuildingObject::LuaBuildingObject(lua_State* L) : LuaTangibleObject(L) {
 #ifdef DYNAMIC_CAST_LUAOBJECTS
 	realObject = dynamic_cast<BuildingObject*>(_getRealSceneObject());
 
@@ -49,7 +47,7 @@ LuaBuildingObject::LuaBuildingObject(lua_State *L) : LuaTangibleObject(L) {
 #endif
 }
 
-LuaBuildingObject::~LuaBuildingObject(){
+LuaBuildingObject::~LuaBuildingObject() {
 }
 
 int LuaBuildingObject::_setObject(lua_State* L) {

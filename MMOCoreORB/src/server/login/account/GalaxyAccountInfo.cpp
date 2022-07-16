@@ -3,7 +3,6 @@
 #include "engine/util/json_utils.h"
 
 GalaxyAccountInfo::GalaxyAccountInfo() {
-
 }
 
 void GalaxyAccountInfo::updateVetRewardsFromPlayer(const VectorMap<unsigned int, String>& newRewards) {
@@ -15,7 +14,7 @@ void GalaxyAccountInfo::updateVetRewardsFromPlayer(const VectorMap<unsigned int,
 }
 void GalaxyAccountInfo::clearVeteranReward(uint32 milestone) {
 	if (chosenVeteranRewards.contains(milestone))
-		chosenVeteranRewards.drop( milestone );
+		chosenVeteranRewards.drop(milestone);
 }
 
 bool GalaxyAccountInfo::hasChosenVeteranReward(const String& rewardTemplate) const {
@@ -28,7 +27,7 @@ bool GalaxyAccountInfo::hasChosenVeteranReward(const String& rewardTemplate) con
 	return false;
 }
 
-void GalaxyAccountInfo::addChosenVeteranReward( uint32 milestone, const String& rewardTemplate ) {
+void GalaxyAccountInfo::addChosenVeteranReward(uint32 milestone, const String& rewardTemplate) {
 	chosenVeteranRewards.put(milestone, rewardTemplate);
 }
 
@@ -40,7 +39,6 @@ bool GalaxyAccountInfo::parseFromBinaryStream(ObjectInputStream* stream) {
 	return chosenVeteranRewards.parseFromBinaryStream(stream);
 }
 
-
 bool GalaxyAccountInfo::toBinaryStream(ObjectOutputStream* stream) {
 	return chosenVeteranRewards.toBinaryStream(stream);
 }
@@ -48,5 +46,3 @@ bool GalaxyAccountInfo::toBinaryStream(ObjectOutputStream* stream) {
 void to_json(nlohmann::json& j, const GalaxyAccountInfo& p) {
 	j["chosenVeteranRewards"] = p.chosenVeteranRewards.getMapUnsafe();
 }
-
-

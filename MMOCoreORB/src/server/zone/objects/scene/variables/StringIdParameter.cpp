@@ -15,9 +15,7 @@ StringIdParameter::StringIdParameter(const StringIdParameter& par) : Object(), S
 }
 
 #ifdef CXX11_COMPILER
-StringIdParameter::StringIdParameter(StringIdParameter&& par) : Object(), Serializable(),
-		pointerParameter(par.pointerParameter), stringID(std::move(par.stringID)),
-		customName(std::move(par.customName)) {
+StringIdParameter::StringIdParameter(StringIdParameter&& par) : Object(), Serializable(), pointerParameter(par.pointerParameter), stringID(std::move(par.stringID)), customName(std::move(par.customName)) {
 	addSerializableVariables();
 }
 #endif

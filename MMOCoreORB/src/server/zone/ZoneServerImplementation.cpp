@@ -42,16 +42,13 @@
 #include "ZoneLoadManagersTask.h"
 #include "ShutdownTask.h"
 
-ZoneServerImplementation::ZoneServerImplementation(ConfigManager* config) :
-		ManagedServiceImplementation(), Logger("ZoneServer") {
-
+ZoneServerImplementation::ZoneServerImplementation(ConfigManager* config) : ManagedServiceImplementation(), Logger("ZoneServer") {
 	configManager = config;
 
 	galaxyID = config->getZoneGalaxyID();
 	galaxyName = "Core3";
 
 	processor = nullptr;
-
 
 	serverCap = 3000;
 
@@ -126,7 +123,7 @@ void ZoneServerImplementation::initialize() {
 	processor->deploy("ZoneProcessServer");
 	processor->initialize();
 
-	zones = new VectorMap<String, ManagedReference<Zone*> >();
+	zones = new VectorMap<String, ManagedReference<Zone*>>();
 
 	objectManager = ObjectManager::instance();
 	objectManager->setZoneProcessor(processor);
@@ -188,8 +185,8 @@ void ZoneServerImplementation::initialize() {
 
 	startManagers();
 
-	//serverState = LOCKED;
-	serverState = ONLINE; //Test Center does not need to apply this change, but would be convenient for Dev Servers.
+	// serverState = LOCKED;
+	serverState = ONLINE; // Test Center does not need to apply this change, but would be convenient for Dev Servers.
 
 	ObjectDatabaseManager::instance()->commitLocalTransaction();
 }
@@ -250,10 +247,10 @@ void ZoneServerImplementation::startManagers() {
 	chatManager->initiatePlanetRooms();
 	chatManager->loadPersistentRooms();
 
-	//Loads the FactionManager LUA Config.
+	// Loads the FactionManager LUA Config.
 	FactionManager::instance()->loadData();
 
-	//Start global screen plays
+	// Start global screen plays
 	DirectorManager::instance()->loadPersistentEvents();
 	DirectorManager::instance()->loadPersistentStatus();
 	DirectorManager::instance()->startGlobalScreenPlays();
@@ -307,7 +304,7 @@ void ZoneServerImplementation::timedShutdown(int minutes, int flags) {
 }
 
 void ZoneServerImplementation::shutdown() {
-	//datagramService->setHandler(nullptr);
+	// datagramService->setHandler(nullptr);
 
 	stopManagers();
 
@@ -409,9 +406,7 @@ void ZoneServerImplementation::clearZones() {
 		ManagedReference<Zone*> zone = zones->get(i);
 
 		if (zone != nullptr) {
-			Core::getTaskManager()->executeTask([=] () {
-				zone->clearZone();
-			}, "ClearZoneLambda");
+			Core::getTaskManager()->executeTask([=]() { zone->clearZone(); }, "ClearZoneLambda");
 		}
 	}
 
@@ -442,9 +437,9 @@ ZoneClientSession* ZoneServerImplementation::createConnection(Socket* sock, Sock
 	session->init(datagramService);
 
 	ZoneClientSession* client = new ZoneClientSession(session);
-	//clients arent undeployed instantly so we get already deployed clients
-	//client->deploy("ZoneClientSession " + addr.getFullIPAddress());
-	//client->deploy();
+	// clients arent undeployed instantly so we get already deployed clients
+	// client->deploy("ZoneClientSession " + addr.getFullIPAddress());
+	// client->deploy();
 
 	const auto& address = session->getAddress();
 
@@ -514,7 +509,7 @@ Reference<SceneObject*> ZoneServerImplementation::getObject(uint64 oid, bool doL
 		return obj;
 
 	try {
-		//lock(doLock); ObjectManager has its own mutex
+		// lock(doLock); ObjectManager has its own mutex
 
 		Reference<DistributedObject*> distributedObject = Core::getObjectBroker()->lookUp(oid);
 
@@ -527,9 +522,9 @@ Reference<SceneObject*> ZoneServerImplementation::getObject(uint64 oid, bool doL
 			}
 		}
 
-		//unlock(doLock);
+		// unlock(doLock);
 	} catch (const Exception& e) {
-		//unlock(doLock);
+		// unlock(doLock);
 		error(e.getMessage());
 		e.printStackTrace();
 	}
@@ -545,20 +540,20 @@ void ZoneServerImplementation::updateObjectToStaticDatabase(SceneObject* object)
 	objectManager->updatePersistentObject(object);
 }
 
-Reference<SceneObject*> ZoneServerImplementation::createObject(uint32 templateCRC, const String& dbname, int persistenceLevel ){
+Reference<SceneObject*> ZoneServerImplementation::createObject(uint32 templateCRC, const String& dbname, int persistenceLevel) {
 	Reference<SceneObject*> obj = nullptr;
 
 	try {
-		//lock(); ObjectManager has its own mutex
+		// lock(); ObjectManager has its own mutex
 
 		obj = objectManager->createObject(templateCRC, persistenceLevel, dbname, 0);
 
-		//unlock();
+		// unlock();
 	} catch (Exception& e) {
 		error(e.getMessage());
 		e.printStackTrace();
 
-		//unlock();
+		// unlock();
 	}
 
 	return obj;
@@ -568,16 +563,16 @@ Reference<SceneObject*> ZoneServerImplementation::createObject(uint32 templateCR
 	Reference<SceneObject*> obj = nullptr;
 
 	try {
-		//lock(); ObjectManager has its own mutex
+		// lock(); ObjectManager has its own mutex
 
 		obj = objectManager->createObject(templateCRC, persistenceLevel, "sceneobjects", oid);
 
-		//unlock();
+		// unlock();
 	} catch (Exception& e) {
 		error(e.getMessage());
 		e.printStackTrace();
 
-		//unlock();
+		// unlock();
 	}
 
 	return obj;
@@ -587,18 +582,18 @@ Reference<SceneObject*> ZoneServerImplementation::createClientObject(uint32 temp
 	Reference<SceneObject*> obj = nullptr;
 
 	try {
-		//lock(); ObjectManager has its own mutex
+		// lock(); ObjectManager has its own mutex
 
 		obj = objectManager->createObject(templateCRC, 1, "clientobjects", oid, false);
 		obj->setClientObject(true);
 		obj->initializeTransientMembers();
 
-		//unlock();
+		// unlock();
 	} catch (Exception& e) {
 		error(e.getMessage());
 		e.printStackTrace();
 
-		//unlock();
+		// unlock();
 	}
 
 	return obj;
@@ -612,7 +607,7 @@ void ZoneServerImplementation::changeUserCap(int amount) {
 	lock();
 
 	serverCap += amount;
-	//userManager->changeUserCap(amount);
+	// userManager->changeUserCap(amount);
 
 	info("server cap changed to " + String::valueOf(serverCap), true);
 
@@ -620,19 +615,19 @@ void ZoneServerImplementation::changeUserCap(int amount) {
 }
 
 void ZoneServerImplementation::addTotalSentPacket(int count) {
-//	lock();
+	//	lock();
 
 	totalSentPackets += count;
 
-//	unlock();
+	//	unlock();
 }
 
 void ZoneServerImplementation::addTotalResentPacket(int count) {
-	//lock();
+	// lock();
 
 	totalResentPackets += count;
 
-	//unlock();
+	// unlock();
 }
 
 int ZoneServerImplementation::getConnectionCount() {
@@ -647,7 +642,7 @@ void ZoneServerImplementation::printInfo() {
 
 	if (taskMgr != nullptr)
 		msg << taskMgr->getInfo(false) << endl;
-	//msg << "MessageQueue - size = " << processor->getMessageQueue()->size() << endl;
+	// msg << "MessageQueue - size = " << processor->getMessageQueue()->size() << endl;
 
 	float packetloss;
 	if (totalSentPackets + totalSentPackets == 0)
@@ -656,12 +651,10 @@ void ZoneServerImplementation::printInfo() {
 		packetloss = (100 * totalResentPackets) / (totalResentPackets + totalSentPackets);
 
 #ifndef WITH_STM
-	msg << "sent packets = " << totalSentPackets << ", resent packets = "
-		<< totalResentPackets << " [" << packetloss << "%]" << endl;
+	msg << "sent packets = " << totalSentPackets << ", resent packets = " << totalResentPackets << " [" << packetloss << "%]" << endl;
 #endif
 
-	msg << dec << currentPlayers << " users connected (" << maximumPlayers << " max, " << totalPlayers << " total, "
-		 << totalDeletedPlayers << " deleted)" << endl;
+	msg << dec << currentPlayers << " users connected (" << maximumPlayers << " max, " << totalPlayers << " total, " << totalDeletedPlayers << " deleted)" << endl;
 
 #ifndef WITH_STM
 	msg << ObjectManager::instance()->getInfo() << endl;
@@ -680,7 +673,7 @@ String ZoneServerImplementation::getInfo() {
 
 	StringBuffer msg;
 	msg << Core::getTaskManager()->getInfo(false) << endl;
-	//msg << "MessageQueue - size = " << processor->getMessageQueue()->size() << endl;
+	// msg << "MessageQueue - size = " << processor->getMessageQueue()->size() << endl;
 
 	float packetloss;
 	if (totalSentPackets + totalSentPackets == 0)
@@ -689,12 +682,10 @@ String ZoneServerImplementation::getInfo() {
 		packetloss = (100 * totalResentPackets) / (totalResentPackets + totalSentPackets);
 
 #ifndef WITH_STM
-	msg << "sent packets = " << totalSentPackets << ", resent packets = "
-		<< totalResentPackets << " [" << packetloss << "%]" << endl;
+	msg << "sent packets = " << totalSentPackets << ", resent packets = " << totalResentPackets << " [" << packetloss << "%]" << endl;
 #endif
 
-	msg << dec << currentPlayers << " users connected (" << maximumPlayers << " max, " << totalPlayers << " total, "
-		 << totalDeletedPlayers << " deleted)" << endl;
+	msg << dec << currentPlayers << " users connected (" << maximumPlayers << " max, " << totalPlayers << " total, " << totalDeletedPlayers << " deleted)" << endl;
 
 #ifndef WITH_STM
 	msg << ObjectManager::instance()->getInfo() << endl;
@@ -708,7 +699,7 @@ String ZoneServerImplementation::getInfo() {
 void ZoneServerImplementation::printEvents() {
 	lock();
 
-	//scheduler->printEvents();
+	// scheduler->printEvents();
 
 	unlock();
 }
@@ -788,7 +779,7 @@ void ZoneServerImplementation::loadLoginMessage() {
 		reader = new FileReader(file);
 
 		String line;
-		while(reader->readLine(line)) {
+		while (reader->readLine(line)) {
 			loginMessage += line;
 		}
 
@@ -817,11 +808,11 @@ void ZoneServerImplementation::changeLoginMessage(const String& motd) {
 		file = new File("conf/motd.txt");
 		writer = new FileWriter(file);
 
-		for(int i = 0; i < motd.length(); i++) {
-			if(i+1 < motd.length()) {
+		for (int i = 0; i < motd.length(); i++) {
+			if (i + 1 < motd.length()) {
 				char currentLetter = motd.charAt(i);
-				char nextLetter = motd.charAt(i+1);
-				if(currentLetter == '\\' && nextLetter == 'n') {
+				char nextLetter = motd.charAt(i + 1);
+				if (currentLetter == '\\' && nextLetter == 'n') {
 					finalMOTD += "\n";
 					i++;
 				} else {

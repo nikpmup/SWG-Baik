@@ -13,18 +13,16 @@
 class SharedDraftSchematicObjectTemplate : public SharedIntangibleObjectTemplate {
 public:
 	SharedDraftSchematicObjectTemplate() {
-
 	}
 
 	~SharedDraftSchematicObjectTemplate() {
-
 	}
 
 	void readObject(IffStream* iffStream) {
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'SDSC') {
-			//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 			SharedIntangibleObjectTemplate::readObject(iffStream);
 
@@ -48,7 +46,7 @@ public:
 		iffStream->openForm(derv);
 
 		try {
-			//parseFileData(iffStream);
+			// parseFileData(iffStream);
 		} catch (Exception& e) {
 			String msg;
 			msg += "exception caught parsing file data ->";
@@ -70,6 +68,5 @@ public:
 		SharedIntangibleObjectTemplate::readObject(templateData);
 	}
 };
-
 
 #endif /* SHAREDDRAFTSCHEMATICOBJECTTEMPLATE_H_ */

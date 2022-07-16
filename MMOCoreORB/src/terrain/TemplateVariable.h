@@ -10,31 +10,28 @@
 
 #include "engine/util/iffstream/IffStream.h"
 
-template <int version> struct Version {
-   enum { value = version };
+template <int version>
+struct Version {
+	enum { value = version };
 };
 
-
-template <int formType> struct FormType {
-   enum { value =  formType};
+template <int formType>
+struct FormType {
+	enum { value = formType };
 };
 
 class IffTemplateVariable {
 public:
 	virtual ~IffTemplateVariable() {
-
 	}
 
 	virtual void readObject(engine::util::IffStream* iffStream) = 0;
 };
 
-template<int formType>
+template <int formType>
 class TemplateVariable : public virtual IffTemplateVariable {
-
 public:
-
 	virtual ~TemplateVariable() {
-
 	}
 
 	void readObject(engine::util::IffStream* iffStream) {
@@ -47,9 +44,7 @@ public:
 	}
 
 	virtual void parseFromIffStream(engine::util::IffStream* iffStream) {
-
 	}
 };
-
 
 #endif /* TEMPLATEVARIABLE_H_ */

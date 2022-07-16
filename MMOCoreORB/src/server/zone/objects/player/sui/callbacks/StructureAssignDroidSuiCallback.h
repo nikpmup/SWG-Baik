@@ -9,11 +9,9 @@
 #include "server/zone/objects/player/sui/listbox/SuiListBox.h"
 #include "server/zone/objects/creature/ai/DroidObject.h"
 
-class StructureAssignDroidSuiCallback: public SuiCallback {
-
+class StructureAssignDroidSuiCallback : public SuiCallback {
 public:
 	StructureAssignDroidSuiCallback(ZoneServer* serv) : SuiCallback(serv) {
-
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -30,7 +28,7 @@ public:
 		if (object == nullptr || !object->isStructureObject())
 			return;
 
-		SuiListBox* suiListBox = cast<SuiListBox*>( suiBox);
+		SuiListBox* suiListBox = cast<SuiListBox*>(suiBox);
 		int index = Integer::valueOf(args->get(0).toString());
 		uint64 itemId = suiListBox->getMenuObjectID(index);
 
@@ -40,7 +38,7 @@ public:
 			return;
 		// fetch the module object by id
 		Reference<DroidObject*> droid = zone->getZoneServer()->getObject(itemId).castTo<DroidObject*>();
-		//Creature is already locked (done in handleSuiEventNotification in SuiManager).
+		// Creature is already locked (done in handleSuiEventNotification in SuiManager).
 
 		if (droid == nullptr)
 			return;
@@ -59,7 +57,7 @@ public:
 			StringBuffer buff;
 			buff << droid->getDisplayedName();
 			buff << " has been assigned to maintain ";
-			buff << structure->getDisplayedName() <<".";
+			buff << structure->getDisplayedName() << ".";
 			player->sendSystemMessage(buff.toString());
 			return;
 		}

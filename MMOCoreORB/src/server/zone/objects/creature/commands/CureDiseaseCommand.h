@@ -8,16 +8,10 @@
 #include "CurePackCommand.h"
 
 class CureDiseaseCommand : public CurePackCommand {
-
 public:
-
-	CureDiseaseCommand(const String& name, ZoneProcessServer* server)
-		: CurePackCommand(name, server) {
-
+	CureDiseaseCommand(const String& name, ZoneProcessServer* server) : CurePackCommand(name, server) {
 		state = CreatureState::DISEASED;
 	}
-
-
 };
 
-#endif //CUREDISEASECOMMAND_H_
+#endif // CUREDISEASECOMMAND_H_

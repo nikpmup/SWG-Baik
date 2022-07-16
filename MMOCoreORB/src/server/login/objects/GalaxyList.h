@@ -23,7 +23,7 @@ class Galaxy {
 public:
 	Galaxy() = default;
 
-	Galaxy(ResultSet *result) {
+	Galaxy(ResultSet* result) {
 		id = result->getUnsignedInt(0);
 		name = result->getString(1);
 		address = result->getString(2);
@@ -92,7 +92,7 @@ public:
 		} else {
 			return (uint16)extraPorts.get(System::random(extraPorts.size() - 1));
 		}
-#else // USE_RANDOM_EXTRA_PORTS
+#else  // USE_RANDOM_EXTRA_PORTS
 		return port;
 #endif // USE_RANDOM_EXTRA_PORTS
 	}
@@ -109,13 +109,7 @@ public:
 		StringBuffer buf;
 
 		buf << "Galaxy("
-			<< "id: " << id
-			<< ", name: " << name
-			<< ", address: " << address
-			<< ", port: " << port
-			<< ", pingPort: " << pingPort
-			<< ", population: " << population
-		;
+			<< "id: " << id << ", name: " << name << ", address: " << address << ", port: " << port << ", pingPort: " << pingPort << ", population: " << population;
 #ifdef USE_RANDOM_EXTRA_PORTS
 
 		buf << ", extraPorts:";
@@ -138,11 +132,10 @@ public:
 	GalaxyList(uint32 accountid) {
 		StringBuffer query;
 		query << "SELECT g.* FROM `galaxy` g"
-			<< " LEFT OUTER JOIN `galaxy_access` ga ON ga.`galaxy_id` = g.`galaxy_id` AND (ga.`account_id` = 0 OR ga.`account_id` = " << accountid << ")"
-			<< " WHERE (ga.`account_id` != 0 AND (ga.`expires` IS NULL OR ga.`expires` > NOW()))"
-			<< " OR NOT EXISTS (SELECT * FROM `galaxy_access` gb WHERE gb.`galaxy_id` = g.`galaxy_id`)"
-			<< " ORDER BY g.`galaxy_id`"
-			;
+			  << " LEFT OUTER JOIN `galaxy_access` ga ON ga.`galaxy_id` = g.`galaxy_id` AND (ga.`account_id` = 0 OR ga.`account_id` = " << accountid << ")"
+			  << " WHERE (ga.`account_id` != 0 AND (ga.`expires` IS NULL OR ga.`expires` > NOW()))"
+			  << " OR NOT EXISTS (SELECT * FROM `galaxy_access` gb WHERE gb.`galaxy_id` = g.`galaxy_id`)"
+			  << " ORDER BY g.`galaxy_id`";
 
 		UniqueReference<ResultSet*> results(ServerDatabase::instance()->executeQuery(query));
 

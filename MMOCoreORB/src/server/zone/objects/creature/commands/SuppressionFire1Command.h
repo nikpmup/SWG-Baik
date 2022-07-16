@@ -9,13 +9,10 @@
 
 class SuppressionFire1Command : public CombatQueueCommand {
 public:
-
-	SuppressionFire1Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	SuppressionFire1Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //SUPPRESSIONFIRE1COMMAND_H_
+#endif // SUPPRESSIONFIRE1COMMAND_H_

@@ -9,12 +9,10 @@
 
 class HarvesterResourceDataMessage : public ObjectControllerMessage {
 public:
-	HarvesterResourceDataMessage(CreatureObject* player, InstallationObject* hino, Zone* zone)
-		: ObjectControllerMessage(player->getObjectID(), 0x0B, 0xEA) {
-
+	HarvesterResourceDataMessage(CreatureObject* player, InstallationObject* hino, Zone* zone) : ObjectControllerMessage(player->getObjectID(), 0x0B, 0xEA) {
 		insertLong(hino->getObjectID()); // Harvester Object
 
-		Vector<ManagedReference<ResourceSpawn*> > resourceList;
+		Vector<ManagedReference<ResourceSpawn*>> resourceList;
 
 		ResourceManager* resourceManager = hino->getZoneServer()->getResourceManager();
 		resourceManager->getResourceListByType(resourceList, hino->getInstallationType(), zone->getZoneName());
@@ -24,36 +22,32 @@ public:
 		hino->info(msg.toString(), true);*/
 
 		insertResourceList(&resourceList, hino);
-
 	}
 
-	void insertResourceList(Vector<ManagedReference<ResourceSpawn*> >* list, InstallationObject* hino) {
-
-		//System::out << "insertResourceList size(): " << list->size() << endl;
+	void insertResourceList(Vector<ManagedReference<ResourceSpawn*>>* list, InstallationObject* hino) {
+		// System::out << "insertResourceList size(): " << list->size() << endl;
 		insertInt(list->size()); // list size
 
-/*		LONG:		Resource ID
-		ASTRING:	Resource Name
-		ASTRING:	Resource Type
-		BYTE:		Resource Density
-*/
+		/*		LONG:		Resource ID
+				ASTRING:	Resource Name
+				ASTRING:	Resource Type
+				BYTE:		Resource Density
+		*/
 		for (int x = 0; x < list->size(); x++) {
 			ResourceSpawn* ri = list->get(x);
-			//System::out << "insertResourceList() ObjectID: " << hex << ri->getObjectID() << endl;
+			// System::out << "insertResourceList() ObjectID: " << hex << ri->getObjectID() << endl;
 			insertLong(ri->getObjectID());
 			insertAscii(ri->getName());
 			insertAscii(ri->getType());
 			auto zone = hino->getZone();
 
 			if (zone != nullptr) {
-				insertByte((int) (ri->getDensityAt(zone->getZoneName(), hino->getPositionX(), hino->getPositionY()) * 100.f));
+				insertByte((int)(ri->getDensityAt(zone->getZoneName(), hino->getPositionX(), hino->getPositionY()) * 100.f));
 			} else {
-				insertByte((int) 0);
+				insertByte((int)0);
 			}
 		}
-
 	}
-
 };
 
 /*
@@ -61,6 +55,5 @@ public:
 if (list == nullptr)
 	System::out << "list was null!" << endl;
 */
-
 
 #endif /* HARVESTERRESOURCEDATAMESSAGE_H_ */

@@ -47,8 +47,8 @@ void StringIdManager::populateDatabase() {
 					continue;
 				}
 
-				file = file.replaceFirst("string/en/","");
-				file = file.replaceFirst(".stf","");
+				file = file.replaceFirst("string/en/", "");
+				file = file.replaceFirst(".stf", "");
 
 				const auto& hashTable = stringFile.getStringMap();
 
@@ -75,12 +75,11 @@ void StringIdManager::populateDatabase() {
 					stringsDatabase->putData(key, data);
 					++count;
 				}
-
 			}
 		}
 	}
 
-	info(true) << "writing to the db " << count  << " strings";
+	info(true) << "writing to the db " << count << " strings";
 }
 
 StringIdManager::StringIdManager() : Logger("StringIdManager") {
@@ -95,13 +94,14 @@ StringIdManager::StringIdManager() : Logger("StringIdManager") {
 	ObjectDatabaseManager::instance()->commitLocalTransaction();
 }
 
-StringIdManager::~StringIdManager() {}
+StringIdManager::~StringIdManager() {
+}
 
 UnicodeString StringIdManager::getStringId(uint32 crc) {
 	ObjectInputStream data;
 	UnicodeString str = "";
 
-	uint64 longKey = (uint64) crc;
+	uint64 longKey = (uint64)crc;
 	ObjectOutputStream key;
 	TypeInfo<uint64>::toBinaryStream(&longKey, &key);
 

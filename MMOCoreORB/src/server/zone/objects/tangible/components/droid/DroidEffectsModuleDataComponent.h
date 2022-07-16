@@ -15,16 +15,15 @@ namespace components {
 namespace droid {
 
 class DroidEffectsModuleDataComponent : public BaseDroidModuleComponent {
-
 protected:
 	bool active;
 
 	// Key:   Effect Name
 	// Value: Effect Animation
-	VectorMap<String,String> installedEffects;
+	VectorMap<String, String> installedEffects;
 
 	Vector<String> configuredEffects; // Effect name
-	Vector<int> configuredDelays; // Delay in seconds
+	Vector<int> configuredDelays;	  // Delay in seconds
 
 	int currentEffectIndex;
 
@@ -41,13 +40,17 @@ public:
 	String toString() const;
 	void onCall();
 	void onStore();
-	bool isActive(){ return active; }
-	virtual bool isStackable() { return true; }
+	bool isActive() {
+		return active;
+	}
+	virtual bool isStackable() {
+		return true;
+	}
 	virtual void addToStack(BaseDroidModuleComponent* other);
 	bool nextEffect();
 	String getCurrentAnimation();
 	int getCurrentDelay();
-	void setEffect( String effectName, int delay, int slotIndex );
+	void setEffect(String effectName, int delay, int slotIndex);
 	bool toBinaryStream(ObjectOutputStream* stream);
 	bool parseFromBinaryStream(ObjectInputStream* stream);
 
@@ -62,17 +65,16 @@ public:
 	}
 
 private:
-
 	int writeObjectMembers(ObjectOutputStream* stream);
 	bool readObjectMember(ObjectInputStream* stream, const String& name);
 };
 
-} // droid
-} // components
-} // tangible
-} // objects
-} // zone
-} // server
+} // namespace droid
+} // namespace components
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 using namespace server::zone::objects::tangible::components::droid;
 
 #endif /* DROIDAUTOREPAIRMODULEDATACOMPONENT_H_ */

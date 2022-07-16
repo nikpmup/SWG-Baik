@@ -8,17 +8,16 @@ void CellPortal::readObject(IffStream* iff) {
 	uint32 formType = chunk->getChunkID();
 
 	if (formType == '0004' || formType == '0005') {
-
 		if (formType == '0005') {
 			iff->getByte(); // Unknown flag
 		}
 
-		solid = (bool) iff->getByte();
+		solid = (bool)iff->getByte();
 		geometryIndex = iff->getInt();
-		winding = (bool) iff->getByte();
+		winding = (bool)iff->getByte();
 		targetCell = iff->getInt();
 		iff->getString(doorName);
-		transformFlag = (bool) iff->getByte();
+		transformFlag = (bool)iff->getByte();
 
 		doorTransform[0][0] = iff->getFloat();
 		doorTransform[1][0] = iff->getFloat();
@@ -41,20 +40,15 @@ void CellPortal::readObject(IffStream* iff) {
 	iff->closeChunk();
 }
 
-CellProperty::CellProperty() : Object(), Logger("CellProperty"), numberOfPortals(0),
-	floorMesh(nullptr), appearanceTemplate(nullptr), cellID(0), boundingVolume(nullptr) {
-	connectedCells.setNoDuplicateInsertPlan();
-
-}
-
-CellProperty::CellProperty(int cellID) : Logger("CellProperty"), numberOfPortals(0), floorMesh(nullptr),
-	appearanceTemplate(nullptr), cellID(cellID), boundingVolume(nullptr) {
+CellProperty::CellProperty() : Object(), Logger("CellProperty"), numberOfPortals(0), floorMesh(nullptr), appearanceTemplate(nullptr), cellID(0), boundingVolume(nullptr) {
 	connectedCells.setNoDuplicateInsertPlan();
 }
 
-CellProperty::CellProperty(const CellProperty& c) : Object(), Logger("CellProperty"),
-	name(c.name), numberOfPortals(c.numberOfPortals), floorMesh(c.floorMesh), appearanceTemplate(c.appearanceTemplate),
-	cellID(c.cellID), boundingVolume(c.boundingVolume), portals(c.portals) {
+CellProperty::CellProperty(int cellID) : Logger("CellProperty"), numberOfPortals(0), floorMesh(nullptr), appearanceTemplate(nullptr), cellID(cellID), boundingVolume(nullptr) {
+	connectedCells.setNoDuplicateInsertPlan();
+}
+
+CellProperty::CellProperty(const CellProperty& c) : Object(), Logger("CellProperty"), name(c.name), numberOfPortals(c.numberOfPortals), floorMesh(c.floorMesh), appearanceTemplate(c.appearanceTemplate), cellID(c.cellID), boundingVolume(c.boundingVolume), portals(c.portals) {
 	connectedCells.setNoDuplicateInsertPlan();
 }
 
@@ -98,14 +92,13 @@ void CellProperty::loadVersion5(IffStream* iffStream) {
 		}
 	}
 
-	bool flag = (bool) iffStream->getByte();
+	bool flag = (bool)iffStream->getByte();
 
 	if (flag) {
 		String floorFile;
 		iffStream->getString(floorFile);
 		floorMesh = TemplateManager::instance()->getFloorMesh(floorFile);
 		floorMesh->setCellID(cellID);
-
 	}
 
 	iffStream->closeChunk();
@@ -116,7 +109,7 @@ void CellProperty::loadVersion5(IffStream* iffStream) {
 	for (int i = 0; i < numberOfPortals; i++) {
 		iffStream->openForm('PRTL');
 
-		Reference < CellPortal * > portal = new CellPortal();
+		Reference<CellPortal*> portal = new CellPortal();
 		portal->readObject(iffStream);
 
 		iffStream->closeForm('PRTL');
@@ -126,8 +119,6 @@ void CellProperty::loadVersion5(IffStream* iffStream) {
 		}
 
 		portals.emplace(std::move(portal));
-
-
 	}
 
 	iffStream->closeForm('0005');
@@ -156,13 +147,12 @@ void CellProperty::loadVersion4(IffStream* iffStream) {
 		}
 	}
 
-	bool flag = (bool) iffStream->getByte();
+	bool flag = (bool)iffStream->getByte();
 
 	if (flag) {
 		String floorFile;
 		iffStream->getString(floorFile);
 		floorMesh = TemplateManager::instance()->getFloorMesh(floorFile);
-
 	}
 
 	iffStream->closeChunk();
@@ -170,7 +160,7 @@ void CellProperty::loadVersion4(IffStream* iffStream) {
 	for (int i = 0; i < numberOfPortals; i++) {
 		iffStream->openForm('PRTL');
 
-		Reference < CellPortal * > portal = new CellPortal();
+		Reference<CellPortal*> portal = new CellPortal();
 		portal->readObject(iffStream);
 
 		iffStream->closeForm('PRTL');
@@ -180,7 +170,6 @@ void CellProperty::loadVersion4(IffStream* iffStream) {
 		}
 
 		portals.emplace(std::move(portal));
-
 	}
 
 	iffStream->closeForm('0004');
@@ -202,7 +191,6 @@ void CellProperty::readObject(IffStream* iffStream) {
 
 			throw Exception(message);
 		}
-
 
 	} catch (Exception& e) {
 		error(e.getMessage());

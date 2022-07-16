@@ -9,14 +9,10 @@
 
 class GroupChatCommand : public QueueCommand {
 public:
-
-	GroupChatCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GroupChatCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,12 +20,10 @@ public:
 			return INVALIDLOCOMOTION;
 
 		ChatManager* chatManager = server->getZoneServer()->getChatManager();
-		chatManager->handleGroupChat( creature, arguments);
+		chatManager->handleGroupChat(creature, arguments);
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //GROUPCHATCOMMAND_H_
-
+#endif // GROUPCHATCOMMAND_H_

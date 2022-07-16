@@ -8,7 +8,6 @@ CitizenAssessmentEvent::CitizenAssessmentEvent(CityRegion* city, ZoneServer* zse
 	zoneServer = zserv;
 }
 
-
 void CitizenAssessmentEvent::run() {
 	Reference<CityRegion*> city = cityRegion.get();
 

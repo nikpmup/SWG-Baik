@@ -7,14 +7,10 @@
 
 class SetLoginTitleCommand : public QueueCommand {
 public:
-
-	SetLoginTitleCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetLoginTitleCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETLOGINTITLECOMMAND_H_
+#endif // SETLOGINTITLECOMMAND_H_

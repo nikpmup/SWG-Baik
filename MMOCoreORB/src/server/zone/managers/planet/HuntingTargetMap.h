@@ -11,8 +11,8 @@
 #include "engine/engine.h"
 #include "HuntingTargetEntry.h"
 
-class HuntingTargetMap :private ReadWriteLock, public Object {
-	VectorMap<int, SortedVector<HuntingTargetEntry> > targets;
+class HuntingTargetMap : private ReadWriteLock, public Object {
+	VectorMap<int, SortedVector<HuntingTargetEntry>> targets;
 
 public:
 	HuntingTargetMap() {
@@ -44,7 +44,7 @@ public:
 	HuntingTargetEntry* getRandomTarget(int lev) {
 		HuntingTargetEntry* result = nullptr;
 
-		//rlock();
+		// rlock();
 
 		int idx = targets.find(lev);
 
@@ -55,7 +55,7 @@ public:
 				result = &vector.get(System::random(vector.size() - 1));
 		}
 
-		//runlock();
+		// runlock();
 
 		return result;
 	}

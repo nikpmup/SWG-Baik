@@ -7,14 +7,10 @@
 
 class UnstickCommand : public QueueCommand {
 public:
-
-	UnstickCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	UnstickCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -32,8 +28,6 @@ string/en/cmd_err.stf	9	unstick_request_cancelled	Unstick request was cancelled
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //UNSTICKCOMMAND_H_
-
+#endif // UNSTICKCOMMAND_H_

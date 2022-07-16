@@ -8,13 +8,12 @@
 #ifndef CHATUNBANFROMROOMCALLBACK_H_
 #define CHATUNBANFROMROOMCALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 #include "server/chat/ChatManager.h"
 
 class ChatUnbanFromRoomCallback : public MessageCallback {
-	String unbaneeName; //Player to unban.
-	String roomPath; //Room to unban player from.
+	String unbaneeName; // Player to unban.
+	String roomPath;	// Room to unban player from.
 	int requestID;
 
 public:
@@ -27,12 +26,11 @@ public:
 	void parse(Message* message) {
 		String unused;
 
-		message->parseAscii(unused); //Game name
-		message->parseAscii(unused); //Galaxy name
-		message->parseAscii(unbaneeName); //Player unbanned
-		message->parseAscii(roomPath); //Path to room
-		requestID = message->parseInt(); //Request ID
-
+		message->parseAscii(unused);	  // Game name
+		message->parseAscii(unused);	  // Galaxy name
+		message->parseAscii(unbaneeName); // Player unbanned
+		message->parseAscii(roomPath);	  // Path to room
+		requestID = message->parseInt();  // Request ID
 	}
 
 	void run() {
@@ -45,8 +43,6 @@ public:
 		if (chatManager != nullptr)
 			chatManager->handleChatUnbanPlayer(unbanner, unbaneeName, roomPath, requestID);
 	}
-
 };
-
 
 #endif /* CHATUNBANFROMROOMCALLBACK_H_ */

@@ -11,32 +11,32 @@
 #include "engine/engine.h"
 
 namespace server {
-	namespace login {
+namespace login {
 
-		class LoginPacketHandler;
-		class LoginServer;
+class LoginPacketHandler;
+class LoginServer;
 
-		class LoginProcessServerImplementation : public Object {
-			WeakReference<LoginServer*> server;
+class LoginProcessServerImplementation : public Object {
+	WeakReference<LoginServer*> server;
 
-			UniqueReference<LoginPacketHandler*> loginPacketHandler;
+	UniqueReference<LoginPacketHandler*> loginPacketHandler;
 
-		public:
-			LoginProcessServerImplementation(LoginServer* serv);
-			~LoginProcessServerImplementation();
+public:
+	LoginProcessServerImplementation(LoginServer* serv);
+	~LoginProcessServerImplementation();
 
-			void initialize();
+	void initialize();
 
-			inline WeakReference<LoginServer*> getLoginServer() {
-				return server;
-			}
+	inline WeakReference<LoginServer*> getLoginServer() {
+		return server;
+	}
 
-			inline LoginPacketHandler* getPacketHandler() {
-				return loginPacketHandler;
-			}
-		};
+	inline LoginPacketHandler* getPacketHandler() {
+		return loginPacketHandler;
+	}
+};
 
-	} // namspace login
+} // namespace login
 } // namespace server
 
 using namespace server::login;

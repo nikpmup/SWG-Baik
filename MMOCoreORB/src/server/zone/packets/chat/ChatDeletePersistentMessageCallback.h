@@ -8,7 +8,6 @@
 #ifndef CHATDELETEPERSISTENTMESSAGECALLBACK_H_
 #define CHATDELETEPERSISTENTMESSAGECALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 #include "server/chat/ChatManager.h"
 
@@ -16,8 +15,7 @@ class ChatDeletePersistentMessageCallback : public MessageCallback {
 	uint32 mailid;
 
 public:
-	ChatDeletePersistentMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), mailid(0) {
+	ChatDeletePersistentMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), mailid(0) {
 	}
 
 	void parse(Message* message) {
@@ -34,8 +32,6 @@ public:
 		if (chatManager != nullptr)
 			chatManager->deletePersistentMessage(player, mailid);
 	}
-
 };
-
 
 #endif /* CHATDELETEPERSISTENTMESSAGECALLBACK_H_ */

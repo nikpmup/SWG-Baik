@@ -44,7 +44,7 @@ SharedTangibleObjectTemplate::SharedTangibleObjectTemplate() {
 	junkDealerNeeded = 0;
 	junkValue = 0;
 
-	resourceWeights = new Vector<Reference<ResourceWeight* > >();
+	resourceWeights = new Vector<Reference<ResourceWeight*>>();
 
 	skillMods.setNoDuplicateInsertPlan();
 	skillMods.setNullValue(0);
@@ -130,7 +130,7 @@ void SharedTangibleObjectTemplate::parseVariableData(const String& varName, LuaO
 	} else if (varName == "junkValue") {
 		junkValue = Lua::getIntParameter(state);
 	} else if (varName == "invisible") {
-		invisible = (bool) Lua::getByteParameter(state);
+		invisible = (bool)Lua::getByteParameter(state);
 	} else if (varName == "playerRaces") {
 		LuaObject races(state);
 
@@ -145,8 +145,6 @@ void SharedTangibleObjectTemplate::parseVariableData(const String& varName, LuaO
 			if (!playerRaces->contains(race.hashCode())) {
 				playerRaces->add(race.hashCode());
 			}
-
-
 		}
 
 		races.pop();
@@ -239,49 +237,48 @@ void SharedTangibleObjectTemplate::parseVariableData(const String& varName, LuaO
 	} else {
 		data->pop();
 	}
-
 }
 
 void SharedTangibleObjectTemplate::parseVariableData(const String& varName, Chunk* data) {
 	TemplateManager* templateManager = TemplateManager::instance();
 
 	if (varName == "paletteColorCustomizationVariables") {
-//		paletteColorCustomizationVariables.parse(data);
+		//		paletteColorCustomizationVariables.parse(data);
 		PaletteColorCustomizationVariables pccv;
-		pccv.parse(data); //need to parse cant skip
+		pccv.parse(data); // need to parse cant skip
 	} else if (varName == "rangedIntCustomizationVariables") {
-//		rangedIntCustomizationVariables.parse(data);
+		//		rangedIntCustomizationVariables.parse(data);
 
 		RangedIntCustomizationVariables ricv;
 		ricv.parse(data);
 	} else if (varName == "constStringCustomizationVariables") {
-/*		uint8 unk = data->getUnsignedByte();
-		uint32 num = data->getUnsignedInt();
+		/*		uint8 unk = data->getUnsignedByte();
+				uint32 num = data->getUnsignedInt();
 
-		if (num != 0) {
-			QString fileName = data->getIffStream()->getFileName().c_str();
-			SWGForensics::instance->printToConsole("EUREKA found constStringCustomizationVariables" + fileName);
-			SWGForensics::instance->runTraverse = false;
-		}*/
+				if (num != 0) {
+					QString fileName = data->getIffStream()->getFileName().c_str();
+					SWGForensics::instance->printToConsole("EUREKA found constStringCustomizationVariables" + fileName);
+					SWGForensics::instance->runTraverse = false;
+				}*/
 	} else if (varName == "socketDestinations") {
-//		socketDestinations.parse(data);
+		//		socketDestinations.parse(data);
 	} else if (varName == "structureFootprintFileName") {
 		StringParam structureFootprintFileName;
 
 		if (structureFootprintFileName.parse(data))
 			structureFootprint = templateManager->loadStructureFootprint(structureFootprintFileName.get());
 	} else if (varName == "useStructureFootprintOutline") {
-/*		useStructureFootprintOutline.parse(data);
-		variables[varName] = &useStructureFootprintOutline;*/
+		/*		useStructureFootprintOutline.parse(data);
+				variables[varName] = &useStructureFootprintOutline;*/
 	} else if (varName == "targetable") {
 		targetable.parse(data);
-//		variables[varName] = &targetable;
+		//		variables[varName] = &targetable;
 	} else if (varName == "certificationsRequired") {
-/*		certificationsRequired.parse(data);
-		variables[varName] = &certificationsRequired;*/
+		/*		certificationsRequired.parse(data);
+				variables[varName] = &certificationsRequired;*/
 	} else if (varName == "customizationVariableMapping") {
-/*		customizationVariableMapping.parse(data);
-		variables[varName] = &customizationVariableMapping;*/
+		/*		customizationVariableMapping.parse(data);
+				variables[varName] = &customizationVariableMapping;*/
 	}
 }
 
@@ -326,10 +323,8 @@ void SharedTangibleObjectTemplate::readObject(IffStream* iffStream) {
 		readObject(iffStream);
 	}
 
-
 	iffStream->closeForm('STOT');
 }
-
 
 void SharedTangibleObjectTemplate::readObject(LuaObject* templateData) {
 	SharedObjectTemplate::readObject(templateData);
@@ -344,7 +339,7 @@ void SharedTangibleObjectTemplate::readObject(LuaObject* templateData) {
 	lua_pushnil(L);
 	while (lua_next(L, -2) != 0) {
 		// 'key' is at index -2 and 'value' at index -1
-		//printf("%s - %s\n",
+		// printf("%s - %s\n",
 		//		lua_tostring(L, -2), lua_typename(L, lua_type(L, -1)));
 
 		int type = lua_type(L, -2);
@@ -356,7 +351,6 @@ void SharedTangibleObjectTemplate::readObject(LuaObject* templateData) {
 			parseVariableData(varName, templateData);
 		} else
 			lua_pop(L, 1);
-
 
 		++i;
 	}
@@ -440,17 +434,12 @@ void SharedTangibleObjectTemplate::readObject(LuaObject* templateData) {
 	String subtitle = "";
 	resourceWeights->removeAll();
 	for (uint32 i = 0; i < numberExperimentalProperties->size(); i++) {
-
 		ResourceWeight* newWeight = new ResourceWeight();
 
-		newWeight->addProperties(experimentalGroupTitles->get(i),
-				experimentalSubGroupTitles->get(i), experimentalMin->get(i),
-				experimentalMax->get(i), experimentalPrecision->get(i), experimentalCombineType->get(i));
+		newWeight->addProperties(experimentalGroupTitles->get(i), experimentalSubGroupTitles->get(i), experimentalMin->get(i), experimentalMax->get(i), experimentalPrecision->get(i), experimentalCombineType->get(i));
 
 		for (uint32 j = 0; j < numberExperimentalProperties->get(i); j++) {
-
-			newWeight->addWeight(experimentalProperties->get(weightIterator),
-					experimentalWeights->get(weightIterator));
+			newWeight->addWeight(experimentalProperties->get(weightIterator), experimentalWeights->get(weightIterator));
 
 			weightIterator++;
 		}

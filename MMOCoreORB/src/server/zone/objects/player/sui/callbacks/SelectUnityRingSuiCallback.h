@@ -11,22 +11,19 @@
 #include "server/zone/objects/player/sui/SuiCallback.h"
 
 class SelectUnityRingSuiCallback : public SuiCallback {
-
 public:
-	SelectUnityRingSuiCallback(ZoneServer* serv) :
-		SuiCallback(serv) {
-
+	SelectUnityRingSuiCallback(ZoneServer* serv) : SuiCallback(serv) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
 		bool cancelPressed = (eventIndex == 1);
 
 		PlayerManager* playerManager = player->getZoneServer()->getPlayerManager();
-		if( !suiBox->isListBox() || playerManager == nullptr )
+		if (!suiBox->isListBox() || playerManager == nullptr)
 			return;
 
-		if( cancelPressed ){
-			playerManager->denyUnity( player );
+		if (cancelPressed) {
+			playerManager->denyUnity(player);
 			return;
 		}
 
@@ -35,14 +32,12 @@ public:
 
 		int index = Integer::valueOf(args->get(0).toString());
 
-		SuiListBox* listBox = cast<SuiListBox*>( suiBox);
+		SuiListBox* listBox = cast<SuiListBox*>(suiBox);
 		uint64 itemId = listBox->getMenuObjectID(index);
 
 		// Finialize unity proposal
-		playerManager->completeUnity( player, itemId );
-
+		playerManager->completeUnity(player, itemId);
 	}
 };
-
 
 #endif /* SELECTUNITYRINGSUICALLBACK_H_ */

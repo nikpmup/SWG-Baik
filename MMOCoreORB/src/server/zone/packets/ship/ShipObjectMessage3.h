@@ -10,50 +10,48 @@
 
 class ShipObjectMessage3 : public TangibleObjectMessage3 {
 public:
-	ShipObjectMessage3(ShipObject* ship)
-			: TangibleObjectMessage3(ship, 0x53484950, 0x16) {
-
+	ShipObjectMessage3(ShipObject* ship) : TangibleObjectMessage3(ship, 0x53484950, 0x16) {
 		insertFloat(10.9f); //?Speed or Acceleration?
 
-		insertFloat(800.f); //chassis cur
-		insertFloat(800.f); //chassis max
+		insertFloat(800.f); // chassis cur
+		insertFloat(800.f); // chassis max
 
-		insertInt(0x16B73FE9); //unk
+		insertInt(0x16B73FE9); // unk
 
-		//armor
+		// armor
 		/*insertInt(0);
 			insertInt(0);*/
 
-		//Float 100
-		insertDummyList(0x42c80000);//const Archive::AutoDeltaPackedMap<int,float,Archive::DefaultObjectType>::`vftable
+		// Float 100
+		insertDummyList(0x42c80000); // const Archive::AutoDeltaPackedMap<int,float,Archive::DefaultObjectType>::`vftable
 
-		//max armor
+		// max armor
 		/*insertInt(0);
 		insertInt(0);*/
 
-		//Float 100
+		// Float 100
 		insertDummyList(0x42c80000);
 
-		//cur hit
+		// cur hit
 		/*insertInt(0);
 			insertInt(0);*/
 
-		//float 200
+		// float 200
 		insertDummyList(0x43480000);
 
-		//max hit
+		// max hit
 		/*insertInt(0);
 		insertInt(0);*/
-		//float 200
+		// float 200
 		insertDummyList(0x43480000);
 
-		//unk
+		// unk
 		/*insertInt(0);
 		insertInt(0);*/
 
 		insertDummyList(0x2);
 
-		insertFloat(301.f); //front shield max
+		insertFloat(301.f); // front shield max
 		insertFloat(302.f); // back shield max
 
 		setSize();
@@ -89,7 +87,7 @@ public:
 
 		insertByte(0);
 		insertInt(0x0f);
-		insertInt(val); //0x3D, 0x3C, 0x82, 0x2C,
+		insertInt(val); // 0x3D, 0x3C, 0x82, 0x2C,
 	}
 };
 

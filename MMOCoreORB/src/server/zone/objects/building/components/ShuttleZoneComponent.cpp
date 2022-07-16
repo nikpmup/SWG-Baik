@@ -15,7 +15,7 @@ void ShuttleZoneComponent::notifyInsertToZone(SceneObject* sceneObject, Zone* zo
 	if (sceneObject == nullptr || !sceneObject->isCreatureObject())
 		return;
 
-	CreatureObject* shuttle = cast<CreatureObject*>( sceneObject);
+	CreatureObject* shuttle = cast<CreatureObject*>(sceneObject);
 
 	Reference<ScheduleShuttleTask*> task = new ScheduleShuttleTask(shuttle, zone);
 	task->schedule(1000);

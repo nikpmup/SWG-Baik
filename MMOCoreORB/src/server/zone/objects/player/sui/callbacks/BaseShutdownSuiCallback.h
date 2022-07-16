@@ -7,8 +7,7 @@
 
 class BaseShutdownSuiCallback : public SuiCallback {
 public:
-	BaseShutdownSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	BaseShutdownSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {

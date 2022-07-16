@@ -22,7 +22,7 @@ void XpPurchaseMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, O
 		return;
 	}
 
-	menuResponse->addRadialMenuItem(50, 3, "@item/xp_purchase:menu_learn"); //Learn
+	menuResponse->addRadialMenuItem(50, 3, "@item/xp_purchase:menu_learn"); // Learn
 }
 
 int XpPurchaseMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
@@ -32,7 +32,7 @@ int XpPurchaseMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Cr
 	if (!player->isPlayerCreature())
 		return 0;
 
-	if(selectedID == 50) {
+	if (selectedID == 50) {
 		if (!sceneObject->isASubChildOf(player)) {
 			player->sendSystemMessage("@loot_schematic:must_be_holding"); // You must be holding that in order to use it.
 			return 0;
@@ -54,7 +54,7 @@ int XpPurchaseMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Cr
 
 		String skillNeeded = templateData->getRequiredSkill();
 
-		if((!skillNeeded.isEmpty() && !player->hasSkill(skillNeeded))) {
+		if ((!skillNeeded.isEmpty() && !player->hasSkill(skillNeeded))) {
 			UnicodeString skill = stringIdManager->getStringId("@skl_n:" + skillNeeded);
 			StringIdChatParameter stringID("item/xp_purchase", "msg_no_min_skill"); // You must have %TO skill in order to understand this.
 			stringID.setTO(skill);

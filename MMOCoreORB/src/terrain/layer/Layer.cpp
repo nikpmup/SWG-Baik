@@ -132,7 +132,7 @@ IffTemplateVariable* Layer::parseAffector(IffStream* iffStream) {
 		res = new AffectorColorRampHeight();
 		break;
 	}
-	case ('AENV'):  {
+	case ('AENV'): {
 		res = new AffectorEnvironment();
 		break;
 	}

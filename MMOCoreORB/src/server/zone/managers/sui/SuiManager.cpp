@@ -36,7 +36,7 @@ SuiManager::SuiManager() : Logger("SuiManager") {
 }
 
 void SuiManager::handleSuiEventNotification(uint32 boxID, CreatureObject* player, uint32 eventIndex, Vector<UnicodeString>* args) {
-	uint16 windowType = (uint16) boxID;
+	uint16 windowType = (uint16)boxID;
 
 	Locker _lock(player);
 
@@ -50,9 +50,9 @@ void SuiManager::handleSuiEventNotification(uint32 boxID, CreatureObject* player
 	if (suiBox == nullptr)
 		return;
 
-	//Remove the box from the player, callback can readd it to the player if needed.
+	// Remove the box from the player, callback can readd it to the player if needed.
 	ghost->removeSuiBox(boxID);
-	suiBox->clearOptions(); //TODO: Eventually SuiBox needs to be cleaned up to not need this.
+	suiBox->clearOptions(); // TODO: Eventually SuiBox needs to be cleaned up to not need this.
 
 	Reference<SuiCallback*> callback = suiBox->getCallback();
 
@@ -81,7 +81,7 @@ void SuiManager::handleSuiEventNotification(uint32 boxID, CreatureObject* player
 
 							callback = new LuaSuiCallback(player->getZoneServer(), luaPlay, luaCall);
 						}
-					} catch(Exception& e) {
+					} catch (Exception& e) {
 						error(e.getMessage());
 					}
 				}
@@ -126,7 +126,7 @@ void SuiManager::handleSetObjectName(CreatureObject* player, SuiBox* suiBox, uin
 	object->setCustomObjectName(objectName, true);
 
 	if (object->isSignObject()) {
-		StringIdChatParameter params("@player_structure:prose_sign_name_updated"); //Sign name successfully updated to '%TO'.
+		StringIdChatParameter params("@player_structure:prose_sign_name_updated"); // Sign name successfully updated to '%TO'.
 		params.setTO(objectName);
 
 		player->sendSystemMessage(params);
@@ -143,7 +143,7 @@ void SuiManager::handleBankTransfer(CreatureObject* player, SuiBox* suiBox, uint
 	int cash = Integer::valueOf(args->get(0).toString());
 	int bank = Integer::valueOf(args->get(1).toString());
 
-	SuiBankTransferBox* suiBank = cast<SuiBankTransferBox*>( suiBox);
+	SuiBankTransferBox* suiBank = cast<SuiBankTransferBox*>(suiBox);
 
 	ManagedReference<SceneObject*> bankObject = suiBank->getBank();
 
@@ -209,7 +209,7 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 	bool otherPressed = false;
 	int index = 0;
 
-	if(args->size() > 1) {
+	if (args->size() > 1) {
 		otherPressed = Bool::valueOf(args->get(0).toString());
 		index = Integer::valueOf(args->get(1).toString());
 	} else {
@@ -219,21 +219,21 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 	if (!suiBox->isCharacterBuilderBox())
 		return;
 
-	ManagedReference<SuiCharacterBuilderBox*> cbSui = cast<SuiCharacterBuilderBox*>( suiBox);
+	ManagedReference<SuiCharacterBuilderBox*> cbSui = cast<SuiCharacterBuilderBox*>(suiBox);
 
 	const CharacterBuilderMenuNode* currentNode = cbSui->getCurrentNode();
 
 	PlayerObject* ghost = player->getPlayerObject();
 
-	//If cancel was pressed then we kill the box/menu.
+	// If cancel was pressed then we kill the box/menu.
 	if (cancel != 0 || ghost == nullptr)
 		return;
 
-	//Back was pressed. Send the node above it.
+	// Back was pressed. Send the node above it.
 	if (otherPressed) {
 		const CharacterBuilderMenuNode* parentNode = currentNode->getParentNode();
 
-		if(parentNode == nullptr)
+		if (parentNode == nullptr)
 			return;
 
 		cbSui->setCurrentNode(parentNode);
@@ -245,7 +245,7 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 
 	const CharacterBuilderMenuNode* node = currentNode->getChildNodeAt(index);
 
-	//Node doesn't exist or the index was out of bounds. Should probably resend the menu here.
+	// Node doesn't exist or the index was out of bounds. Should probably resend the menu here.
 	if (node == nullptr) {
 		ghost->addSuiBox(cbSui);
 		player->sendMessage(cbSui->generateMessage());
@@ -253,7 +253,7 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 	}
 
 	if (node->hasChildNodes()) {
-		//If it has child nodes, display them.
+		// If it has child nodes, display them.
 		cbSui->setCurrentNode(node);
 		ghost->addSuiBox(cbSui);
 		player->sendMessage(cbSui->generateMessage());
@@ -273,7 +273,6 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 		if (templatePath.indexOf(".iff") < 0) { // Non-item selections
 
 			if (templatePath == "unlearn_all_skills") {
-
 				SkillManager::instance()->surrenderAllSkills(player, true, false);
 				player->sendSystemMessage("All skills unlearned.");
 
@@ -322,7 +321,7 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 					return;
 				}
 
-				uint32 itemCrc = ( player->getSpecies() != CreatureObject::ITHORIAN ) ? 0x5DDC4E5D : 0x6C191FBB;
+				uint32 itemCrc = (player->getSpecies() != CreatureObject::ITHORIAN) ? 0x5DDC4E5D : 0x6C191FBB;
 
 				ManagedReference<WearableObject*> apron = zserv->createObject(itemCrc, 2).castTo<WearableObject*>();
 
@@ -346,42 +345,42 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 					apron->addSkillMod(SkillModManager::WEARABLE, "general_assembly", 25);
 					apron->addSkillMod(SkillModManager::WEARABLE, "general_experimentation", 25);
 
-					if(templatePath == "crafting_apron_armorsmith") {
+					if (templatePath == "crafting_apron_armorsmith") {
 						modName = "(Armorsmith)";
 						apron->addSkillMod(SkillModManager::WEARABLE, "armor_assembly", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "armor_experimentation", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "armor_repair", 25);
-					} else if(templatePath == "crafting_apron_weaponsmith") {
+					} else if (templatePath == "crafting_apron_weaponsmith") {
 						modName = "(Weaponsmith)";
 						apron->addSkillMod(SkillModManager::WEARABLE, "weapon_assembly", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "weapon_experimentation", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "weapon_repair", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "grenade_assembly", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "grenade_experimentation", 25);
-					} else if(templatePath == "crafting_apron_tailor") {
+					} else if (templatePath == "crafting_apron_tailor") {
 						modName = "(Tailor)";
 						apron->addSkillMod(SkillModManager::WEARABLE, "clothing_assembly", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "clothing_experimentation", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "clothing_repair", 25);
-					} else if(templatePath == "crafting_apron_chef") {
+					} else if (templatePath == "crafting_apron_chef") {
 						modName = "(Chef)";
 						apron->addSkillMod(SkillModManager::WEARABLE, "food_assembly", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "food_experimentation", 25);
-					} else if(templatePath == "crafting_apron_architect") {
+					} else if (templatePath == "crafting_apron_architect") {
 						modName = "(Architect)";
 						apron->addSkillMod(SkillModManager::WEARABLE, "structure_assembly", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "structure_experimentation", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "structure_complexity", 25);
-					} else if(templatePath == "crafting_apron_droid_engineer") {
+					} else if (templatePath == "crafting_apron_droid_engineer") {
 						modName = "(Droid Engineer)";
 						apron->addSkillMod(SkillModManager::WEARABLE, "droid_assembly", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "droid_experimentation", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "droid_complexity", 25);
-					} else if(templatePath == "crafting_apron_doctor") {
+					} else if (templatePath == "crafting_apron_doctor") {
 						modName = "(Doctor)";
 						apron->addSkillMod(SkillModManager::WEARABLE, "medicine_assembly", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "medicine_experimentation", 25);
-					} else if(templatePath == "crafting_apron_combat_medic") {
+					} else if (templatePath == "crafting_apron_combat_medic") {
 						modName = "(Combat Medic)";
 						apron->addSkillMod(SkillModManager::WEARABLE, "combat_medicine_assembly", 25);
 						apron->addSkillMod(SkillModManager::WEARABLE, "combat_medicine_experimentation", 25);
@@ -403,7 +402,7 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 				}
 
 				StringIdChatParameter stringId;
-				stringId.setStringId("@faction_perk:bonus_base_name"); //You received a: %TO.
+				stringId.setStringId("@faction_perk:bonus_base_name"); // You received a: %TO.
 				stringId.setTO(apron->getObjectID());
 				player->sendSystemMessage(stringId);
 
@@ -553,7 +552,7 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 				item->sendTo(player, true);
 
 				StringIdChatParameter stringId;
-				stringId.setStringId("@faction_perk:bonus_base_name"); //You received a: %TO.
+				stringId.setStringId("@faction_perk:bonus_base_name"); // You received a: %TO.
 				stringId.setTO(item->getObjectID());
 				player->sendSystemMessage(stringId);
 
@@ -573,7 +572,6 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 }
 
 void SuiManager::sendKeypadSui(SceneObject* keypad, SceneObject* creatureSceneObject, const String& play, const String& callback) {
-
 	if (keypad == nullptr)
 		return;
 
@@ -592,11 +590,9 @@ void SuiManager::sendKeypadSui(SceneObject* keypad, SceneObject* creatureSceneOb
 		creature->sendMessage(keypadSui->generateMessage());
 		playerObject->addSuiBox(keypadSui);
 	}
-
 }
 
 void SuiManager::sendConfirmSui(SceneObject* terminal, SceneObject* player, const String& play, const String& callback, const String& prompt, const String& button) {
-
 	if (terminal == nullptr)
 		return;
 
@@ -619,7 +615,6 @@ void SuiManager::sendConfirmSui(SceneObject* terminal, SceneObject* player, cons
 		creature->sendMessage(confirmSui->generateMessage());
 		playerObject->addSuiBox(confirmSui);
 	}
-
 }
 
 void SuiManager::sendInputBox(SceneObject* terminal, SceneObject* player, const String& play, const String& callback, const String& prompt, const String& button) {
@@ -645,10 +640,9 @@ void SuiManager::sendInputBox(SceneObject* terminal, SceneObject* player, const 
 		creature->sendMessage(confirmSui->generateMessage());
 		playerObject->addSuiBox(confirmSui);
 	}
-
 }
 
-void SuiManager::sendMessageBox(SceneObject* usingObject, SceneObject* player, const String& title, const String& text, const String& okButton, const String& screenplay, const String& callback, unsigned int windowType ) {
+void SuiManager::sendMessageBox(SceneObject* usingObject, SceneObject* player, const String& title, const String& text, const String& okButton, const String& screenplay, const String& callback, unsigned int windowType) {
 	if (usingObject == nullptr)
 		return;
 
@@ -686,7 +680,6 @@ void SuiManager::sendListBox(SceneObject* usingObject, SceneObject* player, cons
 	PlayerObject* playerObject = creature->getPlayerObject();
 
 	if (playerObject != nullptr) {
-
 		ManagedReference<SuiListBox*> box = nullptr;
 
 		switch (numOfButtons) {
@@ -746,28 +739,23 @@ void SuiManager::sendTransferBox(SceneObject* usingObject, SceneObject* player, 
 	PlayerObject* playerObject = creature->getPlayerObject();
 
 	if (playerObject != nullptr) {
-
 		ManagedReference<SuiTransferBox*> box = nullptr;
 
 		box = new SuiTransferBox(creature, 0x00);
 
-		if(optionsAddFrom.isValidTable()){
+		if (optionsAddFrom.isValidTable()) {
 			String optionAddFromTextString = optionsAddFrom.getStringAt(1);
 			String optionAddFromStartingString = optionsAddFrom.getStringAt(2);
 			String optionAddFromRatioString = optionsAddFrom.getStringAt(3);
-			box->addFrom(optionAddFromTextString,
-					optionAddFromStartingString,
-					optionAddFromStartingString, optionAddFromRatioString);
+			box->addFrom(optionAddFromTextString, optionAddFromStartingString, optionAddFromStartingString, optionAddFromRatioString);
 			optionsAddFrom.pop();
 		}
 
-		if(optionsAddTo.isValidTable()){
+		if (optionsAddTo.isValidTable()) {
 			String optionAddToTextString = optionsAddTo.getStringAt(1);
 			String optionAddToStartingString = optionsAddTo.getStringAt(2);
 			String optionAddToRatioString = optionsAddTo.getStringAt(3);
-			box->addTo(optionAddToTextString,
-					optionAddToStartingString,
-					optionAddToStartingString, optionAddToRatioString);
+			box->addTo(optionAddToTextString, optionAddToStartingString, optionAddToStartingString, optionAddToRatioString);
 			optionsAddTo.pop();
 		}
 
@@ -783,7 +771,6 @@ void SuiManager::sendTransferBox(SceneObject* usingObject, SceneObject* player, 
 }
 
 int32 SuiManager::sendSuiPage(CreatureObject* creature, SuiPageData* pageData, const String& play, const String& callback, unsigned int windowType) {
-
 	if (pageData == nullptr)
 		return 0;
 

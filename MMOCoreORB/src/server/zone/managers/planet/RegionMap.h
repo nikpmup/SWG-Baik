@@ -11,7 +11,7 @@
 #include "server/zone/objects/region/CityRegion.h"
 
 class RegionMap : public ReadWriteLock, public Object {
-	VectorMap<String, ManagedReference<CityRegion*> > regions;
+	VectorMap<String, ManagedReference<CityRegion*>> regions;
 
 public:
 	RegionMap() {
@@ -77,6 +77,5 @@ public:
 		return regions.size();
 	}
 };
-
 
 #endif /* REGIONMAP_H_ */

@@ -23,9 +23,9 @@ class CellPortal : public Object {
 	String doorName;
 	bool transformFlag;
 	Matrix4 doorTransform;
-public:
 
-	void readObject(IffStream *iff);
+public:
+	void readObject(IffStream* iff);
 
 	bool isSolid() const {
 		return solid;
@@ -58,7 +58,6 @@ public:
 	const Matrix4& getDoorTransform() const {
 		return doorTransform;
 	}
-
 };
 
 class CellProperty : public IffTemplate, public Logger {
@@ -70,7 +69,7 @@ protected:
 	AppearanceTemplate* appearanceTemplate;
 	int cellID;
 	Reference<BaseBoundingVolume*> boundingVolume;
-	Vector<Reference<CellPortal*> > portals;
+	Vector<Reference<CellPortal*>> portals;
 	SortedVector<int> connectedCells;
 
 public:

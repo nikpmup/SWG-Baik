@@ -7,7 +7,6 @@ namespace managers {
 namespace gcw {
 
 class TerminalSpawn : public Object {
-
 protected:
 	Vector3 spawnLoc;
 	int cellID;
@@ -40,12 +39,11 @@ public:
 	Quaternion getRotation() const {
 		return rotation;
 	}
-
 };
 
-}
-}
-}
-}
+} // namespace gcw
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 #endif /* TERMINALSPAWN_H_ */

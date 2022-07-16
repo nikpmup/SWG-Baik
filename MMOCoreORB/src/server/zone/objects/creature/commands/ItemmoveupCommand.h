@@ -7,14 +7,10 @@
 
 class ItemmoveupCommand : public QueueCommand {
 public:
-
-	ItemmoveupCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ItemmoveupCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -25,7 +21,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //ITEMMOVEUPCOMMAND_H_
+#endif // ITEMMOVEUPCOMMAND_H_

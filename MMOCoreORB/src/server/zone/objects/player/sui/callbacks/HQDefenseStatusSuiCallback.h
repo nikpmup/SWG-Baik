@@ -13,8 +13,7 @@
 
 class HQDefenseStatusSuiCallback : public SuiCallback {
 public:
-	HQDefenseStatusSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	HQDefenseStatusSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -45,15 +44,11 @@ public:
 
 		uint64 turretOID = listBox->getMenuObjectID(indx);
 
-
 		if (otherPressed)
 			gcwMan->sendRemoveDefenseConfirmation(building, player, turretOID);
 		else
 			gcwMan->sendBaseDefenseStatus(player, building);
-
 	}
 };
-
-
 
 #endif /* HQDEFENSESTATUSCALLBACK_H_ */

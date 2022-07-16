@@ -28,14 +28,14 @@ void GamblingManagerImplementation::registerPlayer(GamblingTerminal* terminal, C
 
 	Locker _locker(_this.getReferenceUnsafeStaticCast());
 	switch (terminal->getMachineType()) {
-		case GamblingTerminal::SLOTMACHINE: {
-			slotGames.put(player, terminal);
-			break;
-		}
-		case GamblingTerminal::ROULETTEMACHINE: {
-			rouletteGames.put(player, terminal);
-			break;
-		}
+	case GamblingTerminal::SLOTMACHINE: {
+		slotGames.put(player, terminal);
+		break;
+	}
+	case GamblingTerminal::ROULETTEMACHINE: {
+		rouletteGames.put(player, terminal);
+		break;
+	}
 	}
 }
 
@@ -43,22 +43,20 @@ uint32 GamblingManagerImplementation::createWindow(GamblingTerminal* terminal, C
 	if (terminal == nullptr || player == nullptr)
 		return 0;
 
-	uint32 boxID=0;
+	uint32 boxID = 0;
 
 	switch (terminal->getMachineType()) {
-		case GamblingTerminal::SLOTMACHINE: {
+	case GamblingTerminal::SLOTMACHINE: {
+		boxID = createPayoutWindow(player);
+		boxID = createSlotWindow(player, boxID);
 
-			boxID = createPayoutWindow(player);
-			boxID = createSlotWindow(player, boxID);
+		break;
+	}
+	case GamblingTerminal::ROULETTEMACHINE: {
+		boxID = createRouletteWindow(player);
 
-			break;
-		}
-		case GamblingTerminal::ROULETTEMACHINE: {
-
-			boxID = createRouletteWindow(player);
-
-			break;
-		}
+		break;
+	}
 	}
 
 	return boxID;
@@ -104,12 +102,11 @@ uint32 GamblingManagerImplementation::createSlotWindow(CreatureObject* player, u
 	else
 		box->setCancelButton(true, "@ui:spin");
 
-	box->setOtherButton(true,"@ui:bet_one");
+	box->setOtherButton(true, "@ui:bet_one");
 	box->setOkButton(true, "@ui:bet_max");
 
 	box->setForceCloseDistance(32.f);
 	box->setCallback(new GamblingSlotSuiCallback(server));
-
 
 	player->getPlayerObject()->addSuiBox(box);
 
@@ -124,13 +121,8 @@ uint32 GamblingManagerImplementation::createRouletteWindow(CreatureObject* playe
 
 	int totalBet = 0;
 
-	String prompt = "The following is a summary of your current bets...\n\nUse /bet <amount> <1-36,0,00,red,black,odd,even,high,low> to wager.\nExample: '/bet 5 black' to wager 5 credits on black\n\nCash : "
-			+ String::valueOf(player->getCashCredits())
-			+ "\nBank : "
-			+ String::valueOf(player->getBankCredits())
-			+ "\nTotal: "
-			+ String::valueOf(player->getCashCredits() + player->getBankCredits())
-			+ "\n\nNOTE: If you leave the table after placing a bet, all of your outstanding bets will be forfeit.";
+	String prompt = "The following is a summary of your current bets...\n\nUse /bet <amount> <1-36,0,00,red,black,odd,even,high,low> to wager.\nExample: '/bet 5 black' to wager 5 credits on black\n\nCash : " + String::valueOf(player->getCashCredits()) + "\nBank : " + String::valueOf(player->getBankCredits()) +
+					"\nTotal: " + String::valueOf(player->getCashCredits() + player->getBankCredits()) + "\n\nNOTE: If you leave the table after placing a bet, all of your outstanding bets will be forfeit.";
 
 	// create new window
 	ManagedReference<SuiListBox*> box = new SuiListBox(player, SuiWindowType::GAMBLING_ROULETTE, 2);
@@ -146,7 +138,7 @@ uint32 GamblingManagerImplementation::createRouletteWindow(CreatureObject* playe
 	box->setUsingObject(terminal);
 
 	if (terminal->getBets()->size() != 0) {
-		for (int i=0; i < terminal->getBets()->size(); ++i) {
+		for (int i = 0; i < terminal->getBets()->size(); ++i) {
 			if (terminal->getBets()->get(i)->getPlayer() == player) {
 				totalBet += terminal->getBets()->get(i)->getAmount();
 				String target = terminal->getBets()->get(i)->getTarget();
@@ -160,7 +152,7 @@ uint32 GamblingManagerImplementation::createRouletteWindow(CreatureObject* playe
 		box->addMenuItem("Total Bet : 0", 0);
 	} else {
 		box->addMenuItem(" ", -2);
-		box->addMenuItem("Total Bet : "+String::valueOf(totalBet), -3);
+		box->addMenuItem("Total Bet : " + String::valueOf(totalBet), -3);
 	}
 	box->setCancelButton(true, "@ui:leave_game");
 	box->setOtherButton(false, "");
@@ -213,9 +205,7 @@ uint32 GamblingManagerImplementation::createPayoutWindow(CreatureObject* player)
 }
 
 void GamblingManagerImplementation::refreshRouletteMenu(CreatureObject* player) {
-
 	if (player != nullptr) {
-
 		ManagedReference<GamblingTerminal*> terminal = rouletteGames.get(player);
 		terminal->closeMenu(player, false);
 
@@ -242,14 +232,14 @@ void GamblingManagerImplementation::removeOutOfRangePlayers(GamblingTerminal* te
 	Locker _locker(_this.getReferenceUnsafeStaticCast());
 	auto games = slotGames;
 	switch (terminal->getMachineType()) {
-		case GamblingTerminal::SLOTMACHINE: {
-			games = slotGames;
-			break;
-		}
-		case GamblingTerminal::ROULETTEMACHINE: {
-			games = rouletteGames;
-			break;
-		}
+	case GamblingTerminal::SLOTMACHINE: {
+		games = slotGames;
+		break;
+	}
+	case GamblingTerminal::ROULETTEMACHINE: {
+		games = rouletteGames;
+		break;
+	}
 	}
 
 	for (const auto& entry : games) {
@@ -357,203 +347,180 @@ void GamblingManagerImplementation::bet(GamblingTerminal* terminal, CreatureObje
 		return;
 
 	switch (terminal->getMachineType()) {
-		case GamblingTerminal::SLOTMACHINE: {
-			if (amount > terminal->getMaxBet()) {
+	case GamblingTerminal::SLOTMACHINE: {
+		if (amount > terminal->getMaxBet()) {
+			StringIdChatParameter body("gambling/default_interface", "bet_above_max");
+			body.setDI(terminal->getMaxBet());
 
-				StringIdChatParameter body("gambling/default_interface","bet_above_max");
-				body.setDI(terminal->getMaxBet());
+			player->sendSystemMessage(body);
 
-				player->sendSystemMessage(body);
+		} else if (player->getCashCredits() < amount) {
+			player->sendSystemMessage("@gambling/default_interface:player_broke");
 
-			} else if (player->getCashCredits() < amount) {
+		} else if (!player->isInRange(terminal, 25.0)) {
+			player->sendSystemMessage("@gambling/default_interface:bet_failed_distance");
 
-				player->sendSystemMessage("@gambling/default_interface:player_broke");
+		} else if (amount < terminal->getMinBet()) {
+			StringIdChatParameter body("gambling/default_interface", "bet_below_min");
+			body.setDI(terminal->getMinBet());
 
-			} else if (!player->isInRange(terminal, 25.0)) {
+			player->sendSystemMessage(body);
 
-				player->sendSystemMessage("@gambling/default_interface:bet_failed_distance");
+		} else {
+			Locker _locker(terminal);
 
-			} else if (amount < terminal->getMinBet()) {
-
-				StringIdChatParameter body("gambling/default_interface","bet_below_min");
-				body.setDI(terminal->getMinBet());
-
-				player->sendSystemMessage(body);
-
-			} else {
-				Locker _locker(terminal);
-
-				{
-					TransactionLog trx(player, TrxCode::GAMBLINGSLOTSTANDARD, amount, true);
-					player->subtractCashCredits(amount);
-				}
-
-				StringIdChatParameter textPlayer("base_player","prose_pay_success");
-				textPlayer.setDI(amount);
-
-				String terminalName;
-				terminal->getObjectName()->getFullPath(terminalName);
-				textPlayer.setTT(terminalName);
-
-				player->sendSystemMessage(textPlayer);
-
-				if (!terminal->getBets()->isEmpty()) {
-					amount += terminal->getBets()->get(0)->getAmount();
-					terminal->getBets()->removeAll();
-				}
-
-				terminal->getBets()->add(new GamblingBet(player, amount));
-
-				if (amount >= terminal->getMaxBet())
-					startGame(player, 1);
-				else
-					refreshSlotMenu(player, terminal);
+			{
+				TransactionLog trx(player, TrxCode::GAMBLINGSLOTSTANDARD, amount, true);
+				player->subtractCashCredits(amount);
 			}
-			break;
-		}
-		case GamblingTerminal::ROULETTEMACHINE: {
-			if (amount > getMaximumAllowedBet(terminal, player, target)) {
 
-				StringIdChatParameter body("gambling/default_interface","bet_above_max");
-				body.setDI(terminal->getMaxBet());
+			StringIdChatParameter textPlayer("base_player", "prose_pay_success");
+			textPlayer.setDI(amount);
 
-				player->sendSystemMessage(body);
+			String terminalName;
+			terminal->getObjectName()->getFullPath(terminalName);
+			textPlayer.setTT(terminalName);
 
-			} else if (player->getCashCredits() < amount) {
+			player->sendSystemMessage(textPlayer);
 
-				player->sendSystemMessage("@gambling/default_interface:player_broke");
-
-			} else if (!player->isInRange(terminal, 25.0)) {
-
-				player->sendSystemMessage("@gambling/default_interface:bet_failed_distance");
-
-			} else if (amount < terminal->getMinBet()) {
-
-				StringIdChatParameter body("gambling/default_interface","bet_below_min");
-				body.setDI(terminal->getMinBet());
-
-				player->sendSystemMessage(body);
-
-			} else {
-				Locker _locker(terminal);
-				{
-					TransactionLog trx(player, TrxCode::GAMBLINGROULETTE, amount, true);
-					player->subtractCashCredits(amount);
-				}
-				terminal->getBets()->add(new GamblingBet(player, amount, roulette.get(target)));
-				StringIdChatParameter textPlayer("gambling/default_interface","prose_bet_placed");
-				textPlayer.setDI(amount);
-				player->sendSystemMessage(textPlayer);
+			if (!terminal->getBets()->isEmpty()) {
+				amount += terminal->getBets()->get(0)->getAmount();
+				terminal->getBets()->removeAll();
 			}
-			break;
+
+			terminal->getBets()->add(new GamblingBet(player, amount));
+
+			if (amount >= terminal->getMaxBet())
+				startGame(player, 1);
+			else
+				refreshSlotMenu(player, terminal);
 		}
+		break;
+	}
+	case GamblingTerminal::ROULETTEMACHINE: {
+		if (amount > getMaximumAllowedBet(terminal, player, target)) {
+			StringIdChatParameter body("gambling/default_interface", "bet_above_max");
+			body.setDI(terminal->getMaxBet());
+
+			player->sendSystemMessage(body);
+
+		} else if (player->getCashCredits() < amount) {
+			player->sendSystemMessage("@gambling/default_interface:player_broke");
+
+		} else if (!player->isInRange(terminal, 25.0)) {
+			player->sendSystemMessage("@gambling/default_interface:bet_failed_distance");
+
+		} else if (amount < terminal->getMinBet()) {
+			StringIdChatParameter body("gambling/default_interface", "bet_below_min");
+			body.setDI(terminal->getMinBet());
+
+			player->sendSystemMessage(body);
+
+		} else {
+			Locker _locker(terminal);
+			{
+				TransactionLog trx(player, TrxCode::GAMBLINGROULETTE, amount, true);
+				player->subtractCashCredits(amount);
+			}
+			terminal->getBets()->add(new GamblingBet(player, amount, roulette.get(target)));
+			StringIdChatParameter textPlayer("gambling/default_interface", "prose_bet_placed");
+			textPlayer.setDI(amount);
+			player->sendSystemMessage(textPlayer);
+		}
+		break;
+	}
 	}
 }
 
 void GamblingManagerImplementation::startGame(CreatureObject* player, int machineType) {
-
 	if (player != nullptr) {
 		switch (machineType) {
-			case GamblingTerminal::SLOTMACHINE: {
-				startGame(slotGames.get(player));
-				break;
-			}
-			case GamblingTerminal::ROULETTEMACHINE: {
-				startGame(rouletteGames.get(player));
-				break;
-			}
+		case GamblingTerminal::SLOTMACHINE: {
+			startGame(slotGames.get(player));
+			break;
+		}
+		case GamblingTerminal::ROULETTEMACHINE: {
+			startGame(rouletteGames.get(player));
+			break;
+		}
 		}
 	}
 }
 
 void GamblingManagerImplementation::startGame(GamblingTerminal* terminal) {
-
 	if (terminal != nullptr) {
-
 		switch (terminal->getMachineType()) {
-			case GamblingTerminal::SLOTMACHINE: {
+		case GamblingTerminal::SLOTMACHINE: {
+			Locker _locker(terminal);
 
-				Locker _locker(terminal);
+			terminal->setState(GamblingTerminal::GAMESTARTED);
 
-				terminal->setState(GamblingTerminal::GAMESTARTED);
+			// bet(terminal, terminal->getPlayersWindows()->elementAt(0).getKey(), 3, 0);
 
-				//bet(terminal, terminal->getPlayersWindows()->elementAt(0).getKey(), 3, 0);
+			terminal->statusUpdate(terminal->getState());
 
-				terminal->statusUpdate(terminal->getState());
+			createEvent(terminal, slotTimer.get(terminal->getState() - 2) * 1000);
 
-				createEvent(terminal, slotTimer.get(terminal->getState() - 2) * 1000);
+			break;
+		}
+		case GamblingTerminal::ROULETTEMACHINE: {
+			terminal->statusUpdate(terminal->getState());
 
-				break;
-			}
-			case GamblingTerminal::ROULETTEMACHINE: {
+			createEvent(terminal, rouletteTimer.get(terminal->getState() - 1) * 1000);
 
-				terminal->statusUpdate(terminal->getState());
-
-				createEvent(terminal, rouletteTimer.get(terminal->getState() - 1) * 1000);
-
-				break;
-			}
+			break;
+		}
 		}
 	}
 }
 
 void GamblingManagerImplementation::createEvent(GamblingTerminal* terminal, int time) {
 	if ((terminal != nullptr) && (time > 0) && (time < 60000)) {
-
 		terminal->setEvent(new GamblingEvent(terminal, terminal->getGameCount()));
 		terminal->getEvent()->schedule(time);
 	}
 }
 
 void GamblingManagerImplementation::continueGame(GamblingTerminal* terminal) {
-
 	if (terminal != nullptr) {
 		Locker _locker(terminal);
 
 		if (terminal->getPlayersWindows()->size() != 0) {
-
 			switch (terminal->getMachineType()) {
-				case GamblingTerminal::SLOTMACHINE: {
+			case GamblingTerminal::SLOTMACHINE: {
+				if (terminal->getState() == GamblingTerminal::SLOTGAMEENDED) {
+					// createNextRound
+					terminal->joinTerminal(terminal->getPlayersWindows()->elementAt(0).getKey());
 
-					if (terminal->getState() == GamblingTerminal::SLOTGAMEENDED) {
-						//createNextRound
-						terminal->joinTerminal(terminal->getPlayersWindows()->elementAt(0).getKey());
-
-					} else {
-
-						if (terminal->getState() == GamblingTerminal::END) {
-
-							stopGame(terminal, false);
-
-						} else {
-
-							terminal->setState(terminal->getState() + 1);
-
-							terminal->statusUpdate(terminal->getState());
-
-							createEvent(terminal, slotTimer.get(terminal->getState() - 2) * 1000);
-						}
-					}
-
-					break;
-				}
-				case GamblingTerminal::ROULETTEMACHINE: {
-
-					if (terminal->getState() == GamblingTerminal::WHEELPAYOUT) {
-
+				} else {
+					if (terminal->getState() == GamblingTerminal::END) {
 						stopGame(terminal, false);
 
 					} else {
-
 						terminal->setState(terminal->getState() + 1);
 
 						terminal->statusUpdate(terminal->getState());
 
-						createEvent(terminal, rouletteTimer.get(terminal->getState() - 1) * 1000);
+						createEvent(terminal, slotTimer.get(terminal->getState() - 2) * 1000);
 					}
-
-					break;
 				}
+
+				break;
+			}
+			case GamblingTerminal::ROULETTEMACHINE: {
+				if (terminal->getState() == GamblingTerminal::WHEELPAYOUT) {
+					stopGame(terminal, false);
+
+				} else {
+					terminal->setState(terminal->getState() + 1);
+
+					terminal->statusUpdate(terminal->getState());
+
+					createEvent(terminal, rouletteTimer.get(terminal->getState() - 1) * 1000);
+				}
+
+				break;
+			}
 			}
 		}
 	}
@@ -564,56 +531,51 @@ void GamblingManagerImplementation::stopGame(GamblingTerminal* terminal, bool ca
 		Locker _locker(terminal);
 
 		switch (terminal->getMachineType()) {
-			case GamblingTerminal::SLOTMACHINE: {
+		case GamblingTerminal::SLOTMACHINE: {
+			if (!cancel) {
+				calculateOutcome(terminal);
 
-				if (!cancel) {
-					calculateOutcome(terminal);
+				terminal->closeAllMenus();
 
-					terminal->closeAllMenus();
+				terminal->setState(GamblingTerminal::SLOTGAMEENDED);
 
-					terminal->setState(GamblingTerminal::SLOTGAMEENDED);
+				terminal->statusUpdate(terminal->getState());
 
-					terminal->statusUpdate(terminal->getState());
+				terminal->getBets()->removeAll();
 
-					terminal->getBets()->removeAll();
+				createEvent(terminal, slotTimer.get(terminal->getState() - 2) * 1000);
+			} else {
+				terminal->closeAllMenus();
 
-					createEvent(terminal, slotTimer.get(terminal->getState() - 2) * 1000);
-				} else {
-					terminal->closeAllMenus();
-
-					if ((terminal->getEvent() != nullptr) && (terminal->getState() >= GamblingTerminal::GAMESTARTED)) {
-						terminal->getEvent()->cancel();
-					}
-
-					terminal->reset();
+				if ((terminal->getEvent() != nullptr) && (terminal->getState() >= GamblingTerminal::GAMESTARTED)) {
+					terminal->getEvent()->cancel();
 				}
 
-				break;
+				terminal->reset();
 			}
-			case GamblingTerminal::ROULETTEMACHINE: {
 
-				if (!cancel) {
+			break;
+		}
+		case GamblingTerminal::ROULETTEMACHINE: {
+			if (!cancel) {
+				calculateOutcome(terminal);
 
-					calculateOutcome(terminal);
+				terminal->closeAllMenus();
 
-					terminal->closeAllMenus();
+				terminal->reset();
+			} else {
+				terminal->closeAllMenus();
 
-					terminal->reset();
-				} else {
-
-					terminal->closeAllMenus();
-
-					if (terminal->getEvent() != nullptr) {
-						terminal->getEvent()->cancel();
-					}
-
-					terminal->reset();
+				if (terminal->getEvent() != nullptr) {
+					terminal->getEvent()->cancel();
 				}
-				break;
+
+				terminal->reset();
 			}
+			break;
+		}
 		}
 		kickAllPlayersOutOfRange(terminal);
-
 	}
 }
 
@@ -628,265 +590,226 @@ void GamblingManagerImplementation::kickAllPlayersOutOfRange(GamblingTerminal* t
 }
 
 void GamblingManagerImplementation::calculateOutcome(GamblingTerminal* terminal) {
-
-
 	if (terminal != nullptr) {
-
 		Locker locker(terminal);
 
 		switch (terminal->getMachineType()) {
+		case GamblingTerminal::SLOTMACHINE: {
+			GamblingBet* bet = terminal->getBets()->get(0);
 
-			case GamblingTerminal::SLOTMACHINE: {
+			ManagedReference<CreatureObject*> player = terminal->getPlayersWindows()->elementAt(0).getKey();
 
-				GamblingBet* bet = terminal->getBets()->get(0);
+			if ((bet != nullptr) && (player != nullptr)) {
+				if (terminal->getFirst() == terminal->getSecond() && terminal->getSecond() == terminal->getThird()) {
+					Locker _locker(player);
 
-				ManagedReference<CreatureObject*> player = terminal->getPlayersWindows()->elementAt(0).getKey();
+					int win = bet->getAmount() * slot.get(terminal->getFirst());
+					if (win == 4500) {
+						win += 500; // 500 extra credits for betting 3 credits and getting 777.
+					}
 
-				if ((bet != nullptr) && (player != nullptr)) {
+					StringIdChatParameter textPlayer("gambling/default_interface", "winner_to_winner");
+					textPlayer.setDI(win);
+					player->sendSystemMessage(textPlayer);
 
-					if (terminal->getFirst() == terminal->getSecond() && terminal->getSecond() == terminal->getThird()) {
+					{
+						TransactionLog trx(TrxCode::GAMBLINGSLOTSTANDARD, player, win, true);
+						player->addCashCredits(win, true);
+					}
 
-						Locker _locker(player);
+				} else if ((0 < terminal->getFirst() && terminal->getFirst() < 4) && (0 < terminal->getSecond() && terminal->getSecond() < 4) && (0 < terminal->getThird() && terminal->getThird() < 4)) {
+					Locker _locker(player);
 
-						int win = bet->getAmount() * slot.get(terminal->getFirst());
-						if (win == 4500) {
-							win += 500;  // 500 extra credits for betting 3 credits and getting 777.
+					int win = bet->getAmount() * 2;
+
+					StringIdChatParameter textPlayer("gambling/default_interface", "winner_to_winner");
+					textPlayer.setDI(win);
+					player->sendSystemMessage(textPlayer);
+
+					{
+						TransactionLog trx(TrxCode::GAMBLINGSLOTSTANDARD, player, win, true);
+						player->addCashCredits(win, true);
+					}
+				} else {
+					player->sendSystemMessage("Sorry, you did not win this round. Please try again.");
+				}
+			}
+
+			break;
+		}
+		case GamblingTerminal::ROULETTEMACHINE: {
+			VectorMap<ManagedReference<CreatureObject*>, int>* winnings = terminal->getWinnings();
+
+			auto bets = terminal->getBets();
+
+			int tempReward;
+			String tempTarget;
+
+			for (int i = 0; i < bets->size(); ++i) {
+				tempTarget = bets->get(i)->getTarget();
+
+				if (tempTarget == "odd") {
+					// odd
+					if (isOdd(terminal->getFirst())) {
+						tempReward = (bets->get(i)->getAmount() * 2);
+
+						if (winnings->contains(bets->get(i)->getPlayer())) {
+							tempReward += winnings->get(bets->get(i)->getPlayer());
+
+							winnings->drop(bets->get(i)->getPlayer());
 						}
 
-						StringIdChatParameter textPlayer("gambling/default_interface","winner_to_winner");
-						textPlayer.setDI(win);
+						winnings->put(bets->get(i)->getPlayer(), tempReward);
+					}
+				} else if (tempTarget == "even") {
+					// even
+					if (isEven(terminal->getFirst())) {
+						tempReward = (bets->get(i)->getAmount() * 2);
+
+						if (winnings->contains(bets->get(i)->getPlayer())) {
+							tempReward += winnings->get(bets->get(i)->getPlayer());
+
+							winnings->drop(bets->get(i)->getPlayer());
+						}
+
+						winnings->put(bets->get(i)->getPlayer(), tempReward);
+					}
+				} else if (tempTarget == "high") {
+					// high
+					if (isHigh(terminal->getFirst())) {
+						tempReward = (bets->get(i)->getAmount() * 2);
+
+						if (winnings->contains(bets->get(i)->getPlayer())) {
+							tempReward += winnings->get(bets->get(i)->getPlayer());
+
+							winnings->drop(bets->get(i)->getPlayer());
+						}
+
+						winnings->put(bets->get(i)->getPlayer(), tempReward);
+					}
+				} else if (tempTarget == "low") {
+					// low
+					if (isLow(terminal->getFirst())) {
+						tempReward = (bets->get(i)->getAmount() * 2);
+
+						if (winnings->contains(bets->get(i)->getPlayer())) {
+							tempReward += winnings->get(bets->get(i)->getPlayer());
+
+							winnings->drop(bets->get(i)->getPlayer());
+						}
+
+						winnings->put(bets->get(i)->getPlayer(), tempReward);
+					}
+				} else if (tempTarget == "red") {
+					// red
+					if (isRed(terminal->getFirst())) {
+						tempReward = (bets->get(i)->getAmount() * 2);
+
+						if (winnings->contains(bets->get(i)->getPlayer())) {
+							tempReward += winnings->get(bets->get(i)->getPlayer());
+
+							winnings->drop(bets->get(i)->getPlayer());
+						}
+
+						winnings->put(bets->get(i)->getPlayer(), tempReward);
+					}
+				} else if (tempTarget == "black") {
+					// black
+					if (isBlack(terminal->getFirst())) {
+						tempReward = (bets->get(i)->getAmount() * 2);
+
+						if (winnings->contains(bets->get(i)->getPlayer())) {
+							tempReward += winnings->get(bets->get(i)->getPlayer());
+
+							winnings->drop(bets->get(i)->getPlayer());
+						}
+
+						winnings->put(bets->get(i)->getPlayer(), tempReward);
+					}
+				} else {
+					// single number: 0,00,1-36
+
+					if (tempTarget == roulette.get(terminal->getFirst())) {
+						tempReward = (bets->get(i)->getAmount() * 35);
+
+						if (winnings->contains(bets->get(i)->getPlayer())) {
+							tempReward += winnings->get(bets->get(i)->getPlayer());
+
+							winnings->drop(bets->get(i)->getPlayer());
+						}
+
+						winnings->put(bets->get(i)->getPlayer(), tempReward);
+					}
+				}
+			}
+
+			for (int i = 0; i < winnings->size(); ++i) { // send money and messages to players
+
+				if (winnings->get(i) == 0) {
+					winnings->elementAt(i).getKey()->sendSystemMessage("You don't win anything");
+
+				} else {
+					CreatureObject* player = winnings->elementAt(i).getKey();
+
+					if (player != nullptr) {
+						Locker _locker(player);
+
+						// Send message to others
+						StringIdChatParameter textOther("gambling/default_interface", "winner_to_other");
+						textOther.setDI(winnings->get(i));
+						textOther.setTO(player->getFirstName());
+						textOther.setTO(player->getObjectID());
+						terminal->notifyOthers(player, &textOther);
+
+						StringIdChatParameter textPlayer("gambling/default_interface", "winner_to_winner");
+						textPlayer.setDI(winnings->get(i));
 						player->sendSystemMessage(textPlayer);
 
 						{
-							TransactionLog trx(TrxCode::GAMBLINGSLOTSTANDARD, player, win, true);
-							player->addCashCredits(win, true);
+							TransactionLog trx(TrxCode::GAMBLINGROULETTE, player, winnings->get(i), true);
+							player->addCashCredits(winnings->get(i), true);
 						}
-
-					} else if ((0 < terminal->getFirst() && terminal->getFirst() < 4) && (0 < terminal->getSecond() && terminal->getSecond() < 4) && (0 < terminal->getThird() && terminal->getThird() < 4)) {
-
-						Locker _locker(player);
-
-						int win = bet->getAmount() * 2;
-
-						StringIdChatParameter textPlayer("gambling/default_interface","winner_to_winner");
-						textPlayer.setDI(win);
-						player->sendSystemMessage(textPlayer);
-
-						{
-							TransactionLog trx(TrxCode::GAMBLINGSLOTSTANDARD, player, win, true);
-							player->addCashCredits(win, true);
-						}
-					} else {
-
-						player->sendSystemMessage("Sorry, you did not win this round. Please try again.");
-
 					}
-
 				}
-
-				break;
 			}
-			case GamblingTerminal::ROULETTEMACHINE: {
 
-				VectorMap<ManagedReference<CreatureObject*>, int>* winnings = terminal->getWinnings();
-
-				auto bets = terminal->getBets();
-
-				int tempReward;
-				String tempTarget;
-
-				for (int i=0; i < bets->size(); ++i) {
-					tempTarget = bets->get(i)->getTarget();
-
-					if (tempTarget == "odd") {
-						// odd
-						if (isOdd(terminal->getFirst())) {
-
-							tempReward = (bets->get(i)->getAmount() * 2);
-
-							if (winnings->contains(bets->get(i)->getPlayer())) {
-
-								tempReward += winnings->get(bets->get(i)->getPlayer());
-
-								winnings->drop(bets->get(i)->getPlayer());
-
-							}
-
-							winnings->put(bets->get(i)->getPlayer(), tempReward);
-
-						}
-					} else if (tempTarget == "even") {
-						// even
-						if (isEven(terminal->getFirst())) {
-
-							tempReward = (bets->get(i)->getAmount() * 2);
-
-							if (winnings->contains(bets->get(i)->getPlayer())) {
-
-								tempReward += winnings->get(bets->get(i)->getPlayer());
-
-								winnings->drop(bets->get(i)->getPlayer());
-							}
-
-							winnings->put(bets->get(i)->getPlayer(), tempReward);
-						}
-					} else if (tempTarget == "high") {
-						// high
-						if (isHigh(terminal->getFirst())) {
-
-							tempReward = (bets->get(i)->getAmount() * 2);
-
-							if (winnings->contains(bets->get(i)->getPlayer())) {
-
-								tempReward += winnings->get(bets->get(i)->getPlayer());
-
-								winnings->drop(bets->get(i)->getPlayer());
-							}
-
-							winnings->put(bets->get(i)->getPlayer(), tempReward);
-						}
-					} else if (tempTarget == "low") {
-						// low
-						if (isLow(terminal->getFirst())) {
-
-							tempReward = (bets->get(i)->getAmount() * 2);
-
-							if (winnings->contains(bets->get(i)->getPlayer())) {
-
-								tempReward += winnings->get(bets->get(i)->getPlayer());
-
-								winnings->drop(bets->get(i)->getPlayer());
-							}
-
-							winnings->put(bets->get(i)->getPlayer(), tempReward);
-						}
-					} else if (tempTarget == "red") {
-						// red
-						if (isRed(terminal->getFirst())) {
-
-							tempReward = (bets->get(i)->getAmount() * 2);
-
-							if (winnings->contains(bets->get(i)->getPlayer())) {
-
-								tempReward += winnings->get(bets->get(i)->getPlayer());
-
-								winnings->drop(bets->get(i)->getPlayer());
-							}
-
-							winnings->put(bets->get(i)->getPlayer(), tempReward);
-						}
-					} else if (tempTarget == "black") {
-						// black
-						if (isBlack(terminal->getFirst())) {
-
-							tempReward = (bets->get(i)->getAmount() * 2);
-
-							if (winnings->contains(bets->get(i)->getPlayer())) {
-
-								tempReward += winnings->get(bets->get(i)->getPlayer());
-
-								winnings->drop(bets->get(i)->getPlayer());
-							}
-
-							winnings->put(bets->get(i)->getPlayer(), tempReward);
-						}
-					} else {
-						// single number: 0,00,1-36
-
-						if (tempTarget == roulette.get(terminal->getFirst())) {
-
-							tempReward = (bets->get(i)->getAmount() * 35);
-
-							if (winnings->contains(bets->get(i)->getPlayer())) {
-
-								tempReward += winnings->get(bets->get(i)->getPlayer());
-
-								winnings->drop(bets->get(i)->getPlayer());
-							}
-
-							winnings->put(bets->get(i)->getPlayer(), tempReward);
-						}
-					}
-
-				}
-
-				for (int i = 0; i < winnings->size(); ++i) { // send money and messages to players
-
-					if (winnings->get(i) == 0) {
-
-						winnings->elementAt(i).getKey()->sendSystemMessage("You don't win anything");
-
-					} else {
-
-						CreatureObject* player = winnings->elementAt(i).getKey();
-
-						if (player != nullptr) {
-
-							Locker _locker(player);
-
-							// Send message to others
-							StringIdChatParameter textOther("gambling/default_interface","winner_to_other");
-							textOther.setDI(winnings->get(i));
-							textOther.setTO(player->getFirstName());
-							textOther.setTO(player->getObjectID());
-							terminal->notifyOthers(player, &textOther);
-
-							StringIdChatParameter textPlayer("gambling/default_interface","winner_to_winner");
-							textPlayer.setDI(winnings->get(i));
-							player->sendSystemMessage(textPlayer);
-
-							{
-								TransactionLog trx(TrxCode::GAMBLINGROULETTE, player, winnings->get(i), true);
-								player->addCashCredits(winnings->get(i), true);
-							}
-						}
-					}
-				}
-
-				break;
-			}
+			break;
+		}
 		}
 	}
 }
 
 void GamblingManagerImplementation::leaveTerminal(CreatureObject* player, int machineType) {
-
 	if (player != nullptr) {
-
 		switch (machineType) {
-			case GamblingTerminal::SLOTMACHINE: {
+		case GamblingTerminal::SLOTMACHINE: {
+			ManagedReference<GamblingTerminal*> terminal = slotGames.get(player);
 
-				ManagedReference<GamblingTerminal*> terminal = slotGames.get(player);
+			if (terminal != nullptr) {
+				Locker locker(terminal);
 
-				if (terminal != nullptr) {
-
-					Locker locker(terminal);
-
-					if (terminal->getPlayersWindows()->contains(player)) {
-						terminal->leaveTerminal(player);
-						slotGames.drop(player);
-					}
+				if (terminal->getPlayersWindows()->contains(player)) {
+					terminal->leaveTerminal(player);
+					slotGames.drop(player);
 				}
-
-				break;
 			}
-			case GamblingTerminal::ROULETTEMACHINE: {
 
-				ManagedReference<GamblingTerminal*> terminal = rouletteGames.get(player);
-
-				if (terminal != nullptr) {
-					Locker locker(terminal);
-
-					if (terminal->getPlayersWindows()->contains(player)) {
-						terminal->leaveTerminal(player);
-						rouletteGames.drop(player);
-					}
-				}
-
-				break;
-			}
+			break;
 		}
+		case GamblingTerminal::ROULETTEMACHINE: {
+			ManagedReference<GamblingTerminal*> terminal = rouletteGames.get(player);
 
+			if (terminal != nullptr) {
+				Locker locker(terminal);
+
+				if (terminal->getPlayersWindows()->contains(player)) {
+					terminal->leaveTerminal(player);
+					rouletteGames.drop(player);
+				}
+			}
+
+			break;
+		}
+		}
 	}
-
 }

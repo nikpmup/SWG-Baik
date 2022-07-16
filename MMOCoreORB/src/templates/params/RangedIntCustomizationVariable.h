@@ -13,7 +13,6 @@
 #include "templates/params/primitives/IntegerParam.h"
 #include "templates/customization/CustomizationVariable.h"
 
-
 class RangedIntCustomizationVariable : public CustomizationVariable, public Param {
 protected:
 	StringParam variableName;
@@ -26,7 +25,7 @@ public:
 		setType(RANGEDINTCUSTOMIZATIONVARIABLE);
 	}
 
-	RangedIntCustomizationVariable(const RangedIntCustomizationVariable& m) : CustomizationVariable() , Param() {
+	RangedIntCustomizationVariable(const RangedIntCustomizationVariable& m) : CustomizationVariable(), Param() {
 		setType(RANGEDINTCUSTOMIZATIONVARIABLE);
 
 		variableName = m.variableName;
@@ -60,10 +59,7 @@ public:
 
 		stream << "{";
 
-		stream << variableName.toString() << ", "
-				<< minValueInclusive.toString() << ", "
-				<< defaultValue.toString() << ", "
-				<< maxValueExclusive.toString();
+		stream << variableName.toString() << ", " << minValueInclusive.toString() << ", " << defaultValue.toString() << ", " << maxValueExclusive.toString();
 
 		stream << "}";
 
@@ -76,7 +72,7 @@ public:
 		Chunk* chunk = iffStream->openChunk('PCNT');
 
 		if (chunk == nullptr) {
-			//std::cout << "could not open pcnt\n";
+			// std::cout << "could not open pcnt\n";
 			return false;
 		}
 
@@ -90,7 +86,7 @@ public:
 			String varName;
 			var->readString(varName);
 
-			//std::cout << "parsing RICV:[" << varName.toStdString() << "]\n";
+			// std::cout << "parsing RICV:[" << varName.toStdString() << "]\n";
 
 			if (varName == "variableName") {
 				variableName.parse(var);
@@ -111,8 +107,6 @@ public:
 	const String& getVariableName() const {
 		return variableName.get();
 	}
-
 };
-
 
 #endif /* RANGEDINTCUSTOMIZATIONVARIABLE_H_ */

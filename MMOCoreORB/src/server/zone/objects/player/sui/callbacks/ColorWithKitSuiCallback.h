@@ -11,28 +11,25 @@
 
 #include "server/zone/objects/player/sui/SuiCallback.h"
 
-
 class ColorWithKitSuiCallback : public SuiCallback {
 	TangibleObject* customizationKit;
 
 public:
-	ColorWithKitSuiCallback(ZoneServer* serv, TangibleObject* kitTano ):
-		SuiCallback(serv), customizationKit( kitTano ) {
+	ColorWithKitSuiCallback(ZoneServer* serv, TangibleObject* kitTano) : SuiCallback(serv), customizationKit(kitTano) {
 	}
 
 	void run(CreatureObject* creature, SuiBox* sui, uint32 eventIndex, Vector<UnicodeString>* args) {
 		bool cancelPressed = (eventIndex == 1);
 
-		SuiColorBox* cBox = cast<SuiColorBox*>( sui);
+		SuiColorBox* cBox = cast<SuiColorBox*>(sui);
 
 		if (cBox == nullptr)
 			return;
 
-		if(!creature->isPlayerCreature())
+		if (!creature->isPlayerCreature())
 			return;
 
-		if(!cancelPressed) {
-
+		if (!cancelPressed) {
 			int index = Integer::valueOf(args->get(0).toString());
 
 			String palette = cBox->getColorPalette();

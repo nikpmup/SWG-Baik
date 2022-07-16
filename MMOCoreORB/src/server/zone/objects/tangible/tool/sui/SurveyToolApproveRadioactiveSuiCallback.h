@@ -8,14 +8,12 @@
 #ifndef SURVEYTOOLAPPROVERADIOACTIVECALLBACK_H_
 #define SURVEYTOOLAPPROVERADIOACTIVECALLBACK_H_
 
-
 #include "server/zone/objects/tangible/tool/SurveyTool.h"
 #include "server/zone/objects/player/sui/SuiCallback.h"
 
 class SurveyToolApproveRadioactiveSuiCallback : public SuiCallback {
 public:
-	SurveyToolApproveRadioactiveSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	SurveyToolApproveRadioactiveSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -26,7 +24,7 @@ public:
 
 		ManagedReference<SurveyTool*> surveyTool = cast<SurveyTool*>(suiBox->getUsingObject().get().get());
 
-		if(surveyTool == nullptr)
+		if (surveyTool == nullptr)
 			return;
 
 		Locker _lock(surveyTool);

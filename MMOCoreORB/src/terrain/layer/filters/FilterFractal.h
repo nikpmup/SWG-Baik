@@ -8,7 +8,6 @@
 #ifndef FILTERFRACTAL_H_
 #define FILTERFRACTAL_H_
 
-
 #include "../ProceduralRule.h"
 #include "FilterProceduralRule.h"
 
@@ -18,7 +17,7 @@ class MapFractal;
 class FilterFractal : public FilterProceduralRule {
 	int fractalId; // Fractal Group ID to modify (MGRP)
 	float min;
-	float max; // Scale/Stepping?
+	float max;	// Scale/Stepping?
 	float var6; // Scale/Stepping?
 	MapFractal* mfrc;
 

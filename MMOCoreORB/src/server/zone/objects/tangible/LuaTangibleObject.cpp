@@ -14,51 +14,49 @@
 
 const char LuaTangibleObject::className[] = "LuaTangibleObject";
 
-Luna<LuaTangibleObject>::RegType LuaTangibleObject::Register[] = {
-		{ "_setObject", &LuaTangibleObject::_setObject },
-		{ "_getObject", &LuaSceneObject::_getObject },
-		{ "getOptionsBitmask", &LuaTangibleObject::getOptionsBitmask },
-		{ "setOptionsBitmask", &LuaTangibleObject::setOptionsBitmask },
-		{ "setPvpStatusBitmask", &LuaTangibleObject::setPvpStatusBitmask },
-		{ "setPvpStatusBit", &LuaTangibleObject::setPvpStatusBit },
-		{ "broadcastPvpStatusBitmask", &LuaTangibleObject::broadcastPvpStatusBitmask },
-		{ "sendPvpStatusTo", &LuaTangibleObject::sendPvpStatusTo },
-		{ "getPvpStatusBitmask", &LuaTangibleObject::getPvpStatusBitmask },
-		{ "isChangingFactionStatus", &LuaTangibleObject::isChangingFactionStatus },
-		{ "getFactionStatus", &LuaTangibleObject::getFactionStatus },
-		{ "setFutureFactionStatus", &LuaTangibleObject::setFutureFactionStatus },
-		{ "isOnLeave", &LuaTangibleObject::isOnLeave },
-		{ "isOvert", &LuaTangibleObject::isOvert },
-		{ "isCovert", &LuaTangibleObject::isCovert },
-		{ "setCustomizationVariable", &LuaTangibleObject::setCustomizationVariable },
-		{ "getPaletteColorCount", &LuaTangibleObject::getPaletteColorCount },
-		{ "setConditionDamage", &LuaTangibleObject::setConditionDamage },
-		{ "setMaxCondition", &LuaTangibleObject::setMaxCondition },
-		{ "setFaction", &LuaTangibleObject::setFaction },
-		{ "getFaction", &LuaTangibleObject::getFaction },
-		{ "setFactionStatus", &LuaTangibleObject::setFactionStatus },
-		{ "isImperial", &LuaTangibleObject::isImperial },
-		{ "isRebel", &LuaTangibleObject::isRebel },
-		{ "isNeutral", &LuaTangibleObject::isNeutral },
-		{ "hasActiveArea", &LuaTangibleObject::hasActiveArea},
-		{ "isInvisible", &LuaTangibleObject::isInvisible },
-		{ "getLuaStringData", &LuaTangibleObject::getLuaStringData },
-		{ "setLuaStringData", &LuaTangibleObject::setLuaStringData },
-		{ "deleteLuaStringData", &LuaTangibleObject::deleteLuaStringData },
-		{ "setOptionBit", &LuaTangibleObject::setOptionBit},
-		{ "clearOptionBit", &LuaTangibleObject::clearOptionBit},
-		{ "hasOptionBit", &LuaTangibleObject::hasOptionBit},
-		{ "getCraftersName", &LuaTangibleObject::getCraftersName},
-		{ "getJunkDealerNeeded", &LuaTangibleObject::getJunkDealerNeeded},
-		{ "getJunkValue", &LuaTangibleObject::getJunkValue},
-		{ "isBroken", &LuaTangibleObject::isBroken},
-		{ "isSliced", &LuaTangibleObject::isSliced},
-		{ "isNoTrade", &LuaTangibleObject::isNoTrade},
-		{ "getMainDefender", &LuaTangibleObject::getMainDefender},
-		{ 0, 0 }
-};
+Luna<LuaTangibleObject>::RegType LuaTangibleObject::Register[] = {{"_setObject", &LuaTangibleObject::_setObject},
+																  {"_getObject", &LuaSceneObject::_getObject},
+																  {"getOptionsBitmask", &LuaTangibleObject::getOptionsBitmask},
+																  {"setOptionsBitmask", &LuaTangibleObject::setOptionsBitmask},
+																  {"setPvpStatusBitmask", &LuaTangibleObject::setPvpStatusBitmask},
+																  {"setPvpStatusBit", &LuaTangibleObject::setPvpStatusBit},
+																  {"broadcastPvpStatusBitmask", &LuaTangibleObject::broadcastPvpStatusBitmask},
+																  {"sendPvpStatusTo", &LuaTangibleObject::sendPvpStatusTo},
+																  {"getPvpStatusBitmask", &LuaTangibleObject::getPvpStatusBitmask},
+																  {"isChangingFactionStatus", &LuaTangibleObject::isChangingFactionStatus},
+																  {"getFactionStatus", &LuaTangibleObject::getFactionStatus},
+																  {"setFutureFactionStatus", &LuaTangibleObject::setFutureFactionStatus},
+																  {"isOnLeave", &LuaTangibleObject::isOnLeave},
+																  {"isOvert", &LuaTangibleObject::isOvert},
+																  {"isCovert", &LuaTangibleObject::isCovert},
+																  {"setCustomizationVariable", &LuaTangibleObject::setCustomizationVariable},
+																  {"getPaletteColorCount", &LuaTangibleObject::getPaletteColorCount},
+																  {"setConditionDamage", &LuaTangibleObject::setConditionDamage},
+																  {"setMaxCondition", &LuaTangibleObject::setMaxCondition},
+																  {"setFaction", &LuaTangibleObject::setFaction},
+																  {"getFaction", &LuaTangibleObject::getFaction},
+																  {"setFactionStatus", &LuaTangibleObject::setFactionStatus},
+																  {"isImperial", &LuaTangibleObject::isImperial},
+																  {"isRebel", &LuaTangibleObject::isRebel},
+																  {"isNeutral", &LuaTangibleObject::isNeutral},
+																  {"hasActiveArea", &LuaTangibleObject::hasActiveArea},
+																  {"isInvisible", &LuaTangibleObject::isInvisible},
+																  {"getLuaStringData", &LuaTangibleObject::getLuaStringData},
+																  {"setLuaStringData", &LuaTangibleObject::setLuaStringData},
+																  {"deleteLuaStringData", &LuaTangibleObject::deleteLuaStringData},
+																  {"setOptionBit", &LuaTangibleObject::setOptionBit},
+																  {"clearOptionBit", &LuaTangibleObject::clearOptionBit},
+																  {"hasOptionBit", &LuaTangibleObject::hasOptionBit},
+																  {"getCraftersName", &LuaTangibleObject::getCraftersName},
+																  {"getJunkDealerNeeded", &LuaTangibleObject::getJunkDealerNeeded},
+																  {"getJunkValue", &LuaTangibleObject::getJunkValue},
+																  {"isBroken", &LuaTangibleObject::isBroken},
+																  {"isSliced", &LuaTangibleObject::isSliced},
+																  {"isNoTrade", &LuaTangibleObject::isNoTrade},
+																  {"getMainDefender", &LuaTangibleObject::getMainDefender},
+																  {0, 0}};
 
-LuaTangibleObject::LuaTangibleObject(lua_State *L) : LuaSceneObject(L) {
+LuaTangibleObject::LuaTangibleObject(lua_State* L) : LuaSceneObject(L) {
 #ifdef DYNAMIC_CAST_LUAOBJECTS
 	realObject = dynamic_cast<TangibleObject*>(_getRealSceneObject());
 
@@ -68,7 +66,7 @@ LuaTangibleObject::LuaTangibleObject(lua_State *L) : LuaSceneObject(L) {
 #endif
 }
 
-LuaTangibleObject::~LuaTangibleObject(){
+LuaTangibleObject::~LuaTangibleObject() {
 }
 
 int LuaTangibleObject::_setObject(lua_State* L) {
@@ -106,7 +104,7 @@ int LuaTangibleObject::getPaletteColorCount(lua_State* L) {
 	String variableName = lua_tostring(L, -1);
 
 	String appearanceFilename = realObject->getObjectTemplate()->getAppearanceFilename();
-	VectorMap<String, Reference<CustomizationVariable*> > variables;
+	VectorMap<String, Reference<CustomizationVariable*>> variables;
 	AssetCustomizationManagerTemplate::instance()->getCustomizationVariables(appearanceFilename.hashCode(), variables, false);
 
 	int colors = 0;
@@ -180,7 +178,7 @@ int LuaTangibleObject::broadcastPvpStatusBitmask(lua_State* L) {
 }
 
 int LuaTangibleObject::sendPvpStatusTo(lua_State* L) {
-	CreatureObject* creature = (CreatureObject*) lua_touserdata(L, -1);
+	CreatureObject* creature = (CreatureObject*)lua_touserdata(L, -1);
 
 	if (creature == nullptr)
 		return 0;
@@ -246,7 +244,7 @@ int LuaTangibleObject::setMaxCondition(lua_State* L) {
 	return 0;
 }
 
-int LuaTangibleObject::setFaction(lua_State* L){
+int LuaTangibleObject::setFaction(lua_State* L) {
 	uint32 faction = lua_tointeger(L, -1);
 
 	realObject->setFaction(faction);
@@ -254,7 +252,7 @@ int LuaTangibleObject::setFaction(lua_State* L){
 	return 0;
 }
 
-int LuaTangibleObject::getFaction(lua_State* L){
+int LuaTangibleObject::getFaction(lua_State* L) {
 	uint32 faction = realObject->getFaction();
 
 	lua_pushinteger(L, faction);
@@ -262,19 +260,19 @@ int LuaTangibleObject::getFaction(lua_State* L){
 	return 1;
 }
 
-int LuaTangibleObject::isImperial(lua_State* L){
+int LuaTangibleObject::isImperial(lua_State* L) {
 	lua_pushboolean(L, realObject->isImperial());
 
 	return 1;
 }
 
-int LuaTangibleObject::isRebel(lua_State* L){
+int LuaTangibleObject::isRebel(lua_State* L) {
 	lua_pushboolean(L, realObject->isRebel());
 
 	return 1;
 }
 
-int LuaTangibleObject::isNeutral(lua_State* L){
+int LuaTangibleObject::isNeutral(lua_State* L) {
 	lua_pushboolean(L, realObject->isNeutral());
 
 	return 1;
@@ -297,7 +295,7 @@ int LuaTangibleObject::isInvisible(lua_State* L) {
 	return 1;
 }
 
-int LuaTangibleObject::setLuaStringData(lua_State *L) {
+int LuaTangibleObject::setLuaStringData(lua_State* L) {
 	Locker locker(realObject);
 
 	String key = lua_tostring(L, -2);
@@ -317,7 +315,7 @@ int LuaTangibleObject::deleteLuaStringData(lua_State* L) {
 	return 0;
 }
 
-int LuaTangibleObject::getLuaStringData(lua_State *L) {
+int LuaTangibleObject::getLuaStringData(lua_State* L) {
 	String key = lua_tostring(L, -1);
 	String data = realObject->getLuaStringData(key);
 
@@ -377,7 +375,7 @@ int LuaTangibleObject::setFactionStatus(lua_State* L) {
 	return 0;
 }
 
-int LuaTangibleObject::getJunkDealerNeeded(lua_State* L){
+int LuaTangibleObject::getJunkDealerNeeded(lua_State* L) {
 	int dealer = realObject->getJunkDealerNeeded();
 
 	lua_pushinteger(L, dealer);
@@ -385,7 +383,7 @@ int LuaTangibleObject::getJunkDealerNeeded(lua_State* L){
 	return 1;
 }
 
-int LuaTangibleObject::getJunkValue(lua_State* L){
+int LuaTangibleObject::getJunkValue(lua_State* L) {
 	int value = realObject->getJunkValue();
 
 	lua_pushinteger(L, value);
@@ -393,7 +391,7 @@ int LuaTangibleObject::getJunkValue(lua_State* L){
 	return 1;
 }
 
-int LuaTangibleObject::isBroken(lua_State* L){
+int LuaTangibleObject::isBroken(lua_State* L) {
 	bool broken = realObject->isBroken();
 
 	lua_pushboolean(L, broken);
@@ -401,7 +399,7 @@ int LuaTangibleObject::isBroken(lua_State* L){
 	return 1;
 }
 
-int LuaTangibleObject::isSliced(lua_State* L){
+int LuaTangibleObject::isSliced(lua_State* L) {
 	bool sliced = realObject->isSliced();
 
 	lua_pushboolean(L, sliced);
@@ -409,7 +407,7 @@ int LuaTangibleObject::isSliced(lua_State* L){
 	return 1;
 }
 
-int LuaTangibleObject::isNoTrade(lua_State* L){
+int LuaTangibleObject::isNoTrade(lua_State* L) {
 	bool noTrade = realObject->isNoTrade();
 
 	lua_pushboolean(L, noTrade);

@@ -15,7 +15,7 @@ ProceduralTerrainAppearance::ProceduralTerrainAppearance() : Logger("ProceduralT
 	terrainGenerator = new TerrainGenerator(this);
 	terrainMaps = new TerrainMaps();
 
-	//float defaultHeight;
+	// float defaultHeight;
 
 	size = 0;
 	chunkSize = 0;
@@ -90,8 +90,10 @@ void ProceduralTerrainAppearance::getWaterBoundariesInAABB(const AABB& bounds, V
 		Vector3 boundaryExtents = boundsBox.extents();
 		Vector3 extents = bounds.extents();
 
-		if (fabs(center.getX()) > (boundaryExtents.getX() + extents.getX())) continue;
-	   	if (fabs(center.getY()) > (boundaryExtents.getY() + extents.getY())) continue;
+		if (fabs(center.getX()) > (boundaryExtents.getX() + extents.getX()))
+			continue;
+		if (fabs(center.getY()) > (boundaryExtents.getY() + extents.getY()))
+			continue;
 
 		boundaries->add(boundary);
 	}
@@ -105,7 +107,7 @@ void ProceduralTerrainAppearance::parseFromIffStream(engine::util::IffStream* if
 	// known terrain versions
 	case '0013': // old test-style
 	case '0014': // normal zones
-	//case '0015': // Post-CU zones: TODO: add these
+				 // case '0015': // Post-CU zones: TODO: add these
 		parseFromIffStream(iffStream, version);
 		break;
 	default:
@@ -248,7 +250,7 @@ Layer* ProceduralTerrainAppearance::getLayer(float x, float y) const {
 
 		if (returnLayer != nullptr)
 			return returnLayer;
-		//Vector<TerrainRule*>* rules = layer->getRules();
+		// Vector<TerrainRule*>* rules = layer->getRules();
 	}
 
 	return returnLayer;
@@ -259,7 +261,6 @@ float ProceduralTerrainAppearance::calculateFeathering(float value, int featheri
 	 * 2: sqrt(x)
 	 * 3: x^2 * (3 - 2x)
 	 */
-
 
 	float result = value;
 
@@ -274,7 +275,7 @@ float ProceduralTerrainAppearance::calculateFeathering(float value, int featheri
 		result = result * result * (3 - 2 * result);
 		break;
 	case 0:
-		//result = result;
+		// result = result;
 		break;
 	default:
 		result = 0;
@@ -384,9 +385,7 @@ float ProceduralTerrainAppearance::processTerrain(const Layer* layer, float x, f
 					processTerrain(layer, x, y, baseValue, affectorTransformValue * transformValue, affectorType);
 				}
 			}
-
 		}
-
 	}
 
 	return transformValue;

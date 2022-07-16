@@ -17,9 +17,7 @@ class ChatSendToRoomCallback : public MessageCallback {
 	uint32 counter;
 
 public:
-	ChatSendToRoomCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), roomID(0), counter(0) {
-
+	ChatSendToRoomCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), roomID(0), counter(0) {
 	}
 
 	void parse(Message* message) {
@@ -30,7 +28,6 @@ public:
 		roomID = message->parseInt();
 
 		counter = message->parseInt();
-
 	}
 
 	void run() {
@@ -44,8 +41,6 @@ public:
 		if (chatManager != nullptr)
 			chatManager->handleChatRoomMessage(player, chatMessage, roomID, counter);
 	}
-
 };
-
 
 #endif /* CHATSENDTOROOMCALLBACK_H_ */

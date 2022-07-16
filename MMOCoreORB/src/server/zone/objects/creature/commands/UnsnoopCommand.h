@@ -7,14 +7,10 @@
 
 class UnsnoopCommand : public QueueCommand {
 public:
-
-	UnsnoopCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	UnsnoopCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //UNSNOOPCOMMAND_H_
+#endif // UNSNOOPCOMMAND_H_

@@ -11,7 +11,7 @@ ConfigManager::ConfigManager() {
 	setLoggingName("ConfigManager");
 #ifdef DEBUG_CONFIGMANAGER
 	setLogLevel(Logger::DEBUG);
-#else // DEBUG_CONFIGMANAGER
+#else  // DEBUG_CONFIGMANAGER
 	setLogLevel(Logger::INFO);
 #endif // DEBUG_CONFIGMANAGER
 }
@@ -137,21 +137,14 @@ void ConfigManager::dumpConfig(bool includeSecure) {
 			maxUsageCounter = itm->getUsageCounter();
 		}
 
-		msg << key
-			<< " usageCounter: " << itm->getUsageCounter()
-			<< " (" << ps << "/s)"
-			<< " bool: " << itm->getBool()
-			<< " int: " << itm->getInt()
-			<< " float: " << itm->getFloat()
-			<< " str: '" << stringVal.escapeString()
-			<< "'";
+		msg << key << " usageCounter: " << itm->getUsageCounter() << " (" << ps << "/s)"
+			<< " bool: " << itm->getBool() << " int: " << itm->getInt() << " float: " << itm->getFloat() << " str: '" << stringVal.escapeString() << "'";
 
 		msg.flush();
 	}
 
 	if (!hottestKey.isEmpty()) {
-		info(true) << "Hottest key: " <<
-		       	hottestKey << " usageCounter: " << maxUsageCounter << " (" << maxPS << "/s)";
+		info(true) << "Hottest key: " << hottestKey << " usageCounter: " << maxUsageCounter << " (" << maxPS << "/s)";
 	}
 
 	auto engineConfig = Core::getPropertiesString();
@@ -190,7 +183,7 @@ bool ConfigManager::parseConfigData(const String& prefix, bool isGlobal, int max
 	}
 
 	if (isArray) {
-		Vector <ConfigDataItem *>* elements = new Vector <ConfigDataItem *>();
+		Vector<ConfigDataItem*>* elements = new Vector<ConfigDataItem*>();
 
 		lua_pushnil(L); // First key
 
@@ -316,9 +309,9 @@ bool ConfigManager::parseConfigJSONRecursive(const String prefix, JSONSerializat
 			}
 
 			bool isValid = true;
-			Vector <ConfigDataItem *>* elements = new Vector <ConfigDataItem *>();
+			Vector<ConfigDataItem*>* elements = new Vector<ConfigDataItem*>();
 
-			for (auto jsonElement = jsonData->begin();isValid && jsonElement != jsonData->end(); ++jsonElement) {
+			for (auto jsonElement = jsonData->begin(); isValid && jsonElement != jsonData->end(); ++jsonElement) {
 				switch (jsonElement->type()) {
 				case JSONSerializationType::value_t::boolean:
 					elements->add(new ConfigDataItem((bool)jsonElement.value().get<bool>()));
@@ -601,7 +594,7 @@ bool ConfigManager::getAsJSON(const String& target, JSONSerializationType& jsonD
 				writeJSONPath(tokenizer, jsonData, jsonValue);
 			}
 		}
-	} catch(...) {
+	} catch (...) {
 		return false;
 	}
 
@@ -676,9 +669,9 @@ bool ConfigManager::setStringFromFile(const String& name, const String& fileName
 
 		return setString(name, newValue.toString());
 	} catch (const FileNotFoundException& e) {
-		error("setStringFromFile(" + name + ", " + fileName +") File Not Found.");
+		error("setStringFromFile(" + name + ", " + fileName + ") File Not Found.");
 	} catch (const Exception& e) {
-		error("setStringFromFile(" + name + ", " + fileName +") Unexpected exception reading file.");
+		error("setStringFromFile(" + name + ", " + fileName + ") Unexpected exception reading file.");
 	}
 
 	return false;
@@ -690,7 +683,7 @@ bool ConfigManager::setStringFromFile(const String& name, const String& fileName
 
 ConfigDataItem::ConfigDataItem(lua_Number value) {
 	asNumber = value;
-	asBool   = (bool)asNumber;
+	asBool = (bool)asNumber;
 	asString = String::valueOf(value);
 	asVector = nullptr;
 	asStringVector = nullptr;
@@ -700,19 +693,19 @@ ConfigDataItem::ConfigDataItem(lua_Number value) {
 
 ConfigDataItem::ConfigDataItem(int value) {
 	asNumber = (lua_Number)value;
-	asBool   = (bool)asNumber;
+	asBool = (bool)asNumber;
 	asString = String::valueOf(value);
 }
 
 ConfigDataItem::ConfigDataItem(bool value) {
 	asNumber = value ? 1.0f : 0.0f;
-	asBool   = value;
+	asBool = value;
 	asString = String(value ? "true" : "false");
 }
 
 ConfigDataItem::ConfigDataItem(float value) {
 	asNumber = (lua_Number)value;
-	asBool   = (bool)asNumber;
+	asBool = (bool)asNumber;
 	asString = String::valueOf(value);
 }
 
@@ -730,7 +723,7 @@ ConfigDataItem::ConfigDataItem(const String& value) {
 	asString = String(value);
 }
 
-ConfigDataItem::ConfigDataItem(Vector <ConfigDataItem *>* value) {
+ConfigDataItem::ConfigDataItem(Vector<ConfigDataItem*>* value) {
 	asBool = true;
 	asNumber = value->size();
 	asString = String("<Vector " + String::valueOf((int)asNumber) + ">");
@@ -743,7 +736,7 @@ ConfigDataItem::~ConfigDataItem() {
 #endif // DEBUG_CONFIGMANAGER
 
 	if (asVector != nullptr) {
-		for (int i = 0;i < asVector->size(); ++i) {
+		for (int i = 0; i < asVector->size(); ++i) {
 			auto element = asVector->getUnsafe(i);
 			delete element;
 		}
@@ -772,7 +765,7 @@ void ConfigDataItem::getAsJSON(JSONSerializationType& jsonData) {
 	if (asVector != nullptr) {
 		jsonData = JSONSerializationType::array();
 
-		for (int i = 0;i < asVector->size(); i++) {
+		for (int i = 0; i < asVector->size(); i++) {
 			JSONSerializationType jsonValue;
 			ConfigDataItem* curItem = asVector->get(i);
 

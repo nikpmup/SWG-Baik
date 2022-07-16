@@ -51,7 +51,6 @@ public:
 		lootChance = lge.lootChance;
 
 		return *this;
-
 	}
 
 	inline const String& getLootGroupName() const {
@@ -62,6 +61,5 @@ public:
 		return lootChance;
 	}
 };
-
 
 #endif /* LOOTGROUPENTRY_H_ */

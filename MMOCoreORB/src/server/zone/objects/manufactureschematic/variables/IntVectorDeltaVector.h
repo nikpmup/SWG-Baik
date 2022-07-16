@@ -16,24 +16,21 @@ namespace objects {
 namespace manufactureschematic {
 namespace variables {
 
-class IntVectorDeltaVector: public DeltaVector<Vector<int> > {
+class IntVectorDeltaVector : public DeltaVector<Vector<int>> {
 public:
 	IntVectorDeltaVector() {
-		
 	}
-	
+
 	~IntVectorDeltaVector() {
-		
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace variables
+} // namespace manufactureschematic
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::manufactureschematic::variables;
-
 
 #endif /* INTVECTORDELTAVECTOR_H_ */

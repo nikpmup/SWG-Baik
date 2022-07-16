@@ -23,7 +23,6 @@ public:
 	}
 
 	~PetIncapacitationRecoverTask() {
-
 	}
 
 	void run() {
@@ -85,17 +84,15 @@ public:
 			}
 
 		} catch (Exception& e) {
-
 		}
 	}
-
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::events;
 

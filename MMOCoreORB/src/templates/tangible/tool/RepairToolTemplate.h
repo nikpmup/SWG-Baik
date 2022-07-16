@@ -25,14 +25,13 @@ public:
 	}
 
 	~RepairToolTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) override {
 		SharedTangibleObjectTemplate::readObject(templateData);
 		mask = templateData->getIntField("canRepairType");
-		boostSkill =templateData->getStringField("boostSkill");
-		boostSkillMod =templateData->getStringField("boostSkillMod");
+		boostSkill = templateData->getStringField("boostSkill");
+		boostSkillMod = templateData->getStringField("boostSkillMod");
 		stationType = templateData->getIntField("stationType");
 	}
 
@@ -55,7 +54,6 @@ public:
 	bool isRepairToolTemplate() const override {
 		return true;
 	}
-
 };
 
 #endif /* REPAIRTOOLTEMPLATE_H_ */

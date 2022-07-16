@@ -16,7 +16,6 @@ class StimPackTemplate : public SharedTangibleObjectTemplate {
 	float effectiveness;
 	Vector<byte> attributes;
 
-
 public:
 	const static int STIM_A = 1;
 	const static int STIM_B = 2;
@@ -31,7 +30,6 @@ public:
 	}
 
 	~StimPackTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -50,7 +48,7 @@ public:
 		}
 
 		atts.pop();
-    }
+	}
 
 	inline int getMedicineUse() {
 		return medicineUse;

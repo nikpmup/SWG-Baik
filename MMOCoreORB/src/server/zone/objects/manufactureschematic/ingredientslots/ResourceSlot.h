@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef RESOURCESLOT_H_
@@ -10,8 +10,7 @@
 #include "server/zone/objects/resource/ResourceContainer.h"
 #include "server/zone/objects/tangible/TangibleObject.h"
 
-class ResourceSlot: public IngredientSlot {
-
+class ResourceSlot : public IngredientSlot {
 	int quantity;
 	VectorMap<ManagedReference<SceneObject*>, int> parents;
 	ManagedReference<ResourceSpawn*> currentSpawn;
@@ -33,7 +32,6 @@ public:
 	}
 
 	~ResourceSlot() {
-
 	}
 
 	Object* clone() {
@@ -41,23 +39,21 @@ public:
 	}
 
 	bool add(CreatureObject* player, SceneObject* satchel, ManagedReference<TangibleObject*> tano) {
-
 		/// Must be a resource container to proceed, and
 		if (tano->isResourceContainer()) {
-
 			ResourceContainer* incomingResource = cast<ResourceContainer*>(tano.get());
 
 			/// Get spawn object
-			ManagedReference<ResourceSpawn* > spawn = incomingResource->getSpawnObject();
+			ManagedReference<ResourceSpawn*> spawn = incomingResource->getSpawnObject();
 
-			if(spawn == nullptr)
+			if (spawn == nullptr)
 				return false;
 
-			if(currentSpawn != nullptr && currentSpawn != spawn)
+			if (currentSpawn != nullptr && currentSpawn != spawn)
 				return false;
 
 			/// Verify the resource is the right type
-			if(!incomingResource->getSpawnObject()->isType(contentType))
+			if (!incomingResource->getSpawnObject()->isType(contentType))
 				return false;
 
 			if (currentSpawn == nullptr) {
@@ -69,8 +65,7 @@ public:
 
 			ManagedReference<SceneObject*> parent = incomingResource->getParent().get();
 
-			if(incomingResource->getQuantity() >= slotNeeds) {
-
+			if (incomingResource->getQuantity() >= slotNeeds) {
 				incomingResource->setQuantity(incomingResource->getQuantity() - slotNeeds, true);
 				quantity += slotNeeds;
 				currentQuantity = slotNeeds;
@@ -81,7 +76,7 @@ public:
 				incomingResource->setQuantity(0, true);
 			}
 
-			VectorMapEntry<ManagedReference<SceneObject*>, int > entry(parent, currentQuantity);
+			VectorMapEntry<ManagedReference<SceneObject*>, int> entry(parent, currentQuantity);
 			parents.add(entry);
 
 			return true;
@@ -91,20 +86,18 @@ public:
 	}
 
 	bool returnToParents(CreatureObject* player) {
-
-		if(parents.size() == 0)
+		if (parents.size() == 0)
 			return true;
 
-		if(currentSpawn == nullptr) {
+		if (currentSpawn == nullptr) {
 			warning("Spawn is null when trying to return resources");
 			return false;
 		}
 
-		for(int i = 0; i < parents.size(); ++i) {
-
+		for (int i = 0; i < parents.size(); ++i) {
 			SceneObject* parent = parents.elementAt(i).getKey();
 
-			if(parent == nullptr)
+			if (parent == nullptr)
 				continue;
 
 			bool found = false;
@@ -113,7 +106,7 @@ public:
 				ManagedReference<SceneObject*> object = parent->getContainerObject(j);
 
 				if (object->isResourceContainer()) {
-					ManagedReference<ResourceContainer*> resource = cast<ResourceContainer*>( object.get());
+					ManagedReference<ResourceContainer*> resource = cast<ResourceContainer*>(object.get());
 
 					if (resource->getSpawnName() == currentSpawn->getName()) {
 						resource->setQuantity(resource->getQuantity() + parents.get(i));
@@ -123,17 +116,17 @@ public:
 				}
 			}
 
-			if(!found) {
+			if (!found) {
 				Locker locker(currentSpawn);
 
 				ManagedReference<ResourceContainer*> newContainer = currentSpawn->createResource(parents.get(i));
 
 				locker.release();
 
-				if(newContainer != nullptr && newContainer->getQuantity() > 0) {
+				if (newContainer != nullptr && newContainer->getQuantity() > 0) {
 					Locker locker(newContainer);
 
-					if(parent->transferObject(newContainer, -1, false)) {
+					if (parent->transferObject(newContainer, -1, false)) {
 						parent->broadcastObject(newContainer, true);
 					} else {
 						error("Unable to return resource to parent, transfer failed");
@@ -148,7 +141,6 @@ public:
 						newContainer->destroyObjectFromDatabase(true);
 					}
 				}
-
 			}
 		}
 
@@ -184,7 +176,7 @@ public:
 
 	Vector<uint64> getOIDVector() {
 		Vector<uint64> oid;
-		if(currentSpawn != nullptr)
+		if (currentSpawn != nullptr)
 			oid.add(currentSpawn->getObjectID());
 		return oid;
 	}
@@ -196,6 +188,5 @@ public:
 
 		return oid;
 	}
-
 };
 #endif /*RESOURCESLOT_H_*/

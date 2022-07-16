@@ -9,13 +9,10 @@
 
 class PolearmLunge1Command : public CombatQueueCommand {
 public:
-
-	PolearmLunge1Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	PolearmLunge1Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,7 +26,6 @@ public:
 
 		return result;
 	}
-
 };
 
-#endif //POLEARMLUNGE1COMMAND_H_
+#endif // POLEARMLUNGE1COMMAND_H_

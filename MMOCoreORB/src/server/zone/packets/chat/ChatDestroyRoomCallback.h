@@ -8,7 +8,6 @@
 #ifndef CHATDESTROYROOMCALLBACK_H_
 #define CHATDESTROYROOMCALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 #include "server/chat/ChatManager.h"
 
@@ -37,8 +36,6 @@ public:
 		if (chatManager != nullptr)
 			chatManager->handleChatDestroyRoom(player, roomID, requestID);
 	}
-
 };
-
 
 #endif /* CHATDESTROYROOMCALLBACK_H_ */

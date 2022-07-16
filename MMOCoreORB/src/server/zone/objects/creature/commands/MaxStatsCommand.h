@@ -7,14 +7,10 @@
 
 class MaxStatsCommand : public QueueCommand {
 public:
-
-	MaxStatsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	MaxStatsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //MAXSTATSCOMMAND_H_
+#endif // MAXSTATSCOMMAND_H_

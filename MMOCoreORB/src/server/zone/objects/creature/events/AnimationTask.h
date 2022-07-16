@@ -13,6 +13,7 @@
 class AnimationTask : public Task {
 	ManagedReference<CreatureObject*> creature;
 	String animation;
+
 public:
 	AnimationTask(CreatureObject* creo, const String& anim) {
 		creature = creo;

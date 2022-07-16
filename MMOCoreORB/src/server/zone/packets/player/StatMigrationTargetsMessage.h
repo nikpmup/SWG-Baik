@@ -11,7 +11,7 @@ class StatMigrationTargetsMessage : public BaseMessage {
 public:
 	StatMigrationTargetsMessage(CreatureObject* creo) : BaseMessage() {
 		insertShort(0x09);
-		insertInt(0xEFAC38C4);  // CRC
+		insertInt(0xEFAC38C4); // CRC
 
 		const DeltaVector<int>* baseHam = creo->getBaseHAM();
 
@@ -26,7 +26,7 @@ public:
 
 	StatMigrationTargetsMessage(CreatureObject* creo, MigrateStatsSession* stats) {
 		insertShort(0x09);
-		insertInt(0xEFAC38C4);  // CRC
+		insertInt(0xEFAC38C4); // CRC
 
 		int totalLimit = PlayerCreationManager::instance()->getTotalAttributeLimit(creo->getSpeciesName());
 
@@ -42,7 +42,6 @@ public:
 
 		setCompression(true);
 	}
-
 };
 
 #endif /*STATMIGRATIONTARGETSMESSAGE_H_*/

@@ -7,14 +7,10 @@
 
 class ForceCommandCommand : public QueueCommand {
 public:
-
-	ForceCommandCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ForceCommandCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //FORCECOMMANDCOMMAND_H_
+#endif // FORCECOMMANDCOMMAND_H_

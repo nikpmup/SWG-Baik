@@ -7,10 +7,7 @@
 
 class DestroyCommand : public QueueCommand {
 public:
-
-	DestroyCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DestroyCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -20,11 +17,10 @@ public:
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
 
-		//Note: This command doesn't do anything...
+		// Note: This command doesn't do anything...
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DESTROYCOMMAND_H_
+#endif // DESTROYCOMMAND_H_

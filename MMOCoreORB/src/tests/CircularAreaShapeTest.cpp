@@ -17,7 +17,6 @@ namespace test {
 
 class CircularAreaShapeTest : public ::testing::Test {
 public:
-
 	CircularAreaShapeTest() {
 		// Perform creation setup here.
 	}
@@ -52,9 +51,9 @@ TEST_F(CircularAreaShapeTest, CircularAreaShapeHasRadiusSquareEqualToZeroAfterCr
 	EXPECT_EQ(circularAreaShape->getRadius2(), 0);
 }
 
-}
-}
-}
-}
-}
-}
+} // namespace test
+} // namespace areashapes
+} // namespace area
+} // namespace objects
+} // namespace zone
+} // namespace server

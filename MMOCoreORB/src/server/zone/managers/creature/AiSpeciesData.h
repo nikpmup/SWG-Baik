@@ -8,7 +8,6 @@ namespace managers {
 namespace creature {
 
 class AiSpeciesData : public Object {
-
 protected:
 	int speciesID;
 	String skeleton;
@@ -43,9 +42,9 @@ public:
 	}
 };
 
-}
-}
-}
-}
+} // namespace creature
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 #endif /* AISPECIESDATA_H_ */

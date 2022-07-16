@@ -16,7 +16,6 @@ namespace visibility {
  * Visibility manager that handles visibility and listing on bounty hunter terminals.
  */
 class VisibilityManager : public Singleton<VisibilityManager>, public Logger, public Object {
-
 	/**
 	 * Any player with a visibility greater than or equal to this amount will be
 	 * available on the bounty hunter mission terminal as a player bounty.
@@ -33,8 +32,6 @@ class VisibilityManager : public Singleton<VisibilityManager>, public Logger, pu
 	 * This is the maximum visibility that can be gained
 	 */
 	float maxVisibility;
-
-
 
 	/**
 	 * Number of days before complete visibility decay
@@ -79,7 +76,7 @@ class VisibilityManager : public Singleton<VisibilityManager>, public Logger, pu
 	/**
 	 * Visibility list that contains all currently online players with visibility.
 	 */
-	VectorMap<uint64, ManagedReference<CreatureObject*> > visibilityList;
+	VectorMap<uint64, ManagedReference<CreatureObject*>> visibilityList;
 
 	/**
 	 * Mutex for the visibilityList.
@@ -109,11 +106,10 @@ class VisibilityManager : public Singleton<VisibilityManager>, public Logger, pu
 	void decreaseVisibility(CreatureObject* creature);
 
 public:
-
-	enum { // default visibility modifiers if value does not exist in LUA
-		SABERVISMOD = 10, // equipping saber cost
+	enum {				   // default visibility modifiers if value does not exist in LUA
+		SABERVISMOD = 10,  // equipping saber cost
 		COMBATVISMOD = 25, // Combat action or force power cost
-		BUFFVISMOD = 10 // jedi self buff cost
+		BUFFVISMOD = 10	   // jedi self buff cost
 	};
 
 	/**
@@ -169,10 +165,10 @@ public:
 	}
 };
 
-}
-}
-}
-}
+} // namespace visibility
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::visibility;
 

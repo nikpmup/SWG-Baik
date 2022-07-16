@@ -26,7 +26,6 @@ public:
 	}
 
 	~CurePackTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -37,7 +36,7 @@ public:
 		commandToExecute = templateData->getStringField("commandToExecute");
 		area = templateData->getFloatField("area");
 		effectiveness = templateData->getFloatField("effectiveness");
-    }
+	}
 
 	inline float getEffectiveness() {
 		return effectiveness;
@@ -63,6 +62,5 @@ public:
 		return true;
 	}
 };
-
 
 #endif /* CUREPACKTEMPLATE_H_ */

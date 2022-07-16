@@ -17,7 +17,6 @@ class InterplanetarySurveyTask : public Task {
 	ManagedReference<InterplanetarySurvey*> surveyData;
 
 public:
-
 	InterplanetarySurveyTask(InterplanetarySurvey* survey) {
 		surveyData = survey;
 	}
@@ -25,15 +24,15 @@ public:
 	void run() {
 		// Determine what planet and type, and pull results
 		ManagedReference<ResourceManager*> rmanager = ServerCore::getZoneServer()->getResourceManager();
-		Vector<ManagedReference<ResourceSpawn*> > resources;
+		Vector<ManagedReference<ResourceSpawn*>> resources;
 		rmanager->getResourceListByType(resources, surveyData->getSurveyToolType(), surveyData->getPlanet());
 		// format email and send
 		ManagedReference<ResourceSpawn*> resourceSpawn;
 		// We need to sort this by family name
-		HashTable<String, Reference<Vector<String>*> > mapped;
-		HashTable<String, Reference<Vector<String>*> > typeMap;
+		HashTable<String, Reference<Vector<String>*>> mapped;
+		HashTable<String, Reference<Vector<String>*>> typeMap;
 
-		for(int i = 0; i < resources.size(); i++) {
+		for (int i = 0; i < resources.size(); i++) {
 			resourceSpawn = resources.get(i);
 			String family = resourceSpawn->getFamilyName();
 			String type = resourceSpawn->getFinalClass();
@@ -99,24 +98,24 @@ public:
 		}
 
 		String surveyType = tBuff.toString();
-		UnicodeString subject(String("Interplanetary Survey: " + planetName  + " - " + surveyType));
+		UnicodeString subject(String("Interplanetary Survey: " + planetName + " - " + surveyType));
 		body << "Incoming planetary survey report...\n\n";
-		body << "\\#pcontrast3 Planet: \\#pcontrast1 " << planetName <<"\n";
+		body << "\\#pcontrast3 Planet: \\#pcontrast1 " << planetName << "\n";
 		body << "\\#pcontrast3 Resource Class: \\#pcontrast1 " << surveyType << "\n\n";
 		body << "\\#pcontrast3 Resources located...\\#.\n\n";
 		auto familyit = typeMap.iterator();
 
-		while(familyit.hasNext()) {
+		while (familyit.hasNext()) {
 			String family = familyit.getNextKey();
 			auto tValues = typeMap.get(family);
 			body << family << "\n";
 
-			for(int i = 0; i < tValues->size(); i++) {
+			for (int i = 0; i < tValues->size(); i++) {
 				String sType = tValues->get(i);
 				body << "\t" << sType << "\n";
 				auto values = mapped.get(sType);
 
-				for(int j = 0; j < values->size(); j++) {
+				for (int j = 0; j < values->size(); j++) {
 					body << "\t\t\\#pcontrast1 " << values->get(j) << "\\#.\n";
 				}
 			}
@@ -129,7 +128,6 @@ public:
 		if (surveyData->isPersistent())
 			ObjectManager::instance()->destroyObjectFromDatabase(surveyData->_getObjectID());
 	}
-
 };
 
 #endif /* INTERPLANETARYSURVERYTASK_H_ */

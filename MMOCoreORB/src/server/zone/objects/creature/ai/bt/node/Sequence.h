@@ -20,8 +20,7 @@ namespace node {
 
 class Sequence : public Composite {
 public:
-	Sequence(const String& className, const uint32 id, const LuaObject& args)
-			: Composite(className, id, args) {
+	Sequence(const String& className, const uint32 id, const LuaObject& args) : Composite(className, id, args) {
 	}
 
 	virtual Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const;
@@ -29,8 +28,7 @@ public:
 
 class ParallelSequence : public Composite {
 public:
-	ParallelSequence(const String& className, const uint32 id, const LuaObject& args)
-			: Composite(className, id, args) {
+	ParallelSequence(const String& className, const uint32 id, const LuaObject& args) : Composite(className, id, args) {
 	}
 
 	virtual Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const;
@@ -38,19 +36,18 @@ public:
 
 class RandomSequence : public Composite {
 public:
-	RandomSequence(const String& className, const uint32 id, const LuaObject& args)
-			: Composite(className, id, args) {
+	RandomSequence(const String& className, const uint32 id, const LuaObject& args) : Composite(className, id, args) {
 	}
 
 	virtual Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const;
 };
 
-}
-}
-}
-}
-}
-}
-}
+} // namespace node
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif /* SEQUENCE_H_ */

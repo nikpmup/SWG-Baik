@@ -11,9 +11,7 @@
 
 class StaticObjectMessage3 : public BaseLineMessage {
 public:
-	StaticObjectMessage3(StaticObject* stao) 
-			: BaseLineMessage(stao->getObjectID(), 0x4F415453, 3, 4) {
-
+	StaticObjectMessage3(StaticObject* stao) : BaseLineMessage(stao->getObjectID(), 0x4F415453, 3, 4) {
 		insertInt(0);
 		insertStringId(stao->getObjectName());
 		insertCustomName(stao->getCustomObjectName());
@@ -21,8 +19,6 @@ public:
 
 		setSize();
 	}
-	
 };
 
 #endif /*STATICOBJECTMESSAGE3_H_*/
-

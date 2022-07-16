@@ -23,19 +23,19 @@ namespace creature {
 
 class CreatureTemplateManager : public Singleton<CreatureTemplateManager>, public Object, public Logger {
 protected:
-	VectorMap<uint32, Vector<String> > weaponMap;
-	VectorMap<uint32, Vector<String> > dressMap;
-	Vector<Reference<AiSpeciesData*> > aiSpeciesData;
+	VectorMap<uint32, Vector<String>> weaponMap;
+	VectorMap<uint32, Vector<String>> dressMap;
+	Vector<Reference<AiSpeciesData*>> aiSpeciesData;
 	Reference<Lua*> lua;
-	HashTable<uint32, Reference<CreatureTemplate*> > hashTable;
+	HashTable<uint32, Reference<CreatureTemplate*>> hashTable;
 
-	HashTable<uint32, Reference<ConversationTemplate*> > conversations;
+	HashTable<uint32, Reference<ConversationTemplate*>> conversations;
 
-	HashTable<uint32, Reference<LairTemplate*> > lairTemplates;
-	HashTable<uint32, Reference<SpawnGroup*> > spawnGroupMap;
-	HashTable<uint32, Reference<SpawnGroup*> > destroyMissionGroupMap;
-	HashTable<String, Reference<PatrolPathTemplate*> > patrolPaths;
-	HashTable<String, Reference<MobileOutfitGroup*> > outfits;
+	HashTable<uint32, Reference<LairTemplate*>> lairTemplates;
+	HashTable<uint32, Reference<SpawnGroup*>> spawnGroupMap;
+	HashTable<uint32, Reference<SpawnGroup*>> destroyMissionGroupMap;
+	HashTable<String, Reference<PatrolPathTemplate*>> patrolPaths;
+	HashTable<String, Reference<MobileOutfitGroup*>> outfits;
 	static AtomicInteger loadedMobileTemplates;
 	float globalAttackSpeedOverride;
 
@@ -67,19 +67,19 @@ public:
 		return hashTable.size();
 	}
 
-	HashTableIterator<uint32, Reference<CreatureTemplate*> > iterator() {
+	HashTableIterator<uint32, Reference<CreatureTemplate*>> iterator() {
 		return hashTable.iterator();
 	}
 
-	HashTableIterator<uint32, Reference<LairTemplate*> > lairTemplateIterator() {
+	HashTableIterator<uint32, Reference<LairTemplate*>> lairTemplateIterator() {
 		return lairTemplates.iterator();
 	}
 
-	HashTableIterator<uint32, Reference<SpawnGroup*> > spawnGroupIterator() {
+	HashTableIterator<uint32, Reference<SpawnGroup*>> spawnGroupIterator() {
 		return spawnGroupMap.iterator();
 	}
 
-	HashTableIterator<uint32, Reference<SpawnGroup*> > destroyMissionGroupIterator() {
+	HashTableIterator<uint32, Reference<SpawnGroup*>> destroyMissionGroupIterator() {
 		return destroyMissionGroupMap.iterator();
 	}
 
@@ -142,13 +142,12 @@ public:
 	float getGlobalAttackSpeedOverride() const {
 		return globalAttackSpeedOverride;
 	}
-
 };
 
-}
-}
-}
-}
+} // namespace creature
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::creature;
 

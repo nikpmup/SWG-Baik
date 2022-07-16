@@ -8,17 +8,13 @@
 #ifndef CLOSELOTTERYWINDOW_H_
 #define CLOSELOTTERYWINDOW_H_
 
-
 #include "ObjectControllerMessage.h"
 
 class CloseLotteryWindow : public ObjectControllerMessage {
 public:
-	CloseLotteryWindow(CreatureObject* creo, SceneObject* inventory)
-			: ObjectControllerMessage(creo->getObjectID(), 0x0B, 0x43D) {
+	CloseLotteryWindow(CreatureObject* creo, SceneObject* inventory) : ObjectControllerMessage(creo->getObjectID(), 0x0B, 0x43D) {
 		insertLong(inventory->getObjectID());
 	}
-
 };
-
 
 #endif /* CLOSELOTTERYWINDOW_H_ */

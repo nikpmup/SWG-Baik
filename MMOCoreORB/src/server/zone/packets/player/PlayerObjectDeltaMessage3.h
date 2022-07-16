@@ -10,10 +10,9 @@
 
 class PlayerObjectDeltaMessage3 : public DeltaMessage {
 	PlayerObject* play;
-	
+
 public:
-	PlayerObjectDeltaMessage3(PlayerObject* pl)
-			: DeltaMessage(pl->getObjectID(), 0x504C4159, 3) {
+	PlayerObjectDeltaMessage3(PlayerObject* pl) : DeltaMessage(pl->getObjectID(), 0x504C4159, 3) {
 		play = pl;
 	}
 
@@ -21,12 +20,12 @@ public:
 		startUpdate(7);
 		insertAscii(pTitle);
 	}
-	
+
 	void setUpdateTypeNine(int value) {
 		startUpdate(9);
 		insertInt(value);
 	}
-	
+
 	void updateCharacterBitmask(uint32 bitmask) {
 		startUpdate(5);
 		insertInt(4);
@@ -35,6 +34,5 @@ public:
 		insertInt(0);
 		insertInt(0);
 	}
-	
 };
 #endif /*PLAYEROBJECTDELTAMESSAGE3_H_*/

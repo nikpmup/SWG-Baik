@@ -11,10 +11,9 @@
 class MountCommand : public QueueCommand {
 	Vector<uint32> restrictedBuffCRCs;
 	uint32 gallopCRC;
-public:
 
-	MountCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
+public:
+	MountCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		gallopCRC = STRING_HASHCODE("gallop");
 
 		restrictedBuffCRCs.add(STRING_HASHCODE("burstrun"));
@@ -22,7 +21,6 @@ public:
 		restrictedBuffCRCs.add(BuffCRC::JEDI_FORCE_RUN_1);
 		restrictedBuffCRCs.add(BuffCRC::JEDI_FORCE_RUN_2);
 		restrictedBuffCRCs.add(BuffCRC::JEDI_FORCE_RUN_3);
-
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -50,7 +48,7 @@ public:
 		if (!object->isVehicleObject() && !object->isMount())
 			return INVALIDTARGET;
 
-		CreatureObject* vehicle = cast<CreatureObject*>( object.get());
+		CreatureObject* vehicle = cast<CreatureObject*>(object.get());
 
 		Locker clocker(vehicle, creature);
 
@@ -99,14 +97,13 @@ public:
 
 		creature->updateCooldownTimer("mount_dismount", 2000);
 
-		//We need to crosslock buff and creature below
+		// We need to crosslock buff and creature below
 		clocker.release();
 
-		for(int i=0; i<restrictedBuffCRCs.size(); i++) {
-
+		for (int i = 0; i < restrictedBuffCRCs.size(); i++) {
 			uint32 buffCRC = restrictedBuffCRCs.get(i);
 
-			if(creature->hasBuff(buffCRC)) {
+			if (creature->hasBuff(buffCRC)) {
 				ManagedReference<Buff*> buff = creature->getBuff(buffCRC);
 
 				Locker lock(buff, creature);
@@ -115,25 +112,27 @@ public:
 			}
 		}
 
-		if(creature->hasBuff(gallopCRC)) {
+		if (creature->hasBuff(gallopCRC)) {
 			creature->removeBuff(gallopCRC); // This should "fix" any players that have the old gallop buff
 		}
 
-		//We released this crosslock before to remove player buffs
+		// We released this crosslock before to remove player buffs
 		Locker vehicleLocker(vehicle, creature);
 
 		if (vehicle->hasBuff(gallopCRC)) {
-			Core::getTaskManager()->executeTask([=] () {
-				uint32 gallopCRC = STRING_HASHCODE("gallop");
-				Locker lock(vehicle);
+			Core::getTaskManager()->executeTask(
+				[=]() {
+					uint32 gallopCRC = STRING_HASHCODE("gallop");
+					Locker lock(vehicle);
 
-				ManagedReference<Buff*> gallop = vehicle->getBuff(gallopCRC);
-				Locker blocker(gallop, vehicle);
+					ManagedReference<Buff*> gallop = vehicle->getBuff(gallopCRC);
+					Locker blocker(gallop, vehicle);
 
-				if (gallop != nullptr) {
-					gallop->applyAllModifiers();
-				}
-			}, "AddGallopModsLambda");
+					if (gallop != nullptr) {
+						gallop->applyAllModifiers();
+					}
+				},
+				"AddGallopModsLambda");
 		}
 
 		// Speed hack buffer
@@ -160,7 +159,7 @@ public:
 		}
 
 		// add speed multiplier mod for existing buffs
-		if(vehicle->getSpeedMultiplierMod() != 0)
+		if (vehicle->getSpeedMultiplierMod() != 0)
 			newSpeed *= vehicle->getSpeedMultiplierMod();
 
 		// Add our change to the buffer history
@@ -183,4 +182,4 @@ public:
 	}
 };
 
-#endif //MOUNTCOMMAND_H_
+#endif // MOUNTCOMMAND_H_

@@ -9,16 +9,15 @@
 
 class CellObjectMessage3 : public BaseLineMessage {
 public:
-	CellObjectMessage3(uint64 coId, int cellNumber)
-			: BaseLineMessage(coId, 0x53434C54, 3, 0x05) {
-		//BaseLineMessage(uint64 oid, uint32 name, uint8 type, uint16 opcnt) {
+	CellObjectMessage3(uint64 coId, int cellNumber) : BaseLineMessage(coId, 0x53434C54, 3, 0x05) {
+		// BaseLineMessage(uint64 oid, uint32 name, uint8 type, uint16 opcnt) {
 		insertInt(0);
 		insertShort(0); // STFName
 		insertInt(0);
 		insertShort(0); // STF
-		insertInt(0); // custom name
+		insertInt(0);	// custom name
 		insertInt(0);
-		insertInt(cellNumber); //Cell Number, like 1,2,3,4 etc. NOT Object id.
+		insertInt(cellNumber); // Cell Number, like 1,2,3,4 etc. NOT Object id.
 
 		setSize();
 
@@ -43,10 +42,9 @@ public:
 		01 00 00 00 // Cell Number
 		*/
 
-		//StringBuffer msg;
-		//msg << hex << "CellObjectMessage3 [Object = " << coId << "]" << " cellID to (" << cellID <<  ")\n";
-		//System::out << msg.toString();
-
+		// StringBuffer msg;
+		// msg << hex << "CellObjectMessage3 [Object = " << coId << "]" << " cellID to (" << cellID <<  ")\n";
+		// System::out << msg.toString();
 	}
 };
 

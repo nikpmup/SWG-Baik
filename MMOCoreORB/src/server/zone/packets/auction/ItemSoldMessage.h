@@ -24,12 +24,10 @@
  * 12 - Unknown error
  * 13 - Too many items
  * 14 - Over 20,000 credits
-*/
+ */
 
 class ItemSoldMessage : public BaseMessage {
-
 public:
-
 	const static int SUCCESS = 0;
 	const static int INVALIDAUCTIONER = 1;
 	const static int INVALIDITEM = 2;
@@ -54,18 +52,30 @@ public:
 
 	static String statusToString(int status) {
 		switch (status) {
-		case SUCCESS: return String("SUCCESS");
-		case INVALIDAUCTIONER: return String("INVALIDAUCTIONER");
-		case INVALIDITEM: return String("INVALIDITEM");
-		case VENDORNOTWORKING: return String("VENDORNOTWORKING");
-		case INVALIDSALEPRICE: return String("INVALIDSALEPRICE");
-		case INVALIDSALEDURATION: return String("INVALIDSALEDURATION");
-		case ALREADYFORSALE: return String("ALREADYFORSALE");
-		case UNKNOWNERROR: return String("UNKNOWNERROR");
-		case NOTOWN: return String("NOTOWN");
-		case NOTENOUGHCREDITS: return String("NOTENOUGHCREDITS");
-		case TOOMANYITEMS: return String("TOOMANYITEMS");
-		case OVER20000: return String("OVER20000");
+		case SUCCESS:
+			return String("SUCCESS");
+		case INVALIDAUCTIONER:
+			return String("INVALIDAUCTIONER");
+		case INVALIDITEM:
+			return String("INVALIDITEM");
+		case VENDORNOTWORKING:
+			return String("VENDORNOTWORKING");
+		case INVALIDSALEPRICE:
+			return String("INVALIDSALEPRICE");
+		case INVALIDSALEDURATION:
+			return String("INVALIDSALEDURATION");
+		case ALREADYFORSALE:
+			return String("ALREADYFORSALE");
+		case UNKNOWNERROR:
+			return String("UNKNOWNERROR");
+		case NOTOWN:
+			return String("NOTOWN");
+		case NOTENOUGHCREDITS:
+			return String("NOTENOUGHCREDITS");
+		case TOOMANYITEMS:
+			return String("TOOMANYITEMS");
+		case OVER20000:
+			return String("OVER20000");
 		}
 
 		StringBuffer msg;

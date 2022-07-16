@@ -9,14 +9,10 @@
 
 class GmJediStateCommand : public QueueCommand {
 public:
-
-	GmJediStateCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GmJediStateCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -28,24 +24,22 @@ public:
 		if (object == nullptr || !object->isCreatureObject())
 			return INVALIDTARGET;
 
-		CreatureObject* targetCreature = cast<CreatureObject*>( object.get());
+		CreatureObject* targetCreature = cast<CreatureObject*>(object.get());
 
 		Locker clocker(targetCreature, creature);
 
 		ManagedReference<PlayerObject*> targetGhost = targetCreature->getPlayerObject();
-		if(targetGhost == nullptr)
+		if (targetGhost == nullptr)
 			return INVALIDTARGET;
 
 		StringTokenizer args(arguments.toString());
 
 		int jediState = args.getIntToken();
 
-
 		targetGhost->setJediState(jediState);
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //GMJEDISTATECOMMAND_H_
+#endif // GMJEDISTATECOMMAND_H_

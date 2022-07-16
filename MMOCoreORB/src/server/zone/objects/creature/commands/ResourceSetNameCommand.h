@@ -7,14 +7,10 @@
 
 class ResourceSetNameCommand : public QueueCommand {
 public:
-
-	ResourceSetNameCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ResourceSetNameCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //RESOURCESETNAMECOMMAND_H_
+#endif // RESOURCESETNAMECOMMAND_H_

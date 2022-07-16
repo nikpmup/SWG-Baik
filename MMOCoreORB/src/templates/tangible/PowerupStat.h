@@ -12,14 +12,14 @@
 
 #include "engine/util/json_utils.h"
 
-class PowerupStat: public virtual Serializable {
+class PowerupStat : public virtual Serializable {
 protected:
 	SerializableString attributeToModify;
 	SerializableString name;
 	SerializableString pupAttribute;
 	float value;
-public:
 
+public:
 	PowerupStat() {
 		value = 0;
 
@@ -60,8 +60,7 @@ public:
 		if (this == &stat)
 			return true;
 
-		return ((attributeToModify == stat.attributeToModify)
-				&& (name == stat.name) && (pupAttribute == stat.pupAttribute));
+		return ((attributeToModify == stat.attributeToModify) && (name == stat.name) && (pupAttribute == stat.pupAttribute));
 	}
 
 	friend void to_json(nlohmann::json& j, const PowerupStat& s) {

@@ -7,14 +7,10 @@
 
 class GetAttributesCommand : public QueueCommand {
 public:
-
-	GetAttributesCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GetAttributesCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //GETATTRIBUTESCOMMAND_H_
+#endif // GETATTRIBUTESCOMMAND_H_

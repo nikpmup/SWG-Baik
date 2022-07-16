@@ -37,7 +37,7 @@ int PlantObjectImplementation::handleObjectMenuSelect(CreatureObject* player, by
 		return 0;
 	}
 
-	ManagedReference<BuildingObject*> building = cast<BuildingObject*>( rootParent.get());
+	ManagedReference<BuildingObject*> building = cast<BuildingObject*>(rootParent.get());
 
 	if ((building == nullptr || !building->isOnAdminList(player) || !parent->isCellObject()) && selectedID >= 69 && selectedID <= 74) {
 		player->sendSystemMessage("@plant_grow:must_be_in_building"); // The plant must be in a building which you administrate.
@@ -68,7 +68,7 @@ int PlantObjectImplementation::handleObjectMenuSelect(CreatureObject* player, by
 
 		ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
 
-		if(inventory->isContainerFullRecursive()){
+		if (inventory->isContainerFullRecursive()) {
 			player->sendSystemMessage("@plant_grow:no_inventory"); // You do not have any inventory space.
 			return 0;
 		}
@@ -80,18 +80,17 @@ int PlantObjectImplementation::handleObjectMenuSelect(CreatureObject* player, by
 		String fruitTemplate = "object/tangible/item/plant/force_melon.iff";
 		Reference<SceneObject*> fruit = zserv->createObject(fruitTemplate.hashCode(), 1);
 
-		if(fruit == nullptr) {
+		if (fruit == nullptr) {
 			return 0;
 		}
 
-		if (!inventory->transferObject(fruit, -1, false, false) ) {
+		if (!inventory->transferObject(fruit, -1, false, false)) {
 			fruit->destroyObjectFromDatabase(true);
 			return 0;
 		}
 
 		inventory->broadcastObject(fruit, true);
 		player->sendSystemMessage("@plant_grow:pick_fruit"); // You pick a piece of fruit from the plant.
-
 	}
 
 	return 1;
@@ -158,14 +157,14 @@ void PlantObjectImplementation::sendResourceSUI(CreatureObject* player, int type
 	ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
 	ManagedReference<SceneObject*> sceneObject = nullptr;
 
-	for (int i=0; i< inventory->getContainerObjectsSize(); i++) {
+	for (int i = 0; i < inventory->getContainerObjectsSize(); i++) {
 		sceneObject = inventory->getContainerObject(i);
 
 		if (sceneObject == nullptr)
 			continue;
 
 		if (sceneObject->isResourceContainer()) {
-			ManagedReference<ResourceContainer*> rcno = cast<ResourceContainer*>( sceneObject.get());
+			ManagedReference<ResourceContainer*> rcno = cast<ResourceContainer*>(sceneObject.get());
 
 			if (rcno == nullptr)
 				continue;
@@ -215,17 +214,24 @@ void PlantObjectImplementation::initializePlant(int size) {
 		while (criticalAttribTwo == criticalAttribOne)
 			criticalAttribTwo = getCriticalAttribute(1 + System::random(6));
 	}
-
 }
 
 void PlantObjectImplementation::changeSize(int size) {
 	String plantTemplate = "";
 
 	switch (size) {
-	case 0: plantTemplate = "object/tangible/loot/plant_grow/plant_stage_dead.iff"; break;
-	case 1: plantTemplate = "object/tangible/loot/plant_grow/plant_stage_1.iff"; break;
-	case 2: plantTemplate = "object/tangible/loot/plant_grow/plant_stage_2.iff"; break;
-	case 3: plantTemplate = "object/tangible/loot/plant_grow/plant_stage_3.iff"; break;
+	case 0:
+		plantTemplate = "object/tangible/loot/plant_grow/plant_stage_dead.iff";
+		break;
+	case 1:
+		plantTemplate = "object/tangible/loot/plant_grow/plant_stage_1.iff";
+		break;
+	case 2:
+		plantTemplate = "object/tangible/loot/plant_grow/plant_stage_2.iff";
+		break;
+	case 3:
+		plantTemplate = "object/tangible/loot/plant_grow/plant_stage_3.iff";
+		break;
 	}
 
 	ManagedReference<ZoneServer*> zoneServer = getZoneServer();
@@ -249,7 +255,7 @@ void PlantObjectImplementation::changeSize(int size) {
 	obj->setDirection(Math::deg2rad(getDirectionAngle()));
 
 	if (size > 0) {
-		ManagedReference<PlantObject*> newPlant = cast<PlantObject*>( obj.get());
+		ManagedReference<PlantObject*> newPlant = cast<PlantObject*>(obj.get());
 
 		if (newPlant == nullptr)
 			return;
@@ -273,14 +279,21 @@ void PlantObjectImplementation::changeSize(int size) {
 
 int PlantObjectImplementation::getCriticalAttribute(int index) {
 	switch (index) {
-	case 7: return CraftingManager::DR;
-	case 6: return CraftingManager::FL;
-	case 5: return CraftingManager::PE;
-	case 4: return CraftingManager::UT;
-	case 3: return CraftingManager::SR;
-	case 2: return CraftingManager::MA;
+	case 7:
+		return CraftingManager::DR;
+	case 6:
+		return CraftingManager::FL;
+	case 5:
+		return CraftingManager::PE;
+	case 4:
+		return CraftingManager::UT;
+	case 3:
+		return CraftingManager::SR;
+	case 2:
+		return CraftingManager::MA;
 	case 1:
-	default: return CraftingManager::OQ;
+	default:
+		return CraftingManager::OQ;
 	}
 }
 

@@ -7,14 +7,10 @@
 
 class SetChargeCommand : public QueueCommand {
 public:
-
-	SetChargeCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetChargeCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETCHARGECOMMAND_H_
+#endif // SETCHARGECOMMAND_H_

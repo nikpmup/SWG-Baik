@@ -18,11 +18,9 @@ class SkillBuffTemplate : public SharedTangibleObjectTemplate {
 
 public:
 	SkillBuffTemplate() : duration(0), buffCRC(0) {
-
 	}
 
 	~SkillBuffTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -44,14 +42,13 @@ public:
 		buffName = templateData->getStringField("buffName");
 
 		buffCRC = templateData->getIntField("buffCRC");
+	}
 
-    }
-
-    inline String& getBuffName() {
+	inline String& getBuffName() {
 		return buffName;
 	}
 
-    inline int getDuration() const {
+	inline int getDuration() const {
 		return duration;
 	}
 
@@ -63,11 +60,9 @@ public:
 		return true;
 	}
 
-	inline unsigned int getBuffCRC(){
+	inline unsigned int getBuffCRC() {
 		return buffCRC;
 	}
-
 };
-
 
 #endif /* SKILLBUFFTEMPLATE_H_ */

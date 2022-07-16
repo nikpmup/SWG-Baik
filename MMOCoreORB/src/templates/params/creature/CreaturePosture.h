@@ -70,7 +70,8 @@ public:
 	}
 
 	bool parseFromString(const String& str, int version = 0) {
-		return posture.parseFromString(str, version) && stationary.parseFromString(str, version) && slow.parseFromString(str, version) && fast.parseFromString(str, version) && movementScale.parseFromString(str, version) && accelerationScale.parseFromString(str, version) && turnScale.parseFromString(str, version) && canSeeHeightMod.parseFromString(str, version);
+		return posture.parseFromString(str, version) && stationary.parseFromString(str, version) && slow.parseFromString(str, version) && fast.parseFromString(str, version) && movementScale.parseFromString(str, version) && accelerationScale.parseFromString(str, version) && turnScale.parseFromString(str, version) &&
+			   canSeeHeightMod.parseFromString(str, version);
 	}
 
 	bool toBinaryStream(ObjectOutputStream* stream) {
@@ -102,25 +103,7 @@ public:
 
 class CreaturePosture : public Singleton<CreaturePosture>, public Object, public Logger {
 public:
-
-	enum {
-		INVALID        = 0xFF,
-		UPRIGHT        = 0,
-		CROUCHED       = 1,
-		PRONE          = 2,
-		SNEAKING       = 3,
-		BLOCKING       = 4,
-		CLIMBING       = 5,
-		FLYING         = 6,
-		LYINGDOWN      = 7,
-		SITTING        = 8,
-		SKILLANIMATING = 9,
-		DRIVINGVEHICLE = 10,
-		RIDINGCREATURE = 11,
-		KNOCKEDDOWN    = 12,
-		INCAPACITATED  = 13,
-		DEAD           = 14
-	};
+	enum { INVALID = 0xFF, UPRIGHT = 0, CROUCHED = 1, PRONE = 2, SNEAKING = 3, BLOCKING = 4, CLIMBING = 5, FLYING = 6, LYINGDOWN = 7, SITTING = 8, SKILLANIMATING = 9, DRIVINGVEHICLE = 10, RIDINGCREATURE = 11, KNOCKEDDOWN = 12, INCAPACITATED = 13, DEAD = 14 };
 
 	HashTable<uint8, CreatureMovementEntry> movementTable;
 	HashTable<uint8, int> rangedAttackMod;
@@ -228,26 +211,43 @@ public:
 		loadMovementData();
 	}
 
-	~CreaturePosture() {}
+	~CreaturePosture() {
+	}
 
 	static const String postureToString(uint8 posture) {
 		switch (posture) {
-		case INVALID:        return "invalid";
-		case UPRIGHT:        return "upright";
-		case CROUCHED:       return "crouched";
-		case PRONE:          return "prone";
-		case SNEAKING:       return "sneaking";
-		case BLOCKING:       return "blocking";
-		case CLIMBING:       return "climbing";
-		case FLYING:         return "flying";
-		case LYINGDOWN:      return "lyingdown";
-		case SITTING:        return "sitting";
-		case SKILLANIMATING: return "skillanimating";
-		case DRIVINGVEHICLE: return "drivingvehicle";
-		case RIDINGCREATURE: return "ridingcreature";
-		case KNOCKEDDOWN:    return "knockeddown";
-		case INCAPACITATED:  return "incapacitated";
-		case DEAD:           return "dead";
+		case INVALID:
+			return "invalid";
+		case UPRIGHT:
+			return "upright";
+		case CROUCHED:
+			return "crouched";
+		case PRONE:
+			return "prone";
+		case SNEAKING:
+			return "sneaking";
+		case BLOCKING:
+			return "blocking";
+		case CLIMBING:
+			return "climbing";
+		case FLYING:
+			return "flying";
+		case LYINGDOWN:
+			return "lyingdown";
+		case SITTING:
+			return "sitting";
+		case SKILLANIMATING:
+			return "skillanimating";
+		case DRIVINGVEHICLE:
+			return "drivingvehicle";
+		case RIDINGCREATURE:
+			return "ridingcreature";
+		case KNOCKEDDOWN:
+			return "knockeddown";
+		case INCAPACITATED:
+			return "incapacitated";
+		case DEAD:
+			return "dead";
 		}
 
 		StringBuffer msg;
@@ -326,20 +326,28 @@ public:
 			float scale;
 
 			row->getValue(0, value);
-			if (value < 0) entry.posture = 0xFF;
-			else entry.posture = (uint8)value;
+			if (value < 0)
+				entry.posture = 0xFF;
+			else
+				entry.posture = (uint8)value;
 
 			row->getValue(1, value);
-			if (value < 0) entry.stationary = 0xFF;
-			else entry.stationary = (uint8)value;
+			if (value < 0)
+				entry.stationary = 0xFF;
+			else
+				entry.stationary = (uint8)value;
 
 			row->getValue(2, value);
-			if (value < 0) entry.slow = 0xFF;
-			else entry.slow = (uint8)value;
+			if (value < 0)
+				entry.slow = 0xFF;
+			else
+				entry.slow = (uint8)value;
 
 			row->getValue(3, value);
-			if (value < 0) entry.fast = 0xFF;
-			else entry.fast = (uint8)value;
+			if (value < 0)
+				entry.fast = 0xFF;
+			else
+				entry.fast = (uint8)value;
 
 			row->getValue(4, scale);
 			entry.movementScale = scale;

@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef CREATEFACTORYOBJECTTASK_H_
@@ -8,8 +8,7 @@
 #include "server/zone/objects/installation/factory/FactoryObject.h"
 
 class CreateFactoryObjectTask : public Task {
-
-	ManagedReference<FactoryObject* > factoryObject;
+	ManagedReference<FactoryObject*> factoryObject;
 
 public:
 	CreateFactoryObjectTask(FactoryObject* factory) : Task() {
@@ -17,7 +16,6 @@ public:
 	}
 
 	void run() {
-
 		Locker _locker(factoryObject);
 
 		factoryObject->createNewObject();

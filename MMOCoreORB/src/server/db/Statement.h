@@ -9,21 +9,20 @@ Distribution of this file for usage outside of Core3 is prohibited.
 #include "system/lang.h"
 
 namespace server {
-  namespace db {
-    namespace mysql {
+namespace db {
+namespace mysql {
 
-	#define quote '\''
+#define quote '\''
 
-  	class Statement {
-  		char* data;
+class Statement {
+	char* data;
 
-  	public:
-  		Statement();
+public:
+	Statement();
+};
 
-	};
-
-    } // namespace mysql
-  } // namespace db
-} // namespace engine
+} // namespace mysql
+} // namespace db
+} // namespace server
 
 #endif /*STATEMENT_H_*/

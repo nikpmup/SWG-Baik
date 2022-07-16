@@ -9,21 +9,20 @@ Distribution of this file for usage outside of Core3 is prohibited.
 #include <mysql.h>
 
 namespace server {
-  namespace db {
-    namespace mysql {
+namespace db {
+namespace mysql {
 
-	class Row {
-		MYSQL_ROW row;
+class Row {
+	MYSQL_ROW row;
 
-	public:
-		Row() {
-		}
+public:
+	Row() {
+	}
+};
 
-	};
-
-    } // namespace mysql
-  } // namespace db
-} // namespace engine
+} // namespace mysql
+} // namespace db
+} // namespace server
 
 using namespace engine::db::mysql;
 

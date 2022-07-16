@@ -41,7 +41,7 @@ public:
 		children = cat.children;
 	}
 
-	BugCategory& operator= (const BugCategory& cat) {
+	BugCategory& operator=(const BugCategory& cat) {
 		if (this == &cat)
 			return *this;
 

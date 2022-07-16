@@ -66,14 +66,14 @@ public:
 class ConversationScreen : public Object {
 	String screenID;
 
-	//TODO: Consider multiple dialog texts that can be displayed for screens
+	// TODO: Consider multiple dialog texts that can be displayed for screens
 	StringIdChatParameter dialogText;
 
 	UnicodeString customText;
 
 	String animation;
 
-	Vector<Reference<ConversationOption*> > options;
+	Vector<Reference<ConversationOption*>> options;
 
 	bool stopConversation, readOnly;
 
@@ -175,7 +175,7 @@ public:
 		else
 			message = new NpcConversationMessage(player, customText);
 
-		//Encapsulate this logic better?
+		// Encapsulate this logic better?
 		StringList* optionsList = new StringList(player);
 
 		for (int i = 0; i < options.size(); ++i) {
@@ -195,14 +195,14 @@ public:
 
 		ConversationScreen* screenToSave = this;
 
-		//Check if the conversation should be stopped.
+		// Check if the conversation should be stopped.
 		if (stopConversation) {
 			player->sendMessage(new StopNpcConversation(player, npc->getObjectID()));
 			npc->notifyObservers(ObserverEventType::STOPCONVERSATION, player);
 			screenToSave = nullptr;
 		}
 
-		Reference<ConversationSession*> session = player->getActiveSession(SessionFacadeType::CONVERSATION).castTo<ConversationSession* >();
+		Reference<ConversationSession*> session = player->getActiveSession(SessionFacadeType::CONVERSATION).castTo<ConversationSession*>();
 		if (session != nullptr) {
 			session->setLastConversationScreen(screenToSave);
 		}
@@ -251,7 +251,7 @@ public:
 		readOnly = true;
 	}
 
-	template<class T>
+	template <class T>
 	inline void setDialogTextTT(const T& obj) {
 		if (readOnly)
 			throw Exception("Can't modify read only Conversation Screen!");
@@ -266,7 +266,7 @@ public:
 		dialogText.setTT(file, id);
 	}
 
-	template<class T>
+	template <class T>
 	inline void setDialogTextTO(const T& obj) {
 		if (readOnly)
 			throw Exception("Can't modify read only Conversation Screen!");
@@ -281,7 +281,7 @@ public:
 		dialogText.setTO(file, id);
 	}
 
-	template<class T>
+	template <class T>
 	inline void setDialogTextTU(const T& obj) {
 		if (readOnly)
 			throw Exception("Can't modify read only Conversation Screen!");
@@ -343,11 +343,11 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace conversation
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::conversation;
 

@@ -17,18 +17,16 @@ private:
 
 public:
 	PetDeedTemplate() {
-
 	}
 
 	~PetDeedTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
 		DeedTemplate::readObject(templateData);
 		controlDeviceObjectTemplate = templateData->getStringField("controlDeviceObjectTemplate");
 		mobileTemplate = templateData->getStringField("mobileTemplate");
-    }
+	}
 
 	String getControlDeviceObjectTemplate() {
 		return controlDeviceObjectTemplate;
@@ -37,8 +35,6 @@ public:
 	String getMobileTemplate() {
 		return mobileTemplate;
 	}
-
 };
-
 
 #endif /* PETDEEDTEMPLATE_H_ */

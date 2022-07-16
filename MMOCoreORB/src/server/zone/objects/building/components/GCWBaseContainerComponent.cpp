@@ -12,7 +12,6 @@
 #include "server/zone/objects/building/components/DestructibleBuildingDataComponent.h"
 
 bool GCWBaseContainerComponent::checkContainerPermission(SceneObject* sceneObject, CreatureObject* creature, uint16 permission) const {
-
 	ManagedReference<BuildingObject*> building = cast<BuildingObject*>(sceneObject);
 
 	if (building == nullptr)
@@ -31,7 +30,7 @@ bool GCWBaseContainerComponent::checkContainerPermission(BuildingObject* buildin
 			return true;
 
 		if (building->getPvpStatusBitmask() & CreatureFlag::OVERT) {
-			return checkPVPPermission( building,  creature,  permission, sendMessage);
+			return checkPVPPermission(building, creature, permission, sendMessage);
 		} else {
 			return checkPVEPermission(building, creature, permission, sendMessage);
 		}
@@ -111,7 +110,6 @@ bool GCWBaseContainerComponent::checkPVEPermission(BuildingObject* building, Cre
 
 	DataObjectComponentReference* data = building->getDataObjectComponent();
 	DestructibleBuildingDataComponent* baseData = nullptr;
-
 
 	if (data != nullptr) {
 		baseData = cast<DestructibleBuildingDataComponent*>(data->get());

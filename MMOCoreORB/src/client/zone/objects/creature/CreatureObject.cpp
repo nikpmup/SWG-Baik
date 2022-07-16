@@ -8,7 +8,4 @@ CreatureObject::CreatureObject(LuaObject* templateData) : TangibleObject(templat
 
 void CreatureObject::parseBaseline3(Message* message) {
 	TangibleObject::parseBaseline3(message);
-
-
 }
-

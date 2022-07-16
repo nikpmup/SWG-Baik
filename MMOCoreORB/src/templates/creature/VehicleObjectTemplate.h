@@ -13,14 +13,13 @@ public:
 	}
 
 	~VehicleObjectTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
 		SharedCreatureObjectTemplate::readObject(templateData);
 		decayRate = templateData->getIntField("decayRate");
 		decayCycle = templateData->getIntField("decayCycle");
-    }
+	}
 
 	bool isVehicleObjectTemplate() {
 		return true;
@@ -33,7 +32,6 @@ public:
 	int getDecayCycle() {
 		return decayCycle;
 	}
-
 };
 
 #endif /* VEHICLEOBJECTTEMPLATE_H_ */

@@ -7,14 +7,10 @@
 
 class SpatialChatCommand : public QueueCommand {
 public:
-
-	SpatialChatCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SpatialChatCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SPATIALCHATCOMMAND_H_
+#endif // SPATIALCHATCOMMAND_H_

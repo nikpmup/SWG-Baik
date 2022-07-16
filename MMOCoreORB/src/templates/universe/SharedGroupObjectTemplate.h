@@ -8,25 +8,21 @@
 #ifndef SHAREDGROUPOBJECTTEMPLATE_H_
 #define SHAREDGROUPOBJECTTEMPLATE_H_
 
-
 #include "templates/SharedUniverseObjectTemplate.h"
 
 class SharedGroupObjectTemplate : public SharedUniverseObjectTemplate {
-
 public:
 	SharedGroupObjectTemplate() {
-
 	}
 
 	~SharedGroupObjectTemplate() {
-
 	}
 
 	void readObject(IffStream* iffStream) {
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'SGRP') {
-			//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 			SharedUniverseObjectTemplate::readObject(iffStream);
 
@@ -50,7 +46,7 @@ public:
 		iffStream->openForm(derv);
 
 		try {
-			//parseFileData(iffStream);
+			// parseFileData(iffStream);
 		} catch (Exception& e) {
 			String msg;
 			msg += "exception caught parsing file data ->";
@@ -67,9 +63,6 @@ public:
 
 		iffStream->closeForm('SGRP');
 	}
-
-
 };
-
 
 #endif /* SHAREDGROUPOBJECTTEMPLATE_H_ */

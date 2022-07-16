@@ -9,11 +9,11 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 
@@ -21,9 +21,7 @@ class MountGrowthArrestSuiCallback : public SuiCallback {
 	ManagedWeakReference<PetControlDevice*> controlDevice;
 
 public:
-	MountGrowthArrestSuiCallback(ZoneServer* server, PetControlDevice* device)
-		: SuiCallback(server) {
-
+	MountGrowthArrestSuiCallback(ZoneServer* server, PetControlDevice* device) : SuiCallback(server) {
 		controlDevice = device;
 	}
 
@@ -55,7 +53,6 @@ public:
 			device->growPet(player, true);
 		else
 			device->arrestGrowth();
-
 	}
 };
 

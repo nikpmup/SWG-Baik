@@ -8,8 +8,6 @@
 #ifndef AFFECTORSHADERREPLACE_H_
 #define AFFECTORSHADERREPLACE_H_
 
-
-
 #include "../ProceduralRule.h"
 
 class AffectorShaderReplace : public ProceduralRule<'ASRP'>, public AffectorProceduralRule {
@@ -20,7 +18,6 @@ class AffectorShaderReplace : public ProceduralRule<'ASRP'>, public AffectorProc
 
 public:
 	AffectorShaderReplace() : oldShaderId(0), newShaderId(0), featheringType(0), featheringAmount(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {
@@ -53,6 +50,5 @@ public:
 		iffStream->closeChunk('DATA');
 	}
 };
-
 
 #endif /* AFFECTORSHADERREPLACE_H_ */

@@ -15,17 +15,17 @@ namespace creature {
 namespace events {
 
 class DroidPlaybackEvent : public Task {
-
 	Reference<DroidPlaybackModuleDataComponent*> module;
 	ManagedReference<CreatureObject*> player;
 	int action;
 	int performanceIndex;
+
 public:
 	const static uint8 SET_TRACK = 0;
 	const static uint8 CHANGE_SONG = 1;
 	const static uint8 STOP_PLAYING = 2;
 
-	DroidPlaybackEvent(DroidPlaybackModuleDataComponent* module,CreatureObject* player, int perfIndex, int action) : Task() {
+	DroidPlaybackEvent(DroidPlaybackModuleDataComponent* module, CreatureObject* player, int perfIndex, int action) : Task() {
 		this->module = module;
 		this->action = action;
 		this->performanceIndex = perfIndex;
@@ -43,7 +43,7 @@ public:
 
 		Locker locker(droid);
 
-		if (droid->getLocalZone() == nullptr) {  // Not outdoors
+		if (droid->getLocalZone() == nullptr) { // Not outdoors
 			ManagedReference<SceneObject*> parent = droid->getParent().get();
 
 			if (parent == nullptr || !parent->isCellObject()) { // Not indoors either
@@ -54,23 +54,22 @@ public:
 		}
 
 		// Check droid states
-		if( droid->isDead() || droid->isIncapacitated() ){
+		if (droid->isDead() || droid->isIncapacitated()) {
 			module->deactivate();
 			droid->removePendingTask("droid_playback_event");
 			return;
 		}
 
-
 		// Droid must have power
 		if (!droid->hasPower()) {
 			module->deactivate();
-			droid->showFlyText("npc_reaction/flytext","low_power", 204, 0, 0);  // "*Low Power*"
+			droid->showFlyText("npc_reaction/flytext", "low_power", 204, 0, 0); // "*Low Power*"
 			droid->removePendingTask("droid_playback_event");
 			return;
 		}
 
 		Locker plock(player);
-		Locker crossLock(droid,player);
+		Locker crossLock(droid, player);
 
 		if (action == SET_TRACK)
 			module->setTrack(player, performanceIndex);
@@ -78,15 +77,14 @@ public:
 			module->songChanged(player);
 		if (action == STOP_PLAYING)
 			module->songStopped(player);
-
 	}
 };
 
-} // events
-} // creature
-} // objects
-} // zone
-} // server
+} // namespace events
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::events;
 

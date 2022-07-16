@@ -12,57 +12,54 @@
 #include "server/zone/objects/tangible/TangibleObject.h"
 
 namespace server {
- namespace zone {
-  namespace managers {
-   namespace creature {
+namespace zone {
+namespace managers {
+namespace creature {
 
-   class HealLairObserverEvent : public Task {
-	   ManagedWeakReference<TangibleObject*> lair;
-	   ManagedWeakReference<TangibleObject*> attacker;
-	   ManagedWeakReference<LairObserver*> observer;
+class HealLairObserverEvent : public Task {
+	ManagedWeakReference<TangibleObject*> lair;
+	ManagedWeakReference<TangibleObject*> attacker;
+	ManagedWeakReference<LairObserver*> observer;
 
-   public:
-	   HealLairObserverEvent(TangibleObject* obj, TangibleObject* attacker, LairObserver* observer) {
-		   lair = obj;
-		   this->attacker = attacker;
-		   this->observer = observer;
-	   }
+public:
+	HealLairObserverEvent(TangibleObject* obj, TangibleObject* attacker, LairObserver* observer) {
+		lair = obj;
+		this->attacker = attacker;
+		this->observer = observer;
+	}
 
-	   void run() {
-		   ManagedReference<TangibleObject*> strongRef = lair.get();
+	void run() {
+		ManagedReference<TangibleObject*> strongRef = lair.get();
 
-		   if (strongRef == nullptr)
-			   return;
+		if (strongRef == nullptr)
+			return;
 
-		   ManagedReference<TangibleObject*> strongAttackerRef = attacker.get();
-		   ManagedReference<LairObserver*> strongObserver = observer.get();
+		ManagedReference<TangibleObject*> strongAttackerRef = attacker.get();
+		ManagedReference<LairObserver*> strongObserver = observer.get();
 
-		   if (strongObserver == nullptr)
-			   return;
+		if (strongObserver == nullptr)
+			return;
 
-		   Locker locker(strongRef);
+		Locker locker(strongRef);
 
-		  // Locker clocker(attacker, lair);
+		// Locker clocker(attacker, lair);
 
-		   strongObserver->healLair(strongRef, strongAttackerRef);
+		strongObserver->healLair(strongRef, strongAttackerRef);
 
-		   if (strongRef->getConditionDamage() > 0)
-			   strongObserver->checkForHeal(strongRef, strongAttackerRef, true);
-	   }
+		if (strongRef->getConditionDamage() > 0)
+			strongObserver->checkForHeal(strongRef, strongAttackerRef, true);
+	}
 
-	   void setAttacker(TangibleObject* obj) {
-		   attacker = obj;
-	   }
+	void setAttacker(TangibleObject* obj) {
+		attacker = obj;
+	}
+};
 
-   };
-
-   }
-  }
- }
-}
+} // namespace creature
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::creature;
-
-
 
 #endif /* HEALLAIROBSERVEREVENT_H_ */

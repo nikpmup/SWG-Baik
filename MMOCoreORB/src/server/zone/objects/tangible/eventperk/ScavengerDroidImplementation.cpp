@@ -41,8 +41,8 @@ void ScavengerDroidImplementation::updatePlayerScore(CreatureObject* player) {
 }
 
 void ScavengerDroidImplementation::announceToPlayers(const String& message) {
-	SortedVector<ManagedReference<QuadTreeEntry*> > closeObjects;
-	zone->getInRangeObjects(getPositionX(), getPositionY(), 256, &closeObjects,	true);
+	SortedVector<ManagedReference<QuadTreeEntry*>> closeObjects;
+	zone->getInRangeObjects(getPositionX(), getPositionY(), 256, &closeObjects, true);
 
 	for (int i = 0; i < closeObjects.size(); i++) {
 		SceneObject* targetObject = cast<SceneObject*>(closeObjects.get(i).get());
@@ -66,7 +66,6 @@ int ScavengerDroidImplementation::handleObjectMenuSelect(CreatureObject* player,
 	ManagedReference<CreatureObject*> perkOwner = getDeedOwner();
 
 	bool isOwner = perkOwner != nullptr && player == perkOwner;
-
 
 	if (gameStatus == GAMESETUP && isOwner) {
 		if (selectedID == 132) {
@@ -149,12 +148,12 @@ void ScavengerDroidImplementation::fillObjectMenuResponse(ObjectMenuResponse* me
 
 	if (gameStatus == GAMESETUP && perkOwner == player) {
 		menuResponse->addRadialMenuItem(132, 3, "@event_perk:scavenger_instruction"); // Instructions
-		menuResponse->addRadialMenuItem(133, 3, "@event_perk:scavenger_list_items"); // View Item List
-		menuResponse->addRadialMenuItem(134, 3, "@event_perk:scavenger_reset_list"); // Reset List
-		menuResponse->addRadialMenuItem(135, 3, "@event_perk:scavenger_start"); // Start Game
+		menuResponse->addRadialMenuItem(133, 3, "@event_perk:scavenger_list_items");  // View Item List
+		menuResponse->addRadialMenuItem(134, 3, "@event_perk:scavenger_reset_list");  // Reset List
+		menuResponse->addRadialMenuItem(135, 3, "@event_perk:scavenger_start");		  // Start Game
 	} else if (gameStatus == GAMESTARTED) {
 		menuResponse->addRadialMenuItem(132, 3, "@event_perk:scavenger_instruction"); // Instructions
-		menuResponse->addRadialMenuItem(133, 3, "@event_perk:scavenger_list_items"); // View Item List
+		menuResponse->addRadialMenuItem(133, 3, "@event_perk:scavenger_list_items");  // View Item List
 		menuResponse->addRadialMenuItem(136, 3, "@event_perk:scavenger_list_leader"); // Show Current Leader
 	} else if (gameStatus == GAMEENDED) {
 		menuResponse->addRadialMenuItem(136, 3, "@event_perk:scavenger_show_winner"); // Display Winner
@@ -191,7 +190,7 @@ void ScavengerDroidImplementation::sendItemListSUI(CreatureObject* player) {
 
 	ManagedReference<SuiListBox*> listbox = new SuiListBox(player, SuiWindowType::SCAVENGER_ITEM_LIST);
 	listbox->setPromptTitle("@event_perk:scavenger_list_t"); // Scavenger Hunt List
-	listbox->setPromptText("@event_perk:scavenger_list_d"); // Below you will find the list of items you need to find for the scavenger hunt. Good luck!
+	listbox->setPromptText("@event_perk:scavenger_list_d");	 // Below you will find the list of items you need to find for the scavenger hunt. Good luck!
 	listbox->setUsingObject(_this.getReferenceUnsafeStaticCast());
 	listbox->setForceCloseDistance(32.f);
 	listbox->setCancelButton(true, "@cancel");
@@ -228,7 +227,7 @@ void ScavengerDroidImplementation::sendGameInstructionsSUI(CreatureObject* playe
 		return;
 
 	ManagedReference<SuiMessageBox*> msgBox = new SuiMessageBox(player, SuiWindowType::SCAVENGER_INFO);
-	msgBox->setPromptTitle("@event_perk:scavenger_instruction"); // Instructions
+	msgBox->setPromptTitle("@event_perk:scavenger_instruction");	 // Instructions
 	msgBox->setPromptText("@event_perk:scavenger_game_instruction"); // Choose "View Item List" to see what items you need to find. As you find items, show me the item by dragging and dropping them onto me. The first person to find all of the items wins!
 	msgBox->setUsingObject(_this.getReferenceUnsafeStaticCast());
 	msgBox->setForceCloseDistance(32.f);

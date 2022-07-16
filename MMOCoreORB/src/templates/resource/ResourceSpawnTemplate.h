@@ -12,19 +12,15 @@
 
 class ResourceSpawnTemplate : public SharedObjectTemplate {
 private:
-
 public:
 	ResourceSpawnTemplate() {
-
 	}
 
 	~ResourceSpawnTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
 		SharedObjectTemplate::readObject(templateData);
-
 	}
 };
 

@@ -23,5 +23,4 @@ void CommandQueueAction::clear(float timer, uint32 tab1, uint32 tab2) {
 }
 
 void CommandQueueAction::run() {
-
 }

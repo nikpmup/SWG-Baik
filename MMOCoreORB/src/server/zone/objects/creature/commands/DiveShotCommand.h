@@ -9,13 +9,10 @@
 
 class DiveShotCommand : public CombatQueueCommand {
 public:
-
-	DiveShotCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	DiveShotCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -33,7 +30,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DIVESHOTCOMMAND_H_
+#endif // DIVESHOTCOMMAND_H_

@@ -5,7 +5,6 @@
 #ifndef QUEUECOMMAND_H_
 #define QUEUECOMMAND_H_
 
-
 #include "engine/engine.h"
 
 #include "server/zone/objects/creature/CreatureObject.h"
@@ -17,7 +16,6 @@ namespace objects {
 namespace creature {
 namespace commands {
 
-
 class QueueCommand : public Logger, public Object {
 protected:
 	ZoneProcessServer* server;
@@ -27,7 +25,7 @@ protected:
 
 	uint64 stateMask;
 	Vector<int> invalidLocomotion;
-	//int target;
+	// int target;
 	int targetType;
 	int maxRangeToTarget;
 
@@ -84,8 +82,8 @@ public:
 	bool checkInvalidLocomotions(CreatureObject* creature) const;
 
 	/*
-	*	Checks cell access for the player creature if the target is in a cell
-	*/
+	 *	Checks cell access for the player creature if the target is in a cell
+	 */
 	bool playerEntryCheck(CreatureObject* creature, TangibleObject* target) const;
 
 	void onStateFail(CreatureObject* creature, uint32 actioncntr) const;
@@ -148,7 +146,7 @@ public:
 		return defaultTime;
 	}
 
-	//setters
+	// setters
 
 	/*
 	 * Sets the invalid states for this command
@@ -202,7 +200,7 @@ public:
 	inline void setCharacterAbility(const String& ability) {
 		characterAbility = ability;
 
-		if(ability == "admin") {
+		if (ability == "admin") {
 			admin = true;
 
 			// Allow config to potentially override admin cmd cooldown
@@ -230,7 +228,7 @@ public:
 			defaultPriority = priority;
 	}
 
-	//getters
+	// getters
 	inline uint64 getStateMask() const {
 		return stateMask;
 	}
@@ -379,21 +377,9 @@ public:
 
 	String toStringData() const {
 		StringBuffer buf;
-		buf << "QueueCommand(" << name
-			<< ", nameCRC=" << nameCRC
-			<< ", stateMask=" << stateMask
-			<< ", targetType=" << targetType
-			<< ", maxRangeToTarget=" << maxRangeToTarget
-			<< ", disabled=" << disabled
-			<< ", addToQueue=" << addToQueue
-			<< ", admin=" << admin
-			<< ", cooldown=" << cooldown
-			<< ", cooldownString=\"" << cooldownString << "\""
-			<< ", defaultTime=" << defaultTime
-			<< ", characterAbility=" << characterAbility
-			<< ", defaultPriority=" << defaultPriority
-			<< ", commandGroup=" << commandGroup
-			<< ", invalidLocomotion=[";
+		buf << "QueueCommand(" << name << ", nameCRC=" << nameCRC << ", stateMask=" << stateMask << ", targetType=" << targetType << ", maxRangeToTarget=" << maxRangeToTarget << ", disabled=" << disabled << ", addToQueue=" << addToQueue << ", admin=" << admin << ", cooldown=" << cooldown << ", cooldownString=\""
+			<< cooldownString << "\""
+			<< ", defaultTime=" << defaultTime << ", characterAbility=" << characterAbility << ", defaultPriority=" << defaultPriority << ", commandGroup=" << commandGroup << ", invalidLocomotion=[";
 
 		for (int i = 0; i < invalidLocomotion.size(); ++i) {
 			if (i) {
@@ -417,15 +403,12 @@ public:
 	}
 };
 
-
-}
-}
-}
-}
-}
+} // namespace commands
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::commands;
 
-#endif //SLASHCOMMAND_H_
-
-
+#endif // SLASHCOMMAND_H_

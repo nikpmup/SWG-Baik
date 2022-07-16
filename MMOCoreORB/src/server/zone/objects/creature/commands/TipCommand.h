@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef TIPCOMMAND_H_
@@ -13,12 +13,9 @@
 #include "server/zone/objects/creature/commands/QueueCommand.h"
 #include "server/zone/managers/player/PlayerManager.h"
 
-class TipCommand: public QueueCommand {
+class TipCommand : public QueueCommand {
 private:
-
-	int performTip(CreatureObject* player, CreatureObject* targetPlayer,
-			int amount) const {
-
+	int performTip(CreatureObject* player, CreatureObject* targetPlayer, int amount) const {
 		// Target player must be in range (I think it's likely to assume this is the maximum targeting range, 190m)
 		if (!checkDistance(player, targetPlayer, 190)) {
 			StringIdChatParameter ptr("base_player", "prose_tip_range"); // You are too far away to tip %TT with cash. You can send a wire transfer instead.
@@ -68,9 +65,7 @@ private:
 		return SUCCESS;
 	}
 
-	int performBankTip(CreatureObject* player, CreatureObject* targetPlayer,
-			int amount) const {
-
+	int performBankTip(CreatureObject* player, CreatureObject* targetPlayer, int amount) const {
 		auto ghost = player->getPlayerObject();
 		if (ghost == nullptr) {
 			player->sendSystemMessage("@base_player:tip_error"); // There was an error processing your /tip request. Please try again.
@@ -90,14 +85,11 @@ private:
 		// Player must not be ignored
 		auto target = targetPlayer->getPlayerObject();
 		if (target == nullptr || target->isIgnoring(player->getFirstName())) {
-				return GENERALERROR;
+			return GENERALERROR;
 		}
 
-		Reference<SuiMessageBox*> confirmbox = new SuiMessageBox(player,
-				SuiWindowType::BANK_TIP_CONFIRM);
-		confirmbox->setCallback(
-				new TipCommandSuiCallback(server->getZoneServer(),
-						targetPlayer, amount));
+		Reference<SuiMessageBox*> confirmbox = new SuiMessageBox(player, SuiWindowType::BANK_TIP_CONFIRM);
+		confirmbox->setCallback(new TipCommandSuiCallback(server->getZoneServer(), targetPlayer, amount));
 
 		String promptText = "@base_player:tip_wire_prompt"; // A surcharge of 5% will be added to your requested bank-to-bank transfer amount. Would you like to continue?
 
@@ -121,15 +113,10 @@ private:
 	}
 
 public:
-
-	TipCommand(const String& name, ZoneProcessServer* server) :
-		QueueCommand(name, server) {
-
+	TipCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
-	int doQueueCommand(CreatureObject* creature, const uint64& target,
-			const UnicodeString& arguments) const {
-
+	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -150,9 +137,9 @@ public:
 		try {
 			args.getStringToken(amountOrPlayer);
 
-			//Check for people impersonating the bank.
+			// Check for people impersonating the bank.
 			if (amountOrPlayer == "bank") {
-				creature->sendSystemMessage("@base_player:tip_syntax"); //SYNTAX: /tip (to current target) or /tip
+				creature->sendSystemMessage("@base_player:tip_syntax"); // SYNTAX: /tip (to current target) or /tip
 				return INVALIDPARAMETERS;
 			}
 
@@ -162,7 +149,7 @@ public:
 				targetPlayer = server->getZoneServer()->getPlayerManager()->getPlayer(amountOrPlayer);
 
 				amount = args.getIntToken();
-				if(amount == 0)
+				if (amount == 0)
 					throw NumberFormatException();
 
 				if (targetPlayer == nullptr) {
@@ -176,11 +163,11 @@ public:
 			if (args.hasMoreTokens()) {
 				String param;
 				args.getStringToken(param);
-				isBank = (param.toLowerCase() == "bank"); //TODO: locale aware. Possibly @acct_n:bank
+				isBank = (param.toLowerCase() == "bank"); // TODO: locale aware. Possibly @acct_n:bank
 			} else
 				isBank = false;
 
-		} catch (Exception &e) {
+		} catch (Exception& e) {
 			syntaxError = true;
 		}
 
@@ -191,7 +178,7 @@ public:
 				targetPlayer = object->asCreatureObject();
 			} else if (object != nullptr) {
 				StringIdChatParameter ptip("base_player",
-						"prose_tip_invalid_param"); // /TIP: invalid amount ("%TO") parameter.
+										   "prose_tip_invalid_param"); // /TIP: invalid amount ("%TO") parameter.
 				ptip.setTO(object->getObjectID());
 				creature->sendSystemMessage(ptip);
 				return INVALIDPARAMETERS;
@@ -213,7 +200,7 @@ public:
 			return INVALIDPARAMETERS;
 		}
 
-		if (creature == targetPlayer) { // You can't use yourself as a target for /tip!
+		if (creature == targetPlayer) {											  // You can't use yourself as a target for /tip!
 			creature->sendSystemMessage("@error_message:target_self_disallowed"); // You cannot target yourself with this command.
 			return GENERALERROR;
 		}
@@ -223,7 +210,6 @@ public:
 		else
 			return performTip(creature, targetPlayer, amount);
 	}
-
 };
 
-#endif //TIPCOMMAND_H_
+#endif // TIPCOMMAND_H_

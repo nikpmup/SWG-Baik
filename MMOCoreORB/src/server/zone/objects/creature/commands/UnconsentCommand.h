@@ -13,10 +13,7 @@
 
 class UnconsentCommand : public QueueCommand {
 public:
-
-	UnconsentCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	UnconsentCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	static void unconscent(CreatureObject* player, CreatureObject* targetPlayer) {
@@ -25,7 +22,7 @@ public:
 		PlayerObject* ghost = player->getPlayerObject();
 		ghost->removeFromConsentList(name);
 
-		StringIdChatParameter stringId("base_player", "prose_unconsent"); //You revoke your consent from %TO.
+		StringIdChatParameter stringId("base_player", "prose_unconsent"); // You revoke your consent from %TO.
 		stringId.setTO(name);
 		player->sendSystemMessage(stringId);
 
@@ -35,7 +32,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -51,14 +47,14 @@ public:
 			return GENERALERROR;
 
 		if (ghost->getConsentListSize() <= 0) {
-			creature->sendSystemMessage("@error_message:consent_to_empty"); //You have not granted consent to anyone.
+			creature->sendSystemMessage("@error_message:consent_to_empty"); // You have not granted consent to anyone.
 			return GENERALERROR;
 		}
 
 		uint64 targetID = creature->getTargetID();
 
 		if (arguments.isEmpty() && targetID == 0) {
-			creature->sendSystemMessage("@error_message:syntax_unconsent"); //syntax: /unconsent {optionally, use commas to seperate several player names}
+			creature->sendSystemMessage("@error_message:syntax_unconsent"); // syntax: /unconsent {optionally, use commas to seperate several player names}
 			return GENERALERROR;
 		}
 
@@ -75,7 +71,7 @@ public:
 				bool validName = playerManager->existsName(name);
 
 				if (!validName) {
-					creature->sendSystemMessage("@ui_cmnty:friend_location_failed_noname"); //No player with that name exists.
+					creature->sendSystemMessage("@ui_cmnty:friend_location_failed_noname"); // No player with that name exists.
 					continue;
 				} else if (!ghost->hasInConsentList(name)) {
 					creature->sendSystemMessage("That player isn't on your consent list.");
@@ -91,7 +87,7 @@ public:
 			}
 		} else {
 			ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(targetID);
-			CreatureObject* playerTarget = cast<CreatureObject*>( object.get());
+			CreatureObject* playerTarget = cast<CreatureObject*>(object.get());
 
 			if (playerTarget == nullptr || !playerTarget->isPlayerCreature() || playerTarget == creature)
 				return INVALIDTARGET;
@@ -101,7 +97,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //UNCONSENTCOMMAND_H_
+#endif // UNCONSENTCOMMAND_H_

@@ -9,14 +9,10 @@
 
 class AnonCommand : public QueueCommand {
 public:
-
-	AnonCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	AnonCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -36,10 +32,8 @@ public:
 		if (ghost != nullptr)
 			ghost->toggleCharacterBit(PlayerObject::ANONYMOUS);
 
-
 		return SUCCESS;
 	}
-
 };
 
-#endif //ANONCOMMAND_H_
+#endif // ANONCOMMAND_H_

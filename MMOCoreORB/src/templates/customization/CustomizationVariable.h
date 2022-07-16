@@ -13,11 +13,9 @@
 class CustomizationVariable : public Object {
 public:
 	CustomizationVariable() {
-
 	}
 
 	CustomizationVariable(const CustomizationVariable& o) : Object() {
-
 	}
 };
 

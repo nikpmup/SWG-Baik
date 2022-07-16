@@ -9,14 +9,10 @@
 
 class ForceMeditateCommand : public QueueCommand {
 public:
-
-	ForceMeditateCommand(const String& name, ZoneProcessServer* server)
-	: QueueCommand(name, server) {
-
+	ForceMeditateCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,7 +25,7 @@ public:
 		if (isWearingArmor(creature)) {
 			return NOJEDIARMOR;
 		}
-		
+
 		if (creature->isInCombat()) {
 			creature->sendSystemMessage("@jedi_spam:not_while_in_combat");
 			return GENERALERROR;
@@ -46,7 +42,7 @@ public:
 
 		// Force Meditate Task
 		ManagedReference<PlayerObject*> ghost = creature->getPlayerObject();
-		
+
 		creature->sendSystemMessage("@teraskasi:med_begin");
 		Reference<ForceMeditateTask*> fmeditateTask = new ForceMeditateTask(creature);
 		fmeditateTask->setMoodString(creature->getMoodString());
@@ -54,13 +50,11 @@ public:
 
 		creature->setMeditateState();
 
-		PlayerManager* playermgr = server->getZoneServer()->getPlayerManager();	
+		PlayerManager* playermgr = server->getZoneServer()->getPlayerManager();
 		creature->registerObserver(ObserverEventType::POSTURECHANGED, playermgr);
 
 		return SUCCESS;
-
 	}
-
 };
 
-#endif //FORCEMEDITATECOMMAND_H_
+#endif // FORCEMEDITATECOMMAND_H_

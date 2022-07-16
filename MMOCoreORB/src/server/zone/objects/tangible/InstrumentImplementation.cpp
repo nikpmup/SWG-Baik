@@ -59,17 +59,18 @@ void InstrumentImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuRe
 void InstrumentImplementation::notifyLoadFromDatabase() {
 	TangibleObjectImplementation::notifyLoadFromDatabase();
 
-	Reference<SceneObject* > spawnedObject = this->spawnedObject;
+	Reference<SceneObject*> spawnedObject = this->spawnedObject;
 
 	if (spawnedObject != nullptr) {
-		Core::getTaskManager()->executeTask( [spawnedObject] () {
-			Locker locker(spawnedObject);
+		Core::getTaskManager()->executeTask(
+			[spawnedObject]() {
+				Locker locker(spawnedObject);
 
-			spawnedObject->destroyObjectFromWorld(false);
-		}, "DespawnInstrumentLambda");
+				spawnedObject->destroyObjectFromWorld(false);
+			},
+			"DespawnInstrumentLambda");
 	}
 }
-
 
 int InstrumentImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
 	if (selectedID != 20)

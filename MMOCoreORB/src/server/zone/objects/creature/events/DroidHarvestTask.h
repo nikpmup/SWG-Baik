@@ -76,10 +76,7 @@ public:
 			type = 234;
 		}
 
-		if ((harvestInterest == DroidHarvestModuleDataComponent::INTEREST_BONE && cr->getBoneType().isEmpty()) ||
-			(harvestInterest == DroidHarvestModuleDataComponent::INTEREST_HIDE && cr->getHideType().isEmpty()) ||
-			(harvestInterest == DroidHarvestModuleDataComponent::INTEREST_MEAT && cr->getMeatType().isEmpty())) {
-
+		if ((harvestInterest == DroidHarvestModuleDataComponent::INTEREST_BONE && cr->getBoneType().isEmpty()) || (harvestInterest == DroidHarvestModuleDataComponent::INTEREST_HIDE && cr->getHideType().isEmpty()) || (harvestInterest == DroidHarvestModuleDataComponent::INTEREST_MEAT && cr->getMeatType().isEmpty())) {
 			owner->sendSystemMessage("@pet/droid_modules:target_type_not_found");
 			droid->setFollowObject(owner);
 			droid->storeFollowObject();
@@ -124,7 +121,7 @@ public:
 		ManagedReference<CreatureManager*> creatureManager = zone->getCreatureManager();
 
 		if (creatureManager != nullptr)
-			creatureManager->droidHarvest(cr, droid, type,bonus);
+			creatureManager->droidHarvest(cr, droid, type, bonus);
 	}
 };
 

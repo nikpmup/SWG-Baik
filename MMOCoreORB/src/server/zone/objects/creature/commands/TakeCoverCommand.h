@@ -9,14 +9,10 @@
 
 class TakeCoverCommand : public QueueCommand {
 public:
-
-	TakeCoverCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	TakeCoverCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,8 +20,7 @@ public:
 			return INVALIDLOCOMOTION;
 
 		int actionCost = creature->calculateCostAdjustment(CreatureAttribute::QUICKNESS, 50);
-		if (creature->getHAM(CreatureAttribute::ACTION)  < actionCost) {
-
+		if (creature->getHAM(CreatureAttribute::ACTION) < actionCost) {
 			if (creature->isPlayerCreature())
 				(creature)->sendSystemMessage("@cbt_spam:cover_fail_single"); // You fail to take cover.
 
@@ -41,7 +36,7 @@ public:
 			if (creature->isInCombat()) {
 				float chance = 10 + creature->getSkillMod("take_cover");
 
-				if (System::random(100)  > chance) {
+				if (System::random(100) > chance) {
 					if (creature->isPlayerCreature())
 						(creature)->sendSystemMessage("@cbt_spam:cover_fail_single"); // You fail to take cover.
 
@@ -57,7 +52,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //TAKECOVERCOMMAND_H_
+#endif // TAKECOVERCOMMAND_H_

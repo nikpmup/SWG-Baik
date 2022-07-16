@@ -9,7 +9,6 @@
 #include "server/zone/objects/player/PlayerObject.h"
 
 bool DroidContainerComponent::checkContainerPermission(SceneObject* sceneObject, CreatureObject* creature, uint16 permission) const {
-
 	ManagedReference<SceneObject*> p = sceneObject->getParent().get();
 
 	if (p == nullptr || !p->isDroidObject()) {
@@ -18,19 +17,19 @@ bool DroidContainerComponent::checkContainerPermission(SceneObject* sceneObject,
 
 	DroidObject* droid = p.castTo<DroidObject*>();
 
-	if(droid == nullptr){
+	if (droid == nullptr) {
 		return false;
 	}
 
-	if (!creature->getPlayerObject()->isPrivileged() && droid->getLinkedCreature() != creature){
+	if (!creature->getPlayerObject()->isPrivileged() && droid->getLinkedCreature() != creature) {
 		return false;
 	}
 
-	if(permission == ContainerPermissions::MOVEIN){
+	if (permission == ContainerPermissions::MOVEIN) {
 		return true;
-	}else if (permission == ContainerPermissions::MOVEOUT ){
+	} else if (permission == ContainerPermissions::MOVEOUT) {
 		return true;
-	} else if ( permission == ContainerPermissions::OPEN  ) {
+	} else if (permission == ContainerPermissions::OPEN) {
 		return true;
 	}
 	return false;
@@ -55,7 +54,7 @@ int DroidContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject*
 	if (p) {
 		DroidObject* droid = p.castTo<DroidObject*>();
 		if (droid) {
-			if(!object->isASubChildOf(droid->getLinkedCreature().get())) {
+			if (!object->isASubChildOf(droid->getLinkedCreature().get())) {
 				errorDescription = "@container_error_message:container14";
 				return TransferErrorCode::MUSTBEINPLAYERINVENTORY;
 			}

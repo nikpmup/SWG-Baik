@@ -23,11 +23,11 @@ int LootContainerComponent::notifyObjectRemoved(SceneObject* sceneObject, SceneO
 					StringIdChatParameter params("group", "notify_single_loot"); //[GROUP] %TU looted %TO from %TT.
 					params.setTO(object->getDisplayedName());
 					params.setTU(creature->getDisplayedName());
-					params.setTT(sceneObject->getParent().get()->getDisplayedName() );
+					params.setTT(sceneObject->getParent().get()->getDisplayedName());
 
 					group->sendSystemMessage(params);
 				} else {
-					StringIdChatParameter params("base_player", "prose_item_looted_self"); //You looted: %TT.
+					StringIdChatParameter params("base_player", "prose_item_looted_self"); // You looted: %TT.
 					params.setTT(object->getObjectID());
 
 					creature->sendSystemMessage(params);
@@ -39,12 +39,11 @@ int LootContainerComponent::notifyObjectRemoved(SceneObject* sceneObject, SceneO
 	return 0;
 }
 
-
 bool LootContainerComponent::checkContainerPermission(SceneObject* sceneObject, CreatureObject* creature, uint16 permission) const {
 	auto permissions = sceneObject->getContainerPermissions();
-	if(permission == ContainerPermissions::MOVEIN)
+	if (permission == ContainerPermissions::MOVEIN)
 		return false;
-	else if (permission == ContainerPermissions::MOVEOUT ){
+	else if (permission == ContainerPermissions::MOVEOUT) {
 		return (permissions->getOwnerID() == creature->getObjectID() || permissions->getOwnerID() == creature->getGroupID());
 	}
 
@@ -52,12 +51,10 @@ bool LootContainerComponent::checkContainerPermission(SceneObject* sceneObject, 
 }
 
 int LootContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject* object, int containmentType, String& errorDescription) const {
-
-	if(sceneObject->getContainerObjectsSize() >= 0){
-		errorDescription = "@error_message:remove_only_corpse"; //You cannot place items into a corpse.
-		 return TransferErrorCode::INVALIDTYPE;
+	if (sceneObject->getContainerObjectsSize() >= 0) {
+		errorDescription = "@error_message:remove_only_corpse"; // You cannot place items into a corpse.
+		return TransferErrorCode::INVALIDTYPE;
 	}
 
 	return 1;
 }
-

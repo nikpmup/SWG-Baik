@@ -11,10 +11,7 @@
 
 class TeleportTargetCommand : public QueueCommand {
 public:
-
-	TeleportTargetCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	TeleportTargetCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -27,12 +24,12 @@ public:
 		ManagedReference<Zone*> targetZone = creature->getZone();
 
 		if (targetZone == nullptr)
-			return GENERALERROR; //Creature must be in a valid zone to use the command...
+			return GENERALERROR; // Creature must be in a valid zone to use the command...
 
 		ManagedReference<SceneObject*> obj = server->getZoneServer()->getObject(target);
 
 		if (obj == creature)
-			obj = nullptr; //In case the player has himself targeted with the command.
+			obj = nullptr; // In case the player has himself targeted with the command.
 
 		String targetName = "";
 		String planetName = targetZone->getZoneName();
@@ -51,13 +48,11 @@ public:
 		}
 
 		try {
-
 			if (tokenizer.hasMoreTokens()) {
-
 				x = tokenizer.getFloatToken();
 				y = tokenizer.getFloatToken();
 
-				if(tokenizer.hasMoreTokens()) {
+				if (tokenizer.hasMoreTokens()) {
 					tokenizer.getStringToken(planetName);
 					planetName = planetName.toLowerCase();
 				}
@@ -98,7 +93,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //TELEPORTTARGETCOMMAND_H_
+#endif // TELEPORTTARGETCOMMAND_H_

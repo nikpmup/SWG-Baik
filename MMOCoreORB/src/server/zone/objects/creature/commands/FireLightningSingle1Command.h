@@ -9,13 +9,10 @@
 
 class FireLightningSingle1Command : public CombatQueueCommand {
 public:
-
-	FireLightningSingle1Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	FireLightningSingle1Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -30,7 +27,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //FIRELIGHTNINGSINGLE1COMMAND_H_
+#endif // FIRELIGHTNINGSINGLE1COMMAND_H_

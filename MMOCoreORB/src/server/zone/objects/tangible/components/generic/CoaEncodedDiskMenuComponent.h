@@ -10,7 +10,6 @@
 
 class CoaEncodedDiskMenuComponent : public TangibleObjectMenuComponent {
 public:
-
 	/**
 	 * Fills the radial options, needs to be overridden
 	 * @pre { this object is locked }
@@ -34,6 +33,5 @@ private:
 
 	bool isDecoded(TangibleObject* disk) const;
 };
-
 
 #endif /* COAENCODEDDISKMENUCOMPONENT_H_ */

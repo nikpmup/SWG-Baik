@@ -43,8 +43,7 @@ public:
 		poolsToWound;
 	}
 
-
-	DefenderHitList& operator= (const DefenderHitList& hitList) {
+	DefenderHitList& operator=(const DefenderHitList& hitList) {
 		if (this == &hitList)
 			return *this;
 
@@ -153,7 +152,7 @@ public:
 		return forceFeedback;
 	}
 
-	inline int getForceAbsorb () {
+	inline int getForceAbsorb() {
 		return forceAbsorb;
 	}
 

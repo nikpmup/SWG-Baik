@@ -7,14 +7,10 @@
 
 class ShowPvPRatingCommand : public QueueCommand {
 public:
-
-	ShowPvPRatingCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ShowPvPRatingCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -60,7 +56,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SHOWPVPRATINGCOMMAND_H_
+#endif // SHOWPVPRATINGCOMMAND_H_

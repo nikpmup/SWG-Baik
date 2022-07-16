@@ -11,7 +11,6 @@
 #include "server/zone/managers/gcw/GCWManager.h"
 
 class ShutdownSequenceTask : public Task {
-
 	ManagedReference<BuildingObject*> buildingObject;
 	ManagedReference<GCWManager*> gcwManager;
 	ManagedReference<CreatureObject*> creature;
@@ -19,7 +18,6 @@ class ShutdownSequenceTask : public Task {
 	bool bDestruction;
 
 public:
-
 	ShutdownSequenceTask(GCWManager* gcwMan, BuildingObject* building, CreatureObject* player, SceneObject* term, bool isDestruction) {
 		gcwManager = gcwMan;
 		buildingObject = building;
@@ -29,15 +27,13 @@ public:
 	}
 
 	void run() {
-
-		if (buildingObject == nullptr || gcwManager == nullptr  )
+		if (buildingObject == nullptr || gcwManager == nullptr)
 			return;
 
-		if(bDestruction)
+		if (bDestruction)
 			gcwManager->scheduleBaseDestruction(buildingObject, creature);
 		else
 			gcwManager->startAbortSequenceDelay(buildingObject, creature, hqTerminal);
-
 	}
 };
 

@@ -133,5 +133,4 @@ public:
 	}
 };
 
-
 #endif /* SRC_SERVER_ZONE_OBJECTS_SCENE_VARIABLES_AUTODELTASET_H_ */

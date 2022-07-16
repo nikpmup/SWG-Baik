@@ -18,7 +18,6 @@ class DestroyFactionInstallationTask : public Task {
 public:
 	DestroyFactionInstallationTask(InstallationObject* inst) {
 		installation = inst;
-
 	}
 
 	void run() {
@@ -30,7 +29,6 @@ public:
 		if (gcwMan != nullptr)
 			gcwMan->notifyInstallationDestruction(installation);
 	}
-
 };
 
 #endif /* DESTROYFACTIONINSTALLATIONTASK_H_ */

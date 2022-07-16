@@ -12,13 +12,9 @@
 
 class WeaponObjectMessage6 : public TangibleObjectMessage6 {
 public:
-	WeaponObjectMessage6(TangibleObject* tano)
-			: TangibleObjectMessage6(tano, 0x5745414F) {
-
+	WeaponObjectMessage6(TangibleObject* tano) : TangibleObjectMessage6(tano, 0x5745414F) {
 		setSize();
 	}
-
 };
-
 
 #endif /* WEAPONOBJECTMESSAGE6_H_ */

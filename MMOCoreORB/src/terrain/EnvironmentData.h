@@ -16,10 +16,9 @@ class EnvironmentData : public TemplateVariable<'EFAM'> {
 	byte var4;
 	byte var5;
 	float var6;
+
 public:
-
 	EnvironmentData() : environmentId(0), var3(0), var4(0), var5(0), var6(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {
@@ -36,7 +35,6 @@ public:
 
 		iffStream->closeChunk('DATA');
 	}
-
 };
 
 #endif /* ENVIRONMENTDATA_H_ */

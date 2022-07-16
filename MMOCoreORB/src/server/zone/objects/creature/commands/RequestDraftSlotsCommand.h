@@ -7,14 +7,10 @@
 
 class RequestDraftSlotsCommand : public QueueCommand {
 public:
-
-	RequestDraftSlotsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RequestDraftSlotsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REQUESTDRAFTSLOTSCOMMAND_H_
+#endif // REQUESTDRAFTSLOTSCOMMAND_H_

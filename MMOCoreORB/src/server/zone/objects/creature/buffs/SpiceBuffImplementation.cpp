@@ -14,7 +14,7 @@ void SpiceBuffImplementation::deactivate(bool removeModifiers) {
 	BuffImplementation::deactivate(true);
 
 	if (removeModifiers) {
-		//StackTrace::printStackTrace();
+		// StackTrace::printStackTrace();
 		debug("activating downer");
 		uint32 crc = String::hashCode("spice." + buffName + ".down");
 		ManagedReference<Buff*> downer = new SpiceDownerBuff(creature.get(), buffName, crc, 120);
@@ -26,7 +26,7 @@ void SpiceBuffImplementation::deactivate(bool removeModifiers) {
 
 		// Puke now and every 15 seconds while debuff is active
 		creature.get()->doAnimation("heavy_cough_vomit");
-		Reference<Task*> downerAnimationTask = new SpiceDownerAnimationTask( creature.get(), crc);
+		Reference<Task*> downerAnimationTask = new SpiceDownerAnimationTask(creature.get(), crc);
 		creature.get()->addPendingTask("spice_downer_animation", downerAnimationTask, 15000);
 	}
 }

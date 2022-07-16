@@ -10,27 +10,22 @@
 
 class NextCraftingStageCommand : public QueueCommand {
 public:
-
-	NextCraftingStageCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	NextCraftingStageCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
 
-
 		/**
 		 * Argument = 1 integer
 		 * This argument is the stage for nextCraftingStage
 		 */
 
-		if(!creature->isPlayerCreature())
+		if (!creature->isPlayerCreature())
 			return INVALIDTARGET;
 
 		ManagedReference<TradeSession*> tradeContainer = creature->getActiveSession(SessionFacadeType::TRADE).castTo<TradeSession*>();
@@ -41,7 +36,7 @@ public:
 
 		Reference<CraftingSession*> session = creature->getActiveSession(SessionFacadeType::CRAFTING).castTo<CraftingSession*>();
 
-		if(session == nullptr) {
+		if (session == nullptr) {
 			return GENERALERROR;
 		}
 
@@ -49,8 +44,7 @@ public:
 
 		int clientCounter = 0;
 
-		if(tokenizer.hasMoreTokens()) {
-
+		if (tokenizer.hasMoreTokens()) {
 			clientCounter = tokenizer.getIntToken();
 		}
 
@@ -59,7 +53,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //NEXTCRAFTINGSTAGECOMMAND_H_
+#endif // NEXTCRAFTINGSTAGECOMMAND_H_

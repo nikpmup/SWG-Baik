@@ -14,8 +14,7 @@
 
 class GuildMemberListSuiCallback : public SuiCallback {
 public:
-	GuildMemberListSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	GuildMemberListSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -39,14 +38,14 @@ public:
 		if (obj == nullptr || !obj->isTerminal())
 			return;
 
-		Terminal* terminal = cast<Terminal*>( obj.get());
+		Terminal* terminal = cast<Terminal*>(obj.get());
 
 		if (!terminal->isGuildTerminal())
 			return;
 
-		GuildTerminal* guildTerminal = cast<GuildTerminal*>( terminal);
+		GuildTerminal* guildTerminal = cast<GuildTerminal*>(terminal);
 
-		SuiListBox* listBox = cast<SuiListBox*>( suiBox);
+		SuiListBox* listBox = cast<SuiListBox*>(suiBox);
 
 		uint64 memberID = listBox->getMenuObjectID(index);
 
@@ -55,7 +54,7 @@ public:
 			return;
 
 		if (!guild->hasMember(player->getObjectID()) && !player->getPlayerObject()->isPrivileged()) {
-			player->sendSystemMessage("@guild:generic_fail_no_permission"); //You do not have permission to perform that operation.
+			player->sendSystemMessage("@guild:generic_fail_no_permission"); // You do not have permission to perform that operation.
 			return;
 		}
 

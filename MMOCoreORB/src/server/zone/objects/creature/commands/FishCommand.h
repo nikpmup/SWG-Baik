@@ -10,14 +10,10 @@
 
 class FishCommand : public QueueCommand {
 public:
-
-	FishCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	FishCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -46,11 +42,9 @@ public:
 			}*/
 
 			manager->startFishing(player);
-
 		}
 		return SUCCESS;
 	}
-
 };
 
-#endif //FISHCOMMAND_H_
+#endif // FISHCOMMAND_H_

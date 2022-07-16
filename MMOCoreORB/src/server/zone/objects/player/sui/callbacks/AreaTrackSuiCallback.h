@@ -12,7 +12,6 @@
 #include "server/zone/objects/player/events/AreaTrackTask.h"
 #include "server/zone/packets/object/Emote.h"
 
-
 class AreaTrackSuiCallback : public SuiCallback {
 	String nodeName;
 
@@ -27,19 +26,18 @@ public:
 		if (!sui->isListBox() || cancelPressed)
 			return;
 
-		SuiListBox* listBox = cast<SuiListBox*>( sui);
+		SuiListBox* listBox = cast<SuiListBox*>(sui);
 
-		if(!creature->isPlayerCreature())
+		if (!creature->isPlayerCreature())
 			return;
 
-		if(!cancelPressed) {
-
+		if (!cancelPressed) {
 			int index = Integer::valueOf(args->get(0).toString());
 
-			if(index < 0 || index > 2)
+			if (index < 0 || index > 2)
 				return;
 
-			if(server != nullptr) {
+			if (server != nullptr) {
 				uint64 objectID = creature->getObjectID();
 				Emote* emsg = new Emote(objectID, objectID, 0, 72, true, false);
 				creature->broadcastMessage(emsg, true);

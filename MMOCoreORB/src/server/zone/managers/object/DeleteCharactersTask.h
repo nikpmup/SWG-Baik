@@ -62,7 +62,7 @@ public:
 					trx.exportRelated();
 				}
 
-				obj->destroyObjectFromWorld(false); //Don't need to send destroy to the player - they are being disconnected.
+				obj->destroyObjectFromWorld(false); // Don't need to send destroy to the player - they are being disconnected.
 				obj->destroyPlayerCreatureFromDatabase(true);
 			}
 		} catch (Exception& e) {
@@ -114,7 +114,7 @@ public:
 			playerManager->removePlayer(oid);
 		}
 
-		//Clear the vector now that its updated the database.
+		// Clear the vector now that its updated the database.
 		deletedCharacters.removeAll(250, 250);
 	}
 };

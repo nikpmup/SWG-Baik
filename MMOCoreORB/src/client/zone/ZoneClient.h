@@ -20,8 +20,8 @@ class ZoneClient : public ServiceHandler {
 	uint32 key;
 	uint32 accountID;
 
-	//bool doRun;
-	//bool disconnecting;
+	// bool doRun;
+	// bool disconnecting;
 
 	BasePacketHandler* basePacketHandler;
 	ZonePacketHandler* zonePacketHandler;
@@ -42,8 +42,7 @@ public:
 	void disconnect() {
 		client->disconnect();
 
-
-		client->info("disconnected" , true);
+		client->info("disconnected", true);
 	}
 
 	ServiceClient* createConnection(Socket* sock, SocketAddress& addr) {
@@ -63,15 +62,15 @@ public:
 	}
 
 	void sendMessage(Message* msg) {
-		client->sendPacket((BasePacket*) msg);
+		client->sendPacket((BasePacket*)msg);
 	}
 
 	void sendMessage(StandaloneBaseMessage* msg) {
-		client->sendPacket((BasePacket*) msg);
+		client->sendPacket((BasePacket*)msg);
 
-	#ifdef WITH_STM
-		//TransactionalMemoryManager::commitPureTransaction();
-	#endif
+#ifdef WITH_STM
+		// TransactionalMemoryManager::commitPureTransaction();
+#endif
 	}
 
 	bool hasMessages() {
@@ -82,7 +81,7 @@ public:
 		return messageQueue.pop();
 	}
 
-	//void disconnect(bool doLock = true);
+	// void disconnect(bool doLock = true);
 
 	void setZone(Zone* zone) {
 		ZoneClient::zone = zone;
@@ -112,14 +111,13 @@ public:
 		return zone;
 	}
 
-	uint32 getKey(){
+	uint32 getKey() {
 		return key;
 	}
 
 	uint32 getAccountID() {
 		return accountID;
 	}
-
 };
 
 #endif /* ZONECLIENT_H_ */

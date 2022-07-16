@@ -106,7 +106,8 @@ void CreatureTemplate::readObject(LuaObject* templateData) {
 	damageMax = templateData->getIntField("damageMax");
 	specialDamageMult = templateData->getFloatField("specialDamageMult");
 	attackSpeed = templateData->getFloatField("attackSpeed");
-	if (specialDamageMult < 0.001f) specialDamageMult = 1.f; // could use numeric_limit here, but this will prevent people from putting tiny modifiers in as well.
+	if (specialDamageMult < 0.001f)
+		specialDamageMult = 1.f; // could use numeric_limit here, but this will prevent people from putting tiny modifiers in as well.
 	baseXp = templateData->getIntField("baseXp");
 	baseHAM = templateData->getIntField("baseHAM");
 	baseHAMmax = templateData->getIntField("baseHAMmax");
@@ -131,10 +132,10 @@ void CreatureTemplate::readObject(LuaObject* templateData) {
 	healerType = templateData->getStringField("healerType").trim();
 	lightsaberColor = templateData->getIntField("lightsaberColor");
 
-	if(!templateData->getStringField("defaultAttack").isEmpty())
+	if (!templateData->getStringField("defaultAttack").isEmpty())
 		defaultAttack = templateData->getStringField("defaultAttack");
 
-	if(!templateData->getStringField("customAiMap").isEmpty())
+	if (!templateData->getStringField("customAiMap").isEmpty())
 		customAiMap = templateData->getStringField("customAiMap").hashCode();
 
 	scale = templateData->getFloatField("scale");
@@ -244,7 +245,7 @@ void CreatureTemplate::readObject(LuaObject* templateData) {
 
 	aiTemplate = templateData->getStringField("aiTemplate");
 
-	if(!templateData->getStringField("controlDeviceTemplate").isEmpty())
+	if (!templateData->getStringField("controlDeviceTemplate").isEmpty())
 		controlDeviceTemplate = templateData->getStringField("controlDeviceTemplate");
 
 	containerComponentTemplate = templateData->getStringField("containerComponentTemplate");

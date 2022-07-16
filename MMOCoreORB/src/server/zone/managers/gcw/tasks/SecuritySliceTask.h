@@ -11,13 +11,11 @@
 #include "server/zone/managers/gcw/GCWManager.h"
 
 class SecuritySliceTask : public Task {
-
 	ManagedReference<TangibleObject*> terminal;
 	ManagedReference<GCWManager*> gcwManager;
 	ManagedReference<CreatureObject*> creature;
 
 public:
-
 	SecuritySliceTask(GCWManager* gcwMan, TangibleObject* term, CreatureObject* player) {
 		gcwManager = gcwMan;
 		terminal = term;
@@ -25,12 +23,10 @@ public:
 	}
 
 	void run() {
-
-		if (terminal == nullptr || gcwManager == nullptr  )
+		if (terminal == nullptr || gcwManager == nullptr)
 			return;
 
 		gcwManager->completeSecuritySlice(creature, terminal);
-
 	}
 };
 

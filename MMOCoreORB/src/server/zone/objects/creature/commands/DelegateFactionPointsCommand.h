@@ -14,9 +14,7 @@
 
 class DelegateFactionPointsCommand : public QueueCommand {
 public:
-
-	DelegateFactionPointsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
+	DelegateFactionPointsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	static int doDelegate(CreatureObject* creature, CreatureObject* targetPlayer, uint32 tipAmount) {
@@ -43,7 +41,7 @@ public:
 		int targetsCap = FactionManager::instance()->getFactionPointsCap(targetsRank);
 		int targetsCurrentPoints = targetPlayerObject->getFactionStanding(faction);
 
-		float ratio = (float) delegateRatioFrom / (float)delegateRatioTo;
+		float ratio = (float)delegateRatioFrom / (float)delegateRatioTo;
 
 		uint32 charge = ceil((float)tipAmount * ratio);
 
@@ -69,7 +67,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -84,7 +81,7 @@ public:
 		if (target == 0)
 			return INVALIDTARGET;
 
-		//Check for targeted player
+		// Check for targeted player
 		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
 
 		StringIdChatParameter params("@cmd_err:target_type_prose"); // Your target for %TO was invalid.
@@ -160,7 +157,7 @@ public:
 		if (!tokenizer.hasMoreTokens()) {
 			ManagedReference<SuiTransferBox*> sui = new SuiTransferBox(creature, SuiWindowType::DELEGATE_TRANSFER);
 			sui->setCallback(new DelegateSuiCallback(server->getZoneServer()));
-			sui->setPromptTitle("@player_structure:select_amount"); //Select Amount
+			sui->setPromptTitle("@player_structure:select_amount"); // Select Amount
 			sui->setPromptText("Current faction points:" + String::valueOf(delegator->getFactionStanding(faction)));
 			sui->addFrom("Total amount", String::valueOf(currentFactionPoints), String::valueOf(currentFactionPoints), String::valueOf(delegateRatioFrom));
 			sui->addTo("Delegate amount", "0", "0", String::valueOf(delegateRatioTo));
@@ -173,14 +170,13 @@ public:
 			return SUCCESS;
 		}
 
-		tipAmount = (uint32) tokenizer.getIntToken();
+		tipAmount = (uint32)tokenizer.getIntToken();
 
 		if (tipAmount == 0)
 			return GENERALERROR;
 
 		return doDelegate(creature, targetCreature, tipAmount);
 	}
-
 };
 
-#endif //DELEGATEFACTIONPOINTSCOMMAND_H_
+#endif // DELEGATEFACTIONPOINTSCOMMAND_H_

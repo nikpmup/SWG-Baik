@@ -29,7 +29,7 @@ class MeshData;
 
 struct rcChunkyTriMesh;
 
-static const int NAVMESHSET_MAGIC = 'M'<<24 | 'S'<<16 | 'E'<<8 | 'T'; //'MSET';
+static const int NAVMESHSET_MAGIC = 'M' << 24 | 'S' << 16 | 'E' << 8 | 'T'; //'MSET';
 static const int NAVMESHSET_VERSION = 1;
 
 struct NavMeshSetHeader {
@@ -43,7 +43,6 @@ struct NavMeshTileHeader {
 	dtTileRef tileRef;
 	int dataSize;
 };
-
 
 class RecastSettings {
 public:
@@ -69,7 +68,6 @@ public:
 };
 
 class RecastTileBuilder : public Logger {
-
 protected:
 	bool m_keepInterResults;
 	bool m_buildAll;
@@ -97,31 +95,29 @@ protected:
 
 	void cleanup();
 
-	Vector <Reference<RecastPolygon*>> water;
+	Vector<Reference<RecastPolygon*>> water;
 
-	//void buildTile(const Vector3& pos);
+	// void buildTile(const Vector3& pos);
 	void getTilePos(const Vector3& pos, int& tx, int& ty);
 
 	float waterTableHeight;
 	float tileX, tileY;
 	AABB lastTileBounds;
+
 public:
 	void saveAll(const String& file);
 
-	RecastTileBuilder(float waterTableHeight, float x, float y, const AABB& bounds, const rcChunkyTriMesh* mesh,
-					  const RecastSettings& settings);
+	RecastTileBuilder(float waterTableHeight, float x, float y, const AABB& bounds, const rcChunkyTriMesh* mesh, const RecastSettings& settings);
 
 	virtual ~RecastTileBuilder();
 
 	virtual void changeMesh(MeshData* geom);
 
-	inline void setWater(const Vector<Reference<RecastPolygon*> >& waterBoundaries) {
+	inline void setWater(const Vector<Reference<RecastPolygon*>>& waterBoundaries) {
 		water = waterBoundaries;
 	}
 
 	virtual unsigned char* build(float x, float y, const AABB& tileBounds, int& dataSize);
-
-
 
 	//
 private:
@@ -130,6 +126,5 @@ private:
 
 	RecastTileBuilder& operator=(const RecastTileBuilder&);
 };
-
 
 #endif // RECASTTILEBUILDER_H_

@@ -8,7 +8,6 @@
 #include "server/chat/ChatManager.h"
 
 int DynamicSpawnObserverImplementation::notifyObserverEvent(unsigned int eventType, Observable* observable, ManagedObject* arg1, int64 arg2) {
-
 	if (eventType == ObserverEventType::OBJECTREMOVEDFROMZONE) {
 		despawnSpawns();
 		return 1;
@@ -28,7 +27,6 @@ int DynamicSpawnObserverImplementation::notifyObserverEvent(unsigned int eventTy
 		ai->resetRespawnCounter();
 
 		if (spawnedCreatures.isEmpty()) {
-
 			Reference<Task*> task = new DespawnDynamicSpawnTask(spawn);
 			task->schedule(60000);
 
@@ -98,7 +96,6 @@ void DynamicSpawnObserverImplementation::spawnInitialMobiles(SceneObject* buildi
 		CreatureManager* creatureManager = building->getZone()->getCreatureManager();
 
 		for (int j = 0; j < numberToSpawn; j++) {
-
 			float x = building->getPositionX() + (size - System::random(size * 20) / 10.0f);
 			float y = building->getPositionY() + (size - System::random(size * 20) / 10.0f);
 			float z = building->getZone()->getHeight(x, y);
@@ -119,7 +116,7 @@ void DynamicSpawnObserverImplementation::spawnInitialMobiles(SceneObject* buildi
 			if (!creo->isAiAgent()) {
 				error("spawned non player creature with template " + templateToSpawn);
 			} else {
-				AiAgent* ai = cast<AiAgent*>( creo.get());
+				AiAgent* ai = cast<AiAgent*>(creo.get());
 
 				Locker clocker(ai, building);
 

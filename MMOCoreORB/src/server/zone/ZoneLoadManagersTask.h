@@ -15,6 +15,7 @@
 class ZoneLoadManagersTask : public Task {
 	ManagedReference<ZoneServer*> zoneServer;
 	ManagedReference<Zone*> zone;
+
 public:
 	ZoneLoadManagersTask(ZoneServer* server, Zone* zone) {
 		this->zone = zone;
@@ -31,6 +32,5 @@ public:
 		zone->startManagers();
 	}
 };
-
 
 #endif /* ZONELOADMANAGERSTASK_H_ */

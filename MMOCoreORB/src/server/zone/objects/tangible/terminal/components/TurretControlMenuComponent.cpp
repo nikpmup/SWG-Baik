@@ -74,7 +74,7 @@ int TurretControlMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
 		return 1;
 
 	if (selectedID == 222) {
-		gcwMan->sendTurretAttackListTo(player,sceneObject);
+		gcwMan->sendTurretAttackListTo(player, sceneObject);
 	}
 
 	return 0;

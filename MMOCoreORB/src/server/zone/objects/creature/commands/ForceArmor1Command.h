@@ -9,7 +9,6 @@
 
 class ForceArmor1Command : public JediQueueCommand {
 public:
-
 	ForceArmor1Command(const String& name, ZoneProcessServer* server) : JediQueueCommand(name, server) {
 		buffCRC = BuffCRC::JEDI_FORCE_ARMOR_1;
 		blockingCRCs.add(BuffCRC::JEDI_FORCE_ARMOR_2);
@@ -47,7 +46,6 @@ public:
 			ghost->setForcePower(ghost->getForcePower() - fCost);
 		}
 	}
-
 };
 
-#endif //FORCEARMOR1COMMAND_H_
+#endif // FORCEARMOR1COMMAND_H_

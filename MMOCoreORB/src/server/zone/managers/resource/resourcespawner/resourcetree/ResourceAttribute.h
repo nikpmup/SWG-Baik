@@ -42,29 +42,28 @@ public:
 	 * Destructor
 	 */
 	~ResourceAttribute() {
-
 	}
 
 	void setIndex(const String& name) {
-		if(name == "res_decay_resist")
+		if (name == "res_decay_resist")
 			index = CraftingManager::DR;
-		else if(name == "res_quality")
+		else if (name == "res_quality")
 			index = CraftingManager::OQ;
-		else if(name == "res_flavor")
+		else if (name == "res_flavor")
 			index = CraftingManager::FL;
-		else if(name == "res_potential_energy")
+		else if (name == "res_potential_energy")
 			index = CraftingManager::PE;
-		else if(name == "res_malleability")
+		else if (name == "res_malleability")
 			index = CraftingManager::MA;
-		else if(name == "res_toughness")
+		else if (name == "res_toughness")
 			index = CraftingManager::UT;
-		else if(name == "res_shock_resistance")
+		else if (name == "res_shock_resistance")
 			index = CraftingManager::SR;
-		else if(name == "res_conductivity")
+		else if (name == "res_conductivity")
 			index = CraftingManager::CD;
-		else if(name == "res_cold_resist")
+		else if (name == "res_cold_resist")
 			index = CraftingManager::CR;
-		else if(name == "res_heat_resist")
+		else if (name == "res_heat_resist")
 			index = CraftingManager::HR;
 	}
 
@@ -93,5 +92,3 @@ public:
 		return index;
 	}
 };
-
-

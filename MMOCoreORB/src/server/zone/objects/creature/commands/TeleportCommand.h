@@ -7,10 +7,7 @@
 
 class TeleportCommand : public QueueCommand {
 public:
-
-	TeleportCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	TeleportCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -59,7 +56,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //TELEPORTCOMMAND_H_
+#endif // TELEPORTCOMMAND_H_

@@ -21,7 +21,6 @@ const uint8 CreatureAttribute::UNKNOWN = 9;
 
 const uint8 CreatureAttribute::ARRAYSIZE = 9;
 
-
 bool CreatureAttribute::isHAM(uint8 attribute) {
 	return (attribute == HEALTH || attribute == ACTION || attribute == MIND);
 }
@@ -47,7 +46,6 @@ uint8 CreatureAttribute::getAttribute(String attribute) {
 		return WILLPOWER;
 	else
 		return HEALTH;
-
 }
 
 String CreatureAttribute::getName(const uint8 attribute, bool initialCap) {

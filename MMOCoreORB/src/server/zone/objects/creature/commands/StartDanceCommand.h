@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef STARTDANCECOMMAND_H_
@@ -10,17 +10,14 @@
 #include "server/zone/managers/skill/SkillManager.h"
 #include "server/zone/managers/skill/PerformanceManager.h"
 
-class StartDanceCommand: public QueueCommand {
-
+class StartDanceCommand : public QueueCommand {
 public:
-	StartDanceCommand(const String& name, ZoneProcessServer* server) :
-		QueueCommand(name, server) {
-
+	StartDanceCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	static void startDance(CreatureObject* creature, int performanceIndex) {
 		ManagedReference<Facade*> facade = creature->getActiveSession(SessionFacadeType::ENTERTAINING);
-		ManagedReference<EntertainingSession*> session = dynamic_cast<EntertainingSession*> (facade.get());
+		ManagedReference<EntertainingSession*> session = dynamic_cast<EntertainingSession*>(facade.get());
 
 		if (session == nullptr) {
 			session = new EntertainingSession(creature);
@@ -31,7 +28,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -42,7 +38,7 @@ public:
 			return GENERALERROR;
 
 		ManagedReference<Facade*> facade = creature->getActiveSession(SessionFacadeType::ENTERTAINING);
-		ManagedReference<EntertainingSession*> session = dynamic_cast<EntertainingSession*> (facade.get());
+		ManagedReference<EntertainingSession*> session = dynamic_cast<EntertainingSession*>(facade.get());
 
 		if (session != nullptr && (session->isPlayingMusic() || session->isDancing())) {
 			creature->sendSystemMessage("@performance:already_performing_self"); // You are already performing.
@@ -79,7 +75,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //STARTDANCECOMMAND_H_
+#endif // STARTDANCECOMMAND_H_

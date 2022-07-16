@@ -11,22 +11,13 @@
 #include "server/zone/objects/transaction/TransactionLog.h"
 
 class LootCommand : public QueueCommand {
-
 public:
-	enum {
-		NOPICKUPITEMS = 0,
-		ITEMFOROTHER = 1,
-		PICKEDANDREMAINING = 2,
-		PICKEDANDEMPTY = 3
-	};
+	enum { NOPICKUPITEMS = 0, ITEMFOROTHER = 1, PICKEDANDREMAINING = 2, PICKEDANDEMPTY = 3 };
 
-	LootCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	LootCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -66,11 +57,11 @@ public:
 				PlayerManager* playerManager = server->getZoneServer()->getPlayerManager();
 				playerManager->lootAll(creature, ai);
 			} else {
-				//Check if the corpse's inventory contains any items.
+				// Check if the corpse's inventory contains any items.
 				if (lootContainer->getContainerObjectsSize() < 1) {
-  					creature->sendSystemMessage("@error_message:corpse_empty"); //"You find nothing else of value on the selected corpse."
-  					creature->getZoneServer()->getPlayerManager()->rescheduleCorpseDestruction(creature, ai);
-  				} else {
+					creature->sendSystemMessage("@error_message:corpse_empty"); //"You find nothing else of value on the selected corpse."
+					creature->getZoneServer()->getPlayerManager()->rescheduleCorpseDestruction(creature, ai);
+				} else {
 					ai->notifyObservers(ObserverEventType::LOOTCREATURE, creature, 0);
 					lootContainer->openContainerTo(creature);
 				}
@@ -82,8 +73,8 @@ public:
 		// If player and their group don't own the corpse, pick up any owned items left on corpse due to full inventory, then fail.
 		if (!groupIsOwner) {
 			int pickupResult = pickupOwnedItems(ai, creature, lootContainer);
-			if (pickupResult < 2) { //Player didn't pickup an item nor is one available for them.
-				StringIdChatParameter noPermission("error_message","no_corpse_permission"); //"You do not have permission to access this corpse."
+			if (pickupResult < 2) {															 // Player didn't pickup an item nor is one available for them.
+				StringIdChatParameter noPermission("error_message", "no_corpse_permission"); //"You do not have permission to access this corpse."
 				creature->sendSystemMessage(noPermission);
 				return GENERALERROR;
 			} else if (pickupResult == PICKEDANDEMPTY) {
@@ -97,15 +88,15 @@ public:
 		// If looter's group is the owner, attempt to pick up any owned items, then process group loot rule.
 		int pickupResult = pickupOwnedItems(ai, creature, lootContainer);
 		switch (pickupResult) {
-		case NOPICKUPITEMS: //No items available for anyone to pickup.
+		case NOPICKUPITEMS: // No items available for anyone to pickup.
 			break;
-		case ITEMFOROTHER: //No items available for looter to pickup, but one is available for someone else.
+		case ITEMFOROTHER: // No items available for looter to pickup, but one is available for someone else.
 			ai->notifyObservers(ObserverEventType::LOOTCREATURE, creature, 0);
 			lootContainer->openContainerTo(creature);
 			return SUCCESS;
-		case PICKEDANDREMAINING: //An item was available for the looter, there are items remaining.
+		case PICKEDANDREMAINING: // An item was available for the looter, there are items remaining.
 			return SUCCESS;
-		case PICKEDANDEMPTY: //An item was available for the looter, there are NO items remaining.
+		case PICKEDANDEMPTY: // An item was available for the looter, there are NO items remaining.
 			creature->getZoneServer()->getPlayerManager()->rescheduleCorpseDestruction(creature, ai);
 			return SUCCESS;
 		default:
@@ -119,7 +110,6 @@ public:
 		GroupLootTask* task = new GroupLootTask(group, creature, ai, lootAll);
 		task->execute();
 		return SUCCESS;
-
 	}
 
 	int pickupOwnedItems(AiAgent* ai, CreatureObject* creature, SceneObject* lootContainer) const {
@@ -134,7 +124,8 @@ public:
 		bool pickupAvailableOther = false;
 
 		int totalItems = lootContainer->getContainerObjectsSize();
-		if (totalItems < 1) return NOPICKUPITEMS;
+		if (totalItems < 1)
+			return NOPICKUPITEMS;
 
 		ContainerPermissions* contPerms = lootContainer->getContainerPermissionsForUpdate();
 		if (contPerms == nullptr) {
@@ -149,15 +140,16 @@ public:
 		// Check each loot item to see if the player owns it.
 		for (int i = totalItems - 1; i >= 0; --i) {
 			SceneObject* object = lootContainer->getContainerObject(i);
-			if (object == nullptr) continue;
+			if (object == nullptr)
+				continue;
 
 			ContainerPermissions* itemPerms = object->getContainerPermissionsForUpdate();
-			if (itemPerms == nullptr) continue;
+			if (itemPerms == nullptr)
+				continue;
 
-			//Check if player owns the loot item.
+			// Check if player owns the loot item.
 			uint64 itemOwnerID = itemPerms->getOwnerID();
 			if (itemOwnerID == creature->getObjectID()) {
-
 				// Attempt to transfer the item to the player.
 				attemptedPickup = true;
 				if (playerInventory->isContainerFullRecursive()) {
@@ -184,7 +176,7 @@ public:
 				pickupAvailableOther = true;
 		}
 
-		//Determine which result code to return.
+		// Determine which result code to return.
 		if (attemptedPickup) {
 			if (lootContainer->getContainerObjectsSize() > 0)
 				return PICKEDANDREMAINING;
@@ -198,4 +190,4 @@ public:
 		return NOPICKUPITEMS;
 	}
 };
-#endif //LOOTCOMMAND_H_
+#endif // LOOTCOMMAND_H_

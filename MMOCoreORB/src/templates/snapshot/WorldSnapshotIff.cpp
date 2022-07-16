@@ -8,7 +8,6 @@
 #include "WorldSnapshotIff.h"
 
 WorldSnapshotIff::WorldSnapshotIff() {
-
 }
 
 void WorldSnapshotIff::readObject(IffStream* iffStream) {
@@ -18,8 +17,7 @@ void WorldSnapshotIff::readObject(IffStream* iffStream) {
 	iffStream->openForm(version);
 
 	switch (version) {
-	case '0001':
-	{
+	case '0001': {
 		Chunk* nods = iffStream->openForm('NODS');
 		uint32 nodeCount = nods->getChunksSize();
 
@@ -31,8 +29,7 @@ void WorldSnapshotIff::readObject(IffStream* iffStream) {
 		}
 
 		iffStream->closeForm('NODS');
-	}
-		break;
+	} break;
 	case '0000':
 	default:
 		System::out << "ERROR: Unhandled WorldSnapshotIff version: " << version << endl;

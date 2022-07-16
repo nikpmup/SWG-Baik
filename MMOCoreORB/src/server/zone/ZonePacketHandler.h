@@ -14,31 +14,31 @@
 namespace server {
 namespace zone {
 
-	class ZoneClientSession;
-	class ZoneProcessServer;
-	class ZoneServer;
+class ZoneClientSession;
+class ZoneProcessServer;
+class ZoneServer;
 
-	class ZonePacketHandler : public Logger, public Object {
-		Reference<ZoneProcessServer*> processServer;
+class ZonePacketHandler : public Logger, public Object {
+	Reference<ZoneProcessServer*> processServer;
 
-		Reference<ZoneServer*> server;
+	Reference<ZoneServer*> server;
 
-		MessageCallbackFactory<MessageCallback* (ZoneClientSession*, ZoneProcessServer*), uint32> messageCallbackFactory;
+	MessageCallbackFactory<MessageCallback*(ZoneClientSession*, ZoneProcessServer*), uint32> messageCallbackFactory;
 
-	public:
-		ZonePacketHandler();
-		ZonePacketHandler(const String& s, ZoneProcessServer* serv);
+public:
+	ZonePacketHandler();
+	ZonePacketHandler(const String& s, ZoneProcessServer* serv);
 
-		~ZonePacketHandler();
+	~ZonePacketHandler();
 
-		void registerMessages();
-		void registerObjectControllerMessages();
+	void registerMessages();
+	void registerObjectControllerMessages();
 
-		Task* generateMessageTask(ZoneClientSession* client, Message* pack) const;
-	};
+	Task* generateMessageTask(ZoneClientSession* client, Message* pack) const;
+};
 
-	}
-}
+} // namespace zone
+} // namespace server
 
 using namespace server::zone;
 

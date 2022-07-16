@@ -21,23 +21,17 @@
  */
 class SpawnDensityMap : public Serializable {
 protected:
-
-	uint32 seed;  /// Random value to determine map shape
+	uint32 seed;	/// Random value to determine map shape
 	float modifier; /// Value to determine map type (ore, or other)
-	float density; /// Max density of map
+	float density;	/// Max density of map
 
 	float minX, maxX, minY, maxY;
 
-	uint32 totalUnits;  /// Total units that can be mined
-	uint32 unitsHarvested;  /// Number of units already mined
+	uint32 totalUnits;	   /// Total units that can be mined
+	uint32 unitsHarvested; /// Number of units already mined
 
 public:
-	enum {
-		HIGHDENSITY   = 1,
-		MEDIUMDENSITY = 2,
-		LOWDENSITY    = 3
-	};
-
+	enum { HIGHDENSITY = 1, MEDIUMDENSITY = 2, LOWDENSITY = 3 };
 
 public:
 	SpawnDensityMap() : Object(), Serializable() {
@@ -59,8 +53,7 @@ public:
 		addSerializableVariables();
 	}
 
-	SpawnDensityMap(bool ore, short concentration,
-			float minx, float maxx, float miny, float maxy) : Object(), Serializable() {
+	SpawnDensityMap(bool ore, short concentration, float minx, float maxx, float miny, float maxy) : Object(), Serializable() {
 		initialize(ore, concentration);
 		minX = minx;
 		maxX = maxx;
@@ -69,7 +62,6 @@ public:
 	}
 
 	~SpawnDensityMap() {
-
 	}
 
 	friend void to_json(nlohmann::json& j, const SpawnDensityMap& m) {
@@ -102,21 +94,19 @@ public:
 		return *this;
 	}
 
-
 	float getDensityAt(float x, float y) const {
 		x -= minX;
 		y = maxY - y;
 		float value = SimplexNoise::noise(x * modifier, y * modifier, seed * modifier);
 
-		if(value < 0)
+		if (value < 0)
 			return 0;
 
 		return value * density;
 	}
 
 	void print() const {
-		System::out << "Seed: " << seed << " Modifier: "
-				<< modifier << " Density: " << density << endl;
+		System::out << "Seed: " << seed << " Modifier: " << modifier << " Density: " << density << endl;
 	}
 
 private:
@@ -128,12 +118,12 @@ private:
 	void initialize(bool ore, short concentration) {
 		seed = System::random(time(0));
 
-		if(ore)
+		if (ore)
 			modifier = .00015f;
 		else
 			modifier = .0006f;
 
-		switch(concentration) {
+		switch (concentration) {
 		case 1:
 			density = (System::random(9) + 90) / 100.0f;
 			break;
@@ -167,6 +157,5 @@ private:
 		addSerializableVariable("maxY", &maxY);
 	}
 };
-
 
 #endif /* SPAWNDENSITYMAP_H_ */

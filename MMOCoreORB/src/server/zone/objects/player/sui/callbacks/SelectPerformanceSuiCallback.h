@@ -6,12 +6,11 @@
 class SelectPerformanceSuiCallback : public SuiCallback {
 	int performanceType;
 	bool bandCommand;
+
 public:
-	SelectPerformanceSuiCallback(ZoneServer* server, int type, bool bandCmd)
-		: SuiCallback(server) {
+	SelectPerformanceSuiCallback(ZoneServer* server, int type, bool bandCmd) : SuiCallback(server) {
 		performanceType = type;
 		bandCommand = bandCmd;
-
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {

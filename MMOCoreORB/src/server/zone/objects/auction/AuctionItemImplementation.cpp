@@ -62,38 +62,33 @@ bool AuctionItemImplementation::destroyAuctionItemFromDatabase(bool checkAuction
 		if (sellingID > 0) {
 			setAuctionedItemObjectID(0);
 
-			Core::getTaskManager()->executeTask([
-				sellingID,
-				aoid = getObjectID(),
-				statusString = getStatusString(),
-				logger = getLogger()
-			] () {
-				auto server = ServerCore::getZoneServer();
+			Core::getTaskManager()->executeTask(
+				[sellingID, aoid = getObjectID(), statusString = getStatusString(), logger = getLogger()]() {
+					auto server = ServerCore::getZoneServer();
 
-				if (server == nullptr)
-					return;
+					if (server == nullptr)
+						return;
 
-				auto scno = server->getObject(sellingID);
+					auto scno = server->getObject(sellingID);
 
-				if (scno != nullptr) {
-					Locker locker(scno);
+					if (scno != nullptr) {
+						Locker locker(scno);
 
-					if (ConfigManager::instance()->getBool("Core3.AuctionItem.ExportOnDestroy", false)) {
-						StringBuffer exportMsg;
+						if (ConfigManager::instance()->getBool("Core3.AuctionItem.ExportOnDestroy", false)) {
+							StringBuffer exportMsg;
 
-						exportMsg << "destroyAuctionItemFromDatabase"
-							<< " status=" << statusString
-						    << " auctionObjectID: " << aoid
-						;
+							exportMsg << "destroyAuctionItemFromDatabase"
+									  << " status=" << statusString << " auctionObjectID: " << aoid;
 
-						auto path = scno->exportJSON(exportMsg.toString());
+							auto path = scno->exportJSON(exportMsg.toString());
 
-						logger->info() << "[AuctionItem 0x" << hex << aoid << "] destroyAuctionItemFromDatabase: Exported deleted item to " << path;
+							logger->info() << "[AuctionItem 0x" << hex << aoid << "] destroyAuctionItemFromDatabase: Exported deleted item to " << path;
+						}
+
+						scno->destroyObjectFromDatabase(true);
 					}
-
-					scno->destroyObjectFromDatabase(true);
-				}
-			}, "AuctionItem_destroyAuctionItemFromDatabase", "slowQueue");
+				},
+				"AuctionItem_destroyAuctionItemFromDatabase", "slowQueue");
 		}
 	}
 
@@ -114,12 +109,18 @@ uint64 AuctionItemImplementation::getObjectID() const {
 
 String AuctionItemImplementation::getStatusString() const {
 	switch (status) {
-	case FORSALE:	return String("FORSALE");
-	case SOLD:		return String("SOLD");
-	case EXPIRED:	return String("EXPIRED");
-	case OFFERED:	return String("OFFERED");
-	case RETRIEVED:	return String("RETRIEVED");
-	case DELETED:	return String("DELETED");
+	case FORSALE:
+		return String("FORSALE");
+	case SOLD:
+		return String("SOLD");
+	case EXPIRED:
+		return String("EXPIRED");
+	case OFFERED:
+		return String("OFFERED");
+	case RETRIEVED:
+		return String("RETRIEVED");
+	case DELETED:
+		return String("DELETED");
 	}
 
 	StringBuffer msg;

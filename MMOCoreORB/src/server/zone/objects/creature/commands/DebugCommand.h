@@ -25,11 +25,10 @@ public:
 		}
 
 		try {
-
 			String status;
 			args.getStringToken(status);
 
-			if(status.toLowerCase() == "on") {
+			if (status.toLowerCase() == "on") {
 				ghost->setDebug(true);
 				creature->sendSystemMessage("Debug Output ON");
 			} else {
@@ -38,12 +37,10 @@ public:
 			}
 
 		} catch (Exception& e) {
-			creature->sendSystemMessage(
-					"SYNTAX: /server debug <on|off>");
+			creature->sendSystemMessage("SYNTAX: /server debug <on|off>");
 
 			return 0;
 		}
-
 
 		auto targetObject = creature->getZoneServer()->getObject(creature->getTargetID());
 
@@ -59,7 +56,6 @@ public:
 
 		return 0;
 	}
-
 };
 
 #endif /* DEBUGCOMMAND_H_ */

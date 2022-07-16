@@ -14,14 +14,13 @@ namespace chat {
 namespace room {
 
 class ChatRoomMap : public Object {
-	HashTable<uint32, ManagedReference<ChatRoom*> > rooms;
+	HashTable<uint32, ManagedReference<ChatRoom*>> rooms;
 
 public:
 	ChatRoomMap(int initsize) : rooms(initsize) {
 	}
 
 	ChatRoomMap(const ChatRoomMap& c) : Object(), rooms(c.rooms) {
-
 	}
 
 	void put(uint32 key, ChatRoom* room) {
@@ -40,15 +39,14 @@ public:
 		rooms.removeAll();
 	}
 
-	HashTableIterator<uint32, ManagedReference<ChatRoom*> > iterator() {
+	HashTableIterator<uint32, ManagedReference<ChatRoom*>> iterator() {
 		return rooms.iterator();
 	}
 };
 
-
-}
-}
-}
+} // namespace room
+} // namespace chat
+} // namespace server
 
 using namespace server::chat::room;
 

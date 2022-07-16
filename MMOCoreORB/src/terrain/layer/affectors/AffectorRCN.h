@@ -8,19 +8,17 @@
 #ifndef AFFECTORRCN_H_
 #define AFFECTORRCN_H_
 
-
 #include "../ProceduralRule.h"
 
 class AffectorRCN : public ProceduralRule<'ARCN'>, public AffectorProceduralRule {
 	int familyId;
 	int var2;
-	int flag; //add/remove
+	int flag; // add/remove
 	int featheringType;
 	float featheringAmount;
 
 public:
 	AffectorRCN() : familyId(0), var2(0), flag(0), featheringType(0), featheringAmount(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {
@@ -54,7 +52,5 @@ public:
 		iffStream->closeChunk('DATA');
 	}
 };
-
-
 
 #endif /* AFFECTORRCN_H_ */

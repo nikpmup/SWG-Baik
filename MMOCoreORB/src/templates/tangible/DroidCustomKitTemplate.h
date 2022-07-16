@@ -11,25 +11,20 @@
 #include "templates/SharedTangibleObjectTemplate.h"
 
 class DroidCustomKitTemplate : public SharedTangibleObjectTemplate {
-
 public:
 	DroidCustomKitTemplate() {
-
 	}
 
 	~DroidCustomKitTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
 		SharedTangibleObjectTemplate::readObject(templateData);
-
-    }
+	}
 
 	bool isDroidCustomKitTemplate() {
 		return true;
 	}
-
 };
 
 #endif /* DROIDCUSTOMKITTEMPLATE_H_ */

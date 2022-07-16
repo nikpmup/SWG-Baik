@@ -11,14 +11,10 @@
 
 class ApplyPowerupCommand : public QueueCommand {
 public:
-
-	ApplyPowerupCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ApplyPowerupCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -60,24 +56,18 @@ public:
 			return GENERALERROR;
 
 		if (weapon->isJediWeapon())
-			return GENERALERROR;			
+			return GENERALERROR;
 
-		if((weapon->isRangedWeapon() && pup->isRanged()) ||
-				(weapon->isMeleeWeapon() && pup->isMelee()) ||
-				(weapon->isThrownWeapon() && pup->isThrown()) ||
-				(weapon->isMineWeapon() && pup->isMine())) {
-
-			if(!weapon->hasPowerup()) {
-
+		if ((weapon->isRangedWeapon() && pup->isRanged()) || (weapon->isMeleeWeapon() && pup->isMelee()) || (weapon->isThrownWeapon() && pup->isThrown()) || (weapon->isMineWeapon() && pup->isMine())) {
+			if (!weapon->hasPowerup()) {
 				if (weapon->applyPowerup(creature, pup)) {
-
-					StringIdChatParameter message("powerup", "prose_pup_apply"); //You powerup your %TT with %TU.
+					StringIdChatParameter message("powerup", "prose_pup_apply"); // You powerup your %TT with %TU.
 					message.setTT(weapon->getDisplayedName());
 					message.setTU(pup->getDisplayedName());
 
 					creature->sendSystemMessage(message);
 				} else {
-					StringIdChatParameter message("powerup", "prose_apply_restricted"); //You cannot apply %TU to %TT.
+					StringIdChatParameter message("powerup", "prose_apply_restricted"); // You cannot apply %TU to %TT.
 					message.setTT(weapon->getDisplayedName());
 					message.setTU(pup->getDisplayedName());
 
@@ -85,17 +75,15 @@ public:
 				}
 
 			} else {
-
-				StringIdChatParameter message("powerup", "prose_already_powered"); //Your %TT already has a powerup.
+				StringIdChatParameter message("powerup", "prose_already_powered"); // Your %TT already has a powerup.
 				message.setTT(weapon->getDisplayedName());
 
 				creature->sendSystemMessage(message);
-
 			}
 
 			return SUCCESS;
 		} else {
-			StringIdChatParameter message("powerup", "prose_apply_restricted"); //You cannot apply %TU to %TT.
+			StringIdChatParameter message("powerup", "prose_apply_restricted"); // You cannot apply %TU to %TT.
 			message.setTT(weapon->getDisplayedName());
 			message.setTU(pup->getDisplayedName());
 
@@ -104,7 +92,6 @@ public:
 
 		return GENERALERROR;
 	}
-
 };
 
-#endif //APPLYPOWERUPCOMMAND_H_
+#endif // APPLYPOWERUPCOMMAND_H_

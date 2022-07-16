@@ -15,7 +15,6 @@ namespace components {
 namespace droid {
 
 class DroidItemStorageModuleDataComponent : public BaseDroidModuleComponent {
-
 protected:
 	int rating;
 
@@ -30,7 +29,9 @@ public:
 
 	void fillAttributeList(AttributeListMessage* msg, CreatureObject* droid);
 
-	int getBatteryDrain() { return 0;}
+	int getBatteryDrain() {
+		return 0;
+	}
 
 	String toString() const;
 
@@ -38,7 +39,9 @@ public:
 
 	void onStore();
 
-	bool isStackable() { return true; }
+	bool isStackable() {
+		return true;
+	}
 
 	void copy(BaseDroidModuleComponent* other);
 
@@ -55,12 +58,12 @@ public:
 	void initialize(DroidObject* droid);
 };
 
-} // droid
-} // components
-} // tangible
-} // objects
-} // zone
-} // server
+} // namespace droid
+} // namespace components
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 using namespace server::zone::objects::tangible::components::droid;
 
 #endif /* DROIDITEMSTORAGEMODULEDATACOMPONENT_H_ */

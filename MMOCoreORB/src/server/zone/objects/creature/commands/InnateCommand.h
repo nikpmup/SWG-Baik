@@ -7,14 +7,10 @@
 
 class InnateCommand : public QueueCommand {
 public:
-
-	InnateCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	InnateCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -42,13 +38,13 @@ public:
 			stringId.setStringId("@innate:innate_na"); // Innate Command parameter '%TO' is not available for your species.
 
 			if (innateCommand == "vitalize")
-				stringId.setTO("@innate:vit"); //vitalize
+				stringId.setTO("@innate:vit"); // vitalize
 			else if (innateCommand == "equilibrium")
-				stringId.setTO("@innate:equil"); //equilibrium
+				stringId.setTO("@innate:equil"); // equilibrium
 			else if (innateCommand == "regeneration")
-				stringId.setTO("@innate:regen"); //regeneration
+				stringId.setTO("@innate:regen"); // regeneration
 			else if (innateCommand == "wookieeroar")
-				stringId.setTO("@innate:roar"); //wookiee roar
+				stringId.setTO("@innate:roar"); // wookiee roar
 			else
 				return INVALIDPARAMETERS;
 
@@ -61,7 +57,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //INNATECOMMAND_H_
+#endif // INNATECOMMAND_H_

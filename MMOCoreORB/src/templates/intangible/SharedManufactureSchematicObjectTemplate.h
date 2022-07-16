@@ -8,25 +8,21 @@
 #ifndef SHAREDMANUFACTURESCHEMATICOBJECTTEMPLATE_H_
 #define SHAREDMANUFACTURESCHEMATICOBJECTTEMPLATE_H_
 
-
 #include "templates/SharedIntangibleObjectTemplate.h"
 
 class SharedManufactureSchematicObjectTemplate : public SharedIntangibleObjectTemplate {
-
 public:
 	SharedManufactureSchematicObjectTemplate() {
-
 	}
 
 	~SharedManufactureSchematicObjectTemplate() {
-
 	}
 
 	void readObject(IffStream* iffStream) {
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'SMSC') {
-			//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 			SharedIntangibleObjectTemplate::readObject(iffStream);
 
@@ -50,7 +46,7 @@ public:
 		iffStream->openForm(derv);
 
 		try {
-			//parseFileData(iffStream);
+			// parseFileData(iffStream);
 		} catch (Exception& e) {
 			String msg;
 			msg += "exception caught parsing file data ->";

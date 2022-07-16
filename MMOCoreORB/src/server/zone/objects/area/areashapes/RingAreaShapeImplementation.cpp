@@ -65,10 +65,10 @@ bool RingAreaShapeImplementation::intersectsWith(AreaShape* areaShape) const {
 bool RingAreaShapeImplementation::intersectsWithCircle(CircularAreaShape* circle) const {
 	float squaredCenterDistance = areaCenter.squaredDistanceTo(circle->getAreaCenter());
 
-	if (squaredCenterDistance > outerRadius2) { // circle center is outside the outer ring
+	if (squaredCenterDistance > outerRadius2) {							   // circle center is outside the outer ring
 		if (squaredCenterDistance > (outerRadius2 + circle->getRadius2())) // circle does not overlap
 			return false;
-	} else if (squaredCenterDistance < innerRadius2) { // circle center is inside the inner ring
+	} else if (squaredCenterDistance < innerRadius2) {					   // circle center is inside the inner ring
 		if ((squaredCenterDistance + circle->getRadius2()) < innerRadius2) // circle is wholly within ring's inner circle
 			return false;
 	}
@@ -79,15 +79,15 @@ bool RingAreaShapeImplementation::intersectsWithCircle(CircularAreaShape* circle
 bool RingAreaShapeImplementation::intersectsWithRing(RingAreaShape* ring) const {
 	float squaredCenterDistance = areaCenter.squaredDistanceTo(ring->getAreaCenter());
 
-	if (squaredCenterDistance > outerRadius2) { // ring center is outside the outer ring
+	if (squaredCenterDistance > outerRadius2) {								  // ring center is outside the outer ring
 		if (squaredCenterDistance > (outerRadius2 + ring->getOuterRadius2())) // ring outer edges are away from each other
 			return false;
 		else if ((squaredCenterDistance + outerRadius2) < ring->getInnerRadius2()) // ring's inner circle wholly encompasses this ring
 			return false;
-	} else if (squaredCenterDistance < innerRadius2) { // ring center is inside the inner ring
+	} else if (squaredCenterDistance < innerRadius2) {						  // ring center is inside the inner ring
 		if ((squaredCenterDistance + ring->getOuterRadius2()) < innerRadius2) // ring is wholly encompassed in inner ring
 			return false;
-		else if((squaredCenterDistance + outerRadius2) < ring->getInnerRadius2()) // ring's inner circle wholly encompasses this ring
+		else if ((squaredCenterDistance + outerRadius2) < ring->getInnerRadius2()) // ring's inner circle wholly encompasses this ring
 			return false;
 	}
 

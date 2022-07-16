@@ -8,12 +8,11 @@
 
 #ifndef ARMOROBJECTMENUCOMPONENT_H_
 #define ARMOROBJECTMENUCOMPONENT_H_
- 
+
 #include "WearableObjectMenuComponent.h"
 
 class ArmorObjectMenuComponent : public WearableObjectMenuComponent {
 public:
-
 	/**
 	 * Fills the radial options, needs to be overriden
 	 * @pre { this object is locked }
@@ -31,8 +30,6 @@ public:
 	 * @returns 0 if successfull
 	 */
 	virtual int handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const;
-
 };
 
 #endif /* ARMOROBJECTMENUCOMPONENT_H_ */
-

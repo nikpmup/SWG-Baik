@@ -9,13 +9,10 @@
 
 class Melee1hLunge1Command : public CombatQueueCommand {
 public:
-
-	Melee1hLunge1Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	Melee1hLunge1Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,8 +26,6 @@ public:
 
 		return result;
 	}
-
-
 };
 
-#endif //MELEE1HLUNGE1COMMAND_H_
+#endif // MELEE1HLUNGE1COMMAND_H_

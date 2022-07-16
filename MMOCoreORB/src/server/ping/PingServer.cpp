@@ -5,7 +5,7 @@
 #include "PingServer.h"
 
 PingServer::PingServer() : DatagramServiceThread("PingServer") {
-	//setLockName("PingServerLock");
+	// setLockName("PingServerLock");
 
 	setHandler(this);
 
@@ -40,7 +40,6 @@ void PingServer::handleMessage(ServiceClient* client, Packet* message) {
 	PingClient* lclient = cast<PingClient*>(client);
 
 	try {
-
 		if (lclient->isAvailable() && (message->size() == 4)) {
 			lclient->resetNetStatusTimeout();
 
@@ -71,7 +70,6 @@ bool PingServer::handleError(ServiceClient* client, Exception& e) {
 }
 
 void PingServer::processMessage(Message* message) {
-
 }
 
 void PingServer::printInfo() {

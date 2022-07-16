@@ -10,9 +10,8 @@
 
 #include "templates/SharedTangibleObjectTemplate.h"
 
-class DiceTemplate: public SharedTangibleObjectTemplate {
+class DiceTemplate : public SharedTangibleObjectTemplate {
 protected:
-
 	int sides;
 	String sidesText;
 	String selfSingleResult;
@@ -31,7 +30,6 @@ public:
 	}
 
 	~DiceTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -42,7 +40,6 @@ public:
 		sidesText = templateData->getStringField("sidesText");
 		selfManyResult = templateData->getStringField("selfManyResult");
 		othersManyResult = templateData->getStringField("othersManyResult");
-
 	}
 
 	int getSides() {
@@ -72,7 +69,6 @@ public:
 	bool isConfigurable() {
 		return sidesText == "configurable dice";
 	}
-
 };
 
 #endif /* DICETEMPLATE_H_ */

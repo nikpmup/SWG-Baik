@@ -16,8 +16,7 @@ class ClientRandomNameRequest : public MessageCallback {
 	String raceFile;
 
 public:
-	ClientRandomNameRequest(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
+	ClientRandomNameRequest(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {
@@ -48,7 +47,7 @@ public:
 		else if (raceFile.indexOf("zabrak") != -1)
 			species = CreatureObject::ZABRAK;
 
-		PlayerManager *playerManager = server->getPlayerManager();
+		PlayerManager* playerManager = server->getPlayerManager();
 		String name;
 		int limiter = 0;
 		do {
@@ -59,6 +58,5 @@ public:
 		client->sendMessage(msg);
 	}
 };
-
 
 #endif /* CLIENTRANDOMNAMEREQUEST_H_ */

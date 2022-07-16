@@ -111,7 +111,7 @@ void TerrainManager::addTerrainModification(float x, float y, const String& terr
 		return;
 	}
 
-	//to be safe that the generator is not deleted when we clear the cache
+	// to be safe that the generator is not deleted when we clear the cache
 	Locker locker(ptat->getGuard());
 
 	TerrainGenerator* generator = ptat->addTerrainModification(stream, x, y, objectid);
@@ -129,8 +129,8 @@ void TerrainManager::addTerrainModification(float x, float y, const String& terr
 }
 
 void TerrainManager::clearCache(TerrainGenerator* generator) {
-/*	totalHitCount.add(getCurrentCacheHitCount());
-	totalMissCount.add(getCurrentCacheMissCount());*/
+	/*	totalHitCount.add(getCurrentCacheHitCount());
+		totalMissCount.add(getCurrentCacheMissCount());*/
 
 	heightCache->clear(generator);
 }
@@ -164,8 +164,7 @@ float TerrainManager::getCachedHeight(float x, float y) {
 
 float TerrainManager::getHeight(float x, float y) {
 	if (x <= min || x >= max || y <= min || y >= max) {
-		warning() << "position  (" << x << ", " << y << ") out of planet/cache bounds: ["
-				<< min << ", " << max << "]";
+		warning() << "position  (" << x << ", " << y << ") out of planet/cache bounds: [" << min << ", " << max << "]";
 
 		StackTrace::printStackTrace();
 

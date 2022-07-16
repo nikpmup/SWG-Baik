@@ -11,7 +11,7 @@ void DetailVolume::read(IffStream* iff) {
 osg::ref_ptr<osg::Node> DetailVolume::draw() const {
 	osg::ref_ptr<osg::Group> group(new osg::Group);
 
-	for(int i=1; i<volumes.size(); i++) {
+	for (int i = 1; i < volumes.size(); i++) {
 		group->addChild(volumes.get(i)->draw());
 	}
 	return group;

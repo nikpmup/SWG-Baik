@@ -19,7 +19,6 @@
 #include "templates/creature/VendorCreatureTemplate.h"
 
 int CreateVendorSessionImplementation::initializeSession() {
-
 	ManagedReference<CreatureObject*> player = this->player.get();
 
 	if (player == nullptr)
@@ -28,7 +27,6 @@ int CreateVendorSessionImplementation::initializeSession() {
 	if (player->containsActiveSession(SessionFacadeType::CREATEVENDOR)) {
 		player->sendSystemMessage("@player_structure:already_creating"); // You are already creating a vendor.
 		return 0;
-
 	}
 
 	ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
@@ -52,11 +50,11 @@ int CreateVendorSessionImplementation::initializeSession() {
 			continue;
 
 		DataObjectComponentReference* data = vendor->getDataObjectComponent();
-		if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData())
+		if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData())
 			continue;
 
 		VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-		if(vendorData == nullptr)
+		if (vendorData == nullptr)
 			continue;
 
 		if (!vendorData->isInitialized()) {
@@ -108,7 +106,7 @@ void CreateVendorSessionImplementation::handleVendorSelection(byte menuID) {
 
 	// Set the title and text off the parent node.
 	suiSelectVendor->setPromptTitle(node->getSuiDisplay() + "t");
-	suiSelectVendor->setPromptText(node->getSuiDisplay()+ "d");
+	suiSelectVendor->setPromptText(node->getSuiDisplay() + "d");
 	templatePath = templatePath + node->getTemplatePath();
 
 	if (node->hasChildNode()) {
@@ -116,7 +114,7 @@ void CreateVendorSessionImplementation::handleVendorSelection(byte menuID) {
 		node->addChildrenToListBox(suiSelectVendor, hiringMod);
 
 		/// If there are selections available for vendors
-		if(suiSelectVendor->getMenuSize() != 0) {
+		if (suiSelectVendor->getMenuSize() != 0) {
 			player->sendMessage(suiSelectVendor->generateMessage());
 			player->getPlayerObject()->addSuiBox(suiSelectVendor);
 			return;
@@ -135,7 +133,6 @@ void CreateVendorSessionImplementation::handleVendorSelection(byte menuID) {
 
 	player->sendMessage(input->generateMessage());
 	player->getPlayerObject()->addSuiBox(input);
-
 }
 
 void CreateVendorSessionImplementation::createVendor(String& name) {
@@ -198,7 +195,7 @@ void CreateVendorSessionImplementation::createVendor(String& name) {
 	}
 
 	DataObjectComponentReference* data = vendor->getDataObjectComponent();
-	if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
+	if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
 		error("Invalid vendor, no data component: " + templatePath);
 		player->sendSystemMessage("@player_structure:create_failed");
 		vendor->destroyObjectFromDatabase(true);
@@ -207,12 +204,12 @@ void CreateVendorSessionImplementation::createVendor(String& name) {
 	}
 
 	VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-	if(vendorData == nullptr) {
+	if (vendorData == nullptr) {
 		error("Invalid vendor, no data component: " + templatePath);
 		player->sendSystemMessage("@player_structure:create_failed");
 		vendor->destroyObjectFromDatabase(true);
 		cancelSession();
-		return ;
+		return;
 	}
 
 	vendorData->setOwnerId(player->getObjectID());
@@ -223,13 +220,13 @@ void CreateVendorSessionImplementation::createVendor(String& name) {
 	vendor->setMaxCondition(1000, false);
 	vendor->setConditionDamage(0, false);
 
-	if(vendor->isCreatureObject()) {
+	if (vendor->isCreatureObject()) {
 		randomizeVendorLooks(cast<CreatureObject*>(vendor.get()));
 	}
 
 	TransactionLog trx(TrxCode::VENDORLIFECYCLE, player, vendor);
 
-	if(!inventory->transferObject(vendor, -1, false)) {
+	if (!inventory->transferObject(vendor, -1, false)) {
 		trx.abort() << "transferObject failed.";
 		player->sendSystemMessage("@player_structure:create_failed");
 		vendor->destroyObjectFromDatabase(true);
@@ -245,16 +242,14 @@ void CreateVendorSessionImplementation::createVendor(String& name) {
 }
 
 void CreateVendorSessionImplementation::randomizeVendorLooks(CreatureObject* vendor) {
-
-	VendorCreatureTemplate* vendorTempl = dynamic_cast<VendorCreatureTemplate*> (vendor->getObjectTemplate());
+	VendorCreatureTemplate* vendorTempl = dynamic_cast<VendorCreatureTemplate*>(vendor->getObjectTemplate());
 	if (vendorTempl == nullptr)
 		return;
 
-	randomizeVendorClothing( vendor, vendorTempl );
-	randomizeVendorHair( vendor, vendorTempl );
-	randomizeVendorFeatures( vendor, vendorTempl );
-	randomizeVendorHeight( vendor, vendorTempl );
-
+	randomizeVendorClothing(vendor, vendorTempl);
+	randomizeVendorHair(vendor, vendorTempl);
+	randomizeVendorFeatures(vendor, vendorTempl);
+	randomizeVendorHeight(vendor, vendorTempl);
 }
 
 void CreateVendorSessionImplementation::randomizeVendorClothing(CreatureObject* vendor, VendorCreatureTemplate* vendorTempl) {
@@ -263,7 +258,7 @@ void CreateVendorSessionImplementation::randomizeVendorClothing(CreatureObject* 
 	if (player == nullptr)
 		return;
 
-	String randomOutfit = vendorTempl->getOutfitName(System::random(vendorTempl->getOutfitsSize() -1));
+	String randomOutfit = vendorTempl->getOutfitName(System::random(vendorTempl->getOutfitsSize() - 1));
 	if (randomOutfit.isEmpty())
 		return;
 
@@ -295,7 +290,6 @@ void CreateVendorSessionImplementation::randomizeVendorClothing(CreatureObject* 
 			obj->destroyObjectFromDatabase(true);
 		}
 	}
-
 }
 
 void CreateVendorSessionImplementation::randomizeVendorHair(CreatureObject* vendor, VendorCreatureTemplate* vendorTempl) {
@@ -308,7 +302,6 @@ void CreateVendorSessionImplementation::randomizeVendorHair(CreatureObject* vend
 	ManagedReference<SceneObject*> hairSlot = vendor->getSlottedObject("hair");
 
 	if (hairSlot == nullptr && !hairFile.isEmpty()) {
-
 		Reference<TangibleObject*> hair = player->getZoneServer()->createObject(hairFile.hashCode(), 1).castTo<TangibleObject*>();
 
 		if (hair != nullptr) {
@@ -317,27 +310,25 @@ void CreateVendorSessionImplementation::randomizeVendorHair(CreatureObject* vend
 				return;
 			}
 
-			//TODO: randomize hair customization
+			// TODO: randomize hair customization
 
 			if (!vendor->transferObject(hair, 4)) {
 				hair->destroyObjectFromDatabase(true);
 			}
 		}
 	}
-
 }
 
 void CreateVendorSessionImplementation::randomizeVendorFeatures(CreatureObject* vendor, VendorCreatureTemplate* vendorTempl) {
-
 	// Randomize Configured Customization Variables
-	for( int i = 0; i < vendorTempl->getCustomizationStringNamesSize(); i++ ){
+	for (int i = 0; i < vendorTempl->getCustomizationStringNamesSize(); i++) {
 		String customizationStringName = vendorTempl->getCustomizationStringName(i);
 
-		if( i >= vendorTempl->getCustomizationValuesSize() )
+		if (i >= vendorTempl->getCustomizationValuesSize())
 			continue;
 
 		Vector<int> values = vendorTempl->getCustomizationValues(i);
-		if( values.isEmpty() )
+		if (values.isEmpty())
 			continue;
 
 		// Select random value from array
@@ -346,34 +337,31 @@ void CreateVendorSessionImplementation::randomizeVendorFeatures(CreatureObject* 
 		// Some customization strings are mutually exclusive pairs of names separated by
 		// a comma.  Client expects only one of those names to be non-zero.  The other
 		// should be zero.  Randomly choose which one to give a value from the values array
-		int idx = customizationStringName.indexOf( ',' );
-		if( idx >= 0 ){
-			String customizationStringName1 = customizationStringName.subString( 0, idx );
-			String customizationStringName2 = customizationStringName.subString( idx+1 );
-			if( System::random(1) == 1 ){
-				vendor->setCustomizationVariable( customizationStringName1, randomValue, false );
-				vendor->setCustomizationVariable( customizationStringName2, 0, false );
-			}
-			else{
-				vendor->setCustomizationVariable( customizationStringName1, 0, false );
-				vendor->setCustomizationVariable( customizationStringName2, randomValue, false );
+		int idx = customizationStringName.indexOf(',');
+		if (idx >= 0) {
+			String customizationStringName1 = customizationStringName.subString(0, idx);
+			String customizationStringName2 = customizationStringName.subString(idx + 1);
+			if (System::random(1) == 1) {
+				vendor->setCustomizationVariable(customizationStringName1, randomValue, false);
+				vendor->setCustomizationVariable(customizationStringName2, 0, false);
+			} else {
+				vendor->setCustomizationVariable(customizationStringName1, 0, false);
+				vendor->setCustomizationVariable(customizationStringName2, randomValue, false);
 			}
 
-		}
-		else{
+		} else {
 			// Set single variable
-			vendor->setCustomizationVariable( customizationStringName, randomValue, false );
+			vendor->setCustomizationVariable(customizationStringName, randomValue, false);
 		}
 	} // foreach customizationStringName
 }
 
 void CreateVendorSessionImplementation::randomizeVendorHeight(CreatureObject* vendor, VendorCreatureTemplate* vendorTempl) {
-
 	// minScale/maxScale are floats with two significant digits past the decimal
-	int minScale = vendorTempl->getMinScale()*100;
-	int maxScale = vendorTempl->getMaxScale()*100;
-	int heightMod = System::random( maxScale - minScale );
+	int minScale = vendorTempl->getMinScale() * 100;
+	int maxScale = vendorTempl->getMaxScale() * 100;
+	int heightMod = System::random(maxScale - minScale);
 
-	float height = (minScale + heightMod)/100.0;
-	vendor->setHeight( height, false );
+	float height = (minScale + heightMod) / 100.0;
+	vendor->setHeight(height, false);
 }

@@ -12,8 +12,7 @@
 
 class GuildTransferLeadershipSuiCallback : public SuiCallback {
 public:
-	GuildTransferLeadershipSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	GuildTransferLeadershipSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -23,7 +22,7 @@ public:
 			return;
 
 		if (args->size() < 1)
-					return;
+			return;
 
 		String newOwnerName = args->get(0).toString();
 
@@ -34,9 +33,6 @@ public:
 
 		guildManager->sendTransferAckTo(player, newOwnerName, suiBox->getUsingObject().get());
 	}
-
 };
-
-
 
 #endif /* GUILDTRANSFERLEADERSHIPSUICALLBACK_H_ */

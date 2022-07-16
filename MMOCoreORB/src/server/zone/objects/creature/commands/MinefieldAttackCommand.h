@@ -12,13 +12,10 @@
 
 class MinefieldAttackCommand : public CombatQueueCommand {
 public:
-
-	MinefieldAttackCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	MinefieldAttackCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -27,12 +24,6 @@ public:
 
 		return 0;
 	}
-
 };
-
-
-
-
-
 
 #endif /* MINEFIELDATTACKCOMMAND_H_ */

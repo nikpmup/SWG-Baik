@@ -10,10 +10,7 @@
 
 class GrantSkillCommand : public QueueCommand {
 public:
-
-	GrantSkillCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GrantSkillCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -28,7 +25,7 @@ public:
 		if (object == nullptr || !object->isCreatureObject())
 			return INVALIDTARGET;
 
-		CreatureObject* targetCreature = cast<CreatureObject*>( object.get());
+		CreatureObject* targetCreature = cast<CreatureObject*>(object.get());
 
 		Locker clocker(targetCreature, creature);
 
@@ -43,8 +40,7 @@ public:
 
 			targetCreature->sendSystemMessage(params);
 
-			creature->sendSystemMessage("Granted skill " + arguments.toString()
-					+ "to " + targetCreature->getFirstName());
+			creature->sendSystemMessage("Granted skill " + arguments.toString() + "to " + targetCreature->getFirstName());
 		} else {
 			StringIdChatParameter params;
 			params.setTO(arguments.toString());
@@ -52,12 +48,10 @@ public:
 
 			targetCreature->sendSystemMessage(params);
 
-			creature->sendSystemMessage("Failed to grant skill " + arguments.toString()
-					+ "to " + targetCreature->getFirstName());
+			creature->sendSystemMessage("Failed to grant skill " + arguments.toString() + "to " + targetCreature->getFirstName());
 		}
 		return SUCCESS;
 	}
-
 };
 
-#endif //GRANTSKILLCOMMAND_H_
+#endif // GRANTSKILLCOMMAND_H_

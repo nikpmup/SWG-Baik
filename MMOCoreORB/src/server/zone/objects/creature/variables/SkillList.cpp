@@ -128,7 +128,7 @@ void SkillList::remove(Skill* skill, DeltaMessage* message) {
 
 	Reference<Skill*> skillObject = vector.remove(index);
 
-	if (message != nullptr  && skill != nullptr) {
+	if (message != nullptr && skill != nullptr) {
 		message->startList(1, ++updateCounter);
 
 		message->insertByte(0);

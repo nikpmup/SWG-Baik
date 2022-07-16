@@ -7,14 +7,10 @@
 
 class HarvesterMakeCrateCommand : public QueueCommand {
 public:
-
-	HarvesterMakeCrateCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HarvesterMakeCrateCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //HARVESTERMAKECRATECOMMAND_H_
+#endif // HARVESTERMAKECRATECOMMAND_H_

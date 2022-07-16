@@ -17,7 +17,6 @@ namespace creature {
 namespace events {
 
 class DroidMerchantBarkerTask : public Task, public Logger {
-
 	Reference<DroidMerchantModuleDataComponent*> module;
 
 public:
@@ -26,7 +25,6 @@ public:
 	}
 
 	void run() {
-
 		if (module == nullptr) {
 			return;
 		}
@@ -42,7 +40,7 @@ public:
 		droid->removePendingTask("barking");
 
 		// Check if droid is spawned
-		if (droid->getLocalZone() == nullptr) {  // Not outdoors
+		if (droid->getLocalZone() == nullptr) { // Not outdoors
 			ManagedReference<SceneObject*> parent = droid->getParent().get();
 
 			if (parent == nullptr || !parent.get()->isCellObject()) { // Not indoors either
@@ -53,7 +51,7 @@ public:
 
 		// Droid must have power
 		if (!droid->hasPower()) {
-			droid->showFlyText("npc_reaction/flytext","low_power", 204, 0, 0);  // "*Low Power*"
+			droid->showFlyText("npc_reaction/flytext", "low_power", 204, 0, 0); // "*Low Power*"
 			return;
 		}
 
@@ -81,7 +79,7 @@ public:
 		ZoneServer* zoneServer = zone->getZoneServer();
 
 		// Get nearby people and bark
-		CloseObjectsVector* vec = (CloseObjectsVector*) droid->getCloseObjects();
+		CloseObjectsVector* vec = (CloseObjectsVector*)droid->getCloseObjects();
 		SortedVector<QuadTreeEntry*> closeEntryObjects(200, 50);
 		if (vec != nullptr) {
 			vec->safeCopyReceiversTo(closeEntryObjects, CloseObjectsVector::PLAYERTYPE);
@@ -95,7 +93,7 @@ public:
 		bool speak = false;
 		for (int i = 0; i < closeEntryObjects.size(); ++i) {
 			SceneObject* object = cast<SceneObject*>(closeEntryObjects.get(i));
-			if (object->isPlayerCreature() && object->isInRange(droid,15)) {
+			if (object->isPlayerCreature() && object->isInRange(droid, 15)) {
 				speak = true;
 				break;
 			}
@@ -107,14 +105,13 @@ public:
 
 		droid->addPendingTask("barking", this, 60000); // wait a mintue to bark again
 	}
-
 };
 
-} // events
-} // creature
-} // objects
-} // zone
-} // server
+} // namespace events
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::events;
 

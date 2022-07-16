@@ -9,14 +9,10 @@
 
 class SetWaypointActiveStatusCommand : public QueueCommand {
 public:
-
-	SetWaypointActiveStatusCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetWaypointActiveStatusCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -33,7 +29,7 @@ public:
 		if (ghost == nullptr)
 			return GENERALERROR;
 
-		WaypointObject* waypoint = cast<WaypointObject*>( wp.get());
+		WaypointObject* waypoint = cast<WaypointObject*>(wp.get());
 
 		if (!ghost->hasWaypoint(waypoint->getObjectID()))
 			return GENERALERROR;
@@ -46,7 +42,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETWAYPOINTACTIVESTATUSCOMMAND_H_
+#endif // SETWAYPOINTACTIVESTATUSCOMMAND_H_

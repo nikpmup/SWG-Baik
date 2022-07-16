@@ -23,7 +23,7 @@ class SceneObject;
 } // namespace scene
 
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
 } // namespace objects
 } // namespace zone
@@ -78,6 +78,5 @@ public:
 		icon = ico;
 	}
 };
-
 
 #endif /* MAPLOCATIONENTRY_H_ */

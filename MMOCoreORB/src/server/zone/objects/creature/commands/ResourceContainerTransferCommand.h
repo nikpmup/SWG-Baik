@@ -10,14 +10,10 @@
 
 class ResourceContainerTransferCommand : public QueueCommand {
 public:
-
-	ResourceContainerTransferCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ResourceContainerTransferCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -27,11 +23,10 @@ public:
 		StringTokenizer tokenizer(arguments.toString());
 		uint64 toContainerID = tokenizer.getLongToken();
 
-		ManagedReference<ResourceContainer* > fromContainer = server->getZoneServer()->getObject(target).castTo<ResourceContainer*>();
-		ManagedReference<ResourceContainer* > toContainer = server->getZoneServer()->getObject(toContainerID).castTo<ResourceContainer*>();
+		ManagedReference<ResourceContainer*> fromContainer = server->getZoneServer()->getObject(target).castTo<ResourceContainer*>();
+		ManagedReference<ResourceContainer*> toContainer = server->getZoneServer()->getObject(toContainerID).castTo<ResourceContainer*>();
 
-		if((fromContainer == nullptr || toContainer == nullptr || !fromContainer->isResourceContainer()
-				|| !toContainer->isResourceContainer() || !creature->isPlayerCreature() || !fromContainer->isASubChildOf(creature) || !toContainer->isASubChildOf(creature)))
+		if ((fromContainer == nullptr || toContainer == nullptr || !fromContainer->isResourceContainer() || !toContainer->isResourceContainer() || !creature->isPlayerCreature() || !fromContainer->isASubChildOf(creature) || !toContainer->isASubChildOf(creature)))
 			return INVALIDTARGET;
 
 		ManagedReference<SceneObject*> par = toContainer->getParent().get();
@@ -45,7 +40,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //RESOURCECONTAINERTRANSFERCOMMAND_H_
+#endif // RESOURCECONTAINERTRANSFERCOMMAND_H_

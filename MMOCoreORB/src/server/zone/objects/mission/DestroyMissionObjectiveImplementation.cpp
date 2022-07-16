@@ -28,7 +28,7 @@ void DestroyMissionObjectiveImplementation::setLairTemplateToSpawn(const String&
 void DestroyMissionObjectiveImplementation::destroyObjectFromDatabase() {
 	MissionObjectiveImplementation::destroyObjectFromDatabase();
 
-	ManagedReference<MissionSpawnActiveArea* > spawnActiveArea = this->spawnActiveArea;
+	ManagedReference<MissionSpawnActiveArea*> spawnActiveArea = this->spawnActiveArea;
 
 	if (spawnActiveArea != nullptr) {
 		Locker locker(spawnActiveArea);
@@ -42,14 +42,14 @@ void DestroyMissionObjectiveImplementation::destroyObjectFromDatabase() {
 
 void DestroyMissionObjectiveImplementation::activate() {
 	MissionObjectiveImplementation::activate();
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
 
 	if ((hasObservers() && lairObject != nullptr) || mission == nullptr) {
 		return;
 	}
 
 	if (spawnActiveArea == nullptr) {
-		spawnActiveArea = ( Core::lookupObject<ZoneServer>("ZoneServer")->createObject(STRING_HASHCODE("object/mission_spawn_area.iff"), 1)).castTo<MissionSpawnActiveArea*>();
+		spawnActiveArea = (Core::lookupObject<ZoneServer>("ZoneServer")->createObject(STRING_HASHCODE("object/mission_spawn_area.iff"), 1)).castTo<MissionSpawnActiveArea*>();
 		Locker alocker(spawnActiveArea);
 		spawnActiveArea->setMissionObjective(_this.getReferenceUnsafeStaticCast());
 	}
@@ -69,7 +69,7 @@ void DestroyMissionObjectiveImplementation::activate() {
 		spawnActiveArea->initializePosition(mission->getStartPositionX(), 0, mission->getStartPositionY());
 		spawnActiveArea->setRadius(128.f);
 		zone->transferObject(spawnActiveArea, -1, false);
-		//info("inserting to zone " + zone->getPlanetName(), true);
+		// info("inserting to zone " + zone->getPlanetName(), true);
 	}
 
 	WaypointObject* waypoint = mission->getWaypointToMission();
@@ -87,14 +87,14 @@ Vector3 DestroyMissionObjectiveImplementation::findValidSpawnPosition(Zone* zone
 	Vector3 position;
 	ManagedReference<MissionObject*> mission = this->mission.get();
 
-	if(mission == nullptr)
+	if (mission == nullptr)
 		return position;
 
 	if (zone == nullptr)
 		return position;
 
-	float newX = spawnActiveArea->getPositionX() + (256.0f - (float) System::random(512));
-	float newY = spawnActiveArea->getPositionY() + (256.0f - (float) System::random(512));
+	float newX = spawnActiveArea->getPositionX() + (256.0f - (float)System::random(512));
+	float newY = spawnActiveArea->getPositionY() + (256.0f - (float)System::random(512));
 
 	float height = zone->isWithinBoundaries(Vector3(newX, newY, 0)) ? zone->getHeight(newX, newY) : 0;
 
@@ -107,29 +107,28 @@ Vector3 DestroyMissionObjectiveImplementation::findValidSpawnPosition(Zone* zone
 
 	position.set(newX, height, newY);
 
-	while ((!planetManager->isSpawningPermittedAt(newX, newY, size)
-			|| CollisionManager::checkSphereCollision(position, size + 25.f , zone)) && tries < 256) {
-		newX = spawnActiveArea->getPositionX() + (distance - (float) System::random(distance * 2));
-		newY = spawnActiveArea->getPositionY() + (distance - (float) System::random(distance * 2));
+	while ((!planetManager->isSpawningPermittedAt(newX, newY, size) || CollisionManager::checkSphereCollision(position, size + 25.f, zone)) && tries < 256) {
+		newX = spawnActiveArea->getPositionX() + (distance - (float)System::random(distance * 2));
+		newY = spawnActiveArea->getPositionY() + (distance - (float)System::random(distance * 2));
 		height = zone->isWithinBoundaries(Vector3(newX, newY, 0)) ? zone->getHeight(newX, newY) : 0;
 
 		position.set(newX, height, newY);
 
 		++tries;
 
-		//Increase distance every if 32 tries failed.
+		// Increase distance every if 32 tries failed.
 		if (tries % 32 == 0) {
 			distance = distance * 2;
 		}
 	}
 
 	if (tries == 128) {
-		//Failed to find a spawn point for the lair, fail mission.
+		// Failed to find a spawn point for the lair, fail mission.
 		getPlayerOwner()->sendSystemMessage("@mission/mission_generic:failed");
 		fail();
 	}
 
-	//info("found with tries " + String::valueOf(tries), true);
+	// info("found with tries " + String::valueOf(tries), true);
 
 	return position;
 }
@@ -137,9 +136,9 @@ Vector3 DestroyMissionObjectiveImplementation::findValidSpawnPosition(Zone* zone
 void DestroyMissionObjectiveImplementation::spawnLair() {
 	Locker _lock(_this.getReferenceUnsafeStaticCast());
 
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
 
-	ManagedReference<MissionSpawnActiveArea* > spawnActiveArea = this->spawnActiveArea;
+	ManagedReference<MissionSpawnActiveArea*> spawnActiveArea = this->spawnActiveArea;
 
 	if (spawnActiveArea == nullptr || mission == nullptr)
 		return;
@@ -179,7 +178,7 @@ void DestroyMissionObjectiveImplementation::spawnLair() {
 	ManagedReference<CreatureObject*> player = getPlayerOwner();
 
 	if (player != nullptr) {
-		//TODO: find correct string id
+		// TODO: find correct string id
 		player->sendSystemMessage("Transmission Received: Mission Target has been located.  Mission waypoint has been updated to exact location");
 	}
 
@@ -194,49 +193,49 @@ void DestroyMissionObjectiveImplementation::spawnLair() {
 	if (lairObject == nullptr) {
 		String buildingToSpawn = lair->getMissionBuilding(difficulty);
 
-	 	if (buildingToSpawn.isEmpty()) {
-	 		error("error spawning " + buildingToSpawn);
-	 		abort();
-	 		return;
-	 	}
+		if (buildingToSpawn.isEmpty()) {
+			error("error spawning " + buildingToSpawn);
+			abort();
+			return;
+		}
 
 		lairObject = zone->getZoneServer()->createObject(buildingToSpawn.hashCode(), 0).castTo<LairObject*>();
 
-	 	if (lairObject == nullptr) {
-	 		error("error spawning " + buildingToSpawn);
-	 		abort();
-	 		return;
-	 	}
+		if (lairObject == nullptr) {
+			error("error spawning " + buildingToSpawn);
+			abort();
+			return;
+		}
 
 		String lairName = lair->getName();
 
-	 	Locker llocker(lairObject);
+		Locker llocker(lairObject);
 
 		lairObject->setObjectName("@lair_n:" + lairName, false);
-	 	lairObject->setFaction(lair->getFaction());
-	 	lairObject->setPvpStatusBitmask(CreatureFlag::ATTACKABLE);
-	 	lairObject->setOptionsBitmask(0, false);
-	 	lairObject->setMaxCondition(difficultyLevel * (900 + System::random(200)));
-	 	lairObject->setConditionDamage(0, false);
-	 	lairObject->initializePosition(pos.getX(), pos.getZ(), pos.getY());
-	 	lairObject->setDespawnOnNoPlayersInRange(false);
+		lairObject->setFaction(lair->getFaction());
+		lairObject->setPvpStatusBitmask(CreatureFlag::ATTACKABLE);
+		lairObject->setOptionsBitmask(0, false);
+		lairObject->setMaxCondition(difficultyLevel * (900 + System::random(200)));
+		lairObject->setConditionDamage(0, false);
+		lairObject->initializePosition(pos.getX(), pos.getZ(), pos.getY());
+		lairObject->setDespawnOnNoPlayersInRange(false);
 
 		ManagedReference<MissionObserver*> observer = new MissionObserver(_this.getReferenceUnsafeStaticCast());
 		addObserver(observer, true);
 
 		lairObject->registerObserver(ObserverEventType::OBJECTDESTRUCTION, observer);
 
-	 	ManagedReference<DestroyMissionLairObserver*> lairObserver = new DestroyMissionLairObserver();
-	 	lairObserver->deploy();
-	 	lairObserver->setLairTemplate(lair);
-	 	lairObserver->setDifficulty(difficulty);
-	 	lairObserver->setObserverType(ObserverType::LAIR);
-	 	lairObserver->setSize(mission->getSize());
+		ManagedReference<DestroyMissionLairObserver*> lairObserver = new DestroyMissionLairObserver();
+		lairObserver->deploy();
+		lairObserver->setLairTemplate(lair);
+		lairObserver->setDifficulty(difficulty);
+		lairObserver->setObserverType(ObserverType::LAIR);
+		lairObserver->setSize(mission->getSize());
 
-	 	lairObject->registerObserver(ObserverEventType::OBJECTDESTRUCTION, lairObserver);
-	 	lairObject->registerObserver(ObserverEventType::DAMAGERECEIVED, lairObserver);
-	 	lairObject->registerObserver(ObserverEventType::AIMESSAGE, lairObserver);
-	 	lairObject->registerObserver(ObserverEventType::OBJECTREMOVEDFROMZONE, lairObserver);
+		lairObject->registerObserver(ObserverEventType::OBJECTDESTRUCTION, lairObserver);
+		lairObject->registerObserver(ObserverEventType::DAMAGERECEIVED, lairObserver);
+		lairObject->registerObserver(ObserverEventType::AIMESSAGE, lairObserver);
+		lairObject->registerObserver(ObserverEventType::OBJECTREMOVEDFROMZONE, lairObserver);
 
 		zone->transferObject(lairObject, -1, true);
 
@@ -274,10 +273,10 @@ void DestroyMissionObjectiveImplementation::abort() {
 
 			dropObserver(observer, true);
 		}
-			//spawnActiveArea->destroyObjectFromDatabase(true);
+		// spawnActiveArea->destroyObjectFromDatabase(true);
 	}
 
-	ManagedReference<MissionSpawnActiveArea* > spawnActiveArea = this->spawnActiveArea;
+	ManagedReference<MissionSpawnActiveArea*> spawnActiveArea = this->spawnActiveArea;
 
 	if (spawnActiveArea != nullptr) {
 		Locker locker(spawnActiveArea);
@@ -291,13 +290,11 @@ void DestroyMissionObjectiveImplementation::addMissionStats(TransactionLog& trx)
 }
 
 void DestroyMissionObjectiveImplementation::complete() {
-
 	MissionObjectiveImplementation::complete();
 }
 
 int DestroyMissionObjectiveImplementation::notifyObserverEvent(MissionObserver* observer, uint32 eventType, Observable* observable, ManagedObject* arg1, int64 arg2) {
 	if (eventType == ObserverEventType::OBJECTDESTRUCTION) {
-
 		complete();
 
 		return 1;
@@ -307,11 +304,11 @@ int DestroyMissionObjectiveImplementation::notifyObserverEvent(MissionObserver* 
 }
 
 Vector3 DestroyMissionObjectiveImplementation::getEndPosition() {
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
 
 	Vector3 missionEndPoint;
 
-	if(mission == nullptr)
+	if (mission == nullptr)
 		return missionEndPoint;
 
 	missionEndPoint.setX(mission->getStartPositionX());

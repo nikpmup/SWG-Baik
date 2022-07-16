@@ -12,7 +12,6 @@ CraftingValues::CraftingValues() {
 	setLogging(false);
 }
 
-
 CraftingValues::CraftingValues(const CraftingValues& values) : Object(), Serializable(), Logger(), slots(values.slots) {
 	valuesToSend = values.valuesToSend;
 	doHide = values.doHide;
@@ -20,7 +19,7 @@ CraftingValues::CraftingValues(const CraftingValues& values) : Object(), Seriali
 	player = values.player;
 
 	for (int i = 0; i < values.experimentalValuesMap.size(); ++i) {
-		VectorMapEntry<String, Reference<Subclasses*> > entry = values.experimentalValuesMap.elementAt(i);
+		VectorMapEntry<String, Reference<Subclasses*>> entry = values.experimentalValuesMap.elementAt(i);
 
 		Subclasses* subclass = entry.getValue();
 
@@ -38,7 +37,7 @@ CraftingValues::CraftingValues(const ValuesMap& values) : Object(), Serializable
 	doHide = true;
 
 	for (int i = 0; i < values.size(); ++i) {
-		VectorMapEntry<String, Reference<Subclasses*> > entry = values.elementAt(i);
+		VectorMapEntry<String, Reference<Subclasses*>> entry = values.elementAt(i);
 
 		Subclasses* subclass = entry.getValue();
 
@@ -96,12 +95,12 @@ void CraftingValues::recalculateValues(bool initial) {
 				newValue = max;
 			else
 				newValue = min;
-		} else if(max != min) {
+		} else if (max != min) {
 			if (max > min)
 				newValue = (percentage * (max - min)) + min;
 			else
 				newValue = (float(1.0f - percentage) * (min - max)) + max;
-		} else if(max == min) {
+		} else if (max == min) {
 			newValue = max;
 		}
 
@@ -126,7 +125,7 @@ String CraftingValues::toString() const {
 
 	StringBuffer str;
 
-	for (int i = 0;i < experimentalValuesMap.size(); ++i) {
+	for (int i = 0; i < experimentalValuesMap.size(); ++i) {
 		tempSubclasses = experimentalValuesMap.get(i);
 
 		str << "\n*************************" << endl;

@@ -18,7 +18,6 @@ class RadialClientItem {
 
 public:
 	RadialClientItem() : index(0), parentid(0), radialid(0), callback(0) {
-
 	}
 
 	RadialClientItem(uint8 i, uint8 p, uint8 r, uint8 call, UnicodeString& c) {
@@ -70,16 +69,13 @@ class ObjectMenuRequestCallback : public MessageCallback {
 
 	uint8 counter;
 
-	//Reference<ObjectMenuResponse*> menuResponse;
+	// Reference<ObjectMenuResponse*> menuResponse;
 
 	ObjectControllerMessageCallback* objectControllerMain;
 	Vector<RadialClientItem> radialItems;
 
 public:
-	ObjectMenuRequestCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), unknownSize(0),
-		objectID(0), playerID(0), counter(0), objectControllerMain(objectControllerCallback) {
-
+	ObjectMenuRequestCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), unknownSize(0), objectID(0), playerID(0), counter(0), objectControllerMain(objectControllerCallback) {
 	}
 
 	void parse(Message* message) {
@@ -90,7 +86,7 @@ public:
 
 		int size = message->parseInt();
 
-		//menuResponse = new ObjectMenuResponse(client->getPlayer(), objectID, 0);
+		// menuResponse = new ObjectMenuResponse(client->getPlayer(), objectID, 0);
 
 		try {
 			for (int i = 0; i < size; i++) {
@@ -107,10 +103,10 @@ public:
 				infoMsg << "idx: " << index << " parent: " << parentid << " radialid: " << radialid;
 				client->getPlayer()->info(infoMsg.toString());*/
 
-				//if (radialid == 20)
-				//callback = 3;
+				// if (radialid == 20)
+				// callback = 3;
 
-				//menuResponse->addRadialMenuItem(parentid, radialid, 3, command);
+				// menuResponse->addRadialMenuItem(parentid, radialid, 3, command);
 			}
 		} catch (const Exception& e) {
 			/*delete menuResponse;
@@ -119,20 +115,19 @@ public:
 			throw e;
 		}
 
-		//menuResponse->addRadialMenuItem(1, 20, 3, "test");
+		// menuResponse->addRadialMenuItem(1, 20, 3, "test");
 
 		counter = message->parseByte();
-		//menuResponse->setCounter(counter);
+		// menuResponse->setCounter(counter);
 
 		/*CreatureObject* player = client->getPlayer();
 
 		if (player != nullptr)
 			player->info("received object menu request");*/
-
 	}
 
 	void run() {
-		//menuResponse->setCounter(counter);
+		// menuResponse->setCounter(counter);
 		ManagedReference<CreatureObject*> player = client->getPlayer();
 
 		if (player == nullptr)

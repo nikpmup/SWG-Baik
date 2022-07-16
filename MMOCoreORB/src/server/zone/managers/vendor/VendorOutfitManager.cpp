@@ -6,13 +6,11 @@
 #include "VendorOutfitManager.h"
 
 void VendorOutfitManager::initialize() {
-
 	setLoggingName("VendorOutfitManager");
 	outfits.setNoDuplicateInsertPlan();
 	outfits.setNullValue(nullptr);
 
 	loadLuaOutfits();
-
 }
 
 void VendorOutfitManager::loadLuaOutfits() {
@@ -32,7 +30,7 @@ void VendorOutfitManager::loadLuaOutfits() {
 
 		outfitName = outfit.getStringField("outfitName");
 
-		debug() << "Loaded " << outfitName; // OutfitName
+		debug() << "Loaded " << outfitName;						// OutfitName
 		LuaObject clothing = outfit.getObjectField("clothing"); // Clothing Object
 
 		Reference<Outfit*> oFit = new Outfit();
@@ -56,4 +54,3 @@ void VendorOutfitManager::loadLuaOutfits() {
 
 	Luaoutfits.pop();
 }
-

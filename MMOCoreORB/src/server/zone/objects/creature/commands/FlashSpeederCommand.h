@@ -10,37 +10,31 @@
 
 class FlashSpeederCommand : public QueueCommand {
 public:
-
-
-
-	FlashSpeederCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	FlashSpeederCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* player, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(player))
 			return INVALIDSTATE;
 
 		if (!checkInvalidLocomotions(player))
 			return INVALIDLOCOMOTION;
 
-		if( !player->isPlayerCreature() )
+		if (!player->isPlayerCreature())
 			return GENERALERROR;
 
-		if( player->getPlayerObject() == nullptr )
+		if (player->getPlayerObject() == nullptr)
 			return GENERALERROR;
 
 		// Player must have chosen flash speeder as a veteran reward
-		if( !player->getPlayerObject()->hasChosenVeteranReward( "object/tangible/deed/vehicle_deed/speederbike_flash_deed.iff" ) ){
-			player->sendSystemMessage( "@veteran:flash_speeder_not_eligible" ); //	"You are not eligible to receive a Flash Speeder"
+		if (!player->getPlayerObject()->hasChosenVeteranReward("object/tangible/deed/vehicle_deed/speederbike_flash_deed.iff")) {
+			player->sendSystemMessage("@veteran:flash_speeder_not_eligible"); //	"You are not eligible to receive a Flash Speeder"
 			return GENERALERROR;
 		}
 
 		// Player must have enough credits
-		if(!player->verifyCredits(ReplaceFlashSpeederSuiCallback::FLASH_SPEEDER_COST)){
-			player->sendSystemMessage( "@veteran:flash_speeder_no_credits" ); // "You do not have enough credits to receive a replacement."
+		if (!player->verifyCredits(ReplaceFlashSpeederSuiCallback::FLASH_SPEEDER_COST)) {
+			player->sendSystemMessage("@veteran:flash_speeder_no_credits"); // "You do not have enough credits to receive a replacement."
 			return GENERALERROR;
 		}
 
@@ -48,7 +42,7 @@ public:
 		ManagedReference<SuiMessageBox*> suiBox = new SuiMessageBox(player, SuiWindowType::CONFIRM_FLASH_SPEEDER_PURCHASE);
 		suiBox->setCallback(new ReplaceFlashSpeederSuiCallback(server->getZoneServer()));
 		suiBox->setPromptTitle("Confirm Flash Speeder Replacement");
-		suiBox->setPromptText( "@veteran:flash_speeder_replace_prompt" );  // "A replacement Flash Speeder is available at the cost of 20000 credits. Are you sure you want a new speeder?"
+		suiBox->setPromptText("@veteran:flash_speeder_replace_prompt"); // "A replacement Flash Speeder is available at the cost of 20000 credits. Are you sure you want a new speeder?"
 		suiBox->setCancelButton(true, "@no");
 		suiBox->setOkButton(true, "@yes");
 
@@ -57,7 +51,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //FLASHSPEEDERCOMMAND_H_
+#endif // FLASHSPEEDERCOMMAND_H_

@@ -23,14 +23,14 @@ class Layer : public TemplateVariable<'LAYR'> {
 	InformationHeader infoHeader;
 
 	Vector<Layer*> children;
-	//Vector<TerrainRule*> rules;
+	// Vector<TerrainRule*> rules;
 
 	Vector<Boundary*> boundaries;
 	Vector<AffectorProceduralRule*> affectors;
 	Vector<FilterProceduralRule*> filters;
 
-	//Vector<AffectorProceduralRule*> heightAffectors;
-	//Vector<AffectorProceduralRule*> environmentAffectors;
+	// Vector<AffectorProceduralRule*> heightAffectors;
+	// Vector<AffectorProceduralRule*> environmentAffectors;
 
 	Layer* parent;
 
@@ -109,6 +109,5 @@ public:
 		return infoHeader.getDescription();
 	}
 };
-
 
 #endif /* LAYER_H_ */

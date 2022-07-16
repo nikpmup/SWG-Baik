@@ -34,12 +34,12 @@ protected:
 		uint64 key = keyValue;
 
 		key = (~key) + (key << 18);
-		key =   key  ^ (key >> 31);
+		key = key ^ (key >> 31);
 		key = key * 21;
 		key = key ^ (key >> 11);
 		key = key + (key << 6);
 		key = key ^ (key >> 22);
-		return (int) key;
+		return (int)key;
 	}
 
 	Mutex guard;
@@ -103,7 +103,7 @@ public:
 
 	static int getJSONString(uint64 oid, ObjectDatabase* database, std::ostream& writeStream);
 	static UniqueReference<DistributedObjectPOD*> getJSONString(uint64 oid, ObjectInputStream& objectData, std::ostream& returnData);
-	//static std::function<void()> getReadTestTask(const Vector<ODB3WorkerData>& currentObjects, ObjectDatabase* database, const String& fileName, int maxWriterThreads, int dispatcher);
+	// static std::function<void()> getReadTestTask(const Vector<ODB3WorkerData>& currentObjects, ObjectDatabase* database, const String& fileName, int maxWriterThreads, int dispatcher);
 
 	uint64_t getLongArgument(int index, uint64_t defaultValue = 0) const {
 		if (index >= arguments.size()) {

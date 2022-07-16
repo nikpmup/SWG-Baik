@@ -11,40 +11,27 @@ namespace creature {
 namespace ai {
 namespace bt {
 
-enum BehaviorTreeSlot : uint32 {
-	NONE = 0,
-	AWARE,
-	IDLE,
-	ATTACK,
-	EQUIP,
-	TARGET,
-	MOVE,
-	LOOKAT,
-	AGGRO,
-	SCARE,
-	KILL,
-	STALK,
-	CRACKDOWNSCAN,
-	HEAL,
-	CHATREACTION,
-	NOTIFYHELP,
-	HARVEST,
-	LASTTREESLOT
-};
+enum BehaviorTreeSlot : uint32 { NONE = 0, AWARE, IDLE, ATTACK, EQUIP, TARGET, MOVE, LOOKAT, AGGRO, SCARE, KILL, STALK, CRACKDOWNSCAN, HEAL, CHATREACTION, NOTIFYHELP, HARVEST, LASTTREESLOT };
 
 // These definition allow looping through slots with iterator semantics.
 // The underlying assumptions are that the enum increments each member by one,
 // the first member is NONE, and the last member is LASTTREESLOT, which is
 // unused (because end() must return one past the end)
-inline BehaviorTreeSlot operator++(BehaviorTreeSlot& in) {
+inline BehaviorTreeSlot operator++(BehaviorTreeSlot &in) {
 	return in = (BehaviorTreeSlot)(std::underlying_type<BehaviorTreeSlot>::type(in) + 1);
 }
-inline BehaviorTreeSlot operator*(BehaviorTreeSlot in) { return in; }
-inline BehaviorTreeSlot begin(BehaviorTreeSlot) { return BehaviorTreeSlot::NONE; }
-inline BehaviorTreeSlot end(BehaviorTreeSlot) { return BehaviorTreeSlot::LASTTREESLOT; }
+inline BehaviorTreeSlot operator*(BehaviorTreeSlot in) {
+	return in;
+}
+inline BehaviorTreeSlot begin(BehaviorTreeSlot) {
+	return BehaviorTreeSlot::NONE;
+}
+inline BehaviorTreeSlot end(BehaviorTreeSlot) {
+	return BehaviorTreeSlot::LASTTREESLOT;
+}
 
-inline const char* getBehaviorTreeSlotName(BehaviorTreeSlot slot) {
-	switch(slot) {
+inline const char *getBehaviorTreeSlotName(BehaviorTreeSlot slot) {
+	switch (slot) {
 	case NONE:
 		return "NONE";
 	case AWARE:
@@ -88,19 +75,18 @@ inline const char* getBehaviorTreeSlotName(BehaviorTreeSlot slot) {
 	return "";
 }
 
-}
-}
-}
-}
-}
-}
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace sys::io;
 using namespace server::zone::objects::creature::ai::bt;
 
-template<>
-class TypeInfo<BehaviorTreeSlot> : public TypeInfoAtomicUnsignedInteger<BehaviorTreeSlot>
-{
+template <>
+class TypeInfo<BehaviorTreeSlot> : public TypeInfoAtomicUnsignedInteger<BehaviorTreeSlot> {
 public:
 	static bool toBinaryStream(BehaviorTreeSlot *address, ObjectOutputStream *stream) {
 		stream->writeInt(static_cast<uint32>(*address));
@@ -109,9 +95,9 @@ public:
 	}
 
 	static bool parseFromBinaryStream(BehaviorTreeSlot *address, ObjectInputStream *stream) {
-		 *address = static_cast<BehaviorTreeSlot>(stream->readInt());
+		*address = static_cast<BehaviorTreeSlot>(stream->readInt());
 
-		 return true;
+		return true;
 	}
 };
 

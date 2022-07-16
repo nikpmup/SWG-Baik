@@ -13,8 +13,7 @@
 
 class SurveyGMinigameSuiCallback : public SuiCallback {
 public:
-	SurveyGMinigameSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	SurveyGMinigameSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -23,13 +22,13 @@ public:
 		if (cancelPressed)
 			return;
 
-		if(player->getPosture() > CreaturePosture::CROUCHED){
-				player->sendSystemMessage("@error_message:survey_standing");  // "You must be standing to take a survey or samples.");
-				return;
+		if (player->getPosture() > CreaturePosture::CROUCHED) {
+			player->sendSystemMessage("@error_message:survey_standing"); // "You must be standing to take a survey or samples.");
+			return;
 		}
 
 		ManagedReference<SurveySession*> session = player->getActiveSession(SessionFacadeType::SURVEY).castTo<SurveySession*>();
-		if(session == nullptr) {
+		if (session == nullptr) {
 			return;
 		}
 
@@ -39,7 +38,6 @@ public:
 		int value = Integer::valueOf(args->get(0).toString());
 
 		session->surveyGnodeMinigame(value);
-
 	}
 };
 

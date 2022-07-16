@@ -21,7 +21,6 @@ public:
 	}
 
 	~StatePackTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -29,7 +28,7 @@ public:
 
 		medicineUse = templateData->getIntField("medicineUse");
 		state = templateData->getLongField("state");
-    }
+	}
 
 	inline int getMedicineUse() {
 		return medicineUse;

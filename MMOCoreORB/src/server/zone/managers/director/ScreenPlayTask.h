@@ -25,8 +25,8 @@ class ScreenPlayTask : public Task {
 	String screenPlay;
 	String args;
 	Reference<PersistentEvent*> persistentEvent;
-public:
 
+public:
 	ScreenPlayTask(SceneObject* scno, const String& key, const String& playName, const String& arguments) {
 		obj = scno;
 		taskKey = key;
@@ -64,7 +64,6 @@ public:
 	const Reference<PersistentEvent*>& getPersistentEvent() const {
 		return persistentEvent;
 	}
-
 };
 
 } // namespace director

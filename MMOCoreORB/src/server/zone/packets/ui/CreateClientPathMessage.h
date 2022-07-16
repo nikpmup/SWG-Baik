@@ -12,31 +12,29 @@
 
 class CreateClientPathMessage : public BaseMessage {
 	int coordinateCount;
+
 public:
 	CreateClientPathMessage() : BaseMessage() {
-
 		coordinateCount = 0;
 
 		insertShort(0x05);
-		insertInt(0x71957628);  // CRC
+		insertInt(0x71957628); // CRC
 
-		insertInt(0); //Coordinate Count.
+		insertInt(0); // Coordinate Count.
 
 		setCompression(true);
-
 	}
 
 	void addCoordinate(float x, float z, float y) {
-		insertFloat(x); //Float PosX
-		insertFloat(z); //Float PosZ
-		insertFloat(y); //Float PosY
+		insertFloat(x); // Float PosX
+		insertFloat(z); // Float PosZ
+		insertFloat(y); // Float PosY
 		updateCount();
 	}
 
 	void updateCount() {
 		insertInt(10, ++coordinateCount);
 	}
-
 };
 
 #endif /* CREATECLIENTPATHMESSAGE_H_ */

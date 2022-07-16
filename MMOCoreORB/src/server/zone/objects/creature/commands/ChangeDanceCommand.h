@@ -9,10 +9,7 @@
 
 class ChangeDanceCommand : public QueueCommand {
 public:
-
-	ChangeDanceCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ChangeDanceCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -58,7 +55,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CHANGEDANCECOMMAND_H_
+#endif // CHANGEDANCECOMMAND_H_

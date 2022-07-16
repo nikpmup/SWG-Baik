@@ -7,14 +7,10 @@
 
 class EditStatsCommand : public QueueCommand {
 public:
-
-	EditStatsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	EditStatsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //EDITSTATSCOMMAND_H_
+#endif // EDITSTATSCOMMAND_H_

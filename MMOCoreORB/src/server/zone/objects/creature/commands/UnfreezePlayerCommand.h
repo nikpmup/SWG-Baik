@@ -10,14 +10,10 @@
 
 class UnfreezePlayerCommand : public QueueCommand {
 public:
-
-	UnfreezePlayerCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	UnfreezePlayerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,14 +25,13 @@ public:
 
 		String syntaxerror = "Invalid arguments: /unfreezePlayer <firstname>";
 
-		ManagedReference<SceneObject* > object = server->getZoneServer()->getObject(target);
+		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
 
-		ManagedReference<CreatureObject* > targetPlayer = nullptr;
+		ManagedReference<CreatureObject*> targetPlayer = nullptr;
 		CreatureObject* player = cast<CreatureObject*>(creature);
 		StringTokenizer args(arguments.toString());
 
 		if (object == nullptr || !object->isPlayerCreature()) {
-
 			String firstName;
 			if (args.hasMoreTokens()) {
 				args.getStringToken(firstName);
@@ -44,7 +39,7 @@ public:
 			}
 
 		} else {
-			targetPlayer = cast<CreatureObject*>( object.get());
+			targetPlayer = cast<CreatureObject*>(object.get());
 		}
 
 		if (targetPlayer == nullptr) {
@@ -60,7 +55,6 @@ public:
 		}
 
 		try {
-
 			Locker playerlocker(targetPlayer);
 
 			targetGhost->setMutedState(false);
@@ -79,9 +73,7 @@ public:
 		}
 
 		return SUCCESS;
-
 	}
-
 };
 
-#endif //UNFREEZEPLAYERCOMMAND_H_
+#endif // UNFREEZEPLAYERCOMMAND_H_

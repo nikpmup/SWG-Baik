@@ -24,7 +24,4 @@ public:
 	friend void to_json(nlohmann::json& j, const CreatureTemplateReference& r);
 };
 
-
-
-
 #endif /* CREATURETEMPLATEREFERENCE_H_ */

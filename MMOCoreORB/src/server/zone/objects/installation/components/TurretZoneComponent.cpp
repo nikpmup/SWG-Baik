@@ -20,7 +20,7 @@ void TurretZoneComponent::notifyInsertToZone(SceneObject* sceneObject, Zone* zne
 	if (installation == nullptr)
 		return;
 
-	SortedVector<ManagedReference<Observer*> > destructionObservers = installation->getObservers(ObserverEventType::OBJECTDESTRUCTION);
+	SortedVector<ManagedReference<Observer*>> destructionObservers = installation->getObservers(ObserverEventType::OBJECTDESTRUCTION);
 
 	for (int i = 0; i < destructionObservers.size(); i++) {
 		TurretObserver* turretObserver = destructionObservers.get(i).castTo<TurretObserver*>();
@@ -48,18 +48,20 @@ void TurretZoneComponent::notifyInsert(SceneObject* sceneObject, QuadTreeEntry* 
 	if (turret == nullptr || turretData == nullptr || player == nullptr || player->isInvisible())
 		return;
 
-	int newValue = (int) turretData->incrementNumberOfPlayersInRange();
+	int newValue = (int)turretData->incrementNumberOfPlayersInRange();
 
 	if (newValue == 1) {
-		Core::getTaskManager()->executeTask([=] () {
-			Locker locker(turret);
+		Core::getTaskManager()->executeTask(
+			[=]() {
+				Locker locker(turret);
 
-			TurretDataComponent* data = cast<TurretDataComponent*>(turret->getDataObjectComponent()->get());
+				TurretDataComponent* data = cast<TurretDataComponent*>(turret->getDataObjectComponent()->get());
 
-			if (data) {
-				data->scheduleFireTask(nullptr, nullptr, System::random(1000));
-			}
-		}, "ScheduleTurretFireTaskLambda");
+				if (data) {
+					data->scheduleFireTask(nullptr, nullptr, System::random(1000));
+				}
+			},
+			"ScheduleTurretFireTaskLambda");
 	}
 }
 
@@ -76,7 +78,7 @@ void TurretZoneComponent::notifyDissapear(SceneObject* sceneObject, QuadTreeEntr
 	if (turret == nullptr || turretData == nullptr || player == nullptr || player->isInvisible())
 		return;
 
-	int32 newValue = (int32) turretData->decrementNumberOfPlayersInRange();
+	int32 newValue = (int32)turretData->decrementNumberOfPlayersInRange();
 
 	if (newValue < 0) {
 		int oldValue;

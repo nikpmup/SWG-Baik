@@ -50,8 +50,6 @@ public:
 	bool parseFromBinaryStream(ObjectInputStream* stream) {
 		return false;
 	}
-
-
 };
 
 #endif /* PATHEDGE_H_ */

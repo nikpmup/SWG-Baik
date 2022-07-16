@@ -13,12 +13,12 @@
 LuaContainerComponent::LuaContainerComponent(const String& className) : luaClassName(className) {
 }
 
-LuaContainerComponent::~LuaContainerComponent(){
+LuaContainerComponent::~LuaContainerComponent() {
 }
 
 int LuaContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject* object, int containmentType, String& errorDescription) const {
 	if (sceneObject == object) {
-		errorDescription = "@container_error_message:container02"; //You cannot add something to itself.
+		errorDescription = "@container_error_message:container02"; // You cannot add something to itself.
 
 		return TransferErrorCode::CANTADDTOITSELF;
 	}

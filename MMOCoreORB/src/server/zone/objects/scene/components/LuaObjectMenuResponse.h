@@ -16,32 +16,30 @@ namespace zone {
 namespace packets {
 namespace object {
 
-	class ObjectMenuResponse;
+class ObjectMenuResponse;
 
-	class LuaObjectMenuResponse {
-	public:
-		// Constants
-		static const char className[];
-		static Luna<LuaObjectMenuResponse>::RegType Register[];
+class LuaObjectMenuResponse {
+public:
+	// Constants
+	static const char className[];
+	static Luna<LuaObjectMenuResponse>::RegType Register[];
 
-		// Initialize the pointer
-		LuaObjectMenuResponse(lua_State *L);
-		~LuaObjectMenuResponse();
+	// Initialize the pointer
+	LuaObjectMenuResponse(lua_State* L);
+	~LuaObjectMenuResponse();
 
-		int _setObject(lua_State* L);
-		int addRadialMenuItem(lua_State* L);
-		int addRadialMenuItemToRadialID(lua_State* L);
+	int _setObject(lua_State* L);
+	int addRadialMenuItem(lua_State* L);
+	int addRadialMenuItemToRadialID(lua_State* L);
 
-	private:
-		// The pointer to the 'real object' defined in object.cc
-		ObjectMenuResponse* realObject;
-	};
+private:
+	// The pointer to the 'real object' defined in object.cc
+	ObjectMenuResponse* realObject;
+};
 
-
-}
-}
-}
-}
-
+} // namespace object
+} // namespace packets
+} // namespace zone
+} // namespace server
 
 #endif /* LUAOBJECTMENURESPONSE_H_ */

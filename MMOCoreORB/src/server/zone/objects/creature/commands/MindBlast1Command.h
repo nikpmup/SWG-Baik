@@ -10,14 +10,10 @@
 
 class MindBlast1Command : public ForcePowersQueueCommand {
 public:
-
-	MindBlast1Command(const String& name, ZoneProcessServer* server)
-		: ForcePowersQueueCommand(name, server) {
-
+	MindBlast1Command(const String& name, ZoneProcessServer* server) : ForcePowersQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -36,7 +32,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //MINDBLAST1COMMAND_H_
+#endif // MINDBLAST1COMMAND_H_

@@ -10,25 +10,20 @@
 
 #include "templates/SharedObjectTemplate.h"
 
-
 class SharedCellObjectTemplate : public SharedObjectTemplate {
 protected:
-
-
 public:
 	SharedCellObjectTemplate() {
-
 	}
 
 	~SharedCellObjectTemplate() {
-
 	}
 
 	void readObject(IffStream* iffStream) {
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'CCLT') {
-			//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 			SharedObjectTemplate::readObject(iffStream);
 
@@ -52,7 +47,7 @@ public:
 		iffStream->openForm(derv);
 
 		try {
-			//parseFileData(iffStream);
+			// parseFileData(iffStream);
 		} catch (Exception& e) {
 			String msg;
 			msg += "exception caught parsing file data ->";
@@ -69,9 +64,6 @@ public:
 
 		iffStream->closeForm('CCLT');
 	}
-
-
 };
-
 
 #endif /* SHAREDCELLOBJECTTEMPLATE_H_ */

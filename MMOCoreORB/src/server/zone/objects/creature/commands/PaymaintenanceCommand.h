@@ -9,14 +9,10 @@
 
 class PaymaintenanceCommand : public QueueCommand {
 public:
-
-	PaymaintenanceCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	PaymaintenanceCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +20,7 @@ public:
 			return INVALIDLOCOMOTION;
 
 		if (creature->getCashCredits() <= 0) {
-			creature->sendSystemMessage("@player_structure:no_money"); //You do not have any money to pay maintenance.
+			creature->sendSystemMessage("@player_structure:no_money"); // You do not have any money to pay maintenance.
 			return GENERALERROR;
 		}
 
@@ -69,7 +65,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //PAYMAINTENANCECOMMAND_H_
+#endif // PAYMAINTENANCECOMMAND_H_

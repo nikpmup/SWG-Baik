@@ -11,24 +11,20 @@
 #include "templates/SharedTangibleObjectTemplate.h"
 
 class DroidComponentTemplate : public SharedTangibleObjectTemplate {
-
 public:
 	DroidComponentTemplate() {
-
 	}
 
 	~DroidComponentTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
 		SharedTangibleObjectTemplate::readObject(templateData);
-    }
+	}
 
 	bool isDroidComponentTemplate() {
 		return true;
 	}
-
 };
 
 #endif /* DROIDCOMPONENTTEMPLATE_H_ */

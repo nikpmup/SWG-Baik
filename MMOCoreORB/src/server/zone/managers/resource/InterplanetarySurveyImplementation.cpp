@@ -14,7 +14,6 @@ void InterplanetarySurveyImplementation::notifyLoadFromDatabase() {
 	uint64 currentTime = expireTime.getMiliTime();
 	int64 remTime = (timeStamp + curTime) - currentTime;
 
-
 	Reference<InterplanetarySurveyTask*> task = new InterplanetarySurveyTask(_this.getReferenceUnsafeStaticCast());
 
 	if (remTime > 0) { // If there is still time left before it should be triggered, schedule for that amount of time

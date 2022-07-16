@@ -14,7 +14,6 @@
 
 class DraftSchematicObjectTemplate : public SharedDraftSchematicObjectTemplate {
 protected:
-
 	String customObjectName;
 
 	int craftingToolTab;
@@ -66,7 +65,7 @@ protected:
 
 	Vector<String>* additionalTemplates;
 
-	Vector<Reference<DraftSlot* > >* draftSlots;
+	Vector<Reference<DraftSlot*>>* draftSlots;
 
 	SharedTangibleObjectTemplate* tangibleTemplate;
 
@@ -74,7 +73,7 @@ protected:
 
 	VectorMap<String, int> skillMods;
 
-	Vector<VectorMap<String, int> > weaponDots;
+	Vector<VectorMap<String, int>> weaponDots;
 
 	int labratory;
 
@@ -83,11 +82,7 @@ protected:
 	String factoryCrateType;
 
 public:
-	enum LabType {
-		RESOURCE_LAB = 0x00,
-		GENETIC_LAB = 0x01,
-		DROID_LAB = 0x02
-	};
+	enum LabType { RESOURCE_LAB = 0x00, GENETIC_LAB = 0x01, DROID_LAB = 0x02 };
 
 	DraftSchematicObjectTemplate();
 
@@ -97,7 +92,7 @@ public:
 
 	void parseVariableData(const String& varName, LuaObject* data);
 
-	const Vector<Reference<DraftSlot* > >* getDraftSlots() const {
+	const Vector<Reference<DraftSlot*>>* getDraftSlots() const {
 		return draftSlots;
 	}
 
@@ -117,7 +112,7 @@ public:
 		return complexity;
 	}
 
-	const Vector<short >* getContribution() const {
+	const Vector<short>* getContribution() const {
 		return contribution;
 	}
 
@@ -133,7 +128,7 @@ public:
 		return customizationSkill;
 	}
 
-	const Vector<short >* getIngredientSlotType() const {
+	const Vector<short>* getIngredientSlotType() const {
 		return ingredientSlotType;
 	}
 
@@ -189,7 +184,7 @@ public:
 		return additionalTemplates->get(i);
 	}
 
-	const Vector<Reference<ResourceWeight* > >* getResourceWeights();
+	const Vector<Reference<ResourceWeight*>>* getResourceWeights();
 
 	const VectorMap<String, int>* getSkillMods() const {
 		return &skillMods;
@@ -199,7 +194,7 @@ public:
 		return skillMods.get(mod);
 	}
 
-	const Vector<VectorMap<String, int> >* getWeaponDots() const {
+	const Vector<VectorMap<String, int>>* getWeaponDots() const {
 		return &weaponDots;
 	}
 
@@ -214,8 +209,6 @@ public:
 	const String& getFactoryCrateType() const {
 		return factoryCrateType;
 	}
-
 };
-
 
 #endif /* DRAFTSCHEMATICOBJECTTEMPLATE_H_ */

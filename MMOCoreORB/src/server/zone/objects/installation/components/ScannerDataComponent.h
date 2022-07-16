@@ -16,11 +16,10 @@ protected:
 	constexpr static uint64 scanCooldown = 20; // set to 60
 
 public:
-	ScannerDataComponent()  {
+	ScannerDataComponent() {
 		maxrange = 32;
 		nextScanTime = time(0);
 		this->setLoggingName("ScannerData");
-
 	}
 
 	void writeJSON(nlohmann::json& j) const {
@@ -30,22 +29,17 @@ public:
 		SERIALIZE_JSON_MEMBER(nextScanTime);
 	}
 
-	bool canScan(){
+	bool canScan() {
 		return (time(0) > nextScanTime);
 	}
 
-	void updateCooldown(){
+	void updateCooldown() {
 		nextScanTime = time(0) + scanCooldown;
 	}
 
-	bool isScannerData(){
+	bool isScannerData() {
 		return true;
 	}
 };
-
-
-
-
-
 
 #endif /* SCANNERDATACOMPONENT_H_ */

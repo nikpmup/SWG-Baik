@@ -96,7 +96,4 @@ public:
 	}
 };
 
-
-
-
 #endif /* AFFECTORHEIGHTCONSTANT_H_ */

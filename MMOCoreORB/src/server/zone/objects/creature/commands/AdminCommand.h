@@ -4,7 +4,6 @@
 #include "QueueCommand.h"
 
 class AdminCommand : public QueueCommand {
-
 public:
 	AdminCommand(const String& skillName, ZoneProcessServer* serv) : QueueCommand(skillName, serv) {
 	}
@@ -15,4 +14,3 @@ public:
 };
 
 #endif
-

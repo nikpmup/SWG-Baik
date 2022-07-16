@@ -9,14 +9,10 @@
 
 class ForceChokeCommand : public ForcePowersQueueCommand {
 public:
-
-	ForceChokeCommand(const String& name, ZoneProcessServer* server)
-		: ForcePowersQueueCommand(name, server) {
-
+	ForceChokeCommand(const String& name, ZoneProcessServer* server) : ForcePowersQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -34,9 +30,7 @@ public:
 		}
 
 		return doCombatAction(creature, target);
-
 	}
-
 };
 
-#endif //FORCECHOKECOMMAND_H_
+#endif // FORCECHOKECOMMAND_H_

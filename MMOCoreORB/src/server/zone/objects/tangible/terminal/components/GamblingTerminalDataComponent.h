@@ -9,7 +9,6 @@
 
 class GamblingTerminalDataComponent : public DataObjectComponent {
 protected:
-
 	uint64 bank;
 	SerializableString game;
 
@@ -22,7 +21,6 @@ public:
 	}
 
 	virtual ~GamblingTerminalDataComponent() {
-
 	}
 
 	void writeJSON(nlohmann::json& j) const {
@@ -75,6 +73,5 @@ public:
 		return true;
 	}
 };
-
 
 #endif /* GAMBLINGTERMINALDATACOMPONENT_H_ */

@@ -2,22 +2,14 @@
 
 const char LuaQuestTask::className[] = "LuaQuestTask";
 
-Luna<LuaQuestTask>::RegType LuaQuestTask::Register[] = {
-		{ "_setObject", &LuaQuestTask::_setObject },
-		{ "getAttachScript", &LuaQuestTask::getAttachScript },
-		{ "getPlanetName", &LuaQuestTask::getPlanetName },
-		{ "getLocationX", &LuaQuestTask::getLocationX },
-		{ "getLocationY", &LuaQuestTask::getLocationY },
-		{ "getLocationZ", &LuaQuestTask::getLocationZ },
-		{ "getRadius", &LuaQuestTask::getRadius },
-		{ 0, 0 }
-};
+Luna<LuaQuestTask>::RegType LuaQuestTask::Register[] = {{"_setObject", &LuaQuestTask::_setObject},	   {"getAttachScript", &LuaQuestTask::getAttachScript}, {"getPlanetName", &LuaQuestTask::getPlanetName}, {"getLocationX", &LuaQuestTask::getLocationX},
+														{"getLocationY", &LuaQuestTask::getLocationY}, {"getLocationZ", &LuaQuestTask::getLocationZ},		{"getRadius", &LuaQuestTask::getRadius},		 {0, 0}};
 
-LuaQuestTask::LuaQuestTask(lua_State *L) {
+LuaQuestTask::LuaQuestTask(lua_State* L) {
 	realObject = static_cast<QuestTask*>(lua_touserdata(L, 1));
 }
 
-LuaQuestTask::~LuaQuestTask(){
+LuaQuestTask::~LuaQuestTask() {
 }
 
 int LuaQuestTask::_setObject(lua_State* L) {
@@ -57,4 +49,3 @@ int LuaQuestTask::getRadius(lua_State* L) {
 	lua_pushinteger(L, realObject->getRadius());
 	return 1;
 }
-

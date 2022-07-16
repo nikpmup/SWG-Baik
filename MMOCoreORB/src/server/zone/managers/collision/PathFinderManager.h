@@ -13,14 +13,14 @@
 #include "pathfinding/recast/DetourNavMeshQuery.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace cell {
-   	   class CellObject;
-   }
-  }
- }
+namespace zone {
+namespace objects {
+namespace cell {
+class CellObject;
 }
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::cell;
 
@@ -32,8 +32,8 @@ protected:
 	float dist;
 	Vector3 position;
 	Reference<NavArea*> area;
-public:
 
+public:
 	int compareTo(const NavCollision* rhs) const {
 		if (fabs(dist - rhs->dist) < 0.001f)
 			return 0;
@@ -43,10 +43,17 @@ public:
 			return -1;
 	}
 
-	NavCollision(const Vector3& p, float len, Reference<NavArea*> r) : dist(len), position(p), area(r) { }
-	float getDistance() const { return dist; }
-	const Vector3& getPosition() const { return position; }
-	const Reference<NavArea*>& getNavArea() { return area; }
+	NavCollision(const Vector3& p, float len, Reference<NavArea*> r) : dist(len), position(p), area(r) {
+	}
+	float getDistance() const {
+		return dist;
+	}
+	const Vector3& getPosition() const {
+		return position;
+	}
+	const Reference<NavArea*>& getNavArea() {
+		return area;
+	}
 };
 
 class PathFinderManager : public Singleton<PathFinderManager>, public Logger, public Object {
@@ -70,11 +77,12 @@ public:
 
 	Vector<WorldCoordinates>* findPathFromWorldToWorld(const WorldCoordinates& pointA, const Vector<WorldCoordinates>& endPoints, Zone* zone, bool allowPartial);
 	bool getSpawnPointInArea(const Sphere& area, Zone* zone, Vector3& point, bool checkPath = true);
-protected:
-	Vector<WorldCoordinates>* findPathFromWorldToWorld(const WorldCoordinates& pointA, const WorldCoordinates& pointB, Zone *zone);
-	Vector<WorldCoordinates>* findPathFromWorldToCell(const WorldCoordinates& pointA, const WorldCoordinates& pointB, Zone *zone);
 
-	Vector<WorldCoordinates>* findPathFromCellToWorld(const WorldCoordinates& pointA, const WorldCoordinates& pointB, Zone *zone);
+protected:
+	Vector<WorldCoordinates>* findPathFromWorldToWorld(const WorldCoordinates& pointA, const WorldCoordinates& pointB, Zone* zone);
+	Vector<WorldCoordinates>* findPathFromWorldToCell(const WorldCoordinates& pointA, const WorldCoordinates& pointB, Zone* zone);
+
+	Vector<WorldCoordinates>* findPathFromCellToWorld(const WorldCoordinates& pointA, const WorldCoordinates& pointB, Zone* zone);
 	Vector<WorldCoordinates>* findPathFromCellToCell(const WorldCoordinates& pointA, const WorldCoordinates& pointB);
 
 	Vector<WorldCoordinates>* findPathFromCellToDifferentCell(const WorldCoordinates& pointA, const WorldCoordinates& pointB);
@@ -82,8 +90,9 @@ protected:
 
 	// The caller of this function is responsible for deleting the NavCollision objects.
 	// Collisions should be sorted from closest to farthest.
-	void getNavMeshCollisions(SortedVector<NavCollision*> *collisions, const SortedVector<ManagedReference<NavArea*>> *area, const Vector3& start, const Vector3& end);
+	void getNavMeshCollisions(SortedVector<NavCollision*>* collisions, const SortedVector<ManagedReference<NavArea*>>* area, const Vector3& start, const Vector3& end);
 	dtNavMeshQuery* getNavQuery();
+
 private:
 	dtQueryFilter m_filter;
 	dtQueryFilter m_spawnFilter;

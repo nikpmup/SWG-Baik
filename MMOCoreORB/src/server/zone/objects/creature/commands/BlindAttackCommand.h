@@ -9,12 +9,10 @@
 
 class BlindAttackCommand : public CombatQueueCommand {
 public:
-
 	BlindAttackCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -26,7 +24,6 @@ public:
 
 		return doCombatAction(creature, target, arguments);
 	}
-
 };
 
-#endif //BLINDATTACKCOMMAND_H_
+#endif // BLINDATTACKCOMMAND_H_

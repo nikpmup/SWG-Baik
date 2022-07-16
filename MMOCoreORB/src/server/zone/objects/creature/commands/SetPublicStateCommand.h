@@ -7,14 +7,10 @@
 
 class SetPublicStateCommand : public QueueCommand {
 public:
-
-	SetPublicStateCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetPublicStateCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETPUBLICSTATECOMMAND_H_
+#endif // SETPUBLICSTATECOMMAND_H_

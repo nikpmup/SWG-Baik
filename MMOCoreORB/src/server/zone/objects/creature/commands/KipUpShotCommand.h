@@ -9,13 +9,10 @@
 
 class KipUpShotCommand : public CombatQueueCommand {
 public:
-
-	KipUpShotCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	KipUpShotCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -33,7 +30,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //KIPUPSHOTCOMMAND_H_
+#endif // KIPUPSHOTCOMMAND_H_

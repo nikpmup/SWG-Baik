@@ -8,20 +8,19 @@
 #ifndef TERRAINMAP_H_
 #define TERRAINMAP_H_
 
-
 #include "TemplateVariable.h"
 
-template<int chunkType>
+template <int chunkType>
 class TerrainMap : public TemplateVariable<chunkType> {
 	byte* rawMap;
 
 public:
-	TerrainMap(){
+	TerrainMap() {
 		rawMap = nullptr;
 	}
 
 	~TerrainMap() {
-		delete [] rawMap;
+		delete[] rawMap;
 		rawMap = nullptr;
 	}
 
@@ -43,7 +42,5 @@ public:
 		return rawMap;
 	}
 };
-
-
 
 #endif /* TERRAINMAP_H_ */

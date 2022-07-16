@@ -12,7 +12,6 @@
 
 class SurveyDroidMenuComponent : public TangibleObjectMenuComponent {
 public:
-
 	/**
 	 * Fills the radial options, needs to be overridden
 	 * @pre { this object is locked }
@@ -33,4 +32,3 @@ public:
 };
 
 #endif /* SURVERYDROIDMENUCOMPONENT_H_ */
-

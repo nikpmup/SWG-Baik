@@ -13,20 +13,15 @@
 
 class SocialInternalCommand : public QueueCommand {
 public:
-
-	SocialInternalCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SocialInternalCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
-
 
 		ChatManager* chatManager = server->getChatManager();
 		if (chatManager == nullptr)
@@ -80,7 +75,7 @@ public:
 				if (petManager == nullptr)
 					return GENERALERROR;
 
-				petManager->enqueueOwnerOnlyPetCommand(creature, aiAgent, STRING_HASHCODE("petemote"), arguments.toString() );
+				petManager->enqueueOwnerOnlyPetCommand(creature, aiAgent, STRING_HASHCODE("petemote"), arguments.toString());
 			} else {
 				int chance = 40; // % chance out of 100 they creature will rest
 
@@ -122,16 +117,13 @@ public:
 				}
 			}
 		} else {
-
 			ReactionManager* reactionManager = creature->getZoneServer()->getReactionManager();
 
 			if (reactionManager != nullptr)
 				reactionManager->emoteReaction(creature, aiAgent, emoteid);
-
 		}
 		return SUCCESS;
 	}
-
 };
 
-#endif //SOCIALINTERNALCOMMAND_H_
+#endif // SOCIALINTERNALCOMMAND_H_

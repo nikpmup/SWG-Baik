@@ -7,14 +7,10 @@
 
 class CraftCommand : public QueueCommand {
 public:
-
-	CraftCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CraftCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CRAFTCOMMAND_H_
+#endif // CRAFTCOMMAND_H_

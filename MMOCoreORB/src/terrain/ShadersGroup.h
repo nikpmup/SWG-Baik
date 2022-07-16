@@ -15,9 +15,7 @@ class ShadersGroup : public TemplateVariable<'SGRP'> {
 	Vector<ShaderFamily*> data;
 
 public:
-
 	ShadersGroup() {
-
 	}
 
 	~ShadersGroup() {
@@ -50,9 +48,7 @@ public:
 			sfam->readObject(iffStream);
 			data.add(sfam);
 		}
-
 	}
-
 };
 
 #endif /* SURFACEGROUP_H_ */

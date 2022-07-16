@@ -17,7 +17,7 @@ void DetailAppearanceTemplate::parse(IffStream* iffStream) {
 
 	AppearanceTemplate::readObject(iffStream);
 
-	//if (iffStream->getNextFormType() == 'PIVT') {
+	// if (iffStream->getNextFormType() == 'PIVT') {
 
 	if (version != '0005') {
 		iffStream->openChunk('PIVT');
@@ -26,14 +26,14 @@ void DetailAppearanceTemplate::parse(IffStream* iffStream) {
 	//}
 
 	Chunk* infoChunk = iffStream->openChunk('INFO');
-	
+
 	iffStream->closeChunk('INFO');
 
 	Chunk* dataChunk = iffStream->openForm('DATA');
 
 	int subChunks = dataChunk->getChunksSize();
 
-	//loading last child only
+	// loading last child only
 	for (int i = 0; i < subChunks; ++i) {
 		iffStream->openChunk('CHLD');
 

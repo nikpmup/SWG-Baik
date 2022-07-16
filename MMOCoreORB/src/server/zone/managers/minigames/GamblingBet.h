@@ -5,7 +5,6 @@
 #ifndef GAMBLINGBET_H_
 #define GAMBLINGBET_H_
 
-
 #include "server/zone/objects/creature/CreatureObject.h"
 
 namespace server {
@@ -42,17 +41,11 @@ public:
 	CreatureObject* getPlayer() {
 		return player.get();
 	}
-
 };
 
-}
-}
-}
-}
-
+} // namespace minigames
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 #endif
-
-
-
-

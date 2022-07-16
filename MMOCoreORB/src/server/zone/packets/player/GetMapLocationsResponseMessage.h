@@ -13,7 +13,7 @@ class GetMapLocationsResponseMessage : public BaseMessage {
 public:
 	GetMapLocationsResponseMessage(const String& planet, const MapLocationTable* mapLocations, CreatureObject* player) : BaseMessage() {
 		insertShort(0x05);
-		insertInt(0x9F80464C);  //GetMapLocationsResponseMessage
+		insertInt(0x9F80464C); // GetMapLocationsResponseMessage
 
 		insertAscii(planet);
 
@@ -42,15 +42,14 @@ public:
 
 		insertInt(12 + planet.length(), totalEntries);
 
-		insertInt(0); //Blank List
-		insertInt(0); //Blank List
+		insertInt(0); // Blank List
+		insertInt(0); // Blank List
 
-		insertInt(0); //Unknown
-		insertInt(0); //Unknown
-		insertInt(0); //Unknown
+		insertInt(0); // Unknown
+		insertInt(0); // Unknown
+		insertInt(0); // Unknown
 
 		setCompression(true);
 	}
-
 };
 #endif /*GETMAPLOCATIONSRESPONSEMESSAGE_H_*/

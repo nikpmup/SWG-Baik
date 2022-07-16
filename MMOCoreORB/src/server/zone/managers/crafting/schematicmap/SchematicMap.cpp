@@ -41,8 +41,7 @@ void SchematicMap::initialize(ZoneServer* server) {
 void SchematicMap::loadSchematicGroups() {
 	TemplateManager* templateManager = TemplateManager::instance();
 
-	IffStream* iffStream = templateManager->openIffFile(
-			"datatables/crafting/schematic_group.iff");
+	IffStream* iffStream = templateManager->openIffFile("datatables/crafting/schematic_group.iff");
 
 	if (iffStream == nullptr) {
 		info("schematic_group.iff could not be found.", true);
@@ -55,7 +54,6 @@ void SchematicMap::loadSchematicGroups() {
 	String groupId, schematicName;
 
 	for (int i = 0; i < dtiff.getTotalRows(); ++i) {
-
 		DataTableRow* row = dtiff.getRow(i);
 
 		row->getCell(0)->getValue(groupId);
@@ -70,7 +68,6 @@ void SchematicMap::loadSchematicGroups() {
 }
 
 void SchematicMap::loadDraftSchematicDatabase() {
-
 	ObjectDatabase* schematicDatabase = ObjectDatabaseManager::instance()->loadObjectDatabase("draftschematics", true);
 
 	ObjectDatabaseIterator iterator(schematicDatabase);
@@ -79,15 +76,13 @@ void SchematicMap::loadDraftSchematicDatabase() {
 	int count = 0;
 
 	while (iterator.getNextKey(objectID)) {
+		ManagedReference<DraftSchematic*> draftSchematic = zoneServer->getObject(objectID).castTo<DraftSchematic*>();
 
-		ManagedReference<DraftSchematic* > draftSchematic = zoneServer->getObject(objectID).castTo<DraftSchematic*>();
-
-		if(draftSchematic != nullptr) {
-
-			if(!schematicCrcMap.contains(draftSchematic->getClientObjectCRC()))
+		if (draftSchematic != nullptr) {
+			if (!schematicCrcMap.contains(draftSchematic->getClientObjectCRC()))
 				schematicCrcMap.put(draftSchematic->getClientObjectCRC(), draftSchematic);
 
-			if(!schematicCrcMap.contains(draftSchematic->getServerObjectCRC()))
+			if (!schematicCrcMap.contains(draftSchematic->getServerObjectCRC()))
 				schematicCrcMap.put(draftSchematic->getServerObjectCRC(), draftSchematic);
 
 			count++;
@@ -111,7 +106,6 @@ void SchematicMap::loadDraftSchematicFile(String file) {
 	lua_State* L = serverScriptCRCList.getLuaState();
 
 	for (int i = 0; i < size; ++i) {
-
 		lua_rawgeti(L, -1, i + 1);
 		LuaObject luaObject(L);
 
@@ -124,9 +118,9 @@ void SchematicMap::loadDraftSchematicFile(String file) {
 
 		if (schematic == nullptr) {
 			try {
-				schematic = dynamic_cast<DraftSchematic*> (objectManager->createObject(servercrc, 1, "draftschematics"));
+				schematic = dynamic_cast<DraftSchematic*>(objectManager->createObject(servercrc, 1, "draftschematics"));
 
-				if(schematic == nullptr) {
+				if (schematic == nullptr) {
 					error("Could not create schematic with crc: " + String::valueOf(servercrc));
 					continue;
 				}
@@ -136,14 +130,13 @@ void SchematicMap::loadDraftSchematicFile(String file) {
 				error("Could not create schematic with template: " + path);
 				continue;
 			}
-			if(!schematicCrcMap.contains(schematic->getServerObjectCRC()))
+			if (!schematicCrcMap.contains(schematic->getServerObjectCRC()))
 				schematicCrcMap.put(schematic->getServerObjectCRC(), schematic);
 
-			if(!schematicCrcMap.contains(schematic->getClientObjectCRC()))
+			if (!schematicCrcMap.contains(schematic->getClientObjectCRC()))
 				schematicCrcMap.put(schematic->getClientObjectCRC(), schematic);
 
 			count++;
-
 		}
 	}
 
@@ -153,14 +146,13 @@ void SchematicMap::loadDraftSchematicFile(String file) {
 }
 
 void SchematicMap::buildSchematicGroups() {
-
-	while(iffGroupMap.size() > 0) {
+	while (iffGroupMap.size() > 0) {
 		VectorMapEntry<uint32, String> entry = iffGroupMap.remove(0);
 		const String& groupName = entry.getValue();
 
 		DraftSchematic* schematic = schematicCrcMap.get(entry.getKey());
 
-		if(schematic != nullptr) {
+		if (schematic != nullptr) {
 			Locker locker(schematic);
 
 			schematic->setGroupName(groupName);
@@ -172,16 +164,14 @@ void SchematicMap::buildSchematicGroups() {
 				groupMap.put(groupName, group);
 			}
 
-			if(!group->contains(schematic))
+			if (!group->contains(schematic))
 				group->add(schematic);
 		}
 	}
 }
 
-bool SchematicMap::addSchematics(PlayerObject* playerObject,
-		const Vector<String>& schematicgroups, bool updateClient) {
-
-	Vector<ManagedReference<DraftSchematic* > > schematics;
+bool SchematicMap::addSchematics(PlayerObject* playerObject, const Vector<String>& schematicgroups, bool updateClient) {
+	Vector<ManagedReference<DraftSchematic*>> schematics;
 
 	for (int i = 0; i < schematicgroups.size(); ++i) {
 		const String& groupName = schematicgroups.get(i);
@@ -189,7 +179,7 @@ bool SchematicMap::addSchematics(PlayerObject* playerObject,
 		if (groupMap.contains(groupName)) {
 			DraftSchematicGroup* dsg = groupMap.get(groupName);
 
-			for(int j = 0; j < dsg->size(); ++j)
+			for (int j = 0; j < dsg->size(); ++j)
 				schematics.add(dsg->get(j));
 		}
 	}
@@ -200,16 +190,13 @@ bool SchematicMap::addSchematics(PlayerObject* playerObject,
 	return false;
 }
 
-void SchematicMap::removeSchematics(PlayerObject* playerObject,
-		const Vector<String>& schematicgroups, bool updateClient) {
-
-	Vector<ManagedReference<DraftSchematic* > > schematics;
+void SchematicMap::removeSchematics(PlayerObject* playerObject, const Vector<String>& schematicgroups, bool updateClient) {
+	Vector<ManagedReference<DraftSchematic*>> schematics;
 
 	for (int i = 0; i < schematicgroups.size(); ++i) {
 		const String& groupName = schematicgroups.get(i);
 
 		if (groupMap.contains(groupName)) {
-
 			DraftSchematicGroup* dsg = groupMap.get(groupName);
 
 			for (int j = 0; j < dsg->size(); ++j)

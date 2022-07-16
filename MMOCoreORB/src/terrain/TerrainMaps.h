@@ -19,6 +19,7 @@ class TerrainMaps : public IffTemplateVariable {
 
 	TerrainMap<'WMAP'> waterMap;
 	TerrainMap<'SMAP'> seedMap;
+
 public:
 	void readObject(engine::util::IffStream* iffStream) {
 		parseFromIffStream(iffStream);
@@ -57,6 +58,5 @@ public:
 		seedMap.readObject(iffStream);
 	}
 };
-
 
 #endif /* TERRAINMAPS_H_ */

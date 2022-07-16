@@ -38,25 +38,24 @@ public:
 	void insertToMessage(BaseMessage* msg) const override;
 };
 
-
 // This is used solely for the ObjectVersionUpdateManager
 class AbilityListMigrator : public DeltaVector<Ability*> {
-	public:
-		Vector<String> names;
-		uint32 updateCounter;
+public:
+	Vector<String> names;
+	uint32 updateCounter;
 
-		bool toBinaryStream(ObjectOutputStream* stream) {
-			TypeInfo<uint32>::toBinaryStream(&updateCounter, stream);
-			names.toBinaryStream(stream);
+	bool toBinaryStream(ObjectOutputStream* stream) {
+		TypeInfo<uint32>::toBinaryStream(&updateCounter, stream);
+		names.toBinaryStream(stream);
 
-			return true;
-		}
+		return true;
+	}
 
-		bool parseFromBinaryStream(ObjectInputStream* stream) {
-			TypeInfo<uint32>::parseFromBinaryStream(&updateCounter, stream);
-			names.parseFromBinaryStream(stream);
+	bool parseFromBinaryStream(ObjectInputStream* stream) {
+		TypeInfo<uint32>::parseFromBinaryStream(&updateCounter, stream);
+		names.parseFromBinaryStream(stream);
 
-			return true;
-		}
-	};
+		return true;
+	}
+};
 #endif /* ABILITYLIST_H_ */

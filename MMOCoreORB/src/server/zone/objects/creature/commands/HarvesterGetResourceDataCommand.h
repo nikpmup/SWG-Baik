@@ -10,14 +10,10 @@
 
 class HarvesterGetResourceDataCommand : public QueueCommand {
 public:
-
-	HarvesterGetResourceDataCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HarvesterGetResourceDataCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -34,7 +30,7 @@ public:
 		if (object == nullptr || !object->isInstallationObject())
 			return GENERALERROR;
 
-		InstallationObject* inso = cast<InstallationObject*>( object.get());
+		InstallationObject* inso = cast<InstallationObject*>(object.get());
 
 		auto zone = inso->getZone();
 
@@ -52,7 +48,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //HARVESTERGETRESOURCEDATACOMMAND_H_
+#endif // HARVESTERGETRESOURCEDATACOMMAND_H_

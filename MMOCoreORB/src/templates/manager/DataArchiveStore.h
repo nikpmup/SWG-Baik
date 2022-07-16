@@ -17,8 +17,7 @@
 
 class TreeArchive;
 
-class DataArchiveStore : public Singleton<DataArchiveStore>, public Logger,
-		public ReadWriteLock, public Object {
+class DataArchiveStore : public Singleton<DataArchiveStore>, public Logger, public ReadWriteLock, public Object {
 	TreeArchive* treeDirectory;
 
 public:
@@ -34,9 +33,6 @@ public:
 	const TreeArchive* getTreeArchive() const {
 		return treeDirectory;
 	}
-
-
 };
-
 
 #endif /* DATAARCHIVE_H_ */

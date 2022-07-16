@@ -9,13 +9,10 @@
 
 class UndockCommand : public CombatQueueCommand {
 public:
-
-	UndockCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	UndockCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //UNDOCK_H_
+#endif // UNDOCK_H_

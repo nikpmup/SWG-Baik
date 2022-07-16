@@ -46,8 +46,7 @@ class ObjectMenuResponse : public ObjectControllerMessage {
 	}
 
 public:
-	ObjectMenuResponse(SceneObject* player, uint64 target, uint8 counter)
-	   		: ObjectControllerMessage(player->getObjectID(), 0x0B, 0x147) {
+	ObjectMenuResponse(SceneObject* player, uint64 target, uint8 counter) : ObjectControllerMessage(player->getObjectID(), 0x0B, 0x147) {
 		insertLong(target);
 		insertLong(player->getObjectID());
 
@@ -141,10 +140,10 @@ public:
 	}
 };
 
-}
-}
-}
-}
+} // namespace object
+} // namespace packets
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::packets::object;
 

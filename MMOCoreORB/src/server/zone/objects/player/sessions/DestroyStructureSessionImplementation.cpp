@@ -19,7 +19,7 @@
 #include "server/zone/managers/gcw/tasks/DestroyFactionInstallationTask.h"
 
 int DestroyStructureSessionImplementation::initializeSession() {
-	//TODO: Temporary until CreatureObject* dependency removed.
+	// TODO: Temporary until CreatureObject* dependency removed.
 	if (!creatureObject->isPlayerCreature())
 		return cancelSession();
 
@@ -27,7 +27,7 @@ int DestroyStructureSessionImplementation::initializeSession() {
 
 	Locker _lock(structureObject, creatureObject);
 
-	CreatureObject* player = cast<CreatureObject*>( creatureObject.get());
+	CreatureObject* player = cast<CreatureObject*>(creatureObject.get());
 
 	String no = "\\#FF6347 @player_structure:can_redeed_no_suffix \\#.";
 	String yes = "\\#32CD32 @player_structure:can_redeed_yes_suffix \\#.";
@@ -67,7 +67,7 @@ int DestroyStructureSessionImplementation::initializeSession() {
 }
 
 int DestroyStructureSessionImplementation::sendDestroyCode() {
-	//TODO: Temporary until CreatureObject* dependency removed.
+	// TODO: Temporary until CreatureObject* dependency removed.
 	if (!creatureObject->isPlayerCreature())
 		return cancelSession();
 
@@ -75,7 +75,7 @@ int DestroyStructureSessionImplementation::sendDestroyCode() {
 
 	Locker _lock(creatureObject, structureObject);
 
-	CreatureObject* player = cast<CreatureObject*>( creatureObject.get());
+	CreatureObject* player = cast<CreatureObject*>(creatureObject.get());
 
 	destroyCode = System::random(899999) + 100000;
 
@@ -92,7 +92,7 @@ int DestroyStructureSessionImplementation::sendDestroyCode() {
 	ManagedReference<SuiInputBox*> sui = new SuiInputBox(player);
 	sui->setCallback(new DestroyStructureCodeSuiCallback(player->getZoneServer()));
 	sui->setUsingObject(structureObject);
-	sui->setPromptTitle("@player_structure:confirm_destruction_t"); //Confirm Structure Deletion
+	sui->setPromptTitle("@player_structure:confirm_destruction_t"); // Confirm Structure Deletion
 	sui->setPromptText(entry.toString());
 	sui->setCancelButton(true, "@cancel");
 	sui->setMaxInputSize(6);
@@ -104,7 +104,7 @@ int DestroyStructureSessionImplementation::sendDestroyCode() {
 }
 
 int DestroyStructureSessionImplementation::destroyStructure() {
-	creatureObject->sendSystemMessage("@player_structure:processing_destruction"); //Processing confirmed structure destruction...
+	creatureObject->sendSystemMessage("@player_structure:processing_destruction"); // Processing confirmed structure destruction...
 
 	if (structureObject == nullptr || structureObject->getZone() == nullptr)
 		return cancelSession();
@@ -121,8 +121,7 @@ int DestroyStructureSessionImplementation::destroyStructure() {
 		gcwMan->doBaseDestruction(structureObject);
 		return cancelSession();
 
-	} else if(structureObject->isTurret() || structureObject->isMinefield() || structureObject->isScanner()){
-
+	} else if (structureObject->isTurret() || structureObject->isMinefield() || structureObject->isScanner()) {
 		Reference<DestroyFactionInstallationTask*> destroyTask = new DestroyFactionInstallationTask(cast<InstallationObject*>(structureObject.get()));
 		destroyTask->execute();
 

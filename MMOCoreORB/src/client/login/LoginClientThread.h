@@ -23,9 +23,9 @@ public:
 	~LoginClientThread() {
 		client = nullptr;
 
-	#ifdef WITH_STM
+#ifdef WITH_STM
 		TransactionalMemoryManager::closeThread();
-	#endif
+#endif
 	}
 
 	void run() {

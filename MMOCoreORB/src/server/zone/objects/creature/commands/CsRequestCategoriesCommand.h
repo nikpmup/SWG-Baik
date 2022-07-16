@@ -7,14 +7,10 @@
 
 class CsRequestCategoriesCommand : public QueueCommand {
 public:
-
-	CsRequestCategoriesCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CsRequestCategoriesCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CSREQUESTCATEGORIESCOMMAND_H_
+#endif // CSREQUESTCATEGORIESCOMMAND_H_

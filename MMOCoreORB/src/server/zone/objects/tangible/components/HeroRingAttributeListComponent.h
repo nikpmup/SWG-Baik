@@ -7,9 +7,8 @@
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/tangible/components/HeroRingDataComponent.h"
 
-class HeroRingAttributeListComponent: public AttributeListComponent {
+class HeroRingAttributeListComponent : public AttributeListComponent {
 public:
-
 	/**
 	 * Fills the Attributes
 	 * @pre { this object is locked }
@@ -17,7 +16,6 @@ public:
 	 * @param menuResponse ObjectMenuResponse that will be sent to the client
 	 */
 	void fillAttributeList(AttributeListMessage* alm, CreatureObject* creature, SceneObject* object) const {
-
 		ManagedReference<TangibleObject*> tano = cast<TangibleObject*>(object);
 
 		HeroRingDataComponent* data = cast<HeroRingDataComponent*>(tano->getDataObjectComponent()->get());
@@ -37,7 +35,6 @@ public:
 	}
 
 	static String getCooldownString(uint32 delta) {
-
 		int seconds = delta / 1000;
 
 		int hours = seconds / 3600;
@@ -59,7 +56,6 @@ public:
 
 		return buffer.toString();
 	}
-
 };
 
 #endif /* HERORINGATTIBUTELISTCOMPONENT_H_ */

@@ -15,7 +15,6 @@ class StructureDeedTemplate : public DeedTemplate {
 
 public:
 	StructureDeedTemplate() {
-
 	}
 
 	void readObject(LuaObject* obj) {

@@ -18,7 +18,7 @@ namespace creation {
 
 class SkillInfo : public IffTemplate {
 	Vector<String> skills;
-	VectorMap<String, SortedVector<String> > items;
+	VectorMap<String, SortedVector<String>> items;
 	Vector<int> attributeMods;
 
 	void addItem(const String& templateName, const String& itemName) {
@@ -37,7 +37,7 @@ public:
 	SkillInfo() {
 		items.setNoDuplicateInsertPlan();
 
-		//initialize values for each attribute
+		// initialize values for each attribute
 		attributeMods.add(0);
 		attributeMods.add(0);
 		attributeMods.add(0);
@@ -55,7 +55,7 @@ public:
 		attributeMods = pi.attributeMods;
 	}
 
-	SkillInfo& operator= (const SkillInfo& pi) {
+	SkillInfo& operator=(const SkillInfo& pi) {
 		if (this == &pi)
 			return *this;
 
@@ -83,8 +83,7 @@ public:
 		int totalSubForms = versionForm->getChunksSize();
 
 		switch (version) {
-		case '0000':
-		{
+		case '0000': {
 			Chunk* skls = iffStream->openForm('SKLS');
 			Vector<Chunk*> chunks;
 			skls->getChildren(chunks);
@@ -124,9 +123,7 @@ public:
 				iffStream->closeForm('PTMP');
 			}
 
-
-		}
-		break;
+		} break;
 		}
 
 		iffStream->closeForm(version);
@@ -134,11 +131,11 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace creation
+} // namespace player
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::player::creation;
 

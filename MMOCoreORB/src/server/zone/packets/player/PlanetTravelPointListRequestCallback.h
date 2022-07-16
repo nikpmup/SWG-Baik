@@ -8,7 +8,6 @@
 #ifndef PLANETTRAVELPOINTLISTREQUESTCALLBACK_H_
 #define PLANETTRAVELPOINTLISTREQUESTCALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 
 #include "server/zone/managers/planet/PlanetManager.h"
@@ -19,13 +18,11 @@ class PlanetTravelPointListRequestCallback : public MessageCallback {
 	String zoneName;
 
 public:
-	PlanetTravelPointListRequestCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	PlanetTravelPointListRequestCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {
-		message->shiftOffset(8); //We don't need the player object, we got it already.
+		message->shiftOffset(8); // We don't need the player object, we got it already.
 		message->parseAscii(zoneName);
 	}
 
@@ -39,7 +36,7 @@ public:
 
 		Zone* zone = server->getZoneServer()->getZone(zoneName);
 
-		//Handles unknown or disabled zones.
+		// Handles unknown or disabled zones.
 		if (zone == nullptr) {
 			object->info("Attempting to travel to non-existant, or disabled, zone [" + zoneName + "].");
 
@@ -55,6 +52,5 @@ public:
 		planetManager->sendPlanetTravelPointListResponse(object);
 	}
 };
-
 
 #endif /* PLANETTRAVELPOINTLISTREQUESTCALLBACK_H_ */

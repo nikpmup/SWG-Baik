@@ -9,14 +9,10 @@
 
 class RequestCharacterSheetInfoCommand : public QueueCommand {
 public:
-
-	RequestCharacterSheetInfoCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RequestCharacterSheetInfoCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -31,7 +27,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REQUESTCHARACTERSHEETINFOCOMMAND_H_
+#endif // REQUESTCHARACTERSHEETINFOCOMMAND_H_

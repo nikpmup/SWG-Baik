@@ -8,7 +8,6 @@
 #ifndef AFFECTORPAS_H_
 #define AFFECTORPAS_H_
 
-
 #include "../ProceduralRule.h"
 
 class AffectorPassable : public ProceduralRule<'APAS'>, public AffectorProceduralRule {
@@ -16,7 +15,6 @@ class AffectorPassable : public ProceduralRule<'APAS'>, public AffectorProcedura
 
 public:
 	AffectorPassable() : var1(0), var2(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {
@@ -47,7 +45,5 @@ public:
 		iffStream->closeChunk('DATA');
 	}
 };
-
-
 
 #endif /* AFFECTORPAS_H_ */

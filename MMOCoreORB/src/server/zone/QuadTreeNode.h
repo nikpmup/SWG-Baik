@@ -48,8 +48,8 @@ class QuadTree;
 class QuadTreeEntry;
 class QuadTreeEntryImplementation;
 
-class QuadTreeNode: public Object {
-	SortedVector<Reference<QuadTreeEntry*> > objects;
+class QuadTreeNode : public Object {
+	SortedVector<Reference<QuadTreeEntry*>> objects;
 
 	WeakReference<QuadTreeNode*> parentNode;
 	Reference<QuadTreeNode*> nwNode;
@@ -64,8 +64,7 @@ class QuadTreeNode: public Object {
 
 public:
 	QuadTreeNode();
-	QuadTreeNode(float minx, float miny, float maxx, float maxy,
-			QuadTreeNode *parent);
+	QuadTreeNode(float minx, float miny, float maxx, float maxy, QuadTreeNode* parent);
 
 	~QuadTreeNode();
 
@@ -82,14 +81,14 @@ public:
 	}
 
 	// Add a object to this node
-	void addObject(QuadTreeEntry *obj);
+	void addObject(QuadTreeEntry* obj);
 
 	QuadTreeEntry* getObject(int index) {
 		return objects.get(index);
 	}
 
 	// Remove a object by GUID
-	void removeObject(QuadTreeEntry *obj);
+	void removeObject(QuadTreeEntry* obj);
 
 	void removeObject(int index);
 
@@ -101,7 +100,7 @@ public:
 	void check();
 
 	bool validateNode() const {
-		if (minX > maxX || minY > maxY/* || objects.size() > 1000*/)
+		if (minX > maxX || minY > maxY /* || objects.size() > 1000*/)
 			return false;
 		else
 			return true;
@@ -114,8 +113,7 @@ public:
 
 	// Check if this node has children nodes
 	inline bool hasSubNodes() const {
-		return nwNode != nullptr || neNode != nullptr || swNode != nullptr || seNode
-				!= nullptr;
+		return nwNode != nullptr || neNode != nullptr || swNode != nullptr || seNode != nullptr;
 	}
 
 	// Test if the point is inside this node
@@ -132,8 +130,7 @@ public:
 	friend class server::zone::QuadTreeEntryImplementation;
 };
 
-} // namespace server
 } // namespace zone
-
+} // namespace server
 
 #endif /*QUADTREENODE_H_*/

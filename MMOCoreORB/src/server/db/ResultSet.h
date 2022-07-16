@@ -13,72 +13,72 @@ Distribution of this file for usage outside of Core3 is prohibited.
 #include "engine/db/ResultSet.h"
 
 namespace server {
-  namespace db {
-    namespace mysql {
+namespace db {
+namespace mysql {
 
-	class ResultSet : public engine::db::ResultSet {
-		MYSQL *mysql;
+class ResultSet : public engine::db::ResultSet {
+	MYSQL *mysql;
 
-		MYSQL_RES *result;
-		MYSQL_ROW row;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
 
-	public:
-		ResultSet(MYSQL* db, MYSQL_RES *res) : row(nullptr) {
-			mysql = db;
-			result = res;
-		}
+public:
+	ResultSet(MYSQL *db, MYSQL_RES *res) : row(nullptr) {
+		mysql = db;
+		result = res;
+	}
 
-		virtual ~ResultSet() {
-			mysql_free_result(result);
-		}
+	virtual ~ResultSet() {
+		mysql_free_result(result);
+	}
 
-		bool next() {
-			return (row = mysql_fetch_row(result)) != nullptr;
-		}
+	bool next() {
+		return (row = mysql_fetch_row(result)) != nullptr;
+	}
 
-		bool getBoolean(int index) {
-			return atoi(row[index]);
-		}
+	bool getBoolean(int index) {
+		return atoi(row[index]);
+	}
 
-		int getInt(int index) {
-			return atoi(row[index]);
-		}
+	int getInt(int index) {
+		return atoi(row[index]);
+	}
 
-		sys::uint32 getUnsignedInt(int index) {
-			return (sys::uint32) strtoul(row[index], nullptr, 0);
-		}
+	sys::uint32 getUnsignedInt(int index) {
+		return (sys::uint32)strtoul(row[index], nullptr, 0);
+	}
 
-		sys::int64 getLong(int index) {
-			return Long::valueOf(row[index]);
-		}
+	sys::int64 getLong(int index) {
+		return Long::valueOf(row[index]);
+	}
 
-		sys::uint64 getUnsignedLong(int index) {
-			return Long::unsignedvalueOf(row[index]);
-		}
+	sys::uint64 getUnsignedLong(int index) {
+		return Long::unsignedvalueOf(row[index]);
+	}
 
-		float getFloat(int index) {
-			return atof(row[index]);
-		}
+	float getFloat(int index) {
+		return atof(row[index]);
+	}
 
-		char* getString(int index) {
-			return row[index];
-		}
+	char *getString(int index) {
+		return row[index];
+	}
 
-		sys::uint64 getRowsAffected() {
-			return mysql_affected_rows(mysql);
-		}
+	sys::uint64 getRowsAffected() {
+		return mysql_affected_rows(mysql);
+	}
 
-		sys::uint64 getLastAffectedRow() {
-			return mysql_insert_id(mysql);
-		}
+	sys::uint64 getLastAffectedRow() {
+		return mysql_insert_id(mysql);
+	}
 
-		inline sys::uint64 size() {
-			return mysql_num_rows(result);
-		}
-	};
+	inline sys::uint64 size() {
+		return mysql_num_rows(result);
+	}
+};
 
-    } // namespace mysql
-  } // namespace db
-} // namespace engine
+} // namespace mysql
+} // namespace db
+} // namespace server
 
 #endif /*ENGINE_DB_MYSQL_RESULTSET_H_*/

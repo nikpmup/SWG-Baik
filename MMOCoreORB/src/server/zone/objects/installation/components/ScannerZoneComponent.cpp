@@ -18,7 +18,6 @@
 #include "server/zone/objects/installation/InstallationObject.h"
 #include "server/zone/objects/installation/components/TurretObserver.h"
 
-
 void ScannerZoneComponent::notifyInsertToZone(SceneObject* sceneObject, Zone* zone) const {
 	if (zone == nullptr)
 		return;
@@ -40,7 +39,7 @@ void ScannerZoneComponent::notifyPositionUpdate(SceneObject* sceneObject, QuadTr
 
 	ManagedReference<SceneObject*> target = cast<SceneObject*>(entry);
 
-	if (!sceneObject->isTangibleObject() || target == nullptr){
+	if (!sceneObject->isTangibleObject() || target == nullptr) {
 		return;
 	}
 
@@ -60,7 +59,7 @@ void ScannerZoneComponent::notifyPositionUpdate(SceneObject* sceneObject, QuadTr
 	if (scannerData == nullptr || !scannerData->canScan())
 		return;
 
-	if (sceneObject->isScanner() && target->isPlayerCreature() && sceneObject->isInRange(target, 32)){
+	if (sceneObject->isScanner() && target->isPlayerCreature() && sceneObject->isInRange(target, 32)) {
 		ManagedReference<CreatureObject*> player = cast<CreatureObject*>(entry);
 
 		if (player == nullptr)
@@ -73,7 +72,7 @@ void ScannerZoneComponent::notifyPositionUpdate(SceneObject* sceneObject, QuadTr
 
 		uint32 playerFaction = player->getFaction();
 
-		if (tano->getFaction() != playerFaction && playerFaction != 0 && CollisionManager::checkLineOfSight(tano, player)){
+		if (tano->getFaction() != playerFaction && playerFaction != 0 && CollisionManager::checkLineOfSight(tano, player)) {
 			scannerData->updateCooldown();
 
 			PlayClientEffectLoc* explodeLoc = new PlayClientEffectLoc("clienteffect/survey_effect.cef", tano->getZone()->getZoneName(), tano->getPositionX(), tano->getPositionZ(), tano->getPositionY());

@@ -24,6 +24,4 @@ public:
 	server::zone::QuadTree* operator=(server::zone::QuadTree* obj);
 };
 
-
-
 #endif /* QUADTREEREFERENCE_H_ */

@@ -9,14 +9,10 @@
 
 class HarvesterDiscardHopperCommand : public QueueCommand {
 public:
-
-	HarvesterDiscardHopperCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HarvesterDiscardHopperCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -30,7 +26,7 @@ public:
 		if (object == nullptr || !object->isInstallationObject())
 			return GENERALERROR;
 
-		InstallationObject* inso = cast<InstallationObject*>( object.get());
+		InstallationObject* inso = cast<InstallationObject*>(object.get());
 
 		if (!inso->isHarvesterObject())
 			return GENERALERROR;
@@ -46,10 +42,8 @@ public:
 		} catch (Exception& e) {
 		}
 
-
 		return SUCCESS;
 	}
-
 };
 
-#endif //HARVESTERDISCARDHOPPERCOMMAND_H_
+#endif // HARVESTERDISCARDHOPPERCOMMAND_H_

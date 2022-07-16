@@ -113,7 +113,6 @@ void CommandConfigManager::loadCommandData(const String& filename) {
 		String tableName;
 		tableRow->getValue(0, tableName);
 
-
 		IffStream* iffStream = TemplateManager::instance()->openIffFile(tableName);
 
 		if (iffStream == nullptr) {
@@ -174,121 +173,177 @@ void CommandConfigManager::loadCommandData(const String& filename) {
 
 			// build state mask
 			row->getValue(CommandConfigManager::COVER, state);
-			if (!state) stateMask |= CreatureState::COVER;
+			if (!state)
+				stateMask |= CreatureState::COVER;
 			row->getValue(CommandConfigManager::COMBAT, state);
-			if (!state) stateMask |= CreatureState::COMBAT;
+			if (!state)
+				stateMask |= CreatureState::COMBAT;
 			row->getValue(CommandConfigManager::PEACE, state);
-			if (!state) stateMask |= CreatureState::PEACE;
+			if (!state)
+				stateMask |= CreatureState::PEACE;
 			row->getValue(CommandConfigManager::AIMING, state);
-			if (!state) stateMask |= CreatureState::AIMING;
+			if (!state)
+				stateMask |= CreatureState::AIMING;
 			row->getValue(CommandConfigManager::ALERT, state);
-			if (!state) stateMask |= CreatureState::ALERT;
+			if (!state)
+				stateMask |= CreatureState::ALERT;
 			row->getValue(CommandConfigManager::BERSERK, state);
-			if (!state) stateMask |= CreatureState::BERSERK;
+			if (!state)
+				stateMask |= CreatureState::BERSERK;
 			row->getValue(CommandConfigManager::FEIGNDEATH, state);
-			if (!state) stateMask |= CreatureState::FEIGNDEATH;
+			if (!state)
+				stateMask |= CreatureState::FEIGNDEATH;
 			row->getValue(CommandConfigManager::COMBATATTITUDEEVASIVE, state);
-			if (!state) stateMask |= CreatureState::COMBATATTITUDEEVASIVE;
+			if (!state)
+				stateMask |= CreatureState::COMBATATTITUDEEVASIVE;
 			row->getValue(CommandConfigManager::COMBATATTITUDENORMAL, state);
-			if (!state) stateMask |= CreatureState::COMBATATTITUDENORMAL;
+			if (!state)
+				stateMask |= CreatureState::COMBATATTITUDENORMAL;
 			row->getValue(CommandConfigManager::COMBATATTITUDEAGGRESSIVE, state);
-			if (!state) stateMask |= CreatureState::COMBATATTITUDEAGGRESSIVE;
+			if (!state)
+				stateMask |= CreatureState::COMBATATTITUDEAGGRESSIVE;
 			row->getValue(CommandConfigManager::TUMBLING, state);
-			if (!state) stateMask |= CreatureState::TUMBLING;
+			if (!state)
+				stateMask |= CreatureState::TUMBLING;
 			row->getValue(CommandConfigManager::RALLIED, state);
-			if (!state) stateMask |= CreatureState::RALLIED;
+			if (!state)
+				stateMask |= CreatureState::RALLIED;
 			row->getValue(CommandConfigManager::STUNNED, state);
-			if (!state) stateMask |= CreatureState::STUNNED;
+			if (!state)
+				stateMask |= CreatureState::STUNNED;
 			row->getValue(CommandConfigManager::BLINDED, state);
-			if (!state) stateMask |= CreatureState::BLINDED;
+			if (!state)
+				stateMask |= CreatureState::BLINDED;
 			row->getValue(CommandConfigManager::DIZZY, state);
-			if (!state) stateMask |= CreatureState::DIZZY;
+			if (!state)
+				stateMask |= CreatureState::DIZZY;
 			row->getValue(CommandConfigManager::INTIMIDATED, state);
-			if (!state) stateMask |= CreatureState::INTIMIDATED;
+			if (!state)
+				stateMask |= CreatureState::INTIMIDATED;
 			row->getValue(CommandConfigManager::IMMOBILIZED, state);
-			if (!state) stateMask |= CreatureState::IMMOBILIZED;
+			if (!state)
+				stateMask |= CreatureState::IMMOBILIZED;
 			row->getValue(CommandConfigManager::FROZEN, state);
-			if (!state) stateMask |= CreatureState::FROZEN;
+			if (!state)
+				stateMask |= CreatureState::FROZEN;
 			row->getValue(CommandConfigManager::SWIMMING, state);
-			if (!state) stateMask |= CreatureState::SWIMMING;
+			if (!state)
+				stateMask |= CreatureState::SWIMMING;
 			row->getValue(CommandConfigManager::SITTINGONCHAIR, state);
-			if (!state) stateMask |= CreatureState::SITTINGONCHAIR;
+			if (!state)
+				stateMask |= CreatureState::SITTINGONCHAIR;
 			row->getValue(CommandConfigManager::CRAFTING, state);
-			if (!state) stateMask |= CreatureState::CRAFTING;
+			if (!state)
+				stateMask |= CreatureState::CRAFTING;
 			row->getValue(CommandConfigManager::GLOWINGJEDI, state);
-			if (!state) stateMask |= CreatureState::GLOWINGJEDI;
+			if (!state)
+				stateMask |= CreatureState::GLOWINGJEDI;
 			row->getValue(CommandConfigManager::MASKSCENT, state);
-			if (!state) stateMask |= CreatureState::MASKSCENT;
+			if (!state)
+				stateMask |= CreatureState::MASKSCENT;
 			row->getValue(CommandConfigManager::POISONED, state);
-			if (!state) stateMask |= CreatureState::POISONED;
+			if (!state)
+				stateMask |= CreatureState::POISONED;
 			row->getValue(CommandConfigManager::BLEEDING, state);
-			if (!state) stateMask |= CreatureState::BLEEDING;
+			if (!state)
+				stateMask |= CreatureState::BLEEDING;
 			row->getValue(CommandConfigManager::DISEASED, state);
-			if (!state) stateMask |= CreatureState::DISEASED;
+			if (!state)
+				stateMask |= CreatureState::DISEASED;
 			row->getValue(CommandConfigManager::ONFIRE, state);
-			if (!state) stateMask |= CreatureState::ONFIRE;
+			if (!state)
+				stateMask |= CreatureState::ONFIRE;
 			row->getValue(CommandConfigManager::RIDINGMOUNT, state);
-			if (!state) stateMask |= CreatureState::RIDINGMOUNT;
+			if (!state)
+				stateMask |= CreatureState::RIDINGMOUNT;
 			row->getValue(CommandConfigManager::MOUNTEDCREATURE, state);
-			if (!state) stateMask |= CreatureState::MOUNTEDCREATURE;
+			if (!state)
+				stateMask |= CreatureState::MOUNTEDCREATURE;
 			row->getValue(CommandConfigManager::PILOTINGSHIP, state);
-			if (!state) stateMask |= CreatureState::PILOTINGSHIP;
+			if (!state)
+				stateMask |= CreatureState::PILOTINGSHIP;
 			row->getValue(CommandConfigManager::PILOTINGPOBSHIP, state);
-			if (!state) stateMask |= CreatureState::PILOTINGPOBSHIP;
+			if (!state)
+				stateMask |= CreatureState::PILOTINGPOBSHIP;
 			row->getValue(CommandConfigManager::SHIPOPERATIONS, state);
-			if (!state) stateMask |= CreatureState::SHIPOPERATIONS;
+			if (!state)
+				stateMask |= CreatureState::SHIPOPERATIONS;
 			row->getValue(CommandConfigManager::SHIPGUNNER, state);
-			if (!state) stateMask |= CreatureState::SHIPGUNNER;
+			if (!state)
+				stateMask |= CreatureState::SHIPGUNNER;
 			row->getValue(CommandConfigManager::SHIPINTERIOR, state);
-			if (!state) stateMask |= CreatureState::SHIPINTERIOR;
+			if (!state)
+				stateMask |= CreatureState::SHIPINTERIOR;
 
 			slashCommand->setStateMask(stateMask);
 
 			// add prohibited locomotions
 			row->getValue(CommandConfigManager::STANDING, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::STANDING);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::STANDING);
 			row->getValue(CommandConfigManager::SNEAKING, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::SNEAKING);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::SNEAKING);
 			row->getValue(CommandConfigManager::WALKING, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::WALKING);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::WALKING);
 			row->getValue(CommandConfigManager::RUNNING, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::RUNNING);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::RUNNING);
 			row->getValue(CommandConfigManager::KNEELING, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::KNEELING);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::KNEELING);
 			row->getValue(CommandConfigManager::CROUCHSNEAKING, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::CROUCHSNEAKING);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::CROUCHSNEAKING);
 			row->getValue(CommandConfigManager::CROUCHWALKING, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::CROUCHWALKING);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::CROUCHWALKING);
 			row->getValue(CommandConfigManager::PRONE, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::PRONE);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::PRONE);
 			row->getValue(CommandConfigManager::CRAWLING, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::CRAWLING);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::CRAWLING);
 			row->getValue(CommandConfigManager::CLIMBINGSTATIONARY, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::CLIMBINGSTATIONARY);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::CLIMBINGSTATIONARY);
 			row->getValue(CommandConfigManager::CLIMBING, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::CLIMBING);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::CLIMBING);
 			row->getValue(CommandConfigManager::HOVERING, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::HOVERING);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::HOVERING);
 			row->getValue(CommandConfigManager::FLYING, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::FLYING);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::FLYING);
 			row->getValue(CommandConfigManager::LYINGDOWN, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::LYINGDOWN);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::LYINGDOWN);
 			row->getValue(CommandConfigManager::SITTING, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::SITTING);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::SITTING);
 			row->getValue(CommandConfigManager::SKILLANIMATING, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::SKILLANIMATING);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::SKILLANIMATING);
 			row->getValue(CommandConfigManager::DRIVINGVEHICLE, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::DRIVINGVEHICLE);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::DRIVINGVEHICLE);
 			row->getValue(CommandConfigManager::RIDINGCREATURE, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::RIDINGCREATURE);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::RIDINGCREATURE);
 			row->getValue(CommandConfigManager::KNOCKEDDOWN, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::KNOCKEDDOWN);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::KNOCKEDDOWN);
 			row->getValue(CommandConfigManager::INCAPACITATED, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::INCAPACITATED);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::INCAPACITATED);
 			row->getValue(CommandConfigManager::DEAD, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::DEAD);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::DEAD);
 			row->getValue(CommandConfigManager::BLOCKING, position);
-			if (!position) slashCommand->addInvalidLocomotion(CreatureLocomotion::BLOCKING);
+			if (!position)
+				slashCommand->addInvalidLocomotion(CreatureLocomotion::BLOCKING);
 
 			uint32 group;
 			row->getValue(CommandConfigManager::COMMANDGROUP, group);
@@ -347,7 +402,7 @@ void CommandConfigManager::registerSpecialCommands(CommandList* sCommands) {
 	createCommand(String("creatureRangedAttack").toLowerCase())->setCommandGroup(0xe1c9a54a);
 	createCommand(String("defaultDroidAttack").toLowerCase())->setCommandGroup(0xe1c9a54a);
 
-	//Pet commands
+	// Pet commands
 	createCommand(String("petAttack").toLowerCase())->setCommandGroup(0xe1c9a54a);
 	createCommand(String("petEmote").toLowerCase())->setCommandGroup(0xe1c9a54a);
 	createCommand(String("petFeed").toLowerCase())->setCommandGroup(0xe1c9a54a);
@@ -374,14 +429,14 @@ void CommandConfigManager::registerSpecialCommands(CommandList* sCommands) {
 }
 
 void CommandConfigManager::registerFunctions() {
-	//lua generic
+	// lua generic
 	registerFunction("RunSlashCommandsFile", runSlashCommandsFile);
 	registerFunction("AddCommand", addCommand);
 	registerFunction("hashCode", hashCode);
 }
 
 void CommandConfigManager::registerGlobals() {
-	//states
+	// states
 	setGlobalLong("INVALID_STATE", CreatureState::INVALID);
 	setGlobalLong("COVER_STATE", CreatureState::COVER);
 	setGlobalLong("COMBAT_STATE", CreatureState::COMBAT);
@@ -525,7 +580,7 @@ void CommandConfigManager::registerGlobals() {
 	setGlobalInt("FORCE_HEAL_TARGET_SELF", ForceHealQueueCommand::TARGET_SELF);
 	setGlobalInt("FORCE_HEAL_TARGET_OTHER", ForceHealQueueCommand::TARGET_OTHER);
 
-	//animation generation types
+	// animation generation types
 	setGlobalInt("GENERATE_NONE", CombatQueueCommand::GENERATE_NONE);
 	setGlobalInt("GENERATE_RANGED", CombatQueueCommand::GENERATE_RANGED);
 	setGlobalInt("GENERATE_INTENSITY", CombatQueueCommand::GENERATE_INTENSITY);
@@ -544,7 +599,7 @@ int CommandConfigManager::runSlashCommandsFile(lua_State* L) {
 	return 0;
 }
 
-void CommandConfigManager::parseOptions(LuaObject &slashcommand, QueueCommand* command) {
+void CommandConfigManager::parseOptions(LuaObject& slashcommand, QueueCommand* command) {
 	lua_State* L = slashcommand.getLuaState();
 
 	if (!slashcommand.isValidTable())
@@ -561,7 +616,7 @@ void CommandConfigManager::parseOptions(LuaObject &slashcommand, QueueCommand* c
 	}
 }
 
-void CommandConfigManager::parseVariableData(String varName, LuaObject &command, QueueCommand* slashCommand) {
+void CommandConfigManager::parseVariableData(String varName, LuaObject& command, QueueCommand* slashCommand) {
 	lua_State* L = command.getLuaState();
 
 	// overwrite data from command_table
@@ -695,7 +750,7 @@ void CommandConfigManager::parseVariableData(String varName, LuaObject &command,
 				lua_rawgeti(L, -1, i);
 				LuaObject dot(L);
 				combatCommand->addDotEffect(DotEffect(dot));
-				//System::out << "count " << combatCommand->getDotEffects()->size()<< endl;
+				// System::out << "count " << combatCommand->getDotEffects()->size()<< endl;
 				dot.pop();
 			}
 
@@ -716,9 +771,9 @@ void CommandConfigManager::parseVariableData(String varName, LuaObject &command,
 		JediQueueCommand* jediCommand = cast<JediQueueCommand*>(slashCommand);
 		if (varName == "forceCost")
 			jediCommand->setForceCost(Lua::getIntParameter(L));
-		else if(varName == "buffClass")
+		else if (varName == "buffClass")
 			jediCommand->setBuffClass(Lua::getIntParameter(L));
-		else if(varName == "visMod")
+		else if (varName == "visMod")
 			jediCommand->setVisMod(Lua::getIntParameter(L));
 		else if (varName == "duration")
 			jediCommand->setDuration(Lua::getIntParameter(L));
@@ -839,7 +894,7 @@ void CommandConfigManager::registerCommands() {
 	registerCommands3();
 	registerCommands4();
 
-	//pet commands
+	// pet commands
 	commandFactory.registerCommand<PetAttackCommand>(String("petAttack").toLowerCase());
 	commandFactory.registerCommand<PetEmoteCommand>(String("petEmote").toLowerCase());
 	commandFactory.registerCommand<PetFeedCommand>(String("petFeed").toLowerCase());

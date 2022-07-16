@@ -19,7 +19,7 @@ protected:
 public:
 	GalaxyAccountInfo();
 
-	void updateVetRewardsFromPlayer(const VectorMap<uint32, String> &newRewards);
+	void updateVetRewardsFromPlayer(const VectorMap<uint32, String>& newRewards);
 
 	String getChosenVeteranReward(uint32 milestone) const;
 

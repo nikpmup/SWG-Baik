@@ -12,14 +12,10 @@
 
 class SetFactionCommand : public QueueCommand {
 public:
-
-	SetFactionCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetFactionCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -36,19 +32,19 @@ public:
 		if (obj == nullptr || !obj->isTangibleObject())
 			return INVALIDTARGET;
 
-		TangibleObject* tano = cast<TangibleObject*>( obj.get());
+		TangibleObject* tano = cast<TangibleObject*>(obj.get());
 
 		uint32 pvpStatus = tano->getPvpStatusBitmask();
 		uint32 optionsBitmask = tano->getOptionsBitmask();
 		uint32 intFaction = tano->getFaction();
 
-		ManagedReference<CreatureObject*> pobj = cast<CreatureObject*>( obj.get());
+		ManagedReference<CreatureObject*> pobj = cast<CreatureObject*>(obj.get());
 		ManagedReference<PlayerObject*> targetPlayerObject = nullptr;
 
 		if (pobj != nullptr)
 			targetPlayerObject = pobj->getPlayerObject();
 
-		//First, check if they passed a name with the command.
+		// First, check if they passed a name with the command.
 		UnicodeTokenizer tokenizer(arguments);
 		tokenizer.setDelimeter(" ");
 
@@ -57,7 +53,7 @@ public:
 			StringBuffer msg;
 			msg << "PvPStatusbitmask = " << String::valueOf(pvpStatus) << endl;
 			msg << "Optionsbitmask = " << String::valueOf(optionsBitmask) << endl;
-			msg <<  "Faction = " << String::valueOf(intFaction) << endl;
+			msg << "Faction = " << String::valueOf(intFaction) << endl;
 			msg << "Faction Status: " << String::valueOf(tano->getFactionStatus());
 
 			creature->sendSystemMessage(msg.toString());
@@ -72,7 +68,7 @@ public:
 			return INVALIDPARAMETERS;
 		}
 
-		Locker _lock(tano,creature);
+		Locker _lock(tano, creature);
 
 		if (faction == "neutral") {
 			tano->setFaction(0);
@@ -87,20 +83,20 @@ public:
 		}
 
 		if (tokenizer.hasMoreTokens()) {
-			//The next argument should be whether they are overt, onleave, or covert
+			// The next argument should be whether they are overt, onleave, or covert
 			String status;
 			tokenizer.getStringToken(status);
 
 			if (targetPlayerObject != nullptr) {
-				if ( status == "overt") {
+				if (status == "overt") {
 					tano->setFactionStatus(FactionStatus::OVERT);
-				} else  if (status == "covert"){
+				} else if (status == "covert") {
 					tano->setFactionStatus(FactionStatus::COVERT);
 				} else if (status == "onleave") {
 					tano->setFactionStatus(FactionStatus::ONLEAVE);
 				}
 
-			}  else {
+			} else {
 				if (status == "overt")
 					pvpStatus |= CreatureFlag::OVERT;
 
@@ -139,4 +135,4 @@ public:
 	}
 };
 
-#endif //SETFACTIONCOMMAND_H_
+#endif // SETFACTIONCOMMAND_H_

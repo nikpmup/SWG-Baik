@@ -11,20 +11,17 @@
 #include "engine/engine.h"
 #include "server/zone/objects/tangible/Container.h"
 
-class RelockLootContainerEvent: public Task {
+class RelockLootContainerEvent : public Task {
 	ManagedReference<Container*> container;
 
 public:
 	RelockLootContainerEvent(Container* object) {
-		
 		container = object;
 		container->setRelockingStatus(true);
-		
 	}
 
 	void run() {
-
-        Locker locker(container);
+		Locker locker(container);
 
 		container->setSliced(false);
 		container->setRelockingStatus(false);
@@ -32,15 +29,11 @@ public:
 		if ((System::random(100)) < container->getLockChance()) {
 			container->setSliceable(true);
 			container->setLockedStatus(true);
-		}
-		else
-		{
+		} else {
 			container->setLockedStatus(false);
 			container->setSliceable(false);
 		}
-
 	}
-
 };
 
 #endif /* RELOCKLOOTCONTAINEREVENT_H_ */

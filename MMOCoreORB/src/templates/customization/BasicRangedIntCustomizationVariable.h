@@ -11,7 +11,6 @@
 #include "templates/params/RangedIntCustomizationVariable.h"
 
 class BasicRangedIntCustomizationVariable : public RangedIntCustomizationVariable {
-
 public:
 	BasicRangedIntCustomizationVariable(int min, int max, int def) {
 		minValueInclusive = min;
@@ -19,7 +18,7 @@ public:
 		defaultValue = def;
 	}
 
-	BasicRangedIntCustomizationVariable(const BasicRangedIntCustomizationVariable& m) : RangedIntCustomizationVariable(m){
+	BasicRangedIntCustomizationVariable(const BasicRangedIntCustomizationVariable& m) : RangedIntCustomizationVariable(m) {
 	}
 
 	inline int getMinValueInclusive() {
@@ -34,6 +33,5 @@ public:
 		return defaultValue;
 	}
 };
-
 
 #endif /* BASICRANGEDINTCUSTOMIZATIONVARIABLE_H_ */

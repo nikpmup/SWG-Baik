@@ -9,16 +9,15 @@
 #include "engine/engine.h"
 
 class SampleDnaTask : public Task {
-
 private:
-	enum Phase { BEGIN, SAMPLING, END} currentPhase;
+	enum Phase { BEGIN, SAMPLING, END } currentPhase;
 	int waitCount;
 	int originalMask;
 	int faction;
 	ManagedReference<Creature*> creature;
 	ManagedReference<CreatureObject*> player;
-public:
 
+public:
 	SampleDnaTask(Creature* cre, CreatureObject* playo) : Task() {
 		currentPhase = BEGIN;
 		waitCount = 0;
@@ -29,17 +28,17 @@ public:
 	}
 	void resetCreatureStatus() {
 		creature->setFaction(faction);
-		creature->setPvpStatusBitmask(originalMask,true);
+		creature->setPvpStatusBitmask(originalMask, true);
 	}
 	void prepareCreatureForSampling() {
 		creature->setFaction(player->getFaction());
-		creature->setPvpStatusBitmask(CreatureFlag::NONE,true);
+		creature->setPvpStatusBitmask(CreatureFlag::NONE, true);
 	}
 	void run() {
 		Locker locker(creature);
-		Locker crosslocker(player,creature);
+		Locker crosslocker(player, creature);
 		player->removePendingTask("sampledna");
-		if (!creature->isInRange(player, 16.f) ) {
+		if (!creature->isInRange(player, 16.f)) {
 			player->sendSystemMessage("@bio_engineer:harvest_dna_out_of_range");
 			resetCreatureStatus();
 			return;
@@ -54,7 +53,7 @@ public:
 			resetCreatureStatus();
 			return;
 		}
-		if (!creature->hasDNA()){
+		if (!creature->hasDNA()) {
 			player->sendSystemMessage("@bio_engineer:harvest_dna_cant_harvest");
 			resetCreatureStatus();
 			return;
@@ -62,7 +61,7 @@ public:
 		int mindCost = player->calculateCostAdjustment(CreatureAttribute::FOCUS, 200);
 		int skillMod = player->getSkillMod("dna_harvesting");
 		int cl = creature->getLevel();
-		switch(currentPhase) {
+		switch (currentPhase) {
 		case BEGIN:
 			// We should be good to go now and try the sample
 			if (player->getHAM(CreatureAttribute::MIND) < mindCost) {
@@ -75,17 +74,17 @@ public:
 				// We grab the original mask and faction in ctor
 				// Turn off attackable flag while sampling (publish 3)
 				// now rescheudle ourselves
-				player->addPendingTask("sampledna",this,1000);
+				player->addPendingTask("sampledna", this, 1000);
 				player->doAnimation("heal_other");
 			}
 			break;
 		case SAMPLING:
 			if (waitCount == 9) {
 				currentPhase = END;
-			}else {
+			} else {
 				waitCount++;
 			}
-			player->addPendingTask("sampledna",this,1000);
+			player->addPendingTask("sampledna", this, 1000);
 			break;
 		case END:
 			// Re-Enable Mask and faction
@@ -113,12 +112,12 @@ public:
 			// need to revist master against CL70 i.e. ((100-70)/70) + (100-70) = 0 + (30) = 30/2 = ( roll mod is 15)
 			// need to revist master against CL2 i.e. ((100-2)/2) + (100-2) = 49 + (98) = 147/2 = ( roll mod is 73)
 			// so with no luck you need 95 or better roll for amazing
-			float rollMod = (((skillMod-cl)/cl))  + (skillMod-cl);
+			float rollMod = (((skillMod - cl) / cl)) + (skillMod - cl);
 			rollMod /= 2;
 			// We have the players roll. NOW to determine if success of failure;
 			if (sampleRoll > 75) { // adjust great success ot 75% and above
-				int maxSamples = (int) ceil((float) skillMod / 25.f);
-				if (creature->getDnaSampleCount() > maxSamples ){
+				int maxSamples = (int)ceil((float)skillMod / 25.f);
+				if (creature->getDnaSampleCount() > maxSamples) {
 					creature->setDnaState(CreatureManager::DNASAMPLED);
 					// We took the max samples the shock it too much and kils the creature.
 					result = 4;
@@ -126,15 +125,14 @@ public:
 					// did we aggro?
 					result = 5;
 				}
-			}
-			else if (sampleRoll < 5) {
+			} else if (sampleRoll < 5) {
 				// Critical failure, this can always occur
 				result = 1;
-			} else if ( (35 + rollMod) < sampleRoll) { // failure your roll < 50%
+			} else if ((35 + rollMod) < sampleRoll) { // failure your roll < 50%
 				result = 2;
 			} else { // success
 				int maxSamples = (int)(ceil((double)skillMod / (double)25));
-				if (creature->getDnaSampleCount() > maxSamples ){
+				if (creature->getDnaSampleCount() > maxSamples) {
 					creature->setDnaState(CreatureManager::DNASAMPLED);
 					// We took the max samples the shock it too much and kils the creature.
 					result = 4;
@@ -142,46 +140,46 @@ public:
 					// did we aggro?
 					int aggroChance = System::random(100);
 					int aggroMod = (creature->getDnaSampleCount() * 5);
-					if ( (aggroChance+aggroMod) > (sampleRoll+rollMod) || aggroChance <= 5)  // aggro
+					if ((aggroChance + aggroMod) > (sampleRoll + rollMod) || aggroChance <= 5) // aggro
 						result = 3;
 					else { // it didnt care and we didnt kill it
 						result = 5;
 					}
 				}
 			}
-			switch(result) {
-				case 1:
-					success = false;
-					aggro = true;
-					break;
-				case 2:
-					success = false;
-					break;
-				case 3:
-					success = true;
-					aggro = true;
-					break;
-				case 4:
-					success = true;
-					death = true;
-					break;
-				case 5:
-					success = true;
-					break;
-				default:
-					break;
+			switch (result) {
+			case 1:
+				success = false;
+				aggro = true;
+				break;
+			case 2:
+				success = false;
+				break;
+			case 3:
+				success = true;
+				aggro = true;
+				break;
+			case 4:
+				success = true;
+				death = true;
+				break;
+			case 5:
+				success = true;
+				break;
+			default:
+				break;
 			}
 			if (success && cl <= 75) {
 				player->sendSystemMessage("@bio_engineer:harvest_dna_succeed");
 				creature->incDnaSampleCount();
-				award(cl,rollMod,skillMod);
+				award(cl, rollMod, skillMod);
 				if (creature->getDnaSampleCount() > 5) {
 					creature->setDnaState(CreatureManager::DNASAMPLED);
 				}
 				if (death) {
 					killCreature();
 				} else if (aggro) {
-					CombatManager::instance()->startCombat(creature,player,true);
+					CombatManager::instance()->startCombat(creature, player, true);
 					if (player->hasState(CreatureState::MASKSCENT)) {
 						player->removeBuff(STRING_HASHCODE("skill_buff_mask_scent_self")) || player->removeBuff(STRING_HASHCODE("skill_buff_mask_scent"));
 						player->sendSystemMessage("@skl_use:sys_scentmask_break"); // "A creature has detected you, despite your attempts at camouflage!"
@@ -190,7 +188,7 @@ public:
 			} else {
 				player->sendSystemMessage("@bio_engineer:harvest_dna_failed");
 				if (aggro) {
-					CombatManager::instance()->startCombat(creature,player,true);
+					CombatManager::instance()->startCombat(creature, player, true);
 					if (player->hasState(CreatureState::MASKSCENT)) {
 						player->removeBuff(STRING_HASHCODE("skill_buff_mask_scent_self")) || player->removeBuff(STRING_HASHCODE("skill_buff_mask_scent"));
 						player->sendSystemMessage("@skl_use:sys_scentmask_break"); // "A creature has detected you, despite your attempts at camouflage!"
@@ -215,7 +213,7 @@ public:
 	void award(int cl, float rollMod, int skillMod) {
 		int xp = DnaManager::instance()->generateXp(cl);
 		ManagedReference<PlayerManager*> playerManager = player->getZoneServer()->getPlayerManager();
-		if(playerManager != nullptr)
+		if (playerManager != nullptr)
 			playerManager->awardExperience(player, "bio_engineer_dna_harvesting", xp, true);
 		int quality = 0;
 		// generate quality based on skill
@@ -227,36 +225,43 @@ public:
 		int mid = 6;
 		int high = 5;
 		if (skillMod <= 15) {
-			low = 7;mid=6;high=5;
+			low = 7;
+			mid = 6;
+			high = 5;
+		} else if (skillMod <= 30) {
+			low = 7;
+			mid = 6;
+			high = 5;
+		} else if (skillMod <= 45) {
+			low = 6;
+			mid = 5;
+			high = 4;
+		} else if (skillMod <= 60) {
+			low = 5;
+			mid = 4;
+			high = 3;
+		} else if (skillMod <= 75) {
+			low = 4;
+			mid = 3;
+			high = 2;
+		} else {
+			low = 3;
+			mid = 2;
+			high = 1;
 		}
-		else if (skillMod <= 30 ) {
-			low = 7; mid = 6; high = 5;
-		}
-		else if (skillMod <= 45) {
-			low = 6; mid = 5; high = 4;
-		}
-		else if (skillMod <= 60) {
-			low = 5; mid = 4; high = 3;
-		}
-		else if (skillMod <= 75) {
-			low = 4; mid = 3; high = 2;
-		}
-		else {
-			low = 3; mid = 2; high = 1;
-		}
-		//15 	VLQ, LQ, BAQ
-		//30 	VLQ, LQ, BAQ
-		//45 	LQ, BAQ, AQ
-		//60 	BAQ, AQ,AAQ
-		//75 	AQ,AAQ,HQ
-		//100 	AAQ,HQ, VHQ
+		// 15 	VLQ, LQ, BAQ
+		// 30 	VLQ, LQ, BAQ
+		// 45 	LQ, BAQ, AQ
+		// 60 	BAQ, AQ,AAQ
+		// 75 	AQ,AAQ,HQ
+		// 100 	AAQ,HQ, VHQ
 		if (qualityRoll < 33)
 			quality = low;
 		else if (qualityRoll < 66)
 			quality = mid;
 		else
 			quality = high;
-		DnaManager::instance()->generateSample(creature,player,quality);
+		DnaManager::instance()->generateSample(creature, player, quality);
 	}
 };
-#endif //SAMPLEDNATASK_H_
+#endif // SAMPLEDNATASK_H_

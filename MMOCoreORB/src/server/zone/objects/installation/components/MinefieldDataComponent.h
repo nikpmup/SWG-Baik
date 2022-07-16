@@ -21,6 +21,7 @@ protected:
 	SharedInstallationObjectTemplate* templateData;
 	int maxRange;
 	SynchronizedSortedVector<uint64> notifiedPlayers;
+
 public:
 	MinefieldDataComponent() {
 		attackSpeed = 5;
@@ -30,9 +31,7 @@ public:
 		addSerializableVariables();
 	}
 
-
-	~MinefieldDataComponent(){
-
+	~MinefieldDataComponent() {
 	}
 
 	void writeJSON(nlohmann::json& j) const {
@@ -41,58 +40,58 @@ public:
 		SERIALIZE_JSON_MEMBER(mines);
 	}
 
-	void initializeTransientMembers(){
-		//Logger::Logger tlog("minefieldata");
-		//tlog.info("initializing minefield transients",true);
-		if(getParent() != nullptr){
+	void initializeTransientMembers() {
+		// Logger::Logger tlog("minefieldata");
+		// tlog.info("initializing minefield transients",true);
+		if (getParent() != nullptr) {
 			templateData = dynamic_cast<SharedInstallationObjectTemplate*>(getParent()->getObjectTemplate());
 			attackSpeed = 5;
 		}
 	}
 
-	bool isMinefieldData(){
+	bool isMinefieldData() {
 		return true;
 	}
 
-	bool canExplode(){
+	bool canExplode() {
 		return (time(0) > nextExplodeTime);
 	}
 
-	int getCapacity(){
+	int getCapacity() {
 		return CAPACITY;
 	}
 
-	void updateCooldown(int cooldown){
-		//Logger::Logger tlog("minefieldata");
-		//tlog.info("updating cooldown on minefield to " + String::valueOf(cooldown),true);
+	void updateCooldown(int cooldown) {
+		// Logger::Logger tlog("minefieldata");
+		// tlog.info("updating cooldown on minefield to " + String::valueOf(cooldown),true);
 		nextExplodeTime = time(0) + cooldown;
 	}
 
-	void addMine(WeaponObject* weapon){
+	void addMine(WeaponObject* weapon) {
 		mines.add(weapon);
 	}
 
-	WeaponObject* getMine(int indx){
+	WeaponObject* getMine(int indx) {
 		return mines.get(indx);
 	}
 
-	WeaponObject* removeMine(int indx){
+	WeaponObject* removeMine(int indx) {
 		return mines.remove(indx);
 	}
 
-	int getMineCapacity(){
+	int getMineCapacity() {
 		return CAPACITY;
 	}
 
-	int getMineCount(){
+	int getMineCount() {
 		return mines.size();
 	}
 
-	void setMaxRange(int val){
+	void setMaxRange(int val) {
 		maxRange = val;
 	}
 
-	int getMaxRange(){
+	int getMaxRange() {
 		return maxRange;
 	}
 
@@ -108,18 +107,10 @@ public:
 		notifiedPlayers.drop(oid);
 	}
 
-
-
 private:
-	void addSerializableVariables(){
-		addSerializableVariable("mines",&mines);
+	void addSerializableVariables() {
+		addSerializableVariable("mines", &mines);
 	}
-
-
-
 };
-
-
-
 
 #endif /* MINEFIELDDATACOMPONENT_H_ */

@@ -8,7 +8,7 @@
 #include "MeshAppearanceTemplate.h"
 
 void MeshAppearanceTemplate::parse(IffStream* iffStream) {
-	//file = iffStream->getFileName();
+	// file = iffStream->getFileName();
 
 	iffStream->openForm('MESH');
 
@@ -53,14 +53,14 @@ void MeshAppearanceTemplate::createAABB() {
 		}
 	}
 
-	//meshes.removeAll();
+	// meshes.removeAll();
 
-	//Logger::console.info("creating mesh aabb for triangles " + String::valueOf(triangles.size()), true);
+	// Logger::console.info("creating mesh aabb for triangles " + String::valueOf(triangles.size()), true);
 
 	AABBTreeHeuristic heurData;
-	heurData.maxdepth = 4; // maximum depth
-	heurData.mintricnt = 5; // minimum triangle count
-	heurData.tartricnt = 10; // target triangle count
+	heurData.maxdepth = 4;	  // maximum depth
+	heurData.mintricnt = 5;	  // minimum triangle count
+	heurData.tartricnt = 10;  // target triangle count
 	heurData.minerror = 0.5f; // minimum error required
 	heurData.storePrimitives = true;
 
@@ -84,7 +84,7 @@ bool MeshAppearanceTemplate::testCollide(float x, float z, float y, float radius
 
 	Sphere sphere(point, radius);
 
-	//Logger::console.info("checking collide in mesh", true);
+	// Logger::console.info("checking collide in mesh", true);
 
 	return aabbTree->testCollide(sphere);
 }
@@ -110,7 +110,8 @@ void MeshAppearanceTemplate::parseSPS(IffStream* iffStream) {
 }
 
 void MeshAppearanceTemplate::parseVertexData(IffStream* iffStream, int idx) {
-	int formVersion = 0;'0000';// + idx;
+	int formVersion = 0;
+	'0000'; // + idx;
 
 	String idxText = String::valueOf(idx);
 	int lengthOfText = idxText.length();

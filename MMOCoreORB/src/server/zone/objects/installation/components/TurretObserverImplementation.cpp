@@ -8,9 +8,7 @@
 #include "server/zone/managers/gcw/tasks/DestroyFactionInstallationTask.h"
 #include "server/zone/objects/installation/InstallationObject.h"
 
-
 int TurretObserverImplementation::notifyObserverEvent(uint32 eventType, Observable* observable, ManagedObject* arg1, int64 arg2) {
-
 	if (eventType == ObserverEventType::OBJECTDESTRUCTION) {
 		ManagedReference<InstallationObject*> installation = cast<InstallationObject*>(observable);
 
@@ -24,9 +22,3 @@ int TurretObserverImplementation::notifyObserverEvent(uint32 eventType, Observab
 
 	return 0;
 }
-
-
-
-
-
-

@@ -8,12 +8,10 @@
 #ifndef MISSIONACCEPTCALLBACK_H_
 #define MISSIONACCEPTCALLBACK_H_
 
-
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "ObjectControllerMessageCallback.h"
 #include "server/zone/managers/mission/MissionManager.h"
 #include "server/zone/objects/mission/MissionObject.h"
-
 
 class MissionAcceptCallback : public MessageCallback {
 	uint64 missionObjectID;
@@ -21,15 +19,13 @@ class MissionAcceptCallback : public MessageCallback {
 	uint8 terminalIndex;
 
 	ObjectControllerMessageCallback* objectControllerMain;
-public:
-	MissionAcceptCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-		missionObjectID(0), terminalObjectID(0), terminalIndex(0), objectControllerMain(objectControllerCallback) {
 
+public:
+	MissionAcceptCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), missionObjectID(0), terminalObjectID(0), terminalIndex(0), objectControllerMain(objectControllerCallback) {
 	}
 
 	void parse(Message* message) {
-		//System::out << message->toStringData() << endl;
+		// System::out << message->toStringData() << endl;
 		message->parseInt();
 		missionObjectID = message->parseLong();
 		terminalObjectID = message->parseLong();
@@ -61,12 +57,12 @@ public:
 		if (!mission->isMissionObject())
 			return;
 
-		MissionObject* missionObject = cast<MissionObject*>( mission.get());
+		MissionObject* missionObject = cast<MissionObject*>(mission.get());
 
 		if (missionObject == nullptr)
 			return;
 
-		MissionTerminal* missionTerminal = cast<MissionTerminal*>( terminal.get());
+		MissionTerminal* missionTerminal = cast<MissionTerminal*>(terminal.get());
 
 		if (missionTerminal == nullptr)
 			return;

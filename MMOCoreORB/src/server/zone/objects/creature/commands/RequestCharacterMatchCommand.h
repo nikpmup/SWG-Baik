@@ -11,14 +11,10 @@
 
 class RequestCharacterMatchCommand : public QueueCommand {
 public:
-
-	RequestCharacterMatchCommand(const String& name, ZoneProcessServer* server)
-: QueueCommand(name, server) {
-
+	RequestCharacterMatchCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -42,7 +38,7 @@ public:
 
 		if (zone != nullptr) {
 			SortedVector<QuadTreeEntry*> closeObjects;
-			CloseObjectsVector* actualCloseObjects = (CloseObjectsVector*) creature->getCloseObjects();
+			CloseObjectsVector* actualCloseObjects = (CloseObjectsVector*)creature->getCloseObjects();
 
 			if (actualCloseObjects != nullptr) {
 				actualCloseObjects->safeCopyReceiversTo(closeObjects, CloseObjectsVector::CREOTYPE);
@@ -110,7 +106,7 @@ public:
 
 						// Handles both title and profession search (arguments give no way to differentiate between profession and title search)
 						// _novice check handles if player is searching for profession but no title
-						if (profession != "\"\"" && !playerCreature->hasSkill(profession) && ghost->getTitle() != profession && !playerCreature->hasSkill(profession + "_novice") )
+						if (profession != "\"\"" && !playerCreature->hasSkill(profession) && ghost->getTitle() != profession && !playerCreature->hasSkill(profession + "_novice"))
 							continue;
 
 						pny->addFoundPlayer(playerCreature);
@@ -135,7 +131,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REQUESTCHARACTERMATCHCOMMAND_H_
+#endif // REQUESTCHARACTERMATCHCOMMAND_H_

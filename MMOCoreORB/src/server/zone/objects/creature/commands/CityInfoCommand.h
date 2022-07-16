@@ -7,9 +7,7 @@
 
 class CityInfoCommand : public QueueCommand {
 public:
-	CityInfoCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CityInfoCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -26,7 +24,7 @@ public:
 		StringTokenizer args(arguments.toString());
 		String planet;
 
-		if(args.hasMoreTokens()) {
+		if (args.hasMoreTokens()) {
 			args.getStringToken(planet);
 		} else {
 			sendSyntax(creature);
@@ -35,19 +33,18 @@ public:
 
 		if (args.hasMoreTokens()) {
 			rank = args.getIntToken();
-			if(rank < 1 || rank > 5) {
+			if (rank < 1 || rank > 5) {
 				creature->sendSystemMessage("Rank, if specified, must be between 1 and 5.");
 				return INVALIDPARAMETERS;
 			}
-
 		}
 
-		if(creature->getZoneServer() == nullptr)
+		if (creature->getZoneServer() == nullptr)
 			return GENERALERROR;
 
 		CityManager* cityManager = creature->getZoneServer()->getCityManager();
 
-		if(cityManager == nullptr)
+		if (cityManager == nullptr)
 			return GENERALERROR;
 
 		cityManager->sendCityReport(creature, planet, rank);
@@ -60,4 +57,4 @@ public:
 	}
 };
 
-#endif //CITYINFOCOMMAND_H_
+#endif // CITYINFOCOMMAND_H_

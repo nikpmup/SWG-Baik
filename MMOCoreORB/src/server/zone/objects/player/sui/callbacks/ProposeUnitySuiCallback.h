@@ -11,27 +11,22 @@
 #include "server/zone/objects/player/sui/SuiCallback.h"
 
 class ProposeUnitySuiCallback : public SuiCallback {
-
 public:
-
-	ProposeUnitySuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	ProposeUnitySuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* creature, SuiBox* sui, uint32 eventIndex, Vector<UnicodeString>* args) {
 		bool cancelPressed = (eventIndex == 1);
 
 		PlayerManager* playerManager = creature->getZoneServer()->getPlayerManager();
-		if( playerManager == nullptr )
+		if (playerManager == nullptr)
 			return;
 
-		if( cancelPressed ){
-			playerManager->denyUnity( creature );
+		if (cancelPressed) {
+			playerManager->denyUnity(creature);
+		} else {
+			playerManager->acceptUnity(creature);
 		}
-		else{
-			playerManager->acceptUnity( creature );
-		}
-
 	}
 };
 

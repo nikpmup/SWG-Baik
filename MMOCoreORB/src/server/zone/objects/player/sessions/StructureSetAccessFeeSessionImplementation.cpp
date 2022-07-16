@@ -88,7 +88,7 @@ void StructureSetAccessFeeSessionImplementation::promptSetAccessFee() {
 	if (feeAmountBox == nullptr) {
 		feeAmountBox = new SuiInputBox(player, SuiWindowType::STRUCTURE_SET_ACCESS_FEE);
 		feeAmountBox->setCallback(new StructureSetAccessFeeSuiCallback(player->getZoneServer()));
-		feeAmountBox->setPromptTitle("@player_structure:access_fee_t"); //Access Fee
+		feeAmountBox->setPromptTitle("@player_structure:access_fee_t"); // Access Fee
 		feeAmountBox->setUsingObject(structure);
 		feeAmountBox->setMaxInputSize(4);
 		feeAmountBox->setPromptText("@player_structure:access_fee"); // How much would you like to charge people to enter the building
@@ -128,7 +128,7 @@ void StructureSetAccessFeeSessionImplementation::promptSetAccessDuration() {
 	if (durationBox == nullptr) {
 		durationBox = new SuiInputBox(player, SuiWindowType::STRUCTURE_SET_ACCESS_DURATION);
 		durationBox->setCallback(new StructureSetAccessDurationSuiCallback(player->getZoneServer()));
-		durationBox->setPromptTitle("@player_structure:access_time_t"); //Access Fee
+		durationBox->setPromptTitle("@player_structure:access_time_t"); // Access Fee
 		durationBox->setUsingObject(structure);
 		durationBox->setMaxInputSize(3);
 		durationBox->setPromptText("@player_structure:access_time"); // How much would you like to charge people to enter the building

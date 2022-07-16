@@ -14,7 +14,6 @@ namespace creature {
 namespace events {
 
 class DroidPowerTask : public Task {
-
 	ManagedWeakReference<DroidObject*> droid;
 
 public:
@@ -25,7 +24,7 @@ public:
 	void run() {
 		ManagedReference<DroidObject*> strongDroid = droid.get();
 
-		if( strongDroid == nullptr )
+		if (strongDroid == nullptr)
 			return;
 
 		Locker locker(strongDroid);
@@ -33,16 +32,16 @@ public:
 		strongDroid->removePendingTask("droid_power");
 
 		// Check if droid is spawned
-		if( strongDroid->getLocalZone() == nullptr ){  // Not outdoors
+		if (strongDroid->getLocalZone() == nullptr) { // Not outdoors
 
 			ManagedReference<SceneObject*> parent = strongDroid->getParent().get();
-			if( parent == nullptr || !parent.get()->isCellObject() ){ // Not indoors either
+			if (parent == nullptr || !parent.get()->isCellObject()) { // Not indoors either
 				return;
 			}
 		}
 
 		// Consume power if available
-		if ( strongDroid->hasPower() ) {
+		if (strongDroid->hasPower()) {
 			strongDroid->usePower(4);
 			strongDroid->runModulePowerDrain();
 		}
@@ -51,11 +50,11 @@ public:
 	}
 };
 
-} // events
-} // creature
-} // objects
-} // zone
-} // server
+} // namespace events
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::events;
 

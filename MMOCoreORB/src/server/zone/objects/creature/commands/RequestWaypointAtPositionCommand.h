@@ -7,14 +7,10 @@
 
 class RequestWaypointAtPositionCommand : public QueueCommand {
 public:
-
-	RequestWaypointAtPositionCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RequestWaypointAtPositionCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -45,9 +41,9 @@ public:
 			y = (y < -8192) ? -8192 : y;
 			y = (y > 8192) ? 8192 : y;
 
-			Reference<PlayerObject*> playerObject = creature->getSlottedObject("ghost").castTo<PlayerObject*>( );
+			Reference<PlayerObject*> playerObject = creature->getSlottedObject("ghost").castTo<PlayerObject*>();
 
-			ManagedReference<WaypointObject*> obj = ( server->getZoneServer()->createObject(0xc456e788, 1)).castTo<WaypointObject*>();
+			ManagedReference<WaypointObject*> obj = (server->getZoneServer()->createObject(0xc456e788, 1)).castTo<WaypointObject*>();
 
 			Locker locker(obj);
 
@@ -59,12 +55,10 @@ public:
 			playerObject->addWaypoint(obj, false, true); // Should second argument be true, and waypoints with the same name thus remove their old version?
 
 		} catch (Exception& e) {
-
 		}
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REQUESTWAYPOINTATPOSITIONCOMMAND_H_
+#endif // REQUESTWAYPOINTATPOSITIONCOMMAND_H_

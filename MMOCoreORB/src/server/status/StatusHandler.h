@@ -10,9 +10,7 @@
 
 #include "StatusServer.h"
 
-
-
-class StatusHandler: public ServiceHandler {
+class StatusHandler : public ServiceHandler {
 	StatusServer* statusServerRef;
 
 public:
@@ -21,7 +19,6 @@ public:
 	}
 
 	void initialize() {
-
 	}
 
 	ServiceClient* createConnection(Socket* sock, SocketAddress& addr) {
@@ -33,21 +30,16 @@ public:
 	}
 
 	void handleMessage(ServiceClient* client, Packet* message) {
-
 	}
 
 	void processMessage(Message* message) {
-
 	}
 
 	bool handleError(ServiceClient* client, Exception& e) {
 		return false;
 	}
-
 };
 
-
 using namespace server::zone;
-
 
 #endif /* STATUSHANDLER_H_ */

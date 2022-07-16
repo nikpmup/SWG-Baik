@@ -17,7 +17,6 @@ public:
 	}
 
 	virtual ~DataTableCell() {
-
 	}
 
 	virtual void parse(Chunk* chunk) = 0;
@@ -54,7 +53,6 @@ public:
 	virtual void getValue(bool& out) const {
 		throw Exception(String("No valid type specified. Correct type is ").concat((char)getType()));
 	}
-
 
 	virtual byte getType() const = 0;
 
@@ -172,7 +170,7 @@ public:
 	}
 
 	void parse(Chunk* chunk) {
-		value = (bool) chunk->readInt();
+		value = (bool)chunk->readInt();
 	}
 
 	void getValue(bool& out) const {

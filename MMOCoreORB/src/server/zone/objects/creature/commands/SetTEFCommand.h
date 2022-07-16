@@ -7,14 +7,10 @@
 
 class SetTEFCommand : public QueueCommand {
 public:
-
-	SetTEFCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetTEFCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETTEFCOMMAND_H_
+#endif // SETTEFCOMMAND_H_

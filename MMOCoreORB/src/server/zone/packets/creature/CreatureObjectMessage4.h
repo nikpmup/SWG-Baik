@@ -10,13 +10,12 @@
 
 class CreatureObjectMessage4 : public BaseLineMessage {
 public:
-	CreatureObjectMessage4(const CreatureObject* creo)
-			: BaseLineMessage(creo, 0x4352454F, 4, 0x0E) {
+	CreatureObjectMessage4(const CreatureObject* creo) : BaseLineMessage(creo, 0x4352454F, 4, 0x0E) {
 		//
 		insertFloat(creo->getAccelerationMultiplierBase());
 		insertFloat(creo->getAccelerationMultiplierMod());
 
-		//Encumbrances
+		// Encumbrances
 		const DeltaVector<int>* encumbrances = creo->getEncumbrances();
 		encumbrances->insertToMessage(this);
 
@@ -35,7 +34,7 @@ public:
 
 		insertFloat(1.00625f);
 
-		insertFloat(creo->getTerrainNegotiation());  // Terrain Negotiation
+		insertFloat(creo->getTerrainNegotiation()); // Terrain Negotiation
 
 		// turn radius
 		insertFloat(creo->getTurnScale());
@@ -49,7 +48,6 @@ public:
 
 		setSize();
 	}
-
 };
 
 #endif /*CREATUREOBJECTMESSAGE4_H_*/

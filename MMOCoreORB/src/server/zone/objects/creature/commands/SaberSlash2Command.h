@@ -9,14 +9,10 @@
 
 class SaberSlash2Command : public JediCombatQueueCommand {
 public:
-
-	SaberSlash2Command(const String& name, ZoneProcessServer* server)
-		: JediCombatQueueCommand(name, server) {
-
+	SaberSlash2Command(const String& name, ZoneProcessServer* server) : JediCombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -31,7 +27,6 @@ public:
 	}
 
 	String getAnimation(TangibleObject* attacker, TangibleObject* defender, WeaponObject* weapon, uint8 hitLocation, int damage) const {
-
 		String anim = "";
 		if (weapon->isJediOneHandedWeapon()) {
 			return "knockdown_1hmelee_1";
@@ -44,7 +39,6 @@ public:
 			return "";
 		}
 	}
-
 };
 
-#endif //SABERSLASH2COMMAND_H_
+#endif // SABERSLASH2COMMAND_H_

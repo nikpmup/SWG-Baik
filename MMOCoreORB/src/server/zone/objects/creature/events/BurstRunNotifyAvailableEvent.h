@@ -26,7 +26,6 @@ public:
 		creature->removePendingTask("burst_run_notify");
 		creature->sendSystemMessage("@combat_effects:burst_run_not_tired"); //"You are no longer tired.";
 	}
-
 };
 
 #endif /*BURSTRUNNOTIFYAVAILABLEEVENT_H_*/

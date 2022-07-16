@@ -8,7 +8,6 @@
 #include "engine/service/proto/BaseMessage.h"
 
 class AccountVersionMessage : public BaseMessage {
-
 public:
 	AccountVersionMessage(const String& username, const String& password, const String& version) : BaseMessage() {
 		insertShort(0x04);
@@ -25,7 +24,6 @@ public:
 
 		pack->parseAscii(version);
 	}
-
 };
 
 #endif /*ACCOUNTVERSIONMESSAGE_H_*/

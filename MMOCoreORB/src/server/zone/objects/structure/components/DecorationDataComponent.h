@@ -11,25 +11,16 @@
 
 class DecorationDataComponent : public DataObjectComponent {
 protected:
-
-
 public:
 	DecorationDataComponent() {
-
 	}
 
 	virtual ~DecorationDataComponent() {
-
 	}
 
 	bool isDecoration() {
 		return true;
 	}
-
 };
-
-
-
-
 
 #endif /* DECORATIONDATACOMPONENT_H_ */

@@ -16,11 +16,11 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 
@@ -30,9 +30,7 @@ class CityRegisterSuiCallback : public SuiCallback {
 	bool unregister;
 
 public:
-	CityRegisterSuiCallback(ZoneServer* server, CityRegion* city, bool unregister = false)
-		: SuiCallback(server) {
-
+	CityRegisterSuiCallback(ZoneServer* server, CityRegion* city, bool unregister = false) : SuiCallback(server) {
 		cityRegion = city;
 		this->unregister = unregister;
 	}

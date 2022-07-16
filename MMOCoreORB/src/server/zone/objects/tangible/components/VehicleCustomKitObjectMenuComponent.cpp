@@ -16,19 +16,17 @@
 #include "server/zone/objects/player/sui/callbacks/CustomVehicleSuiCallback.h"
 
 void VehicleCustomKitObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
-	if(!sceneObject->isTangibleObject())
+	if (!sceneObject->isTangibleObject())
 		return;
 
 	TangibleObject* tano = cast<TangibleObject*>(sceneObject);
-	if(tano == nullptr)
+	if (tano == nullptr)
 		return;
 
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
 }
 
 int VehicleCustomKitObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
-
 	if (player == nullptr)
 		return 0;
 
@@ -38,11 +36,11 @@ int VehicleCustomKitObjectMenuComponent::handleObjectMenuSelect(SceneObject* sce
 	if (selectedID != 20)
 		return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject, player, selectedID);
 
-	if(!sceneObject->isTangibleObject())
+	if (!sceneObject->isTangibleObject())
 		return 0;
 
 	ManagedReference<TangibleObject*> kitTano = cast<TangibleObject*>(sceneObject);
-	if(kitTano == nullptr)
+	if (kitTano == nullptr)
 		return 0;
 
 	uint64 targetID = player->getTargetID();
@@ -56,68 +54,65 @@ int VehicleCustomKitObjectMenuComponent::handleObjectMenuSelect(SceneObject* sce
 		return 0;
 	}
 
-	//permission check
+	// permission check
 	CreatureObject* vehicle = cast<CreatureObject*>(target.get());
 	uint64 ownerID = vehicle->getCreatureLinkID();
-	if ( ownerID != player->getObjectID()){
+	if (ownerID != player->getObjectID()) {
 		bool hasConsent = false;
 
 		ManagedReference<CreatureObject*> targetOwner = server->getObject(ownerID, true).castTo<CreatureObject*>();
-		if (targetOwner != nullptr)
-		{
+		if (targetOwner != nullptr) {
 			Locker crossLock(targetOwner, player);
 			ManagedReference<PlayerObject*> ghostOwner = targetOwner->getPlayerObject();
 			for (int i = 0; i < ghostOwner->getConsentListSize(); ++i) {
 				String entryName = ghostOwner->getConsentName(i);
-				if (!entryName.isEmpty()){
-					if (entryName == player->getFirstName().toLowerCase()){
+				if (!entryName.isEmpty()) {
+					if (entryName == player->getFirstName().toLowerCase()) {
 						hasConsent = true;
 					}
 				}
 			}
 		}
-		if (!hasConsent){
+		if (!hasConsent) {
 			player->sendSystemMessage("You require consent to customize another player's vehicle");
 			return 0;
 		}
 	}
-	//end permission check
+	// end permission check
 
 	Locker clocker(vehicle, player);
 
 	String appearanceFilename = target->getObjectTemplate()->getAppearanceFilename();
-	VectorMap<String, Reference<CustomizationVariable*> > variables;
+	VectorMap<String, Reference<CustomizationVariable*>> variables;
 	AssetCustomizationManagerTemplate::instance()->getCustomizationVariables(appearanceFilename.hashCode(), variables, false);
 	int numPalette = 0;
-	for(int i = 0; i< variables.size(); ++i)
-	{
+	for (int i = 0; i < variables.size(); ++i) {
 		String varkey = variables.elementAt(i).getKey();
-		if (varkey.contains("color"))
-		{
+		if (varkey.contains("color")) {
 			++numPalette;
 		}
 	}
 
 	if (numPalette == 0) {
-		player->sendSystemMessage("No customization options available on this vehicle");//jetpack
+		player->sendSystemMessage("No customization options available on this vehicle"); // jetpack
 		return 0;
 	}
 
 	VehicleObject* painted = cast<VehicleObject*>(vehicle);
-	if (painted != nullptr){
+	if (painted != nullptr) {
 		painted->refreshPaint();
 	}
 
 	ManagedReference<SuiListBox*> frameTrimSelector = new SuiListBox(player, SuiWindowType::CUSTOMIZE_KIT);
 	frameTrimSelector->setUsingObject(player);
-	frameTrimSelector->setCallback(new CustomVehicleSuiCallback(server, numPalette, kitTano ));
+	frameTrimSelector->setCallback(new CustomVehicleSuiCallback(server, numPalette, kitTano));
 	frameTrimSelector->setUsingObject(target);
 	frameTrimSelector->setPromptTitle("Customize");
 	frameTrimSelector->setPromptText("Please select the customization action you would like to take");
 
 	frameTrimSelector->addMenuItem("Color Frame");
 	frameTrimSelector->addMenuItem("Color Trim");
-	if (numPalette > 2 ) {
+	if (numPalette > 2) {
 		frameTrimSelector->addMenuItem("Color Extra Trim");
 	}
 

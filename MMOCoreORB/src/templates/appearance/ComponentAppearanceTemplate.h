@@ -14,9 +14,10 @@
 class ComponentMeshAppearanceTemplate : public Object {
 	Matrix4 transform;
 	Matrix4 inverseTransform;
-	AppearanceTemplate *mesh;
+	AppearanceTemplate* mesh;
+
 public:
-	ComponentMeshAppearanceTemplate(const Matrix4 &transform, const Matrix4 &inverse, AppearanceTemplate *mesh) {
+	ComponentMeshAppearanceTemplate(const Matrix4& transform, const Matrix4& inverse, AppearanceTemplate* mesh) {
 		this->transform = Matrix4(transform);
 		this->inverseTransform = Matrix4(inverse);
 		this->mesh = mesh;
@@ -36,7 +37,7 @@ public:
 };
 
 class ComponentAppearanceTemplate : public AppearanceTemplate {
-	Vector<Reference<ComponentMeshAppearanceTemplate*> > meshes;
+	Vector<Reference<ComponentMeshAppearanceTemplate*>> meshes;
 
 public:
 	virtual uint32 getType() const {
@@ -48,7 +49,7 @@ public:
 	~ComponentAppearanceTemplate() {
 	}
 
-	const Vector<Reference<ComponentMeshAppearanceTemplate*> >& getComponents() const {
+	const Vector<Reference<ComponentMeshAppearanceTemplate*>>& getComponents() const {
 		return meshes;
 	}
 
@@ -64,12 +65,12 @@ public:
 
 		AppearanceTemplate::readObject(iffStream);
 
-		if(iffStream->getNextFormType() == 'RADR') {
+		if (iffStream->getNextFormType() == 'RADR') {
 			iffStream->openForm('RADR');
 			iffStream->closeForm('RADR');
 		}
 
-		int subChunks = iffStream->getRemainingSubChunksNumber();// dataChunk->getChunksSize();
+		int subChunks = iffStream->getRemainingSubChunksNumber(); // dataChunk->getChunksSize();
 
 		// load *all* components
 		for (int i = 0; i < subChunks; ++i) {
@@ -78,7 +79,7 @@ public:
 			// int var1 = iffStream->getInt();
 
 			/*QString str;
-	                    iffStream->getString(str);*/
+						iffStream->getString(str);*/
 
 			String meshFile;
 			iffStream->getString(meshFile);
@@ -92,8 +93,7 @@ public:
 			Matrix4 mat;
 			Matrix4 inverse;
 			for (int x = 0; x < 3; x++) {
-				for (int y = 0; y < 4; y++)
-				{
+				for (int y = 0; y < 4; y++) {
 					float val = iffStream->getFloat();
 					inverse[x][y] = val;
 					mat[y][x] = val;
@@ -120,12 +120,12 @@ public:
 	}
 
 	virtual bool testCollide(const Sphere& testsphere) const {
-		for(int i=0; i<meshes.size(); i++) {
-			const ComponentMeshAppearanceTemplate *mesh = meshes.get(i);
+		for (int i = 0; i < meshes.size(); i++) {
+			const ComponentMeshAppearanceTemplate* mesh = meshes.get(i);
 
 			Vector3 position = testsphere.getCenter() * mesh->getInverseTransform();
 			Sphere sphere(position, testsphere.getRadius());
-			if(mesh->getMeshTemplate()->testCollide(sphere))
+			if (mesh->getMeshTemplate()->testCollide(sphere))
 				return true;
 		}
 		return false;
@@ -136,15 +136,14 @@ public:
 	 * @return intersectionDistance, triangle which it intersects
 	 */
 	virtual bool intersects(const Ray& ray, float distance, float& intersectionDistance, Triangle*& triangle, bool checkPrimitives = false) const {
-
-		for(int i=0; i<meshes.size(); i++) {
-			const ComponentMeshAppearanceTemplate *mesh = meshes.getUnsafe(i);
+		for (int i = 0; i < meshes.size(); i++) {
+			const ComponentMeshAppearanceTemplate* mesh = meshes.getUnsafe(i);
 
 			Vector3 start = ray.getOrigin() * mesh->getInverseTransform();
 			Vector3 end = ray.getDirection() * mesh->getInverseTransform();
 			Ray transformedRay(start, end);
 
-			if(mesh->getMeshTemplate()->intersects(transformedRay, distance, intersectionDistance, triangle, checkPrimitives))
+			if (mesh->getMeshTemplate()->intersects(transformedRay, distance, intersectionDistance, triangle, checkPrimitives))
 				return true;
 		}
 
@@ -155,25 +154,24 @@ public:
 	 * Checks for all intersections
 	 */
 	virtual int intersects(const Ray& ray, float maxDistance, SortedVector<IntersectionResult>& result) const {
-
-		for(int i=0; i<meshes.size(); i++) {
-			const ComponentMeshAppearanceTemplate *mesh = meshes.get(i);
+		for (int i = 0; i < meshes.size(); i++) {
+			const ComponentMeshAppearanceTemplate* mesh = meshes.get(i);
 
 			Vector3 start = ray.getOrigin() * mesh->getInverseTransform();
 			Vector3 end = ray.getDirection() * mesh->getInverseTransform();
 			Ray transformedRay(start, end);
 
-			if(mesh->getMeshTemplate()->intersects(transformedRay, maxDistance, result))
+			if (mesh->getMeshTemplate()->intersects(transformedRay, maxDistance, result))
 				return true;
 		}
 
 		return false;
 	}
 
-	virtual Vector<Reference<MeshData* > > getTransformedMeshData(const Matrix4& parentTransform) const {
-		Vector<Reference<MeshData*> > transformedMeshData;
-		for(int i=0; i<meshes.size(); i++) {
-			const ComponentMeshAppearanceTemplate *mesh = meshes.get(i);
+	virtual Vector<Reference<MeshData*>> getTransformedMeshData(const Matrix4& parentTransform) const {
+		Vector<Reference<MeshData*>> transformedMeshData;
+		for (int i = 0; i < meshes.size(); i++) {
+			const ComponentMeshAppearanceTemplate* mesh = meshes.get(i);
 
 			Matrix4 newMat = mesh->getTransform();
 			newMat.swapLtoR();
@@ -183,7 +181,6 @@ public:
 
 		return transformedMeshData;
 	}
-
 };
 
 #endif /* COMPONENTAPPEARANCETEMPLATE_H_ */

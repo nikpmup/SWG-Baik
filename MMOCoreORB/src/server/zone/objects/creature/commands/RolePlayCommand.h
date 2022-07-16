@@ -9,14 +9,10 @@
 
 class RolePlayCommand : public QueueCommand {
 public:
-
-	RolePlayCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RolePlayCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -33,7 +29,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //ROLEPLAYCOMMAND_H_
+#endif // ROLEPLAYCOMMAND_H_

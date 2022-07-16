@@ -10,14 +10,10 @@
 
 class CreditsCommand : public QueueCommand {
 public:
-
-	CreditsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CreditsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -25,24 +21,21 @@ public:
 			return INVALIDLOCOMOTION;
 
 		try {
-
-			ManagedReference<SceneObject* > object =
-					server->getZoneServer()->getObject(target);
+			ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
 
 			ManagedReference<CreatureObject*> player = nullptr;
 
 			StringTokenizer args(arguments.toString());
 
-			if(object == nullptr || !object->isPlayerCreature()) {
-
+			if (object == nullptr || !object->isPlayerCreature()) {
 				String firstName;
-				if(args.hasMoreTokens()) {
+				if (args.hasMoreTokens()) {
 					args.getStringToken(firstName);
 					player = server->getZoneServer()->getPlayerManager()->getPlayer(firstName);
 				}
 
 			} else {
-				player = cast<CreatureObject*>( object.get());
+				player = cast<CreatureObject*>(object.get());
 			}
 
 			if (player == nullptr) {
@@ -64,7 +57,6 @@ public:
 			bool success = false;
 
 			if (action == "add") {
-
 				if (location.toLowerCase() == "cash") {
 					TransactionLog trx(TrxCode::CUSTOMERSERVICE, player, amount, true);
 					player->addCashCredits(amount);
@@ -78,7 +70,6 @@ public:
 				}
 
 			} else if (action == "subtract") {
-
 				if (location.toLowerCase() == "cash") {
 					if (player->verifyCashCredits(amount)) {
 						TransactionLog trx(player, TrxCode::CUSTOMERSERVICE, amount, true);
@@ -104,7 +95,7 @@ public:
 				}
 			}
 
-			if(success)
+			if (success)
 				creature->sendSystemMessage("Credits have been deposited successfully for " + player->getFirstName());
 			else
 				creature->sendSystemMessage("invalid arguments for credits command:  /credits <firstname> <add/subtract> <amount> <bank/cash>");
@@ -115,7 +106,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CREDITSCOMMAND_H_
+#endif // CREDITSCOMMAND_H_

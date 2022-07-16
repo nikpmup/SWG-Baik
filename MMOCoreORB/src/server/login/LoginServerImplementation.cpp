@@ -17,9 +17,7 @@
 
 #include "objects.h"
 
-LoginServerImplementation::LoginServerImplementation(ConfigManager* configMan) :
-		ManagedServiceImplementation(), Logger("LoginServer") {
-
+LoginServerImplementation::LoginServerImplementation(ConfigManager* configMan) : ManagedServiceImplementation(), Logger("LoginServer") {
 	phandler = nullptr;
 
 	datagramService = new DatagramServiceThread("LoginDatagramService");
@@ -55,11 +53,10 @@ void LoginServerImplementation::initialize() {
 
 	startManagers();
 
-	//taskManager->setLogging(false);
+	// taskManager->setLogging(false);
 
 	return;
 }
-
 
 void LoginServerImplementation::startManagers() {
 	info("loading managers..");
@@ -188,12 +185,7 @@ LoginClusterStatus* LoginServerImplementation::getLoginClusterStatusMessage(Acco
 	auto msg = new LoginClusterStatus(galaxyCount);
 
 	while (galaxies.next()) {
-		msg->addGalaxy(
-			galaxies.getID(),
-			galaxies.getAddress(),
-			galaxies.getRandomPort(),
-			galaxies.getPingPort()
-		);
+		msg->addGalaxy(galaxies.getID(), galaxies.getAddress(), galaxies.getRandomPort(), galaxies.getPingPort());
 	}
 
 	return msg;

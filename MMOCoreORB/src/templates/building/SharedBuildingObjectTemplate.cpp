@@ -31,16 +31,16 @@ void SharedBuildingObjectTemplate::parseVariableData(const String& varName, LuaO
 		sign = object;
 		signObject.pop();
 	} else if (varName == "publicStructure") {
-		publicStructure = (bool) Lua::getByteParameter(state);
+		publicStructure = (bool)Lua::getByteParameter(state);
 	} else if (varName == "alwaysPublic") {
-		alwaysPublic = (bool) Lua::getByteParameter(state);
+		alwaysPublic = (bool)Lua::getByteParameter(state);
 	} else if (varName == "childCreatureObjects") {
 		LuaObject luaItemList(state);
 		int size = luaItemList.getTableSize();
 
 		lua_State* L = luaItemList.getLuaState();
-		for (int i = 0; i < size; ++i){
-			lua_rawgeti(L, -1, i +1);
+		for (int i = 0; i < size; ++i) {
+			lua_rawgeti(L, -1, i + 1);
 			LuaObject a(L);
 
 			ChildCreatureObject object;
@@ -57,7 +57,7 @@ void SharedBuildingObjectTemplate::parseVariableData(const String& varName, LuaO
 		int size = luaItemList.getTableSize();
 		lua_State* L = luaItemList.getLuaState();
 
-		for (int i = 0; i < size; i++){
+		for (int i = 0; i < size; i++) {
 			lua_rawgeti(L, -1, i + 1);
 			LuaObject securitySpawn(L);
 
@@ -78,8 +78,7 @@ void SharedBuildingObjectTemplate::parseVariableData(const String& varName, LuaO
 		ejectDistance = Lua::getFloatParameter(state);
 	} else if (varName == "factionBaseType") {
 		factionBaseType = Lua::getIntParameter(state);
-	} else if (varName == "shopSigns" ){
-
+	} else if (varName == "shopSigns") {
 		LuaObject luaItemList(state);
 
 		int size = luaItemList.getTableSize();
@@ -101,7 +100,6 @@ void SharedBuildingObjectTemplate::parseVariableData(const String& varName, LuaO
 		luaItemList.pop();
 
 	} else {
-
 		templateData->pop();
 	}
 }
@@ -114,7 +112,7 @@ void SharedBuildingObjectTemplate::parseFileData(IffStream* iffStream) {
 	iffStream->closeChunk('PCNT');
 
 	for (int i = 0; i < variableCount; ++i) {
-	//while (iffStream->getRemainingSubChunksNumber() > 0) {
+		// while (iffStream->getRemainingSubChunksNumber() > 0) {
 		Chunk* chunk = iffStream->openChunk('XXXX');
 
 		if (chunk == nullptr)
@@ -124,19 +122,18 @@ void SharedBuildingObjectTemplate::parseFileData(IffStream* iffStream) {
 
 		iffStream->getString(varName);
 
-		//std::cout << "parsing wtf shit:[" << varName.toStdString() << "]\n";
+		// std::cout << "parsing wtf shit:[" << varName.toStdString() << "]\n";
 		parseVariableData(varName, chunk);
 
 		iffStream->closeChunk();
 	}
 }
 
-
 void SharedBuildingObjectTemplate::readObject(IffStream* iffStream) {
 	uint32 nextType = iffStream->getNextFormType();
 
 	if (nextType != 'SBOT') {
-		//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+		// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 		SharedTangibleObjectTemplate::readObject(iffStream);
 
@@ -184,10 +181,10 @@ void SharedBuildingObjectTemplate::readObject(LuaObject* templateData) {
 
 	int i = 0;
 
-	lua_pushnil(L);  
+	lua_pushnil(L);
 	while (lua_next(L, -2) != 0) {
-		// 'key' is at index -2 and 'value' at index -1 
-		//printf("%s - %s\n",
+		// 'key' is at index -2 and 'value' at index -1
+		// printf("%s - %s\n",
 		//		lua_tostring(L, -2), lua_typename(L, lua_type(L, -1)));
 
 		int type = lua_type(L, -2);
@@ -199,11 +196,10 @@ void SharedBuildingObjectTemplate::readObject(LuaObject* templateData) {
 			parseVariableData(varName, templateData);
 		} else
 			lua_pop(L, 1);
-		
 
 		++i;
 	}
-	
+
 	return;
 
 	/*terrainModificationFileName = templateData->getStringField("terrainModificationFileName");

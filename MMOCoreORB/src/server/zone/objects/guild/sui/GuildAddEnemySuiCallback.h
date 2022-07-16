@@ -16,9 +16,7 @@ class GuildAddEnemySuiCallback : public SuiCallback {
 	ManagedWeakReference<GuildObject*> guildObject;
 
 public:
-	GuildAddEnemySuiCallback(ZoneServer* server, GuildObject* guild)
-		: SuiCallback(server) {
-
+	GuildAddEnemySuiCallback(ZoneServer* server, GuildObject* guild) : SuiCallback(server) {
 		guildObject = guild;
 	}
 

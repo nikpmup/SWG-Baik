@@ -11,19 +11,15 @@
 #include "server/zone/packets/MessageCallback.h"
 #include "server/zone/managers/auction/AuctionManager.h"
 
-
 class CancelLiveAuctionMessageCallback : public MessageCallback {
 	uint64 objectid;
 
 public:
-	CancelLiveAuctionMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-			MessageCallback(client, server), objectid(0) {
-
+	CancelLiveAuctionMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), objectid(0) {
 	}
 
 	void parse(Message* message) {
 		objectid = message->parseLong(); // object being canceled
-
 	}
 
 	void run() {
@@ -39,7 +35,6 @@ public:
 		if (auctionManager != nullptr)
 			auctionManager->cancelItem(player, objectid);
 	}
-
 };
 
 #endif /* CANCELLIVEAUCTIONMESSAGECALLBACK_H_ */

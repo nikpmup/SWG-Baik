@@ -9,14 +9,10 @@
 
 class VentriloquismCommand : public QueueCommand {
 public:
-
-	VentriloquismCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	VentriloquismCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -35,7 +31,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //VENTRILOQUISMCOMMAND_H_
+#endif // VENTRILOQUISMCOMMAND_H_

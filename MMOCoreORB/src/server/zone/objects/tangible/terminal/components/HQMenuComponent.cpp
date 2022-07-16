@@ -33,18 +33,18 @@ void HQMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMen
 	}
 
 	switch (terminalID) {
-		case 367429: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923853: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923866: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367429: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923853: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923866: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	if (building == nullptr || player == nullptr) {
@@ -73,7 +73,7 @@ void HQMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMen
 
 	if (building->getFaction() != player->getFaction()) {
 		if (gcwMan->isPowerOverloaded(building) || gcwMan->isFacilityRebooting(building))
-			menuResponse->addRadialMenuItem(230, 3, "@hq:mnu_overload");  // Activate Overload
+			menuResponse->addRadialMenuItem(230, 3, "@hq:mnu_overload"); // Activate Overload
 
 		if (!privileged)
 			return;
@@ -81,9 +81,9 @@ void HQMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMen
 
 	if (building->getFaction() == player->getFaction() && (building->getPvpStatusBitmask() & CreatureFlag::OVERT)) {
 		if (gcwMan->isShutdownSequenceStarted(building))
-			menuResponse->addRadialMenuItem(231, 3, "@hq:mnu_shutdown");  // Shutdown facility
+			menuResponse->addRadialMenuItem(231, 3, "@hq:mnu_shutdown"); // Shutdown facility
 
-		menuResponse->addRadialMenuItem(37, 3, "@hq:mnu_donate"); // Donate
+		menuResponse->addRadialMenuItem(37, 3, "@hq:mnu_donate");					  // Donate
 		menuResponse->addRadialMenuItemToRadialID(37, 226, 3, "@hq:mnu_donate_deed"); // Donate Defense
 	}
 
@@ -127,18 +127,18 @@ int HQMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureOb
 	}
 
 	switch (terminalID) {
-		case 367429: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923853: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923866: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367429: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923853: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923866: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	if (building == nullptr || creature == nullptr) {
@@ -192,9 +192,9 @@ int HQMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureOb
 	}
 
 	if (building->getFaction() == creature->getFaction() && (building->getPvpStatusBitmask() & CreatureFlag::OVERT)) {
-		 if (selectedID == 37) {
-			 creature->sendSystemMessage("@faction/faction_hq/faction_hq_response:terminal_response04"); // You must first select a sub-menu of 'Donate' to proceed.
-			 return 0;
+		if (selectedID == 37) {
+			creature->sendSystemMessage("@faction/faction_hq/faction_hq_response:terminal_response04"); // You must first select a sub-menu of 'Donate' to proceed.
+			return 0;
 		} else if (selectedID == 226) {
 			gcwMan->sendSelectDeedToDonate(building, creature);
 			return 0;
@@ -221,11 +221,10 @@ int HQMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureOb
 		if (building->getOwnerCreatureObject() == creature || ghost->isPrivileged())
 			gcwMan->resetVulnerability(creature, building);
 	} else if (selectedID == 236) {
-		creature->executeObjectControllerAction(0x18FC1726, building->getObjectID(), ""); //destroyStructure
+		creature->executeObjectControllerAction(0x18FC1726, building->getObjectID(), ""); // destroyStructure
 	} else if (selectedID == 237) {
 		gcwMan->spawnBaseSecurityPatrols(building);
 	}
 
 	return 0;
 }
-

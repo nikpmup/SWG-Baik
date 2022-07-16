@@ -26,15 +26,13 @@ class ClientIDMessageCallback : public MessageCallback {
 	String version;
 
 public:
-	ClientIDMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), dataLen(0), accountID(0) {
-
+	ClientIDMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), dataLen(0), accountID(0) {
 		setCustomTaskQueue("slowQueue");
 	}
 
 	void parse(Message* message) {
 		gameBits = message->parseInt();
-		dataLen = message->parseInt() - 4; //accountid embedded
+		dataLen = message->parseInt() - 4; // accountid embedded
 
 		StringBuffer buf;
 
@@ -51,7 +49,7 @@ public:
 	void run() {
 		StringBuffer query;
 		query << "SELECT session_id FROM sessions WHERE account_id = " << accountID;
-		query << " AND  ip = '"<< client->getSession()->getIPAddress() <<"' AND expires > NOW();";
+		query << " AND  ip = '" << client->getSession()->getIPAddress() << "' AND expires > NOW();";
 
 		UniqueReference<ResultSet*> result(ServerDatabase::instance()->executeQuery(query));
 
@@ -125,6 +123,5 @@ public:
 		return accountID;
 	}
 };
-
 
 #endif /* CLIENTIDMESSAGECALLBACK_H_ */

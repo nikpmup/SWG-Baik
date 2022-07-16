@@ -9,14 +9,10 @@
 
 class Saber1hFlurryCommand : public JediCombatQueueCommand {
 public:
-
-	Saber1hFlurryCommand(const String& name, ZoneProcessServer* server)
-		: JediCombatQueueCommand(name, server) {
-
+	Saber1hFlurryCommand(const String& name, ZoneProcessServer* server) : JediCombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,7 +25,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //SABER1HFLURRYCOMMAND_H_
+#endif // SABER1HFLURRYCOMMAND_H_

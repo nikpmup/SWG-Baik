@@ -7,14 +7,10 @@
 
 class AuctionAcceptCommand : public QueueCommand {
 public:
-
-	AuctionAcceptCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	AuctionAcceptCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //AUCTIONACCEPTCOMMAND_H_
+#endif // AUCTIONACCEPTCOMMAND_H_

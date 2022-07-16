@@ -16,5 +16,4 @@ public:
 	int notifyStructurePlaced(StructureDeed* deed, CreatureObject* creature, StructureObject* structure) const;
 };
 
-
 #endif /* PLACECITYHALLCOMPONENT_H_ */

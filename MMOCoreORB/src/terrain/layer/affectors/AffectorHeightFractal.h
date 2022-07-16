@@ -42,6 +42,4 @@ public:
 	}
 };
 
-
-
 #endif /* AFFECTORHEIGHTFRACTAL_H_ */

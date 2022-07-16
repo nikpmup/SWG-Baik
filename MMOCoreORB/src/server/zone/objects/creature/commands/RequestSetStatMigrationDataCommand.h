@@ -11,10 +11,7 @@
 
 class RequestSetStatMigrationDataCommand : public QueueCommand {
 public:
-
-	RequestSetStatMigrationDataCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RequestSetStatMigrationDataCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	static uint32 getMaxAttribute(CreatureObject* creature, uint8 attribute) {
@@ -29,9 +26,7 @@ public:
 		return PlayerCreationManager::instance()->getTotalAttributeLimit(creature->getSpeciesName());
 	}
 
-
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -55,7 +50,7 @@ public:
 		tokenizer.setDelimeter(" ");
 
 		uint32 targetPointsTotal = 0;
-		uint32 targetAttributes[9] = {0,0,0,0,0,0,0,0,0};
+		uint32 targetAttributes[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 		for (int i = 0; tokenizer.hasMoreTokens() && i < 9; ++i) {
 			uint32 value = tokenizer.getIntToken();
@@ -69,8 +64,8 @@ public:
 			targetPointsTotal += value;
 		}
 
-		//Here we set the stat migration target attributes.
-		//NOTE: We aren't actually migrating the stats at this point.
+		// Here we set the stat migration target attributes.
+		// NOTE: We aren't actually migrating the stats at this point.
 		if (targetPointsTotal == getTotalAttribPoints(player)) {
 			for (int i = 0; i < 9; ++i) {
 				session->setAttributeToModify(i, targetAttributes[i]);
@@ -82,16 +77,14 @@ public:
 			return GENERALERROR;
 		}
 
-		//Player is in the tutorial zone and is allowed to migrate stats.
+		// Player is in the tutorial zone and is allowed to migrate stats.
 		Zone* zone = creature->getZone();
 
 		if (zone != nullptr && zone->getZoneName() == "tutorial")
 			session->migrateStats();
 
-
 		return SUCCESS;
 	}
-
 };
 
-#endif //REQUESTSETSTATMIGRATIONDATACOMMAND_H_
+#endif // REQUESTSETSTATMIGRATIONDATACOMMAND_H_

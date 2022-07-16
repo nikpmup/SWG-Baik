@@ -29,13 +29,10 @@ int TrainerMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Creat
 			task->execute();
 
 			player->sendSystemMessage("@city/city:mt_removed"); // The object has been removed from the city.
-
 		}
 
 		return 0;
-
 	}
 
 	return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject, player, selectedID);
 }
-

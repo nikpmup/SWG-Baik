@@ -12,9 +12,9 @@
 
 class MobileOutfitGroup : public Object {
 	Vector<MobileOutfit> outfits;
+
 public:
 	MobileOutfitGroup() {
-
 	}
 
 	MobileOutfitGroup(const MobileOutfitGroup& o) : Object() {
@@ -31,7 +31,7 @@ public:
 	}
 
 	void readObject(LuaObject* luaObject) {
-		//LuaObject outfit = templateData->getObjectField("outfit");
+		// LuaObject outfit = templateData->getObjectField("outfit");
 
 		for (int i = 1; i <= luaObject->getTableSize(); ++i) {
 			LuaObject obj = luaObject->getObjectAt(i);
@@ -48,8 +48,6 @@ public:
 	Vector<MobileOutfit>* getOutfits() {
 		return &outfits;
 	}
-
 };
-
 
 #endif /* MOBILEOUTFITGROUP_H_ */

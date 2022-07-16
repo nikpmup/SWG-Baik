@@ -8,15 +8,13 @@
 #ifndef GUILDSPONSORSUICALLBACK_H_
 #define GUILDSPONSORSUICALLBACK_H_
 
-
 #include "server/zone/managers/guild/GuildManager.h"
 #include "server/zone/objects/tangible/terminal/guild/GuildTerminal.h"
 #include "server/zone/objects/player/sui/SuiCallback.h"
 
 class GuildSponsorSuiCallback : public SuiCallback {
 public:
-	GuildSponsorSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	GuildSponsorSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -37,7 +35,7 @@ public:
 		if (obj == nullptr || !obj->isTerminal())
 			return;
 
-		Terminal* terminal = cast<Terminal*>( obj.get());
+		Terminal* terminal = cast<Terminal*>(obj.get());
 
 		if (!terminal->isGuildTerminal())
 			return;
@@ -45,6 +43,5 @@ public:
 		guildManager->sponsorPlayer(player, playerName);
 	}
 };
-
 
 #endif /* GUILDSPONSORSUICALLBACK_H_ */

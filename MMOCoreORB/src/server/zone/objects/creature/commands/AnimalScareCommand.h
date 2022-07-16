@@ -9,9 +9,7 @@
 
 class AnimalScareCommand : public ForcePowersQueueCommand {
 public:
-
-	AnimalScareCommand(const String& name, ZoneProcessServer* server)
-		: ForcePowersQueueCommand(name, server) {
+	AnimalScareCommand(const String& name, ZoneProcessServer* server) : ForcePowersQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -93,4 +91,4 @@ public:
 	}
 };
 
-#endif //ANIMALSCARECOMMAND_H_
+#endif // ANIMALSCARECOMMAND_H_

@@ -4,13 +4,8 @@
 
 #include "Badge.h"
 
-Badge::Badge() :
-	index(-1),
-	category(-1),
-	show(-1),
-	type(UNKNOWN),
-	hasMusic(false)
-{}
+Badge::Badge() : index(-1), category(-1), show(-1), type(UNKNOWN), hasMusic(false) {
+}
 
 void Badge::readFromRow(DataTableRow* row) {
 	if (row == nullptr)
@@ -33,7 +28,6 @@ void Badge::readFromRow(DataTableRow* row) {
 	type = getTypeFromString(typeString);
 	hasMusic = music != "NONE";
 }
-
 
 uint8 Badge::getTypeFromString(const String& typeString) {
 	if (typeString == "accumulation") {

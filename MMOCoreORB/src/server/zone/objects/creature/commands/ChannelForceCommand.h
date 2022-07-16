@@ -10,14 +10,10 @@
 
 class ChannelForceCommand : public QueueCommand {
 public:
-
-	ChannelForceCommand(const String& name, ZoneProcessServer* server)
-: QueueCommand(name, server) {
-
+	ChannelForceCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -71,9 +67,9 @@ public:
 		int duration = ChannelForceBuff::FORCE_CHANNEL_DURATION_SECONDS;
 		if (buff == nullptr) {
 			buff = new ChannelForceBuff(creature, buffCRC, duration);
-			
+
 			Locker locker(buff);
-			
+
 			buff->setAttributeModifier(CreatureAttribute::HEALTH, -forceBonus);
 			buff->setAttributeModifier(CreatureAttribute::ACTION, -forceBonus);
 			buff->setAttributeModifier(CreatureAttribute::MIND, -forceBonus);
@@ -82,17 +78,14 @@ public:
 		} else {
 			Locker locker(buff, creature);
 
-			buff->setAttributeModifier(CreatureAttribute::HEALTH,
-									   buff->getAttributeModifierValue(CreatureAttribute::HEALTH)-forceBonus);
-			buff->setAttributeModifier(CreatureAttribute::ACTION,
-									   buff->getAttributeModifierValue(CreatureAttribute::ACTION)-forceBonus);
-			buff->setAttributeModifier(CreatureAttribute::MIND,
-									   buff->getAttributeModifierValue(CreatureAttribute::MIND)-forceBonus);
-			
+			buff->setAttributeModifier(CreatureAttribute::HEALTH, buff->getAttributeModifierValue(CreatureAttribute::HEALTH) - forceBonus);
+			buff->setAttributeModifier(CreatureAttribute::ACTION, buff->getAttributeModifierValue(CreatureAttribute::ACTION) - forceBonus);
+			buff->setAttributeModifier(CreatureAttribute::MIND, buff->getAttributeModifierValue(CreatureAttribute::MIND) - forceBonus);
+
 			creature->addMaxHAM(CreatureAttribute::HEALTH, -forceBonus);
 			creature->addMaxHAM(CreatureAttribute::ACTION, -forceBonus);
 			creature->addMaxHAM(CreatureAttribute::MIND, -forceBonus);
-			
+
 			creature->renewBuff(buffCRC, duration);
 			Reference<ChannelForceBuff*> channelBuff = buff.castTo<ChannelForceBuff*>();
 			if (channelBuff != nullptr)
@@ -105,7 +98,6 @@ public:
 	float getCommandDuration(CreatureObject* object, const UnicodeString& arguments) const {
 		return defaultTime * 3.0;
 	}
-
 };
 
-#endif //CHANNELFORCECOMMAND_H_
+#endif // CHANNELFORCECOMMAND_H_

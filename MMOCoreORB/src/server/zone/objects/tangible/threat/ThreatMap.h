@@ -20,9 +20,9 @@ namespace objects {
 namespace creature {
 class CreatureObject;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 
@@ -235,11 +235,11 @@ public:
 private:
 	void registerObserver(TangibleObject* target);
 };
-}
-}
-}
-}
-}
+} // namespace threat
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::tangible::threat;
 

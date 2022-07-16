@@ -22,7 +22,6 @@ public:
 	}
 
 	virtual ~TurretControlTerminalDataComponent() {
-
 	}
 
 	void writeJSON(nlohmann::json& j) const {
@@ -39,11 +38,11 @@ public:
 		return turretIndex;
 	}
 
-	void setTurretIndex(int indx){
+	void setTurretIndex(int indx) {
 		turretIndex = indx;
 	}
 
-	void setSuiBoxID(unsigned int id){
+	void setSuiBoxID(unsigned int id) {
 		suiBoxID = id;
 	}
 
@@ -51,10 +50,9 @@ public:
 		return suiBoxID;
 	}
 
-
 private:
-	void addSerializableVariables(){
-		addSerializableVariable("turretIndex",&turretIndex);
+	void addSerializableVariables() {
+		addSerializableVariable("turretIndex", &turretIndex);
 	}
 };
 

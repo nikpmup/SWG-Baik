@@ -8,7 +8,6 @@
 #ifndef AFFECTORSHADERCONSTANT_H_
 #define AFFECTORSHADERCONSTANT_H_
 
-
 #include "../ProceduralRule.h"
 
 class AffectorShaderConstant : public ProceduralRule<'ASCN'>, public AffectorProceduralRule {
@@ -18,7 +17,6 @@ class AffectorShaderConstant : public ProceduralRule<'ASCN'>, public AffectorPro
 
 public:
 	AffectorShaderConstant() : familyId(0), featheringType(0), featheringAmount(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {

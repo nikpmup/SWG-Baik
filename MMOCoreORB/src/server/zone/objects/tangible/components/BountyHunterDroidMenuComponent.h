@@ -13,7 +13,6 @@
 
 class BountyHunterDroidMenuComponent : public TangibleObjectMenuComponent {
 public:
-
 	/**
 	 * Fills the radial options, needs to be overriden
 	 * @pre { this object is locked }

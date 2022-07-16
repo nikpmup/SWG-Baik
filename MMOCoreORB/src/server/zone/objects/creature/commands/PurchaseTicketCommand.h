@@ -14,10 +14,7 @@
 
 class PurchaseTicketCommand : public QueueCommand {
 public:
-
-	PurchaseTicketCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	PurchaseTicketCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -28,20 +25,19 @@ public:
 			return INVALIDLOCOMOTION;
 
 		SortedVector<QuadTreeEntry*> closeObjects;
-		CloseObjectsVector* vec = (CloseObjectsVector*) creature->getCloseObjects();
+		CloseObjectsVector* vec = (CloseObjectsVector*)creature->getCloseObjects();
 		vec->safeCopyTo(closeObjects);
 
 		bool nearTravelTerminal = false;
 		SceneObject* travelTerminal = nullptr;
 
 		for (int i = 0; i < closeObjects.size(); i++) {
-			SceneObject* object = cast<SceneObject*>( closeObjects.get(i));
+			SceneObject* object = cast<SceneObject*>(closeObjects.get(i));
 			if (object != nullptr && object->getGameObjectType() == SceneObjectType::TRAVELTERMINAL && checkDistance(creature, object, 8)) {
 				nearTravelTerminal = true;
 				travelTerminal = object;
 				break;
 			}
-
 		}
 
 		if (!nearTravelTerminal) {
@@ -52,12 +48,12 @@ public:
 		ManagedReference<CityRegion*> currentCity = creature->getCityRegion().get();
 
 		int departureTax = 0;
-		if (currentCity != nullptr){
+		if (currentCity != nullptr) {
 			if (currentCity->isBanned(creature->getObjectID())) {
-				creature->sendSystemMessage("@city/city:city_cant_purchase_ticket"); //You are banned from using the services of this city. You cannot purchase a ticket.
+				creature->sendSystemMessage("@city/city:city_cant_purchase_ticket"); // You are banned from using the services of this city. You cannot purchase a ticket.
 				return GENERALERROR;
 			}
-			if(!currentCity->isClientRegion()){
+			if (!currentCity->isClientRegion()) {
 				departureTax = currentCity->getTravelTax();
 			}
 		}
@@ -76,13 +72,13 @@ public:
 			tokenizer.getStringToken(departurePoint);
 			tokenizer.getStringToken(arrivalPlanet);
 			tokenizer.getStringToken(arrivalPoint);
-			if(tokenizer.hasMoreTokens()) {
+			if (tokenizer.hasMoreTokens()) {
 				tokenizer.getStringToken(type);
 				if (type == "single" || type == "0")
 					roundTrip = false;
 			}
 
-		} catch(Exception& e) {
+		} catch (Exception& e) {
 			return INVALIDPARAMETERS;
 		}
 
@@ -109,7 +105,7 @@ public:
 		ManagedReference<PlanetManager*> pmArrival = arrivalZone->getPlanetManager();
 
 		if (!pmArrival->isExistingPlanetTravelPoint(arrivalPoint)) {
-			creature->sendSystemMessage("@travel:no_location_found"); //No location was found for your destination.
+			creature->sendSystemMessage("@travel:no_location_found"); // No location was found for your destination.
 			return INVALIDPARAMETERS;
 		}
 
@@ -118,7 +114,7 @@ public:
 			return INVALIDPARAMETERS;
 		}
 
-		Reference<PlanetTravelPoint*>  destPoint = pmArrival->getPlanetTravelPoint(arrivalPoint);
+		Reference<PlanetTravelPoint*> destPoint = pmArrival->getPlanetTravelPoint(arrivalPoint);
 
 		if (destPoint == nullptr)
 			return GENERALERROR;
@@ -128,22 +124,21 @@ public:
 		if (arrivalShuttle == nullptr)
 			return GENERALERROR;
 
-
 		ManagedReference<CityRegion*> destCity = arrivalShuttle->getCityRegion().get();
 
-		if (destCity != nullptr){
+		if (destCity != nullptr) {
 			if (destCity.get()->isBanned(creature->getObjectID())) {
-				creature->sendSystemMessage("@city/city:banned_from_that_city");  // You have been banned from traveling to that city by the city militia
+				creature->sendSystemMessage("@city/city:banned_from_that_city"); // You have been banned from traveling to that city by the city militia
 				return GENERALERROR;
 			}
 		}
 
-		//Check to see if this point can be reached from this location.
+		// Check to see if this point can be reached from this location.
 		if (!pmDeparture->isTravelToLocationPermitted(departurePoint, arrivalPlanet, arrivalPoint))
 			return GENERALERROR;
 
 		if (roundTrip && !pmArrival->isTravelToLocationPermitted(arrivalPoint, departurePlanet, departurePoint))
-			return GENERALERROR; //If they are doing a round trip, make sure they can travel back.
+			return GENERALERROR; // If they are doing a round trip, make sure they can travel back.
 
 		int baseFare = pmDeparture->getTravelFare(departurePlanet, arrivalPlanet);
 
@@ -152,13 +147,13 @@ public:
 			return GENERALERROR;
 		}
 
-		//Make sure they have space in the inventory for the tickets before purchasing them.
+		// Make sure they have space in the inventory for the tickets before purchasing them.
 		Locker _lock(inventory, creature);
 
 		int inventorySize = inventory->getContainerObjectsSize();
 
 		if (inventorySize + ((roundTrip) ? 2 : 1) > inventory->getContainerVolumeLimit()) {
-			creature->sendSystemMessage("@error_message:inv_full"); //Your inventory is full.
+			creature->sendSystemMessage("@error_message:inv_full"); // Your inventory is full.
 			return GENERALERROR;
 		}
 
@@ -195,7 +190,8 @@ public:
 				couponSui->setCallback(new TravelCouponUseSuiCallback(zoneServer, voucher, fare, departurePlanet, departurePoint, arrivalPlanet, arrivalPoint));
 				couponSui->setPromptTitle("@new_player:travel_coupon");
 				StringBuffer prompt;
-				prompt << "@new_player:travel_coupon_use_text_option" <<  " " << fare;
+				prompt << "@new_player:travel_coupon_use_text_option"
+					   << " " << fare;
 				couponSui->setPromptText(prompt.toString());
 				couponSui->setOkButton(true, "@new_player:travel_coupon_use_coupon_button");
 				couponSui->setCancelButton(true, "@new_player:travel_coupon_pay_credits_button");
@@ -211,7 +207,7 @@ public:
 		if (roundTrip)
 			fare *= 2;
 
-		//Check if they have funds.
+		// Check if they have funds.
 		int bank = creature->getBankCredits();
 		int cash = creature->getCashCredits();
 
@@ -224,7 +220,7 @@ public:
 				suiBox->setPromptText("You do not have sufficient funds for that.");
 
 				creature->sendMessage(suiBox->generateMessage());
-				creature->sendSystemMessage("@travel:short_funds"); //You do not have enough money to complete the ticket purchase.
+				creature->sendSystemMessage("@travel:short_funds"); // You do not have enough money to complete the ticket purchase.
 				return GENERALERROR;
 			}
 
@@ -234,7 +230,7 @@ public:
 			trxBank.addState("arrivalPlanet", arrivalPlanet);
 			trxBank.addState("arrivalPoint", arrivalPoint);
 
-			creature->subtractBankCredits(bank); //Take all from the bank, since they didn't have enough to cover.
+			creature->subtractBankCredits(bank); // Take all from the bank, since they didn't have enough to cover.
 
 			TransactionLog trxCash(creature, TrxCode::TRAVELSYSTEM, diff, true);
 			trxCash.groupWith(trxBank);
@@ -243,7 +239,7 @@ public:
 			trxCash.addState("arrivalPlanet", arrivalPlanet);
 			trxCash.addState("arrivalPoint", arrivalPoint);
 
-			creature->subtractCashCredits(diff); //Take the rest from the cash.
+			creature->subtractCashCredits(diff); // Take the rest from the cash.
 			trxCash.groupWith(trxBank);
 			trxBank.commit();
 		} else {
@@ -253,14 +249,13 @@ public:
 			trx.addState("arrivalPlanet", arrivalPlanet);
 			trx.addState("arrivalPoint", arrivalPoint);
 
-			creature->subtractBankCredits(fare); //Take all of the fare from the bank.
+			creature->subtractBankCredits(fare); // Take all of the fare from the bank.
 			trx.commit();
 		}
 
-
-		StringIdChatParameter params("@base_player:prose_pay_acct_success"); //You successfully make a payment of %DI credits to %TO.
+		StringIdChatParameter params("@base_player:prose_pay_acct_success"); // You successfully make a payment of %DI credits to %TO.
 		params.setDI(baseFare + (roundTrip * baseFare));
-		params.setTO("@money/acct_n:travelsystem"); //the Galactic Travel Commission
+		params.setTO("@money/acct_n:travelsystem"); // the Galactic Travel Commission
 
 		creature->sendSystemMessage(params);
 
@@ -292,7 +287,7 @@ public:
 		}
 		_lock.release();
 
-		if(currentCity != nullptr && !currentCity->isClientRegion() && departureTax > 0) {
+		if (currentCity != nullptr && !currentCity->isClientRegion() && departureTax > 0) {
 			Locker clocker(currentCity, creature);
 			int taxPaid = departureTax + (roundTrip * departureTax);
 			currentCity->addToCityTreasury(taxPaid);
@@ -305,13 +300,12 @@ public:
 
 		ManagedReference<SuiMessageBox*> suiBox = new SuiMessageBox(creature, 0);
 		suiBox->setPromptTitle("");
-		suiBox->setPromptText("@travel:ticket_purchase_complete"); //Ticket purchase complete
+		suiBox->setPromptText("@travel:ticket_purchase_complete"); // Ticket purchase complete
 
 		creature->sendMessage(suiBox->generateMessage());
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //PURCHASETICKETCOMMAND_H_
+#endif // PURCHASETICKETCOMMAND_H_

@@ -12,8 +12,7 @@ class PlayerObjectDeltaMessage6 : public DeltaMessage {
 	PlayerObject* play;
 
 public:
-	PlayerObjectDeltaMessage6(PlayerObject* pl)
-			: DeltaMessage(pl->getObjectID(), 0x504C4159, 6) {
+	PlayerObjectDeltaMessage6(PlayerObject* pl) : DeltaMessage(pl->getObjectID(), 0x504C4159, 6) {
 		play = pl;
 	}
 
@@ -21,6 +20,5 @@ public:
 		startUpdate(1);
 		insertByte(level);
 	}
-
 };
 #endif /*PLAYEROBJECTDELTAMESSAGE6_H_*/

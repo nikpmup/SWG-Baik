@@ -10,11 +10,11 @@
 BaseMessage* SuiTransferBoxImplementation::generateMessage() {
 	SuiCreatePageMessage* message = new SuiCreatePageMessage(boxID, "Script.transfer");
 
-	//Declare Headers:
+	// Declare Headers:
 	addHeader("transaction.txtInputFrom", "Text");
 	addHeader("transaction.txtInputTo", "Text");
 
-	//Set Body Options:
+	// Set Body Options:
 	addSetting("3", "bg.caption.lblTitle", "Text", promptTitle);
 	addSetting("3", "Prompt.lblPrompt", "Text", promptText);
 
@@ -32,7 +32,7 @@ BaseMessage* SuiTransferBoxImplementation::generateMessage() {
 
 	setHandlerText("msgPayMaintenance");
 
-	//Generate Packet:
+	// Generate Packet:
 	generateHeader(message);
 	generateBody(message);
 	generateFooter(message);
@@ -41,19 +41,14 @@ BaseMessage* SuiTransferBoxImplementation::generateMessage() {
 	return message;
 }
 
-void SuiTransferBoxImplementation::addFrom(const String& from,
-		const String& startingFrom, const String& inputFrom, const String& rFrom) {
-
+void SuiTransferBoxImplementation::addFrom(const String& from, const String& startingFrom, const String& inputFrom, const String& rFrom) {
 	lblFrom = from;
 	lblStartingFrom = startingFrom;
 	lblInputFrom = inputFrom;
 	convertRatioFrom = rFrom;
-
 }
 
-void SuiTransferBoxImplementation::addTo(const String& to,
-		const String& startingTo, const String& inputTo, const String& rTo) {
-
+void SuiTransferBoxImplementation::addTo(const String& to, const String& startingTo, const String& inputTo, const String& rTo) {
 	lblTo = to;
 	lblStartingTo = startingTo;
 	lblInputTo = inputTo;

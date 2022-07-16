@@ -15,10 +15,7 @@
 
 class BandFlourishCommand : public QueueCommand {
 public:
-
-	BandFlourishCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	BandFlourishCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	static bool doBandFlourish(CreatureObject* player, int flourishNum, String& instrumentName) {
@@ -44,11 +41,11 @@ public:
 			return false;
 		}
 
-		//Make group members flourish.
+		// Make group members flourish.
 		StringIdChatParameter params;
 		params.setTT(player->getFirstName());
 
-		ManagedReference<EntertainingSession *> session = player->getActiveSession(SessionFacadeType::ENTERTAINING).castTo<EntertainingSession *>();
+		ManagedReference<EntertainingSession*> session = player->getActiveSession(SessionFacadeType::ENTERTAINING).castTo<EntertainingSession*>();
 
 		if (session == nullptr)
 			return false;
@@ -78,7 +75,7 @@ public:
 				Locker clocker(groupMember, group);
 
 				if (groupMember->isPlayerCreature()) {
-					ManagedReference<EntertainingSession *> memberSession = groupMember->getActiveSession(SessionFacadeType::ENTERTAINING).castTo<EntertainingSession *>();
+					ManagedReference<EntertainingSession*> memberSession = groupMember->getActiveSession(SessionFacadeType::ENTERTAINING).castTo<EntertainingSession*>();
 
 					if (memberSession == nullptr)
 						continue;
@@ -146,7 +143,6 @@ public:
 					if (instrumentType == performance->getInstrumentAudioId() || (isLeadPlaying && instrumentType < 1))
 						playbackModule->doFlourish(flourishNum);
 				}
-
 			}
 		} catch (Exception& e) {
 			player->wlock();
@@ -196,7 +192,7 @@ public:
 				return GENERALERROR;
 		}
 
-		ManagedReference<EntertainingSession *> session = creature->getActiveSession(SessionFacadeType::ENTERTAINING).castTo<EntertainingSession *>();
+		ManagedReference<EntertainingSession*> session = creature->getActiveSession(SessionFacadeType::ENTERTAINING).castTo<EntertainingSession*>();
 
 		if (session == nullptr) {
 			creature->sendSystemMessage("@performance:flourish_not_performing"); // You must be playing music or dancing in order to perform a flourish.
@@ -226,7 +222,6 @@ public:
 	float getCommandDuration(CreatureObject* object, const UnicodeString& arguments) const {
 		return 0;
 	}
-
 };
 
-#endif //BANDFLOURISHCOMMAND_H_
+#endif // BANDFLOURISHCOMMAND_H_

@@ -96,7 +96,7 @@ Reference<CreditObject*> CreditManager::getCreditObject(uint64 creoID) {
 
 	uint64 oid = ((creoID & 0x0000FFFFFFFFFFFFull) | (databaseID << 48));
 
-	Reference<CreditObject*> creditObj =  Core::getObjectBroker()->lookUp(oid).castTo<CreditObject*>();
+	Reference<CreditObject*> creditObj = Core::getObjectBroker()->lookUp(oid).castTo<CreditObject*>();
 
 	if (creditObj != nullptr && creditObj->getOwnerObjectID() == 0) {
 		creditObj = nullptr;

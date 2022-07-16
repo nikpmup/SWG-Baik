@@ -8,7 +8,6 @@ namespace managers {
 namespace reaction {
 
 class EmoteReactionFine : public Object {
-
 protected:
 	int reactionLevel, rankComparison, creditFine, factionFine, minQuip, maxQuip;
 	bool isImp, isHumanSpecies, doKnockdown;
@@ -29,7 +28,6 @@ public:
 	}
 
 	~EmoteReactionFine() {
-
 	}
 
 	String getEmoteResponse() {
@@ -70,12 +68,11 @@ public:
 
 		return minQuip + System::random(maxQuip - minQuip);
 	}
-
 };
 
-}
-}
-}
-}
+} // namespace reaction
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 #endif /* EMOTEREACTIONFINE_H_ */

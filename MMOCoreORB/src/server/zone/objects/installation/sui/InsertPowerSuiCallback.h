@@ -8,7 +8,6 @@
 #ifndef INSERTPOWERSUICALLBACK_H_
 #define INSERTPOWERSUICALLBACK_H_
 
-
 #include "server/zone/objects/installation/InstallationObject.h"
 #include "server/zone/objects/player/sui/SuiCallback.h"
 #include "server/zone/objects/player/sui/SuiBox.h"
@@ -16,8 +15,7 @@
 
 class InsertPowerSuiCallback : public SuiCallback {
 public:
-	InsertPowerSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	InsertPowerSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -29,7 +27,7 @@ public:
 		if (args->size() < 2)
 			return;
 
-		uint32 energy = (uint64) Long::valueOf(args->get(1).toString());
+		uint32 energy = (uint64)Long::valueOf(args->get(1).toString());
 		if (energy <= 0) {
 			return;
 		}
@@ -39,11 +37,11 @@ public:
 		if (object == nullptr || !object->isInstallationObject())
 			return;
 
-		InstallationObject* installation = cast<InstallationObject*>( object.get());
+		InstallationObject* installation = cast<InstallationObject*>(object.get());
 
 		ManagedReference<ResourceManager*> resourceManager = player->getZoneServer()->getResourceManager();
 
-		//TODO: This should be handled in StructureManager
+		// TODO: This should be handled in StructureManager
 
 		Locker _lock(installation, player);
 
@@ -67,7 +65,6 @@ public:
 
 		installation->updateToDatabase();
 	}
-
 };
 
 #endif /* INSERTPOWERSUICALLBACK_H_ */

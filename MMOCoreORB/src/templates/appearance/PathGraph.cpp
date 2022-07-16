@@ -131,8 +131,8 @@ const PathNode* PathGraph::findNearestGlobalNode(const Vector3& pointAlfa) const
 
 Vector<const PathNode*> PathGraph::getEntrances() const {
 	Vector<const PathNode*> vec;
-	for (const PathNode *node : pathNodes) {
-		if(node->getType() == PathNode::BuildingEntrance) {
+	for (const PathNode* node : pathNodes) {
+		if (node->getType() == PathNode::BuildingEntrance) {
 			vec.add(node);
 		}
 	}

@@ -10,14 +10,10 @@
 
 class ResourceContainerSplitCommand : public QueueCommand {
 public:
-
-	ResourceContainerSplitCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ResourceContainerSplitCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -30,21 +26,19 @@ public:
 		if (newStackSize < 1)
 			return GENERALERROR;
 
-		ManagedReference<ResourceContainer* > resourceContainer = server->getZoneServer()->getObject(target).castTo<ResourceContainer*>();
+		ManagedReference<ResourceContainer*> resourceContainer = server->getZoneServer()->getObject(target).castTo<ResourceContainer*>();
 
-		if ((resourceContainer == nullptr || !resourceContainer->isResourceContainer() ||!creature->isPlayerCreature()))
+		if ((resourceContainer == nullptr || !resourceContainer->isResourceContainer() || !creature->isPlayerCreature()))
 			return INVALIDTARGET;
 
-		if(!resourceContainer->isASubChildOf(creature)) {
+		if (!resourceContainer->isASubChildOf(creature)) {
 			creature->sendSystemMessage("@container_error_message:container08");
 			return INVALIDTARGET;
 		}
 
 		ManagedReference<SceneObject*> objectsParent = resourceContainer->getParent().get();
 
-		if (objectsParent == nullptr ||
-				objectsParent->isCellObject()) {
-
+		if (objectsParent == nullptr || objectsParent->isCellObject()) {
 			creature->sendSystemMessage("@container_error_message:container03");
 			return GENERALERROR;
 		}
@@ -55,7 +49,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //RESOURCECONTAINERSPLITCOMMAND_H_
+#endif // RESOURCECONTAINERSPLITCOMMAND_H_

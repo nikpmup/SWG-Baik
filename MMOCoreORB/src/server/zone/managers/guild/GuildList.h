@@ -10,10 +10,9 @@
 
 #include "server/zone/objects/guild/GuildObject.h"
 
-class GuildList : public VectorMap<uint32, ManagedReference<GuildObject*> > {
+class GuildList : public VectorMap<uint32, ManagedReference<GuildObject*>> {
 public:
-	GuildList() : VectorMap<uint32, ManagedReference<GuildObject*> >() {
-
+	GuildList() : VectorMap<uint32, ManagedReference<GuildObject*>>() {
 	}
 };
 

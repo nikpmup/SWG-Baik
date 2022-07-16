@@ -12,11 +12,9 @@
 class HealDroidWoundCommand : public QueueCommand {
 	int mindCost;
 	float range;
+
 public:
-
-	HealDroidWoundCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HealDroidWoundCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		mindCost = 50;
 		range = 6;
 	}
@@ -57,18 +55,18 @@ public:
 
 	bool canPerformSkill(CreatureObject* creature, CreatureObject* droid, WoundPack* woundPack, int mindCostNew) const {
 		if (!creature->canTreatWounds()) {
-			creature->sendSystemMessage("@healing_response:enhancement_must_wait"); //You must wait before you can heal wounds or apply enhancements again.
+			creature->sendSystemMessage("@healing_response:enhancement_must_wait"); // You must wait before you can heal wounds or apply enhancements again.
 			return false;
 		}
 
 		if (woundPack == nullptr) {
-			creature->sendSystemMessage("@error_message:droid_repair_no_wound_kit"); //No valid droid wound repair kit was found in your inventory.
+			creature->sendSystemMessage("@error_message:droid_repair_no_wound_kit"); // No valid droid wound repair kit was found in your inventory.
 			return false;
 		}
 
 		int medicalRatingNotIncludingCityBonus = creature->getSkillMod("private_medical_rating") - creature->getSkillModOfType("private_medical_rating", SkillModManager::CITY);
 		if (medicalRatingNotIncludingCityBonus <= 0) {
-			creature->sendSystemMessage("@healing_response:must_be_near_droid"); //You must be in a hospital, at a campsite, or near a surgical droid to do that.
+			creature->sendSystemMessage("@healing_response:must_be_near_droid"); // You must be in a hospital, at a campsite, or near a surgical droid to do that.
 			return false;
 		} else {
 			// are we in a cantina? we have a private medical rating so either thats from a droid or camp or hospital
@@ -76,32 +74,32 @@ public:
 			if (root != nullptr && root->isClientObject()) {
 				uint32 gameObjectType = root->getGameObjectType();
 				switch (gameObjectType) {
-						case SceneObjectType::RECREATIONBUILDING:
-						case SceneObjectType::HOTELBUILDING:
-						case SceneObjectType::THEATERBUILDING:
-							creature->sendSystemMessage("@error_message:droid_repair_not_valid_location"); // You must be in a city, at a camp site, or near your residence in order to use these tools.
-							return false;
+				case SceneObjectType::RECREATIONBUILDING:
+				case SceneObjectType::HOTELBUILDING:
+				case SceneObjectType::THEATERBUILDING:
+					creature->sendSystemMessage("@error_message:droid_repair_not_valid_location"); // You must be in a city, at a camp site, or near your residence in order to use these tools.
+					return false;
 				}
 			}
 		}
 
 		if (creature->isInCombat()) {
-			creature->sendSystemMessage("@error_message:droid_repair_you_in_combat"); //You cannot repair this droid while you are in combat!
+			creature->sendSystemMessage("@error_message:droid_repair_you_in_combat"); // You cannot repair this droid while you are in combat!
 			return false;
 		}
 
 		if (droid->isInCombat()) {
-			creature->sendSystemMessage("@error_message:droid_repair_droid_in_combat"); //You cannot repair this droid while it is in combat!
+			creature->sendSystemMessage("@error_message:droid_repair_droid_in_combat"); // You cannot repair this droid while it is in combat!
 			return false;
 		}
 
 		if (!droid->isHealableBy(creature)) {
-			creature->sendSystemMessage("@error_message:droid_repair_opposite_faction");  //It would be unwise to repair a droid such as this.
+			creature->sendSystemMessage("@error_message:droid_repair_opposite_faction"); // It would be unwise to repair a droid such as this.
 			return false;
 		}
 
 		if (creature->getHAM(CreatureAttribute::MIND) < mindCostNew) {
-			creature->sendSystemMessage("@healing_response:not_enough_mind"); //You do not have enough mind to do that.
+			creature->sendSystemMessage("@healing_response:not_enough_mind"); // You do not have enough mind to do that.
 			return false;
 		}
 
@@ -158,9 +156,8 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!creature->hasSkill("crafting_droidengineer_novice")) {
-			creature->sendSystemMessage("@error_message:droid_repair_not_droid_engineer"); //You must be a droid engineer to use this tool kit.
+			creature->sendSystemMessage("@error_message:droid_repair_not_droid_engineer"); // You must be a droid engineer to use this tool kit.
 			return GENERALERROR;
 		}
 
@@ -172,21 +169,21 @@ public:
 		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
 
 		if (object == nullptr) {
-			creature->sendSystemMessage("@error_message:droid_repair_no_target"); //You must target a droid pet to use these tools.
+			creature->sendSystemMessage("@error_message:droid_repair_no_target"); // You must target a droid pet to use these tools.
 			return GENERALERROR;
 		} else if (!object->isDroidObject()) {
-			creature->sendSystemMessage("@error_message:droid_repair_target_not_droid"); //Your target is not able to be repaired with these tools.
+			creature->sendSystemMessage("@error_message:droid_repair_target_not_droid"); // Your target is not able to be repaired with these tools.
 			return GENERALERROR;
 		}
 
-		DroidObject* droid = cast<DroidObject*>( object.get());
+		DroidObject* droid = cast<DroidObject*>(object.get());
 
 		Locker clocker(droid, creature);
 
 		if (!droid->isPet() || droid->isDead() || droid->isAttackableBy(creature))
 			return INVALIDTARGET;
 
-		if(!checkDistance(creature, droid, range))
+		if (!checkDistance(creature, droid, range))
 			return TOOFAR;
 
 		uint8 attribute = findAttribute(droid);
@@ -240,7 +237,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //HEALDROIDWOUNDCOMMAND_H_
+#endif // HEALDROIDWOUNDCOMMAND_H_

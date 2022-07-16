@@ -40,13 +40,13 @@ void LoginPacketHandler::handleMessage(Message* pack) {
 		break;
 
 	default:
-		//error("unhandled operand count" + pack->toString());
+		// error("unhandled operand count" + pack->toString());
 		break;
 	}
 }
 
 void LoginPacketHandler::handleErrorMessage(Message* pack) {
-	BaseClient* client = (BaseClient*) pack->getClient();
+	BaseClient* client = (BaseClient*)pack->getClient();
 	client->info("received ErrorMessage");
 
 	String errorType, errorMessage;
@@ -55,12 +55,12 @@ void LoginPacketHandler::handleErrorMessage(Message* pack) {
 	pack->parseAscii(errorMessage);
 
 	client->error(errorType + " : " + errorMessage);
-	//client->disconnect();
-	//exit(1);
+	// client->disconnect();
+	// exit(1);
 }
 
 void LoginPacketHandler::handleLoginClientToken(Message* pack) {
-	BaseClient* client = (BaseClient*) pack->getClient();
+	BaseClient* client = (BaseClient*)pack->getClient();
 	client->info("received LoginClientToken");
 
 	uint32 size = pack->parseInt();
@@ -72,7 +72,7 @@ void LoginPacketHandler::handleLoginClientToken(Message* pack) {
 }
 
 void LoginPacketHandler::handleEnumerateCharacterId(Message* pack) {
-	BaseClient* client = (BaseClient*) pack->getClient();
+	BaseClient* client = (BaseClient*)pack->getClient();
 	client->info("received EnumerateCharacterId");
 
 	uint32 characters = pack->parseInt();

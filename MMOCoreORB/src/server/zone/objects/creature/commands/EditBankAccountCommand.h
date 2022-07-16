@@ -7,14 +7,10 @@
 
 class EditBankAccountCommand : public QueueCommand {
 public:
-
-	EditBankAccountCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	EditBankAccountCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //EDITBANKACCOUNTCOMMAND_H_
+#endif // EDITBANKACCOUNTCOMMAND_H_

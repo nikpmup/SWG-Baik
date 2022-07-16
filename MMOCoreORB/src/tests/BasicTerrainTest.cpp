@@ -15,7 +15,6 @@
 
 class BasicTerrainTest : public ::testing::Test {
 public:
-
 	BasicTerrainTest() {
 		// Perform creation setup here.
 		ConfigManager::instance()->loadConfigData();
@@ -28,7 +27,7 @@ public:
 
 	void SetUp() {
 		// Perform setup of common constructs here.
-		//DataArchiveStore
+		// DataArchiveStore
 	}
 
 	void TearDown() {
@@ -55,7 +54,7 @@ TEST_F(BasicTerrainTest, LoadTestTerrainTest) {
 
 	EXPECT_NEAR(res, 83.3, 0.1);
 
-	//printf("height at %f, %f is:%f\n", x, y, res);
+	// printf("height at %f, %f is:%f\n", x, y, res);
 }
 
 TEST_F(BasicTerrainTest, LoadTestSpaceTerrain) {

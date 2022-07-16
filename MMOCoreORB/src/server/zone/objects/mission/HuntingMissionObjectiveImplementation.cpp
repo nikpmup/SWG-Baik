@@ -54,12 +54,11 @@ void HuntingMissionObjectiveImplementation::abort() {
 }
 
 void HuntingMissionObjectiveImplementation::complete() {
-
 	MissionObjectiveImplementation::complete();
 }
 
 int HuntingMissionObjectiveImplementation::notifyObserverEvent(MissionObserver* observer, uint32 eventType, Observable* observable, ManagedObject* arg1, int64 arg2) {
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
 	if (mission == nullptr)
 		return 1;
 
@@ -109,11 +108,11 @@ int HuntingMissionObjectiveImplementation::notifyObserverEvent(MissionObserver* 
 }
 
 Vector3 HuntingMissionObjectiveImplementation::getEndPosition() {
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
 
 	Vector3 missionEndPoint;
 
-	if(mission == nullptr)
+	if (mission == nullptr)
 		return missionEndPoint;
 
 	missionEndPoint.setX(mission->getStartPositionX());

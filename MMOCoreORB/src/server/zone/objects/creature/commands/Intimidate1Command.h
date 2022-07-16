@@ -10,13 +10,10 @@
 
 class Intimidate1Command : public CombatQueueCommand {
 public:
-
-	Intimidate1Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	Intimidate1Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -34,7 +31,7 @@ public:
 			CombatSpam* msg = new CombatSpam(creature, targetObject, creature, nullptr, 0, "cbt_spam", "intim_out_of_range", 0);
 			creature->sendMessage(msg);
 		}
-		
+
 		if (res == SUCCESS && creature->isPlayerCreature()) {
 			ManagedReference<PlayerObject*> ghost = creature->getPlayerObject();
 
@@ -46,7 +43,6 @@ public:
 		}
 		return res;
 	}
-
 };
 
-#endif //INTIMIDATE1COMMAND_H_
+#endif // INTIMIDATE1COMMAND_H_

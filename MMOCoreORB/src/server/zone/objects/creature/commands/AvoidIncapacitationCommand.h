@@ -9,11 +9,9 @@
 
 class AvoidIncapacitationCommand : public JediQueueCommand {
 public:
-
-	AvoidIncapacitationCommand(const String& name, ZoneProcessServer* server)
-: JediQueueCommand(name, server) {
-		 buffCRC = BuffCRC::JEDI_AVOID_INCAPACITATION;
-		 skillMods.put("avoid_incapacitation", 1);
+	AvoidIncapacitationCommand(const String& name, ZoneProcessServer* server) : JediQueueCommand(name, server) {
+		buffCRC = BuffCRC::JEDI_AVOID_INCAPACITATION;
+		skillMods.put("avoid_incapacitation", 1);
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -21,7 +19,6 @@ public:
 		// PLUS: There is no concrete evidence for what's stated in 'SPECIAL' sentence above, beyond the existence of 6 CRCs themselves.
 
 		if (creature->hasBuff(BuffCRC::JEDI_AVOID_INCAPACITATION)) {
-
 			int res = doCommonJediSelfChecks(creature);
 
 			if (res != SUCCESS)
@@ -39,7 +36,6 @@ public:
 			return doJediSelfBuffCommand(creature);
 		}
 	}
-
 };
 
-#endif //AVOIDINCAPACITATIONCOMMAND_H_
+#endif // AVOIDINCAPACITATIONCOMMAND_H_

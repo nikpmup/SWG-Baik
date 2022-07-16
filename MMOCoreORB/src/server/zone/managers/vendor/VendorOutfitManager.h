@@ -14,22 +14,20 @@ namespace managers {
 namespace vendor {
 
 class VendorOutfitManager : public Singleton<VendorOutfitManager>, public Logger, public Object {
-	VectorMap<String, Reference<Outfit*> > outfits;
+	VectorMap<String, Reference<Outfit*>> outfits;
 
 public:
 	VendorOutfitManager() {
-
 	}
 
 	~VendorOutfitManager() {
-
 	}
 
 	void initialize();
 
 	void loadLuaOutfits();
 
-	inline VectorMap<String, Reference<Outfit*> >* getOutfits() {
+	inline VectorMap<String, Reference<Outfit*>>* getOutfits() {
 		return &outfits;
 	}
 
@@ -44,13 +42,12 @@ public:
 	inline Reference<Outfit*> getOutfit(const String& key) {
 		return outfits.get(key);
 	}
-
 };
 
-}
-}
-}
-}
+} // namespace vendor
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::vendor;
 

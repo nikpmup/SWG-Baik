@@ -75,7 +75,6 @@ int PlayerManagementSessionImplementation::clearSession() {
 }
 
 void PlayerManagementSessionImplementation::ban(const int tablevel, const uint32 galaxy, const String& gname, const String& name) {
-
 	sendAccountInfo();
 
 	banMode = NONE;
@@ -88,7 +87,7 @@ void PlayerManagementSessionImplementation::ban(const int tablevel, const uint32
 
 	Locker alocker(targetAccount);
 
-	//Account Ban
+	// Account Ban
 	if (tablevel == 0) {
 		banMode = ACCOUNT;
 
@@ -109,8 +108,7 @@ void PlayerManagementSessionImplementation::ban(const int tablevel, const uint32
 			if (galaxyBan != nullptr) {
 				sendBanReason(true);
 				banType = UNBAN;
-			}
-			else {
+			} else {
 				sendBanDuration();
 				banType = BAN;
 			}
@@ -123,7 +121,7 @@ void PlayerManagementSessionImplementation::ban(const int tablevel, const uint32
 			targetName = name;
 			const CharacterListEntry* entry = targetAccount->getCharacterBan(galaxy, name);
 
-			if(entry != nullptr) {
+			if (entry != nullptr) {
 				sendBanReason(true);
 				banType = UNBAN;
 			} else {
@@ -201,17 +199,15 @@ void PlayerManagementSessionImplementation::sendBanDuration() {
 }
 
 void PlayerManagementSessionImplementation::parseBanDuration(const String& duration) {
-
 	StringTokenizer tokenizer(duration);
 	int durationInSeconds = 0;
 
 	try {
-
-		while(tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) {
 			String token;
 			tokenizer.getStringToken(token);
 
-			if(token.length() < 2)
+			if (token.length() < 2)
 				throw Exception();
 
 			char timeframe = token.charAt(token.length() - 1);
@@ -219,7 +215,7 @@ void PlayerManagementSessionImplementation::parseBanDuration(const String& durat
 			int units = Integer::valueOf(token);
 			int seconds = 0;
 
-			switch(timeframe) {
+			switch (timeframe) {
 			case 'y':
 				seconds = 60 * 60 * 24 * 365;
 				break;
@@ -245,12 +241,12 @@ void PlayerManagementSessionImplementation::parseBanDuration(const String& durat
 
 		banExpiration = durationInSeconds + time(0);
 
-		if(banReason.isEmpty())
+		if (banReason.isEmpty())
 			sendBanReason();
 		else
 			showBanSummary();
 
-	} catch(Exception& e) {
+	} catch (Exception& e) {
 		sendBanDuration();
 	}
 }
@@ -281,7 +277,6 @@ void PlayerManagementSessionImplementation::sendBanReason(bool unban) {
 	} else {
 		reasonBox->setPromptTitle("ENTER BAN REASON");
 		reasonBox->setPromptText("Enter the reason for the ban");
-
 	}
 
 	ghost->addSuiBox(reasonBox);
@@ -332,18 +327,17 @@ void PlayerManagementSessionImplementation::showBanSummary() {
 		summaryBox->addMenuItem("\\#FF0000Complete Ban", 0);
 	}
 
-
 	StringBuffer summary;
 	summary << "Banning ";
 	if (banMode == ACCOUNT && targetAccount != nullptr)
-		summary << " Account: " << targetAccount->getUsername() <<  endl;
+		summary << " Account: " << targetAccount->getUsername() << endl;
 	else if (banMode == GALAXY && galaxyID != 0)
-		summary << " From " << galaxyName << " Galaxy" <<  endl;
+		summary << " From " << galaxyName << " Galaxy" << endl;
 	else if (banMode == CHARACTER && !targetName.isEmpty())
-		summary << " Character: " << targetName <<  endl;
+		summary << " Character: " << targetName << endl;
 
 	summary << getBanDuration(banExpiration) << endl;
-	summary << "Ban Reason: "<< banReason << endl;
+	summary << "Ban Reason: " << banReason << endl;
 	summaryBox->setPromptText(summary.toString());
 
 	ghost->addSuiBox(summaryBox);
@@ -374,20 +368,19 @@ void PlayerManagementSessionImplementation::showUnbanSummary() {
 		unbanSummaryBox->setPromptTitle("Unban Summary");
 	}
 
-
 	StringBuffer summary;
 	summary << "Unbanning ";
 	if (banMode == ACCOUNT && targetAccount != nullptr) {
-		summary << " Account: " << targetAccount->getUsername() <<  endl;
+		summary << " Account: " << targetAccount->getUsername() << endl;
 		banExpiration = targetAccount->getBanExpires();
 	} else if (banMode == GALAXY && galaxyID != 0) {
 		const GalaxyBanEntry* galaxyBan = targetAccount->getGalaxyBan(galaxyID);
 		if (galaxyBan != nullptr) {
 			banExpiration = galaxyBan->getBanExpiration();
 		}
-		summary << " From " << galaxyName << " Galaxy" <<  endl;
+		summary << " From " << galaxyName << " Galaxy" << endl;
 	} else if (banMode == CHARACTER && !targetName.isEmpty()) {
-		summary << " Character: " << targetName <<  endl;
+		summary << " Character: " << targetName << endl;
 		const CharacterListEntry* entry = targetAccount->getCharacterBan(galaxyID, targetName);
 		if (entry != nullptr) {
 			banExpiration = entry->getBanExpiration();
@@ -395,7 +388,7 @@ void PlayerManagementSessionImplementation::showUnbanSummary() {
 	}
 
 	summary << getBanDuration(banExpiration) << endl;
-	summary << "Unban Reason: "<< banReason << endl;
+	summary << "Unban Reason: " << banReason << endl;
 
 	unbanSummaryBox->setPromptText(summary.toString());
 
@@ -421,11 +414,8 @@ void PlayerManagementSessionImplementation::completeBan() {
 	targetAccount->updateAccount();
 
 	if (banMode == ACCOUNT) {
-
 		/// Check for account status changes
-		if ((banType == BAN && targetAccount->isBanned()) ||
-				(banType == UNBAN && !targetAccount->isBanned())) {
-
+		if ((banType == BAN && targetAccount->isBanned()) || (banType == UNBAN && !targetAccount->isBanned())) {
 			admin->sendSystemMessage("This account has been changed since you started modifying it, please check changes and try again");
 
 			admin->sendMessage(accountBox->generateCloseMessage());
@@ -444,9 +434,7 @@ void PlayerManagementSessionImplementation::completeBan() {
 		const GalaxyBanEntry* galaxyBan = targetAccount->getGalaxyBan(galaxyID);
 
 		/// Check for galaxy ban status changes
-		if ((banType == BAN && galaxyBan != nullptr) ||
-				(banType == UNBAN && galaxyBan == nullptr)) {
-
+		if ((banType == BAN && galaxyBan != nullptr) || (banType == UNBAN && galaxyBan == nullptr)) {
 			admin->sendSystemMessage("This account has been changed since you started modifying it, please check changes and try again");
 
 			admin->sendMessage(accountBox->generateCloseMessage());
@@ -461,13 +449,11 @@ void PlayerManagementSessionImplementation::completeBan() {
 		} else
 			message = playerManager->banFromGalaxy(ghost, targetAccount, galaxyID, banExpiration - time(0), banReason);
 
-	} else if (banMode == CHARACTER){
+	} else if (banMode == CHARACTER) {
 		const CharacterListEntry* entry = targetAccount->getCharacterBan(galaxyID, targetName);
 
 		/// Check for player ban status changes
-		if ((banType == BAN && entry != nullptr) ||
-				(banType == UNBAN && entry == nullptr)) {
-
+		if ((banType == BAN && entry != nullptr) || (banType == UNBAN && entry == nullptr)) {
 			admin->sendSystemMessage("This account has been changed since you started modifying it, please check changes and try again");
 
 			admin->sendMessage(accountBox->generateCloseMessage());
@@ -481,11 +467,10 @@ void PlayerManagementSessionImplementation::completeBan() {
 			message = playerManager->unbanCharacter(ghost, targetAccount, targetName, galaxyID, reason.toString());
 		} else
 			message = playerManager->banCharacter(ghost, targetAccount, targetName, galaxyID, banExpiration - time(0), banReason);
-
 	}
 
 	admin->sendSystemMessage(message);
-	//sendAccountInfo();
+	// sendAccountInfo();
 	admin->sendMessage(accountBox->generateCloseMessage());
 	cancelSession();
 }
@@ -502,7 +487,6 @@ String PlayerManagementSessionImplementation::getBanDuration(uint32 timestamp) {
 
 	int minutesBanned = floor((float)totalBan / 60.0f);
 	totalBan -= (minutesBanned * 60);
-
 
 	reason << "Time remaining: ";
 

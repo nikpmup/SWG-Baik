@@ -9,14 +9,10 @@
 
 class AdjustLotCountCommand : public QueueCommand {
 public:
-
-	AdjustLotCountCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	AdjustLotCountCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -28,7 +24,7 @@ public:
 		if (targetObject == nullptr || !targetObject->isCreatureObject())
 			return INVALIDTARGET;
 
-		CreatureObject* targetCreature = cast<CreatureObject*>( targetObject.get());
+		CreatureObject* targetCreature = cast<CreatureObject*>(targetObject.get());
 
 		ManagedReference<PlayerObject*> ghost = targetCreature->getPlayerObject();
 
@@ -52,7 +48,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //ADJUSTLOTCOUNTCOMMAND_H_
+#endif // ADJUSTLOTCOUNTCOMMAND_H_

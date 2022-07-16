@@ -41,11 +41,10 @@ void InstallationObjectImplementation::loadTemplateData(SharedObjectTemplate* te
 	SharedInstallationObjectTemplate* inso = dynamic_cast<SharedInstallationObjectTemplate*>(templateData);
 
 	installationType = inso->getInstallationType();
-
 }
 
 void InstallationObjectImplementation::sendBaselinesTo(SceneObject* player) {
-	//send buios here
+	// send buios here
 
 	BaseMessage* buio3 = new InstallationObjectMessage3(_this.getReferenceUnsafeStaticCast());
 	player->sendMessage(buio3);
@@ -56,47 +55,42 @@ void InstallationObjectImplementation::sendBaselinesTo(SceneObject* player) {
 	const int objectType = getObjectTemplate()->getGameObjectType();
 
 	if ((objectType == SceneObjectType::MINEFIELD || objectType == SceneObjectType::DESTRUCTIBLE || objectType == SceneObjectType::COVERTSCANNER) && player->isCreatureObject())
-			sendPvpStatusTo(cast<CreatureObject*>(player));
-
+		sendPvpStatusTo(cast<CreatureObject*>(player));
 }
 
 void InstallationObjectImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* object) {
-	//TangibleObjectImplementation::fillAttributeList(alm, object);
+	// TangibleObjectImplementation::fillAttributeList(alm, object);
 
 	if (object != nullptr && isOnAdminList(object)) {
-
-		//Add the owner name to the examine window.
+		// Add the owner name to the examine window.
 		ManagedReference<SceneObject*> obj = object->getZoneServer()->getObject(ownerObjectID);
 
-		if(obj != nullptr) {
+		if (obj != nullptr) {
 			alm->insertAttribute("owner", obj->getDisplayedName());
 		}
 	}
-	if(isTurret() && dataObjectComponent != nullptr){
-
+	if (isTurret() && dataObjectComponent != nullptr) {
 		TurretDataComponent* turretData = cast<TurretDataComponent*>(dataObjectComponent.get());
-			if(turretData == nullptr)
-				return;
+		if (turretData == nullptr)
+			return;
 
-			turretData->fillAttributeList(alm);
+		turretData->fillAttributeList(alm);
 	}
-
 }
 
 void InstallationObjectImplementation::setOperating(bool value, bool notifyClient) {
-	//updateInstallationWork();
+	// updateInstallationWork();
 
 	if (operating == value)
 		return;
 
 	if (value) {
-
-		if(currentSpawn == nullptr)
+		if (currentSpawn == nullptr)
 			return;
 
 		spawnDensity = currentSpawn->getDensityAt(getZone()->getZoneName(), getPositionX(), getPositionY());
 
-		if(spawnDensity < .10) {
+		if (spawnDensity < .10) {
 			return;
 		}
 
@@ -151,7 +145,7 @@ void InstallationObjectImplementation::setOperating(bool value, bool notifyClien
 		resourceHopperTimestamp.updateToCurrentTime();
 	}
 
-	InstallationObjectDeltaMessage7* inso7 = new InstallationObjectDeltaMessage7( _this.getReferenceUnsafeStaticCast());
+	InstallationObjectDeltaMessage7* inso7 = new InstallationObjectDeltaMessage7(_this.getReferenceUnsafeStaticCast());
 	inso7->updateExtractionRate(getActualRate());
 	inso7->close();
 
@@ -159,7 +153,6 @@ void InstallationObjectImplementation::setOperating(bool value, bool notifyClien
 }
 
 void InstallationObjectImplementation::setActiveResource(ResourceContainer* container) {
-
 	Time timeToWorkTill;
 
 	if (resourceHopper.size() == 0) {
@@ -183,13 +176,13 @@ void InstallationObjectImplementation::setActiveResource(ResourceContainer* cont
 
 			ManagedReference<ResourceContainer*> oldEntry = resourceHopper.get(0);
 
-			InstallationObjectDeltaMessage7* inso7 = new InstallationObjectDeltaMessage7( _this.getReferenceUnsafeStaticCast());
+			InstallationObjectDeltaMessage7* inso7 = new InstallationObjectDeltaMessage7(_this.getReferenceUnsafeStaticCast());
 			inso7->updateHopper();
 			inso7->startUpdate(0x0D);
 
 			resourceHopper.set(0, container, inso7, 2);
 
-			if(oldEntry->getQuantity() > 0)
+			if (oldEntry->getQuantity() > 0)
 				resourceHopper.set(i, oldEntry, inso7, 0);
 			else
 				resourceHopper.remove(i, inso7, 0);
@@ -214,8 +207,8 @@ void InstallationObjectImplementation::handleStructureAddEnergy(CreatureObject* 
 		energyBox->setUsingObject(_this.getReferenceUnsafeStaticCast());
 		energyBox->setPromptTitle("@player_structure:add_power");
 
-		sstext	<< "@player_structure:select_power_amount"
-				<<"\n\n@player_structure:current_power_value " << (int) surplusPower;
+		sstext << "@player_structure:select_power_amount"
+			   << "\n\n@player_structure:current_power_value " << (int)surplusPower;
 
 		energyBox->setPromptText(sstext.toString());
 
@@ -270,7 +263,6 @@ ResourceContainer* InstallationObjectImplementation::getContainerFromHopper(Reso
 }
 
 void InstallationObjectImplementation::updateInstallationWork() {
-
 	Time timeToWorkTill;
 
 	bool shutdownAfterWork = updateMaintenance(timeToWorkTill);
@@ -278,7 +270,6 @@ void InstallationObjectImplementation::updateInstallationWork() {
 }
 
 bool InstallationObjectImplementation::updateMaintenance(Time& workingTime) {
-
 	Time now;
 
 	int currentTime = time(0);
@@ -291,12 +282,10 @@ bool InstallationObjectImplementation::updateMaintenance(Time& workingTime) {
 
 	bool shutdownWork = false;
 
-
 	if (payAmount > surplusMaintenance) {
-
 		workTimePermitted = surplusMaintenance / getMaintenanceRate() * 3600;
 
-		Time workTill(lastMaintenanceTime.getTime() + (int) workTimePermitted);
+		Time workTill(lastMaintenanceTime.getTime() + (int)workTimePermitted);
 		workingTime = workTill;
 
 		shutdownWork = true;
@@ -319,7 +308,7 @@ bool InstallationObjectImplementation::updateMaintenance(Time& workingTime) {
 			float workPowerPermitted = (surplusPower / basePowerRate) * 3600;
 
 			if (workPowerPermitted < elapsedTime) {
-				Time workTill(lastMaintenanceTime.getTime() + (int) workPowerPermitted);
+				Time workTill(lastMaintenanceTime.getTime() + (int)workPowerPermitted);
 				workingTime = workTill;
 			}
 
@@ -327,7 +316,6 @@ bool InstallationObjectImplementation::updateMaintenance(Time& workingTime) {
 		}
 
 		addPower(-1.0f * energyAmount);
-
 	}
 
 	lastMaintenanceTime.updateToCurrentTime();
@@ -336,7 +324,6 @@ bool InstallationObjectImplementation::updateMaintenance(Time& workingTime) {
 }
 
 void InstallationObjectImplementation::updateHopper(Time& workingTime, bool shutdownAfterUpdate) {
-
 	Locker locker(_this.getReferenceUnsafeStaticCast());
 
 	if (getZone() == nullptr)
@@ -345,12 +332,12 @@ void InstallationObjectImplementation::updateHopper(Time& workingTime, bool shut
 	Time timeToWorkTill;
 
 	if (!isOperating()) {
-		if(lastStopTime.compareTo(resourceHopperTimestamp) != -1)
+		if (lastStopTime.compareTo(resourceHopperTimestamp) != -1)
 			return;
 	}
 
 	if (resourceHopper.size() == 0) { // no active spawn
-		if(currentSpawn == nullptr)
+		if (currentSpawn == nullptr)
 			return;
 
 		Locker locker(currentSpawn);
@@ -359,7 +346,7 @@ void InstallationObjectImplementation::updateHopper(Time& workingTime, bool shut
 
 	ManagedReference<ResourceContainer*> container = resourceHopper.get(0);
 
-	if(currentSpawn == nullptr)
+	if (currentSpawn == nullptr)
 		currentSpawn = container->getSpawnObject();
 
 	Time currentTime = workingTime;
@@ -376,17 +363,16 @@ void InstallationObjectImplementation::updateHopper(Time& workingTime, bool shut
 	int availableCapacity = (int)(getHopperSizeMax() - getHopperSize());
 	harvestAmount = harvestAmount > availableCapacity ? availableCapacity : harvestAmount;
 
-	if(harvestAmount < 0)
+	if (harvestAmount < 0)
 		harvestAmount = 0;
 
 	harvestAmount += extractionRemainder;
-	extractionRemainder = harvestAmount - (int) harvestAmount;
-	harvestAmount = (int) harvestAmount;
+	extractionRemainder = harvestAmount - (int)harvestAmount;
+	harvestAmount = (int)harvestAmount;
 
 	float currentQuantity = container->getQuantity();
 
-
-	if(harvestAmount > 0 || !isOperating()) {
+	if (harvestAmount > 0 || !isOperating()) {
 		Locker spawnLocker(currentSpawn);
 
 		currentSpawn->extractResource(getZone()->getZoneName(), harvestAmount);
@@ -399,10 +385,10 @@ void InstallationObjectImplementation::updateHopper(Time& workingTime, bool shut
 	// Update Timestamp
 	resourceHopperTimestamp.updateToCurrentTime();
 
-	if((int)getHopperSize() >= (int)getHopperSizeMax())
+	if ((int)getHopperSize() >= (int)getHopperSizeMax())
 		shutdownAfterUpdate = true;
 
-	if(spawnExpireTimestamp.compareTo(currentTime) > 0) {
+	if (spawnExpireTimestamp.compareTo(currentTime) > 0) {
 		shutdownAfterUpdate = true;
 	}
 
@@ -416,12 +402,9 @@ void InstallationObjectImplementation::updateHopper(Time& workingTime, bool shut
 	inso7->close();
 
 	broadcastToOperators(inso7);*/
-
 }
 
-
 void InstallationObjectImplementation::clearResourceHopper() {
-
 	Time timeToWorkTill;
 
 	if (resourceHopper.size() == 0)
@@ -429,7 +412,7 @@ void InstallationObjectImplementation::clearResourceHopper() {
 
 	setOperating(false);
 
-	//lets delete the containers from db
+	// lets delete the containers from db
 	for (int i = 0; i < resourceHopper.size(); ++i) {
 		ResourceContainer* container = resourceHopper.get(i);
 		if (container != nullptr) {
@@ -438,7 +421,7 @@ void InstallationObjectImplementation::clearResourceHopper() {
 		}
 	}
 
-	InstallationObjectDeltaMessage7* inso7 = new InstallationObjectDeltaMessage7( _this.getReferenceUnsafeStaticCast());
+	InstallationObjectDeltaMessage7* inso7 = new InstallationObjectDeltaMessage7(_this.getReferenceUnsafeStaticCast());
 	inso7->updateHopper();
 	inso7->startUpdate(0x0D);
 
@@ -459,7 +442,7 @@ void InstallationObjectImplementation::addResourceToHopper(ResourceContainer* co
 
 	Time timeToWorkTill;
 
-	InstallationObjectDeltaMessage7* inso7 = new InstallationObjectDeltaMessage7( _this.getReferenceUnsafeStaticCast());
+	InstallationObjectDeltaMessage7* inso7 = new InstallationObjectDeltaMessage7(_this.getReferenceUnsafeStaticCast());
 	inso7->updateHopper();
 	inso7->startUpdate(0x0D);
 
@@ -471,7 +454,6 @@ void InstallationObjectImplementation::addResourceToHopper(ResourceContainer* co
 }
 
 void InstallationObjectImplementation::changeActiveResourceID(uint64 spawnID) {
-
 	// Logic:
 	// 1) If operating, and already has an active resource ID - make sure the hopper gets updated
 	// 2) Get the spawn information & set the active resource id
@@ -507,7 +489,7 @@ void InstallationObjectImplementation::changeActiveResourceID(uint64 spawnID) {
 		setActiveResource(container);
 	}
 
-	InstallationObjectDeltaMessage7* inso7 = new InstallationObjectDeltaMessage7( _this.getReferenceUnsafeStaticCast());
+	InstallationObjectDeltaMessage7* inso7 = new InstallationObjectDeltaMessage7(_this.getReferenceUnsafeStaticCast());
 	inso7->updateExtractionRate(getActualRate());
 	inso7->updateActiveResourceSpawn(getActiveResourceSpawnID());
 	inso7->close();
@@ -539,7 +521,6 @@ void InstallationObjectImplementation::activateUiSync() {
 		return;
 
 	try {
-
 		if (syncUiTask == nullptr)
 			syncUiTask = new SyncrhonizedUiListenInstallationTask(_this.getReferenceUnsafeStaticCast());
 
@@ -565,7 +546,6 @@ void InstallationObjectImplementation::verifyOperators() {
 			--i;
 		}
 	}
-
 }
 
 void InstallationObjectImplementation::destroyObjectFromDatabase(bool destroyContainedObjects) {
@@ -590,7 +570,6 @@ void InstallationObjectImplementation::destroyObjectFromDatabase(bool destroyCon
 }
 
 void InstallationObjectImplementation::updateResourceContainerQuantity(ResourceContainer* container, int newQuantity, bool notifyClient) {
-
 	Time timeToWorkTill;
 
 	container->setQuantity(newQuantity, false, true);
@@ -599,10 +578,10 @@ void InstallationObjectImplementation::updateResourceContainerQuantity(ResourceC
 		ResourceContainer* cont = resourceHopper.get(i);
 
 		if (cont == container) {
-			InstallationObjectDeltaMessage7* inso7 = new InstallationObjectDeltaMessage7( _this.getReferenceUnsafeStaticCast());
+			InstallationObjectDeltaMessage7* inso7 = new InstallationObjectDeltaMessage7(_this.getReferenceUnsafeStaticCast());
 			inso7->updateHopper();
 			inso7->startUpdate(0x0D);
-			if(container->getQuantity() == 0 && (!isOperating() || (isOperating() && i != 0)))
+			if (container->getQuantity() == 0 && (!isOperating() || (isOperating() && i != 0)))
 				resourceHopper.remove(i, inso7, 1);
 			else
 				resourceHopper.set(i, container, inso7, 1);
@@ -617,18 +596,17 @@ void InstallationObjectImplementation::updateResourceContainerQuantity(ResourceC
 		}
 	}
 
-	if(resourceHopper.size() == 0)
+	if (resourceHopper.size() == 0)
 		setOperating(false);
 
-	//broadcastToOperators(new InstallationObjectDeltaMessage7(_this.getReferenceUnsafeStaticCast()));
+	// broadcastToOperators(new InstallationObjectDeltaMessage7(_this.getReferenceUnsafeStaticCast()));
 }
 
 uint64 InstallationObjectImplementation::getActiveResourceSpawnID() {
 	if (currentSpawn == nullptr) {
 		return 0;
 	} else {
-
-		if(currentSpawn->getDespawned() < time(0))
+		if (currentSpawn->getDespawned() < time(0))
 			return 0;
 
 		return currentSpawn->getObjectID();
@@ -645,16 +623,16 @@ float InstallationObjectImplementation::getActualRate() {
 	return extractionRate * spawnDensity;
 }
 
-void InstallationObjectImplementation::setExtractionRate(float rate){
+void InstallationObjectImplementation::setExtractionRate(float rate) {
 	extractionRate = rate;
 }
 
-void InstallationObjectImplementation::setHopperSizeMax(float size){
+void InstallationObjectImplementation::setHopperSizeMax(float size) {
 	hopperSizeMax = size;
 }
 
 void InstallationObjectImplementation::updateStructureStatus() {
-	if(isCivicStructure())
+	if (isCivicStructure())
 		return;
 
 	updateInstallationWork();

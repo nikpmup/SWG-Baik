@@ -34,7 +34,7 @@ public:
 		totalAttributes = cd.totalAttributes;
 	}
 
-	RacialCreationData& operator= (const RacialCreationData& cd) {
+	RacialCreationData& operator=(const RacialCreationData& cd) {
 		if (this == &cd)
 			return *this;
 
@@ -47,11 +47,11 @@ public:
 	}
 
 	void parseAttributeData(const DataTableRow* row) {
-		//The data starts at offset 2.
+		// The data starts at offset 2.
 		int min = 0;
 		int max = 0;
 
-		for (int i = 2; i < 20; i+=2) {
+		for (int i = 2; i < 20; i += 2) {
 			row->getValue(i, min);
 			row->getValue(i + 1, max);
 
@@ -104,11 +104,11 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace creation
+} // namespace player
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::player::creation;
 

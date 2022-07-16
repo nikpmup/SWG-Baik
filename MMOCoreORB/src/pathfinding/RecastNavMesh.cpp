@@ -67,7 +67,7 @@ void RecastNavMesh::loadAll(ObjectInputStream* stream) {
 			return;
 		}
 
-		byte* data = (byte*) dtAlloc(tileHeader.dataSize, DT_ALLOC_PERM);
+		byte* data = (byte*)dtAlloc(tileHeader.dataSize, DT_ALLOC_PERM);
 		if (!data) {
 			error("Failed to buffer for tile in RecastNavMesh " + name);
 			dtFreeNavMesh(mesh);
@@ -100,7 +100,8 @@ void RecastNavMesh::saveAll(ObjectOutputStream* stream) {
 	// Store tiles.
 	for (int i = 0; i < mesh->getMaxTiles(); ++i) {
 		const dtMeshTile* tile = mesh->getTile(i);
-		if (!tile || !tile->header || !tile->dataSize) continue;
+		if (!tile || !tile->header || !tile->dataSize)
+			continue;
 
 		NavMeshTileHeader tileHeader;
 		tileHeader.tileRef = mesh->getTileRef(tile);
@@ -123,7 +124,8 @@ void RecastNavMesh::setupDetourNavMeshHeader() {
 	header.numTiles = 0;
 	for (int i = 0; i < mesh->getMaxTiles(); ++i) {
 		const dtMeshTile* tile = mesh->getTile(i);
-		if (!tile || !tile->header || !tile->dataSize) continue;
+		if (!tile || !tile->header || !tile->dataSize)
+			continue;
 		header.numTiles++;
 	}
 
@@ -147,13 +149,14 @@ void RecastNavMesh::copyMeshTo(dtNavMesh* mesh) {
 	// Copy tiles.
 	for (int i = 0; i < origMesh->getMaxTiles(); ++i) {
 		const dtMeshTile* tile = origMesh->getTile(i);
-		if (!tile || !tile->header || !tile->dataSize) continue;
+		if (!tile || !tile->header || !tile->dataSize)
+			continue;
 
 		NavMeshTileHeader tileHeader;
 		tileHeader.tileRef = origMesh->getTileRef(tile);
 		tileHeader.dataSize = tile->dataSize;
 
-		byte* data = (byte*) dtAlloc(tileHeader.dataSize, DT_ALLOC_PERM);
+		byte* data = (byte*)dtAlloc(tileHeader.dataSize, DT_ALLOC_PERM);
 		if (!data) {
 			error("Failed to alloc data in copyMeshTo for " + name);
 			dtFreeNavMesh(mesh);
@@ -187,7 +190,8 @@ void RecastNavMesh::saveToFile() {
 	// Store tiles.
 	for (int i = 0; i < mesh->getMaxTiles(); ++i) {
 		const dtMeshTile* tile = mesh->getTile(i);
-		if (!tile || !tile->header || !tile->dataSize) continue;
+		if (!tile || !tile->header || !tile->dataSize)
+			continue;
 
 		NavMeshTileHeader tileHeader;
 		tileHeader.tileRef = mesh->getTileRef(tile);

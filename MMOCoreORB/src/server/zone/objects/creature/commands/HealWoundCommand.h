@@ -16,11 +16,9 @@
 class HealWoundCommand : public QueueCommand {
 	int mindCost;
 	float range;
+
 public:
-
-	HealWoundCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HealWoundCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		mindCost = 50;
 		range = 6;
 	}
@@ -31,7 +29,7 @@ public:
 		int delay = (int)round((modSkill * -(2.0f / 25.0f)) + 20.0f);
 
 		if (creature->hasBuff(BuffCRC::FOOD_HEAL_RECOVERY)) {
-			DelayedBuff* buff = cast<DelayedBuff*>( creature->getBuff(BuffCRC::FOOD_HEAL_RECOVERY));
+			DelayedBuff* buff = cast<DelayedBuff*>(creature->getBuff(BuffCRC::FOOD_HEAL_RECOVERY));
 
 			if (buff != nullptr) {
 				float percent = buff->getSkillModifierValue("heal_recovery");
@@ -40,7 +38,7 @@ public:
 			}
 		}
 
-		//Force the delay to be at least 3 seconds.
+		// Force the delay to be at least 3 seconds.
 		delay = (delay < 3) ? 3 : delay;
 
 		StringIdChatParameter message("healing_response", "healing_response_59");
@@ -76,8 +74,8 @@ public:
 		if (!object->isPlayerCreature())
 			return;
 
-		CreatureObject* creature = cast<CreatureObject*>( object);
-		CreatureObject* creatureTarget = cast<CreatureObject*>(  target);
+		CreatureObject* creature = cast<CreatureObject*>(object);
+		CreatureObject* creatureTarget = cast<CreatureObject*>(target);
 
 		String poolName = CreatureAttribute::getName(attribute);
 
@@ -102,18 +100,18 @@ public:
 
 	bool canPerformSkill(CreatureObject* creature, CreatureObject* creatureTarget, WoundPack* woundPack, int mindCostNew) const {
 		if (!creature->canTreatWounds()) {
-			creature->sendSystemMessage("@healing_response:enhancement_must_wait"); //You must wait before you can heal wounds or apply enhancements again.
+			creature->sendSystemMessage("@healing_response:enhancement_must_wait"); // You must wait before you can heal wounds or apply enhancements again.
 			return false;
 		}
 
 		if (woundPack == nullptr) {
-			creature->sendSystemMessage("@healing_response:healing_response_60"); //No valid medicine found.
+			creature->sendSystemMessage("@healing_response:healing_response_60"); // No valid medicine found.
 			return false;
 		}
 
 		int medicalRatingNotIncludingCityBonus = creature->getSkillMod("private_medical_rating") - creature->getSkillModOfType("private_medical_rating", SkillModManager::CITY);
 		if (medicalRatingNotIncludingCityBonus <= 0) {
-			creature->sendSystemMessage("@healing_response:must_be_near_droid"); //You must be in a hospital, at a campsite, or near a surgical droid to do that.
+			creature->sendSystemMessage("@healing_response:must_be_near_droid"); // You must be in a hospital, at a campsite, or near a surgical droid to do that.
 			return false;
 		} else {
 			// are we in a cantina? we have a private medical rating so either thats form a droid or camp or hospital
@@ -121,11 +119,11 @@ public:
 			if (root != nullptr && root->isClientObject()) {
 				uint32 gameObjectType = root->getGameObjectType();
 				switch (gameObjectType) {
-						case SceneObjectType::RECREATIONBUILDING:
-						case SceneObjectType::HOTELBUILDING:
-						case SceneObjectType::THEATERBUILDING:
-							creature->sendSystemMessage("@healing_response:must_be_in_hospital"); // You must be in a hospital or at a campsite to do that.
-							return false;
+				case SceneObjectType::RECREATIONBUILDING:
+				case SceneObjectType::HOTELBUILDING:
+				case SceneObjectType::THEATERBUILDING:
+					creature->sendSystemMessage("@healing_response:must_be_in_hospital"); // You must be in a hospital or at a campsite to do that.
+					return false;
 				}
 			}
 		}
@@ -146,12 +144,12 @@ public:
 		}
 
 		if (!creatureTarget->isHealableBy(creature)) {
-			creature->sendSystemMessage("@healing:pvp_no_help");  //It would be unwise to help such a patient.
+			creature->sendSystemMessage("@healing:pvp_no_help"); // It would be unwise to help such a patient.
 			return false;
 		}
 
 		if (creature->getHAM(CreatureAttribute::MIND) < mindCostNew) {
-			creature->sendSystemMessage("@healing_response:not_enough_mind"); //You do not have enough mind to do that.
+			creature->sendSystemMessage("@healing_response:not_enough_mind"); // You do not have enough mind to do that.
 			return false;
 		}
 
@@ -197,7 +195,6 @@ public:
 		return CreatureAttribute::UNKNOWN;
 	}
 
-
 	WoundPack* findWoundPack(CreatureObject* creature, uint8 attribute) const {
 		SceneObject* inventory = creature->getSlottedObject("inventory");
 
@@ -225,7 +222,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		int result = doCommonMedicalCommandChecks(creature);
 
 		if (result != SUCCESS)
@@ -248,14 +244,14 @@ public:
 			object = creature;
 		}
 
-		CreatureObject* creatureTarget = cast<CreatureObject*>( object.get());
+		CreatureObject* creatureTarget = cast<CreatureObject*>(object.get());
 
 		Locker clocker(creatureTarget, creature);
 
 		if ((creatureTarget->isAiAgent() && !creatureTarget->isPet()) || creatureTarget->isDroidObject() || creatureTarget->isVehicleObject() || creatureTarget->isDead() || creatureTarget->isRidingMount() || creatureTarget->isAttackableBy(creature))
 			creatureTarget = creature;
 
-		if(!checkDistance(creature, creatureTarget, range))
+		if (!checkDistance(creature, creatureTarget, range))
 			return TOOFAR;
 
 		uint8 attribute = CreatureAttribute::UNKNOWN;
@@ -295,7 +291,7 @@ public:
 				searchAttribute = findAttribute(creatureTarget, searchAttribute);
 
 				if (searchAttribute == CreatureAttribute::UNKNOWN) {
-					creature->sendSystemMessage("@healing_response:healing_response_60"); //No valid medicine found.
+					creature->sendSystemMessage("@healing_response:healing_response_60"); // No valid medicine found.
 					return GENERALERROR;
 				}
 
@@ -312,9 +308,9 @@ public:
 
 		if (creatureTarget->getWounds(attribute) == 0) {
 			if (creatureTarget == creature) {
-				creature->sendSystemMessage("@healing_response:healing_response_67"); //You have no wounds of that type to heal.
-			} else if (creatureTarget->isPlayerCreature()){
-				//TODO: Patch the tre later to include a %NT.
+				creature->sendSystemMessage("@healing_response:healing_response_67"); // You have no wounds of that type to heal.
+			} else if (creatureTarget->isPlayerCreature()) {
+				// TODO: Patch the tre later to include a %NT.
 				StringBuffer message;
 				message << creatureTarget->getFirstName() << " has no wounds of that type to heal.";
 				creature->sendSystemMessage(message.toString());
@@ -348,7 +344,7 @@ public:
 		woundPack->decreaseUseCount();
 
 		if (creatureTarget != creature && !creatureTarget->isPet())
-			awardXp(creature, "medical", woundHealed); //No experience for healing yourself or pets.
+			awardXp(creature, "medical", woundHealed); // No experience for healing yourself or pets.
 
 		doAnimations(creature, creatureTarget);
 
@@ -358,7 +354,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //HEALWOUNDCOMMAND_H_
+#endif // HEALWOUNDCOMMAND_H_

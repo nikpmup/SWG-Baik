@@ -17,7 +17,7 @@ class FactionStandingList : public Serializable {
 	int rebelPoints;
 	int imperialPoints;
 	SynchronizedVectorMap<String, float> factions;
-	//int huttPoints; //Disabled
+	// int huttPoints; //Disabled
 
 public:
 	FactionStandingList() {
@@ -153,7 +153,7 @@ public:
 		message->insertAscii(factionRank);
 		message->insertInt(rebelPoints);
 		message->insertInt(imperialPoints);
-		message->insertInt(0); //Hutt Points;
+		message->insertInt(0); // Hutt Points;
 
 		int listSize = factions.size();
 

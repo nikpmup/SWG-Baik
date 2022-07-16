@@ -13,33 +13,31 @@
 class RevivePlayerCommand : public QueueCommand {
 	float mindCost;
 	float range;
+
 public:
-
-	RevivePlayerCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RevivePlayerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		mindCost = 200;
 		range = 7;
 	}
 
 	bool canPerformSkill(CreatureObject* creature, CreatureObject* creatureTarget, RevivePack* revivePack, int mindCostNew) const {
 		if (!creatureTarget->isDead()) {
-			creature->sendSystemMessage("@healing_response:healing_response_a4"); //Your target does not require resuscitation!
+			creature->sendSystemMessage("@healing_response:healing_response_a4"); // Your target does not require resuscitation!
 			return 0;
 		}
 
 		if (revivePack == nullptr) {
-			creature->sendSystemMessage("@healing_response:cannot_resuscitate_kit"); //You cannot resuscitate someone without a resuscitation kit!
+			creature->sendSystemMessage("@healing_response:cannot_resuscitate_kit"); // You cannot resuscitate someone without a resuscitation kit!
 			return false;
 		}
 
 		if (!creatureTarget->isResuscitable()) {
-			creature->sendSystemMessage("@healing_response:too_dead_to_resuscitate"); //Your target has been dead too long. There is no hope of resuscitation.
+			creature->sendSystemMessage("@healing_response:too_dead_to_resuscitate"); // Your target has been dead too long. There is no hope of resuscitation.
 			return false;
 		}
 
 		if (!creatureTarget->isHealableBy(creature)) {
-			creature->sendSystemMessage("@healing:pvp_no_help");  //It would be unwise to help such a patient.
+			creature->sendSystemMessage("@healing:pvp_no_help"); // It would be unwise to help such a patient.
 			return false;
 		}
 
@@ -48,7 +46,7 @@ public:
 		if (group == nullptr || !group->hasMember(creatureTarget)) {
 			if (creature->isPlayerCreature()) {
 				CreatureObject* player = cast<CreatureObject*>(creature);
-				CreatureObject* consentOwner = cast<CreatureObject*>( creatureTarget);
+				CreatureObject* consentOwner = cast<CreatureObject*>(creatureTarget);
 
 				PlayerObject* ghost = consentOwner->getPlayerObject();
 
@@ -57,7 +55,7 @@ public:
 						creature->sendSystemMessage("@healing_response:jedi_must_consent"); // You must have consent from a jedi resuscitation target!
 						return false;
 					} else {
-						creature->sendSystemMessage("@healing_response:must_be_grouped"); //You must be grouped with or have consent from your resuscitation target!
+						creature->sendSystemMessage("@healing_response:must_be_grouped"); // You must be grouped with or have consent from your resuscitation target!
 						return false;
 					}
 				}
@@ -68,7 +66,7 @@ public:
 		}
 
 		if (creature->getHAM(CreatureAttribute::MIND) < mindCostNew) {
-			creature->sendSystemMessage("@healing_response:not_enough_mind"); //You do not have enough mind to do that.
+			creature->sendSystemMessage("@healing_response:not_enough_mind"); // You do not have enough mind to do that.
 			return false;
 		}
 
@@ -99,10 +97,10 @@ public:
 
 	void applyDebuff(CreatureObject* creature) const {
 		// Apply grogginess debuff
-		ManagedReference<PrivateBuff *> debuff = new PrivateBuff(creature, STRING_HASHCODE("private_groggy_debuff"), 60, BuffType::JEDI);
+		ManagedReference<PrivateBuff*> debuff = new PrivateBuff(creature, STRING_HASHCODE("private_groggy_debuff"), 60, BuffType::JEDI);
 		Locker locker(debuff);
 
-		for(int i=0; i<CreatureAttribute::ARRAYSIZE; i++)
+		for (int i = 0; i < CreatureAttribute::ARRAYSIZE; i++)
 			debuff->setAttributeModifier(i, -100);
 
 		creature->sendSystemMessage("Your grogginess will expire in 60.0 seconds.");
@@ -146,7 +144,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		int result = doCommonMedicalCommandChecks(creature);
 
 		if (result != SUCCESS)
@@ -161,7 +158,7 @@ public:
 				if (tangibleObject != nullptr && tangibleObject->isAttackableBy(creature)) {
 					object = creature;
 				} else {
-					creature->sendSystemMessage("@healing_response:healing_response_a2"); //You cannot apply resuscitation medication without a valid target!
+					creature->sendSystemMessage("@healing_response:healing_response_a2"); // You cannot apply resuscitation medication without a valid target!
 					return GENERALERROR;
 				}
 			}
@@ -169,7 +166,7 @@ public:
 			object = creature;
 		}
 
-		CreatureObject* creatureTarget = cast<CreatureObject*>( object.get());
+		CreatureObject* creatureTarget = cast<CreatureObject*>(object.get());
 
 		Locker clocker(creatureTarget, creature);
 
@@ -179,11 +176,11 @@ public:
 		}
 
 		if (creatureTarget == creature) {
-			creature->sendSystemMessage("@error_message:target_self_disallowed"); //You cannot target yourself with this command.
+			creature->sendSystemMessage("@error_message:target_self_disallowed"); // You cannot target yourself with this command.
 			return GENERALERROR;
 		}
 
-		if(!checkDistance(creature, creatureTarget, range))
+		if (!checkDistance(creature, creatureTarget, range))
 			return TOOFAR;
 
 		if (!playerEntryCheck(creature, creatureTarget)) {
@@ -210,21 +207,21 @@ public:
 		if (!canPerformSkill(creature, creatureTarget, revivePack, mindCostNew))
 			return 0;
 
-		int healthToHeal = Math::max(1, (int) round(revivePack->getHealthHealed()));
-		int actionToHeal = Math::max(1, (int) round(revivePack->getActionHealed()));
-		int mindToHeal = Math::max(1, (int) round(revivePack->getMindHealed()));
+		int healthToHeal = Math::max(1, (int)round(revivePack->getHealthHealed()));
+		int actionToHeal = Math::max(1, (int)round(revivePack->getActionHealed()));
+		int mindToHeal = Math::max(1, (int)round(revivePack->getMindHealed()));
 
 		int healedHealth = creatureTarget->healDamage(creature, CreatureAttribute::HEALTH, healthToHeal);
 		int healedAction = creatureTarget->healDamage(creature, CreatureAttribute::ACTION, actionToHeal);
 		int healedMind = creatureTarget->healDamage(creature, CreatureAttribute::MIND, mindToHeal);
 
 		creatureTarget->setPosture(CreaturePosture::UPRIGHT);
-		
+
 		creatureTarget->removeFeignedDeath();
 
-		int healedHealthWounds = creatureTarget->healWound(creature, CreatureAttribute::HEALTH, (int) (round(revivePack->getHealthWoundHealed())));
-		int healedActionWounds = creatureTarget->healWound(creature, CreatureAttribute::ACTION, (int) (round(revivePack->getActionWoundHealed())));
-		int healedMindWounds = creatureTarget->healWound(creature, CreatureAttribute::MIND, (int) (round(revivePack->getMindWoundHealed())));
+		int healedHealthWounds = creatureTarget->healWound(creature, CreatureAttribute::HEALTH, (int)(round(revivePack->getHealthWoundHealed())));
+		int healedActionWounds = creatureTarget->healWound(creature, CreatureAttribute::ACTION, (int)(round(revivePack->getActionWoundHealed())));
+		int healedMindWounds = creatureTarget->healWound(creature, CreatureAttribute::MIND, (int)(round(revivePack->getMindWoundHealed())));
 
 		creature->inflictDamage(creature, CreatureAttribute::MIND, mindCostNew, false);
 
@@ -248,7 +245,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REVIVEPLAYERCOMMAND_H_
+#endif // REVIVEPLAYERCOMMAND_H_

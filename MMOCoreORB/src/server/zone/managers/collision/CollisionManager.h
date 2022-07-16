@@ -20,24 +20,24 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace cell {
-	class CellObject;
+class CellObject;
 }
 namespace scene {
-	class SceneObject;
+class SceneObject;
 }
 
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
 
 namespace ship {
-	class ShipObject;
+class ShipObject;
 }
-}
+} // namespace objects
 
-	class Zone;
-}
-}
+class Zone;
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::cell;
 using namespace server::zone::objects::scene;
@@ -67,19 +67,18 @@ public:
 	static float getWorldFloorCollision(float x, float y, float z, Zone* zone, bool testWater);
 	static void getWorldFloorCollisions(float x, float y, Zone* zone, SortedVector<IntersectionResult>* result, CloseObjectsVector* closeObjectsVector = nullptr);
 
-	static void getWorldFloorCollisions(float x, float y, Zone* zone, SortedVector<IntersectionResult>* result, const SortedVector<ManagedReference<QuadTreeEntry*> >& inRangeObjects);
-	static void getWorldFloorCollisions(float x, float y, Zone* zone, SortedVector<IntersectionResult>* result, const Vector<QuadTreeEntry* >& inRangeObjects);
+	static void getWorldFloorCollisions(float x, float y, Zone* zone, SortedVector<IntersectionResult>* result, const SortedVector<ManagedReference<QuadTreeEntry*>>& inRangeObjects);
+	static void getWorldFloorCollisions(float x, float y, Zone* zone, SortedVector<IntersectionResult>* result, const Vector<QuadTreeEntry*>& inRangeObjects);
 
 	static Vector<float>* getCellFloorCollision(float x, float y, CellObject* cellObject);
 
-	//static bool
+	// static bool
 
 	static bool checkShipCollision(ShipObject* ship, const Vector3& targetPosition, Vector3& collisionPoint);
 
 	static bool checkSphereCollision(const Vector3& sphereOrigin, float radius, Zone* zone);
 
 	static bool checkLineOfSightInParentCell(SceneObject* object, Vector3& endPoint);
-
 };
 
 #endif /* COLLISIONMANAGER_H_ */

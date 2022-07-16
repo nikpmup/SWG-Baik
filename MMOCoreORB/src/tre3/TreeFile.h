@@ -24,7 +24,7 @@ class TreeFile : public Logger {
 	TreeDataBlock fileBlock;
 	TreeDataBlock nameBlock;
 
-	Vector<Reference<TreeFileRecord*> > records;
+	Vector<Reference<TreeFileRecord*>> records;
 
 	void readHeader(FileInputStream* fileStream);
 	void readFileBlock(FileInputStream* fileStream);
@@ -36,7 +36,7 @@ public:
 	~TreeFile();
 
 	void read(const String& path);
-	//void write(const String& filePath);
+	// void write(const String& filePath);
 };
 
 #endif /* TREEFILE_H_ */

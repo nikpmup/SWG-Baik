@@ -20,9 +20,9 @@ public:
 		insertLong(object->getObjectID());
 
 		// add coordinates
-		insertSignedShort((int16) (object->getPositionX() * 8));
-		insertSignedShort((int16) (object->getPositionZ() * 8));
-		insertSignedShort((int16) (object->getPositionY() * 8));
+		insertSignedShort((int16)(object->getPositionX() * 8));
+		insertSignedShort((int16)(object->getPositionZ() * 8));
+		insertSignedShort((int16)(object->getPositionY() * 8));
 
 		// add movement counter
 		insertInt(object->getMovementCounter());
@@ -35,7 +35,7 @@ public:
 			insertByte(0);
 
 		// add direction
-		insertByte((byte) object->getSpecialDirectionAngle());
+		insertByte((byte)object->getSpecialDirectionAngle());
 
 		/*System::out << "Position Update [" << player->getObjectID() << "] ("
 			 << (int) (player->getPositionX()) << "," << (int) (player->getPositionZ()) << ","
@@ -49,9 +49,9 @@ public:
 		insertLong(object->getObjectID());
 
 		// add coordinates
-		insertSignedShort((int16) (posX * 8));
-		insertSignedShort((int16) (posZ * 8));
-		insertSignedShort((int16) (posY * 8));
+		insertSignedShort((int16)(posX * 8));
+		insertSignedShort((int16)(posZ * 8));
+		insertSignedShort((int16)(posY * 8));
 
 		// add movement counter
 		insertInt(object->getMovementCounter());
@@ -64,14 +64,12 @@ public:
 			insertByte(0);
 
 		// add direction
-		insertByte((byte) object->getSpecialDirectionAngle());
+		insertByte((byte)object->getSpecialDirectionAngle());
 
 		/*System::out << "Position Update [" << player->getObjectID() << "] ("
 				 << (int) (player->getPositionX()) << "," << (int) (player->getPositionZ()) << ","
 				 << (int) (player->getPositionY()) << ") - Dir = " << (int) (player->getDirectionAngle()) << "\n";*/
 	}
-
 };
-
 
 #endif /*LIGHTUPDATETRANSFORMWITHPARENTMESSAGE_H_*/

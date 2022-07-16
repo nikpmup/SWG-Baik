@@ -7,14 +7,10 @@
 
 class ScriptCommand : public QueueCommand {
 public:
-
-	ScriptCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ScriptCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,7 @@ public:
 
 		StringTokenizer args(arguments.toString());
 
-		if(!args.hasMoreTokens())
+		if (!args.hasMoreTokens())
 			return GENERALERROR;
 
 		String cmdName = "";
@@ -86,7 +82,7 @@ public:
 			if (ghost == nullptr)
 				return GENERALERROR;
 
-			Vector<Reference<ScreenPlayTask*> > eventList = DirectorManager::instance()->getObjectEvents(obj);
+			Vector<Reference<ScreenPlayTask*>> eventList = DirectorManager::instance()->getObjectEvents(obj);
 
 			ManagedReference<SuiListBox*> box = new SuiListBox(creature, 0);
 			box->setPromptTitle("LUA Events");
@@ -123,7 +119,6 @@ public:
 		return SUCCESS;
 	}
 
-
 	String getTimeString(uint64 timestamp) const {
 		int seconds = timestamp / 1000;
 
@@ -146,7 +141,6 @@ public:
 
 		return buffer.toString();
 	}
-
 };
 
-#endif //SCRIPTCOMMAND_H_
+#endif // SCRIPTCOMMAND_H_

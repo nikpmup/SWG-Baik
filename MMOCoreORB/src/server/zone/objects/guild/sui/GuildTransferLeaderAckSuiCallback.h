@@ -15,8 +15,7 @@
 
 class GuildTransferLeaderAckSuiCallback : public SuiCallback {
 public:
-	GuildTransferLeaderAckSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	GuildTransferLeaderAckSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* newLeader, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -54,7 +53,7 @@ public:
 			return;
 		}
 
-		if ( cancelPressed ) {
+		if (cancelPressed) {
 			guild->setTransferPending(false);
 			owner->sendSystemMessage("@guild:ml_rejected"); // That player does not want to become guild leader
 			return;
@@ -62,16 +61,18 @@ public:
 
 		ManagedReference<GuildManager*> guildManager = server->getGuildManager();
 
-		if ( guildManager != nullptr ) {
+		if (guildManager != nullptr) {
 			ManagedReference<CreatureObject*> newOwner = newLeader;
 
-			Core::getTaskManager()->executeTask([=] () {
-				// transfer structure to new leader
-				if (guildManager->transferGuildHall(newOwner, sceoTerminal)) {
-					// change leadership of guild
-					guildManager->transferLeadership(newOwner, owner, false);
-				}
-			}, "TransferGuildLambda");
+			Core::getTaskManager()->executeTask(
+				[=]() {
+					// transfer structure to new leader
+					if (guildManager->transferGuildHall(newOwner, sceoTerminal)) {
+						// change leadership of guild
+						guildManager->transferLeadership(newOwner, owner, false);
+					}
+				},
+				"TransferGuildLambda");
 		}
 	}
 };

@@ -33,7 +33,7 @@ void ChannelForceBuffImplementation::activateRegenTick() {
 }
 
 void ChannelForceBuffImplementation::doHamTick() {
-  	ManagedReference<CreatureObject*> creo = creature.get();
+	ManagedReference<CreatureObject*> creo = creature.get();
 	if (creo == nullptr)
 		return;
 
@@ -60,7 +60,7 @@ void ChannelForceBuffImplementation::doHamTick() {
 		// "undo" the effects of channel by taking the negative to calculate how much to modify
 		// our attribute by this tick.
 		int healAmount = -modifier * healMod; // this will round off, but it won't matter.
-		if (abs(healAmount) > abs(modifier)) // ensure we don't go into positive modifer territory
+		if (abs(healAmount) > abs(modifier))  // ensure we don't go into positive modifer territory
 			healAmount = -modifier;
 
 		// we now add the healAmount to the modifier, which is necessarily the opposite sign of

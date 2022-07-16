@@ -15,8 +15,7 @@ class CityTreasuryDepositSuiCallback : public SuiCallback {
 	ManagedWeakReference<CityRegion*> cityRegion;
 
 public:
-	CityTreasuryDepositSuiCallback(ZoneServer* server, CityRegion* region)
-			: SuiCallback(server) {
+	CityTreasuryDepositSuiCallback(ZoneServer* server, CityRegion* region) : SuiCallback(server) {
 		cityRegion = region;
 	}
 

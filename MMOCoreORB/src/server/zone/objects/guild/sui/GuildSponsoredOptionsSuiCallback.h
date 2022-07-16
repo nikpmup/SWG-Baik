@@ -10,8 +10,7 @@
 
 class GuildSponsoredOptionsSuiCallback : public SuiCallback {
 public:
-	GuildSponsoredOptionsSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	GuildSponsoredOptionsSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -35,12 +34,12 @@ public:
 		if (obj == nullptr || !obj->isTerminal())
 			return;
 
-		Terminal* terminal = cast<Terminal*>( obj.get());
+		Terminal* terminal = cast<Terminal*>(obj.get());
 
 		if (!terminal->isGuildTerminal())
 			return;
 
-		SuiListBox* listBox = cast<SuiListBox*>( suiBox);
+		SuiListBox* listBox = cast<SuiListBox*>(suiBox);
 
 		uint64 playerID = listBox->getMenuObjectID(index);
 
@@ -51,11 +50,11 @@ public:
 			return;
 		}
 
-		//Whether they accept, or decline, we are removing them from the sponsored list.
+		// Whether they accept, or decline, we are removing them from the sponsored list.
 		guild->removeSponsoredPlayer(playerID);
 		guildManager->removeSponsoredPlayer(playerID);
 
-		if (index == 0) { //If they accepted, then ...
+		if (index == 0) { // If they accepted, then ...
 			guildManager->acceptSponsoredPlayer(player, playerID);
 		} else {
 			guildManager->declineSponsoredPlayer(player, playerID);

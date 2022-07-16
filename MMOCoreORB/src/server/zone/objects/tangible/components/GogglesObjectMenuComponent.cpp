@@ -15,7 +15,6 @@
 #include "templates/customization/AssetCustomizationManagerTemplate.h"
 
 void GogglesObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
 	if (!sceneObject->isTangibleObject())
 		return;
 
@@ -35,9 +34,8 @@ int GogglesObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
 
 	if (!sceneObject->isASubChildOf(player))
 		return 0;
-		
-	if (selectedID == 81 || selectedID == 82) {
 
+	if (selectedID == 81 || selectedID == 82) {
 		ManagedReference<SceneObject*> parent = sceneObject->getParent().get();
 		if (parent != nullptr && parent->isPlayerCreature()) {
 			player->sendSystemMessage("@error_message:equipped_goggles");
@@ -49,10 +47,9 @@ int GogglesObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
 		ZoneServer* server = player->getZoneServer();
 
 		if (server != nullptr) {
-
 			// The color index.
 			String appearanceFilename = sceneObject->getObjectTemplate()->getAppearanceFilename();
-			VectorMap<String, Reference<CustomizationVariable*> > variables;
+			VectorMap<String, Reference<CustomizationVariable*>> variables;
 			AssetCustomizationManagerTemplate::instance()->getCustomizationVariables(appearanceFilename.hashCode(), variables, false);
 
 			// The Sui Box.
@@ -69,9 +66,7 @@ int GogglesObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
 			ghost->addSuiBox(cbox);
 			player->sendMessage(cbox->generateMessage());
 		}
-
 	}
-
 
 	return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject, player, selectedID);
 }

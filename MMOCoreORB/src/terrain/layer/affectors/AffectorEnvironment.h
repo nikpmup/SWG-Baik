@@ -16,7 +16,7 @@ class AffectorEnvironment : public ProceduralRule<'AENV'>, public AffectorProced
 	float weight;
 
 public:
-	AffectorEnvironment(): environmentId(0), var2(0), weight(0) {
+	AffectorEnvironment() : environmentId(0), var2(0), weight(0) {
 		affectorType = ENVIRONMENT;
 	}
 
@@ -50,7 +50,7 @@ public:
 	}
 
 	void process(float x, float y, float transformValue, float& baseValue, TerrainGenerator* terrainGenerator) {
-		//System::out << "processing AffectorEnvironment value:" << environmentId << endl;
+		// System::out << "processing AffectorEnvironment value:" << environmentId << endl;
 		baseValue = (float)environmentId;
 	}
 
@@ -58,7 +58,5 @@ public:
 		return informationHeader.isEnabled();
 	}
 };
-
-
 
 #endif /* AFFECTORENVIRONMENT_H_ */

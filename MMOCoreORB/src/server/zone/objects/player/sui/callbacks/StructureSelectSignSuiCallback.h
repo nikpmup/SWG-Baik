@@ -13,7 +13,6 @@
 #include "server/zone/objects/structure/StructureObject.h"
 #include "server/zone/managers/structure/StructureManager.h"
 
-
 class StructureSelectSignSuiCallback : public SuiCallback {
 public:
 	StructureSelectSignSuiCallback(ZoneServer* serv) : SuiCallback(serv) {
@@ -32,7 +31,7 @@ public:
 		if (object == nullptr || !object->isBuildingObject())
 			return;
 
-		SuiListBox* suiListBox = cast<SuiListBox*>( suiBox);
+		SuiListBox* suiListBox = cast<SuiListBox*>(suiBox);
 		int index = Integer::valueOf(args->get(0).toString());
 
 		if (index < 0 || index >= suiListBox->getMenuSize())
@@ -45,7 +44,7 @@ public:
 		if (zone == nullptr)
 			return;
 
-		//Creature is already locked (done in handleSuiEventNotification in SuiManager).
+		// Creature is already locked (done in handleSuiEventNotification in SuiManager).
 		Locker _lock(structure, creature);
 
 		// Set the sign

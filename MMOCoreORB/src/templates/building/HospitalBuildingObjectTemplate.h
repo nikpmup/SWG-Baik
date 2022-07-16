@@ -30,7 +30,6 @@ public:
 		healthWoundRegenRate = templateData->getIntField("healthWoundRegenRate");
 		actionWoundRegenRate = templateData->getIntField("actionWoundRegenRate");
 		mindWoundRegenRate = templateData->getIntField("mindWoundRegenRate");
-
 	}
 
 	bool isHospitalBuildingObjectTemplate() {
@@ -53,6 +52,5 @@ public:
 		return mindWoundRegenRate;
 	}
 };
-
 
 #endif /* HOSPITALBUILDINGOBJECTTEMPLATE_H_ */

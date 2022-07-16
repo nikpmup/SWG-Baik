@@ -56,7 +56,7 @@ TEST_F(CommandLuaTest, LoadCommandLuas) {
 TEST_F(CommandLuaTest, CheckAnimationCRCS) {
 	loadAnimList();
 
-	HashTableIterator<uint32, Reference<QueueCommand*> > iter = list->iterator();
+	HashTableIterator<uint32, Reference<QueueCommand*>> iter = list->iterator();
 
 	while (iter.hasNext()) {
 		Reference<QueueCommand*> command = iter.getNextValue();
@@ -68,7 +68,7 @@ TEST_F(CommandLuaTest, CheckAnimationCRCS) {
 
 			if (animType == CombatQueueCommand::GENERATE_NONE) {
 				String anim = combatCommand->getAnimationString();
-				if(!anim.isEmpty()) {
+				if (!anim.isEmpty()) {
 					ASSERT_TRUE(animList.contains(anim.hashCode()));
 				}
 			} else if (animType == CombatQueueCommand::GENERATE_RANGED) {
@@ -105,16 +105,15 @@ TEST_F(CommandLuaTest, CheckAnimationCRCS) {
 }
 
 void CommandLuaTest::loadAnimList() {
-
-	IffStream *stream = DataArchiveStore::instance()->openIffFile("combat/combat_manager.iff");
+	IffStream* stream = DataArchiveStore::instance()->openIffFile("combat/combat_manager.iff");
 
 	ASSERT_TRUE(stream != nullptr);
 
 	stream->openForm('CBTM');
 	stream->openForm('0002');
-	Chunk *form = nullptr;
+	Chunk* form = nullptr;
 	try {
-		while((form = stream->openForm('ENTR'))) {
+		while ((form = stream->openForm('ENTR'))) {
 			String str;
 			form->getChunk(0)->readString(str);
 			animList.add(str.hashCode());

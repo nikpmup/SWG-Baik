@@ -16,23 +16,21 @@ public:
 		String galaxy = inviter->getZoneServer()->getGalaxyName();
 
 		insertShort(0x05);
-		insertInt(0x493FE74A);  //Opcode
+		insertInt(0x493FE74A); // Opcode
 
-		insertAscii("SWG"); //Game
-		insertAscii(galaxy); //Galaxy name
-		insertAscii(inviter->getFirstName()); //Inviter's first name
+		insertAscii("SWG");					  // Game
+		insertAscii(galaxy);				  // Galaxy name
+		insertAscii(inviter->getFirstName()); // Inviter's first name
 
-		insertAscii("SWG"); //Game
-		insertAscii(galaxy); // Galaxy name
-		insertAscii(invitee); //Invitee's first name
+		insertAscii("SWG");	  // Game
+		insertAscii(galaxy);  // Galaxy name
+		insertAscii(invitee); // Invitee's first name
 
-		insertAscii(roomPath); //Full room path
+		insertAscii(roomPath); // Full room path
 
-		insertInt(error); ///Result code
-		insertInt(requestID); //Request ID
-
+		insertInt(error);	  /// Result code
+		insertInt(requestID); // Request ID
 	}
-
 };
 
 #endif /*CHATONINVITETOROOM_H_*/

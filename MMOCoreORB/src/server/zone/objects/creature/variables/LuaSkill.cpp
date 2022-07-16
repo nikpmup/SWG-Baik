@@ -3,21 +3,13 @@
 const char LuaSkill::className[] = "LuaSkill";
 
 Luna<LuaSkill>::RegType LuaSkill::Register[] = {
-		{ "_setObject", &LuaSkill::_setObject },
-		{ "getName", &LuaSkill::getName },
-		{ "getMoneyRequired", &LuaSkill::getMoneyRequired },
-		{ "getSkillPointsRequired", &LuaSkill::getSkillPointsRequired },
-		{ "getSkillsRequired", &LuaSkill::getSkillsRequired },
-		{ "getXpType", &LuaSkill::getXpType },
-		{ "getXpCost", &LuaSkill::getXpCost },
-		{ 0, 0 }
-};
+	{"_setObject", &LuaSkill::_setObject}, {"getName", &LuaSkill::getName}, {"getMoneyRequired", &LuaSkill::getMoneyRequired}, {"getSkillPointsRequired", &LuaSkill::getSkillPointsRequired}, {"getSkillsRequired", &LuaSkill::getSkillsRequired}, {"getXpType", &LuaSkill::getXpType}, {"getXpCost", &LuaSkill::getXpCost}, {0, 0}};
 
-LuaSkill::LuaSkill(lua_State *L) {
+LuaSkill::LuaSkill(lua_State* L) {
 	realObject = reinterpret_cast<Skill*>(lua_touserdata(L, 1));
 }
 
-LuaSkill::~LuaSkill(){
+LuaSkill::~LuaSkill() {
 }
 
 int LuaSkill::_setObject(lua_State* L) {

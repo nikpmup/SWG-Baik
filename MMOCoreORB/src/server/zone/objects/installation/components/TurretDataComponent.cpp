@@ -108,13 +108,13 @@ bool TurretDataComponent::checkTarget(CreatureObject* creature, TangibleObject* 
 }
 
 void TurretDataComponent::updateAutoCooldown(float secondsToAdd) {
-	int milisecondsToAdd = secondsToAdd*1000;
+	int milisecondsToAdd = secondsToAdd * 1000;
 	nextAutoFireTime = Time();
 	nextAutoFireTime.addMiliTime(milisecondsToAdd);
 }
 
 void TurretDataComponent::scheduleFireTask(CreatureObject* target, TangibleObject* terminal, int delay) {
-	//PRE: turret is locked
+	// PRE: turret is locked
 
 	if (numberOfPlayersInRange.get() < 1)
 		return;
@@ -219,7 +219,7 @@ void TurretDataComponent::fillAttributeList(AttributeListMessage* alm) {
 	if (turret == nullptr)
 		return;
 
-	alm->insertAttribute("condition",String::valueOf(turret->getMaxCondition() - turret->getConditionDamage()) + "/" + String::valueOf(turret->getMaxCondition()));
+	alm->insertAttribute("condition", String::valueOf(turret->getMaxCondition() - turret->getConditionDamage()) + "/" + String::valueOf(turret->getMaxCondition()));
 
 	int objectCount = turret->getSlottedObjectsSize();
 	int volumeLimit = turret->getContainerVolumeLimit();
@@ -237,7 +237,6 @@ void TurretDataComponent::fillAttributeList(AttributeListMessage* alm) {
 		alm->insertAttribute("armorrating", "Medium");
 	else if (getArmorRating() == 3)
 		alm->insertAttribute("armorrating", "Heavy");
-
 
 	if (getKinetic() > 90) {
 		StringBuffer txt;
@@ -373,7 +372,6 @@ void TurretDataComponent::fillAttributeList(AttributeListMessage* alm) {
 
 	if (getLightSaber() < 0)
 		alm->insertAttribute("cat_armor_vulnerability.armor_eff_restraint", "-");
-
 }
 
 unsigned int TurretDataComponent::getArmorRating() {
@@ -403,7 +401,7 @@ float TurretDataComponent::getArmorResistReduction(float value) {
 	float mitigatedAmount = unmitigatedDamage / (float)maxCondition;
 
 #ifdef DEBUG_RESIST_DECAY
-	turret->info (true) << " Value of damage mitigated by armor = " << mitigatedAmount;
+	turret->info(true) << " Value of damage mitigated by armor = " << mitigatedAmount;
 #endif
 
 	float newValue = value;

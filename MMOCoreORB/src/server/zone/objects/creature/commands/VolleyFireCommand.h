@@ -10,13 +10,10 @@
 
 class VolleyFireCommand : public SquadLeaderCommand {
 public:
-
-	VolleyFireCommand(const String& name, ZoneProcessServer* server)
-		: SquadLeaderCommand(name, server) {
+	VolleyFireCommand(const String& name, ZoneProcessServer* server) : SquadLeaderCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -32,8 +29,8 @@ public:
 		if (!checkGroupLeader(player, group))
 			return GENERALERROR;
 
-		float skillMod = (float) creature->getSkillMod("volley");
-		int hamCost = (int) (100.0f * (1.0f - (skillMod / 100.0f))) * calculateGroupModifier(group);
+		float skillMod = (float)creature->getSkillMod("volley");
+		int hamCost = (int)(100.0f * (1.0f - (skillMod / 100.0f))) * calculateGroupModifier(group);
 
 		int healthCost = creature->calculateCostAdjustment(CreatureAttribute::STRENGTH, hamCost);
 		int actionCost = creature->calculateCostAdjustment(CreatureAttribute::QUICKNESS, hamCost);
@@ -62,14 +59,14 @@ public:
 			if (!weapon->getCreatureAccuracyModifiers()->isEmpty()) {
 				skillCRC = weapon->getCreatureAccuracyModifiers()->get(0);
 
-				player->addSkillMod(SkillModManager::ABILITYBONUS, skillCRC, (int) skillMod * 2, false);
+				player->addSkillMod(SkillModManager::ABILITYBONUS, skillCRC, (int)skillMod * 2, false);
 			}
 		}
 
 		int ret = doCombatAction(player, (uint64)target);
 
 		if (!skillCRC.isEmpty())
-			player->addSkillMod(SkillModManager::ABILITYBONUS, skillCRC, (int) skillMod * -2, false);
+			player->addSkillMod(SkillModManager::ABILITYBONUS, skillCRC, (int)skillMod * -2, false);
 
 		return ret == SUCCESS;
 	}
@@ -102,7 +99,6 @@ public:
 
 		return true;
 	}
-
 };
 
-#endif //VOLLEYFIRECOMMAND_H_
+#endif // VOLLEYFIRECOMMAND_H_

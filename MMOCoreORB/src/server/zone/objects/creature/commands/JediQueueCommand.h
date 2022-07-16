@@ -8,7 +8,6 @@
 #ifndef JEDIQUEUECOMMAND_H_
 #define JEDIQUEUECOMMAND_H_
 
-
 #include "server/zone/objects/creature/buffs/Buff.h"
 #include "QueueCommand.h"
 #include "server/zone/objects/creature/CreatureObject.h"
@@ -18,7 +17,6 @@
 #include "server/zone/managers/frs/FrsManager.h"
 
 class JediQueueCommand : public QueueCommand {
-
 protected:
 	int forceCost;
 	int duration;
@@ -40,7 +38,6 @@ protected:
 	Vector<uint32> overrideableCRCs;
 	Vector<uint32> blockingCRCs;
 	Vector<unsigned int> singleUseEventTypes;
-
 
 public:
 	enum { BASE_BUFF, SINGLE_USE_BUFF };
@@ -85,7 +82,7 @@ public:
 		if (res != SUCCESS)
 			return res;
 
-        return doBuff(creature);
+		return doBuff(creature);
 	}
 
 	int doBuff(CreatureObject* creature) const {
@@ -113,7 +110,7 @@ public:
 	}
 
 	int doJediForceCostCheck(CreatureObject* creature) const {
-		//Check for Force Cost..
+		// Check for Force Cost..
 		ManagedReference<PlayerObject*> playerObject = creature->getPlayerObject();
 
 		if (playerObject && playerObject->getForcePower() < getFrsModifiedForceCost(creature)) {
@@ -133,7 +130,7 @@ public:
 		if (isWearingArmor(creature))
 			return NOJEDIARMOR;
 
-		for (int i=0; i < blockingCRCs.size(); ++i) {
+		for (int i = 0; i < blockingCRCs.size(); ++i) {
 			if (creature->hasBuff(blockingCRCs.get(i))) {
 				return NOSTACKJEDIBUFF;
 			}
@@ -144,7 +141,7 @@ public:
 	}
 
 	ManagedReference<Buff*> createJediSelfBuff(CreatureObject* creature) const {
-		for (int i=0; i < overrideableCRCs.size(); ++i) {
+		for (int i = 0; i < overrideableCRCs.size(); ++i) {
 			int buff = overrideableCRCs.get(i);
 			if (creature->hasBuff(buff)) {
 				creature->removeBuff(buff);
@@ -154,9 +151,10 @@ public:
 		// Create buff object.
 		ManagedReference<Buff*> buff = nullptr;
 
-		if(buffClass == BASE_BUFF || singleUseEventTypes.size() == 0) {
+		if (buffClass == BASE_BUFF || singleUseEventTypes.size() == 0) {
 			buff = new Buff(creature, buffCRC, duration, BuffType::JEDI);
-		} else if(buffClass == SINGLE_USE_BUFF) {;
+		} else if (buffClass == SINGLE_USE_BUFF) {
+			;
 			SingleUseBuff* suBuff = new SingleUseBuff(creature, buffCRC, duration, BuffType::JEDI, getNameCRC());
 
 			buff = suBuff;
@@ -185,7 +183,7 @@ public:
 		buff->setStartMessage(start);
 		buff->setEndMessage(end);
 
-		for (int i=0; i < skillMods.size(); ++i) {
+		for (int i = 0; i < skillMods.size(); ++i) {
 			int modValue = skillMods.elementAt(i).getValue();
 			int frsModifiedValue = getFrsModifiedBuffValue(creature, modValue);
 			buff->setSkillModifier(skillMods.elementAt(i).getKey(), frsModifiedValue);
@@ -223,7 +221,6 @@ public:
 
 		return amount + (int)((controlModifier * buffModifier) + 0.5f);
 	}
-
 
 	int getFrsModifiedForceCost(CreatureObject* creature) const {
 		ManagedReference<PlayerObject*> ghost = creature->getPlayerObject();
@@ -349,6 +346,5 @@ public:
 		frsDarkForcePowerModifier = val;
 	}
 };
-
 
 #endif /* SRC_SERVER_ZONE_OBJECTS_CREATURE_COMMANDS_JEDIQUEUECOMMAND_H_ */

@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef BASELINEMESSAGE_H_
@@ -9,7 +9,7 @@
 #include "server/zone/objects/scene/variables/StringId.h"
 #include "server/zone/objects/scene/SceneObject.h"
 
-class BaseLineMessage: public BaseMessage {
+class BaseLineMessage : public BaseMessage {
 public:
 	BaseLineMessage(const SceneObject* obj, uint32 name, uint8 type, uint16 opcnt) {
 		insertShort(0x05);
@@ -50,7 +50,6 @@ public:
 	inline void insertCustomName(const UnicodeString& name) {
 		insertUnicode(name);
 	}
-
 };
 
 #endif /*BASELINEMESSAGE_H_*/

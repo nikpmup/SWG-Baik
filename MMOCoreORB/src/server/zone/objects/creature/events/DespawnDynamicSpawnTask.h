@@ -21,9 +21,7 @@ public:
 			return;
 
 		spawn->destroyObjectFromWorld(true);
-
 	}
 };
-
 
 #endif /* DESPAWNDYNAMICSPAWNTASK_H_ */

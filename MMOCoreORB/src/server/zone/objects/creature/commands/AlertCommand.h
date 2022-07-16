@@ -7,14 +7,10 @@
 
 class AlertCommand : public QueueCommand {
 public:
-
-	AlertCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	AlertCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //ALERTCOMMAND_H_
+#endif // ALERTCOMMAND_H_

@@ -11,14 +11,10 @@
 
 class ForceWeaken2Command : public ForcePowersQueueCommand {
 public:
-
-	ForceWeaken2Command(const String& name, ZoneProcessServer* server)
-		: ForcePowersQueueCommand(name, server) {
-
+	ForceWeaken2Command(const String& name, ZoneProcessServer* server) : ForcePowersQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -57,7 +53,6 @@ public:
 
 		return res;
 	}
-
 };
 
-#endif //FORCEWEAKEN2COMMAND_H_
+#endif // FORCEWEAKEN2COMMAND_H_

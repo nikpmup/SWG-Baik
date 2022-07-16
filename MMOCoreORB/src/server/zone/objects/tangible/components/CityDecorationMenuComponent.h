@@ -12,7 +12,6 @@
 
 class CityDecorationMenuComponent : public TangibleObjectMenuComponent {
 public:
-
 	/**
 	 * Fills the radial options, needs to be overriden
 	 * @pre { this object is locked }
@@ -33,10 +32,5 @@ public:
 
 	bool isInInventory(SceneObject* sceneObject, CreatureObject* player) const;
 };
-
-
-
-
-
 
 #endif /* CITYDECORATIONMENUCOMPONENT_H_ */

@@ -3,7 +3,7 @@
 
 #include "engine/lua/Lua.h"
 
-class NameRules: public Object {
+class NameRules : public Object {
 	int nameChance;
 	int minSyllables, maxSyllables;
 	int minChars, maxChars;

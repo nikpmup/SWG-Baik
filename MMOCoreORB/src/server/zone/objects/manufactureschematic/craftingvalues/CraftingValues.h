@@ -9,39 +9,36 @@
 #include "engine/engine.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace manufactureschematic {
+namespace zone {
+namespace objects {
+namespace manufactureschematic {
 
-   class ManufactureSchematic;
+class ManufactureSchematic;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::manufactureschematic;
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace creature {
+namespace zone {
+namespace objects {
+namespace creature {
 
-   class CreatureObject;
+class CreatureObject;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 
-
-
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace manufactureschematic {
-   	 namespace craftingvalues {
-
+namespace zone {
+namespace objects {
+namespace manufactureschematic {
+namespace craftingvalues {
 
 class CraftingValues : public Serializable, public Logger {
 	ValuesMap experimentalValuesMap;
@@ -55,11 +52,7 @@ class CraftingValues : public Serializable, public Logger {
 	VectorMap<String, bool> slots;
 
 public:
-
-	enum {
-		NORMAL = 1,
-		HIDDEN = 2
-	};
+	enum { NORMAL = 1, HIDDEN = 2 };
 
 public:
 	CraftingValues();
@@ -74,9 +67,7 @@ public:
 	CreatureObject* getPlayer();
 
 	// Experimental Titles
-	void addExperimentalProperty(const String& title, const String& subtitle,
-			const float min, const float max, const int precision,
-			const bool filler, const int combine) {
+	void addExperimentalProperty(const String& title, const String& subtitle, const float min, const float max, const int precision, const bool filler, const int combine) {
 		experimentalValuesMap.addExperimentalProperty(title, subtitle, min, max, precision, filler, combine);
 	}
 
@@ -275,14 +266,13 @@ public:
 	}
 
 	void clearAll();
-
 };
 
-}
-}
-}
-}
-}
+} // namespace craftingvalues
+} // namespace manufactureschematic
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::manufactureschematic::craftingvalues;
 

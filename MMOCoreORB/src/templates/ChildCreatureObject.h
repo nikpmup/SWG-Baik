@@ -61,7 +61,6 @@ public:
 		mobileName = luaObject->getStringField("mobile");
 		respawnTime = luaObject->getIntField("respawn");
 		heading = luaObject->getFloatField("heading");
-
 	}
 
 	inline void setPosition(float x, float z, float y) {

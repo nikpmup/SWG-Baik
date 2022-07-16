@@ -23,8 +23,7 @@ public:
 		iffStream->openForm(version);
 
 		switch (version) {
-		case '0000':
-		{
+		case '0000': {
 			Chunk* data = iffStream->openChunk('DATA');
 
 			while (data->hasData()) {
@@ -34,8 +33,7 @@ public:
 			}
 
 			iffStream->closeChunk('DATA');
-		}
-			break;
+		} break;
 		}
 
 		iffStream->closeForm(version);

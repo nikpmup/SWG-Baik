@@ -22,8 +22,7 @@ class CrystalData : public Object {
 	int maxWoundChance;
 
 public:
-	CrystalData() : Object(), minDamage(0), maxDamage(0), minHitpoints(0), maxHitpoints(0), minHealthSac(0), maxHealthSac(0), minActionSac(0), maxActionSac(0),
-		minMindSac(0), maxMindSac(0), minAttackSpeed(0.0), maxAttackSpeed(0.0), minForceCost(0.0), maxForceCost(0.0), minWoundChance(0), maxWoundChance(0) {
+	CrystalData() : Object(), minDamage(0), maxDamage(0), minHitpoints(0), maxHitpoints(0), minHealthSac(0), maxHealthSac(0), minActionSac(0), maxActionSac(0), minMindSac(0), maxMindSac(0), minAttackSpeed(0.0), maxAttackSpeed(0.0), minForceCost(0.0), maxForceCost(0.0), minWoundChance(0), maxWoundChance(0) {
 	}
 
 	CrystalData(const CrystalData& data) : Object() {
@@ -151,7 +150,6 @@ public:
 	inline int getMaxWoundChance() const {
 		return maxWoundChance;
 	}
-
 };
 
 #endif /* CRYSTALDATA_H_ */

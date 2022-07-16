@@ -26,13 +26,13 @@ public:
 	const static uint32 PALETTECOLORCUSTOMIZATION = 0x18;
 	const static uint32 RANGEDINTCUSTOMIZATIONVARIABLE = 0x20;
 	const static uint32 CUSTOMIZATIONVARIABLEMAP = 0x22;
+
 public:
 	Param() {
 		type = (uint32)-1;
 	}
 
 	virtual ~Param() {
-
 	}
 
 	virtual bool parse(engine::util::Chunk* source) = 0;

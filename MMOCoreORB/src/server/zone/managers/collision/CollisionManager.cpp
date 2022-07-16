@@ -36,7 +36,7 @@ bool CollisionManager::checkLineOfSightInBuilding(SceneObject* object1, SceneObj
 	if (portalLayout == nullptr)
 		return true;
 
-	//we are in model space... in cells
+	// we are in model space... in cells
 	Vector3 rayOrigin = object1->getPosition();
 	rayOrigin.set(rayOrigin.getX(), rayOrigin.getY(), rayOrigin.getZ() + 1.f);
 
@@ -54,11 +54,11 @@ bool CollisionManager::checkLineOfSightInBuilding(SceneObject* object1, SceneObj
 
 	// we check interior cells
 	for (int i = 1; i < portalLayout->getAppearanceTemplatesSize(); ++i) {
-		const AppearanceTemplate *tmpl = portalLayout->getAppearanceTemplate(i);
-		if(tmpl == nullptr)
+		const AppearanceTemplate* tmpl = portalLayout->getAppearanceTemplate(i);
+		if (tmpl == nullptr)
 			continue;
 
-		if(tmpl->intersects(ray, distance, intersectionDistance, triangle, true))
+		if (tmpl->intersects(ray, distance, intersectionDistance, triangle, true))
 			return false;
 	}
 
@@ -81,11 +81,10 @@ const AppearanceTemplate* CollisionManager::getCollisionAppearance(SceneObject* 
 bool CollisionManager::checkSphereCollision(const Vector3& origin, float radius, Zone* zone) {
 	Vector3 sphereOrigin(origin.getX(), origin.getZ(), origin.getY());
 
-	SortedVector<ManagedReference<QuadTreeEntry*> > objects(512, 512);
+	SortedVector<ManagedReference<QuadTreeEntry*>> objects(512, 512);
 	zone->getInRangeObjects(origin.getX(), origin.getY(), 512, &objects, true);
 
 	for (int i = 0; i < objects.size(); ++i) {
-
 		SceneObject* scno = static_cast<SceneObject*>(objects.get(i).get());
 
 		try {
@@ -101,17 +100,16 @@ bool CollisionManager::checkSphereCollision(const Vector3& origin, float radius,
 
 			const PortalLayout* portalLayout = templateObject->getPortalLayout();
 			if (portalLayout != nullptr) {
-				if(portalLayout->getAppearanceTemplate(0)->testCollide(sphere))
+				if (portalLayout->getAppearanceTemplate(0)->testCollide(sphere))
 					return true;
 			} else {
 				auto appearanceTemplate = templateObject->getAppearanceTemplate();
 
-				if(appearanceTemplate && appearanceTemplate->testCollide(sphere))
+				if (appearanceTemplate && appearanceTemplate->testCollide(sphere))
 					return true;
 			}
 
 		} catch (Exception& e) {
-
 		} catch (...) {
 			throw;
 		}
@@ -176,14 +174,14 @@ bool CollisionManager::checkLineOfSightWorldToCell(const Vector3& rayOrigin, con
 }
 
 bool CollisionManager::checkMovementCollision(CreatureObject* creature, float x, float z, float y, Zone* zone) {
-	SortedVector<ManagedReference<QuadTreeEntry*> > closeObjects;
+	SortedVector<ManagedReference<QuadTreeEntry*>> closeObjects;
 	zone->getInRangeObjects(x, y, 128, &closeObjects, true);
 
-	//Vector3 rayStart(x, z + 0.25, y);
-	//Vector3 rayStart(creature->getWorldPositionX(), creature->getWorldPositionZ(), creature->getPos)
+	// Vector3 rayStart(x, z + 0.25, y);
+	// Vector3 rayStart(creature->getWorldPositionX(), creature->getWorldPositionZ(), creature->getPos)
 	Vector3 rayStart = creature->getWorldPosition();
 	rayStart.set(rayStart.getX(), rayStart.getY(), rayStart.getZ() + 0.25f);
-	//Vector3 rayEnd(x + System::random(512), z + 0.3f, y + System::random(512));
+	// Vector3 rayEnd(x + System::random(512), z + 0.3f, y + System::random(512));
 
 	/*Vector3 rayEnd;
 	rayEnd.set(targetPosition.getX(), targetPosition.getY(), targetPosition.getZ());*/
@@ -217,10 +215,10 @@ bool CollisionManager::checkMovementCollision(CreatureObject* creature, float x,
 
 		Ray ray = convertToModelSpace(rayStart, rayEnd, object);
 
-		//results.removeAll(10, 10);
+		// results.removeAll(10, 10);
 
-		//ordered by intersection distance
-		//tree->intersects(ray, maxDistance, results);
+		// ordered by intersection distance
+		// tree->intersects(ray, maxDistance, results);
 
 		float intersectionDistance;
 
@@ -305,7 +303,7 @@ float CollisionManager::getWorldFloorCollision(float x, float y, float z, Zone* 
 
 	TerrainManager* terrainManager = planetManager->getTerrainManager();
 
-	//need to include exclude affectors in the terrain calcs
+	// need to include exclude affectors in the terrain calcs
 	height = terrainManager->getHeight(x, y);
 
 	if (z < height)
@@ -319,7 +317,7 @@ float CollisionManager::getWorldFloorCollision(float x, float y, float z, Zone* 
 				height = waterHeight;
 	}
 
-	Ray ray(Vector3(x, z+2.0f, y), Vector3(0, -1, 0));
+	Ray ray(Vector3(x, z + 2.0f, y), Vector3(0, -1, 0));
 
 	for (const auto& entry : closeObjects) {
 		SceneObject* sceno = static_cast<SceneObject*>(entry);
@@ -327,7 +325,7 @@ float CollisionManager::getWorldFloorCollision(float x, float y, float z, Zone* 
 		const AppearanceTemplate* app = getCollisionAppearance(sceno, 255);
 
 		if (app != nullptr) {
-			Ray rayModelSpace = convertToModelSpace(ray.getOrigin(), ray.getOrigin()+ray.getDirection(), sceno);
+			Ray rayModelSpace = convertToModelSpace(ray.getOrigin(), ray.getOrigin() + ray.getDirection(), sceno);
 
 			IntersectionResults results;
 
@@ -360,7 +358,7 @@ float CollisionManager::getWorldFloorCollision(float x, float y, Zone* zone, boo
 
 	TerrainManager* terrainManager = planetManager->getTerrainManager();
 
-	//need to include exclude affectors in the terrain calcs
+	// need to include exclude affectors in the terrain calcs
 	height = terrainManager->getHeight(x, y);
 
 	Vector3 rayStart(x, 16384.f, y);
@@ -410,7 +408,7 @@ void CollisionManager::getWorldFloorCollisions(float x, float y, Zone* zone, Sor
 #ifdef COV_DEBUG
 		zone->info("Null closeobjects vector in CollisionManager::getWorldFloorCollisions", true);
 #endif
-		SortedVector<ManagedReference<QuadTreeEntry*> > closeObjects;
+		SortedVector<ManagedReference<QuadTreeEntry*>> closeObjects;
 
 		zone->getInRangeObjects(x, y, 128, &closeObjects, true);
 
@@ -418,7 +416,7 @@ void CollisionManager::getWorldFloorCollisions(float x, float y, Zone* zone, Sor
 	}
 }
 
-void CollisionManager::getWorldFloorCollisions(float x, float y, Zone* zone, SortedVector<IntersectionResult>* result, const SortedVector<ManagedReference<QuadTreeEntry*> >& inRangeObjects) {
+void CollisionManager::getWorldFloorCollisions(float x, float y, Zone* zone, SortedVector<IntersectionResult>* result, const SortedVector<ManagedReference<QuadTreeEntry*>>& inRangeObjects) {
 	Vector3 rayStart(x, 16384.f, y);
 	Vector3 rayEnd(x, -16384.f, y);
 
@@ -449,7 +447,6 @@ void CollisionManager::getWorldFloorCollisions(float x, float y, Zone* zone, Sor
 	}
 }
 
-
 bool CollisionManager::checkLineOfSight(SceneObject* object1, SceneObject* object2) {
 	Zone* zone = object1->getZone();
 
@@ -476,17 +473,17 @@ bool CollisionManager::checkLineOfSight(SceneObject* object1, SceneObject* objec
 		if (rootParent1 == rootParent2) {
 			return CollisionManager::checkLineOfSightInBuilding(object1, object2, rootParent1);
 		} else if (rootParent1 != nullptr && rootParent2 != nullptr)
-			return false; //different buildings
+			return false; // different buildings
 	}
 
-	//switching z<->y, adding player height (head)
+	// switching z<->y, adding player height (head)
 	Vector3 rayOrigin = object1->getWorldPosition();
 
 	float heightOrigin = 1.f;
 	float heightEnd = 1.f;
 
-	UniqueReference<SortedVector<QuadTreeEntry*>* > closeObjectsNonReference;/* new SortedVector<QuadTreeEntry* >();*/
-	UniqueReference<SortedVector<ManagedReference<QuadTreeEntry*> >*> closeObjects;/*new SortedVector<ManagedReference<QuadTreeEntry*> >();*/
+	UniqueReference<SortedVector<QuadTreeEntry*>*> closeObjectsNonReference;	   /* new SortedVector<QuadTreeEntry* >();*/
+	UniqueReference<SortedVector<ManagedReference<QuadTreeEntry*>>*> closeObjects; /*new SortedVector<ManagedReference<QuadTreeEntry*> >();*/
 
 	int maxInRangeObjectCount = 0;
 
@@ -495,12 +492,12 @@ bool CollisionManager::checkLineOfSight(SceneObject* object1, SceneObject* objec
 		object1->info("Null closeobjects vector in CollisionManager::checkLineOfSight for " + object1->getDisplayedName(), true);
 #endif
 
-		closeObjects = new SortedVector<ManagedReference<QuadTreeEntry*> >();
+		closeObjects = new SortedVector<ManagedReference<QuadTreeEntry*>>();
 		zone->getInRangeObjects(object1->getPositionX(), object1->getPositionY(), 512, closeObjects, true);
 	} else {
-		closeObjectsNonReference = new SortedVector<QuadTreeEntry* >();
+		closeObjectsNonReference = new SortedVector<QuadTreeEntry*>();
 
-		CloseObjectsVector* vec = (CloseObjectsVector*) object1->getCloseObjects();
+		CloseObjectsVector* vec = (CloseObjectsVector*)object1->getCloseObjects();
 		vec->safeCopyReceiversTo(*closeObjectsNonReference.get(), CloseObjectsVector::COLLIDABLETYPE);
 	}
 
@@ -545,10 +542,10 @@ bool CollisionManager::checkLineOfSight(SceneObject* object1, SceneObject* objec
 			}
 
 			if (app != nullptr) {
-				//moving ray to model space
+				// moving ray to model space
 				Ray ray = convertToModelSpace(rayOrigin, rayEnd, scno);
 
-				//structure->info("checking ray with building dir" + String::valueOf(structure->getDirectionAngle()), true);
+				// structure->info("checking ray with building dir" + String::valueOf(structure->getDirectionAngle()), true);
 
 				if (app->intersects(ray, dist, intersectionDistance, triangle, true)) {
 					return false;
@@ -560,7 +557,7 @@ bool CollisionManager::checkLineOfSight(SceneObject* object1, SceneObject* objec
 		Logger::console.error(e.getMessage());
 	}
 
-//	zone->runlock();
+	//	zone->runlock();
 
 	ManagedReference<SceneObject*> parent1 = object1->getParent().get();
 	ManagedReference<SceneObject*> parent2 = object2->getParent().get();
@@ -588,10 +585,10 @@ const TriangleNode* CollisionManager::getTriangle(const Vector3& point, const Fl
 
 	const AABBTree* aabbTree = floor->getAABBTree();
 
-	//Vector3 nodePosition = node->getPosition();
+	// Vector3 nodePosition = node->getPosition();
 
 	Vector3 rayOrigin(point.getX(), point.getZ() + 0.5, point.getY());
-	//Vector3 rayOrigin(point.getX(), point.getY(), point.getZ() + 0.2);
+	// Vector3 rayOrigin(point.getX(), point.getY(), point.getZ() + 0.2);
 	Vector3 direction(0, -1, 0);
 
 	Ray ray(rayOrigin, direction);
@@ -602,7 +599,7 @@ const TriangleNode* CollisionManager::getTriangle(const Vector3& point, const Fl
 	aabbTree->intersects(ray, 4, intersectionDistance, triangle, true);
 
 	if (triangle == nullptr) {
-		//System::out << "CollisionManager::getTriangle triangleNode nullptr" << endl;
+		// System::out << "CollisionManager::getTriangle triangleNode nullptr" << endl;
 
 		return floor->findNearestTriangle(rayOrigin);
 	}
@@ -621,13 +618,13 @@ Vector3 CollisionManager::convertToModelSpace(const Vector3& point, SceneObject*
 }
 
 Reference<Matrix4*> CollisionManager::getTransformMatrix(SceneObject* model) {
-	//this can be optimized by storing the matrix on the model and update it when needed
-	//Reference
+	// this can be optimized by storing the matrix on the model and update it when needed
+	// Reference
 
 	Reference<Matrix4*> modelMatrix = model->getTransformForCollisionMatrix();
 
 	if (modelMatrix == nullptr) {
-		//modelMatrix = new Matrix4();
+		// modelMatrix = new Matrix4();
 
 		Matrix4 translationMatrix;
 		translationMatrix.setTranslation(-model->getPositionX(), -model->getPositionZ(), -model->getPositionY());
@@ -646,7 +643,7 @@ Reference<Matrix4*> CollisionManager::getTransformMatrix(SceneObject* model) {
 		Matrix4 rotateMatrix;
 		rotateMatrix.setRotationMatrix(rot);
 
-		//Matrix4 modelMatrix;
+		// Matrix4 modelMatrix;
 		modelMatrix = new Matrix4(translationMatrix * rotateMatrix);
 
 		model->setTransformForCollisionMatrixIfNull(modelMatrix);
@@ -688,7 +685,7 @@ bool CollisionManager::checkShipCollision(ShipObject* ship, const Vector3& targe
 		if (height > targetPosition.getZ()) {
 			collisionPoint = targetPosition;
 			collisionPoint.setZ(height);
-			//ship->info("colliding with terrain", true);
+			// ship->info("colliding with terrain", true);
 			return true;
 		}
 	}
@@ -704,11 +701,11 @@ bool CollisionManager::checkShipCollision(ShipObject* ship, const Vector3& targe
 	float intersectionDistance;
 	Triangle* triangle = nullptr;
 
-	SortedVector<ManagedReference<QuadTreeEntry*> > objects(512, 512);
+	SortedVector<ManagedReference<QuadTreeEntry*>> objects(512, 512);
 	zone->getInRangeObjects(targetPosition.getX(), targetPosition.getY(), 512, &objects, true, false);
 
 	for (int i = 0; i < objects.size(); ++i) {
-		const AppearanceTemplate *app = nullptr;
+		const AppearanceTemplate* app = nullptr;
 
 		SceneObject* scno = static_cast<SceneObject*>(objects.get(i).get());
 
@@ -725,22 +722,21 @@ bool CollisionManager::checkShipCollision(ShipObject* ship, const Vector3& targe
 		}
 
 		if (app != nullptr) {
-			//moving ray to model space
+			// moving ray to model space
 
 			try {
 				Ray ray = convertToModelSpace(rayOrigin, rayEnd, scno);
 
-				//structure->info("checking ray with building dir" + String::valueOf(structure->getDirectionAngle()), true);
+				// structure->info("checking ray with building dir" + String::valueOf(structure->getDirectionAngle()), true);
 
 				if (app->intersects(ray, dist, intersectionDistance, triangle, true)) {
-
-					//rayOrigin.set(rayOrigin.getX(), rayOrigin.getY(), rayOrigin.getZ());
+					// rayOrigin.set(rayOrigin.getX(), rayOrigin.getY(), rayOrigin.getZ());
 					Vector3 direction = rayEnd - rayOrigin;
 					direction.normalize();
-					//intersectionDistance -= 0.5f;
+					// intersectionDistance -= 0.5f;
 
 					collisionPoint.set(rayOrigin.getX() + (direction.getX() * intersectionDistance), rayOrigin.getY() + (direction.getY() * intersectionDistance), rayOrigin.getZ() + (direction.getZ() * intersectionDistance));
-					//ship->info("colliding with building", true);
+					// ship->info("colliding with building", true);
 
 					return true;
 				}
@@ -749,8 +745,6 @@ bool CollisionManager::checkShipCollision(ShipObject* ship, const Vector3& targe
 			} catch (...) {
 				throw;
 			}
-
-
 		}
 	}
 
@@ -769,7 +763,7 @@ const PathNode* CollisionManager::findNearestPathNode(const TriangleNode* triang
 	PathNode* returnNode = nullptr;
 	float distance = 16000;
 	Vector3 trianglePos(triangle->getBarycenter());
-	//trianglePos.set(trianglePos.getX(), trianglePos.getY(), trianglePos.getZ());*/
+	// trianglePos.set(trianglePos.getX(), trianglePos.getY(), trianglePos.getZ());*/
 
 	for (int i = 0; i < pathNodes->size(); ++i) {
 		PathNode* node = pathNodes->get(i);
@@ -801,7 +795,7 @@ bool CollisionManager::checkLineOfSightInParentCell(SceneObject* object, Vector3
 	if (parent == nullptr || !parent->isCellObject())
 		return true;
 
-	CellObject* cell = cast<CellObject*>( parent.get());
+	CellObject* cell = cast<CellObject*>(parent.get());
 
 	SharedObjectTemplate* objectTemplate = parent->getRootParent()->getObjectTemplate();
 	const PortalLayout* portalLayout = objectTemplate->getPortalLayout();
@@ -817,11 +811,11 @@ bool CollisionManager::checkLineOfSightInParentCell(SceneObject* object, Vector3
 	}
 
 	if (appearanceMesh == nullptr) {
-		//info("null appearance mesh ");
+		// info("null appearance mesh ");
 		return true;
 	}
 
-	//switching Y<->Z, adding 0.1 to account floor
+	// switching Y<->Z, adding 0.1 to account floor
 	Vector3 startPoint = object->getPosition();
 	startPoint.set(startPoint.getX(), startPoint.getY(), startPoint.getZ() + 0.1f);
 
@@ -837,13 +831,13 @@ bool CollisionManager::checkLineOfSightInParentCell(SceneObject* object, Vector3
 
 	Triangle* triangle = nullptr;
 
-	//nothing in the middle
+	// nothing in the middle
 	if (appearanceMesh->intersects(ray, distance, intersectionDistance, triangle, true))
 		return false;
 
 	Ray ray2(endPoint, Vector3(0, -1, 0));
 
-	//check if we are in the cell with dir (0, -1, 0)
+	// check if we are in the cell with dir (0, -1, 0)
 	if (!appearanceMesh->intersects(ray2, 64000.f, intersectionDistance, triangle, true))
 		return false;
 

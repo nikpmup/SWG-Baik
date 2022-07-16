@@ -13,9 +13,7 @@
 
 class FactionRequestMessageCallback : public MessageCallback {
 public:
-	FactionRequestMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	FactionRequestMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {

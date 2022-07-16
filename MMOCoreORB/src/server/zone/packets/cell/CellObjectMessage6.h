@@ -9,12 +9,10 @@
 
 class CellObjectMessage6 : public BaseLineMessage {
 public:
-	CellObjectMessage6(uint64 coId)
-			: BaseLineMessage(coId, 0x53434C54, 6, 0x02) {
-
-		//insertShort(1); //operand count
-		//insertInt(0x42); // some const value it appears
-		//insertInt(0x4A); //*shrug*
+	CellObjectMessage6(uint64 coId) : BaseLineMessage(coId, 0x53434C54, 6, 0x02) {
+		// insertShort(1); //operand count
+		// insertInt(0x42); // some const value it appears
+		// insertInt(0x4A); //*shrug*
 		insertInt(0x95);
 		insertInt(0);
 		insertInt(0);
@@ -48,9 +46,9 @@ Pre-CU:
 00 00 00 00
 00 00 00 00
 */
-		//StringBuffer msg;
-		//msg << hex << "CellObjectMessage6 [Object = " << coId << "]\n";
-		//System::out << msg.toString();
+		// StringBuffer msg;
+		// msg << hex << "CellObjectMessage6 [Object = " << coId << "]\n";
+		// System::out << msg.toString();
 	}
 };
 

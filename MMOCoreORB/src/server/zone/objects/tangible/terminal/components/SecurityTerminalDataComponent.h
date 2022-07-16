@@ -11,23 +11,16 @@
 
 class SecurityTerminalDataComponent : public DataObjectComponent {
 protected:
-
-
 public:
 	SecurityTerminalDataComponent() {
-
 	}
 
 	virtual ~SecurityTerminalDataComponent() {
-
 	}
 
 	bool isSecurityTerminalData() {
 		return true;
 	}
-
 };
-
-
 
 #endif /* SECURITYTERMINALDATACOMPONENT_H_ */

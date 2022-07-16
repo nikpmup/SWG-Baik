@@ -21,7 +21,7 @@ StringId::StringId(const String& fullPath) : Object() {
 	filler = 0;
 }
 
-StringId::StringId(const char * fullPath) : Object() {
+StringId::StringId(const char* fullPath) : Object() {
 	setStringId(String(fullPath));
 	filler = 0;
 }
@@ -32,9 +32,7 @@ StringId::StringId(const String& fil, const String& stringId) : Object() {
 	filler = 0;
 }
 
-StringId::StringId(StringId&& id) : Object(), file(std::move(id.file)), filler(id.filler),
-		stringID(std::move(id.stringID)) {
-
+StringId::StringId(StringId&& id) : Object(), file(std::move(id.file)), filler(id.filler), stringID(std::move(id.stringID)) {
 }
 
 void StringId::clear() {

@@ -18,7 +18,7 @@ namespace creature {
 namespace ai {
 namespace bt {
 
-class MockBehavior: public Behavior {
+class MockBehavior : public Behavior {
 public:
 	MockBehavior(MockAiAgent* _agent, String className) : Behavior(_agent, className) {
 	}
@@ -29,12 +29,11 @@ public:
 	MOCK_METHOD0(doAction, void());
 };
 
-}
-}
-}
-}
-}
-}
-
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif /* MOCKBEHAVIOUR_H_ */

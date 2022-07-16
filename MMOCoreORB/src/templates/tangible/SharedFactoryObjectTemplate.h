@@ -11,14 +11,11 @@
 #include "templates/SharedTangibleObjectTemplate.h"
 
 class SharedFactoryObjectTemplate : public SharedTangibleObjectTemplate {
-
 public:
 	SharedFactoryObjectTemplate() {
-
 	}
 
 	~SharedFactoryObjectTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -29,7 +26,7 @@ public:
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'SFOT') {
-			//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 			SharedTangibleObjectTemplate::readObject(iffStream);
 
@@ -53,7 +50,7 @@ public:
 		iffStream->openForm(derv);
 
 		try {
-			//parseFileData(iffStream);
+			// parseFileData(iffStream);
 		} catch (Exception& e) {
 			String msg;
 			msg += "exception caught parsing file data ->";
@@ -71,6 +68,5 @@ public:
 		iffStream->closeForm('SFOT');
 	}
 };
-
 
 #endif /* SHAREDFACTORYOBJECTTEMPLATE_H_ */

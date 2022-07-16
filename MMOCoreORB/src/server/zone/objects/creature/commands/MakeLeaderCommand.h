@@ -11,13 +11,9 @@
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/chat/ChatManager.h"
 
-
 class MakeLeaderCommand : public QueueCommand {
 public:
-
-	MakeLeaderCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	MakeLeaderCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -78,8 +74,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //MAKELEADERCOMMAND_H_
-
+#endif // MAKELEADERCOMMAND_H_

@@ -27,18 +27,18 @@ void PowerRegulatorMenuComponent::fillObjectMenuResponse(SceneObject* sceneObjec
 	}
 
 	switch (terminalID) {
-		case 367432: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923849: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923861: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367432: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923849: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923861: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	if (building == nullptr || player == nullptr) {
@@ -79,18 +79,18 @@ int PowerRegulatorMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject
 	}
 
 	switch (terminalID) {
-		case 367432: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923849: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923861: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367432: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923849: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923861: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	if (building == nullptr || player == nullptr) {
@@ -122,7 +122,7 @@ int PowerRegulatorMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject
 	} else if (gcwMan->isPowerOverloaded(building)) {
 		player->sendSystemMessage("@faction/faction_hq/faction_hq_response:already_overloading"); // The power regulator has already been set to overload.
 		return 1;
-	} else if (!gcwMan->isDNASampled(building))	{
+	} else if (!gcwMan->isDNASampled(building)) {
 		player->sendSystemMessage("@faction/faction_hq/faction_hq_response:other_objectives"); // Other objectives must be disabled prior to gaining access to this one.
 		return 1;
 	} else if (player->isInCombat()) {
@@ -141,12 +141,14 @@ int PowerRegulatorMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject
 
 	Reference<CreatureObject*> playerRef = player;
 
-	Core::getTaskManager()->executeTask([=] () {
-		Locker locker(playerRef);
-		Locker clocker(building, playerRef);
+	Core::getTaskManager()->executeTask(
+		[=]() {
+			Locker locker(playerRef);
+			Locker clocker(building, playerRef);
 
-		gcwMan->sendPowerRegulatorControls(playerRef, building, powerRegulator);
-	}, "SendPowerRegulatorControlsLambda");
+			gcwMan->sendPowerRegulatorControls(playerRef, building, powerRegulator);
+		},
+		"SendPowerRegulatorControlsLambda");
 
 	return 0;
 }

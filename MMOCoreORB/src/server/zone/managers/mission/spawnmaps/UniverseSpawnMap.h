@@ -21,7 +21,7 @@ protected:
 	/**
 	 * Map for all planets and their spawn points.
 	 */
-	VectorMap<uint32, Reference<PlanetSpawnMap* > > planetSpawnMaps;
+	VectorMap<uint32, Reference<PlanetSpawnMap*>> planetSpawnMaps;
 
 public:
 	/**
@@ -74,7 +74,7 @@ public:
 
 			String planet = luaCityObj.getStringAt(1);
 
-			Reference<CitySpawnMap* > city = new CitySpawnMap();
+			Reference<CitySpawnMap*> city = new CitySpawnMap();
 			city->readObject(&luaCityObj);
 
 			luaCityObj.pop();

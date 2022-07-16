@@ -12,12 +12,12 @@
 #include "server/db/ServerDatabase.h"
 #include "server/ServerCore.h"
 
-class OnlineZoneClientMap : public HashTable<uint32, Vector<Reference<ZoneClientSession*> > >, private Logger {
+class OnlineZoneClientMap : public HashTable<uint32, Vector<Reference<ZoneClientSession*>>>, private Logger {
 protected:
-	HashTable<String, Reference<SortedVector<uint32>*> > ip_list;
+	HashTable<String, Reference<SortedVector<uint32>*>> ip_list;
 	ReadWriteLock mutex;
 
-	using self_table_type = HashTable<uint32, Vector<Reference<ZoneClientSession*> > >;
+	using self_table_type = HashTable<uint32, Vector<Reference<ZoneClientSession*>>>;
 
 public:
 	OnlineZoneClientMap() {
@@ -28,7 +28,7 @@ public:
 		int onlineCount = -1;
 
 		Locker locker(&mutex);
-		Reference<SortedVector<uint32>* > account_list = ip_list.get(ip);
+		Reference<SortedVector<uint32>*> account_list = ip_list.get(ip);
 
 		if (account_list == nullptr) {
 			account_list = new SortedVector<uint32>();
@@ -50,7 +50,7 @@ public:
 
 			msg << "onlineCount: " << onlineCount << " ip: " << ip << " accounts:";
 
-			for (int i = 0;i < account_list->size(); i++) {
+			for (int i = 0; i < account_list->size(); i++) {
 				msg << delim << account_list->get(i);
 				delim = ", ";
 			}
@@ -63,7 +63,7 @@ public:
 		int onlineCount = -1;
 
 		Locker locker(&mutex);
-		Reference<SortedVector<uint32>* > account_list = ip_list.get(ip);
+		Reference<SortedVector<uint32>*> account_list = ip_list.get(ip);
 
 		if (account_list != nullptr) {
 			account_list->drop(accountId);
@@ -98,18 +98,12 @@ private:
 
 		if (ServerCore::getSchemaVersion() >= 1001)
 			query << "insert into account_ips (account_id, galaxy_id, ip, logout, online_count) values"
-				<< "(" << accountId
-				<< ", " << galaxyId
-				<< ", '" << ipAddress << "'"
-				<< ", " << logout
-				<< ", " << onlineCount
-				<< ");";
+				  << "(" << accountId << ", " << galaxyId << ", '" << ipAddress << "'"
+				  << ", " << logout << ", " << onlineCount << ");";
 		else
 			query << "insert into account_ips (account_id, ip, logout) values"
-				<< "(" << accountId
-				<< ", '" << ipAddress << "'"
-				<< ", " << logout
-				<< ");";
+				  << "(" << accountId << ", '" << ipAddress << "'"
+				  << ", " << logout << ");";
 
 		try {
 			ServerDatabase::instance()->executeStatement(query);

@@ -22,22 +22,21 @@ public:
 		insertInt(0x3AE6DFAE);
 		insertByte(0);
 		insertLong(creo->getObjectID());
-	 	insertAscii("terrain/" + zone->getZoneName() + ".trn"); //terrain name
-	 	insertFloat(creo->getWorldPositionX()); //X
-	 	insertFloat(creo->getWorldPositionZ()); //Z
-	 	insertFloat(creo->getWorldPositionY()); //Y
-	 	
-	 	//TODO: This should be deprecated when possible.
+		insertAscii("terrain/" + zone->getZoneName() + ".trn"); // terrain name
+		insertFloat(creo->getWorldPositionX());					// X
+		insertFloat(creo->getWorldPositionZ());					// Z
+		insertFloat(creo->getWorldPositionY());					// Y
+
+		// TODO: This should be deprecated when possible.
 		uint32 crc = creo->getClientObjectCRC();
 		String file = TemplateManager::instance()->getTemplateFile(crc);
-	 	insertAscii(file);
-	 	
-	 	insertLong(zone->getGalacticTime()); //galactic time
+		insertAscii(file);
+
+		insertLong(zone->getGalacticTime()); // galactic time
 	}
 
 	static void parse(Packet* pack) {
 	}
-	
 };
 
 #endif /*CMDSTARTSCENE_H_*/

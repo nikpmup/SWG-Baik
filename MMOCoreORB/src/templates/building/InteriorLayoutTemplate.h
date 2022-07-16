@@ -12,12 +12,12 @@ class InteriorNode : public Object {
 	Matrix4 transform;
 	String templateFile;
 	String cellName;
+
 public:
 	InteriorNode() {
-
 	}
 
-	void load(IffStream *iff) {
+	void load(IffStream* iff) {
 		iff->openChunk('NODE');
 
 		iff->getString(templateFile);
@@ -56,19 +56,19 @@ public:
 
 class InteriorLayoutTemplate : public IffTemplate {
 	String name;
-	Vector<Reference<InteriorNode*> > children;
+	Vector<Reference<InteriorNode*>> children;
+
 public:
 	InteriorLayoutTemplate() {
-
 	}
 
-	void readObject(IffStream *iff) {
+	void readObject(IffStream* iff) {
 		iff->openForm('INLY');
 		uint32 type = iff->getNextFormType();
 
-		if(type == '0000') {
-			Chunk *chunk = iff->openForm('0000');
-			for (int i=0; i<chunk->getChunksSize(); i++) {
+		if (type == '0000') {
+			Chunk* chunk = iff->openForm('0000');
+			for (int i = 0; i < chunk->getChunksSize(); i++) {
 				Reference<InteriorNode*> node = new InteriorNode;
 				node->load(iff);
 				children.add(node);
@@ -76,13 +76,13 @@ public:
 
 			iff->closeForm('0000');
 		} else {
-			//TemplateManager::instance()->error("Unknown interior layout type " + String::hexvalueOf((int64)type));
+			// TemplateManager::instance()->error("Unknown interior layout type " + String::hexvalueOf((int64)type));
 		}
 
 		iff->closeForm('INLY');
 	}
 
-	const Vector<Reference<InteriorNode*> >& getChildren() const {
+	const Vector<Reference<InteriorNode*>>& getChildren() const {
 		return children;
 	}
 };

@@ -11,10 +11,10 @@
 #include "server/zone/managers/director/MockDirectorManager.h"
 
 using ::testing::_;
-using ::testing::Return;
-using ::testing::AnyNumber;
-using ::testing::TypedEq;
 using ::testing::An;
+using ::testing::AnyNumber;
+using ::testing::Return;
+using ::testing::TypedEq;
 
 namespace server {
 namespace zone {
@@ -232,9 +232,8 @@ TEST_F(JediManagerTest, UseItemShouldCallTheUseItemMethodInTheLuaJediManager) {
 	DirectorManager::setSingletonInstance(realDirectorManager);
 }
 
-
-}
-}
-}
-}
-}
+} // namespace tests
+} // namespace jedi
+} // namespace managers
+} // namespace zone
+} // namespace server

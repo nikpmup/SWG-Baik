@@ -7,14 +7,10 @@
 
 class SeGogglesCommand : public QueueCommand {
 public:
-
-	SeGogglesCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SeGogglesCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SEGOGGLESCOMMAND_H_
+#endif // SEGOGGLESCOMMAND_H_

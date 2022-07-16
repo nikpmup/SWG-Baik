@@ -11,6 +11,7 @@ class BadgeList : public Singleton<BadgeList>, public Logger, public Object {
 	HashTable<String, const Badge*> names;
 
 	void loadData();
+
 public:
 	BadgeList();
 	~BadgeList();
@@ -22,14 +23,14 @@ public:
 
 	/*
 	 * Get a badge by name
-         * returns nullptr if the name wasn't found
+	 * returns nullptr if the name wasn't found
 	 */
 	inline const Badge* get(const String& name) const {
 		return names.get(name);
 	}
 
 	/*
-         * Get a badge by index
+	 * Get a badge by index
 	 * return nullptre if the name wasn't found
 	 */
 	inline const Badge* get(unsigned int idx) const {
@@ -42,6 +43,5 @@ public:
 	inline const VectorMap<unsigned int, const Badge*>* getMap() const {
 		return &badges;
 	}
-
 };
 #endif /* _H_BADGELIST_ */

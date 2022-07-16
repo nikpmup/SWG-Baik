@@ -7,14 +7,10 @@
 
 class CombatCommand : public QueueCommand {
 public:
-
-	CombatCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CombatCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //COMBATCOMMAND_H_
+#endif // COMBATCOMMAND_H_

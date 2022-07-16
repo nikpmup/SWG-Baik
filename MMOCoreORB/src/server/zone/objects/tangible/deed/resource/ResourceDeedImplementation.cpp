@@ -21,7 +21,7 @@ void ResourceDeedImplementation::initializeTransientMembers() {
 void ResourceDeedImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuResponse, CreatureObject* player) {
 	DeedImplementation::fillObjectMenuResponse(menuResponse, player);
 
-	menuResponse->addRadialMenuItem(20, 3, "@ui_radial:item_use"); //use
+	menuResponse->addRadialMenuItem(20, 3, "@ui_radial:item_use"); // use
 }
 
 int ResourceDeedImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
@@ -44,7 +44,7 @@ int ResourceDeedImplementation::useObject(CreatureObject* creature) {
 	ManagedReference<PlayerObject*> ghost = creature->getPlayerObject();
 
 	if (ghost == nullptr || ghost->hasSuiBoxWindowType(SuiWindowType::FREE_RESOURCE)) {
-		//ghost->closeSuiWindowType(SuiWindowType::FREE_RESOURCE);
+		// ghost->closeSuiWindowType(SuiWindowType::FREE_RESOURCE);
 		ghost->removeSuiBoxType(SuiWindowType::FREE_RESOURCE);
 
 		return 0;
@@ -55,8 +55,8 @@ int ResourceDeedImplementation::useObject(CreatureObject* creature) {
 	ManagedReference<SuiListBox*> sui = new SuiListBox(creature, SuiWindowType::FREE_RESOURCE);
 	sui->setUsingObject(_this.getReferenceUnsafeStaticCast());
 	sui->setCallback(new ResourceDeedSuiCallback(server->getZoneServer(), "Resource"));
-	sui->setPromptTitle("@veteran:resource_title"); //Resources
-	sui->setPromptText("@veteran:choose_class"); //Choose resource class
+	sui->setPromptTitle("@veteran:resource_title"); // Resources
+	sui->setPromptText("@veteran:choose_class");	// Choose resource class
 	sui->setOtherButton(true, "@back");
 	sui->setCancelButton(true, "@cancel");
 	sui->setOkButton(true, "@ok");

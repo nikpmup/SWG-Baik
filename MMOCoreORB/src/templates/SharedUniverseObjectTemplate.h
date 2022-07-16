@@ -12,22 +12,18 @@
 
 class SharedUniverseObjectTemplate : public SharedObjectTemplate {
 protected:
-
-
 public:
 	SharedUniverseObjectTemplate() {
-
 	}
 
 	~SharedUniverseObjectTemplate() {
-
 	}
 
 	void readObject(IffStream* iffStream) {
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'SUNI') {
-			//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 			SharedObjectTemplate::readObject(iffStream);
 
@@ -51,7 +47,7 @@ public:
 		iffStream->openForm(derv);
 
 		try {
-			//parseFileData(iffStream);
+			// parseFileData(iffStream);
 		} catch (Exception& e) {
 			String msg;
 			msg += "exception caught parsing file data ->";
@@ -68,8 +64,6 @@ public:
 
 		iffStream->closeForm('SUNI');
 	}
-
 };
-
 
 #endif /* SHAREDUNIVERSEOBJECTTEMPLATE_H_ */

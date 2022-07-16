@@ -21,7 +21,6 @@ public:
 	bool checkPVPPermission(BuildingObject* building, CreatureObject* creature, uint16 permission, bool sendMessage) const;
 
 	bool checkPVEPermission(BuildingObject* building, CreatureObject* creature, uint16 permission, bool sendMessage) const;
-
 };
 
 #endif /* GCWBASECONTAINERCOMPONENT_H_ */

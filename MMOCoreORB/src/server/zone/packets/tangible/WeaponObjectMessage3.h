@@ -11,8 +11,7 @@
 
 class WeaponObjectMessage3 : public TangibleObjectMessage3 {
 public:
-	WeaponObjectMessage3(WeaponObject* weao)
-			: TangibleObjectMessage3(weao, 0x5745414F, 0x11) {
+	WeaponObjectMessage3(WeaponObject* weao) : TangibleObjectMessage3(weao, 0x5745414F, 0x11) {
 		/*insertInt(0xE8000000);
 
 		insertInt(3);
@@ -27,7 +26,6 @@ public:
 
 		setSize();
 	}
-
 };
 
 #endif /*WEAPONOBJECTMESSAGE3_H_*/

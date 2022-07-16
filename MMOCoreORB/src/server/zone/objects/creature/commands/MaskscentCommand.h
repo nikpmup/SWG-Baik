@@ -28,7 +28,7 @@ public:
 		}
 
 		StringIdChatParameter startStringId("skl_use", "sys_scentmask_start"); // Your natural scent has been masked from creatures.
-		StringIdChatParameter endStringId("skl_use", "sys_scentmask_stop");	// Your masked scent has worn off.
+		StringIdChatParameter endStringId("skl_use", "sys_scentmask_stop");	   // Your masked scent has worn off.
 
 		int maskScentMod = creature->getSkillMod("mask_scent") / 2;
 		int duration = 12 * maskScentMod;

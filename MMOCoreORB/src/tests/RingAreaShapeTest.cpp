@@ -10,7 +10,6 @@ namespace test {
 
 class RingAreaShapeTest : public ::testing::Test {
 public:
-
 	RingAreaShapeTest() {
 		// Perform creation setup here.
 	}
@@ -55,9 +54,9 @@ TEST_F(RingAreaShapeTest, RingAreaShapeHasOuterRadiusSquareEqualToZeroAfterCreat
 	EXPECT_EQ(ringAreaShape->getOuterRadius2(), 0);
 }
 
-}
-}
-}
-}
-}
-}
+} // namespace test
+} // namespace areashapes
+} // namespace area
+} // namespace objects
+} // namespace zone
+} // namespace server

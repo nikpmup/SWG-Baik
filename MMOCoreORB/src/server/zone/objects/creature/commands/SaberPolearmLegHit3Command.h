@@ -9,14 +9,10 @@
 
 class SaberPolearmLegHit3Command : public JediCombatQueueCommand {
 public:
-
-	SaberPolearmLegHit3Command(const String& name, ZoneProcessServer* server)
-		: JediCombatQueueCommand(name, server) {
-
+	SaberPolearmLegHit3Command(const String& name, ZoneProcessServer* server) : JediCombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,7 +25,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //SABERPOLEARMLEGHIT3COMMAND_H_
+#endif // SABERPOLEARMLEGHIT3COMMAND_H_

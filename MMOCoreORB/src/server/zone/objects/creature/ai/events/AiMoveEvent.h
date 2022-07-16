@@ -136,18 +136,15 @@ public:
 	void clearCreatureObject() {
 		creature = nullptr;
 	}
-
 };
 
-}
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::events;
-
-
 
 #endif /* AiMoveEvent_H_ */

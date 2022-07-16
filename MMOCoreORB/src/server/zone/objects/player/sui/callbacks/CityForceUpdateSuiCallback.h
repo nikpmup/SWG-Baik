@@ -10,14 +10,14 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
 namespace region {
-	class CityRegion;
+class CityRegion;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 using namespace server::zone::objects::region;
@@ -52,10 +52,10 @@ public:
 
 		ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
 		box->setPromptTitle("@city/city:force_city_update_t"); // Force City Update
-		box->setPromptText("@city/city:force_election_only"); // Do you only want to force an election?
+		box->setPromptText("@city/city:force_election_only");  // Do you only want to force an election?
 		box->setCancelButton(true, "@no");
 		box->setOkButton(true, "@yes");
-		box->setCallback(new CityForceUpdateTypeSuiCallback(server, city) );
+		box->setCallback(new CityForceUpdateTypeSuiCallback(server, city));
 
 		ghost->addSuiBox(box);
 		player->sendMessage(box->generateMessage());

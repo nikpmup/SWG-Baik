@@ -21,7 +21,7 @@ namespace variables {
 template <class TaskOwner>
 class OrderedTaskExecutioner;
 }
-}
+} // namespace scene
 } // namespace objects
 } // namespace zone
 } // namespace server
@@ -59,7 +59,7 @@ public:
 
 		if (values == 1) {
 			Reference<Task*> strongReference;
-		        strongReference.initializeWithoutAcquire(task);
+			strongReference.initializeWithoutAcquire(task);
 
 			auto newTask = new server::zone::objects::scene::variables::OrderedTaskExecutioner<Owner>(owner, std::move(strongReference));
 			newTask->execute();
@@ -67,7 +67,6 @@ public:
 			const bool result = pendingTasks.push(task);
 			E3_ASSERT(result);
 		}
-
 	}
 
 	Reference<Task*> popNextOrderedTask();

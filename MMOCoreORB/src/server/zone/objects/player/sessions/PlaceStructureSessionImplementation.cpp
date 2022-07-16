@@ -21,7 +21,6 @@
 #include "server/zone/objects/transaction/TransactionLog.h"
 #include "server/zone/Zone.h"
 
-
 int PlaceStructureSessionImplementation::constructStructure(float x, float y, int angle) {
 	ManagedReference<StructureDeed*> deed = deedObject.get();
 	ManagedReference<Zone*> thisZone = zone.get();
@@ -40,18 +39,18 @@ int PlaceStructureSessionImplementation::constructStructure(float x, float y, in
 	Reference<const SharedStructureObjectTemplate*> serverTemplate = dynamic_cast<SharedStructureObjectTemplate*>(templateManager->getTemplate(serverTemplatePath.hashCode()));
 
 	if (serverTemplate == nullptr || temporaryNoBuildZone.get() != nullptr)
-		return cancelSession(); //Something happened, the server template is not a structure template or temporaryNoBuildZone already set.
+		return cancelSession(); // Something happened, the server template is not a structure template or temporaryNoBuildZone already set.
 
 	placeTemporaryNoBuildZone(serverTemplate);
 
 	String barricadeServerTemplatePath = serverTemplate->getConstructionMarkerTemplate();
-	int constructionDuration = 100; //Set the duration for 100ms as a fall back if it doesn't have a barricade template.
+	int constructionDuration = 100; // Set the duration for 100ms as a fall back if it doesn't have a barricade template.
 
 	if (!barricadeServerTemplatePath.isEmpty()) {
 		ManagedReference<SceneObject*> barricade = ObjectManager::instance()->createObject(barricadeServerTemplatePath.hashCode(), 0, "");
 
 		if (barricade != nullptr) {
-			barricade->initializePosition(x, 0, y); //The construction barricades are always at the terrain height.
+			barricade->initializePosition(x, 0, y); // The construction barricades are always at the terrain height.
 
 			const StructureFootprint* structureFootprint = serverTemplate->getStructureFootprint();
 
@@ -59,13 +58,13 @@ int PlaceStructureSessionImplementation::constructStructure(float x, float y, in
 				angle = angle + 180;
 			}
 
-			barricade->rotate(angle); //All construction barricades need to be rotated 180 degrees for some reason.
+			barricade->rotate(angle); // All construction barricades need to be rotated 180 degrees for some reason.
 
 			Locker tLocker(barricade);
 
 			thisZone->transferObject(barricade, -1, true);
 
-			constructionDuration = serverTemplate->getLotSize() * 3000; //3 seconds per lot.
+			constructionDuration = serverTemplate->getLotSize() * 3000; // 3 seconds per lot.
 
 			constructionBarricade = barricade;
 		}
@@ -85,7 +84,7 @@ void PlaceStructureSessionImplementation::placeTemporaryNoBuildZone(const Shared
 
 	Reference<const StructureFootprint*> structureFootprint = serverTemplate->getStructureFootprint();
 
-	//float temporaryNoBuildZoneWidth = structureFootprint->getLength() + structureFootprint->getWidth();
+	// float temporaryNoBuildZoneWidth = structureFootprint->getLength() + structureFootprint->getWidth();
 
 	ManagedReference<CircularAreaShape*> areaShape = new CircularAreaShape();
 
@@ -163,9 +162,8 @@ int PlaceStructureSessionImplementation::completeSession() {
 	ManagedReference<PlayerObject*> ghost = creature->getPlayerObject();
 
 	if (ghost != nullptr) {
-
-		//Create Waypoint
-		ManagedReference<WaypointObject*> waypointObject = ( thisZone->getZoneServer()->createObject(STRING_HASHCODE("object/waypoint/world_waypoint_blue.iff"), 1)).castTo<WaypointObject*>();
+		// Create Waypoint
+		ManagedReference<WaypointObject*> waypointObject = (thisZone->getZoneServer()->createObject(STRING_HASHCODE("object/waypoint/world_waypoint_blue.iff"), 1)).castTo<WaypointObject*>();
 
 		Locker locker(waypointObject);
 
@@ -179,7 +177,7 @@ int PlaceStructureSessionImplementation::completeSession() {
 
 		locker.release();
 
-		//Create an email.
+		// Create an email.
 		ManagedReference<ChatManager*> chatManager = thisZone->getZoneServer()->getChatManager();
 
 		if (chatManager != nullptr) {
@@ -204,5 +202,5 @@ int PlaceStructureSessionImplementation::completeSession() {
 		}
 	}
 
-	return cancelSession(); //Canceling the session just removes the session from the player's map.
+	return cancelSession(); // Canceling the session just removes the session from the player's map.
 }

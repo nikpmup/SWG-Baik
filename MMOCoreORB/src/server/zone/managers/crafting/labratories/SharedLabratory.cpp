@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #include "SharedLabratory.h"
@@ -8,7 +8,7 @@
 #include "server/zone/objects/manufactureschematic/ingredientslots/ComponentSlot.h"
 #include "server/zone/objects/manufactureschematic/ingredientslots/ResourceSlot.h"
 
-SharedLabratory::SharedLabratory() : Logger("SharedLabratory"){
+SharedLabratory::SharedLabratory() : Logger("SharedLabratory") {
 }
 
 SharedLabratory::~SharedLabratory() {
@@ -57,29 +57,25 @@ float SharedLabratory::calculateExperimentationValueModifier(int experimentation
 	return results;
 }
 float SharedLabratory::calculateAssemblyValueModifier(int assemblyResult) {
-
-	if(assemblyResult == CraftingManager::AMAZINGSUCCESS)
+	if (assemblyResult == CraftingManager::AMAZINGSUCCESS)
 		return 1.05f;
 	float result = 1.1f - (assemblyResult * .1f);
 	return result;
 }
 
 float SharedLabratory::getAssemblyPercentage(float value) {
-
 	float percentage = (value * (0.000015f * value + .015f)) * 0.01f;
 	return percentage;
 }
 float SharedLabratory::getWeightedValue(ManufactureSchematic* manufactureSchematic, int type) {
-
 	int nsum = 0;
 	float weightedAverage = 0;
 	int n = 0;
 	int stat = 0;
 
 	for (int i = 0; i < manufactureSchematic->getSlotCount(); ++i) {
-
-		Reference<IngredientSlot* > ingredientslot = manufactureSchematic->getSlot(i);
-		Reference<DraftSlot* > draftslot = manufactureSchematic->getDraftSchematic()->getDraftSlot(i);
+		Reference<IngredientSlot*> ingredientslot = manufactureSchematic->getSlot(i);
+		Reference<DraftSlot*> draftslot = manufactureSchematic->getDraftSchematic()->getDraftSlot(i);
 
 		if (ingredientslot->isComponentSlot()) {
 			ComponentSlot* compSlot = cast<ComponentSlot*>(ingredientslot.get());
@@ -92,7 +88,7 @@ float SharedLabratory::getWeightedValue(ManufactureSchematic* manufactureSchemat
 			if (tano == nullptr || !tano->isCustomIngredient())
 				continue;
 
-			ManagedReference<CustomIngredient*> component = cast<CustomIngredient*>( tano.get());
+			ManagedReference<CustomIngredient*> component = cast<CustomIngredient*>(tano.get());
 
 			if (component == nullptr)
 				continue;
@@ -109,15 +105,15 @@ float SharedLabratory::getWeightedValue(ManufactureSchematic* manufactureSchemat
 		}
 
 		/// If resource slot, continue
-		if(!ingredientslot->isResourceSlot())
+		if (!ingredientslot->isResourceSlot())
 			continue;
 
 		ResourceSlot* resSlot = cast<ResourceSlot*>(ingredientslot.get());
 
-		if(resSlot == nullptr)
+		if (resSlot == nullptr)
 			continue;
 
-		ManagedReference<ResourceSpawn* > spawn = resSlot->getCurrentSpawn();
+		ManagedReference<ResourceSpawn*> spawn = resSlot->getCurrentSpawn();
 
 		if (spawn == nullptr) {
 			error("Spawn object is null when running getWeightedValue");
@@ -128,7 +124,6 @@ float SharedLabratory::getWeightedValue(ManufactureSchematic* manufactureSchemat
 		stat = spawn->getValueOf(type);
 
 		if (stat != 0) {
-
 			nsum += n;
 			weightedAverage += (stat * n);
 		}
@@ -139,7 +134,7 @@ float SharedLabratory::getWeightedValue(ManufactureSchematic* manufactureSchemat
 
 	return weightedAverage;
 }
-int SharedLabratory::calculateAssemblySuccess(CreatureObject* player,DraftSchematic* draftSchematic, float effectiveness){
+int SharedLabratory::calculateAssemblySuccess(CreatureObject* player, DraftSchematic* draftSchematic, float effectiveness) {
 	// assemblyPoints is 0-12
 	/// City bonus should be 10
 	float cityBonus = player->getSkillMod("private_spec_assembly");
@@ -151,15 +146,15 @@ int SharedLabratory::calculateAssemblySuccess(CreatureObject* player,DraftSchema
 	int failMitigate = (player->getSkillMod(draftSchematic->getAssemblySkill()) - 100 + cityBonus) / 7;
 	failMitigate += player->getSkillMod("force_failure_reduction");
 
-	if(failMitigate < 0)
+	if (failMitigate < 0)
 		failMitigate = 0;
-	if(failMitigate > 5)
+	if (failMitigate > 5)
 		failMitigate = 5;
 
 	// 0.85-1.15
 	float toolModifier = 1.0f + (effectiveness / 100.0f);
 
-	//Pyollian Cake
+	// Pyollian Cake
 	float craftbonus = 0;
 	if (player->hasBuff(BuffCRC::FOOD_CRAFT_BONUS)) {
 		Buff* buff = player->getBuff(BuffCRC::FOOD_CRAFT_BONUS);
@@ -172,13 +167,13 @@ int SharedLabratory::calculateAssemblySuccess(CreatureObject* player,DraftSchema
 
 	int luckRoll = System::random(100) + cityBonus;
 
-	if(luckRoll > (95 - craftbonus))
+	if (luckRoll > (95 - craftbonus))
 		return CraftingManager::AMAZINGSUCCESS;
 
-	if(luckRoll < (5 - craftbonus - failMitigate))
+	if (luckRoll < (5 - craftbonus - failMitigate))
 		luckRoll -= System::random(100);
 
-	//if(luckRoll < 5)
+	// if(luckRoll < 5)
 	//	return CRITICALFAILURE;
 
 	luckRoll += System::random(player->getSkillMod("luck") + player->getSkillMod("force_luck"));
@@ -205,4 +200,3 @@ int SharedLabratory::calculateAssemblySuccess(CreatureObject* player,DraftSchema
 
 	return CraftingManager::BARELYSUCCESSFUL;
 }
-

@@ -20,6 +20,7 @@ class MeshData;
 class EdgeID {
 	int triangleID;
 	int edgeID;
+
 public:
 	EdgeID(int triangleID, int edgeID) {
 		this->triangleID = triangleID;
@@ -34,14 +35,18 @@ public:
 	EdgeID(const EdgeID& edge) = default;
 	EdgeID& operator=(const EdgeID& edge) = default;
 
-	inline int getEdgeID() const { return edgeID; }
-	inline int getTriangleID() const { return triangleID; }
+	inline int getEdgeID() const {
+		return edgeID;
+	}
+	inline int getTriangleID() const {
+		return triangleID;
+	}
 
 	int compareTo(const EdgeID& rhs) const {
-		if(triangleID == rhs.triangleID) {
+		if (triangleID == rhs.triangleID) {
 			if (edgeID == rhs.edgeID)
 				return 0;
-			else if(edgeID < rhs.edgeID)
+			else if (edgeID < rhs.edgeID)
 				return 1;
 			else
 				return -1;
@@ -59,7 +64,6 @@ public:
 	bool parseFromBinaryStream(ObjectInputStream* stream) {
 		return false;
 	}
-
 };
 
 class Nods {
@@ -94,13 +98,13 @@ public:
 	bool parseFromBinaryStream(ObjectInputStream* stream) {
 		return false;
 	}
-
 };
 
 class Bedg {
 	int triangleID;
 	int edgeID;
 	char var3;
+
 public:
 	Bedg() {
 		triangleID = edgeID = 0;
@@ -137,6 +141,7 @@ public:
 		int32 neighbor;
 		uint8 flags;
 		int32 portalID;
+
 	public:
 		Edge() {
 			neighbor = -1;
@@ -144,24 +149,29 @@ public:
 			portalID = -1;
 		}
 
-		int32 getNeighbor() const { return neighbor; }
+		int32 getNeighbor() const {
+			return neighbor;
+		}
 
-		uint8 getFlags() const { return flags; }
+		uint8 getFlags() const {
+			return flags;
+		}
 
-		int32 getPortalID() const { return portalID; }
+		int32 getPortalID() const {
+			return portalID;
+		}
 		friend class FloorMeshTriangleNode;
 		friend class FloorMesh;
 	};
 
 protected:
-
 	int32 indicies[3];
 	uint32 triangleID;
 	Vector3 normal;
 	Edge edges[3];
 	bool nonSolid;
 	int32 tag;
-	FloorMesh *mesh;
+	FloorMesh* mesh;
 	Vector<TriangleNode*> neighbors;
 
 public:
@@ -184,7 +194,7 @@ public:
 	}
 
 	inline bool isEdge() const {
-		//return edge;
+		// return edge;
 		return neighbors.size() < 3;
 	}
 
@@ -239,7 +249,7 @@ public:
 	void parseVersion0005(IffStream* iffStream);
 	void parseVersion0003(IffStream* iffStream);
 
-	Vector <Reference<MeshData*>> getTransformedMeshData(const Matrix4& parentTransform) const;
+	Vector<Reference<MeshData*>> getTransformedMeshData(const Matrix4& parentTransform) const;
 
 	const Vector<TriangleNode*>* getNeighbors(uint32 triangleID) const;
 

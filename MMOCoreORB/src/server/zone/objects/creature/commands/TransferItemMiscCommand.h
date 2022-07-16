@@ -18,13 +18,10 @@
 
 class TransferItemMiscCommand : public QueueCommand {
 public:
-	TransferItemMiscCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	TransferItemMiscCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -110,8 +107,8 @@ public:
 			return GENERALERROR;
 		}
 
-		if (objectToTransfer->isClientObject() || (!objectToTransfer->isTangibleObject())){
-			if (!objectToTransfer->isManufactureSchematic()){
+		if (objectToTransfer->isClientObject() || (!objectToTransfer->isTangibleObject())) {
+			if (!objectToTransfer->isManufactureSchematic()) {
 				trx.abort() << "expected objectToTransfer to be ManufactureSchematic";
 				return GENERALERROR;
 			}
@@ -130,12 +127,12 @@ public:
 			return GENERALERROR;
 		}
 
-		if(objectToTransfer->isVendor() && !objectsParent->checkContainerPermission(creature, ContainerPermissions::MOVEVENDOR)){
+		if (objectToTransfer->isVendor() && !objectsParent->checkContainerPermission(creature, ContainerPermissions::MOVEVENDOR)) {
 			trx.abort() << "Not allowed to move vendor from parent";
 			return GENERALERROR;
 		}
 
-		if (!objectToTransfer->isVendor() && !objectsParent->checkContainerPermission(creature, ContainerPermissions::MOVEOUT)){
+		if (!objectToTransfer->isVendor() && !objectsParent->checkContainerPermission(creature, ContainerPermissions::MOVEOUT)) {
 			trx.abort() << "Not allowed to move object out of parent";
 			return GENERALERROR;
 		}
@@ -145,8 +142,7 @@ public:
 			for (int j = 0; j < descriptors->size(); ++j) {
 				const String& descriptor = descriptors->get(j);
 
-				if (descriptor == "inventory" || descriptor == "datapad" || descriptor == "default_weapon"
-						|| descriptor == "mission_bag" || descriptor == "ghost" || descriptor == "bank" || descriptor == "hair"){
+				if (descriptor == "inventory" || descriptor == "datapad" || descriptor == "default_weapon" || descriptor == "mission_bag" || descriptor == "ghost" || descriptor == "bank" || descriptor == "hair") {
 					trx.abort() << "Attempted to transfer " << descriptor;
 					return GENERALERROR;
 				}
@@ -171,7 +167,7 @@ public:
 			ManagedReference<SceneObject*> rootParent = objectToTransfer->getRootParent();
 			ManagedReference<SceneObject*> parent = objectToTransfer->getParent().get();
 
-			float maxDistance =  16.5;
+			float maxDistance = 16.5;
 
 			if (rootParent != nullptr && !rootParent->isBuildingObject() && parent != nullptr && !parent->isBuildingObject()) {
 				float rootDist = rootParent->getDistanceTo(creature);
@@ -200,7 +196,7 @@ public:
 				ManagedReference<SceneObject*> par = nullptr;
 				ManagedReference<SceneObject*> obj = objectToTransfer;
 
-				if (rootParent->containsChildObject(objectToTransfer)){
+				if (rootParent->containsChildObject(objectToTransfer)) {
 					trx.abort() << "objectToTransfer contained in rootParent";
 					return INVALIDTARGET;
 				}
@@ -280,9 +276,9 @@ public:
 			return GENERALERROR;
 		}
 
-		if(destinationObject->isCellObject()) {
+		if (destinationObject->isCellObject()) {
 			if (creature->getParent().get() != destinationObject) {
-				creature->sendSystemMessage("@player_structure:not_valid_location"); //That is not a valid location.
+				creature->sendSystemMessage("@player_structure:not_valid_location"); // That is not a valid location.
 				trx.abort() << "Not valid location";
 				return GENERALERROR;
 			}
@@ -290,12 +286,12 @@ public:
 			Vector3 endPoint(creature->getPositionX(), creature->getPositionY(), creature->getPositionZ());
 
 			if (!CollisionManager::checkLineOfSightInParentCell(creature, endPoint)) {
-				creature->sendSystemMessage("@player_structure:not_valid_location"); //That is not a valid location.
+				creature->sendSystemMessage("@player_structure:not_valid_location"); // That is not a valid location.
 				trx.abort() << "Out of line of sight";
 				return GENERALERROR;
 			}
 		}
-		if(objectToTransfer->isManufactureSchematic() && !destinationObject->isDataPad()) {
+		if (objectToTransfer->isManufactureSchematic() && !destinationObject->isDataPad()) {
 			trx.abort() << "ManufactureSchematic but destination is not data pad";
 			return GENERALERROR;
 		}
@@ -323,7 +319,7 @@ public:
 
 		Locker clocker(objectsParent, creature);
 
-		if (!objectController->transferObject(objectToTransfer, destinationObject, transferType, true)){
+		if (!objectController->transferObject(objectToTransfer, destinationObject, transferType, true)) {
 			trx.abort() << "transferObject failed";
 			return GENERALERROR;
 		}
@@ -352,4 +348,4 @@ public:
 	}
 };
 
-#endif //TRANSFERITEMMISCCOMMAND_H_
+#endif // TRANSFERITEMMISCCOMMAND_H_

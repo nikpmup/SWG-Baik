@@ -1,6 +1,6 @@
 /*
-                Copyright <SWGEmu>
-        See file COPYING for copying conditions.*/
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
 
 /**
  * @author      : lordkator (lordkator@swgemu.com)
@@ -17,7 +17,7 @@
 #include "APIRequest.h"
 
 namespace server {
- namespace web3 {
+namespace web3 {
 
 void APIProxyConfigManager::handleGET(APIRequest& apiRequest) {
 	auto key = apiRequest.getPathFieldString("key").replaceAll("/", ".");
@@ -159,7 +159,7 @@ void APIProxyConfigManager::handle(APIRequest& apiRequest) {
 	apiRequest.fail("Unsupported method.");
 }
 
-}
-}
+} // namespace web3
+} // namespace server
 
 #endif // WITH_REST_API

@@ -10,7 +10,7 @@
 
 #include "system/util/VectorMap.h"
 
-class LairObjectsToSpawnMap : public VectorMap<int, Vector<uint32> > {
+class LairObjectsToSpawnMap : public VectorMap<int, Vector<uint32>> {
 public:
 	const static int MAXPLANETS = 10;
 
@@ -45,7 +45,7 @@ public:
 		const Vector<uint32>* lairs = nullptr;
 
 		if (planetID == -1)
-			lairs = &elementAt(System::random(size() -1)).getValue();
+			lairs = &elementAt(System::random(size() - 1)).getValue();
 		else {
 			int idx = find(planetID);
 

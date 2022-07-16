@@ -12,14 +12,10 @@
 
 class DumpZoneInformationCommand : public QueueCommand {
 public:
-
-	DumpZoneInformationCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DumpZoneInformationCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -66,9 +62,7 @@ public:
 		float posX = creature->getPositionX(), posZ = creature->getPositionZ(), posY = creature->getPositionY();
 		const Quaternion* direction = creature->getDirection();
 
-		msg << "x = " << posX << ", z = " << posZ << ", y = " << posY << ", ow = " << direction->getW()
-				<< ", ox = " << direction->getX() << ", oz = " << direction->getZ() << ", oy = " << direction->getY()
-				<< ", cellid = " << cellid;
+		msg << "x = " << posX << ", z = " << posZ << ", y = " << posY << ", ow = " << direction->getW() << ", ox = " << direction->getX() << ", oz = " << direction->getZ() << ", oy = " << direction->getY() << ", cellid = " << cellid;
 
 		if (buildingTemplate != 0)
 			msg << endl << TemplateManager::instance()->getTemplateFile(buildingTemplate);
@@ -76,7 +70,7 @@ public:
 		if (cityPlayerCount != 0)
 			msg << endl << "current players in the city:" << cityPlayerCount;
 
-		CloseObjectsVector* vec = (CloseObjectsVector*) player->getCloseObjects();
+		CloseObjectsVector* vec = (CloseObjectsVector*)player->getCloseObjects();
 
 		if (vec != nullptr) {
 			msg << endl << "in range object count = " << vec->size() << endl;
@@ -93,12 +87,10 @@ public:
 
 		int total = Math::max(heightCacheHitCount + heightCacheMissCount, 1);
 
-		msg << "height cache total hit count = " << heightCacheHitCount << ", total miss count = " << heightCacheMissCount
-				<< ", total hit rate = " << ((float)heightCacheHitCount / (float)total) * 100 << "% "
-						", clear count = " << cacheClearCount <<
-						", clear hit count = " << cacheClearHeightCount <<
-						", evict count = " << evictCount <<
-						", cache size = " << cacheSize << endl;
+		msg << "height cache total hit count = " << heightCacheHitCount << ", total miss count = " << heightCacheMissCount << ", total hit rate = " << ((float)heightCacheHitCount / (float)total) * 100
+			<< "% "
+			   ", clear count = "
+			<< cacheClearCount << ", clear hit count = " << cacheClearHeightCount << ", evict count = " << evictCount << ", cache size = " << cacheSize << endl;
 
 		creature->sendSystemMessage(msg.toString());
 
@@ -111,10 +103,10 @@ public:
 			msg << endl << "-- active area detail (max 10) --" << endl << endl;
 
 			for (int i = 0; i < Math::min(areas.size(), 10); ++i) {
-					ManagedReference<ActiveArea*>& area = areas.get(i);
-					JSONSerializationType areaJSON;
-					area->writeJSON(areaJSON);
-					msg << areaJSON.dump().c_str() << endl << endl;
+				ManagedReference<ActiveArea*>& area = areas.get(i);
+				JSONSerializationType areaJSON;
+				area->writeJSON(areaJSON);
+				msg << areaJSON.dump().c_str() << endl << endl;
 			}
 		}
 
@@ -122,7 +114,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DUMPZONEINFORMATIONCOMMAND_H_
+#endif // DUMPZONEINFORMATIONCOMMAND_H_

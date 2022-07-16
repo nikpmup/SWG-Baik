@@ -10,14 +10,10 @@
 
 class CreateManfSchematicCommand : public QueueCommand {
 public:
-
-	CreateManfSchematicCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CreateManfSchematicCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -44,14 +40,14 @@ public:
 		StringTokenizer tokenizer(arguments.toString());
 		int clientCounter = 0;
 
-		if(tokenizer.hasMoreTokens())
+		if (tokenizer.hasMoreTokens())
 			clientCounter = tokenizer.getIntToken();
 		else
 			return GENERALERROR;
 
 		Reference<CraftingSession*> session = creature->getActiveSession(SessionFacadeType::CRAFTING).castTo<CraftingSession*>();
 
-		if(session == nullptr) {
+		if (session == nullptr) {
 			warning("Trying to create manf schematic when no session exists");
 			return GENERALERROR;
 		}
@@ -61,7 +57,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CREATEMANFSCHEMATICCOMMAND_H_
+#endif // CREATEMANFSCHEMATICCOMMAND_H_

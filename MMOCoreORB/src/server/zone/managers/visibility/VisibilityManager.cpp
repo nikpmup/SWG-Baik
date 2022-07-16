@@ -22,9 +22,8 @@ float VisibilityManager::calculateVisibilityIncrease(CreatureObject* creature) {
 	if (zone == nullptr)
 		return visibilityIncrease;
 
-
 	SortedVector<QuadTreeEntry*> closeObjects;
-	CloseObjectsVector* closeObjectsVector = (CloseObjectsVector*) creature->getCloseObjects();
+	CloseObjectsVector* closeObjectsVector = (CloseObjectsVector*)creature->getCloseObjects();
 	if (closeObjectsVector == nullptr) {
 		zone->getInRangeObjects(creature->getWorldPositionX(), creature->getWorldPositionY(), 32, &closeObjects, true);
 	} else {
@@ -62,36 +61,32 @@ float VisibilityManager::calculateVisibilityIncrease(CreatureObject* creature) {
 
 		if (creature->getFaction() == 0 || (c->getFaction() != factionImperial && c->getFaction() != factionRebel)) {
 			visibilityIncrease += 0.5;
-			//info(c->getCreatureName().toString() + " generating a 0.5 visibility modifier", true);
+			// info(c->getCreatureName().toString() + " generating a 0.5 visibility modifier", true);
 		} else {
 			if (creature->getFaction() == c->getFaction()) {
 				visibilityIncrease += 0.25;
-				//info(c->getCreatureName().toString() + " generating a 0.25 visibility modifier", true);
+				// info(c->getCreatureName().toString() + " generating a 0.25 visibility modifier", true);
 			} else {
 				visibilityIncrease += 1;
-				//info( c->getCreatureName().toString() + " generating a 1.0 visibility modifier", true);
+				// info( c->getCreatureName().toString() + " generating a 1.0 visibility modifier", true);
 			}
 		}
-
 	}
 
-	//info("Increasing visibility for player " + String::valueOf(creature->getObjectID()) + " with " + String::valueOf(visibilityIncrease), true);
+	// info("Increasing visibility for player " + String::valueOf(creature->getObjectID()) + " with " + String::valueOf(visibilityIncrease), true);
 	return visibilityIncrease;
 }
 
 void VisibilityManager::decreaseVisibility(CreatureObject* creature) {
-
 	Reference<PlayerObject*> ghost = creature->getSlottedObject("ghost").castTo<PlayerObject*>();
 
 	if (ghost != nullptr) {
 		Locker locker(ghost);
-		if (ghost->getVisibility() > 0)
-		{
-
-			//info("VisDecayTickRate: " + String::valueOf(visDecayTickRate) + " DecayPerTick: " + String::valueOf(visDecayPerTick), true);
+		if (ghost->getVisibility() > 0) {
+			// info("VisDecayTickRate: " + String::valueOf(visDecayTickRate) + " DecayPerTick: " + String::valueOf(visDecayPerTick), true);
 			float visibilityDecrease = (((ghost->getLastVisibilityUpdateTimestamp().miliDifference() / 1000.0f) / visDecayTickRate) * visDecayPerTick);
 
-			//info("Decreasing visibility of player " + creature->getFirstName() + " by " + String::valueOf(visibilityDecrease), true);
+			// info("Decreasing visibility of player " + creature->getFirstName() + " by " + String::valueOf(visibilityDecrease), true);
 			if (ghost->getVisibility() <= visibilityDecrease) {
 				clearVisibility(creature);
 			} else {
@@ -109,7 +104,7 @@ VisibilityManager::VisibilityManager() : Logger("VisibilityManager") {
 }
 
 void VisibilityManager::addToVisibilityList(CreatureObject* creature) {
-	//info("Logging in " + creature->getFirstName(), true);
+	// info("Logging in " + creature->getFirstName(), true);
 	Reference<PlayerObject*> ghost = creature->getSlottedObject("ghost").castTo<PlayerObject*>();
 
 	if (ghost != nullptr) {
@@ -118,7 +113,7 @@ void VisibilityManager::addToVisibilityList(CreatureObject* creature) {
 		Locker locker(&visibilityListLock);
 
 		if ((ghost->getVisibility() > 0) && (!visibilityList.contains(creature->getObjectID()))) {
-			//info("Adding player " + String::valueOf(creature->getObjectID()) + " to visibility list.", true);
+			// info("Adding player " + String::valueOf(creature->getObjectID()) + " to visibility list.", true);
 			visibilityList.put(creature->getObjectID(), creature);
 		}
 
@@ -131,29 +126,29 @@ float VisibilityManager::getTerminalVisThreshold() {
 }
 
 void VisibilityManager::removeFromVisibilityList(CreatureObject* creature) {
-	//info("Logging out " + creature->getFirstName(), true);
+	// info("Logging out " + creature->getFirstName(), true);
 	Locker locker(&visibilityListLock);
 
 	if (visibilityList.contains(creature->getObjectID())) {
-		//info("Dropping player " + String::valueOf(creature->getObjectID()) + " from visibility list.", true);
+		// info("Dropping player " + String::valueOf(creature->getObjectID()) + " from visibility list.", true);
 		visibilityList.drop(creature->getObjectID());
 	}
 }
 
 void VisibilityManager::increaseVisibility(CreatureObject* creature, int visibilityMultiplier) {
-	//info("Increasing visibility for " + creature->getFirstName(), true);
+	// info("Increasing visibility for " + creature->getFirstName(), true);
 	Reference<PlayerObject*> ghost = creature->getSlottedObject("ghost").castTo<PlayerObject*>();
 
-	if (ghost != nullptr  && !ghost->hasGodMode()) {
+	if (ghost != nullptr && !ghost->hasGodMode()) {
 		Locker locker(ghost);
 		decreaseVisibility(creature);
 
 		float newVis = ghost->getVisibility() + (calculateVisibilityIncrease(creature) * visibilityMultiplier); // Calculate new total vis
-		newVis = Math::min(maxVisibility,  newVis); // Cap visibility
+		newVis = Math::min(maxVisibility, newVis);																// Cap visibility
 
 		ghost->setVisibility(newVis);
 
-		//info("New visibility for " + creature->getFirstName() + " is " + String::valueOf(ghost->getVisibility()), true);
+		// info("New visibility for " + creature->getFirstName() + " is " + String::valueOf(ghost->getVisibility()), true);
 		locker.release();
 
 		addToVisibilityList(creature);
@@ -163,8 +158,8 @@ void VisibilityManager::increaseVisibility(CreatureObject* creature, int visibil
 void VisibilityManager::clearVisibility(CreatureObject* creature) {
 	Reference<PlayerObject*> ghost = creature->getSlottedObject("ghost").castTo<PlayerObject*>();
 
-	if (ghost != nullptr  && !ghost->hasGodMode()) {
-		//info("Clearing visibility for player " + String::valueOf(creature->getObjectID()), true);
+	if (ghost != nullptr && !ghost->hasGodMode()) {
+		// info("Clearing visibility for player " + String::valueOf(creature->getObjectID()), true);
 
 		Locker locker(ghost);
 		ghost->setVisibility(0);
@@ -175,7 +170,7 @@ void VisibilityManager::clearVisibility(CreatureObject* creature) {
 }
 
 void VisibilityManager::performVisiblityDecay() {
-	//info("Performing visibility decay (List Size: " + String::valueOf(visibilityList.size()) +")", true);
+	// info("Performing visibility decay (List Size: " + String::valueOf(visibilityList.size()) +")", true);
 	Locker locker(&visibilityListLock);
 
 	for (int i = 0; i < visibilityList.size(); i++) {
@@ -186,13 +181,12 @@ void VisibilityManager::performVisiblityDecay() {
 
 void VisibilityManager::loadConfiguration() {
 	try {
-
 		Lua* lua = new Lua();
 		lua->init();
 
 		lua->runFile("scripts/managers/jedi/visibility_manager.lua");
 
-		maxVisibility  = (float)lua->getGlobalInt(String("maxVisibility"));
+		maxVisibility = (float)lua->getGlobalInt(String("maxVisibility"));
 		terminalVisThreshold = (float)lua->getGlobalInt(String("termThreshold"));
 		falloffThreshold = (float)lua->getGlobalInt(String("falloffThreshold"));
 		pvpRatingDivisor = (float)lua->getGlobalInt(String("pvpRatingDivisor"));
@@ -200,7 +194,7 @@ void VisibilityManager::loadConfiguration() {
 		totalDecayTimeInDays = lua->getGlobalInt(String("totalDecayTimeInDays"));
 		visDecayTickRate = lua->getGlobalInt(String("tickRateInSeconds"));
 
-		visDecayPerTick = (maxVisibility / ((totalDecayTimeInDays * (float)(60*60*24) / visDecayTickRate)));
+		visDecayPerTick = (maxVisibility / ((totalDecayTimeInDays * (float)(60 * 60 * 24) / visDecayTickRate)));
 
 		delete lua;
 
@@ -208,4 +202,3 @@ void VisibilityManager::loadConfiguration() {
 		error(e.getMessage());
 	}
 }
-

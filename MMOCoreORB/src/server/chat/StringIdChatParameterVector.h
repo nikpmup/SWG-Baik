@@ -10,9 +10,6 @@
 
 #include "StringIdChatParameter.h"
 
-class StringIdChatParameterVector : public Vector<StringIdChatParameter> {
-
-};
-
+class StringIdChatParameterVector : public Vector<StringIdChatParameter> {};
 
 #endif /* STRINGIDCHATPARAMETERVECTOR_H_ */

@@ -9,11 +9,9 @@
 
 class ApplyDiseaseCommand : public DotPackCommand {
 public:
-
 	ApplyDiseaseCommand(const String& name, ZoneProcessServer* server) : DotPackCommand(name, server) {
 		skillName = "applydisease";
 	}
-
 };
 
-#endif //APPLYDISEASECOMMAND_H_
+#endif // APPLYDISEASECOMMAND_H_

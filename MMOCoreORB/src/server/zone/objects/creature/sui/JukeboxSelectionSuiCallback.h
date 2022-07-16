@@ -1,15 +1,13 @@
 #ifndef JUKEBOXSELECTIONSUICALLBACK_H_
 #define JUKEBOXSELECTIONSUICALLBACK_H_
 
-
 #include "server/zone/objects/player/sui/SuiCallback.h"
 #include "server/zone/objects/tangible/eventperk/Jukebox.h"
 #include "server/zone/managers/player/JukeboxSong.h"
 
 class JukeboxSelectionSuiCallback : public SuiCallback {
 public:
-	JukeboxSelectionSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	JukeboxSelectionSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {

@@ -7,14 +7,10 @@
 
 class CsGetArticleCommand : public QueueCommand {
 public:
-
-	CsGetArticleCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CsGetArticleCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CSGETARTICLECOMMAND_H_
+#endif // CSGETARTICLECOMMAND_H_

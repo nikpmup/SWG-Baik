@@ -1,6 +1,6 @@
 /*
-                Copyright <SWGEmu>
-        See file COPYING for copying conditions.*/
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
 
 /**
  * @author      : lordkator (lordkator@swgemu.com)
@@ -42,7 +42,7 @@ APIRequest::APIRequest(http_request gatewayRequest, const String endpointKey, Lo
 	mFailed = false;
 	mEndpointKey = endpointKey;
 	setLoggingName("APIRequest " + mTrxId);
-	setLoggerCallback([this, &logger] (Logger::LogLevel level, const char* msg) -> int {
+	setLoggerCallback([this, &logger](Logger::LogLevel level, const char* msg) -> int {
 		StringBuffer buf;
 
 		buf << "[" << getLoggingName() << "] " << msg;
@@ -61,16 +61,12 @@ String APIRequest::toString() const {
 	StringBuffer buf;
 
 	buf << "[APIRequest]"
-		<< " " << mTrxId
-		<< ": replied: " << mReplied
-		<< ", endpointKey: " << mEndpointKey
-		<< ", pathFields: {"
-		;
+		<< " " << mTrxId << ": replied: " << mReplied << ", endpointKey: " << mEndpointKey << ", pathFields: {";
 
 	auto pathFieldIter = mPathFields.iterator();
 	auto sep = "";
 
-	while(pathFieldIter.hasNext()) {
+	while (pathFieldIter.hasNext()) {
 		String fieldName, fieldValue;
 		pathFieldIter.getNextKeyAndValue(fieldName, fieldValue);
 
@@ -83,7 +79,7 @@ String APIRequest::toString() const {
 	auto queryFieldIter = mQueryFields.iterator();
 	sep = "";
 
-	while(queryFieldIter.hasNext()) {
+	while (queryFieldIter.hasNext()) {
 		String fieldName, fieldValue;
 		queryFieldIter.getNextKeyAndValue(fieldName, fieldValue);
 
@@ -153,7 +149,7 @@ bool APIRequest::parseQueryFields() {
 		}
 
 		return true;
-	} catch (http_exception const & e) {
+	} catch (http_exception const& e) {
 		fail("Exception parsing Query String", "parseQueryFields Exception: " + String(e.what()));
 	}
 
@@ -215,7 +211,7 @@ bool APIRequest::parseRequestJSON(bool failOnError, bool failOnEmpty) {
 		mParsedRequestJSON = true;
 
 		return true;
-	} catch (http_exception const & e) {
+	} catch (http_exception const& e) {
 		if (failOnError) {
 			fail("Exception parsing JSON Body.", "parseBodyJSON Exception: " + String(e.what()));
 		}
@@ -317,7 +313,7 @@ void APIRequest::reply(JSONSerializationType result, const String& status, APIRe
 	auto pathFieldsJSON = JSONSerializationType::object();
 	auto pathFieldIter = mPathFields.iterator();
 
-	while(pathFieldIter.hasNext()) {
+	while (pathFieldIter.hasNext()) {
 		String fieldName, fieldValue;
 		pathFieldIter.getNextKeyAndValue(fieldName, fieldValue);
 		pathFieldsJSON[fieldName] = fieldValue;
@@ -328,7 +324,7 @@ void APIRequest::reply(JSONSerializationType result, const String& status, APIRe
 	auto queryFieldsJSON = JSONSerializationType::object();
 	auto queryFieldIter = mQueryFields.iterator();
 
-	while(queryFieldIter.hasNext()) {
+	while (queryFieldIter.hasNext()) {
 		String fieldName, fieldValue;
 		queryFieldIter.getNextKeyAndValue(fieldName, fieldValue);
 		queryFieldsJSON[fieldName] = fieldValue;

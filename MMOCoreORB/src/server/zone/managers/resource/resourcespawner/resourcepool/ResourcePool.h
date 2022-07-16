@@ -19,13 +19,11 @@ class ResourceSpawner;
  * Abstract parent of all ResourcePool objects
  */
 class ResourcePool : public Logger {
-
 protected:
-
 	/**
 	 * List of resources this pool can spawn
 	 */
-	VectorMap<String, ManagedReference<ResourceSpawn* > > includedResources;
+	VectorMap<String, ManagedReference<ResourceSpawn*>> includedResources;
 
 	/**
 	 * List of resources this pool can't spawn
@@ -38,20 +36,12 @@ protected:
 	ResourceSpawner* resourceSpawner;
 
 public:
-
-	enum {
-		NOPOOL,
-		MINIMUMPOOL,
-		RANDOMPOOL,
-		FIXEDPOOL,
-		NATIVEPOOL,
-		MANUALPOOL
-	};
+	enum { NOPOOL, MINIMUMPOOL, RANDOMPOOL, FIXEDPOOL, NATIVEPOOL, MANUALPOOL };
 
 public:
-	  /** Constructor
-	   * \param spawner pointer to the ResourceSpawner object defined in ResourceManager
-	   */
+	/** Constructor
+	 * \param spawner pointer to the ResourceSpawner object defined in ResourceManager
+	 */
 	ResourcePool(ResourceSpawner* spawner) : Logger("ResourcePool") {
 		resourceSpawner = spawner;
 		includedResources.setNullValue(nullptr);
@@ -90,7 +80,7 @@ public:
 		}
 	}
 
-	//Initialize pool using a table of resource names and a number of occurrences
+	// Initialize pool using a table of resource names and a number of occurrences
 	void initializeByTable(LuaObject includes, const String& excludes) {
 		if (!includes.isValidTable()) {
 			info("Error initializing resources, not a valid table.", true);
@@ -123,10 +113,8 @@ public:
 	}
 
 	void print() {
-
-		for(int i = 0; i < includedResources.size(); ++i) {
-
-			ManagedReference<ResourceSpawn* > spawn = includedResources.elementAt(i).getValue();
+		for (int i = 0; i < includedResources.size(); ++i) {
+			ManagedReference<ResourceSpawn*> spawn = includedResources.elementAt(i).getValue();
 
 			StringBuffer msg;
 
@@ -146,7 +134,6 @@ private:
 	 * \return Whether update completed successfully
 	 */
 	virtual bool update() = 0;
-
 
 	/**
 	 * Get the position of incoming resource type

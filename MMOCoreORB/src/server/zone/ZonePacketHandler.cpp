@@ -183,7 +183,7 @@ void ZonePacketHandler::registerMessages() {
 void ZonePacketHandler::registerObjectControllerMessages() {
 	debug("registering ObjectController Messages");
 
-	ObjectControllerMessageCallback::objectMessageControllerFactory = new MessageCallbackFactory<MessageCallback* (ObjectControllerMessageCallback*), uint32>();
+	ObjectControllerMessageCallback::objectMessageControllerFactory = new MessageCallbackFactory<MessageCallback*(ObjectControllerMessageCallback*), uint32>();
 	auto objectMessageControllerFactory = ObjectControllerMessageCallback::objectMessageControllerFactory.get();
 
 	objectMessageControllerFactory->registerObject<DataTransformCallback>(0x71);
@@ -229,7 +229,7 @@ Task* ZonePacketHandler::generateMessageTask(ZoneClientSession* client, Message*
 			return nullptr;
 		}
 
-		//TODO: move this into the task itself eventually
+		// TODO: move this into the task itself eventually
 		if (!messageCallback->parseMessage(pack)) {
 			delete messageCallback;
 			return nullptr;
@@ -243,4 +243,3 @@ Task* ZonePacketHandler::generateMessageTask(ZoneClientSession* client, Message*
 
 	return nullptr;
 }
-

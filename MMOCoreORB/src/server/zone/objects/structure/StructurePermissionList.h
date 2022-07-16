@@ -14,8 +14,8 @@
 #include "server/zone/objects/creature/CreatureObject.h"
 
 class StructurePermissionList : public Object {
-	VectorMap<String, SortedVector<String> > permissionLists;
-	VectorMap<String, SortedVector<uint64> > idPermissionLists;
+	VectorMap<String, SortedVector<String>> permissionLists;
+	VectorMap<String, SortedVector<uint64>> idPermissionLists;
 	String ownerName;
 	uint64 ownerID;
 	mutable ReadWriteLock lock;
@@ -25,16 +25,9 @@ private:
 	bool readObjectMember(ObjectInputStream* stream, const String& name);
 
 public:
-	enum {
-		LISTNOTFOUND    = 0xFF,
-		GRANTED         = 0x00,
-		REVOKED         = 0x01,
-		CANTCHANGEOWNER = 0x02
-	};
+	enum { LISTNOTFOUND = 0xFF, GRANTED = 0x00, REVOKED = 0x01, CANTCHANGEOWNER = 0x02 };
 
-	enum {
-		MAX_ENTRIES = 50
-	};
+	enum { MAX_ENTRIES = 50 };
 
 public:
 	StructurePermissionList();

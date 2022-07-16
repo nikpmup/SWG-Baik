@@ -8,7 +8,6 @@
 #ifndef FILTERHEIGHT_H_
 #define FILTERHEIGHT_H_
 
-
 #include "../ProceduralRule.h"
 #include "FilterProceduralRule.h"
 
@@ -71,7 +70,6 @@ public:
 
 		return result;
 	}
-
 };
 
 #endif /* FILTERHEIGHT_H_ */

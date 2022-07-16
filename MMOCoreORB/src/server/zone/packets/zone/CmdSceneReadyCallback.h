@@ -15,13 +15,10 @@
 
 class CmdSceneReadyCallback : public MessageCallback {
 public:
-	CmdSceneReadyCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	CmdSceneReadyCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {
-
 	}
 
 	void run() {
@@ -38,7 +35,5 @@ public:
 			ghost->notifySceneReady();
 	}
 };
-
-
 
 #endif /* CMDSCENEREADYCALLBACK_H_ */

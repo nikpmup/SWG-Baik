@@ -9,13 +9,10 @@
 
 class EyeShotCommand : public CombatQueueCommand {
 public:
-
-	EyeShotCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	EyeShotCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //EYESHOTCOMMAND_H_
+#endif // EYESHOTCOMMAND_H_

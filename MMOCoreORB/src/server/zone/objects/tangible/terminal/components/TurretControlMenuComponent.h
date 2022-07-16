@@ -12,9 +12,7 @@
 #include "server/zone/objects/scene/components/ObjectMenuComponent.h"
 
 class TurretControlMenuComponent : public ObjectMenuComponent {
-
 public:
-
 	/**
 	 * Fills the radial options, needs to be overriden
 	 * @pre { this object is locked }
@@ -32,9 +30,6 @@ public:
 	 * @returns 0 if successfull
 	 */
 	virtual int handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const;
-
 };
-
-
 
 #endif /* TURRETCONTROLMENUCOMPONENT_H_ */

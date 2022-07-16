@@ -13,8 +13,7 @@
 
 class ListGuildsResponseSuiCallback : public SuiCallback {
 public:
-	ListGuildsResponseSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	ListGuildsResponseSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -34,7 +33,7 @@ public:
 		if (index == -1)
 			return;
 
-		SuiListBox* listBox = cast<SuiListBox*>( suiBox);
+		SuiListBox* listBox = cast<SuiListBox*>(suiBox);
 
 		uint64 guildObjectID = listBox->getMenuObjectID(index);
 
@@ -43,7 +42,7 @@ public:
 		if (obj == nullptr || !obj->isGuildObject())
 			return;
 
-		GuildObject* guild = cast<GuildObject*>( obj.get());
+		GuildObject* guild = cast<GuildObject*>(obj.get());
 
 		ManagedReference<GuildManager*> guildManager = server->getGuildManager();
 

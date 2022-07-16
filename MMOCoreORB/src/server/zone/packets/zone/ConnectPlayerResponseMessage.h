@@ -13,20 +13,17 @@
 
 class ConnectPlayerResponseMessage : public BaseMessage {
 public:
-   ConnectPlayerResponseMessage() : BaseMessage() {
-		    insertShort(0x02);
-	   		insertInt(0x6137556F);
+	ConnectPlayerResponseMessage() : BaseMessage() {
+		insertShort(0x02);
+		insertInt(0x6137556F);
 
-	   		insertInt(0);
-   }
-
+		insertInt(0);
+	}
 };
 
 class ConnectPlayerMessageCallback : public MessageCallback {
 public:
-	ConnectPlayerMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	ConnectPlayerMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {
@@ -37,6 +34,5 @@ public:
 		client->sendMessage(cprm);
 	}
 };
-
 
 #endif /* CONNECTPLAYERRESPONSEMESSAGE_H_ */

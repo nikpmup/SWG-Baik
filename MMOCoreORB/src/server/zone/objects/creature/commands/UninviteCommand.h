@@ -9,18 +9,12 @@
 #include "server/chat/StringIdChatParameter.h"
 #include "server/zone/objects/creature/CreatureObject.h"
 
-
-
 class UninviteCommand : public QueueCommand {
 public:
-
-	UninviteCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	UninviteCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -32,7 +26,7 @@ public:
 		if (object == nullptr || !object->isPlayerCreature())
 			return GENERALERROR;
 
-		CreatureObject* play = cast<CreatureObject*>( object.get());
+		CreatureObject* play = cast<CreatureObject*>(object.get());
 
 		try {
 			Locker clocker(play, creature);
@@ -57,8 +51,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //UNINVITECOMMAND_H_
-
+#endif // UNINVITECOMMAND_H_

@@ -72,12 +72,11 @@ public:
 
 class MeshData : public Object {
 protected:
-	Vector <Vector3> vertices;
-	Vector <MeshTriangle> triangles;
+	Vector<Vector3> vertices;
+	Vector<MeshTriangle> triangles;
 
 public:
 	MeshData() {
-
 	}
 
 	MeshData(const MeshData& data) : Object() {
@@ -87,20 +86,20 @@ public:
 
 	void readObject(IffStream* iffStream);
 
-	Vector <Vector3>* getVerts() {
+	Vector<Vector3>* getVerts() {
 		return &vertices;
 	}
 
-	const Vector <Vector3>* getVerts() const {
+	const Vector<Vector3>* getVerts() const {
 		return &vertices;
 	}
 
-	Vector <MeshTriangle>* getTriangles() {
+	Vector<MeshTriangle>* getTriangles() {
 		return &triangles;
 	}
 
 	static Reference<MeshData*> makeCopyNegateZ(const MeshData* mesh, const Matrix4& parentTransform) {
-		Reference < MeshData * > newData = new MeshData(*mesh);
+		Reference<MeshData*> newData = new MeshData(*mesh);
 		for (auto& vert : newData->vertices) {
 			vert.setZ(-vert.getZ());
 			vert = vert * parentTransform;
@@ -115,16 +114,15 @@ public:
 		}
 	}
 
-	Vector <MeshTriangle>* getMeshWithinBounds(AABB& bounds) const;
+	Vector<MeshTriangle>* getMeshWithinBounds(AABB& bounds) const;
 
 	AABB buildAABB() const;
 
-	const Vector <MeshTriangle>* getTriangles() const {
+	const Vector<MeshTriangle>* getTriangles() const {
 		return &triangles;
 	}
 
 	friend class MeshAppearanceTemplate;
-
 };
 
 #endif /* MESHDATA_H_ */

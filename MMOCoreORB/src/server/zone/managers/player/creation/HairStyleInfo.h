@@ -27,7 +27,7 @@ public:
 	~HairStyleInfo() {
 	}
 
-	HairStyleInfo& operator= (const HairStyleInfo& hsi) {
+	HairStyleInfo& operator=(const HairStyleInfo& hsi) {
 		if (this == &hsi)
 			return *this;
 
@@ -56,15 +56,13 @@ public:
 			case 'NAME':
 				chunk->readString(playerTemplate);
 				break;
-			case 'ITMS':
-			{
+			case 'ITMS': {
 				while (chunk->hasData()) {
 					String hairTemplate;
 					chunk->readString(hairTemplate);
 					styles.add(hairTemplate);
 				}
-			}
-				break;
+			} break;
 			}
 		}
 
@@ -89,11 +87,11 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace creation
+} // namespace player
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::player::creation;
 

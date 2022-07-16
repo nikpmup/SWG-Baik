@@ -92,7 +92,7 @@ float ObjectControllerImplementation::activateCommand(CreatureObject* object, un
 		object->debug() << "activating characterAbility " << characterAbility;
 
 		if (object->isPlayerCreature()) {
-			Reference<PlayerObject*> playerObject =  object->getSlottedObject("ghost").castTo<PlayerObject*>();
+			Reference<PlayerObject*> playerObject = object->getSlottedObject("ghost").castTo<PlayerObject*>();
 
 			if (!playerObject->hasAbility(characterAbility)) {
 				object->clearQueueAction(actionCount, 0, 2);
@@ -116,12 +116,11 @@ float ObjectControllerImplementation::activateCommand(CreatureObject* object, un
 
 	if (queueCommand->requiresAdmin()) {
 		try {
-			if(object->isPlayerCreature()) {
-				Reference<PlayerObject*> ghost =  object->getSlottedObject("ghost").castTo<PlayerObject*>();
+			if (object->isPlayerCreature()) {
+				Reference<PlayerObject*> ghost = object->getSlottedObject("ghost").castTo<PlayerObject*>();
 
 				if (ghost == nullptr || !ghost->hasGodMode() || !ghost->hasAbility(queueCommand->getQueueCommandName())) {
-					adminLog.warning() << object->getDisplayedName() << " attempted to use the '/" << queueCommand->getQueueCommandName()
-							<< "' command without permissions";
+					adminLog.warning() << object->getDisplayedName() << " attempted to use the '/" << queueCommand->getQueueCommandName() << "' command without permissions";
 
 					object->sendSystemMessage("@error_message:insufficient_permissions");
 					object->clearQueueAction(actionCount, 0, 2);
@@ -154,7 +153,7 @@ float ObjectControllerImplementation::activateCommand(CreatureObject* object, un
 		object->addSkillMod(SkillModManager::ABILITYBONUS, skillMod, -value, false);
 	}
 
-	//onFail onComplete must clear the action from client queue
+	// onFail onComplete must clear the action from client queue
 	if (errorNumber != QueueCommand::SUCCESS) {
 		queueCommand->onFail(actionCount, object, errorNumber);
 		return 0;
@@ -193,7 +192,7 @@ void ObjectControllerImplementation::logAdminCommand(SceneObject* object, const 
 	if (targetObject != nullptr) {
 		name = targetObject->getDisplayedName();
 
-		if(targetObject->isPlayerCreature())
+		if (targetObject->isPlayerCreature())
 			name += "(Player)";
 		else
 			name += "(NPC)";
@@ -201,6 +200,5 @@ void ObjectControllerImplementation::logAdminCommand(SceneObject* object, const 
 		name = "(null)";
 	}
 
-	adminLog.info() << object->getDisplayedName() << " used '/" << queueCommand->getQueueCommandName()
-								<< "' on " << name << " with params '" << arguments.toString() << "'";
+	adminLog.info() << object->getDisplayedName() << " used '/" << queueCommand->getQueueCommandName() << "' on " << name << " with params '" << arguments.toString() << "'";
 }

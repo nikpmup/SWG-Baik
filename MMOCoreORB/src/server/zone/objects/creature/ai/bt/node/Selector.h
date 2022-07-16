@@ -20,8 +20,7 @@ namespace node {
 
 class Selector : public Composite {
 public:
-	Selector(const String& className, const uint32 id, const LuaObject& args)
-			: Composite(className, id, args) {
+	Selector(const String& className, const uint32 id, const LuaObject& args) : Composite(className, id, args) {
 	}
 
 	virtual Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const;
@@ -29,8 +28,7 @@ public:
 
 class ParallelSelector : public Composite {
 public:
-	ParallelSelector(const String& className, const uint32 id, const LuaObject& args)
-			: Composite(className, id, args) {
+	ParallelSelector(const String& className, const uint32 id, const LuaObject& args) : Composite(className, id, args) {
 	}
 
 	virtual Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const;
@@ -38,19 +36,18 @@ public:
 
 class RandomSelector : public Composite {
 public:
-	RandomSelector(const String& className, const uint32 id, const LuaObject& args)
-			: Composite(className, id, args) {
+	RandomSelector(const String& className, const uint32 id, const LuaObject& args) : Composite(className, id, args) {
 	}
 
 	virtual Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const;
 };
 
-}
-}
-}
-}
-}
-}
-}
+} // namespace node
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif /* SELECTOR_H_ */

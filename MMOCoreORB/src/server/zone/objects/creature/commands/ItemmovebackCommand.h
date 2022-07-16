@@ -5,17 +5,12 @@
 #ifndef ITEMMOVEBACKCOMMAND_H_
 #define ITEMMOVEBACKCOMMAND_H_
 
-
 class ItemmovebackCommand : public QueueCommand {
 public:
-
-	ItemmovebackCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ItemmovebackCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -26,7 +21,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //ITEMMOVEBACKCOMMAND_H_
+#endif // ITEMMOVEBACKCOMMAND_H_

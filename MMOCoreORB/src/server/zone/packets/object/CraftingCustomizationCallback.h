@@ -19,14 +19,13 @@ class CraftingCustomizationCallback : public MessageCallback {
 	byte templateChoice;
 
 	ObjectControllerMessageCallback* objectControllerMain;
+
 public:
-	CraftingCustomizationCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-		schematicCount(0), counter(0), templateChoice(0), objectControllerMain(objectControllerCallback) {
+	CraftingCustomizationCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), schematicCount(0), counter(0), templateChoice(0), objectControllerMain(objectControllerCallback) {
 	}
 
 	void parse(Message* message) {
-		//System::out << message->toStringData() << endl;
+		// System::out << message->toStringData() << endl;
 		message->parseInt();
 
 		UnicodeString n;
@@ -45,7 +44,6 @@ public:
 		StringBuffer ss;
 
 		for (int i = 0; i < counter; ++i) {
-
 			count = message->parseInt();
 
 			value = message->parseInt();
@@ -76,6 +74,5 @@ public:
 		session->customization(name, templateChoice, schematicCount, customizationString);
 	}
 };
-
 
 #endif /* CRAFTINGCUSTOMIZATIONCALLBACK_H_ */

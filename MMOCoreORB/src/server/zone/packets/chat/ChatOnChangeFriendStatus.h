@@ -10,9 +10,8 @@
 class ChatOnChangeFriendStatus : public BaseMessage {
 public:
 	ChatOnChangeFriendStatus(uint64 oid, const String& name, const String& server, bool add) : BaseMessage() {
-
 		insertShort(0x06);
-		insertInt(0x54336726);  // CRC
+		insertInt(0x54336726); // CRC
 		insertLong(oid);
 
 		insertAscii("SWG");
@@ -23,7 +22,6 @@ public:
 		insertInt(add);
 		insertByte(0);
 	}
-
 };
 
 #endif /*CHATONCHANGEFRIENDSTATUS_H_*/

@@ -11,8 +11,6 @@
 #include "engine/engine.h"
 #include "EntertainingData.h"
 
-class EntertainingDataMap : public VectorMap<ManagedReference<CreatureObject*>, EntertainingData > {
-
-};
+class EntertainingDataMap : public VectorMap<ManagedReference<CreatureObject*>, EntertainingData> {};
 
 #endif /* ENTERTAININGDATAMAP_H_ */

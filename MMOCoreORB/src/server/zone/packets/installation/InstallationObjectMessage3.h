@@ -10,8 +10,7 @@
 
 class InstallationObjectMessage3 : public TangibleObjectMessage3 {
 public:
-	InstallationObjectMessage3(InstallationObject* inso)
-			: TangibleObjectMessage3(inso, 0x494E534F, 0x05) {
+	InstallationObjectMessage3(InstallationObject* inso) : TangibleObjectMessage3(inso, 0x494E534F, 0x05) {
 		/*insertFloat(1.0); // Complexity
 		insertAscii("installation_n"); // STF FileName
 		insertInt(0); //nothing.
@@ -36,8 +35,8 @@ public:
 
 		insertByte(0); // ??*/
 
-		insertByte(1); // Active Flag
-		insertFloat(inso->getSurplusPower()); // Energy Store
+		insertByte(1);						   // Active Flag
+		insertFloat(inso->getSurplusPower());  // Energy Store
 		insertFloat(inso->getBasePowerRate()); // Energy Rate
 
 		setSize();

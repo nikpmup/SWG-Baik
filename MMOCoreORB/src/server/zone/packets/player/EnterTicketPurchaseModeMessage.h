@@ -10,13 +10,13 @@
 
 class EnterTicketPurchaseModeMessage : public BaseMessage {
 public:
-    EnterTicketPurchaseModeMessage(PlanetTravelPoint* ptp) {
+	EnterTicketPurchaseModeMessage(PlanetTravelPoint* ptp) {
 		insertShort(0x04);
-		insertInt(0x904DAE1A);  // CRC
-        insertAscii(ptp->getPointZone());
-        insertAscii(ptp->getPointName());
-        insertByte(0);
-    }
+		insertInt(0x904DAE1A); // CRC
+		insertAscii(ptp->getPointZone());
+		insertAscii(ptp->getPointName());
+		insertByte(0);
+	}
 };
 
 #endif /*ENTERTICKETPURCHASEMODEMESSAGE_H_*/

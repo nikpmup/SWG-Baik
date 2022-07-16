@@ -11,9 +11,7 @@
 #include "CombatQueueCommand.h"
 
 class JediCombatQueueCommand : public CombatQueueCommand {
-
 public:
-
 	JediCombatQueueCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 		visMod = 25;
 	}

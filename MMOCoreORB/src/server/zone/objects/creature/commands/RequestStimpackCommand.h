@@ -14,14 +14,10 @@
 
 class RequestStimpackCommand : public QueueCommand {
 public:
-
-	RequestStimpackCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RequestStimpackCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -34,7 +30,7 @@ public:
 		if (object != nullptr) {
 			if (object->isDroidObject()) {
 				DroidObject* droid = cast<DroidObject*>(object.get());
-				Reference<Task*> task = new DroidStimpackTask( droid,creature,droid->getDisplayedName());
+				Reference<Task*> task = new DroidStimpackTask(droid, creature, droid->getDisplayedName());
 				droid->addPendingTask("droid_request_stimpack", task, 1);
 				return SUCCESS;
 			} else {
@@ -50,7 +46,7 @@ public:
 				if (!droidName.isEmpty()) {
 					if (droidName.beginsWith("(") && droidName.endsWith(")")) {
 						// find it in 20 meter range
-						String search = droidName.subString(1,droidName.length()-1);
+						String search = droidName.subString(1, droidName.length() - 1);
 						GroupObject* group = creature->getGroup();
 						DroidObject* targetDroid = nullptr;
 
@@ -67,25 +63,25 @@ public:
 									// it is one of his active droids?
 									int x = memberPlayer->getActivePetsSize();
 
-									for (int j = 0;j < x; j++) {
+									for (int j = 0; j < x; j++) {
 										AiAgent* agent = memberPlayer->getActivePet(j);
 
 										if (agent->isDroidObject() && agent->getDisplayedName() == search) {
 											targetDroid = cast<DroidObject*>(agent);
 
-											if (targetDroid != nullptr ) {
-												Reference<Task*> task = new DroidStimpackTask( targetDroid,creature,targetDroid->getDisplayedName());
+											if (targetDroid != nullptr) {
+												Reference<Task*> task = new DroidStimpackTask(targetDroid, creature, targetDroid->getDisplayedName());
 												targetDroid->addPendingTask("droid_request_stimpack", task, 1);
 												return SUCCESS;
 											}
 										}
 									}
 								} else if (member->isDroidObject()) {
-									ManagedReference<DroidObject*> memberDroid = cast<DroidObject*>( member.get());
+									ManagedReference<DroidObject*> memberDroid = cast<DroidObject*>(member.get());
 
 									if (memberDroid->getDisplayedName() == search) {
 										locker.release();
-										Reference<Task*> task = new DroidStimpackTask( memberDroid,creature,memberDroid->getDisplayedName());
+										Reference<Task*> task = new DroidStimpackTask(memberDroid, creature, memberDroid->getDisplayedName());
 										memberDroid->addPendingTask("droid_request_stimpack", task, 1);
 										return SUCCESS;
 									}
@@ -102,8 +98,8 @@ public:
 								if (agent->isDroidObject() && agent->getDisplayedName() == search) {
 									targetDroid = cast<DroidObject*>(agent);
 
-									if (targetDroid != nullptr ) {
-										Reference<Task*> task = new DroidStimpackTask( targetDroid,creature,targetDroid->getDisplayedName());
+									if (targetDroid != nullptr) {
+										Reference<Task*> task = new DroidStimpackTask(targetDroid, creature, targetDroid->getDisplayedName());
 										targetDroid->addPendingTask("droid_request_stimpack", task, 1);
 										return SUCCESS;
 									}
@@ -125,7 +121,6 @@ public:
 		}
 		return SUCCESS;
 	}
-
 };
 
-#endif //REQUESTSTIMPACKCOMMAND_H_
+#endif // REQUESTSTIMPACKCOMMAND_H_

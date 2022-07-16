@@ -21,7 +21,7 @@ int SarlaccMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Creat
 		}
 
 		SceneObject* sco = nullptr;
-		for (int i=0; i< inventory->getContainerObjectsSize(); i++) {
+		for (int i = 0; i < inventory->getContainerObjectsSize(); i++) {
 			sco = inventory->getContainerObject(i);
 			if (sco == nullptr)
 				continue;
@@ -30,7 +30,7 @@ int SarlaccMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Creat
 				return 0;
 			}
 			if (sco->getContainerObjectsSize() > 0) {
-				for (int j=0; j < sco->getContainerObjectsSize(); j++) {
+				for (int j = 0; j < sco->getContainerObjectsSize(); j++) {
 					SceneObject* child = sco->getContainerObject(j);
 
 					if (child == nullptr)
@@ -44,7 +44,7 @@ int SarlaccMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Creat
 			}
 		}
 
-		if( !player->getCooldownTimerMap()->isPast("extractBileCooldown") ){
+		if (!player->getCooldownTimerMap()->isPast("extractBileCooldown")) {
 			player->sendSystemMessage("@mob/sarlacc:bile_fail"); // You fail to find enough bile to collect. You need to wait for more to accumulate.
 			return 0;
 		}
@@ -55,7 +55,7 @@ int SarlaccMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Creat
 
 		if (inventory->transferObject(bileSceno, -1)) {
 			inventory->broadcastObject(bileSceno, true);
-			player->sendSystemMessage("@mob/sarlacc:bile_success"); // Despite being nearly overwhelmed by the stench of decay and the reaching tentacles, you manage to collect a sufficient sample of bile.
+			player->sendSystemMessage("@mob/sarlacc:bile_success");											 // Despite being nearly overwhelmed by the stench of decay and the reaching tentacles, you manage to collect a sufficient sample of bile.
 			player->getCooldownTimerMap()->updateToCurrentAndAddMili("extractBileCooldown", 1000 * 60 * 30); // 30 min cooldown
 
 			return 0;
@@ -67,4 +67,3 @@ int SarlaccMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Creat
 
 	return 0;
 }
-

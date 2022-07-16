@@ -10,9 +10,8 @@
 
 #include "templates/SharedTangibleObjectTemplate.h"
 
-class LootkitObjectTemplate: public SharedTangibleObjectTemplate {
+class LootkitObjectTemplate : public SharedTangibleObjectTemplate {
 protected:
-
 	VectorMap<uint32, bool> components;
 	VectorMap<uint32, String> attributes;
 	Vector<uint32> comps;
@@ -20,14 +19,11 @@ protected:
 
 	bool deleteComponents;
 
-
 public:
 	LootkitObjectTemplate() : deleteComponents(false) {
-
 	}
 
 	~LootkitObjectTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -43,22 +39,21 @@ public:
 		LuaObject collectibleComponents = templateData->getObjectField("collectibleComponents");
 		for (int i = 1; i <= collectibleComponents.getTableSize(); ++i) {
 			components.put(collectibleComponents.getStringAt(i).hashCode(), false);
-			comps.add(i-1,collectibleComponents.getStringAt(i).hashCode());
+			comps.add(i - 1, collectibleComponents.getStringAt(i).hashCode());
 		}
 		collectibleComponents.pop();
 
 		LuaObject collectibleComponentsAttributes = templateData->getObjectField("attributes");
 		for (int i = 1; i <= collectibleComponentsAttributes.getTableSize(); ++i) {
-			attributes.put(comps.get(i-1), collectibleComponentsAttributes.getStringAt(i));
+			attributes.put(comps.get(i - 1), collectibleComponentsAttributes.getStringAt(i));
 		}
 		collectibleComponentsAttributes.pop();
 
 		LuaObject rewards = templateData->getObjectField("collectibleReward");
 		for (int i = 1; i <= rewards.getTableSize(); ++i) {
-			reward.add(i-1,rewards.getStringAt(i).hashCode());
+			reward.add(i - 1, rewards.getStringAt(i).hashCode());
 		}
 		rewards.pop();
-
 	}
 
 	VectorMap<uint32, bool> getComponents() const {
@@ -100,8 +95,6 @@ public:
 	void setReward(Vector<uint32> reward) {
 		this->reward = reward;
 	}
-
 };
-
 
 #endif /* LOOTKITOBJECTTEMPLATE_H_ */

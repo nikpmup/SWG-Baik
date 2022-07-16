@@ -10,11 +10,9 @@
 class FirstAidCommand : public QueueCommand {
 	float mindCost;
 	float range;
+
 public:
-
-	FirstAidCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	FirstAidCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		mindCost = 0;
 		range = 6;
 	}
@@ -32,8 +30,8 @@ public:
 		if (!object->isPlayerCreature())
 			return;
 
-		CreatureObject* creature = cast<CreatureObject*>( object);
-		CreatureObject* creatureTarget = cast<CreatureObject*>( target);
+		CreatureObject* creature = cast<CreatureObject*>(object);
+		CreatureObject* creatureTarget = cast<CreatureObject*>(target);
 
 		if (creatureTarget != creature) {
 			StringBuffer msgPlayer;
@@ -49,14 +47,14 @@ public:
 				creature->sendSystemMessage(msgPlayer.toString());
 			}
 		} else {
-			creature->sendSystemMessage("@healing_response:first_aid_self"); //You apply first aid to yourself.
+			creature->sendSystemMessage("@healing_response:first_aid_self"); // You apply first aid to yourself.
 		}
 	}
 
 	bool canPerformSkill(CreatureObject* creature, CreatureObject* creatureTarget) const {
 		if (!creatureTarget->isBleeding()) {
 			if (creature == creatureTarget)
-				creature->sendSystemMessage("@healing_response:healing_response_78"); //You are not bleeding.
+				creature->sendSystemMessage("@healing_response:healing_response_78"); // You are not bleeding.
 			else if (creatureTarget->isPlayerCreature()) {
 				StringIdChatParameter stringId("healing_response", "healing_response_80"); //%NT is not bleeding.
 				stringId.setTT(creatureTarget->getObjectID());
@@ -82,7 +80,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		int result = doCommonMedicalCommandChecks(creature);
 
 		if (result != SUCCESS)
@@ -97,7 +94,7 @@ public:
 				if (tangibleObject != nullptr && tangibleObject->isAttackableBy(creature)) {
 					object = creature;
 				} else {
-					creature->sendSystemMessage("@healing_response:healing_response_79"); //Target must be a player or a creature pet in order to apply first aid.
+					creature->sendSystemMessage("@healing_response:healing_response_79"); // Target must be a player or a creature pet in order to apply first aid.
 					return GENERALERROR;
 				}
 			}
@@ -105,14 +102,14 @@ public:
 			object = creature;
 		}
 
-		CreatureObject* creatureTarget = cast<CreatureObject*>( object.get());
+		CreatureObject* creatureTarget = cast<CreatureObject*>(object.get());
 
 		Locker clocker(creatureTarget, creature);
 
 		if ((creatureTarget->isAiAgent() && !creatureTarget->isPet()) || creatureTarget->isDroidObject() || creatureTarget->isDead() || creatureTarget->isRidingMount() || creatureTarget->isAttackableBy(creature))
 			creatureTarget = creature;
 
-		if(!checkDistance(creature, creatureTarget, range))
+		if (!checkDistance(creature, creatureTarget, range))
 			return TOOFAR;
 
 		if (creature != creatureTarget && checkForArenaDuel(creatureTarget)) {
@@ -121,12 +118,12 @@ public:
 		}
 
 		if (!creatureTarget->isHealableBy(creature)) {
-			creature->sendSystemMessage("@healing:pvp_no_help"); //It would be unwise to help such a patient.
+			creature->sendSystemMessage("@healing:pvp_no_help"); // It would be unwise to help such a patient.
 			return GENERALERROR;
 		}
 
 		if (creature->getHAM(CreatureAttribute::MIND) < mindCost) {
-			creature->sendSystemMessage("@healing_response:not_enough_mind"); //You do not have enough mind to do that.
+			creature->sendSystemMessage("@healing_response:not_enough_mind"); // You do not have enough mind to do that.
 			return GENERALERROR;
 		}
 
@@ -135,7 +132,7 @@ public:
 
 		uint32 skillMod = creature->getSkillMod("healing_injury_treatment");
 
-		creatureTarget->healDot(CreatureState::BLEEDING, skillMod*3);
+		creatureTarget->healDot(CreatureState::BLEEDING, skillMod * 3);
 
 		creature->inflictDamage(creature, CreatureAttribute::MIND, mindCost, false);
 
@@ -147,7 +144,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //FIRSTAIDCOMMAND_H_
+#endif // FIRSTAIDCOMMAND_H_

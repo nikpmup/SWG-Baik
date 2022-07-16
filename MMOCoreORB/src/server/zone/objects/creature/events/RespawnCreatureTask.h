@@ -33,13 +33,12 @@ public:
 
 		creature->respawn(zone, level);
 
-		//creature->printReferenceHolders();
+		// creature->printReferenceHolders();
 
 		/*PatrolPoint* homeLocation = creature->getHomeLocation();
 
 		if (homeLocation->getPosit)*/
 	}
 };
-
 
 #endif /* RESPAWNCREATURETASK_H_ */

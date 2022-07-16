@@ -5,7 +5,6 @@
 
 class HeroRingMenuComponent : public TangibleObjectMenuComponent {
 public:
-
 	/**
 	 * Fills the radial options, needs to be overriden
 	 * @pre { this object is locked }
@@ -25,8 +24,6 @@ public:
 	virtual int handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const;
 
 	virtual String getCooldownString(uint32 delta) const;
-
 };
-
 
 #endif /* HERORINGMENUCOMPONENT_H_ */

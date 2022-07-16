@@ -12,17 +12,13 @@
 
 class EmboldenpetsCommand : public QueueCommand {
 public:
-
-	EmboldenpetsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	EmboldenpetsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* player, const uint64& target, const UnicodeString& arguments) const {
-
 		int cooldownMilli = 300000; // 5 min
-		int durationSec =  60; // 1 min
-		int mindCost = player->calculateCostAdjustment(CreatureAttribute::FOCUS, 100 );
+		int durationSec = 60;		// 1 min
+		int mindCost = player->calculateCostAdjustment(CreatureAttribute::FOCUS, 100);
 		unsigned int buffCRC = STRING_HASHCODE("emboldenPet");
 
 		if (!checkStateMask(player))
@@ -35,7 +31,7 @@ public:
 			return INVALIDSTATE;
 
 		ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
-		if( ghost == nullptr )
+		if (ghost == nullptr)
 			return GENERALERROR;
 
 		// Check player mind
@@ -47,36 +43,34 @@ public:
 		// Loop over all active pets
 		bool petEmboldened = false;
 		for (int i = 0; i < ghost->getActivePetsSize(); ++i) {
-
 			ManagedReference<AiAgent*> pet = ghost->getActivePet(i);
-			if(pet == nullptr)
+			if (pet == nullptr)
 				continue;
 
 			ManagedReference<PetControlDevice*> controlDevice = pet->getControlDevice().get().castTo<PetControlDevice*>();
-			if( controlDevice == nullptr )
+			if (controlDevice == nullptr)
 				continue;
 
 			// Creatures only
-			if( controlDevice->getPetType() == PetManager::CREATUREPET ) {
-
+			if (controlDevice->getPetType() == PetManager::CREATUREPET) {
 				Locker plocker(pet, player);
 
 				// Check states
-				if( pet->isIncapacitated() || pet->isDead() )
+				if (pet->isIncapacitated() || pet->isDead())
 					continue;
 
 				// Check range
-				if( !checkDistance(player, pet, 50.0f) )
+				if (!checkDistance(player, pet, 50.0f))
 					continue;
 
 				// Check if pet already has buff
-				if ( pet->hasBuff(buffCRC) ){
-					pet->showFlyText("combat_effects","pet_embolden_no", 0, 153, 0); // "! Already Emboldened !"
+				if (pet->hasBuff(buffCRC)) {
+					pet->showFlyText("combat_effects", "pet_embolden_no", 0, 153, 0); // "! Already Emboldened !"
 					continue;
 				}
 
 				// Check cooldown
-				if( pet->getCooldownTimerMap() == nullptr || !pet->getCooldownTimerMap()->isPast("emboldenPetsCooldown") )
+				if (pet->getCooldownTimerMap() == nullptr || !pet->getCooldownTimerMap()->isPast("emboldenPetsCooldown"))
 					continue;
 
 				// Build 15% Health, Action, Mind buff
@@ -93,21 +87,20 @@ public:
 
 				pet->addBuff(buff);
 				pet->getCooldownTimerMap()->updateToCurrentAndAddMili("emboldenPetsCooldown", cooldownMilli);
-				pet->showFlyText("combat_effects","pet_embolden", 0, 153, 0); // "! Embolden !"
+				pet->showFlyText("combat_effects", "pet_embolden", 0, 153, 0); // "! Embolden !"
 				petEmboldened = true;
 
 			} // end if creature
-		} // end active pets loop
+		}	  // end active pets loop
 
 		// At least one pet was emboldened
-		if( petEmboldened ){
+		if (petEmboldened) {
 			player->inflictDamage(player, CreatureAttribute::MIND, mindCost, false);
 			player->sendSystemMessage("@pet/pet_menu:sys_embolden"); // "Your pets fight with renewed vigor"
 		}
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //EMBOLDENPETSCOMMAND_H_
+#endif // EMBOLDENPETSCOMMAND_H_

@@ -12,7 +12,6 @@
 
 class SaberInventoryContainerComponent : public ContainerComponent {
 public:
-
 	/**
 	 * Evaluates if this object has the necessary free slots to be able to add the specified SceneObject
 	 * @pre { this object is locked, object is locked }
@@ -36,9 +35,6 @@ public:
 	 * @param object object that has been inserted
 	 */
 	virtual int notifyObjectRemoved(SceneObject* sceneObject, SceneObject* object, SceneObject* destination) const;
-
 };
-
-
 
 #endif /* SABERINVENTORYCONTAINERCOMPONENT_H_ */

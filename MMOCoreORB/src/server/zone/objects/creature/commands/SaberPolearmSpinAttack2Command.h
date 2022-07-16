@@ -9,14 +9,10 @@
 
 class SaberPolearmSpinAttack2Command : public JediCombatQueueCommand {
 public:
-
-	SaberPolearmSpinAttack2Command(const String& name, ZoneProcessServer* server)
-		: JediCombatQueueCommand(name, server) {
-
+	SaberPolearmSpinAttack2Command(const String& name, ZoneProcessServer* server) : JediCombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,7 +25,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //SABERPOLEARMSPINATTACK2COMMAND_H_
+#endif // SABERPOLEARMSPINATTACK2COMMAND_H_

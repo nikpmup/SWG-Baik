@@ -15,5 +15,4 @@ public:
 	int handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const;
 };
 
-
 #endif /* HOLOCRONMENUCOMPONENT_H_ */

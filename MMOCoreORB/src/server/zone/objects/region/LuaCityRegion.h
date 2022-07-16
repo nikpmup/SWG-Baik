@@ -8,33 +8,33 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace region {
-	class CityRegion;
+class CityRegion;
 
-	class LuaCityRegion {
-	public:
-		static const char className[];
-		static Luna<LuaCityRegion>::RegType Register[];
+class LuaCityRegion {
+public:
+	static const char className[];
+	static Luna<LuaCityRegion>::RegType Register[];
 
-		LuaCityRegion(lua_State *L);
-		~LuaCityRegion();
+	LuaCityRegion(lua_State* L);
+	~LuaCityRegion();
 
-		int _setObject(lua_State* L);
-		int _getObject(lua_State* L);
-		int isClientRegion(lua_State* L);
+	int _setObject(lua_State* L);
+	int _getObject(lua_State* L);
+	int isClientRegion(lua_State* L);
 
-	protected:
-		CityRegion* _getRealCityRegion() {
-			return realObject.get();
-		}
+protected:
+	CityRegion* _getRealCityRegion() {
+		return realObject.get();
+	}
 
-	private:
-		Reference<CityRegion*> realObject;
-	};
+private:
+	Reference<CityRegion*> realObject;
+};
 
-}
-}
-}
-}
+} // namespace region
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::region;
 

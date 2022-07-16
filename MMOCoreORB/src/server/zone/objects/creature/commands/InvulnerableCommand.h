@@ -9,14 +9,10 @@
 
 class InvulnerableCommand : public QueueCommand {
 public:
-
-	InvulnerableCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	InvulnerableCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -76,7 +72,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //INVULNERABLECOMMAND_H_
+#endif // INVULNERABLECOMMAND_H_

@@ -9,7 +9,7 @@
 int Zone::createdChar = 0;
 
 Zone::Zone(int instance, uint64 characterObjectID, uint32 account, uint32 session) : Thread(), Mutex("Zone") {
-	//loginSession = login;
+	// loginSession = login;
 
 	characterID = characterObjectID;
 	accountID = account;
@@ -63,7 +63,7 @@ void Zone::run() {
 		started = true;
 
 #ifdef WITH_STM
-	//TransactionalMemoryManager::commitPureTransaction();
+		// TransactionalMemoryManager::commitPureTransaction();
 #endif
 
 	} catch (sys::lang::Exception& e) {
@@ -77,7 +77,7 @@ void Zone::insertPlayer() {
 }
 
 void Zone::insertPlayer(PlayerCreature* pl) {
-	//lock();
+	// lock();
 
 	/*if (player == nullptr) {
 		player = pl;
@@ -85,20 +85,18 @@ void Zone::insertPlayer(PlayerCreature* pl) {
 		player->insertToZone(this);
 	}*/
 
-//	System::out << hex << "inserting Player [" << pl->getObjectID() << "] to (" << dec << pl->getPositionX() << ", "
-//		 << pl->getPositionZ() << ", " << pl->getPositionY() << ")\n";
+	//	System::out << hex << "inserting Player [" << pl->getObjectID() << "] to (" << dec << pl->getPositionX() << ", "
+	//		 << pl->getPositionZ() << ", " << pl->getPositionY() << ")\n";
 
-
-	//unlock();
+	// unlock();
 }
 
 SceneObject* Zone::getObject(uint64 objid) {
-	//lock();
+	// lock();
 
-	//SceneObject* obj = objectMap.get(objid);
+	// SceneObject* obj = objectMap.get(objid);
 
-	//unlock();
-
+	// unlock();
 
 	SceneObject* obj = objectManager->getObject(objid);
 

@@ -7,14 +7,10 @@
 
 class SetBiographyCommand : public QueueCommand {
 public:
-
-	SetBiographyCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetBiographyCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -32,7 +28,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETBIOGRAPHYCOMMAND_H_
+#endif // SETBIOGRAPHYCOMMAND_H_

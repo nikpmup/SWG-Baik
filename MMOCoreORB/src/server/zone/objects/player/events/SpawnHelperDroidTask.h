@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 /**
@@ -24,7 +24,7 @@
 #include "server/zone/objects/intangible/PetControlDevice.h"
 #include "server/zone/managers/stringid/StringIdManager.h"
 
-class SpawnHelperDroidTask: public Task {
+class SpawnHelperDroidTask : public Task {
 	ManagedWeakReference<CreatureObject*> player;
 
 public:
@@ -57,7 +57,7 @@ public:
 
 		// Check for already existing helper droid
 		for (int i = 0; i < datapad->getContainerObjectsSize(); i++) {
-			Reference<SceneObject*> obj =  datapad->getContainerObject(i).castTo<SceneObject*>();
+			Reference<SceneObject*> obj = datapad->getContainerObject(i).castTo<SceneObject*>();
 
 			if (obj != nullptr && obj->isPetControlDevice()) {
 				Reference<PetControlDevice*> controlDevice = cast<PetControlDevice*>(obj.get());
@@ -81,7 +81,7 @@ public:
 		if (creatureManager == nullptr)
 			return;
 
-		CreatureTemplate* creatureTemplate =  CreatureTemplateManager::instance()->getTemplate(mobileTemplate.hashCode());
+		CreatureTemplate* creatureTemplate = CreatureTemplateManager::instance()->getTemplate(mobileTemplate.hashCode());
 
 		if (creatureTemplate == nullptr) {
 			return;

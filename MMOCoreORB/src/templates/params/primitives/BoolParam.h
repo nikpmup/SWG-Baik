@@ -20,7 +20,7 @@ public:
 		setType(BOOL);
 	}
 
-	BoolParam& operator= (bool val) {
+	BoolParam& operator=(bool val) {
 		create(val);
 
 		return *this;
@@ -57,6 +57,5 @@ public:
 		}*/
 	}
 };
-
 
 #endif /* BOOLPARAM_H_ */

@@ -22,12 +22,8 @@ class ImageDesignChangeMessageCallback : public MessageCallback {
 
 	ImageDesignData imageDesignData;
 
-
 public:
-	ImageDesignChangeMessageCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-		designerID(0), targetID(0), tentID(0), type(0), objectControllerMain(objectControllerCallback) {
-
+	ImageDesignChangeMessageCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), designerID(0), targetID(0), tentID(0), type(0), objectControllerMain(objectControllerCallback) {
 	}
 
 	void parse(Message* message) {
@@ -35,14 +31,14 @@ public:
 
 		designerID = message->parseLong();
 
-		//System::out << "designerID " << designerID << "\n";
+		// System::out << "designerID " << designerID << "\n";
 		targetID = message->parseLong();
 
-		//System::out << "targetID " << targetID << "\n";
+		// System::out << "targetID " << targetID << "\n";
 		tentID = message->parseLong();
 		type = message->parseByte();
 
-		//System::out << "unknown byte shit " << type << "\n";
+		// System::out << "unknown byte shit " << type << "\n";
 
 		imageDesignData.parse(message);
 	}
@@ -61,8 +57,6 @@ public:
 
 		session->updateImageDesign(player, designerID, targetID, tentID, type, imageDesignData);
 	}
-
 };
-
 
 #endif /* IMAGEDESIGNCHANGEMESSAGECALLBACK_H_ */

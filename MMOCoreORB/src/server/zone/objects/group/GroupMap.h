@@ -12,14 +12,13 @@
 
 class GroupMap : public HashTable<uint64, GroupObject*> {
 	int hash(uint64 const& key) override {
-        	return Long::hashCode(key);
+		return Long::hashCode(key);
 	}
 
 public:
 	GroupMap(int initsize) : HashTable<uint64, GroupObject*>(initsize) {
 		setNullValue(nullptr);
 	}
-
 };
 
 #endif /*GROUPMAP_H_*/

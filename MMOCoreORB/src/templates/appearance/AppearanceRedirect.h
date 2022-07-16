@@ -12,9 +12,9 @@
 
 class AppearanceRedirect : public IffTemplate {
 	String redirectFile;
+
 public:
 	AppearanceRedirect() {
-
 	}
 
 	void readObject(IffStream* iffStream) {
@@ -35,6 +35,5 @@ public:
 		return redirectFile;
 	}
 };
-
 
 #endif /* APPEARANCEREDIRECT_H_ */

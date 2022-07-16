@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #include "PlayerObjectMenuComponent.h"
@@ -42,7 +42,7 @@ void PlayerObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject,
 }
 
 int PlayerObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
-	ManagedReference<CreatureObject*> ownerPlayer = dynamic_cast<CreatureObject*> (sceneObject);
+	ManagedReference<CreatureObject*> ownerPlayer = dynamic_cast<CreatureObject*>(sceneObject);
 	PlayerObject* ghost = player->getPlayerObject();
 
 	switch (selectedID) {
@@ -65,11 +65,13 @@ int PlayerObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, 
 		if (ghost != nullptr && ghost->isPrivileged()) {
 			PlayerManager* playerManager = player->getZoneServer()->getPlayerManager();
 
-			Core::getTaskManager()->executeTask([=] () {
-				Locker locker(ownerPlayer);
+			Core::getTaskManager()->executeTask(
+				[=]() {
+					Locker locker(ownerPlayer);
 
-				playerManager->grantDivorce(ownerPlayer);
-			}, "GrantDivorceLambda");
+					playerManager->grantDivorce(ownerPlayer);
+				},
+				"GrantDivorceLambda");
 		}
 		break;
 	}

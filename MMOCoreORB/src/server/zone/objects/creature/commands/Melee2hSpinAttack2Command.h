@@ -9,13 +9,10 @@
 
 class Melee2hSpinAttack2Command : public CombatQueueCommand {
 public:
-
-	Melee2hSpinAttack2Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	Melee2hSpinAttack2Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //MELEE2HSPINATTACK2COMMAND_H_
+#endif // MELEE2HSPINATTACK2COMMAND_H_

@@ -14,7 +14,7 @@
 #include "server/zone/objects/creature/commands/QueueCommand.h"
 
 int SingleUseBuffObserverImplementation::notifyObserverEvent(unsigned int eventType, Observable* observable, ManagedObject* arg1, int64 arg2) {
-	ManagedReference<SingleUseBuff* > buff = this->buff.get();
+	ManagedReference<SingleUseBuff*> buff = this->buff.get();
 
 	if (buff == nullptr)
 		return 1;

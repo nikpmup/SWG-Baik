@@ -7,14 +7,10 @@
 
 class NpcConversationSelectCommand : public QueueCommand {
 public:
-
-	NpcConversationSelectCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	NpcConversationSelectCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -52,13 +48,11 @@ public:
 					return TOOFAR;
 				}
 			} catch (Exception& e) {
-
 			}
 		}
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //NPCCONVERSATIONSELECTCOMMAND_H_
+#endif // NPCCONVERSATIONSELECTCOMMAND_H_

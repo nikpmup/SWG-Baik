@@ -42,11 +42,11 @@ void EventPerkMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, Ob
 
 	if (owner == player) {
 		menuResponse->addRadialMenuItem(132, 3, "@event_perk:mnu_show_exp_time"); // Show Expiration Time
-		menuResponse->addRadialMenuItem(128, 3, "@event_perk:mnu_redeed"); // Reclaim Rental Deed
+		menuResponse->addRadialMenuItem(128, 3, "@event_perk:mnu_redeed");		  // Reclaim Rental Deed
 
 		if (deed->getPerkType() != EventPerkDeedTemplate::HONORGUARD && deed->getPerkType() != EventPerkDeedTemplate::RECRUITER) {
-			menuResponse->addRadialMenuItem(51, 1, "@event_perk:mnu_rotate"); // Rotate
-			menuResponse->addRadialMenuItemToRadialID(51, 52, 3, "@event_perk:mnu_rot_left"); // Rotate Left
+			menuResponse->addRadialMenuItem(51, 1, "@event_perk:mnu_rotate");				   // Rotate
+			menuResponse->addRadialMenuItemToRadialID(51, 52, 3, "@event_perk:mnu_rot_left");  // Rotate Left
 			menuResponse->addRadialMenuItemToRadialID(51, 53, 3, "@event_perk:mnu_rot_right"); // Rotate Right
 		}
 	} else if (player->getPlayerObject() != nullptr && player->getPlayerObject()->isPrivileged()) {

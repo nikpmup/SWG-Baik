@@ -40,7 +40,7 @@ public:
 		loadDot(dot);
 	}
 
-	DotEffect(const DotEffect & effect) : Object() {
+	DotEffect(const DotEffect& effect) : Object() {
 		dotType = effect.dotType;
 		defenderStateDefenseModifers = effect.defenderStateDefenseModifers;
 		dotPool = effect.dotPool;
@@ -56,8 +56,8 @@ public:
 	virtual ~DotEffect() {
 	}
 
-	DotEffect & operator =(const DotEffect & effect) {
-		if(this == &effect)
+	DotEffect& operator=(const DotEffect& effect) {
+		if (this == &effect)
 			return *this;
 
 		dotType = effect.dotType;
@@ -74,7 +74,7 @@ public:
 		return *this;
 	}
 
-	inline int compareTo(const DotEffect & effect) {
+	inline int compareTo(const DotEffect& effect) {
 		return 0;
 	}
 
@@ -82,7 +82,7 @@ public:
 		dotType = dot.getIntField("dotType");
 		dotPool = dot.getByteField("dotPool");
 		LuaObject dohBool = dot.getObjectField("dotDamageofHit");
-		lua_State *L = dohBool.getLuaState();
+		lua_State* L = dohBool.getLuaState();
 		dotDamageofHit = (bool)((lua_toboolean(L, -1)));
 		dohBool.pop();
 		dotDuration = dot.getIntField("dotDuration");
@@ -93,7 +93,7 @@ public:
 		secondaryPercent = dot.getFloatField("secondaryPercent");
 
 		LuaObject defMods = dot.getObjectField("defenderStateDefenseModifiers");
-		for(int i = 1;i <= defMods.getTableSize();++i){
+		for (int i = 1; i <= defMods.getTableSize(); ++i) {
 			defenderStateDefenseModifers.add(defMods.getStringAt(i));
 		}
 
@@ -128,8 +128,7 @@ public:
 		return dotDamageofHit;
 	}
 
-	void setDefenderStateDefenseModifers(
-			const Vector<String>& defenderStateDefenseModifers) {
+	void setDefenderStateDefenseModifers(const Vector<String>& defenderStateDefenseModifers) {
 		this->defenderStateDefenseModifers = defenderStateDefenseModifers;
 	}
 
@@ -172,8 +171,6 @@ public:
 	float getSecondaryPercent() const {
 		return secondaryPercent;
 	}
-
 };
-
 
 #endif /* DOTEFFECT_H_ */

@@ -25,7 +25,7 @@ CreatureAttackData::CreatureAttackData(const UnicodeString& dataString, const Co
 		if (pos == -1)
 			continue;
 
-		String key = varString.subString(0,pos);
+		String key = varString.subString(0, pos);
 		String value = varString.subString(pos + 1, varString.length());
 
 		setVariable(key, value);
@@ -113,7 +113,7 @@ void CreatureAttackData::fillFromBase() {
 
 void CreatureAttackData::setVariable(const String& var, const String& val) {
 	uint32 crc = var.hashCode();
-	switch(crc) {
+	switch (crc) {
 	case 0x480C4BA4: // STRING_HASHCODE("minDamage"):
 		minDamage = Float::valueOf(val);
 		break;

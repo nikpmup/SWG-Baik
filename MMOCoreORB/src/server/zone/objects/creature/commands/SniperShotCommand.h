@@ -10,13 +10,10 @@
 
 class SniperShotCommand : public CombatQueueCommand {
 public:
-
-	SniperShotCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	SniperShotCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -31,7 +28,7 @@ public:
 		if (creature == targetObject || targetObject == nullptr || !targetObject->isPlayerCreature())
 			return INVALIDTARGET;
 
-		CreatureObject* player = cast<CreatureObject*>( targetObject.get());
+		CreatureObject* player = cast<CreatureObject*>(targetObject.get());
 
 		if (player->isDead()) {
 			StringIdChatParameter params("error_message", "prose_target_already_dead"); // But %TT is already dead!
@@ -56,12 +53,11 @@ public:
 			params.setTT(player->getDisplayedName());
 			creature->sendSystemMessage(params);
 		} else if (!player->isDead()) {
-			creature->sendSystemMessage("@error_message:target_not_incapacitated");  // You cannot perform the death blow. Your target is not incapacitated.
+			creature->sendSystemMessage("@error_message:target_not_incapacitated"); // You cannot perform the death blow. Your target is not incapacitated.
 		}
 
 		return ret;
 	}
-
 };
 
-#endif //SNIPERSHOTCOMMAND_H_
+#endif // SNIPERSHOTCOMMAND_H_

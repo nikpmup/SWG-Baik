@@ -8,7 +8,7 @@
 #ifndef FORCEPOWERSQUEUECOMMAND_H_
 #define FORCEPOWERSQUEUECOMMAND_H_
 
-#include"server/zone/ZoneServer.h"
+#include "server/zone/ZoneServer.h"
 #include "server/zone/objects/scene/SceneObject.h"
 #include "server/zone/managers/combat/CombatManager.h"
 #include "server/zone/managers/combat/CreatureAttackData.h"
@@ -18,7 +18,6 @@
 
 class ForcePowersQueueCommand : public CombatQueueCommand {
 public:
-
 	ForcePowersQueueCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 		visMod = 25;
 	}
@@ -34,11 +33,11 @@ public:
 		if (creature->isProne())
 			return NOPRONE;
 
-		if(!checkDistance(creature, targetObject, checkRange))
+		if (!checkDistance(creature, targetObject, checkRange))
 			return TOOFAR;
 
 		if (!CollisionManager::checkLineOfSight(creature, targetObject)) {
-			creature->sendSystemMessage("@cbt_spam:los_fail");// "You lost sight of your target."
+			creature->sendSystemMessage("@cbt_spam:los_fail"); // "You lost sight of your target."
 			return GENERALERROR;
 		}
 
@@ -111,7 +110,7 @@ public:
 		return forceCost + (int)((manipulationMod * frsModifier) + .5);
 	}
 
-	float getCommandDuration(CreatureObject *object, const UnicodeString& arguments) const {
+	float getCommandDuration(CreatureObject* object, const UnicodeString& arguments) const {
 		float combatHaste = object->getSkillMod("combat_haste");
 
 		if (combatHaste > 0)
@@ -123,7 +122,6 @@ public:
 	virtual bool isJediCombatQueueCommand() {
 		return true;
 	}
-
 };
 
 #endif /* FORCEPOWERSQUEUECOMMAND_H_ */

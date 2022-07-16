@@ -16,6 +16,7 @@ namespace events {
 class PlayerDisconnectEvent : public Task {
 	ManagedWeakReference<PlayerObject*> player;
 	bool isSafeArea;
+
 public:
 	PlayerDisconnectEvent(PlayerObject* pl, bool isSafe) : Task(2000) {
 		player = pl;
@@ -49,14 +50,13 @@ public:
 			play->clearDisconnectEvent();
 		}
 	}
-
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace player
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::player::events;
 

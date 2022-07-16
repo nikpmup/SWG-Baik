@@ -5,19 +5,13 @@
 const char LuaSkillManager::className[] = "LuaSkillManager";
 
 Luna<LuaSkillManager>::RegType LuaSkillManager::Register[] = {
-		{ "fulfillsSkillPrerequisitesAndXp", &LuaSkillManager::fulfillsSkillPrerequisitesAndXp },
-		{ "fulfillsSkillPrerequisites", &LuaSkillManager::fulfillsSkillPrerequisites },
-		{ "getSkill", &LuaSkillManager::getSkill },
-		{ "awardSkill", &LuaSkillManager::awardSkill },
-		{ "canLearnSkill", &LuaSkillManager::canLearnSkill },
-		{ 0, 0 }
-};
+	{"fulfillsSkillPrerequisitesAndXp", &LuaSkillManager::fulfillsSkillPrerequisitesAndXp}, {"fulfillsSkillPrerequisites", &LuaSkillManager::fulfillsSkillPrerequisites}, {"getSkill", &LuaSkillManager::getSkill}, {"awardSkill", &LuaSkillManager::awardSkill}, {"canLearnSkill", &LuaSkillManager::canLearnSkill}, {0, 0}};
 
 LuaSkillManager::LuaSkillManager(lua_State* L) {
 	realObject = SkillManager::instance();
 }
 
-LuaSkillManager::~LuaSkillManager(){
+LuaSkillManager::~LuaSkillManager() {
 }
 
 int LuaSkillManager::fulfillsSkillPrerequisitesAndXp(lua_State* L) {
@@ -27,7 +21,7 @@ int LuaSkillManager::fulfillsSkillPrerequisitesAndXp(lua_State* L) {
 	}
 
 	String skillName = lua_tostring(L, -1);
-	CreatureObject* creo = (CreatureObject*) lua_touserdata(L, -2);
+	CreatureObject* creo = (CreatureObject*)lua_touserdata(L, -2);
 
 	bool success = realObject->fulfillsSkillPrerequisitesAndXp(skillName, creo);
 
@@ -43,7 +37,7 @@ int LuaSkillManager::fulfillsSkillPrerequisites(lua_State* L) {
 	}
 
 	String skillName = lua_tostring(L, -1);
-	CreatureObject* creo = (CreatureObject*) lua_touserdata(L, -2);
+	CreatureObject* creo = (CreatureObject*)lua_touserdata(L, -2);
 
 	bool success = realObject->fulfillsSkillPrerequisites(skillName, creo);
 
@@ -60,7 +54,7 @@ int LuaSkillManager::canLearnSkill(lua_State* L) {
 
 	bool xpReq = lua_toboolean(L, -1);
 	String skillName = lua_tostring(L, -2);
-	CreatureObject* creo = (CreatureObject*) lua_touserdata(L, -3);
+	CreatureObject* creo = (CreatureObject*)lua_touserdata(L, -3);
 
 	bool canLearn = realObject->canLearnSkill(skillName, creo, xpReq);
 
@@ -95,7 +89,7 @@ int LuaSkillManager::awardSkill(lua_State* L) {
 	}
 
 	String skillName = lua_tostring(L, -1);
-	CreatureObject* creo = (CreatureObject*) lua_touserdata(L, -2);
+	CreatureObject* creo = (CreatureObject*)lua_touserdata(L, -2);
 
 	lua_pushboolean(L, realObject->awardSkill(skillName, creo, true, false, false));
 

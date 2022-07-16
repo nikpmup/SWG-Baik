@@ -12,8 +12,7 @@ class InstallationObjectDeltaMessage7 : public DeltaMessage {
 	InstallationObject* inso;
 
 public:
-	InstallationObjectDeltaMessage7(InstallationObject* ins)
-			: DeltaMessage(ins->getObjectID(), 0x494E534F, 7) {
+	InstallationObjectDeltaMessage7(InstallationObject* ins) : DeltaMessage(ins->getObjectID(), 0x494E534F, 7) {
 		inso = ins;
 	}
 
@@ -74,7 +73,6 @@ public:
 		insertLong(rId); // ID
 		insertFloat(inso->getHopperItemQuantity(rId)); // size
 	}*/
-
 };
 
 #endif /* INSTALLATIONOBJECTDELTAMESSAGE7_H_ */

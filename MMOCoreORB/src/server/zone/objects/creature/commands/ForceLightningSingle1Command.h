@@ -9,14 +9,10 @@
 
 class ForceLightningSingle1Command : public ForcePowersQueueCommand {
 public:
-
-	ForceLightningSingle1Command(const String& name, ZoneProcessServer* server)
-		: ForcePowersQueueCommand(name, server) {
-
+	ForceLightningSingle1Command(const String& name, ZoneProcessServer* server) : ForcePowersQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,7 +25,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //FORCELIGHTNINGSINGLE1COMMAND_H_
+#endif // FORCELIGHTNINGSINGLE1COMMAND_H_

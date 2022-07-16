@@ -11,14 +11,10 @@
 
 class GallopCommand : public QueueCommand {
 public:
-
-	GallopCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GallopCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -68,7 +64,7 @@ public:
 		int cooldown = mountSpeedData->getGallopCooldown();
 
 		StringIdChatParameter startStringId("combat_effects", "gallop_start"); // Your mount runs as fast as it can.
-		StringIdChatParameter endStringId("combat_effects", "gallop_stop"); // Your mount is winded and slows down.
+		StringIdChatParameter endStringId("combat_effects", "gallop_stop");	   // Your mount is winded and slows down.
 
 		ManagedReference<GallopBuff*> buff = new GallopBuff(mount, crc, duration);
 
@@ -87,7 +83,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //GALLOPCOMMAND_H_
+#endif // GALLOPCOMMAND_H_

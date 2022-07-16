@@ -12,14 +12,10 @@
 
 class CreateVendorCommand : public QueueCommand {
 public:
-
-	CreateVendorCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CreateVendorCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -42,10 +38,9 @@ public:
 			return GENERALERROR;
 		}
 
-		ManagedReference<BuildingObject*> building = cast<BuildingObject*>( parent.get());
+		ManagedReference<BuildingObject*> building = cast<BuildingObject*>(parent.get());
 
-		if (!building->isOnAdminList(player) &&
-				!building->isOnPermissionList("VENDOR", player)) {
+		if (!building->isOnAdminList(player) && !building->isOnPermissionList("VENDOR", player)) {
 			player->sendSystemMessage("@player_structure:drop_npc_vendor_perm"); // You don't have vendor permissions
 			return GENERALERROR;
 		}
@@ -55,14 +50,12 @@ public:
 			return GENERALERROR;
 		}
 
-		//Create Session
+		// Create Session
 		ManagedReference<CreateVendorSession*> session = new CreateVendorSession(player);
 		session->initializeSession();
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CREATEVENDORCOMMAND_H_
-
+#endif // CREATEVENDORCOMMAND_H_

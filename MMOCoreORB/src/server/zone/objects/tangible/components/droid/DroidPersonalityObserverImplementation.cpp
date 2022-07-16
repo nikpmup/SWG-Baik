@@ -12,7 +12,7 @@ int DroidPersonalityObserverImplementation::notifyObserverEvent(unsigned int eve
 		return 1;
 
 	// check params we should have the player around here
-	mod->notifyEvent(eventType,arg1, arg2);
+	mod->notifyEvent(eventType, arg1, arg2);
 
 	return 0;
 }

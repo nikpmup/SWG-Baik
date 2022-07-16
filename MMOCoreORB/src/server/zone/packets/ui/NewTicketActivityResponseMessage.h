@@ -10,25 +10,20 @@
 
 class NewTicketActivityResponseMessage : public BaseMessage {
 public:
-   NewTicketActivityResponseMessage(byte flag, uint32 ticketid) : BaseMessage() {
+	NewTicketActivityResponseMessage(byte flag, uint32 ticketid) : BaseMessage() {
 		insertShort(0x03);
-		insertInt(0x6EA42D80);  // CRC
+		insertInt(0x6EA42D80); // CRC
 
-
-		insertByte(flag); //??
-		insertInt(ticketid); //Probably the ticket id.
-
-
-   }
-
+		insertByte(flag);	 //??
+		insertInt(ticketid); // Probably the ticket id.
+	}
 };
 
 class NewTicketActivityMessageCalback : public MessageCallback {
 	int ticketID;
-public:
-	NewTicketActivityMessageCalback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), ticketID(0) {
 
+public:
+	NewTicketActivityMessageCalback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), ticketID(0) {
 	}
 
 	void parse(Message* message) {

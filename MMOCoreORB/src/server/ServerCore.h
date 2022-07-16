@@ -18,13 +18,13 @@
 #include "server/ping/PingServer.h"
 
 namespace server {
-	namespace zone {
-		class ZoneServer;
-	}
+namespace zone {
+class ZoneServer;
 }
+} // namespace server
 
 namespace conf {
-	class ConfigManager;
+class ConfigManager;
 }
 
 class ServerDatabase;
@@ -33,17 +33,17 @@ class StatusServer;
 
 #ifdef WITH_REST_API
 namespace server {
- namespace web3 {
- 	class RESTServer;
- }
+namespace web3 {
+class RESTServer;
 }
+} // namespace server
 #endif // WITH_REST_API
 
 namespace engine {
-	namespace core {
-		class MetricsManager;
-	}
+namespace core {
+class MetricsManager;
 }
+} // namespace engine
 
 class ServerCore : public Core, public Logger {
 	Pipe consoleCommandPipe;
@@ -67,23 +67,18 @@ class ServerCore : public Core, public Logger {
 	Condition waitCondition;
 
 public:
-	enum CommandResult {
-		SUCCESS = 0,
-		ERROR = 1,
-		SHUTDOWN,
-		NOTFOUND
-	};
+	enum CommandResult { SUCCESS = 0, ERROR = 1, SHUTDOWN, NOTFOUND };
 
 	enum ShutdownFlags {
-		DEFAULT   = 0,
-		FAST      = 1<<1,
-		DUMP_JSON = 1<<2,
+		DEFAULT = 0,
+		FAST = 1 << 1,
+		DUMP_JSON = 1 << 2,
 	};
 
 private:
 	ShutdownFlags nextShutdownFlags = ShutdownFlags::DEFAULT;
 
-	using CommandFunctionType = Function<CommandResult(const String & arguments)>;
+	using CommandFunctionType = Function<CommandResult(const String& arguments)>;
 
 	VectorMap<String, CommandFunctionType> consoleCommands;
 

@@ -11,9 +11,9 @@
 #include "server/zone/objects/building/tasks/ShuttleDepartureTask.h"
 #include "engine/engine.h"
 
-class ShuttleMap : public VectorMap<uint64, Reference<ShuttleDepartureTask*> > {
+class ShuttleMap : public VectorMap<uint64, Reference<ShuttleDepartureTask*>> {
 public:
-	ShuttleMap() : VectorMap<uint64, Reference<ShuttleDepartureTask*> >() {
+	ShuttleMap() : VectorMap<uint64, Reference<ShuttleDepartureTask*>>() {
 		setNoDuplicateInsertPlan();
 		setNullValue(nullptr);
 	}

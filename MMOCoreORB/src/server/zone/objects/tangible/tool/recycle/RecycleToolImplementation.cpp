@@ -7,7 +7,6 @@
 #include "server/zone/packets/object/ObjectMenuResponse.h"
 
 void RecycleToolImplementation::initializeTransientMembers() {
-
 	ContainerImplementation::initializeTransientMembers();
 
 	setLoggingName("RecycleTool");
@@ -23,7 +22,6 @@ void RecycleToolImplementation::loadTemplateData(SharedObjectTemplate* templateD
 	}
 
 	toolType = recycleToolData->getToolType();
-
 }
 
 void RecycleToolImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuResponse, CreatureObject* player) {

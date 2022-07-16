@@ -10,9 +10,7 @@ class GuildAdminInfoSuiCallback : public SuiCallback {
 	ManagedWeakReference<GuildObject*> guildObject;
 
 public:
-	GuildAdminInfoSuiCallback(ZoneServer* server, GuildObject* guild)
-		: SuiCallback(server) {
-
+	GuildAdminInfoSuiCallback(ZoneServer* server, GuildObject* guild) : SuiCallback(server) {
 		guildObject = guild;
 	}
 

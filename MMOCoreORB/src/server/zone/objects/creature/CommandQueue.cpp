@@ -3,11 +3,11 @@
 	See file COPYING for copying conditions.*/
 
 /*
-* CommandQueue.cpp
-*
-* Created on: Jan. 1, 2022
-* Author: Hakry
-*/
+ * CommandQueue.cpp
+ *
+ * Created on: Jan. 1, 2022
+ * Author: Hakry
+ */
 
 #include "CommandQueue.h"
 #include "server/zone/managers/objectcontroller/ObjectController.h"
@@ -248,51 +248,51 @@ void CommandQueue::run() {
 #endif // DEBUG_QUEUE
 
 	switch (state) {
-		case WAITING: {
-			if (queueVector.size() == 0) {
-				break;
-			}
-
-			state = RUNNING;
-		}
-		case RUNNING: {
-			if (queueVector.size() == 0) {
-				state = WAITING;
-				break;
-			}
-
-			int delay = handleRunningState();
-
-			if (creature->hasAttackDelay() || creature->hasPostureChangeDelay()) {
-				state = DELAY;
-				delay = DEFAULTTIME;
-			}
-
-			if (delay <= 0)
-				delay = DEFAULTTIME;
-
-			queueTask->reschedule(delay);
-
+	case WAITING: {
+		if (queueVector.size() == 0) {
 			break;
 		}
-		case DELAY: {
-			bool attackDelay = creature->hasAttackDelay();
-			bool postureDelay = creature->hasPostureChangeDelay();
 
-			if (!attackDelay && !postureDelay) {
-				state = WAITING;
-			}
-
-			int actions = checkActions(creature);
-
-			if (actions == QueueCommand::NOCOMBATQUEUE || actions == QueueCommand::FRONT || (!attackDelay && actions == QueueCommand::IMMEDIATE)) {
-				state = WAITING;
-			}
-
-			queueTask->reschedule(DEFAULTTIME);
-		}
-		default:
+		state = RUNNING;
+	}
+	case RUNNING: {
+		if (queueVector.size() == 0) {
+			state = WAITING;
 			break;
+		}
+
+		int delay = handleRunningState();
+
+		if (creature->hasAttackDelay() || creature->hasPostureChangeDelay()) {
+			state = DELAY;
+			delay = DEFAULTTIME;
+		}
+
+		if (delay <= 0)
+			delay = DEFAULTTIME;
+
+		queueTask->reschedule(delay);
+
+		break;
+	}
+	case DELAY: {
+		bool attackDelay = creature->hasAttackDelay();
+		bool postureDelay = creature->hasPostureChangeDelay();
+
+		if (!attackDelay && !postureDelay) {
+			state = WAITING;
+		}
+
+		int actions = checkActions(creature);
+
+		if (actions == QueueCommand::NOCOMBATQUEUE || actions == QueueCommand::FRONT || (!attackDelay && actions == QueueCommand::IMMEDIATE)) {
+			state = WAITING;
+		}
+
+		queueTask->reschedule(DEFAULTTIME);
+	}
+	default:
+		break;
 	}
 
 #ifdef DEBUG_QUEUE
@@ -449,7 +449,7 @@ void CommandQueue::enqueueCommand(unsigned int actionCRC, unsigned int actionCou
 
 	if (state == WAITING && !queueTask->isScheduled()) {
 #ifdef DEBUG_QUEUE
-	creature->info(true) << "Scheduling for DEFAULTTIME";
+		creature->info(true) << "Scheduling for DEFAULTTIME";
 #endif // DEBUG_QUEUE
 		queueTask->schedule(DEFAULTTIME);
 	}
@@ -538,7 +538,7 @@ String CommandQueue::toString() const {
 
 	StringBuffer buf;
 
-	buf <<"CommandQueue(state=";
+	buf << "CommandQueue(state=";
 
 	// clang-format off
 	switch (state) {
@@ -553,7 +553,7 @@ String CommandQueue::toString() const {
 #ifdef DEBUG_QUEUE
 		<< ", runNumber=" << runNumber << ", lastRunMs=" << lastRun.miliDifference()
 #endif // DEBUG_QUEUE
-	<< ", queueVector.size=" << queueVector.size() << ", queueTask=" << hex << queueTask;
+		<< ", queueVector.size=" << queueVector.size() << ", queueTask=" << hex << queueTask;
 
 	if (queueTask != nullptr) {
 		buf << "[" << (queueTask->isScheduled() ? "isScheduled" : "!isScheduled") << "]";

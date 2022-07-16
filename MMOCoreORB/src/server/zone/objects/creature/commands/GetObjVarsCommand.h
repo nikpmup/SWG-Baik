@@ -10,14 +10,10 @@
 
 class GetObjVarsCommand : public QueueCommand {
 public:
-
-	GetObjVarsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GetObjVarsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -35,7 +31,7 @@ public:
 		if (tokenizer.hasMoreTokens()) {
 			try {
 				objectID = tokenizer.getLongToken();
-			} catch ( Exception& err ) {
+			} catch (Exception& err) {
 				creature->sendSystemMessage("INVALID OBJECT.  Please specify a valid object name or objectid");
 				return INVALIDPARAMETERS;
 			}
@@ -43,16 +39,15 @@ public:
 			objectID = target;
 		}
 
-		if ( objectID == 0 ) {
+		if (objectID == 0) {
 			creature->sendSystemMessage("You need to target an object or specify an object id: /getobjvars <objectID> ");
 		}
 
 		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(objectID, false);
 
-		if ( object == nullptr) {
+		if (object == nullptr) {
 			creature->sendSystemMessage("ERROR GETTIGN OBJECT - nullptr " + String::valueOf(objectID));
 		} else {
-
 			String strClassName = object->getObjectNameStringIdName();
 			String strDescription = object->getDetailedDescription();
 			bool bMarkedForDelete = object->_isMarkedForDeletion();
@@ -63,13 +58,13 @@ public:
 			msg << endl << "OBJECTID: " << String::valueOf(objectID) << endl;
 			msg << "OBJECTTYPE: " << String::valueOf(object->getGameObjectType()) << endl;
 
-			if(object->isCreatureObject()) {
+			if (object->isCreatureObject()) {
 				msg << "Creature First Name: " << object.castTo<CreatureObject*>()->getFirstName() << endl;
 			}
 
 			msg << "CLASS: " << strClassName << endl;
 			msg << "Marked for deletion: " << String::valueOf(bMarkedForDelete) << endl;
-			msg << "IsUpdated: " <<  String::valueOf(bIsUpdated) << endl;
+			msg << "IsUpdated: " << String::valueOf(bIsUpdated) << endl;
 			msg << "REFERENCE COUNT " << String::valueOf(rCount) << endl;
 			msg << "Path: " << object->getObjectTemplate()->getFullTemplateString() << endl;
 			msg << "Children: " << String::valueOf(object->getChildObjects()->size()) << endl;
@@ -96,7 +91,8 @@ public:
 						StringBuffer hasFollow;
 
 						if (followCopy != nullptr) {
-							hasFollow << "True - " << " OID: " << followCopy->getObjectID();
+							hasFollow << "True - "
+									  << " OID: " << followCopy->getObjectID();
 						} else {
 							hasFollow << "False";
 						}
@@ -109,7 +105,7 @@ public:
 			}
 
 			if (object->getZone() != nullptr) {
-				msg << "Location: " << String::valueOf(object->getPositionX()) << " "  << String::valueOf(object->getPositionZ()) << " " << String::valueOf(object->getPositionY()) << " " << object->getZone()->getZoneName() << endl;
+				msg << "Location: " << String::valueOf(object->getPositionX()) << " " << String::valueOf(object->getPositionZ()) << " " << String::valueOf(object->getPositionY()) << " " << object->getZone()->getZoneName() << endl;
 				msg << "Direction Angle - Radians: " << object->getDirection()->getRadians() << endl;
 			}
 
@@ -121,13 +117,11 @@ public:
 
 			ChatManager* chatManager = server->getZoneServer()->getChatManager();
 			String title = "getObjVars - " + String::valueOf(objectID);
-			chatManager->sendMail("System", title , msg.toString(), creature->getFirstName());
+			chatManager->sendMail("System", title, msg.toString(), creature->getFirstName());
 		}
-
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //GETOBJVARSCOMMAND_H_
+#endif // GETOBJVARSCOMMAND_H_

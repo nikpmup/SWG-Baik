@@ -26,8 +26,6 @@ void DraftSchematicImplementation::loadTemplateData(SharedObjectTemplate* templa
 }
 
 void DraftSchematicImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* object) {
-
-
 }
 
 void DraftSchematicImplementation::sendBaselinesTo(SceneObject* player) {
@@ -38,7 +36,7 @@ void DraftSchematicImplementation::sendBaselinesTo(SceneObject* player) {
 }
 
 void DraftSchematicImplementation::sendDraftSlotsTo(CreatureObject* player) {
-	CreatureObject* playerCreature = cast<CreatureObject*>( player);
+	CreatureObject* playerCreature = cast<CreatureObject*>(player);
 
 	ObjectControllerMessage* msg = new ObjectControllerMessage(player->getObjectID(), 0x0B, 0x01BF);
 
@@ -46,21 +44,20 @@ void DraftSchematicImplementation::sendDraftSlotsTo(CreatureObject* player) {
 	msg->insertInt(clientObjectCRC);
 
 	msg->insertInt(schematicTemplate->getComplexity()); // ex: 3
-	msg->insertInt(schematicTemplate->getSize()); // ex: 1
+	msg->insertInt(schematicTemplate->getSize());		// ex: 1
 	msg->insertByte(2);
 
 	insertIngredients(msg);
 
 	player->sendMessage(msg);
-
 }
 
 void DraftSchematicImplementation::insertIngredients(ObjectControllerMessage* msg) {
-	const Vector<Reference<DraftSlot* > >* draftSlots = schematicTemplate->getDraftSlots();
+	const Vector<Reference<DraftSlot*>>* draftSlots = schematicTemplate->getDraftSlots();
 
 	msg->insertInt(draftSlots->size());
 
-	for(int i = 0; i < draftSlots->size(); ++i) {
+	for (int i = 0; i < draftSlots->size(); ++i) {
 		draftSlots->get(i)->insertToMessage(msg);
 	}
 
@@ -68,7 +65,7 @@ void DraftSchematicImplementation::insertIngredients(ObjectControllerMessage* ms
 }
 
 void DraftSchematicImplementation::sendResourceWeightsTo(CreatureObject* player) {
-	const Vector<Reference<ResourceWeight* > >* resourceWeights = schematicTemplate->getResourceWeights();
+	const Vector<Reference<ResourceWeight*>>* resourceWeights = schematicTemplate->getResourceWeights();
 
 	ObjectControllerMessage* msg = new ObjectControllerMessage(player->getObjectID(), 0x0B, 0x0207);
 
@@ -77,13 +74,13 @@ void DraftSchematicImplementation::sendResourceWeightsTo(CreatureObject* player)
 
 	msg->insertByte(resourceWeights->size());
 
-	//Send all the resource batch property data
+	// Send all the resource batch property data
 	for (int i = 0; i < resourceWeights->size(); i++)
 		resourceWeights->get(i)->insertBatchToMessage(msg);
 
 	msg->insertByte(resourceWeights->size());
 
-	//Send all the resource property data
+	// Send all the resource property data
 	for (int i = 0; i < resourceWeights->size(); i++)
 		resourceWeights->get(i)->insertToMessage(msg);
 
@@ -91,10 +88,9 @@ void DraftSchematicImplementation::sendResourceWeightsTo(CreatureObject* player)
 }
 
 Reference<SceneObject*> DraftSchematicImplementation::createManufactureSchematic(SceneObject* craftingTool) {
-	Reference<ManufactureSchematic*> manuSchematic =
-			 (getZoneServer()->createObject(0xF75E04C2, 0)).castTo<ManufactureSchematic* >();
+	Reference<ManufactureSchematic*> manuSchematic = (getZoneServer()->createObject(0xF75E04C2, 0)).castTo<ManufactureSchematic*>();
 
-	if(manuSchematic == nullptr) {
+	if (manuSchematic == nullptr) {
 		error("Could not create ManufactureSchematic for " + getObjectNameStringIdName());
 		return nullptr;
 	}
@@ -123,7 +119,6 @@ int DraftSchematicImplementation::getResourceWeightCount() {
 ResourceWeight* DraftSchematicImplementation::getResourceWeight(int i) {
 	return schematicTemplate->getResourceWeights()->get(i);
 }
-
 
 float DraftSchematicImplementation::getComplexity() {
 	return (float)schematicTemplate->getComplexity();

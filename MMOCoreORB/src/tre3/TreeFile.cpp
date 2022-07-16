@@ -13,7 +13,6 @@ TreeFile::TreeFile(TreeArchive* archive) : records() {
 	treeArchive = archive;
 	totalRecords = 0;
 	dataOffset = 0;
-
 }
 
 TreeFile::~TreeFile() {
@@ -40,44 +39,41 @@ void TreeFile::read(const String& path) {
 
 void TreeFile::readHeader(FileInputStream* fileStream) {
 	uint32 fileType = 0;
-	fileStream->read((byte*) &fileType, 4);
+	fileStream->read((byte*)&fileType, 4);
 
 	if (fileType != 'TREE') {
 		error("File is not a valid Tree file.");
 		return;
 	}
 
-	fileStream->read((byte*) &version, 4);
+	fileStream->read((byte*)&version, 4);
 
-	//TODO: Perhaps this switch can be refactored.
+	// TODO: Perhaps this switch can be refactored.
 	switch (version) {
-	case '0005':
-	{
+	case '0005': {
 		uint32 buffer = 0;
 
-		fileStream->read((byte*) &totalRecords, 4);
-		fileStream->read((byte*) &dataOffset, 4);
+		fileStream->read((byte*)&totalRecords, 4);
+		fileStream->read((byte*)&dataOffset, 4);
 
-		debug() << "Found records: " << totalRecords
-			<< " Data offset at " << dataOffset;
+		debug() << "Found records: " << totalRecords << " Data offset at " << dataOffset;
 
-		//Setup the file block.
-		fileStream->read((byte*) &buffer, 4);
+		// Setup the file block.
+		fileStream->read((byte*)&buffer, 4);
 		fileBlock.setCompressionType(buffer);
-		fileStream->read((byte*) &buffer, 4);
+		fileStream->read((byte*)&buffer, 4);
 		fileBlock.setCompressedSize(buffer);
 		fileBlock.setUncompressedSize(TreeDataBlock::SIZE * totalRecords);
 
-		//Setup the name block.
-		fileStream->read((byte*) &buffer, 4);
+		// Setup the name block.
+		fileStream->read((byte*)&buffer, 4);
 		nameBlock.setCompressionType(buffer);
-		fileStream->read((byte*) &buffer, 4);
+		fileStream->read((byte*)&buffer, 4);
 		nameBlock.setCompressedSize(buffer);
-		fileStream->read((byte*) &buffer, 4);
+		fileStream->read((byte*)&buffer, 4);
 		nameBlock.setUncompressedSize(buffer);
-	}
-		break;
-	case '0006': //Apparently, the header information is insignificant in this version?
+	} break;
+	case '0006': // Apparently, the header information is insignificant in this version?
 		fileStream->skip(28);
 		break;
 	default:
@@ -94,7 +90,7 @@ void TreeFile::readFileBlock(FileInputStream* fileStream) {
 	fileStream->skip(dataOffset - 36);
 	byte* uncompressedData = fileBlock.uncompress(fileStream);
 
-	//Load the records.
+	// Load the records.
 	uint32 bufferOffset = 0;
 	for (int i = 0; i < totalRecords; ++i) {
 		Reference<TreeFileRecord*> tfr = new TreeFileRecord();
@@ -104,7 +100,7 @@ void TreeFile::readFileBlock(FileInputStream* fileStream) {
 		records.emplace(std::move(tfr));
 	}
 
-	delete [] uncompressedData;
+	delete[] uncompressedData;
 }
 
 void TreeFile::readNameBlock(FileInputStream* fileStream) {
@@ -114,10 +110,10 @@ void TreeFile::readNameBlock(FileInputStream* fileStream) {
 		TreeFileRecord* record = records.get(i);
 
 		if (treeArchive != nullptr)
-			treeArchive->addRecord(((char*) uncompressedData) + record->getNameOffset(), record);
+			treeArchive->addRecord(((char*)uncompressedData) + record->getNameOffset(), record);
 	}
 
-	delete [] uncompressedData;
+	delete[] uncompressedData;
 }
 
 void TreeFile::readMD5Sums(FileInputStream* fileStream) {

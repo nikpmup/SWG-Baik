@@ -11,7 +11,6 @@
 #include "engine/engine.h"
 
 class ObjectVersionUpdateManager : public Singleton<ObjectVersionUpdateManager>, public Logger, public Object {
-
 public:
 	ObjectVersionUpdateManager();
 
@@ -37,7 +36,6 @@ public:
 	void updateCityTreasury();
 	void updateCityTreasuryToDouble();
 	int run();
-
 };
 
 #endif /* OBJECTVERSIONUPDATEMANAGER_H_ */

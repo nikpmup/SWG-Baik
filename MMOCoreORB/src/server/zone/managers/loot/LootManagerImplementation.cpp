@@ -20,7 +20,6 @@ void LootManagerImplementation::initialize() {
 	info("Loading configuration.");
 
 	if (!loadConfigData()) {
-
 		loadDefaultConfig();
 
 		info("Failed to load configuration values. Using default.");
@@ -123,40 +122,40 @@ bool LootManagerImplementation::loadConfigData() {
 	}
 
 	LuaObject modsTable = lua->getGlobalObject("lootableArmorAttachmentStatMods");
-	loadLootableMods( &modsTable, &lootableArmorAttachmentMods );
+	loadLootableMods(&modsTable, &lootableArmorAttachmentMods);
 
 	modsTable = lua->getGlobalObject("lootableClothingAttachmentStatMods");
-	loadLootableMods( &modsTable, &lootableClothingAttachmentMods );
+	loadLootableMods(&modsTable, &lootableClothingAttachmentMods);
 
 	modsTable = lua->getGlobalObject("lootableArmorStatMods");
-	loadLootableMods( &modsTable, &lootableArmorMods );
+	loadLootableMods(&modsTable, &lootableArmorMods);
 
 	modsTable = lua->getGlobalObject("lootableClothingStatMods");
-	loadLootableMods( &modsTable, &lootableClothingMods );
+	loadLootableMods(&modsTable, &lootableClothingMods);
 
 	modsTable = lua->getGlobalObject("lootableOneHandedMeleeStatMods");
-	loadLootableMods( &modsTable, &lootableOneHandedMeleeMods );
+	loadLootableMods(&modsTable, &lootableOneHandedMeleeMods);
 
 	modsTable = lua->getGlobalObject("lootableTwoHandedMeleeStatMods");
-	loadLootableMods( &modsTable, &lootableTwoHandedMeleeMods );
+	loadLootableMods(&modsTable, &lootableTwoHandedMeleeMods);
 
 	modsTable = lua->getGlobalObject("lootableUnarmedStatMods");
-	loadLootableMods( &modsTable, &lootableUnarmedMods );
+	loadLootableMods(&modsTable, &lootableUnarmedMods);
 
 	modsTable = lua->getGlobalObject("lootablePistolStatMods");
-	loadLootableMods( &modsTable, &lootablePistolMods );
+	loadLootableMods(&modsTable, &lootablePistolMods);
 
 	modsTable = lua->getGlobalObject("lootableRifleStatMods");
-	loadLootableMods( &modsTable, &lootableRifleMods );
+	loadLootableMods(&modsTable, &lootableRifleMods);
 
 	modsTable = lua->getGlobalObject("lootableCarbineStatMods");
-	loadLootableMods( &modsTable, &lootableCarbineMods );
+	loadLootableMods(&modsTable, &lootableCarbineMods);
 
 	modsTable = lua->getGlobalObject("lootablePolearmStatMods");
-	loadLootableMods( &modsTable, &lootablePolearmMods );
+	loadLootableMods(&modsTable, &lootablePolearmMods);
 
 	modsTable = lua->getGlobalObject("lootableHeavyWeaponStatMods");
-	loadLootableMods( &modsTable, &lootableHeavyWeaponMods );
+	loadLootableMods(&modsTable, &lootableHeavyWeaponMods);
 
 	LuaObject luaObject = lua->getGlobalObject("jediCrystalStats");
 	LuaObject crystalTable = luaObject.getObjectField("lightsaber_module_force_crystal");
@@ -178,7 +177,6 @@ bool LootManagerImplementation::loadConfigData() {
 }
 
 void LootManagerImplementation::loadLootableMods(LuaObject* modsTable, SortedVector<String>* mods) {
-
 	if (!modsTable->isValidTable())
 		return;
 
@@ -188,11 +186,9 @@ void LootManagerImplementation::loadLootableMods(LuaObject* modsTable, SortedVec
 	}
 
 	modsTable->pop();
-
 }
 
 void LootManagerImplementation::loadDefaultConfig() {
-
 }
 
 void LootManagerImplementation::setInitialObjectStats(const LootItemTemplate* templateObject, CraftingValues* craftingValues, TangibleObject* prototype) {
@@ -202,7 +198,7 @@ void LootManagerImplementation::setInitialObjectStats(const LootItemTemplate* te
 		const auto titles = tanoTemplate->getExperimentalGroupTitles();
 		const auto props = tanoTemplate->getExperimentalSubGroupTitles();
 		const auto mins = tanoTemplate->getExperimentalMin();
-		const auto  maxs = tanoTemplate->getExperimentalMax();
+		const auto maxs = tanoTemplate->getExperimentalMax();
 		const auto prec = tanoTemplate->getExperimentalPrecision();
 
 		for (int i = 0; i < props->size(); ++i) {
@@ -219,7 +215,7 @@ void LootManagerImplementation::setInitialObjectStats(const LootItemTemplate* te
 	}
 
 	const Vector<String>* customizationData = templateObject->getCustomizationStringNames();
-	const Vector<Vector<int> >* customizationValues = templateObject->getCustomizationValues();
+	const Vector<Vector<int>>* customizationValues = templateObject->getCustomizationValues();
 
 	for (int i = 0; i < customizationData->size(); ++i) {
 		const String& customizationString = customizationData->get(i);
@@ -248,8 +244,8 @@ void LootManagerImplementation::setCustomObjectName(TangibleObject* object, cons
 }
 
 int LootManagerImplementation::calculateLootCredits(int level) {
-	int maxcredits = (int) round((.03f * level * level) + (3 * level) + 50);
-	int mincredits = (int) round((((float) maxcredits) * .5f) + (2.0f * level));
+	int maxcredits = (int)round((.03f * level * level) + (3 * level) + 50);
+	int mincredits = (int)round((((float)maxcredits) * .5f) + (2.0f * level));
 
 	int credits = mincredits + System::random(maxcredits - mincredits);
 
@@ -259,10 +255,10 @@ int LootManagerImplementation::calculateLootCredits(int level) {
 TangibleObject* LootManagerImplementation::createLootObject(const LootItemTemplate* templateObject, int level, bool maxCondition) {
 	int uncappedLevel = level;
 
-	if(level < 1)
+	if (level < 1)
 		level = 1;
 
-	if(level > 300)
+	if (level > 300)
 		level = 300;
 
 	const String& directTemplateObject = templateObject->getDirectObjectTemplate();
@@ -278,7 +274,7 @@ TangibleObject* LootManagerImplementation::createLootObject(const LootItemTempla
 
 	prototype->createChildObjects();
 
-	//Disable serial number generation on looted items that require no s/n
+	// Disable serial number generation on looted items that require no s/n
 	if (!templateObject->getSuppressSerialNumber()) {
 		String serial = craftingManager->generateSerial();
 		prototype->setSerialNumber(serial);
@@ -287,10 +283,10 @@ TangibleObject* LootManagerImplementation::createLootObject(const LootItemTempla
 	prototype->setJunkDealerNeeded(templateObject->getJunkDealerTypeNeeded());
 	float junkMinValue = templateObject->getJunkMinValue() * junkValueModifier;
 	float junkMaxValue = templateObject->getJunkMaxValue() * junkValueModifier;
-	float fJunkValue = junkMinValue+System::random(junkMaxValue-junkMinValue);
+	float fJunkValue = junkMinValue + System::random(junkMaxValue - junkMinValue);
 
-	if (level>0 && templateObject->getJunkDealerTypeNeeded()>1){
-		fJunkValue=fJunkValue + (fJunkValue * ((float)level / 100)); // This is the loot value calculation if the item has a level
+	if (level > 0 && templateObject->getJunkDealerTypeNeeded() > 1) {
+		fJunkValue = fJunkValue + (fJunkValue * ((float)level / 100)); // This is the loot value calculation if the item has a level
 	}
 
 	ValuesMap valuesMap = templateObject->getValuesMapCopy();
@@ -325,7 +321,7 @@ TangibleObject* LootManagerImplementation::createLootObject(const LootItemTempla
 	}
 
 	if (prototype->isLightsaberCrystalObject()) {
-		LightsaberCrystalComponent* crystal = cast<LightsaberCrystalComponent*> (prototype.get());
+		LightsaberCrystalComponent* crystal = cast<LightsaberCrystalComponent*>(prototype.get());
 
 		if (crystal != nullptr)
 			crystal->setItemLevel(uncappedLevel);
@@ -356,9 +352,9 @@ TangibleObject* LootManagerImplementation::createLootObject(const LootItemTempla
 		// (Mantis #7869)
 		int precision = craftingValues->getPrecision(subtitle);
 		if (precision == (int)ValuesMap::VALUENOTFOUND) {
-			error ("No precision found for " + subtitle);
+			error("No precision found for " + subtitle);
 		} else if (precision == 0) {
-			int range = abs(max-min);
+			int range = abs(max - min);
 			int randomValue = System::random(range);
 			percentage = (float)randomValue / (float)(range);
 		}
@@ -448,7 +444,7 @@ TangibleObject* LootManagerImplementation::createLootObject(const LootItemTempla
 		if (excMod == 1.0) {
 			prototype->setJunkValue((int)(fJunkValue));
 		} else {
-			prototype->setJunkValue((int)(fJunkValue * (excMod/2)));
+			prototype->setJunkValue((int)(fJunkValue * (excMod / 2)));
 		}
 	}
 
@@ -458,7 +454,7 @@ TangibleObject* LootManagerImplementation::createLootObject(const LootItemTempla
 	craftingValues->addExperimentalProperty("creatureLevel", "creatureLevel", level, level, 0, false, ValuesMap::LINEARCOMBINE);
 	craftingValues->setHidden("creatureLevel");
 
-	//check weapons and weapon components for min damage > max damage
+	// check weapons and weapon components for min damage > max damage
 	if (prototype->isComponent() || prototype->isWeaponObject()) {
 		if (craftingValues->hasProperty("mindamage") && craftingValues->hasProperty("maxdamage")) {
 			float oldMin = craftingValues->getCurrentValue("mindamage");
@@ -482,7 +478,7 @@ TangibleObject* LootManagerImplementation::createLootObject(const LootItemTempla
 	// Update the Tano with new values
 	prototype->updateCraftingValues(craftingValues, true);
 
-	//add some condition damage where appropriate
+	// add some condition damage where appropriate
 	if (!maxCondition)
 		addConditionDamage(prototype, craftingValues);
 
@@ -497,13 +493,13 @@ void LootManagerImplementation::addConditionDamage(TangibleObject* loot, Craftin
 
 	float min = 0;
 
-	if(loot->isWeaponObject())
+	if (loot->isWeaponObject())
 		min = craftingValues->getMinValue("hitpoints");
 
-	if(loot->isArmorObject())
+	if (loot->isArmorObject())
 		min = craftingValues->getMinValue("armor_integrity");
 
-	float damage = (float) System::random(min / 3);
+	float damage = (float)System::random(min / 3);
 
 	loot->setConditionDamage(damage);
 }
@@ -524,24 +520,24 @@ void LootManagerImplementation::setSkillMods(TangibleObject* object, const LootI
 		int modCount = 1;
 		int roll = System::random(100);
 
-		if(roll > (100 - modSqr))
+		if (roll > (100 - modSqr))
 			modCount += 2;
 
-		if(roll < (5 + modSqr))
+		if (roll < (5 + modSqr))
 			modCount += 1;
 
-		for(int i = 0; i < modCount; ++i) {
-			//Mods can't be lower than -1 or greater than 25
-			int max = (int) Math::max(-1.f, Math::min(25.f, (float) round(0.1f * level + 3)));
-			int min = (int) Math::max(-1.f, Math::min(25.f, (float) round(0.075f * level - 1)));
+		for (int i = 0; i < modCount; ++i) {
+			// Mods can't be lower than -1 or greater than 25
+			int max = (int)Math::max(-1.f, Math::min(25.f, (float)round(0.1f * level + 3)));
+			int min = (int)Math::max(-1.f, Math::min(25.f, (float)round(0.075f * level - 1)));
 
 			int mod = System::random(max - min) + min;
 
-			if(mod == 0)
+			if (mod == 0)
 				mod = 1;
 
-			String modName = getRandomLootableMod( object->getGameObjectType() );
-			if( !modName.isEmpty() )
+			String modName = getRandomLootableMod(object->getGameObjectType());
+			if (!modName.isEmpty())
 				additionalMods.put(modName, mod);
 		}
 	}
@@ -549,7 +545,7 @@ void LootManagerImplementation::setSkillMods(TangibleObject* object, const LootI
 	if (object->isWearableObject() || object->isWeaponObject()) {
 		ManagedReference<TangibleObject*> item = cast<TangibleObject*>(object);
 
-		if(additionalMods.size() > 0 || skillMods->size() > 0)
+		if (additionalMods.size() > 0 || skillMods->size() > 0)
 			yellow = true;
 
 		for (int i = 0; i < additionalMods.size(); i++) {
@@ -565,62 +561,39 @@ void LootManagerImplementation::setSkillMods(TangibleObject* object, const LootI
 		object->addMagicBit(false);
 }
 
-String LootManagerImplementation::getRandomLootableMod( unsigned int sceneObjectType ) {
-	if( sceneObjectType == SceneObjectType::ARMORATTACHMENT ){
+String LootManagerImplementation::getRandomLootableMod(unsigned int sceneObjectType) {
+	if (sceneObjectType == SceneObjectType::ARMORATTACHMENT) {
 		return lootableArmorAttachmentMods.get(System::random(lootableArmorAttachmentMods.size() - 1));
-	}
-	else if( sceneObjectType == SceneObjectType::CLOTHINGATTACHMENT ){
+	} else if (sceneObjectType == SceneObjectType::CLOTHINGATTACHMENT) {
 		return lootableClothingAttachmentMods.get(System::random(lootableClothingAttachmentMods.size() - 1));
-	}
-	else if( sceneObjectType == SceneObjectType::ARMOR || sceneObjectType == SceneObjectType::BODYARMOR ||
-			 sceneObjectType == SceneObjectType::HEADARMOR || sceneObjectType == SceneObjectType::MISCARMOR ||
-			 sceneObjectType == SceneObjectType::LEGARMOR || sceneObjectType == SceneObjectType::ARMARMOR ||
-			 sceneObjectType == SceneObjectType::HANDARMOR || sceneObjectType == SceneObjectType::FOOTARMOR ){
+	} else if (sceneObjectType == SceneObjectType::ARMOR || sceneObjectType == SceneObjectType::BODYARMOR || sceneObjectType == SceneObjectType::HEADARMOR || sceneObjectType == SceneObjectType::MISCARMOR || sceneObjectType == SceneObjectType::LEGARMOR || sceneObjectType == SceneObjectType::ARMARMOR ||
+			   sceneObjectType == SceneObjectType::HANDARMOR || sceneObjectType == SceneObjectType::FOOTARMOR) {
 		return lootableArmorMods.get(System::random(lootableArmorMods.size() - 1));
-	}
-	else if( sceneObjectType == SceneObjectType::CLOTHING || sceneObjectType == SceneObjectType::BANDOLIER ||
-			 sceneObjectType == SceneObjectType::BELT || sceneObjectType == SceneObjectType::BODYSUIT ||
-		     sceneObjectType == SceneObjectType::CAPE || sceneObjectType == SceneObjectType::CLOAK ||
-			 sceneObjectType == SceneObjectType::FOOTWEAR || sceneObjectType == SceneObjectType::DRESS ||
-			 sceneObjectType == SceneObjectType::HANDWEAR || sceneObjectType == SceneObjectType::EYEWEAR ||
-			 sceneObjectType == SceneObjectType::HEADWEAR || sceneObjectType == SceneObjectType::JACKET ||
-			 sceneObjectType == SceneObjectType::PANTS || sceneObjectType == SceneObjectType::ROBE ||
-			 sceneObjectType == SceneObjectType::SHIRT || sceneObjectType == SceneObjectType::VEST ||
-			 sceneObjectType == SceneObjectType::WOOKIEGARB || sceneObjectType == SceneObjectType::MISCCLOTHING ||
-			 sceneObjectType == SceneObjectType::SKIRT || sceneObjectType == SceneObjectType::WEARABLECONTAINER ||
-			 sceneObjectType == SceneObjectType::JEWELRY || sceneObjectType == SceneObjectType::RING ||
-			 sceneObjectType == SceneObjectType::BRACELET || sceneObjectType == SceneObjectType::NECKLACE ||
-			 sceneObjectType == SceneObjectType::EARRING ){
+	} else if (sceneObjectType == SceneObjectType::CLOTHING || sceneObjectType == SceneObjectType::BANDOLIER || sceneObjectType == SceneObjectType::BELT || sceneObjectType == SceneObjectType::BODYSUIT || sceneObjectType == SceneObjectType::CAPE || sceneObjectType == SceneObjectType::CLOAK ||
+			   sceneObjectType == SceneObjectType::FOOTWEAR || sceneObjectType == SceneObjectType::DRESS || sceneObjectType == SceneObjectType::HANDWEAR || sceneObjectType == SceneObjectType::EYEWEAR || sceneObjectType == SceneObjectType::HEADWEAR || sceneObjectType == SceneObjectType::JACKET ||
+			   sceneObjectType == SceneObjectType::PANTS || sceneObjectType == SceneObjectType::ROBE || sceneObjectType == SceneObjectType::SHIRT || sceneObjectType == SceneObjectType::VEST || sceneObjectType == SceneObjectType::WOOKIEGARB || sceneObjectType == SceneObjectType::MISCCLOTHING ||
+			   sceneObjectType == SceneObjectType::SKIRT || sceneObjectType == SceneObjectType::WEARABLECONTAINER || sceneObjectType == SceneObjectType::JEWELRY || sceneObjectType == SceneObjectType::RING || sceneObjectType == SceneObjectType::BRACELET || sceneObjectType == SceneObjectType::NECKLACE ||
+			   sceneObjectType == SceneObjectType::EARRING) {
 		return lootableClothingMods.get(System::random(lootableClothingMods.size() - 1));
-	}
-	else if( sceneObjectType == SceneObjectType::ONEHANDMELEEWEAPON ){
+	} else if (sceneObjectType == SceneObjectType::ONEHANDMELEEWEAPON) {
 		return lootableOneHandedMeleeMods.get(System::random(lootableOneHandedMeleeMods.size() - 1));
-	}
-	else if( sceneObjectType == SceneObjectType::TWOHANDMELEEWEAPON ){
+	} else if (sceneObjectType == SceneObjectType::TWOHANDMELEEWEAPON) {
 		return lootableTwoHandedMeleeMods.get(System::random(lootableTwoHandedMeleeMods.size() - 1));
-	}
-	else if( sceneObjectType == SceneObjectType::MELEEWEAPON ){
+	} else if (sceneObjectType == SceneObjectType::MELEEWEAPON) {
 		return lootableUnarmedMods.get(System::random(lootableUnarmedMods.size() - 1));
-	}
-	else if( sceneObjectType == SceneObjectType::PISTOL ){
+	} else if (sceneObjectType == SceneObjectType::PISTOL) {
 		return lootablePistolMods.get(System::random(lootablePistolMods.size() - 1));
-	}
-	else if( sceneObjectType == SceneObjectType::RIFLE ){
+	} else if (sceneObjectType == SceneObjectType::RIFLE) {
 		return lootableRifleMods.get(System::random(lootableRifleMods.size() - 1));
-	}
-	else if( sceneObjectType == SceneObjectType::CARBINE ){
+	} else if (sceneObjectType == SceneObjectType::CARBINE) {
 		return lootableCarbineMods.get(System::random(lootableCarbineMods.size() - 1));
-	}
-	else if( sceneObjectType == SceneObjectType::POLEARM ){
+	} else if (sceneObjectType == SceneObjectType::POLEARM) {
 		return lootablePolearmMods.get(System::random(lootablePolearmMods.size() - 1));
-	}
-	else if( sceneObjectType == SceneObjectType::SPECIALHEAVYWEAPON ){
+	} else if (sceneObjectType == SceneObjectType::SPECIALHEAVYWEAPON) {
 		return lootableHeavyWeaponMods.get(System::random(lootableHeavyWeaponMods.size() - 1));
-	}
-	else{
+	} else {
 		return "";
 	}
-
 }
 
 void LootManagerImplementation::setSockets(TangibleObject* object, CraftingValues* craftingValues) {
@@ -655,20 +628,20 @@ bool LootManagerImplementation::createLootFromCollection(TransactionLog& trx, Sc
 		if (roll > lootChance)
 			continue;
 
-		int tempChance = 0; //Start at 0.
+		int tempChance = 0; // Start at 0.
 
 		const LootGroups* lootGroups = entry->getLootGroups();
 
-		//Now we do the second roll to determine loot group.
+		// Now we do the second roll to determine loot group.
 		roll = System::random(10000000);
 
-		//Select the loot group to use.
+		// Select the loot group to use.
 		for (int i = 0; i < lootGroups->count(); ++i) {
 			const LootGroupEntry* entry = lootGroups->get(i);
 
 			tempChance += entry->getLootChance();
 
-			//Is this entry lower than the roll? If yes, then we want to try the next entry.
+			// Is this entry lower than the roll? If yes, then we want to try the next entry.
 			if (tempChance < roll)
 				continue;
 
@@ -689,16 +662,16 @@ uint64 LootManagerImplementation::createLoot(TransactionLog& trx, SceneObject* c
 		return 0;
 	}
 
-	//Now we do the third roll for the item out of the group.
+	// Now we do the third roll for the item out of the group.
 	int roll = System::random(10000000);
 
 	String selection = group->getLootGroupEntryForRoll(roll);
 
-	//Check to see if the group entry is another group
+	// Check to see if the group entry is another group
 	if (lootGroupMap->lootGroupExists(selection))
 		return createLoot(trx, container, selection, level, maxCondition);
 
-	//Entry wasn't another group, it should be a loot item
+	// Entry wasn't another group, it should be a loot item
 	Reference<const LootItemTemplate*> itemTemplate = lootGroupMap->getLootItemTemplate(selection);
 
 	if (itemTemplate == nullptr) {
@@ -734,13 +707,13 @@ bool LootManagerImplementation::createLootSet(TransactionLog& trx, SceneObject* 
 		warning("Loot group template requested does not exist: " + lootGroup);
 		return false;
 	}
-	//Roll for the item out of the group.
+	// Roll for the item out of the group.
 	int roll = System::random(10000000);
 
 	int lootGroupEntryIndex = group->getLootGroupIntEntryForRoll(roll);
 
-	for(int q = 0; q < setSize; q++) {
-		String selection = group->getLootGroupEntryAt(lootGroupEntryIndex+q);
+	for (int q = 0; q < setSize; q++) {
+		String selection = group->getLootGroupEntryAt(lootGroupEntryIndex + q);
 		Reference<const LootItemTemplate*> itemTemplate = lootGroupMap->getLootItemTemplate(selection);
 
 		if (itemTemplate == nullptr) {
@@ -789,13 +762,12 @@ void LootManagerImplementation::addStaticDots(TangibleObject* object, const Loot
 	}
 
 	if (shouldGenerateDots) {
-
 		int dotType = templateObject->getStaticDotType();
 
 		if (dotType < 1 || dotType > 4)
 			return;
 
-		const VectorMap<String, SortedVector<int> >* dotValues = templateObject->getStaticDotValues();
+		const VectorMap<String, SortedVector<int>>* dotValues = templateObject->getStaticDotValues();
 		int size = dotValues->size();
 
 		// Check if they specified correct vals.
@@ -803,7 +775,6 @@ void LootManagerImplementation::addStaticDots(TangibleObject* object, const Loot
 			weapon->addDotType(dotType);
 
 			for (int i = 0; i < size; i++) {
-
 				const String& property = dotValues->elementAt(i).getKey();
 				const SortedVector<int>& theseValues = dotValues->elementAt(i).getValue();
 				int min = theseValues.elementAt(0);
@@ -812,15 +783,16 @@ void LootManagerImplementation::addStaticDots(TangibleObject* object, const Loot
 
 				if (max != min) {
 					value = calculateDotValue(min, max, level);
+				} else {
+					value = max;
 				}
-				else { value = max; }
 
-				if(property == "attribute") {
+				if (property == "attribute") {
 					if (min != max)
 						value = System::random(max - min) + min;
 
 					if (dotType != 2 && (value != 0 && value != 3 && value != 6)) {
-						int numbers[] = { 0, 3, 6 }; // The main pool attributes.
+						int numbers[] = {0, 3, 6}; // The main pool attributes.
 						int choose = System::random(2);
 						value = numbers[choose];
 					}
@@ -866,7 +838,6 @@ void LootManagerImplementation::addRandomDots(TangibleObject* object, const Loot
 	}
 
 	if (shouldGenerateDots) {
-
 		int number = 1;
 
 		if (System::random(250 / modSqr) == 0)
@@ -882,10 +853,10 @@ void LootManagerImplementation::addRandomDots(TangibleObject* object, const Loot
 			float att = 0;
 
 			if (attMin != attMax)
-				att= System::random(attMax - attMin) + attMin;
+				att = System::random(attMax - attMin) + attMin;
 
 			if (dotType != 2 && (att != 0 && att != 3 && att != 6)) {
-				int numbers[] = { 0, 3, 6 }; // The main pool attributes.
+				int numbers[] = {0, 3, 6}; // The main pool attributes.
 				int choose = System::random(2);
 				att = numbers[choose];
 			}

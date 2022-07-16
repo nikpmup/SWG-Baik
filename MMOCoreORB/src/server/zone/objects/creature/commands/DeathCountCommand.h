@@ -7,14 +7,10 @@
 
 class DeathCountCommand : public QueueCommand {
 public:
-
-	DeathCountCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DeathCountCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DEATHCOUNTCOMMAND_H_
+#endif // DEATHCOUNTCOMMAND_H_

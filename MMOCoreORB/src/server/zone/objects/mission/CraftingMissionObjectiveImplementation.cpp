@@ -10,9 +10,9 @@
 #include "server/zone/objects/mission/MissionObject.h"
 
 void CraftingMissionObjectiveImplementation::updateMissionStatus(CreatureObject* player) {
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
 
-	if(mission == nullptr)
+	if (mission == nullptr)
 		return;
 	ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
 	if (inventory == nullptr) {
@@ -34,12 +34,12 @@ void CraftingMissionObjectiveImplementation::updateMissionStatus(CreatureObject*
 
 	switch (objectiveStatus) {
 	case 0:
-		//Award schematic and resources needed for it.
+		// Award schematic and resources needed for it.
 		ghost->addRewardedSchematic(schematic, SchematicList::MISSION, 1, true);
 
-		//Create components for schematic and give them to the player.
+		// Create components for schematic and give them to the player.
 		for (int i = 0; i < schematic->getDraftSlotCount(); i++) {
-			ManagedReference<TangibleObject*> item = ( player->getZoneServer()->createObject(schematic->getDraftSlot(i)->getResourceType().replaceFirst("/shared_", "/").hashCode(), 2)).castTo<TangibleObject*>();
+			ManagedReference<TangibleObject*> item = (player->getZoneServer()->createObject(schematic->getDraftSlot(i)->getResourceType().replaceFirst("/shared_", "/").hashCode(), 2)).castTo<TangibleObject*>();
 			if (item != nullptr) {
 				Locker locker(item);
 
@@ -58,14 +58,14 @@ void CraftingMissionObjectiveImplementation::updateMissionStatus(CreatureObject*
 		objectiveStatus = PICKEDUPSTATUS;
 		break;
 	case 1:
-		//Check if player has the item.
+		// Check if player has the item.
 		for (int i = 0; i < inventory->getContainerObjectsSize(); i++) {
 			Reference<SceneObject*> item = inventory->getContainerObject(i);
 
 			Locker locker(item);
 
 			if (item != nullptr && item->getObjectTemplate()->getFullTemplateString() == mission->getTemplateString2()) {
-				//Delete the item.
+				// Delete the item.
 				item->destroyObjectFromWorld(true);
 				item->destroyObjectFromDatabase(true);
 
@@ -81,8 +81,8 @@ void CraftingMissionObjectiveImplementation::updateMissionStatus(CreatureObject*
 }
 
 void CraftingMissionObjectiveImplementation::abort() {
-	//Remove the schematic.
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	// Remove the schematic.
+	ManagedReference<MissionObject*> mission = this->mission.get();
 	ManagedReference<CreatureObject*> player = getPlayerOwner();
 
 	if (player != nullptr && mission != nullptr) {
@@ -97,6 +97,6 @@ void CraftingMissionObjectiveImplementation::abort() {
 		}
 	}
 
-	//Run normal abort for deliver missions.
+	// Run normal abort for deliver missions.
 	DeliverMissionObjectiveImplementation::abort();
 }

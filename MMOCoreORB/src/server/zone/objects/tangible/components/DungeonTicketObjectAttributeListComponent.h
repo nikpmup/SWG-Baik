@@ -6,9 +6,8 @@
 #include "server/zone/objects/tangible/TangibleObject.h"
 #include "server/zone/objects/tangible/ticket/TicketObject.h"
 
-class DungeonTicketObjectAttributeListComponent: public AttributeListComponent {
+class DungeonTicketObjectAttributeListComponent : public AttributeListComponent {
 public:
-
 	/**
 	 * Fills the Attributes
 	 * @pre { this object is locked }
@@ -16,7 +15,6 @@ public:
 	 * @param menuResponse ObjectMenuResponse that will be sent to the client
 	 */
 	void fillAttributeList(AttributeListMessage* alm, CreatureObject* creature, SceneObject* object) const {
-
 		ManagedReference<TangibleObject*> tano = cast<TangibleObject*>(object);
 
 		TicketObject* ticketObject = tano.castTo<TicketObject*>();
@@ -29,7 +27,6 @@ public:
 		alm->insertAttribute("travel_departure_point", "@dungeon/space_dungeon:corvette_" + point + "_pilot");
 		alm->insertAttribute("travel_arrival_point", "@dungeon/space_dungeon:corvette_" + arrive);
 	}
-
 };
 
 #endif /* ATTIBUTELISTCOMPONENT_H_ */

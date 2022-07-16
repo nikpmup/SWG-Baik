@@ -17,7 +17,7 @@ int DroidPlaybackObserverImplementation::notifyObserverEvent(unsigned int eventT
 	if (sceno == nullptr)
 		return 1;
 
-	if(!sceno->isPlayerCreature())
+	if (!sceno->isPlayerCreature())
 		return 1;
 
 	CreatureObject* player = dynamic_cast<CreatureObject*>(sceno);
@@ -30,22 +30,20 @@ int DroidPlaybackObserverImplementation::notifyObserverEvent(unsigned int eventT
 	if (eventType == ObserverEventType::STARTENTERTAIN) {
 		ManagedReference<EntertainingSession*> playingSession = player->getActiveSession(SessionFacadeType::ENTERTAINING).castTo<EntertainingSession*>();
 
-		if(playingSession == nullptr)
+		if (playingSession == nullptr)
 			return 1;
 
-		if(!playingSession->isPlayingMusic())
+		if (!playingSession->isPlayingMusic())
 			return 1;
 
 		int perfIndex = playingSession->getPerformanceIndex();
 
 		Reference<Task*> task = new DroidPlaybackEvent(module.get(), player, perfIndex, DroidPlaybackEvent::SET_TRACK);
 		task->execute();
-	}
-	else if (eventType == ObserverEventType::CHANGEENTERTAIN) {
+	} else if (eventType == ObserverEventType::CHANGEENTERTAIN) {
 		Reference<Task*> task = new DroidPlaybackEvent(module.get(), player, 0, DroidPlaybackEvent::CHANGE_SONG);
 		task->execute();
-	}
-	else if (eventType == ObserverEventType::STOPENTERTAIN) {
+	} else if (eventType == ObserverEventType::STOPENTERTAIN) {
 		Reference<Task*> task = new DroidPlaybackEvent(module.get(), player, 0, DroidPlaybackEvent::STOP_PLAYING);
 		task->execute();
 	}

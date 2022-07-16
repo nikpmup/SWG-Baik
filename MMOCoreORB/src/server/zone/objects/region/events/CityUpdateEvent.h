@@ -12,39 +12,39 @@
 
 namespace server {
 namespace zone {
-	class ZoneServer;
+class ZoneServer;
 namespace objects {
 namespace region {
-	class CityRegion;
+class CityRegion;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone;
 using namespace server::zone::objects::region;
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace region {
-    namespace events {
+namespace zone {
+namespace objects {
+namespace region {
+namespace events {
 
-		class CityUpdateEvent : public Task {
-			ManagedReference<ZoneServer*> zoneServer;
-			ManagedWeakReference<CityRegion*> cityRegion;
+class CityUpdateEvent : public Task {
+	ManagedReference<ZoneServer*> zoneServer;
+	ManagedWeakReference<CityRegion*> cityRegion;
 
-		public:
-			CityUpdateEvent(CityRegion* city, ZoneServer* zserv);
+public:
+	CityUpdateEvent(CityRegion* city, ZoneServer* zserv);
 
-			void run();
-		};
+	void run();
+};
 
-    }
-   }
-  }
- }
-}
+} // namespace events
+} // namespace region
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::region::events;
 

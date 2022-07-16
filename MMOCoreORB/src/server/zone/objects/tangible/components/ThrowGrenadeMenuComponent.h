@@ -17,5 +17,4 @@ public:
 	virtual int handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const;
 };
 
-
 #endif /* THROWGRENADEMENUCOMPONENT_H_ */

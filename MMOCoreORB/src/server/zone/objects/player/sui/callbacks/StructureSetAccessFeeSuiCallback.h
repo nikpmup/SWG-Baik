@@ -10,12 +10,9 @@
 
 #include "server/zone/objects/player/sui/SuiCallback.h"
 
-
 class StructureSetAccessFeeSuiCallback : public SuiCallback {
-
 public:
 	StructureSetAccessFeeSuiCallback(ZoneServer* serv) : SuiCallback(serv) {
-
 	}
 
 	void run(CreatureObject* creature, SuiBox* sui, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -24,8 +21,7 @@ public:
 		if (!sui->isInputBox() || cancelPressed || args->size() < 1)
 			return;
 
-		ManagedReference<StructureSetAccessFeeSession*> session =
-				creature->getActiveSession(SessionFacadeType::SETSTRUCTUREACCESSFEE).castTo<StructureSetAccessFeeSession*>();
+		ManagedReference<StructureSetAccessFeeSession*> session = creature->getActiveSession(SessionFacadeType::SETSTRUCTUREACCESSFEE).castTo<StructureSetAccessFeeSession*>();
 
 		if (session == nullptr)
 			return;
@@ -33,14 +29,13 @@ public:
 		try {
 			int fee = Integer::valueOf(args->get(0).toString());
 
-			if(fee > 0 && fee <= 50000)
+			if (fee > 0 && fee <= 50000)
 				session->setAccessFee(fee);
 			else
 				session->promptSetAccessFee();
-		} catch(Exception& e) {
+		} catch (Exception& e) {
 			session->promptSetAccessFee();
 		}
-
 	}
 };
 

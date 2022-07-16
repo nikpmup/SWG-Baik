@@ -13,20 +13,18 @@
 #include "templates/params/creature/CreatureFlag.h"
 
 void MinefieldMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
-	if(!sceneObject->isMinefield() || sceneObject->getZoneServer() == nullptr || sceneObject->getZone() == nullptr)
+	if (!sceneObject->isMinefield() || sceneObject->getZoneServer() == nullptr || sceneObject->getZone() == nullptr)
 		return;
 
-	if ( player  == nullptr || player->isDead() || player->isIncapacitated())
+	if (player == nullptr || player->isDead() || player->isIncapacitated())
 		return;
 
-
-	if(player->getFaction() == 0)
+	if (player->getFaction() == 0)
 		return;
 
 	ManagedReference<InstallationObject*> installation = cast<InstallationObject*>(sceneObject);
 
-	if(installation == nullptr)
+	if (installation == nullptr)
 		return;
 
 	uint64 ownerid = installation->getOwnerObjectID();
@@ -35,42 +33,38 @@ void MinefieldMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, Ob
 
 	ManagedReference<SceneObject*> ownerObject = server->getObject(ownerid);
 
-	if(ownerObject == nullptr)
+	if (ownerObject == nullptr)
 		return;
 
-	if(player->getFaction() != installation->getFaction())
+	if (player->getFaction() != installation->getFaction())
 		return;
 
 	// if minefield is overt and player is not
-	if((installation->getPvpStatusBitmask() & CreatureFlag::OVERT) && (player->getPvpStatusBitmask() & !(player->getPvpStatusBitmask() & CreatureFlag::OVERT)))
+	if ((installation->getPvpStatusBitmask() & CreatureFlag::OVERT) && (player->getPvpStatusBitmask() & !(player->getPvpStatusBitmask() & CreatureFlag::OVERT)))
 		return;
 
-	//menuResponse->addRadialMenuItem(37, 3, "@player_structure:mnu_donate_mines"); // Donate MInes
-	//if(installation->isOnAdminList(player))
-	menuResponse->addRadialMenuItem(37, 3, "@player_structure:management_mine_inv"); //Mine Inventory
-
+	// menuResponse->addRadialMenuItem(37, 3, "@player_structure:mnu_donate_mines"); // Donate MInes
+	// if(installation->isOnAdminList(player))
+	menuResponse->addRadialMenuItem(37, 3, "@player_structure:management_mine_inv"); // Mine Inventory
 }
 
 int MinefieldMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
-
 	Zone* zne = player->getZone();
-	if(zne == nullptr)
+	if (zne == nullptr)
 		return 1;
 
 	ManagedReference<InstallationObject*> installation = cast<InstallationObject*>(sceneObject);
-	if(installation == nullptr)
+	if (installation == nullptr)
 		return 1;
-	if ( selectedID == 37) {
-		if(installation->checkContainerPermission(player,ContainerPermissions::OPEN)){
-		installation->sendWithoutParentTo(player);
-		installation->openContainerTo(player);
-		installation->notifyObservers(ObserverEventType::OPENCONTAINER,player);
+	if (selectedID == 37) {
+		if (installation->checkContainerPermission(player, ContainerPermissions::OPEN)) {
+			installation->sendWithoutParentTo(player);
+			installation->openContainerTo(player);
+			installation->notifyObservers(ObserverEventType::OPENCONTAINER, player);
 		} else {
 			player->sendSystemMessage("@error_message:perm_no_open"); // You do not have permission to access this container
 		}
-
 	}
 
 	return 0;
-
 }

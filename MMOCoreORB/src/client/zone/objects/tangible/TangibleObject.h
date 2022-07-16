@@ -25,6 +25,7 @@ class TangibleObject : public SceneObject {
 	int maxCondition;
 
 	byte unknown;
+
 public:
 	TangibleObject(LuaObject* templateData);
 

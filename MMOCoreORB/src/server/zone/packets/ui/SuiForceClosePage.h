@@ -7,13 +7,12 @@
 
 class SuiForceClosePage : public BaseMessage {
 public:
-   SuiForceClosePage(uint32 pageID) : BaseMessage() {
+	SuiForceClosePage(uint32 pageID) : BaseMessage() {
 		insertShort(0x02);
-		insertInt(0x990B5DE0);  // CRC
-		
-		insertInt(pageID);
-   }
+		insertInt(0x990B5DE0); // CRC
 
+		insertInt(pageID);
+	}
 };
 
 #endif /*SUIFORCECLOSEPAGE_H_*/

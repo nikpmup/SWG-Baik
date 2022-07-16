@@ -2,7 +2,6 @@
 				Copyright <SWGEmu>
 		See file COPYING for copying conditions.*/
 
-
 #ifndef MANUFACTURESCHEMATICOBJECTMESSAGE3_H_
 #define MANUFACTURESCHEMATICOBJECTMESSAGE3_H_
 
@@ -10,9 +9,7 @@
 
 class ManufactureSchematicObjectMessage3 : public BaseLineMessage {
 public:
-	ManufactureSchematicObjectMessage3(uint64 oid, float complexity, String playerName)
-			: BaseLineMessage(oid, 0x4D53434F, 3, 0x09) {
-
+	ManufactureSchematicObjectMessage3(uint64 oid, float complexity, String playerName) : BaseLineMessage(oid, 0x4D53434F, 3, 0x09) {
 		insertFloat(complexity);
 		insertAscii("String_id_table");
 		insertInt(0);
@@ -32,7 +29,7 @@ public:
 		insertAscii("complexity");
 		insertFloat(complexity);
 
-		//UnicodeString playerName = "Link";
+		// UnicodeString playerName = "Link";
 		insertUnicode(playerName);
 		insertInt(25);
 		insertFloat(8.0f);
@@ -40,9 +37,7 @@ public:
 		setSize();
 	}
 
-	ManufactureSchematicObjectMessage3(ManufactureSchematic* manufactureSchematic,
-			String playerName) : BaseLineMessage(manufactureSchematic->getObjectID(), 0x4D53434F, 3, 0x09) {
-
+	ManufactureSchematicObjectMessage3(ManufactureSchematic* manufactureSchematic, String playerName) : BaseLineMessage(manufactureSchematic->getObjectID(), 0x4D53434F, 3, 0x09) {
 		insertFloat(manufactureSchematic->getComplexity());
 		insertAscii(manufactureSchematic->getObjectNameStringIdFile());
 		insertInt(0);
@@ -50,7 +45,7 @@ public:
 
 		insertUnicode(manufactureSchematic->getCustomObjectName());
 
-		insertInt(0);  // Unknown
+		insertInt(0);											// Unknown
 		insertInt(manufactureSchematic->getManufactureLimit()); // Manufacturing Count
 		insertInt(1);
 		insertInt(1);
@@ -61,7 +56,7 @@ public:
 		insertAscii("complexity");
 		insertFloat(manufactureSchematic->getComplexity());
 
-		//UnicodeString playerName = "Link";
+		// UnicodeString playerName = "Link";
 		insertUnicode(playerName);
 		insertInt(25);
 		insertFloat(8.0f);

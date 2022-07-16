@@ -7,14 +7,10 @@
 
 class StatCommand : public QueueCommand {
 public:
-
-	StatCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	StatCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //STATCOMMAND_H_
+#endif // STATCOMMAND_H_

@@ -1,6 +1,6 @@
 /*
-                Copyright <SWGEmu>
-        See file COPYING for copying conditions.*/
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
 
 /**
  * @author      : lordkator (lordkator@swgemu.com)
@@ -90,8 +90,7 @@ String SessionAPIClient::toString() const {
 		<< "failOpen: " << failOpen << ", "
 		<< "dryRun: " << dryRun << ", "
 		<< "debugLevel: " << debugLevel << ", "
-		<< "baseURL: " << baseURL << "]"
-		;
+		<< "baseURL: " << baseURL << "]";
 
 	return buf.toString();
 }
@@ -107,9 +106,7 @@ void SessionAPIClient::apiCall(const String& src, const String& basePath, const 
 		result.setDetails("API Not enabled.");
 		result.setDebugValue("trx_id", "api-disabled");
 
-		Core::getTaskManager()->executeTask([resultCallback, result] {
-			resultCallback(result);
-		}, "SessionAPIClientResult-nop-" + src, "slowQueue");
+		Core::getTaskManager()->executeTask([resultCallback, result] { resultCallback(result); }, "SessionAPIClientResult-nop-" + src, "slowQueue");
 		return;
 	}
 
@@ -180,7 +177,8 @@ void SessionAPIClient::apiCall(const String& src, const String& basePath, const 
 			}
 
 			return resp.extract_json();
-		}).then([this, src, path, resultCallback, startTime](pplx::task<json::value> task) {
+		})
+		.then([this, src, path, resultCallback, startTime](pplx::task<json::value> task) {
 			SessionApprovalResult result;
 			auto logPrefix = result.getClientTrxId() + " " + src + ": ";
 			auto result_json = json::value();
@@ -253,9 +251,7 @@ void SessionAPIClient::apiCall(const String& src, const String& basePath, const 
 
 			debug() << logPrefix << "END apiCall [path=" << path << "] result = " << result;
 
-			Core::getTaskManager()->executeTask([resultCallback, result] {
-				resultCallback(result);
-			}, "SessionAPIClientResult-" + src, "slowQueue");
+			Core::getTaskManager()->executeTask([resultCallback, result] { resultCallback(result); }, "SessionAPIClientResult-" + src, "slowQueue");
 		});
 }
 
@@ -306,13 +302,12 @@ void SessionAPIClient::notifyDisconnectClient(const String& ip, uint32 accountID
 	StringBuffer path;
 
 	path << "/v1/core3/account/" << accountID << "/galaxy/" << galaxyID << "/session/ip/" << ip << "/player/" << characterID << "/disconnect"
-		<< "?eventType=" << eventType;
+		 << "?eventType=" << eventType;
 
 	apiNotify(__FUNCTION__, path.toString());
 }
 
-void SessionAPIClient::approvePlayerConnect(const String& ip, uint32 accountID, uint64_t characterID,
-		const ArrayList<uint32>& loggedInAccounts, const SessionAPICallback& resultCallback) {
+void SessionAPIClient::approvePlayerConnect(const String& ip, uint32 accountID, uint64_t characterID, const ArrayList<uint32>& loggedInAccounts, const SessionAPICallback& resultCallback) {
 	StringBuffer path;
 
 	path << "/v1/core3/account/" << accountID << "/galaxy/" << galaxyID << "/session/ip/" << ip << "/player/" << characterID << "/approval";
@@ -356,13 +351,12 @@ bool SessionAPIClient::consoleCommand(const String& arguments) {
 
 	if (subcmd == "help") {
 		System::out << "Available sessionapi commands:" << endl
-			<< "\thelp - This command" << endl
-			<< "\tenable - Enable Session API Client" << endl
-			<< "\tdisable - Disable Session API Client" << endl
-			<< "\tstatus - Session API status" << endl
-			<< "\tdryrun {off} - Control session dry run setting" << endl
-			<< "\tdebug {level} - Set debug level for session API" << endl
-			;
+					<< "\thelp - This command" << endl
+					<< "\tenable - Enable Session API Client" << endl
+					<< "\tdisable - Disable Session API Client" << endl
+					<< "\tstatus - Session API status" << endl
+					<< "\tdryrun {off} - Control session dry run setting" << endl
+					<< "\tdebug {level} - Set debug level for session API" << endl;
 		return true;
 	} else if (subcmd == "enable") {
 		if (baseURL.length() == 0 || apiToken.length() == 0) {
@@ -432,8 +426,7 @@ String SessionApprovalResult::toString() const {
 		<< "action: " << actionToString(getAction()) << ", "
 		<< "title: '" << getTitle() << "', "
 		<< "message: '" << getMessage() << "', "
-		<< "details: '" << getDetails() << "'"
-		;
+		<< "details: '" << getDetails() << "'";
 
 	if (getRawJSON().length() > 0) {
 		buf << ", JSON: '" << getRawJSON() << "'";
@@ -452,14 +445,13 @@ String SessionApprovalResult::getLogMessage() const {
 	buf << "SessionApprovalResult " << this << " ["
 		<< "clientTrxId: " << getClientTrxId() << ", "
 		<< "trxId: " << getTrxId() << ", "
-		<< "action: " << actionToString(getAction()) << ", "
-		;
+		<< "action: " << actionToString(getAction()) << ", ";
 
 	if (debugLevel == Logger::DEBUG) {
 		buf << "message: '" << getMessage() << "', ";
 	}
 
-	buf << "details: '" << getDetails() << "'" ;
+	buf << "details: '" << getDetails() << "'";
 
 	if (debugLevel == Logger::DEBUG && getRawJSON().length() > 0) {
 		buf << ", JSON: '" << getRawJSON() << "'";

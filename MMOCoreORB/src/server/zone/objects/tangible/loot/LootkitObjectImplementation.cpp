@@ -14,12 +14,12 @@
 #include "templates/tangible/LootkitObjectTemplate.h"
 
 void LootkitObjectImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* object) {
-	TangibleObjectImplementation::fillAttributeList(alm,object);
+	TangibleObjectImplementation::fillAttributeList(alm, object);
 
-	const String boolean[] = {"No","Yes"};
+	const String boolean[] = {"No", "Yes"};
 
 	StringBuffer componentAttributes;
-	for (int i=0; i<attributes.size();++i) {
+	for (int i = 0; i < attributes.size(); ++i) {
 		componentAttributes << boolean[components.get(comps.get(i))];
 		alm->insertAttribute(attributes.get(comps.get(i)), componentAttributes);
 		componentAttributes.deleteAll();
@@ -60,9 +60,7 @@ int LootkitObjectImplementation::notifyObjectRemoved(SceneObject* object) {
 void LootkitObjectImplementation::addToKit(SceneObject* object) {
 	uint32 crc = object->getServerObjectCRC();
 	if (components.contains(crc)) {
-
 		if (hasObjectInContainer(object->getObjectID())) {
-
 			if (deleteComponents) {
 				ManagedReference<CreatureObject*> player = getPlayer();
 				if (player == nullptr)
@@ -79,7 +77,7 @@ void LootkitObjectImplementation::addToKit(SceneObject* object) {
 			}
 
 			components.drop(crc);
-			components.put(crc,true);
+			components.put(crc, true);
 
 			createItem();
 		}
@@ -89,19 +87,18 @@ void LootkitObjectImplementation::removeFromKit(SceneObject* object) {
 	uint32 crc = object->getServerObjectCRC();
 	if (!deleteComponents && components.contains(crc)) {
 		components.drop(crc);
-		components.put(crc,false);
+		components.put(crc, false);
 	}
 }
 
 void LootkitObjectImplementation::createItem() {
-	for (int i = 0; i<comps.size(); ++i) {
+	for (int i = 0; i < comps.size(); ++i) {
 		if (components.get(comps.get(i)) == 0) {
 			return; // Still missing pieces
 		}
 	}
-	ManagedReference<CreatureObject*>  player = getPlayer();
+	ManagedReference<CreatureObject*> player = getPlayer();
 	if (player != nullptr) {
-
 		ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
 
 		if (inventory == nullptr) {
@@ -110,7 +107,7 @@ void LootkitObjectImplementation::createItem() {
 
 		ZoneServer* zoneServer = server->getZoneServer();
 
-		ManagedReference<SceneObject*> rewardObject = zoneServer->createObject(reward.get(System::random(reward.size()-1)), 2);
+		ManagedReference<SceneObject*> rewardObject = zoneServer->createObject(reward.get(System::random(reward.size() - 1)), 2);
 
 		if (rewardObject == nullptr) {
 			return;
@@ -133,7 +130,7 @@ void LootkitObjectImplementation::createItem() {
 }
 
 int LootkitObjectImplementation::canAddObject(SceneObject* object, int containmentType, String& errorDescription) {
-	ManagedReference<CreatureObject*>  player = getPlayer();
+	ManagedReference<CreatureObject*> player = getPlayer();
 	if (components.contains(object->getServerObjectCRC())) {
 		if (!components.get(object->getServerObjectCRC()) && player != nullptr) {
 			ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
@@ -146,7 +143,6 @@ int LootkitObjectImplementation::canAddObject(SceneObject* object, int containme
 			return TangibleObjectImplementation::canAddObject(object, containmentType, errorDescription);
 
 		} else {
-
 			if (player != nullptr) {
 				errorDescription = "@loot_kit:already_contains"; // That item is already contained by this kit.
 			}

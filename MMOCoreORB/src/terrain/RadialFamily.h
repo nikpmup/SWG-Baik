@@ -8,7 +8,6 @@
 #ifndef RADIALFAMILY_H_
 #define RADIALFAMILY_H_
 
-
 #include "TemplateVariable.h"
 
 class RadialData {
@@ -33,7 +32,6 @@ class RadialFamily : public TemplateVariable<'RFAM'> {
 
 	Vector<RadialData*> data;
 
-
 public:
 	~RadialFamily() {
 		while (data.size() > 0)
@@ -53,7 +51,6 @@ public:
 		weight = iffStream->getFloat();
 
 		int var7 = iffStream->getInt(); // counter
-
 
 		for (int i = 0; i < var7; i++) {
 			RadialData* rdata = new RadialData();
@@ -75,6 +72,5 @@ public:
 		iffStream->closeChunk('RFAM');
 	}
 };
-
 
 #endif /* RADIALFAMILY_H_ */

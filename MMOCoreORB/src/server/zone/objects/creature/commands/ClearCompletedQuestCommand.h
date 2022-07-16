@@ -9,14 +9,10 @@
 
 class ClearCompletedQuestCommand : public QueueCommand {
 public:
-
-	ClearCompletedQuestCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ClearCompletedQuestCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -100,7 +96,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CLEARCOMPLETEDQUESTCOMMAND_H_
+#endif // CLEARCOMPLETEDQUESTCOMMAND_H_

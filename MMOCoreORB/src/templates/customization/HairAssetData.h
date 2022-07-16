@@ -63,5 +63,4 @@ public:
 	}
 };
 
-
 #endif /* HAIRASSETDATA_H_ */

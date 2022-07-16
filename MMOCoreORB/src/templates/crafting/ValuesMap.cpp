@@ -7,8 +7,7 @@
 float ValuesMap::VALUENOTFOUND = -999999;
 const String ValuesMap::EMPTY;
 
-void ValuesMap::addExperimentalProperty(const String& title, const String& subtitle,
-		const float min, const float max, const int precision, const bool filler, const int combine) {
+void ValuesMap::addExperimentalProperty(const String& title, const String& subtitle, const float min, const float max, const int precision, const bool filler, const int combine) {
 	Subclasses* subclasses;
 
 	if (contains(title)) {
@@ -465,9 +464,7 @@ float ValuesMap::getCurrentVisiblePercentage(const String title) const {
 	for (int j = 0; j < subclasses->size(); ++j) {
 		values = subclasses->get(j);
 
-		if (values->getMinValue() != values->getMaxValue() &&
-				values->getMaxPercentage() <= 1.0f && !values->isFiller()) {
-
+		if (values->getMinValue() != values->getMaxValue() && values->getMaxPercentage() <= 1.0f && !values->isFiller()) {
 			float item = values->getPercentage();
 
 			if (item > value)
@@ -488,7 +485,6 @@ void ValuesMap::setMaxPercentage(const String& attribute, float value) {
 		subclasses = get(j);
 
 		for (int i = 0; i < subclasses->size(); ++i) {
-
 			values = subclasses->get(i);
 
 			if (values->getName() == attribute) {
@@ -550,9 +546,7 @@ float ValuesMap::getMaxVisiblePercentage(const int i) const {
 	for (int j = 0; j < subclasses->size(); ++j) {
 		values = subclasses->get(j);
 
-		if (values->getMinValue() != values->getMaxValue() &&
-				values->getMaxPercentage() <= 1.0f && !values->isFiller()) {
-
+		if (values->getMinValue() != values->getMaxValue() && values->getMaxPercentage() <= 1.0f && !values->isFiller()) {
 			if (values->getMaxPercentage() > value)
 				value = values->getMaxPercentage();
 		}

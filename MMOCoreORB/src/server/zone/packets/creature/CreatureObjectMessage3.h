@@ -10,9 +10,7 @@
 
 class CreatureObjectMessage3 : public TangibleObjectMessage3 {
 public:
-	CreatureObjectMessage3(CreatureObject* creo)
-			: TangibleObjectMessage3(creo, 0x4352454F, 0x12) {
-
+	CreatureObjectMessage3(CreatureObject* creo) : TangibleObjectMessage3(creo, 0x4352454F, 0x12) {
 		insertByte(creo->getPosture());
 		insertByte(creo->getFactionRank()); // faction rank
 
@@ -28,7 +26,6 @@ public:
 
 		setSize();
 	}
-
 };
 
 #endif /*CREATUREOBJECTMESSAGE3_H_*/

@@ -7,14 +7,10 @@
 
 class RemoveBannedPlayerCommand : public QueueCommand {
 public:
-
-	RemoveBannedPlayerCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RemoveBannedPlayerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -39,10 +35,7 @@ public:
 			targetCreature = playerManager->getPlayer(character);
 
 		} else {
-
-			targetCreature =
-					server->getZoneServer()->getObject(target).castTo<CreatureObject*>();
-
+			targetCreature = server->getZoneServer()->getObject(target).castTo<CreatureObject*>();
 		}
 
 		if (targetCreature == nullptr || !targetCreature->isPlayerCreature())
@@ -91,7 +84,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REMOVEBANNEDPLAYERCOMMAND_H_
+#endif // REMOVEBANNEDPLAYERCOMMAND_H_

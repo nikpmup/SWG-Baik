@@ -10,9 +10,7 @@
 
 class FactoryCrateObjectMessage3 : public BaseLineMessage {
 public:
-	FactoryCrateObjectMessage3(FactoryCrate* crate, uint32 objType = 0x46435954, uint16 opcnt = 0x0B)
-		: BaseLineMessage(crate->getObjectID(), objType, 3, opcnt) {
-
+	FactoryCrateObjectMessage3(FactoryCrate* crate, uint32 objType = 0x46435954, uint16 opcnt = 0x0B) : BaseLineMessage(crate->getObjectID(), objType, 3, opcnt) {
 		insertFloat(1.0);
 
 		insertStringId(crate->getObjectName());
@@ -29,14 +27,14 @@ public:
 
 		Reference<TangibleObject*> proto = crate->getPrototype();
 
-		if(proto == nullptr)
+		if (proto == nullptr)
 			insertInt(crate->getOptionsBitmask());
 		else
 			insertInt(proto->getOptionsBitmask());
 
 		int count = crate->getUseCount();
 
-		insertInt(count); //item count
+		insertInt(count); // item count
 
 		insertInt(int(crate->getConditionDamage()));
 		insertInt(crate->getMaxCondition());
@@ -45,7 +43,6 @@ public:
 
 		setSize();
 	}
-
 };
 
 #endif /*FACTORYCRATEOBJECTMESSAGE3_H_*/

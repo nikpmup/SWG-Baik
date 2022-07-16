@@ -11,20 +11,18 @@
 #include "../TemplateVariable.h"
 #include "InformationHeader.h"
 
-template<int formType>
+template <int formType>
 class ProceduralRule : public TemplateVariable<formType> {
 protected:
 	InformationHeader informationHeader;
 
 public:
 	ProceduralRule() : IffTemplateVariable() {
-
 	}
 
 	inline bool isEnabled() const {
 		return informationHeader.isEnabled();
 	}
-
 };
 
 #endif /* PROCEDURALRULE_H_ */

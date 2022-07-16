@@ -46,7 +46,6 @@ public:
 	 */
 	void addResource(ManagedReference<ResourceSpawn*> resourceSpawn, const String& poolSlot);
 
-
 	String healthCheck();
 
 	/**
@@ -55,7 +54,6 @@ public:
 	void print();
 
 private:
-
 	/**
 	 * The update function checks the ResourceSpawn items
 	 * in spawnedResources to see if they have expired.
@@ -64,7 +62,6 @@ private:
 	 * rules.
 	 */
 	bool update();
-
 
 	friend class ResourceSpawner;
 };

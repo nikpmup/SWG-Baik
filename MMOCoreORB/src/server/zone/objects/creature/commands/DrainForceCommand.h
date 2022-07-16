@@ -10,14 +10,10 @@
 
 class DrainForceCommand : public CombatQueueCommand {
 public:
-
-	DrainForceCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
-
+	DrainForceCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -35,16 +31,16 @@ public:
 		if (object == nullptr || !object->isPlayerCreature())
 			return INVALIDTARGET;
 
-		CreatureObject* targetCreature = cast<CreatureObject*>( object.get());
+		CreatureObject* targetCreature = cast<CreatureObject*>(object.get());
 
 		if (targetCreature == nullptr || targetCreature->isDead() || (targetCreature->isIncapacitated() && !targetCreature->isFeigningDeath()) || !targetCreature->isAttackableBy(creature))
 			return INVALIDTARGET;
 
-		if(!checkDistance(creature, targetCreature, range))
+		if (!checkDistance(creature, targetCreature, range))
 			return TOOFAR;
 
 		if (!CollisionManager::checkLineOfSight(creature, targetCreature)) {
-			creature->sendSystemMessage("@combat_effects:cansee_fail");//You cannot see your target.
+			creature->sendSystemMessage("@combat_effects:cansee_fail"); // You cannot see your target.
 			return GENERALERROR;
 		}
 
@@ -58,13 +54,13 @@ public:
 
 		CombatManager* manager = CombatManager::instance();
 
-		if (manager->startCombat(creature, targetCreature, false)) { //lockDefender = false because already locked above.
+		if (manager->startCombat(creature, targetCreature, false)) { // lockDefender = false because already locked above.
 			int forceSpace = playerGhost->getForcePowerMax() - playerGhost->getForcePower();
-			if (forceSpace <= 0) //Cannot Force Drain if attacker can't hold any more Force.
+			if (forceSpace <= 0) // Cannot Force Drain if attacker can't hold any more Force.
 				return GENERALERROR;
 
 			if (playerGhost->getForcePower() < forceCost) {
-				creature->sendSystemMessage("@jedi_spam:no_force_power"); //You do not have sufficient Force power to perform that action.
+				creature->sendSystemMessage("@jedi_spam:no_force_power"); // You do not have sufficient Force power to perform that action.
 				return GENERALERROR;
 			}
 
@@ -72,14 +68,14 @@ public:
 
 			int targetForce = targetGhost->getForcePower();
 			if (targetForce <= 0) {
-				creature->sendSystemMessage("@jedi_spam:target_no_force"); //That target does not have any Force Power.
+				creature->sendSystemMessage("@jedi_spam:target_no_force"); // That target does not have any Force Power.
 				return GENERALERROR;
 			}
 
-			int forceDrain = targetForce >= drain ? drain : targetForce; //Drain whatever Force the target has, up to max.
+			int forceDrain = targetForce >= drain ? drain : targetForce; // Drain whatever Force the target has, up to max.
 
 			if (forceDrain > forceSpace) {
-				forceDrain = forceSpace; //Drain only what attacker can hold in their own Force pool.
+				forceDrain = forceSpace; // Drain only what attacker can hold in their own Force pool.
 			}
 
 			playerGhost->setForcePower(playerGhost->getForcePower() + (forceDrain - forceCost));
@@ -98,11 +94,9 @@ public:
 			VisibilityManager::instance()->increaseVisibility(creature, visMod);
 
 			return SUCCESS;
-
 		}
 
 		return GENERALERROR;
-
 	}
 
 	float getCommandDuration(CreatureObject* object, const UnicodeString& arguments) const {
@@ -115,7 +109,6 @@ public:
 			return baseDuration;
 		}
 	}
-
 };
 
-#endif //DRAINFORCECOMMAND_H_
+#endif // DRAINFORCECOMMAND_H_

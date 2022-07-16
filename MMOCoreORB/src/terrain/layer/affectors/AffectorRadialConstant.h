@@ -19,7 +19,6 @@ class AffectorRadialConstant : public ProceduralRule<'AFDN'>, public AffectorPro
 
 public:
 	AffectorRadialConstant() : familyId(0), var2(0), flag(0), featheringType(0), featheringAmount(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {
@@ -53,7 +52,5 @@ public:
 		iffStream->closeChunk('DATA');
 	}
 };
-
-
 
 #endif /* AFFECTORRADIALCONSTANT_H_ */

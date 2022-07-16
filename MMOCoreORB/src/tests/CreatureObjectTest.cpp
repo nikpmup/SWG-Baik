@@ -22,8 +22,8 @@ protected:
 	Reference<Zone*> zone;
 	Reference<ZoneProcessServer*> processServer;
 	AtomicLong nextObjectId;
-public:
 
+public:
 	CreatureObjectTest() {
 		// Perform creation setup here.
 		nextObjectId = 1;
@@ -196,8 +196,8 @@ TEST_F(CreatureObjectTest, VerifyCreatureObjectSpeedModifiersForDifferentPosture
 	EXPECT_FLOAT_EQ(creature->getSpeedMultiplierMod(), 0.125f);
 }
 
-}
-}
-}
-}
-}
+} // namespace test
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server

@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 /**
@@ -16,7 +16,7 @@
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "templates/params/creature/CreatureAttribute.h"
 
-class MeditateTask: public Task {
+class MeditateTask : public Task {
 	ManagedReference<CreatureObject*> player;
 	String moodString;
 
@@ -55,14 +55,14 @@ public:
 
 				StringIdChatParameter healParams;
 
-				//Here we are checking to see which pools have wounds, and we add them to a vector...
+				// Here we are checking to see which pools have wounds, and we add them to a vector...
 				Vector<uint8> woundedPools;
 				for (uint8 i = 0; i < 9; ++i) {
 					if (player->getWounds(i) > 0)
 						woundedPools.add(i);
 				}
 
-				//Return without rescheduling because everything that can be healed has been?
+				// Return without rescheduling because everything that can be healed has been?
 				if (woundedPools.size() <= 0)
 					return;
 
@@ -76,7 +76,7 @@ public:
 
 				int wounds = player->getWounds(pool);
 
-				//Cap the heal at the amount of wounds the creature has.
+				// Cap the heal at the amount of wounds the creature has.
 				heal = Math::min(wounds, heal);
 
 				player->healWound(player, pool, heal, true, false);
@@ -97,7 +97,6 @@ public:
 			player->error("unreported exception caught in MeditateTask::activate");
 		}
 	}
-
 };
 
 #endif /* MEDITATETASK_H_ */

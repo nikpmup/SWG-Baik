@@ -13,10 +13,8 @@
 
 class GuildObjectDeltaMessage3 : public DeltaMessage {
 public:
-	GuildObjectDeltaMessage3(uint64 oid)
-			: DeltaMessage(oid, 0x47494C44, 3) {
+	GuildObjectDeltaMessage3(uint64 oid) : DeltaMessage(oid, 0x47494C44, 3) {
 	}
-
 
 	void addGuild(GuildObject* guild) {
 		startUpdate(0x04);

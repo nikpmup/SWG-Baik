@@ -22,7 +22,7 @@ void CityHallZoneComponent::destroyObjectFromWorld(SceneObject* sceneObject, boo
 
 	ManagedReference<CityRegion*> cityRegion = sceneObject->getCityRegion().get();
 
-	if (cityRegion != nullptr ) {
+	if (cityRegion != nullptr) {
 		Locker clocker(cityRegion, sceneObject);
 
 		if (cityRegion->getCityHall() == sceneObject) {

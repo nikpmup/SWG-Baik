@@ -20,8 +20,8 @@ private:
 	int maxtype, mintype, maxpool, minpool;
 
 	int depth;
-	Vector<ResourceTreeEntry* > entries;
-	Vector<ResourceTreeNode* > nodes;
+	Vector<ResourceTreeEntry*> entries;
+	Vector<ResourceTreeNode*> nodes;
 
 	ResourceTreeNode* parentNode;
 
@@ -49,14 +49,10 @@ public:
 
 	void addToSuiListBox(SuiListBox* suil) const;
 
-	//void updateEntries();
+	// void updateEntries();
 
 	void toString() const;
 
 private:
-
-	void getEntryPool(Vector<ResourceTreeEntry*>& candidates,
-			const Vector<String> excludes) const;
-
+	void getEntryPool(Vector<ResourceTreeEntry*>& candidates, const Vector<String> excludes) const;
 };
-

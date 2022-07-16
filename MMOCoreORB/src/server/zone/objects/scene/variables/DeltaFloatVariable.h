@@ -14,7 +14,7 @@
 
 #include "server/zone/objects/scene/SceneObject.h"
 
-template<int BaselineName, uint8 Type, int DeltaID>
+template <int BaselineName, uint8 Type, int DeltaID>
 class DeltaFloatVariable : public DeltaBasicVariable<float> {
 public:
 	void update(int newValue, bool broadcastStandalone = false, SceneObject* obj = nullptr) {
@@ -37,6 +37,5 @@ public:
 		msg->addFloatUpdate(DeltaID, object);
 	}
 };
-
 
 #endif /* DELTAFLOATVARIABLE_H_ */

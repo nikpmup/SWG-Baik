@@ -14,15 +14,13 @@ class VendorCreatureTemplate : public SharedCreatureObjectTemplate {
 	Vector<String> outfits;
 	Vector<String> hairFile;
 	Vector<String> customizationStringNames;
-	Vector<Vector<int> > customizationValues;
+	Vector<Vector<int>> customizationValues;
 
 public:
 	VendorCreatureTemplate() {
-
 	}
 
 	~VendorCreatureTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -73,8 +71,7 @@ public:
 		}
 
 		custValues.pop();
-
-    }
+	}
 
 	inline String getHairFile(int idx) {
 		if (idx < 0 || idx >= hairFile.size())
@@ -101,11 +98,11 @@ public:
 		return customizationStringNames.get(idx);
 	}
 
-	inline int getCustomizationValuesSize(){
+	inline int getCustomizationValuesSize() {
 		return customizationValues.size();
 	}
 
-	inline Vector<int> getCustomizationValues( int idx ) {
+	inline Vector<int> getCustomizationValues(int idx) {
 		return customizationValues.get(idx);
 	}
 
@@ -120,7 +117,6 @@ public:
 	bool isVendorCreatureTemplate() {
 		return true;
 	}
-
 };
 
 #endif /* VENDORCREATURETEMPLATE_H_ */

@@ -40,15 +40,15 @@ void LotteryDroidImplementation::fillObjectMenuResponse(ObjectMenuResponse* menu
 		return;
 
 	if (gameStatus == GAMESETUP && perkOwner == player) {
-		menuResponse->addRadialMenuItem(132, 3, "@event_perk:lottery_menu_setup"); // Lottery Setup
-		menuResponse->addRadialMenuItem(133, 3, "@event_perk:lottery_menu_add_creds"); // Add Bonus Credits to Pot
+		menuResponse->addRadialMenuItem(132, 3, "@event_perk:lottery_menu_setup");		  // Lottery Setup
+		menuResponse->addRadialMenuItem(133, 3, "@event_perk:lottery_menu_add_creds");	  // Add Bonus Credits to Pot
 		menuResponse->addRadialMenuItem(134, 3, "@event_perk:lottery_menu_instructions"); // Instructions
 
 		if (gameDuration >= 1 && payoutPercent > .4 && ticketPrice > 1)
 			menuResponse->addRadialMenuItem(135, 3, "@event_perk:lottery_menu_start_game"); // Start Lottery
 	} else if (gameStatus == GAMESTARTED) {
 		menuResponse->addRadialMenuItem(136, 3, "@event_perk:lottery_menu_lottery_info"); // Lottery Information
-		menuResponse->addRadialMenuItem(137, 3, "@event_perk:lottery_menu_register"); // Register for Lottery
+		menuResponse->addRadialMenuItem(137, 3, "@event_perk:lottery_menu_register");	  // Register for Lottery
 
 		if (perkOwner == player)
 			menuResponse->addRadialMenuItem(133, 3, "@event_perk:lottery_menu_add_creds"); // Add Bonus Credits to Pot
@@ -57,12 +57,10 @@ void LotteryDroidImplementation::fillObjectMenuResponse(ObjectMenuResponse* menu
 	}
 }
 
-
 int LotteryDroidImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
 	ManagedReference<CreatureObject*> perkOwner = getDeedOwner();
 
 	bool isOwner = perkOwner != nullptr && player == perkOwner;
-
 
 	if (selectedID == 132) { // Lottery Setup
 		if (gameStatus == GAMESTARTED || gameStatus == GAMEENDED || !isOwner)
@@ -84,7 +82,7 @@ int LotteryDroidImplementation::handleObjectMenuSelect(CreatureObject* player, b
 			return 0;
 
 		startLottery(player);
-	} else if (selectedID == 136) {  // Lottery Information
+	} else if (selectedID == 136) { // Lottery Information
 		if (gameStatus == GAMEENDED)
 			return 0;
 
@@ -119,7 +117,7 @@ void LotteryDroidImplementation::sendDurationSUI(CreatureObject* player) {
 
 	ManagedReference<SuiListBox*> listbox = new SuiListBox(player, SuiWindowType::LOTTERY_DURATION_SETUP);
 	listbox->setCallback(new LotteryDroidSuiCallback(server->getZoneServer(), 0));
-	listbox->setPromptTitle("@event_perk:lottery_dur_title"); // Select Duration
+	listbox->setPromptTitle("@event_perk:lottery_dur_title");	   // Select Duration
 	listbox->setPromptText("@event_perk:lottery_dur_description"); // Select the length of time you would like the lottery to run. The timer will start when you begin the game. When the game ends, the payout will be distributed.
 	listbox->setUsingObject(_this.getReferenceUnsafeStaticCast());
 	listbox->setForceCloseDistance(32.f);
@@ -142,7 +140,7 @@ void LotteryDroidImplementation::sendPayoutSUI(CreatureObject* player) {
 
 	ManagedReference<SuiListBox*> listbox = new SuiListBox(player, SuiWindowType::LOTTERY_PAYOUT_SETUP);
 	listbox->setCallback(new LotteryDroidSuiCallback(server->getZoneServer(), 0));
-	listbox->setPromptTitle("@event_perk:lottery_payout_title"); // Select Payout Percentage
+	listbox->setPromptTitle("@event_perk:lottery_payout_title");	  // Select Payout Percentage
 	listbox->setPromptText("@event_perk:lottery_payout_description"); // Select the percentage of the total pot you would like to payout to the winner of the lottery. After the game closes, your take of the pot will be automatically transferred to your bank account.
 	listbox->setUsingObject(_this.getReferenceUnsafeStaticCast());
 	listbox->setForceCloseDistance(32.f);
@@ -166,7 +164,7 @@ void LotteryDroidImplementation::sendTicketCostSUI(CreatureObject* player) {
 	ManagedReference<SuiInputBox*> inputbox = new SuiInputBox(player, SuiWindowType::LOTTERY_COST_SETUP);
 	inputbox->setCallback(new LotteryDroidSuiCallback(server->getZoneServer(), 0));
 	inputbox->setPromptTitle("@event_perk:ticket_cost_title"); // Set Entry Fee
-	inputbox->setPromptText("@event_perk:ticket_cost_desc"); // Enter the amount you wish to charge per entry into the lottery. All credits recieved from lottery entries will be added to the pot.
+	inputbox->setPromptText("@event_perk:ticket_cost_desc");   // Enter the amount you wish to charge per entry into the lottery. All credits recieved from lottery entries will be added to the pot.
 	inputbox->setUsingObject(_this.getReferenceUnsafeStaticCast());
 	inputbox->setForceCloseDistance(32.f);
 	inputbox->setCancelButton(true, "@cancel");
@@ -184,7 +182,7 @@ void LotteryDroidImplementation::sendAddCreditsSUI(CreatureObject* player) {
 	ManagedReference<SuiInputBox*> inputbox = new SuiInputBox(player, SuiWindowType::LOTTERY_ADD_CREDITS);
 	inputbox->setCallback(new LotteryDroidSuiCallback(server->getZoneServer(), 0));
 	inputbox->setPromptTitle("@event_perk:lottery_add_credits_title"); // Add Credits to Pot
-	inputbox->setPromptText("@event_perk:lottery_add_credits_desc"); // Enter how much money of your own money you would like to add to the pot. NOTE: Once credits are added to the pot you may NOT withdraw them under any circumstance. If you do not wish to add credits, click cancel.
+	inputbox->setPromptText("@event_perk:lottery_add_credits_desc");   // Enter how much money of your own money you would like to add to the pot. NOTE: Once credits are added to the pot you may NOT withdraw them under any circumstance. If you do not wish to add credits, click cancel.
 	inputbox->setUsingObject(_this.getReferenceUnsafeStaticCast());
 	inputbox->setForceCloseDistance(32.f);
 	inputbox->setCancelButton(true, "@cancel");
@@ -202,7 +200,8 @@ void LotteryDroidImplementation::sendLotteryInstructionsSUI(CreatureObject* play
 	ManagedReference<SuiMessageBox*> msgBox = new SuiMessageBox(player, SuiWindowType::LOTTERY_INFO);
 	msgBox->setCallback(new LotteryDroidSuiCallback(server->getZoneServer(), 0));
 	msgBox->setPromptTitle("@event_perk:lottery_menu_instructions"); // Instructions
-	msgBox->setPromptText("@event_perk:lottery_setup_instructions"); // Lottery Setup: First select how long contestants have to enter the lottery before the drawing. The lottery may run between 1 hour and 7 days. Next, select the percentage of the total pot the winner will recieve. When the lottery ends, you may collect the portion of the pot that is not paid out as the jackpot (your "take"). Finally, enter how many credits it will cost to register for the lottery. All proceeds from registration are added to the total pot. When you are happy with the settings, select "Start Lottery" to put the game in motion. You may sweeten the pot at any time by adding your own credits. Any credits added to the pot are non-refundable.
+	msgBox->setPromptText("@event_perk:lottery_setup_instructions"); // Lottery Setup: First select how long contestants have to enter the lottery before the drawing. The lottery may run between 1 hour and 7 days. Next, select the percentage of the total pot the winner will recieve. When the lottery ends, you may collect
+																	 // the portion of the pot that is not paid out as the jackpot (your "take"). Finally, enter how many credits it will cost to register for the lottery. All proceeds from registration are added to the total pot. When you are happy with the settings, select "Start Lottery" to put the game in motion. You may sweeten the pot at any time by adding your own credits. Any credits added to the pot are non-refundable.
 	msgBox->setUsingObject(_this.getReferenceUnsafeStaticCast());
 	msgBox->setForceCloseDistance(32.f);
 	msgBox->setCancelButton(true, "@cancel");

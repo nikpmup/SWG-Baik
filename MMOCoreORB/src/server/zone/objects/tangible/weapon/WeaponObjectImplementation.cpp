@@ -21,7 +21,6 @@
 #include "server/zone/managers/player/PlayerMap.h"
 #include "server/chat/ChatManager.h"
 
-
 void WeaponObjectImplementation::initializeTransientMembers() {
 	TangibleObjectImplementation::initializeTransientMembers();
 
@@ -29,11 +28,11 @@ void WeaponObjectImplementation::initializeTransientMembers() {
 
 	setLoggingName("WeaponObject");
 
-	if(damageSlice > 1.5 || damageSlice < 1) {
+	if (damageSlice > 1.5 || damageSlice < 1) {
 		damageSlice = 1;
 	}
 
-	if(speedSlice > 1.0 || speedSlice < .5) {
+	if (speedSlice > 1.0 || speedSlice < .5) {
 		speedSlice = 1;
 	}
 }
@@ -55,7 +54,7 @@ void WeaponObjectImplementation::loadTemplateData(SharedObjectTemplate* template
 	certified = false;
 
 	attackType = weaponTemplate->getAttackType();
-	weaponEffect =  weaponTemplate->getWeaponEffect();
+	weaponEffect = weaponTemplate->getWeaponEffect();
 	weaponEffectIndex = weaponTemplate->getWeaponEffectIndex();
 
 	damageType = weaponTemplate->getDamageType();
@@ -75,7 +74,7 @@ void WeaponObjectImplementation::loadTemplateData(SharedObjectTemplate* template
 
 	int templateMaxRange = weaponTemplate->getMaxRange();
 
-	if (templateMaxRange > 5 )
+	if (templateMaxRange > 5)
 		maxRange = templateMaxRange;
 
 	maxRangeAccuracy = weaponTemplate->getMaxRangeAccuracy();
@@ -101,17 +100,15 @@ void WeaponObjectImplementation::loadTemplateData(SharedObjectTemplate* template
 
 void WeaponObjectImplementation::sendContainerTo(CreatureObject* player) {
 	if (isJediWeapon()) {
-
 		ManagedReference<SceneObject*> saberInv = getSlottedObject("saber_inv");
 
 		if (saberInv != nullptr) {
 			saberInv->sendDestroyTo(player);
-			//saberInv->closeContainerTo(player, true);
+			// saberInv->closeContainerTo(player, true);
 
 			saberInv->sendWithoutContainerObjectsTo(player);
 			saberInv->openContainerTo(player);
 		}
-
 	}
 }
 
@@ -125,8 +122,7 @@ void WeaponObjectImplementation::createChildObjects() {
 		if (child == nullptr)
 			continue;
 
-		ManagedReference<SceneObject*> obj = zoneServer->createObject(
-				child->getTemplateFile().hashCode(), getPersistenceLevel());
+		ManagedReference<SceneObject*> obj = zoneServer->createObject(child->getTemplateFile().hashCode(), getPersistenceLevel());
 
 		if (obj == nullptr)
 			continue;
@@ -146,7 +142,6 @@ void WeaponObjectImplementation::createChildObjects() {
 
 		obj->initializeChildObject(_this.getReferenceUnsafeStaticCast());
 	}
-
 }
 
 void WeaponObjectImplementation::sendBaselinesTo(SceneObject* player) {
@@ -205,9 +200,12 @@ String WeaponObjectImplementation::getWeaponType() const {
 		break;
 	}
 
-	if (isJediOneHandedWeapon()) weaponType = "onehandlightsaber";
-	if (isJediTwoHandedWeapon()) weaponType = "twohandlightsaber";
-	if (isJediPolearmWeapon()) weaponType = "polearmlightsaber";
+	if (isJediOneHandedWeapon())
+		weaponType = "onehandlightsaber";
+	if (isJediTwoHandedWeapon())
+		weaponType = "twohandlightsaber";
+	if (isJediPolearmWeapon())
+		weaponType = "polearmlightsaber";
 
 	return weaponType;
 }
@@ -228,7 +226,7 @@ void WeaponObjectImplementation::fillAttributeList(AttributeListMessage* alm, Cr
 	/*if (usesRemaining > 0)
 		alm->insertAttribute("count", usesRemaining);*/
 
-	for(int i = 0; i < wearableSkillMods.size(); ++i) {
+	for (int i = 0; i < wearableSkillMods.size(); ++i) {
 		const String& key = wearableSkillMods.elementAt(i).getKey();
 		String statname = "cat_skill_mod_bonus.@stat_n:" + key;
 		int value = wearableSkillMods.get(key);
@@ -264,7 +262,7 @@ void WeaponObjectImplementation::fillAttributeList(AttributeListMessage* alm, Cr
 	if (getDamageRadius() != 0.0f)
 		alm->insertAttribute("area", Math::getPrecision(getDamageRadius(), 0));
 
-	//Damage Information
+	// Damage Information
 	StringBuffer dmgtxt;
 
 	switch (damageType) {
@@ -317,7 +315,7 @@ void WeaponObjectImplementation::fillAttributeList(AttributeListMessage* alm, Cr
 
 	alm->insertAttribute("damage.wpn_wound_chance", woundsratio);
 
-	//Accuracy Modifiers
+	// Accuracy Modifiers
 	StringBuffer pblank;
 	if (getPointBlankAccuracy() >= 0)
 		pblank << "+";
@@ -339,15 +337,15 @@ void WeaponObjectImplementation::fillAttributeList(AttributeListMessage* alm, Cr
 	maxrange << getMaxRangeAccuracy() << " @ " << getMaxRange() << "m";
 	alm->insertAttribute("cat_wpn_rangemods.wpn_range_max", maxrange);
 
-	//Special Attack Costs
+	// Special Attack Costs
 	alm->insertAttribute("cat_wpn_attack_cost.health", getHealthAttackCost());
 
 	alm->insertAttribute("cat_wpn_attack_cost.action", getActionAttackCost());
 
 	alm->insertAttribute("cat_wpn_attack_cost.mind", getMindAttackCost());
 
-	//Anti Decay Kit
-	if(hasAntiDecayKit()){
+	// Anti Decay Kit
+	if (hasAntiDecayKit()) {
 		alm->insertAttribute("@veteran_new:antidecay_examine_title", "@veteran_new:antidecay_examine_text");
 	}
 
@@ -356,90 +354,89 @@ void WeaponObjectImplementation::fillAttributeList(AttributeListMessage* alm, Cr
 		alm->insertAttribute("forcecost", (int)getForceCost());
 
 	for (int i = 0; i < getNumberOfDots(); i++) {
+		String dt;
 
-			String dt;
-
-			switch (getDotType(i)) {
-			case 1:
-				dt = "Poison";
-				break;
-			case 2:
-				dt = "Disease";
-				break;
-			case 3:
-				dt = "Fire";
-				break;
-			case 4:
-				dt = "Bleeding";
-				break;
-			default:
-				dt = "Unknown";
-				break;
-			}
-
-			StringBuffer type;
-			type << "cat_wpn_dot_0" << i << ".wpn_dot_type";
-			alm->insertAttribute(type.toString(), dt);
-
-			String da;
-
-			switch (getDotAttribute(i)) {
-			case 0:
-				da = "Health";
-				break;
-			case 1:
-				da = "Strength";
-				break;
-			case 2:
-				da = "Constitution";
-				break;
-			case 3:
-				da = "Action";
-				break;
-			case 4:
-				da = "Quickness";
-				break;
-			case 5:
-				da = "Stamina";
-				break;
-			case 6:
-				da = "Mind";
-				break;
-			case 7:
-				da = "Focus";
-				break;
-			case 8:
-				da = "Willpower";
-				break;
-			default:
-				da = "Unknown";
-				break;
-			}
-
-			StringBuffer attrib;
-			attrib << "cat_wpn_dot_0" << i << ".wpn_dot_attrib";
-			alm->insertAttribute(attrib.toString(), da);
-
-			StringBuffer str;
-			str << "cat_wpn_dot_0" << i << ".wpn_dot_strength";
-			alm->insertAttribute(str.toString(), getDotStrength(i));
-
-			StringBuffer dotDur;
-			dotDur << getDotDuration(i) << "s";
-			StringBuffer dur;
-			dur << "cat_wpn_dot_0" << i << ".wpn_dot_duration";
-			alm->insertAttribute(dur.toString(), dotDur);
-
-			StringBuffer dotPot;
-			dotPot << getDotPotency(i) << "%";
-			StringBuffer pot;
-			pot << "cat_wpn_dot_0" << i << ".wpn_dot_potency";
-			alm->insertAttribute(pot.toString(), dotPot);
-
-			StringBuffer use;
-			use << "cat_wpn_dot_0" << i << ".wpn_dot_uses";
-			alm->insertAttribute(use.toString(), getDotUses(i));
+		switch (getDotType(i)) {
+		case 1:
+			dt = "Poison";
+			break;
+		case 2:
+			dt = "Disease";
+			break;
+		case 3:
+			dt = "Fire";
+			break;
+		case 4:
+			dt = "Bleeding";
+			break;
+		default:
+			dt = "Unknown";
+			break;
 		}
+
+		StringBuffer type;
+		type << "cat_wpn_dot_0" << i << ".wpn_dot_type";
+		alm->insertAttribute(type.toString(), dt);
+
+		String da;
+
+		switch (getDotAttribute(i)) {
+		case 0:
+			da = "Health";
+			break;
+		case 1:
+			da = "Strength";
+			break;
+		case 2:
+			da = "Constitution";
+			break;
+		case 3:
+			da = "Action";
+			break;
+		case 4:
+			da = "Quickness";
+			break;
+		case 5:
+			da = "Stamina";
+			break;
+		case 6:
+			da = "Mind";
+			break;
+		case 7:
+			da = "Focus";
+			break;
+		case 8:
+			da = "Willpower";
+			break;
+		default:
+			da = "Unknown";
+			break;
+		}
+
+		StringBuffer attrib;
+		attrib << "cat_wpn_dot_0" << i << ".wpn_dot_attrib";
+		alm->insertAttribute(attrib.toString(), da);
+
+		StringBuffer str;
+		str << "cat_wpn_dot_0" << i << ".wpn_dot_strength";
+		alm->insertAttribute(str.toString(), getDotStrength(i));
+
+		StringBuffer dotDur;
+		dotDur << getDotDuration(i) << "s";
+		StringBuffer dur;
+		dur << "cat_wpn_dot_0" << i << ".wpn_dot_duration";
+		alm->insertAttribute(dur.toString(), dotDur);
+
+		StringBuffer dotPot;
+		dotPot << getDotPotency(i) << "%";
+		StringBuffer pot;
+		pot << "cat_wpn_dot_0" << i << ".wpn_dot_potency";
+		alm->insertAttribute(pot.toString(), dotPot);
+
+		StringBuffer use;
+		use << "cat_wpn_dot_0" << i << ".wpn_dot_uses";
+		alm->insertAttribute(use.toString(), getDotUses(i));
+	}
 
 	if (hasPowerup())
 		powerupObject->fillWeaponAttributeList(alm, _this.getReferenceUnsafeStaticCast());
@@ -502,7 +499,6 @@ int WeaponObjectImplementation::getIdealAccuracy(bool withPup) const {
 	return idealAccuracy;
 }
 
-
 int WeaponObjectImplementation::getMaxRangeAccuracy(bool withPup) const {
 	if (powerupObject != nullptr && withPup)
 		return maxRangeAccuracy + (abs(maxRangeAccuracy) * powerupObject->getPowerupStat("maxRangeAccuracy"));
@@ -526,7 +522,6 @@ float WeaponObjectImplementation::getAttackSpeed(bool withPup) const {
 
 	return calcSpeed;
 }
-
 
 float WeaponObjectImplementation::getMaxDamage(bool withPup) const {
 	float damage = maxDamage;
@@ -569,7 +564,6 @@ float WeaponObjectImplementation::getDamageRadius(bool withPup) const {
 
 	return damageRadius;
 }
-
 
 int WeaponObjectImplementation::getHealthAttackCost(bool withPup) const {
 	if (powerupObject != nullptr && withPup)
@@ -629,9 +623,9 @@ void WeaponObjectImplementation::updateCraftingValues(CraftingValues* values, bo
 	if (value != ValuesMap::VALUENOTFOUND)
 		setWoundsRatio(value);
 
-	//value = craftingValues->getCurrentValue("roundsused");
-	//if(value != DraftSchematicValuesImplementation::VALUENOTFOUND)
-		//_this.getReferenceUnsafeStaticCast()->set_______(value);
+	// value = craftingValues->getCurrentValue("roundsused");
+	// if(value != DraftSchematicValuesImplementation::VALUENOTFOUND)
+	//_this.getReferenceUnsafeStaticCast()->set_______(value);
 
 	value = values->getCurrentValue("zerorangemod");
 	if (value != ValuesMap::VALUENOTFOUND)
@@ -653,8 +647,8 @@ void WeaponObjectImplementation::updateCraftingValues(CraftingValues* values, bo
 	if (value != ValuesMap::VALUENOTFOUND)
 		setIdealAccuracy((int)value);
 
-	//value = craftingValues->getCurrentValue("charges");
-	//if(value != CraftingValues::VALUENOTFOUND)
+	// value = craftingValues->getCurrentValue("charges");
+	// if(value != CraftingValues::VALUENOTFOUND)
 	//	setUsesRemaining((int)value);
 
 	value = values->getCurrentValue("hitpoints");
@@ -689,7 +683,7 @@ void WeaponObjectImplementation::decreasePowerupUses(CreatureObject* player) {
 
 		if (powerupObject->getUses() < 1) {
 			Locker locker(_this.getReferenceUnsafeStaticCast());
-			StringIdChatParameter message("powerup", "prose_pup_expire"); //The powerup on your %TT has expired.
+			StringIdChatParameter message("powerup", "prose_pup_expire"); // The powerup on your %TT has expired.
 			message.setTT(getDisplayedName());
 
 			player->sendSystemMessage(message);
@@ -699,8 +693,8 @@ void WeaponObjectImplementation::decreasePowerupUses(CreatureObject* player) {
 			if (pup != nullptr) {
 				Locker plocker(pup);
 
-				pup->destroyObjectFromWorld( true );
-				pup->destroyObjectFromDatabase( true );
+				pup->destroyObjectFromWorld(true);
+				pup->destroyObjectFromDatabase(true);
 			}
 		}
 
@@ -711,15 +705,15 @@ void WeaponObjectImplementation::decreasePowerupUses(CreatureObject* player) {
 String WeaponObjectImplementation::repairAttempt(int repairChance) {
 	String message = "@error_message:";
 
-	if(repairChance < 25) {
+	if (repairChance < 25) {
 		message += "sys_repair_failed";
 		setMaxCondition(1, true);
 		setConditionDamage(0, true);
-	} else if(repairChance < 50) {
+	} else if (repairChance < 50) {
 		message += "sys_repair_imperfect";
 		setMaxCondition(getMaxCondition() * .65f, true);
 		setConditionDamage(0, true);
-	} else if(repairChance < 75) {
+	} else if (repairChance < 75) {
 		setMaxCondition(getMaxCondition() * .80f, true);
 		setConditionDamage(0, true);
 		message += "sys_repair_slight";

@@ -17,7 +17,6 @@
 #include "server/zone/ZoneServer.h"
 
 void CloningTerminalMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
 }
 
@@ -28,17 +27,16 @@ int CloningTerminalMenuComponent::handleObjectMenuSelect(SceneObject* sceneObjec
 	if (!player->isPlayerCreature())
 		return 0;
 
-	ManagedReference<CityRegion* > region = sceneObject->getCityRegion().get();
+	ManagedReference<CityRegion*> region = sceneObject->getCityRegion().get();
 
 	if (region != nullptr) {
 		if (region->isBanned(player->getObjectID())) {
-				player->sendSystemMessage("@city/city:banned_services"); // You are banned from using this city's services.
-				return 0;
+			player->sendSystemMessage("@city/city:banned_services"); // You are banned from using this city's services.
+			return 0;
 		}
 	}
 
-	if(selectedID == 20) {
-
+	if (selectedID == 20) {
 		ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
 		ManagedReference<BuildingObject*> cloner = cast<BuildingObject*>(sceneObject->getRootParent());
 

@@ -7,9 +7,9 @@
 class EnclaveCouncilRankSuiCallback : public SuiCallback {
 private:
 	int councilType;
+
 public:
-	EnclaveCouncilRankSuiCallback(ZoneServer* server, int type)
-		: SuiCallback(server) {
+	EnclaveCouncilRankSuiCallback(ZoneServer* server, int type) : SuiCallback(server) {
 		councilType = type;
 	}
 
@@ -30,7 +30,6 @@ public:
 			return;
 
 		frsMan->sendRankPlayerList(player, councilType, index + 1);
-
 	}
 };
 

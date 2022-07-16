@@ -10,13 +10,10 @@
 
 class MoveFurnitureCommand : public QueueCommand {
 public:
-
-	MoveFurnitureCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	MoveFurnitureCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
-	//returns false on collision detection
+	// returns false on collision detection
 	bool checkCollision(SceneObject* object, Vector3& endPoint) const {
 		return CollisionManager::checkLineOfSightInParentCell(object, endPoint);
 	}
@@ -36,7 +33,7 @@ public:
 		ManagedReference<SceneObject*> obj = server->getZoneServer()->getObject(target);
 
 		if (obj == nullptr || !obj->isTangibleObject() || obj->isPlayerCreature() || obj->isPet()) {
-			creature->sendSystemMessage("@player_structure:move_what"); //What do you want to move?
+			creature->sendSystemMessage("@player_structure:move_what"); // What do you want to move?
 			return GENERALERROR;
 		}
 
@@ -44,7 +41,7 @@ public:
 		ManagedReference<SceneObject*> creatureParent = creature->getRootParent();
 
 		if (creatureParent == nullptr || !creatureParent->isBuildingObject()) {
-			creature->sendSystemMessage("@player_structure:must_be_in_building"); //You must be in a building to do that.
+			creature->sendSystemMessage("@player_structure:must_be_in_building"); // You must be in a building to do that.
 			return GENERALERROR;
 		}
 
@@ -53,15 +50,15 @@ public:
 			return GENERALERROR;
 		}
 
-		BuildingObject* buildingObject = cast<BuildingObject*>( creatureParent.get());
+		BuildingObject* buildingObject = cast<BuildingObject*>(creatureParent.get());
 
 		if (buildingObject == nullptr || rootParent != buildingObject || buildingObject->containsChildObject(obj)) {
-			creature->sendSystemMessage("@player_structure:move_what"); //What do you want to move?
+			creature->sendSystemMessage("@player_structure:move_what"); // What do you want to move?
 			return GENERALERROR;
 		}
 
 		if (!buildingObject->isOnAdminList(creature)) {
-			creature->sendSystemMessage("@player_structure:must_be_admin"); //You must be a building admin to do that.
+			creature->sendSystemMessage("@player_structure:must_be_admin"); // You must be a building admin to do that.
 			return GENERALERROR;
 		}
 
@@ -82,15 +79,15 @@ public:
 				throw Exception("Please specify the name of the object before the direction and distance.");
 
 			if (dir != "up" && dir != "down" && dir != "forward" && dir != "back")
-				throw Exception("@player_structure:format_movefurniture_distance"); //Format: /moveFurniture <FORWARD/BACK/UP/DOWN> <distance>
+				throw Exception("@player_structure:format_movefurniture_distance"); // Format: /moveFurniture <FORWARD/BACK/UP/DOWN> <distance>
 
 			dist = tokenizer.getIntToken();
 
 			if (dist < 1.f || dist > 500.f)
-				throw Exception("@player_structure:movefurniture_params"); //The amount to move must be between 1 and 500.
+				throw Exception("@player_structure:movefurniture_params"); // The amount to move must be between 1 and 500.
 
 		} catch (ArrayIndexOutOfBoundsException& e) {
-			throw Exception("@player_structure:format_movefurniture_distance"); //Format: /moveFurniture <FORWARD/BACK/UP/DOWN> <distance>
+			throw Exception("@player_structure:format_movefurniture_distance"); // Format: /moveFurniture <FORWARD/BACK/UP/DOWN> <distance>
 			return INVALIDPARAMETERS;
 
 		} catch (Exception& e) {
@@ -125,7 +122,7 @@ public:
 		Vector3 endPoint(x, y, z);
 
 		if (!checkCollision(obj, endPoint)) {
-			creature->sendSystemMessage("@player_structure:not_valid_location"); //That is not a valid location.
+			creature->sendSystemMessage("@player_structure:not_valid_location"); // That is not a valid location.
 			return GENERALERROR;
 		}
 
@@ -137,10 +134,8 @@ public:
 		else
 			obj->teleport(x, z, y);
 
-
 		return SUCCESS;
 	}
-
 };
 
-#endif //MOVEFURNITURECOMMAND_H_
+#endif // MOVEFURNITURECOMMAND_H_

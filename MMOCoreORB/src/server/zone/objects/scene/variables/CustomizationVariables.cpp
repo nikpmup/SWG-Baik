@@ -23,7 +23,7 @@ CustomizationVariables::~CustomizationVariables() {
 	removeAll();
 }
 
-CustomizationVariables::CustomizationVariables(const CustomizationVariables& cv) :VectorMap<uint8, int16>(cv) {
+CustomizationVariables::CustomizationVariables(const CustomizationVariables& cv) : VectorMap<uint8, int16>(cv) {
 	unknown = cv.unknown;
 
 	keyIndex = cv.keyIndex;
@@ -43,7 +43,7 @@ CustomizationVariables& CustomizationVariables::operator=(const CustomizationVar
 
 	keyIndex = var.keyIndex;
 
-	VectorMap<uint8, int16>::operator =(var);
+	VectorMap<uint8, int16>::operator=(var);
 
 	return *this;
 }
@@ -72,7 +72,7 @@ void CustomizationVariables::setVariable(const String& type, int16 value) {
 }
 
 void CustomizationVariables::getVariable(int idx, uint8& type, int16& value) const {
-	const auto& entry = SortedVector<VectorMapEntry<uint8, int16> >::get(idx);
+	const auto& entry = SortedVector<VectorMapEntry<uint8, int16>>::get(idx);
 
 	type = entry.getKey();
 	value = entry.getValue();
@@ -96,7 +96,7 @@ void CustomizationVariables::getData(String& ascii) const {
 		if (val >= 0) {
 			buf.append((char)key);
 
-			if (val == 0x00)	{
+			if (val == 0x00) {
 				buf.append((char)0xFF);
 				buf.append((char)0x01);
 			} else if (val == 0xFF) {
@@ -152,22 +152,26 @@ void CustomizationVariables::parseFromClientString(const String& custString) {
 		int offset = 0;
 
 		// Return next decoded byte (after any escapes as needed)
-		auto nextByte = [&] () mutable -> uint8 {
+		auto nextByte = [&]() mutable -> uint8 {
 			uint8 byte = custString.charAt(offset++);
 #if DEBUG_CUSTOMIZATION_PARSING
 			auto logmsg = Logger::console.info(true);
-			logmsg << "nextByte@" << (offset-1) << " = " << byte;
+			logmsg << "nextByte@" << (offset - 1) << " = " << byte;
 #endif // DEBUG_CUSTOMIZATION_PARSING
 
 			if (byte == 0xFF) { // Handle escape
 				byte = custString.charAt(offset++);
 #if DEBUG_CUSTOMIZATION_PARSING
-				logmsg << "; escapeCode@" << (offset-1) << " = " << byte;
+				logmsg << "; escapeCode@" << (offset - 1) << " = " << byte;
 #endif // DEBUG_CUSTOMIZATION_PARSING
 
-				switch(byte) {
-				case 0x01: byte = 0x00; break;
-				case 0x02: byte = 0xFF; break;
+				switch (byte) {
+				case 0x01:
+					byte = 0x00;
+					break;
+				case 0x02:
+					byte = 0xFF;
+					break;
 				case 0x03:
 					throw Exception("unexpected EOS at " + String::valueOf(offset));
 				default:
@@ -195,7 +199,7 @@ void CustomizationVariables::parseFromClientString(const String& custString) {
 
 		for (int i = 0; i < totalVars; ++i) {
 #if DEBUG_CUSTOMIZATION_PARSING
-			logHexDump("Variable #" + String::valueOf(i+1), custString, offset);
+			logHexDump("Variable #" + String::valueOf(i + 1), custString, offset);
 #endif // DEBUG_CUSTOMIZATION_PARSING
 
 			uint8 type = nextByte();
@@ -223,7 +227,6 @@ void CustomizationVariables::parseFromClientString(const String& custString) {
 		logHexDump("Exception in " + String(__FUNCTION__) + " " + e.getMessage(), custString, 0, true);
 	}
 }
-
 
 bool CustomizationVariables::toString(String& ascii) {
 	String binData;

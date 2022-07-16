@@ -16,7 +16,6 @@ namespace components {
 namespace droid {
 
 class DroidDetonationModuleDataComponent : public BaseDroidModuleComponent {
-
 protected:
 	bool initialized;
 	int rating;
@@ -24,6 +23,7 @@ protected:
 	bool started;
 	bool mseDroid;
 	bool advanced;
+
 public:
 	DroidDetonationModuleDataComponent();
 
@@ -39,7 +39,9 @@ public:
 
 	int handleObjectMenuSelect(CreatureObject* player, byte selectedID, PetControlDevice* controller);
 
-	virtual int getBatteryDrain() { return 0; }
+	virtual int getBatteryDrain() {
+		return 0;
+	}
 
 	void deactivate();
 
@@ -49,7 +51,9 @@ public:
 
 	void onStore();
 
-	virtual bool isStackable() { return true; }
+	virtual bool isStackable() {
+		return true;
+	}
 
 	virtual void addToStack(BaseDroidModuleComponent* other);
 
@@ -60,27 +64,37 @@ public:
 
 	int calculateDamage(DroidObject* droid);
 
-	bool readyForDetonation() { return initialized; }
+	bool readyForDetonation() {
+		return initialized;
+	}
 
-	void setReadyForDetonation() { initialized = true;}
+	void setReadyForDetonation() {
+		initialized = true;
+	}
 
-	bool countdownInProgress() { return started; }
+	bool countdownInProgress() {
+		return started;
+	}
 
-	void startCountDown() { started = true;}
+	void startCountDown() {
+		started = true;
+	}
 
-	void stopCountDown() { started = false;}
+	void stopCountDown() {
+		started = false;
+	}
 
 	void setSpecies(int i);
 
 	void initialize(DroidObject* droid);
 };
 
-} // droid
-} // components
-} // tangible
-} // objects
-} // zone
-} // server
+} // namespace droid
+} // namespace components
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 using namespace server::zone::objects::tangible::components::droid;
 
 #endif /* DROIDDETONATIONMODULEDATACOMPONENT_H_ */

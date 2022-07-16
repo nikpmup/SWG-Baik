@@ -13,23 +13,21 @@
 #include "GuildMemberInfo.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace guild {
+namespace zone {
+namespace objects {
+namespace guild {
 
-	class GuildMemberList : public VectorMap<uint64, GuildMemberInfo> {
-		public:
-
-		GuildMemberList() {
-			setNoDuplicateInsertPlan();
-		}
-	};
-   }
-  }
- }
-}
+class GuildMemberList : public VectorMap<uint64, GuildMemberInfo> {
+public:
+	GuildMemberList() {
+		setNoDuplicateInsertPlan();
+	}
+};
+} // namespace guild
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::guild;
-
 
 #endif /* GUILDMEMBERLIST_H_ */

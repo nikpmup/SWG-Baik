@@ -16,7 +16,6 @@ namespace creature {
 namespace events {
 
 class DroidAutoRepairTask : public Task {
-
 	Reference<DroidAutoRepairModuleDataComponent*> module;
 
 public:
@@ -25,7 +24,6 @@ public:
 	}
 
 	void run() {
-
 		if (module == nullptr || module->getDroidObject() == nullptr) {
 			return;
 		}
@@ -41,7 +39,7 @@ public:
 		}
 
 		// Check if droid is spawned
-		if (droid->getLocalZone() == nullptr) {  // Not outdoors
+		if (droid->getLocalZone() == nullptr) { // Not outdoors
 			ManagedReference<SceneObject*> parent = droid->getParent().get();
 
 			if (parent == nullptr || !parent->isCellObject()) { // Not indoors either
@@ -58,7 +56,7 @@ public:
 
 		// Droid must have power
 		if (!droid->hasPower()) {
-			droid->showFlyText("npc_reaction/flytext","low_power", 204, 0, 0);  // "*Low Power*"
+			droid->showFlyText("npc_reaction/flytext", "low_power", 204, 0, 0); // "*Low Power*"
 			droid->removePendingTask("droid_auto_repair");
 			return;
 		}
@@ -91,7 +89,6 @@ public:
 
 private:
 	void healDroid(DroidObject* healer, DroidObject* droid, int amount) {
-
 		bool droidHealed = false;
 		for (int attr = 0; attr <= 8; attr++) {
 			if (droid->hasDamage(attr)) {
@@ -101,19 +98,18 @@ private:
 		}
 
 		if (droidHealed) {
-			droid->showFlyText("npc_reaction/flytext","repaired", 0, 153, 0); // "*Repaired*"
+			droid->showFlyText("npc_reaction/flytext", "repaired", 0, 153, 0); // "*Repaired*"
 			droid->playEffect("clienteffect/healing_healdamage.cef", "");
 			healer->doAnimation("heal_other");
 		}
 	}
-
 };
 
-} // events
-} // creature
-} // objects
-} // zone
-} // server
+} // namespace events
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::events;
 

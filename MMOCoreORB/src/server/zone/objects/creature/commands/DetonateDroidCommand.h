@@ -11,14 +11,10 @@
 
 class DetonateDroidCommand : public QueueCommand {
 public:
-
-	DetonateDroidCommand(const String& name, ZoneProcessServer* server)
-: QueueCommand(name, server) {
-
+	DetonateDroidCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -47,8 +43,8 @@ public:
 			return INVALIDTARGET;
 		}
 
-		if (!droid->hasPower()){
-			droid->showFlyText("npc_reaction/flytext","low_power", 204, 0, 0);  // "*Low Power*"
+		if (!droid->hasPower()) {
+			droid->showFlyText("npc_reaction/flytext", "low_power", 204, 0, 0); // "*Low Power*"
 			return GENERALERROR;
 		}
 
@@ -82,7 +78,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DETONATEDROIDCOMMAND_H_
+#endif // DETONATEDROIDCOMMAND_H_

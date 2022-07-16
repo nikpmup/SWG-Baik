@@ -12,8 +12,7 @@ class CreatureObjectDeltaMessage3 : public DeltaMessage {
 	CreatureObject* creo;
 
 public:
-	CreatureObjectDeltaMessage3(CreatureObject* cr)
-			: DeltaMessage(cr->getObjectID(), 0x4352454F, 3) {
+	CreatureObjectDeltaMessage3(CreatureObject* cr) : DeltaMessage(cr->getObjectID(), 0x4352454F, 3) {
 		creo = cr;
 	}
 
@@ -33,7 +32,6 @@ public:
 
 	/*void updateIncapacitationRecoveryTime(uint32 dur) {
 		addIntUpdate(0x07, dur);*/
-
 
 	void updateFactionRank() {
 		addByteUpdate(0x0C, creo->getFactionRank());
@@ -60,13 +58,12 @@ public:
 	}
 
 	void updateShockWounds() {
-		addIntUpdate(15, (int) creo->getShockWounds());
+		addIntUpdate(15, (int)creo->getShockWounds());
 	}
 
 	void updateCreatureLinkID() {
 		addLongUpdate(0x0D, creo->getCreatureLinkID());
 	}
-
 };
 
 #endif /*CREATUREOBJECTDELTAMESSAGE3_H_*/

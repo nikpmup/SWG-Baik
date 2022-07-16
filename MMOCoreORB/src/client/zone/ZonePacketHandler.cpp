@@ -6,7 +6,7 @@
 #include "client/zone/managers/objectcontroller/ObjectController.h"
 #include "server/zone/packets/charcreation/ClientCreateCharacter.h"
 
-ZonePacketHandler::ZonePacketHandler(const String& s, Zone * z) : Logger(s) {
+ZonePacketHandler::ZonePacketHandler(const String& s, Zone* z) : Logger(s) {
 	zone = z;
 
 	setLogging(true);
@@ -29,7 +29,6 @@ void ZonePacketHandler::handleMessage(Message* pack) {
 		break;
 	case 03:
 		switch (opcode) {
-
 		case 0xDF333C6E: // char create failure
 			handleCharacterCreateFailureMessage(pack);
 			break;
@@ -37,13 +36,11 @@ void ZonePacketHandler::handleMessage(Message* pack) {
 		case 0x4D45D504:
 			handleSceneObejctDestroyMessage(pack);
 			break;
-
 		}
 		break;
 
 	case 04:
 		switch (opcode) {
-
 		case 0xE00730E5:
 			handleClientPermissionsMessage(pack);
 			break;
@@ -89,18 +86,18 @@ void ZonePacketHandler::handleMessage(Message* pack) {
 			handleCmdStartScene(pack);
 			break;
 		}
-	break;
+		break;
 	default:
-		//error("unhandled operand count" + pack->toString());
+		// error("unhandled operand count" + pack->toString());
 		break;
 	}
 }
 
 void ZonePacketHandler::handleClientPermissionsMessage(Message* pack) {
-	BaseClient* client = (BaseClient*) pack->getClient();
+	BaseClient* client = (BaseClient*)pack->getClient();
 
 	if (zone->getCharacterID() == 0) {
-		//client->info("enter new Character Name to create", true);
+		// client->info("enter new Character Name to create", true);
 		/*char name[256];
 				fgets(name, sizeof(name), stdin);*/
 
@@ -129,7 +126,7 @@ void ZonePacketHandler::handleClientPermissionsMessage(Message* pack) {
 }
 
 void ZonePacketHandler::handleCmdStartScene(Message* pack) {
-	BaseClient* client = (BaseClient*) pack->getClient();
+	BaseClient* client = (BaseClient*)pack->getClient();
 
 	client->info("received start scene");
 
@@ -156,7 +153,7 @@ void ZonePacketHandler::handleCmdStartScene(Message* pack) {
 }
 
 void ZonePacketHandler::handleSceneObjectCreateMessage(Message* pack) {
-	BaseClient* client = (BaseClient*) pack->getClient();
+	BaseClient* client = (BaseClient*)pack->getClient();
 	uint64 objectID = pack->parseLong();
 	pack->shiftOffset(16);
 
@@ -192,7 +189,7 @@ void ZonePacketHandler::handleSceneObejctDestroyMessage(Message* pack) {
 }
 
 void ZonePacketHandler::handleBaselineMessage(Message* pack) {
-	BaseClient* client = (BaseClient*) pack->getClient();
+	BaseClient* client = (BaseClient*)pack->getClient();
 
 	uint64 oid = pack->parseLong();
 	uint32 nametype = pack->parseInt();
@@ -224,7 +221,7 @@ void ZonePacketHandler::handleBaselineMessage(Message* pack) {
 }
 
 void ZonePacketHandler::handleCharacterCreateSucessMessage(Message* pack) {
-	BaseClient* client = (BaseClient*) pack->getClient();
+	BaseClient* client = (BaseClient*)pack->getClient();
 
 	uint64 charid = pack->parseLong();
 
@@ -239,7 +236,7 @@ void ZonePacketHandler::handleCharacterCreateSucessMessage(Message* pack) {
 }
 
 void ZonePacketHandler::handleUpdateTransformMessage(Message* pack) {
-	BaseClient* client = (BaseClient*) pack->getClient();
+	BaseClient* client = (BaseClient*)pack->getClient();
 
 	uint64 objid = pack->parseLong();
 
@@ -254,7 +251,7 @@ void ZonePacketHandler::handleUpdateTransformMessage(Message* pack) {
 	if (scno != nullptr) {
 		Locker _locker(scno);
 		scno->setPosition(x, z, y);
-		//scno->info("updating position");
+		// scno->info("updating position");
 
 		_locker.release();
 
@@ -269,7 +266,7 @@ void ZonePacketHandler::handleUpdateTransformMessage(Message* pack) {
 }
 
 void ZonePacketHandler::handleCharacterCreateFailureMessage(Message* pack) {
-	BaseClient* client = (BaseClient*) pack->getClient();
+	BaseClient* client = (BaseClient*)pack->getClient();
 	uint32 int1 = pack->parseInt();
 	String ui;
 	pack->parseAscii(ui);
@@ -283,7 +280,7 @@ void ZonePacketHandler::handleCharacterCreateFailureMessage(Message* pack) {
 }
 
 void ZonePacketHandler::handleChatInstantMessageToClient(Message* pack) {
-	BaseClient* client = (BaseClient*) pack->getClient();
+	BaseClient* client = (BaseClient*)pack->getClient();
 
 	String game, galaxy, name;
 	UnicodeString message;
@@ -299,7 +296,7 @@ void ZonePacketHandler::handleChatInstantMessageToClient(Message* pack) {
 }
 
 void ZonePacketHandler::handleChatSystemMessage(Message* pack) {
-	BaseClient* client = (BaseClient*) pack->getClient();
+	BaseClient* client = (BaseClient*)pack->getClient();
 
 	uint8 type = pack->parseByte();
 
@@ -312,7 +309,6 @@ void ZonePacketHandler::handleChatSystemMessage(Message* pack) {
 
 		client->info(systemMessage.toString());
 	}
-
 }
 
 void ZonePacketHandler::handleObjectControllerMessage(Message* pack) {

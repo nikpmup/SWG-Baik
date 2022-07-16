@@ -17,7 +17,7 @@ class CooldownTimer : public Variable {
 
 public:
 	CooldownTimer() : Variable() {
-		//timeStamp = nullptr;
+		// timeStamp = nullptr;
 	}
 
 	CooldownTimer(const Time& timestamp) : Variable() {
@@ -193,9 +193,6 @@ public:
 	Object* clone(void* object) {
 		return TransactionalObjectCloner<CooldownTimerMap>::clone(this);
 	}
-
-
 };
-
 
 #endif /* COOLDOWNTIMERMAP_H_ */

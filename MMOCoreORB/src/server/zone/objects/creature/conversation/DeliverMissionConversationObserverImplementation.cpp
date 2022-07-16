@@ -4,8 +4,7 @@
 
 #include "server/zone/objects/creature/conversation/DeliverMissionConversationObserver.h"
 
-DeliverMissionConversationObserverImplementation::DeliverMissionConversationObserverImplementation(uint32 convoTemplateCRC) :
-	ConversationObserverImplementation(convoTemplateCRC) {
-	//Register screen handler.
+DeliverMissionConversationObserverImplementation::DeliverMissionConversationObserverImplementation(uint32 convoTemplateCRC) : ConversationObserverImplementation(convoTemplateCRC) {
+	// Register screen handler.
 	registerScreenHandler(DeliverMissionScreenHandler::STARTSCREENHANDLERID, &deliverMissionScreenHandler);
 }

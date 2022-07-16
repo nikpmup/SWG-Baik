@@ -17,22 +17,16 @@ namespace conversation {
 
 class ConversationTemplate : public Object, public Logger {
 public:
-	enum ConversationTemplateType {
-		ConversationTemplateTypeNormal,
-		ConversationTemplateTypeDeliverMission,
-		ConversationTemplateTypeInformantMission,
-		ConversationTemplateTypeLua,
-		ConversationTemplateTypePersonality
-	};
+	enum ConversationTemplateType { ConversationTemplateTypeNormal, ConversationTemplateTypeDeliverMission, ConversationTemplateTypeInformantMission, ConversationTemplateTypeLua, ConversationTemplateTypePersonality };
+
 protected:
 	String initialScreenID;
-	VectorMap<String, Reference<ConversationScreen*> > screens;
+	VectorMap<String, Reference<ConversationScreen*>> screens;
 	ConversationTemplateType conversationTemplateType;
 	uint32 crc;
 	String luaClassHandler;
 
 public:
-
 	ConversationTemplate(uint32 hashCode) : Logger("ConversationTemplate") {
 		screens.setNoDuplicateInsertPlan();
 		crc = hashCode;
@@ -41,7 +35,6 @@ public:
 	}
 
 	virtual ~ConversationTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData);
@@ -67,11 +60,11 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace conversation
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::conversation;
 

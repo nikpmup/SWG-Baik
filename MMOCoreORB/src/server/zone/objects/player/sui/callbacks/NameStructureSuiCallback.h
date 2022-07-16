@@ -35,7 +35,7 @@ public:
 
 		UnicodeString name = args->get(0);
 
-		creature->executeObjectControllerAction(0xC367B461, obj->getObjectID(), name); //nameStructure
+		creature->executeObjectControllerAction(0xC367B461, obj->getObjectID(), name); // nameStructure
 	}
 };
 

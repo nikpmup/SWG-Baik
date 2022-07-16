@@ -10,55 +10,49 @@
 
 class RescueCommand : public QueueCommand {
 public:
-
-	RescueCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RescueCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
 
-		if(!creature->isPlayerCreature() || !creature->isGrouped())
+		if (!creature->isPlayerCreature() || !creature->isGrouped())
 			return INVALIDTARGET;
 
-		ManagedReference<CreatureObject* > targetCreature =
-				server->getZoneServer()->getObject(target).castTo<CreatureObject*>();
+		ManagedReference<CreatureObject*> targetCreature = server->getZoneServer()->getObject(target).castTo<CreatureObject*>();
 
-		if(targetCreature == nullptr || !targetCreature->isInCombat())
+		if (targetCreature == nullptr || !targetCreature->isInCombat())
 			return INVALIDTARGET;
 
 		Locker clocker(targetCreature, creature);
 
-		if(targetCreature->getMainDefender() == nullptr)
+		if (targetCreature->getMainDefender() == nullptr)
 			return INVALIDTARGET;
 
 		uint64 rescuedPlayerId = targetCreature->getMainDefender()->getObjectID();
-		ManagedReference<CreatureObject* > rescuedPlayer =
-				server->getZoneServer()->getObject(rescuedPlayerId).castTo<CreatureObject*>();
+		ManagedReference<CreatureObject*> rescuedPlayer = server->getZoneServer()->getObject(rescuedPlayerId).castTo<CreatureObject*>();
 
-		if(rescuedPlayer == nullptr)
+		if (rescuedPlayer == nullptr)
 			return INVALIDTARGET;
 
-		if(rescuedPlayer->getGroup() != creature->getGroup())
+		if (rescuedPlayer->getGroup() != creature->getGroup())
 			return INVALIDTARGET;
 
 		/// Attempt Rescue, Skill range = 10-50
-		float rescueMod = (float) creature->getSkillMod("rescue");
+		float rescueMod = (float)creature->getSkillMod("rescue");
 
 		if (rescueMod > 100.0f) {
 			rescueMod = 100.0f;
 		}
 
 		int chanceRoll = System::random(50) + rescueMod;
-		if(chanceRoll > 30) {
+		if (chanceRoll > 30) {
 			ThreatMap* threatMap = targetCreature->getThreatMap();
-			if(threatMap->setThreatState(creature, ThreatStates::TAUNTED, 5000, 5000)) {
+			if (threatMap->setThreatState(creature, ThreatStates::TAUNTED, 5000, 5000)) {
 				CombatManager::instance()->broadcastCombatSpam(creature, rescuedPlayer, nullptr, 0, "cbt_spam", "rescue_success", 0);
 				return SUCCESS;
 			}
@@ -68,7 +62,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //RESCUECOMMAND_H_
+#endif // RESCUECOMMAND_H_

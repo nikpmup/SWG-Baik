@@ -7,14 +7,10 @@
 
 class RevokeSkillCommand : public QueueCommand {
 public:
-
-	RevokeSkillCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RevokeSkillCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REVOKESKILLCOMMAND_H_
+#endif // REVOKESKILLCOMMAND_H_

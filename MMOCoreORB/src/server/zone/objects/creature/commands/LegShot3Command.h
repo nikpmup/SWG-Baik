@@ -9,13 +9,10 @@
 
 class LegShot3Command : public CombatQueueCommand {
 public:
-
-	LegShot3Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	LegShot3Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //LEGSHOT3COMMAND_H_
+#endif // LEGSHOT3COMMAND_H_

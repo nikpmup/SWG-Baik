@@ -7,14 +7,10 @@
 
 class HarmfulCommand : public QueueCommand {
 public:
-
-	HarmfulCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HarmfulCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //HARMFULCOMMAND_H_
+#endif // HARMFULCOMMAND_H_

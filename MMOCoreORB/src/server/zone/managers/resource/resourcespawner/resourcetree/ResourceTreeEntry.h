@@ -21,7 +21,6 @@ class ResourceTreeNode;
 
 class ResourceTreeEntry {
 private:
-
 	/// Node that this entry is on
 	ResourceTreeNode* myNode;
 
@@ -35,7 +34,7 @@ private:
 	Vector<String> stfClassList;
 
 	/// List of Attributes
-	VectorMap<String, ResourceAttribute* > attributeMap;
+	VectorMap<String, ResourceAttribute*> attributeMap;
 
 	/// Maximum of this type that can spawn
 	int maxtype;
@@ -112,7 +111,7 @@ public:
 	 * Deconstructor
 	 */
 	~ResourceTreeEntry() {
-		for(int i = 0; i < attributeMap.size(); ++i)
+		for (int i = 0; i < attributeMap.size(); ++i)
 			delete attributeMap.get(i);
 	}
 
@@ -149,7 +148,6 @@ public:
 	 * \param newclass New class string to add
 	 */
 	void addStfClass(const String newclass) {
-
 		stfClassList.add(newclass);
 	}
 
@@ -159,7 +157,7 @@ public:
 	 * \return Class at index
 	 */
 	String getClass(const int index) const {
-		if(index <= classList.size())
+		if (index <= classList.size())
 			return classList.get(index);
 		else
 			return "";
@@ -171,7 +169,7 @@ public:
 	 * \return StfClass at index
 	 */
 	String getStfClass(const int index) const {
-		if(index <= stfClassList.size())
+		if (index <= stfClassList.size())
 			return stfClassList.get(index);
 		else
 			return "";
@@ -198,7 +196,7 @@ public:
 	 * \return Final name of entry
 	 */
 	String getFinalClass() const {
-		if(classList.size() > 0)
+		if (classList.size() > 0)
 			return classList.get(classList.size() - 1);
 		else
 			return "";
@@ -209,7 +207,7 @@ public:
 	 * \return Is value organic
 	 */
 	bool isOrganic() const {
-		if(classList.size() > 0)
+		if (classList.size() > 0)
 			return classList.get(0) == "Organic";
 		else
 			return false;
@@ -309,7 +307,7 @@ public:
 	 * Gets recycled
 	 * \return recycled
 	 */
-	bool isRecycled() const	{
+	bool isRecycled() const {
 		return recycled == true;
 	}
 
@@ -373,7 +371,7 @@ public:
 	 * sets recycled
 	 * \param recycled
 	 */
-	void setRecycled(bool recycled)	{
+	void setRecycled(bool recycled) {
 		this->recycled = recycled;
 	}
 
@@ -480,12 +478,10 @@ public:
 	 */
 	bool isType(const String& type) const {
 		for (int i = 0; i < stfClassList.size(); ++i) {
-
 			if (stfClassList.get(i) == type)
 				return true;
 		}
 		for (int i = 0; i < classList.size(); ++i) {
-
 			if (classList.get(i) == type)
 				return true;
 		}
@@ -496,31 +492,26 @@ public:
 	 * Outputs visual representation of class
 	 */
 	void toString() const {
-
 		System::out << "************ Resource Tree Entry ********************\n";
 		System::out << "Type = " << type << endl;
-		for(int i = 0; i < classList.size(); ++i)
+		for (int i = 0; i < classList.size(); ++i)
 			System::out << "Class" << i << " = " << classList.get(i) << endl;
 
-		for(int i = 0; i < stfClassList.size(); ++i)
+		for (int i = 0; i < stfClassList.size(); ++i)
 			System::out << "STFClass" << i << " = " << stfClassList.get(i) << endl;
-
 
 		System::out << "Max Types = " << maxtype << endl;
 		System::out << "Min Types = " << mintype << endl;
 		System::out << "Min Pools = " << minpool << endl;
 		System::out << "Max Pools = " << maxpool << endl;
 
-		for(int i = 0; i < attributeMap.size(); ++i)
-			System::out << attributeMap.get(i)->getName() << ": "
-			<< attributeMap.get(i)->getMinimum()  << " - "
-			<< attributeMap.get(i)->getMaximum() << endl;
+		for (int i = 0; i < attributeMap.size(); ++i)
+			System::out << attributeMap.get(i)->getName() << ": " << attributeMap.get(i)->getMinimum() << " - " << attributeMap.get(i)->getMaximum() << endl;
 
-		System::out << "Recycled = " << recycled  << endl;
-		System::out << "Resource Container Type = " << resourceContainerType  << endl;
-		System::out << "Random Name Class = " << randomNameClass  << endl;
-		System::out << "Zone Restriction = " << zoneRestriction  << endl;
-		System::out << "Survey Tool Type = " << surveyToolType  << endl;
+		System::out << "Recycled = " << recycled << endl;
+		System::out << "Resource Container Type = " << resourceContainerType << endl;
+		System::out << "Random Name Class = " << randomNameClass << endl;
+		System::out << "Zone Restriction = " << zoneRestriction << endl;
+		System::out << "Survey Tool Type = " << surveyToolType << endl;
 	}
 };
-

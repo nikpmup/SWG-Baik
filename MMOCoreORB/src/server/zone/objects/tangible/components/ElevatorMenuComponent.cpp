@@ -37,11 +37,11 @@ int ElevatorMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Crea
 		float f = floors->get(i);
 
 		if (fabs(z - f) < 1.f)
-			break; //Almost certainly the same floor.
+			break; // Almost certainly the same floor.
 	}
 
 	switch (selectedID) {
-	case 198: //UP
+	case 198: // UP
 		if (i <= 0) {
 			creature->sendSystemMessage("You are already on the highest floor");
 			delete floors;
@@ -52,7 +52,7 @@ int ElevatorMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Crea
 		z = floors->get(i - 1);
 		creature->playEffect("clienteffect/elevator_rise.cef", "");
 		break;
-	case 199: //DOWN
+	case 199: // DOWN
 		if (i >= floorCount - 1) {
 			creature->sendSystemMessage("You are already on the lowest floor");
 			delete floors;
@@ -76,4 +76,3 @@ int ElevatorMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Crea
 
 	return 0;
 }
-

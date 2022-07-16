@@ -10,18 +10,13 @@
 
 const char LuaConversationSession::className[] = "LuaConversationSession";
 
-Luna<LuaConversationSession>::RegType LuaConversationSession::Register[] = {
-		{ "_setObject", &LuaConversationSession::_setObject },
-		{ "setLastConversationScreen", &LuaConversationSession::setLastConversationScreen },
-		{ "getLastConversationScreen", &LuaConversationSession::getLastConversationScreen },
-		{ 0, 0 }
-};
+Luna<LuaConversationSession>::RegType LuaConversationSession::Register[] = {{"_setObject", &LuaConversationSession::_setObject}, {"setLastConversationScreen", &LuaConversationSession::setLastConversationScreen}, {"getLastConversationScreen", &LuaConversationSession::getLastConversationScreen}, {0, 0}};
 
-LuaConversationSession::LuaConversationSession(lua_State *L) {
+LuaConversationSession::LuaConversationSession(lua_State* L) {
 	realObject = static_cast<ConversationSession*>(lua_touserdata(L, 1));
 }
 
-LuaConversationSession::~LuaConversationSession(){
+LuaConversationSession::~LuaConversationSession() {
 }
 
 int LuaConversationSession::_setObject(lua_State* L) {
@@ -39,7 +34,7 @@ int LuaConversationSession::setLastConversationScreen(lua_State* L) {
 		realObject->setLastConversationScreenName(text);
 	}*/
 
-	ConversationScreen* screen = (ConversationScreen*) lua_touserdata(L, -1);
+	ConversationScreen* screen = (ConversationScreen*)lua_touserdata(L, -1);
 
 	realObject->setLastConversationScreen(screen);
 
@@ -49,7 +44,7 @@ int LuaConversationSession::setLastConversationScreen(lua_State* L) {
 int LuaConversationSession::getLastConversationScreen(lua_State* L) {
 	ConversationScreen* screen = realObject->getLastConversationScreen();
 
-	//lua_pushstring(L, text.toCharArray());
+	// lua_pushstring(L, text.toCharArray());
 
 	if (screen == nullptr)
 		lua_pushnil(L);

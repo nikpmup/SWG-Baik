@@ -12,10 +12,11 @@
 #include "BlueprintEntry.h"
 #include "server/zone/objects/installation/factory/FactoryObject.h"
 
-class FactoryBlueprint  : public Serializable  {
+class FactoryBlueprint : public Serializable {
 private:
 	Vector<BlueprintEntry> completeEntries;
 	Vector<BlueprintEntry> consolidatedEntries;
+
 public:
 	FactoryBlueprint();
 	FactoryBlueprint(const FactoryBlueprint& blueprint);
@@ -36,7 +37,7 @@ public:
 
 	int getCompleteSize();
 
-	void canManufactureItem(String &type, String &displayedName);
+	void canManufactureItem(String& type, String& displayedName);
 
 	void manufactureItem(FactoryObject* factory);
 

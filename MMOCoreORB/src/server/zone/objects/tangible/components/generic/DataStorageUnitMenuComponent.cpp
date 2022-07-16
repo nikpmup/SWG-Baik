@@ -12,14 +12,12 @@
 #include "server/zone/packets/object/ObjectMenuResponse.h"
 #include "server/zone/objects/player/sui/messagebox/SuiMessageBox.h"
 
-void DataStorageUnitMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject,
-		ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
-	if(!sceneObject->isTangibleObject())
+void DataStorageUnitMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
+	if (!sceneObject->isTangibleObject())
 		return;
 
 	TangibleObject* tano = cast<TangibleObject*>(sceneObject);
-	if(tano == nullptr)
+	if (tano == nullptr)
 		return;
 
 	menuResponse->addRadialMenuItem(18, 3, "@ui_radial:item_activate"); // Activate
@@ -27,14 +25,12 @@ void DataStorageUnitMenuComponent::fillObjectMenuResponse(SceneObject* sceneObje
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
 }
 
-int DataStorageUnitMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
-		CreatureObject* player, byte selectedID) const {
-
+int DataStorageUnitMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
 	if (selectedID != 20 && selectedID != 18) {
 		return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject, player, selectedID);
 	}
 
-	if(!sceneObject->isTangibleObject())
+	if (!sceneObject->isTangibleObject())
 		return 0;
 
 	ManagedReference<TangibleObject*> tano = cast<TangibleObject*>(sceneObject);
@@ -43,16 +39,16 @@ int DataStorageUnitMenuComponent::handleObjectMenuSelect(SceneObject* sceneObjec
 		return 0;
 
 	DataObjectComponent* data = tano->getDataObjectComponent()->get();
-	if(data == nullptr || !data->isDataStorageUnitData())
+	if (data == nullptr || !data->isDataStorageUnitData())
 		return 0;
 
 	DataStorageUnitDataComponent* dsuData = cast<DataStorageUnitDataComponent*>(data);
-	if( dsuData == nullptr )
+	if (dsuData == nullptr)
 		return 0;
 
 	// ID is an integer from 1 to 12
-	String title = "@theme_park/book_text:title_" + String::valueOf( dsuData->getId() );
-	String text  = "@theme_park/book_text:text_"  + String::valueOf( dsuData->getId() );
+	String title = "@theme_park/book_text:title_" + String::valueOf(dsuData->getId());
+	String text = "@theme_park/book_text:text_" + String::valueOf(dsuData->getId());
 
 	// Build and send SUI to player
 	ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::DATA_STORAGE_UNIT_MESSAGE);

@@ -43,7 +43,6 @@ public:
 	}
 
 	~GalaxyBanEntry() {
-
 	}
 
 	uint32 getAccountID() const {
@@ -94,6 +93,5 @@ public:
 		return banAdmin;
 	}
 };
-
 
 #endif /*GALAXYBANENTRY_H_*/

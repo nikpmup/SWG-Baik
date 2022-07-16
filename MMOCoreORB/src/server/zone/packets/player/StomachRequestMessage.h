@@ -13,9 +13,7 @@
 
 class StomachRequestMessageCallback : public MessageCallback {
 public:
-	StomachRequestMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	StomachRequestMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {
@@ -29,14 +27,12 @@ public:
 
 		Reference<PlayerObject*> playerObject = player->getPlayerObject();
 
-		PlayerObjectDeltaMessage9* delta = new  PlayerObjectDeltaMessage9(playerObject);
+		PlayerObjectDeltaMessage9* delta = new PlayerObjectDeltaMessage9(playerObject);
 		delta->updateStomachFilling();
 		delta->close();
 
 		client->sendMessage(delta);
 	}
-
 };
-
 
 #endif /* STOMACHREQUESTMESSAGE_H_ */

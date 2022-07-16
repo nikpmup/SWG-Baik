@@ -12,12 +12,12 @@
 
 class CreateTicketResponseMessage : public BaseMessage {
 public:
-   CreateTicketResponseMessage(int unknown = 0) : BaseMessage() {
+	CreateTicketResponseMessage(int unknown = 0) : BaseMessage() {
 		insertShort(0x09);
-		insertInt(0x550A407A);  // CRC
+		insertInt(0x550A407A); // CRC
 
 		insertInt(unknown);
-   }
+	}
 };
 
 #endif /* CREATETICKETRESPONSEMESSAGE_H_ */

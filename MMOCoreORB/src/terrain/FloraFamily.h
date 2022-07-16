@@ -32,7 +32,6 @@ class FloraFamily : public TemplateVariable<'FFAM'> {
 
 	Vector<FloraData*> data;
 
-
 public:
 	~FloraFamily() {
 		while (data.size() > 0)
@@ -51,7 +50,7 @@ public:
 		weight = iffStream->getFloat();
 		isAquatic = iffStream->getUnsignedInt();
 
-		int var8 = iffStream->getInt();// counter
+		int var8 = iffStream->getInt(); // counter
 
 		for (int i = 0; i < var8; ++i) {
 			FloraData* floraData = new FloraData();
@@ -72,6 +71,5 @@ public:
 		iffStream->closeChunk('FFAM');
 	}
 };
-
 
 #endif /* FLORAFAMILY_H_ */

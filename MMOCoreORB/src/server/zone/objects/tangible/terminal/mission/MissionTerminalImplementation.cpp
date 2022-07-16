@@ -19,14 +19,13 @@ void MissionTerminalImplementation::fillObjectMenuResponse(ObjectMenuResponse* m
 	ManagedReference<CityRegion*> city = player->getCityRegion().get();
 
 	if (city != nullptr && city->isMayor(player->getObjectID()) && getParent().get() == nullptr) {
-
 		menuResponse->addRadialMenuItem(72, 3, "@city/city:mt_remove"); // Remove
 
-		menuResponse->addRadialMenuItem(73, 3, "@city/city:align"); // Align
+		menuResponse->addRadialMenuItem(73, 3, "@city/city:align");				  // Align
 		menuResponse->addRadialMenuItemToRadialID(73, 74, 3, "@city/city:north"); // North
-		menuResponse->addRadialMenuItemToRadialID(73, 75, 3, "@city/city:east"); // East
+		menuResponse->addRadialMenuItemToRadialID(73, 75, 3, "@city/city:east");  // East
 		menuResponse->addRadialMenuItemToRadialID(73, 76, 3, "@city/city:south"); // South
-		menuResponse->addRadialMenuItemToRadialID(73, 77, 3, "@city/city:west"); // West
+		menuResponse->addRadialMenuItemToRadialID(73, 77, 3, "@city/city:west");  // West
 	}
 }
 
@@ -55,14 +54,13 @@ int MissionTerminalImplementation::handleObjectMenuSelect(CreatureObject* player
 			return 0;
 		}
 
-		//Create Session
+		// Create Session
 		ManagedReference<SlicingSession*> session = new SlicingSession(player);
 		session->initalizeSlicingMenu(player, _this.getReferenceUnsafeStaticCast());
 
 		return 0;
 
 	} else if (selectedID == 72) {
-
 		if (city != nullptr && city->isMayor(player->getObjectID())) {
 			CityRemoveAmenityTask* task = new CityRemoveAmenityTask(_this.getReferenceUnsafeStaticCast(), city);
 			task->execute();
@@ -73,7 +71,6 @@ int MissionTerminalImplementation::handleObjectMenuSelect(CreatureObject* player
 		return 0;
 
 	} else if (selectedID == 74 || selectedID == 75 || selectedID == 76 || selectedID == 77) {
-
 		CityManager* cityManager = getZoneServer()->getCityManager();
 		cityManager->alignAmenity(city, player, _this.getReferenceUnsafeStaticCast(), selectedID - 74);
 

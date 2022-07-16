@@ -30,8 +30,7 @@ class CallArakydTask : public Task, public Logger {
 	ManagedReference<AiAgent*> droid;
 
 public:
-	CallArakydTask(CreatureObject* player, BountyMissionObjective* objective) :
-		Logger("FindTargetTask") {
+	CallArakydTask(CreatureObject* player, BountyMissionObjective* objective) : Logger("FindTargetTask") {
 		this->player = player;
 		this->objective = objective;
 		time = 20;
@@ -39,7 +38,6 @@ public:
 	}
 
 	~CallArakydTask() {
-
 	}
 
 	void run() {
@@ -72,20 +70,19 @@ public:
 			reschedule(1 * 1000);
 			break;
 		case 0: {
-				playerRef->sendSystemMessage("@mission/mission_generic:probe_droid_arrival");
-				droid = cast<AiAgent*>(playerRef->getZone()->getCreatureManager()->spawnCreature(STRING_HASHCODE("probot"), 0, droidPosition.getX(), droidPosition.getZ(), droidPosition.getY(), 0));
+			playerRef->sendSystemMessage("@mission/mission_generic:probe_droid_arrival");
+			droid = cast<AiAgent*>(playerRef->getZone()->getCreatureManager()->spawnCreature(STRING_HASHCODE("probot"), 0, droidPosition.getX(), droidPosition.getZ(), droidPosition.getY(), 0));
 
-				Locker olocker(objectiveRef);
-				objectiveRef->setArakydDroid(droid);
-				olocker.release();
+			Locker olocker(objectiveRef);
+			objectiveRef->setArakydDroid(droid);
+			olocker.release();
 
-				Locker lock(droid);
-				droid->addCreatureFlag(CreatureFlag::STATIC);
-				droid->setAITemplate();
-				time -= 1;
-				reschedule(300 * 1000);
-		}
-			break;
+			Locker lock(droid);
+			droid->addCreatureFlag(CreatureFlag::STATIC);
+			droid->setAITemplate();
+			time -= 1;
+			reschedule(300 * 1000);
+		} break;
 		case -1: {
 			Locker olocker2(objectiveRef);
 			objectiveRef->setArakydDroid(nullptr);
@@ -95,8 +92,7 @@ public:
 				Locker clocker(droid, playerRef);
 				droid->destroyObjectFromWorld(true);
 			}
-		}
-			break;
+		} break;
 		default:
 			error("Unknowns state.");
 			break;

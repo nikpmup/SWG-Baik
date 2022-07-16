@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef RECORDTRACKTIMEOUTEVENT_H
@@ -14,22 +14,22 @@ namespace objects {
 namespace player {
 namespace events {
 
-class RecordTrackTimeoutEvent: public Task {
+class RecordTrackTimeoutEvent : public Task {
 	Reference<DroidPlaybackModuleDataComponent*> module;
 	Reference<CreatureObject*> player;
 	int recordingState;
+
 public:
 	RecordTrackTimeoutEvent(DroidPlaybackModuleDataComponent* m, CreatureObject* p, int type);
 
 	void run();
-
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace player
+} // namespace objects
+} // namespace zone
+} // namespace server
 using namespace server::zone::objects::player::events;
 
 #endif /* RECORDTRACKTIMEOUTEVENT_H */

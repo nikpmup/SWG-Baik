@@ -10,7 +10,7 @@
 
 #include "DeltaBasicVariable.h"
 
-template<int BaselineName, uint8 Type, int DeltaID>
+template <int BaselineName, uint8 Type, int DeltaID>
 class DeltaIntVariable : public DeltaBasicVariable<int> {
 public:
 	void update(int newValue, bool broadcastStandalone = false, SceneObject* obj = nullptr) {
@@ -33,6 +33,5 @@ public:
 		msg->addIntUpdate(DeltaID, object);
 	}
 };
-
 
 #endif /* DELTAINTVARIABLE_H_ */

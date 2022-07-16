@@ -9,7 +9,6 @@
 #include "templates/datatables/DataTableIff.h"
 
 FactionRanks::FactionRanks() {
-
 }
 
 FactionRanks::FactionRanks(const FactionRanks& f) {

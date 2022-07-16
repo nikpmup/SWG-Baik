@@ -24,7 +24,6 @@ public:
 	SceneObject* getFollowObject() {
 		return follow;
 	}
-
 };
 
 #endif /* PLAYER_H_ */

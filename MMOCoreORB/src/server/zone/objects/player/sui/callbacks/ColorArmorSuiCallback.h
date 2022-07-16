@@ -11,7 +11,6 @@
 
 #include "server/zone/objects/player/sui/SuiCallback.h"
 
-
 class ColorArmorSuiCallback : public SuiCallback {
 public:
 	ColorArmorSuiCallback(ZoneServer* serv) : SuiCallback(serv) {

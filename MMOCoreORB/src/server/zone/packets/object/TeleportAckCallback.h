@@ -8,21 +8,19 @@
 #ifndef TELEPORTACKCALLBACK_H_
 #define TELEPORTACKCALLBACK_H_
 
-
 class TeleportAckCallback : public MessageCallback {
 	uint32 movementCounter;
 
 	ObjectControllerMessageCallback* objectControllerMain;
+
 public:
-	TeleportAckCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-		movementCounter(0), objectControllerMain(objectControllerCallback) {
+	TeleportAckCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), movementCounter(0), objectControllerMain(objectControllerCallback) {
 	}
 
 	void parse(Message* message) {
-		//System::out << message->toStringData() << endl;
+		// System::out << message->toStringData() << endl;
 		movementCounter = message->parseInt();
-		//missionObjectID = message->parseLong();
+		// missionObjectID = message->parseLong();
 	}
 
 	void run() {

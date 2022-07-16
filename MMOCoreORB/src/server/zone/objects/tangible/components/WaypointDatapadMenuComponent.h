@@ -9,7 +9,6 @@
 
 class WaypointDatapadMenuComponent : public TangibleObjectMenuComponent {
 public:
-
 	/**
 	 * Fills the radial options, needs to be overridden
 	 * @pre { this object is locked }
@@ -31,6 +30,5 @@ public:
 	 */
 	virtual int handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const;
 };
-
 
 #endif /* WAYPOINTDATAPADMENUCOMPONENT_H_ */

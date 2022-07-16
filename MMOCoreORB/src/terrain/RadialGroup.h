@@ -8,14 +8,13 @@
 #ifndef RADIALGROUP_H_
 #define RADIALGROUP_H_
 
-
 #include "TemplateVariable.h"
 #include "RadialFamily.h"
 
 class RadialGroup : public TemplateVariable<'RGRP'> {
 	Vector<RadialFamily*> data;
-public:
 
+public:
 	~RadialGroup() {
 		while (data.size() > 0)
 			delete data.remove(0);
@@ -48,9 +47,6 @@ public:
 			data.add(ffam);
 		}
 	}
-
 };
-
-
 
 #endif /* RADIALGROUP_H_ */

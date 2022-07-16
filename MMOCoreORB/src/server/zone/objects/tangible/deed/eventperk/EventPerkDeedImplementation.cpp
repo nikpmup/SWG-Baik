@@ -124,12 +124,12 @@ int EventPerkDeedImplementation::handleObjectMenuSelect(CreatureObject* player, 
 		int nearbyPerks = 0;
 
 		TerrainManager* terrainManager = planetManager->getTerrainManager();
-		if ( terrainManager == nullptr || terrainManager->getHighestHeightDifference(x - 10, y - 10, x + 10, y + 10) > 15.0) {
+		if (terrainManager == nullptr || terrainManager->getHighestHeightDifference(x - 10, y - 10, x + 10, y + 10) > 15.0) {
 			player->sendSystemMessage("@event_perk:bad_area"); // This rental could not be deployed due to the surrounding terrain. Please move to another area and try again.
 			return 1;
 		}
 
-		CloseObjectsVector* vec = (CloseObjectsVector*) player->getCloseObjects();
+		CloseObjectsVector* vec = (CloseObjectsVector*)player->getCloseObjects();
 
 		if (vec == nullptr) {
 #ifdef COV_DEBUG
@@ -183,7 +183,7 @@ int EventPerkDeedImplementation::handleObjectMenuSelect(CreatureObject* player, 
 			}
 		}
 
-		SortedVector<ManagedReference<ActiveArea* > > activeAreas;
+		SortedVector<ManagedReference<ActiveArea*>> activeAreas;
 		zone->getInRangeActiveAreas(x, y, &activeAreas, true);
 
 		for (int i = 0; i < activeAreas.size(); ++i) {
@@ -273,12 +273,12 @@ void EventPerkDeedImplementation::parseChildObjects(SceneObject* parent) {
 
 	int perkType = getPerkType();
 
-	SortedVector<ManagedReference<SceneObject*> >* children = parent->getChildObjects();
+	SortedVector<ManagedReference<SceneObject*>>* children = parent->getChildObjects();
 
 	for (int j = 0; j < children->size(); j++) {
 		SceneObject* child = children->get(j);
 
-		if (child != nullptr)	{
+		if (child != nullptr) {
 			Locker cLock(child, parent);
 
 			ContainerPermissions* permissions = child->getContainerPermissionsForUpdate();
@@ -388,23 +388,23 @@ String EventPerkDeedImplementation::getDurationString() {
 	uint32 timeDelta = currentTime.getMiliTime() - purchaseTime.getMiliTime();
 	uint32 timestamp = (EventPerkDeedTemplate::TIME_TO_LIVE - timeDelta) / 1000;
 
-	if( timestamp == 0 ) {
+	if (timestamp == 0) {
 		return "";
 	}
 
-	String abbrvs[3] = { "seconds", "minutes", "hours" };
+	String abbrvs[3] = {"seconds", "minutes", "hours"};
 
-	int intervals[3] = { 1, 60, 3600 };
-	int values[3] = { 0, 0, 0 };
+	int intervals[3] = {1, 60, 3600};
+	int values[3] = {0, 0, 0};
 
 	StringBuffer str;
 
 	for (int i = 2; i > -1; --i) {
-		values[i] = floor((float) timestamp / intervals[i]);
+		values[i] = floor((float)timestamp / intervals[i]);
 		timestamp -= values[i] * intervals[i];
 
 		if (values[i] > 0) {
-			if (str.length() > 0){
+			if (str.length() > 0) {
 				str << ", ";
 			}
 

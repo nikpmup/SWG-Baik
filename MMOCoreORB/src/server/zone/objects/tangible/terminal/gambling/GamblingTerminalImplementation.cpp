@@ -52,56 +52,53 @@ bool GamblingTerminalImplementation::checkJoin(CreatureObject* player) {
 
 	bool returnValue = true;
 	switch (machineType) {
-		case SLOTMACHINE: {
-			if (playersWindows.size() > 0) {
+	case SLOTMACHINE: {
+		if (playersWindows.size() > 0) {
+			returnValue = false;
 
-				returnValue = false;
+			StringIdChatParameter textPlayer("gambling/default_interface", "prose_station_full");
+			textPlayer.setTT(getMachineTypeText());
+			player->sendSystemMessage(textPlayer);
 
-				StringIdChatParameter textPlayer("gambling/default_interface","prose_station_full");
-				textPlayer.setTT(getMachineTypeText());
-				player->sendSystemMessage(textPlayer);
+		} else if (!player->isInRange(_this.getReferenceUnsafeStaticCast(), 20.0)) {
+			returnValue = false;
 
-			} else if (!player->isInRange(_this.getReferenceUnsafeStaticCast(), 20.0)) {
-				returnValue = false;
+			StringIdChatParameter textPlayer("ui", "radial_out_of_range_prose");
+			textPlayer.setTT(getMachineTypeText());
+			textPlayer.setTO("@gambling/default_interface:mnu_join");
+			player->sendSystemMessage(textPlayer);
 
-				StringIdChatParameter textPlayer("ui","radial_out_of_range_prose");
-				textPlayer.setTT(getMachineTypeText());
-				textPlayer.setTO("@gambling/default_interface:mnu_join");
-				player->sendSystemMessage(textPlayer);
-
-				info(String::valueOf(machineType),true);
-				info(String::valueOf(getObjectID()),true);
-			} else if (invalidPosture(player)) {
-				player->sendSystemMessage("@error_message:wrong_state");
-				returnValue = false;
-			}
-
-			break;
+			info(String::valueOf(machineType), true);
+			info(String::valueOf(getObjectID()), true);
+		} else if (invalidPosture(player)) {
+			player->sendSystemMessage("@error_message:wrong_state");
+			returnValue = false;
 		}
-		case ROULETTEMACHINE: {
 
-			if (playersWindows.size() >= 4) {
+		break;
+	}
+	case ROULETTEMACHINE: {
+		if (playersWindows.size() >= 4) {
+			returnValue = false;
 
-				returnValue = false;
+			StringIdChatParameter textPlayer("gambling/default_interface", "prose_station_full");
+			textPlayer.setTT(getMachineTypeText());
+			player->sendSystemMessage(textPlayer);
 
-				StringIdChatParameter textPlayer("gambling/default_interface","prose_station_full");
-				textPlayer.setTT(getMachineTypeText());
-				player->sendSystemMessage(textPlayer);
+		} else if (!player->isInRange(_this.getReferenceUnsafeStaticCast(), 20.0)) {
+			returnValue = false;
 
-			} else if (!player->isInRange(_this.getReferenceUnsafeStaticCast(), 20.0)) {
-				returnValue = false;
+			StringIdChatParameter textPlayer("ui", "radial_out_of_range_prose");
+			textPlayer.setTT(getMachineTypeText());
+			textPlayer.setTO("@gambling/default_interface:mnu_join");
+			player->sendSystemMessage(textPlayer);
 
-				StringIdChatParameter textPlayer("ui","radial_out_of_range_prose");
-				textPlayer.setTT(getMachineTypeText());
-				textPlayer.setTO("@gambling/default_interface:mnu_join");
-				player->sendSystemMessage(textPlayer);
-
-				info(String::valueOf(machineType),true);
-				info(String::valueOf(getObjectID()),true);
-			}
-
-			break;
+			info(String::valueOf(machineType), true);
+			info(String::valueOf(getObjectID()), true);
 		}
+
+		break;
+	}
 	}
 	return returnValue;
 }
@@ -117,56 +114,51 @@ void GamblingTerminalImplementation::joinTerminal(CreatureObject* player) {
 
 	gamblingManager->removeOutOfRangePlayers(_this.getReferenceUnsafeStaticCast());
 	switch (machineType) {
-		case SLOTMACHINE: {
-			if (state == SLOTGAMEENDED) {//begin new round
+	case SLOTMACHINE: {
+		if (state == SLOTGAMEENDED) { // begin new round
 
+			setState(GAMESTARTING);
+			incGameCount();
+
+			playersWindows.drop(player);
+
+			playersWindows.put(player, gamblingManager->createSlotWindow(player, 0));
+
+		} else {
+			if (checkJoin(player)) {
 				setState(GAMESTARTING);
 				incGameCount();
-
-				playersWindows.drop(player);
-
-				playersWindows.put(player, gamblingManager->createSlotWindow(player, 0));
-
-			} else {
-				if (checkJoin(player)) {
-
-					setState(GAMESTARTING);
-					incGameCount();
-
-					gamblingManager->registerPlayer(_this.getReferenceUnsafeStaticCast(), player);
-
-					playersWindows.put(player, gamblingManager->createWindow(_this.getReferenceUnsafeStaticCast(), player));
-
-					statusUpdate(player, JOINTERMINAL);
-
-				}
-			}
-
-			break;
-		}
-		case ROULETTEMACHINE: {
-			if (checkJoin(player)) {
-
-				winnings.put(player, 0);
 
 				gamblingManager->registerPlayer(_this.getReferenceUnsafeStaticCast(), player);
 
 				playersWindows.put(player, gamblingManager->createWindow(_this.getReferenceUnsafeStaticCast(), player));
 
 				statusUpdate(player, JOINTERMINAL);
-
-				if(!gameRunning()) {
-					setState(GAMESTARTING);
-					incGameCount();
-
-					gamblingManager->startGame(_this.getReferenceUnsafeStaticCast());
-				}
-
 			}
-
-			break;
 		}
 
+		break;
+	}
+	case ROULETTEMACHINE: {
+		if (checkJoin(player)) {
+			winnings.put(player, 0);
+
+			gamblingManager->registerPlayer(_this.getReferenceUnsafeStaticCast(), player);
+
+			playersWindows.put(player, gamblingManager->createWindow(_this.getReferenceUnsafeStaticCast(), player));
+
+			statusUpdate(player, JOINTERMINAL);
+
+			if (!gameRunning()) {
+				setState(GAMESTARTING);
+				incGameCount();
+
+				gamblingManager->startGame(_this.getReferenceUnsafeStaticCast());
+			}
+		}
+
+		break;
+	}
 	}
 }
 
@@ -175,7 +167,6 @@ void GamblingTerminalImplementation::closeMenu(CreatureObject* player, bool payo
 	uint32 boxID = playersWindows.get(player);
 
 	if (ghost->hasSuiBox(boxID)) {
-
 		ManagedReference<SuiSlotMachineBox*> box = ghost->getSuiBox(boxID).castTo<SuiSlotMachineBox*>();
 
 		if (payout) {
@@ -197,21 +188,19 @@ void GamblingTerminalImplementation::closeMenu(CreatureObject* player, bool payo
 
 void GamblingTerminalImplementation::closeAllMenus() {
 	switch (machineType) {
-		case SLOTMACHINE: {
+	case SLOTMACHINE: {
+		if (playersWindows.size() != 0)
+			closeMenu(playersWindows.elementAt(0).getKey(), true);
 
-			if (playersWindows.size() != 0)
-				closeMenu(playersWindows.elementAt(0).getKey(),true);
-
-			break;
+		break;
+	}
+	case ROULETTEMACHINE: {
+		for (int i = 0; i < playersWindows.size(); ++i) {
+			closeMenu(playersWindows.elementAt(i).getKey(), false);
 		}
-		case ROULETTEMACHINE: {
 
-			for (int i = 0; i < playersWindows.size(); ++i) {
-				closeMenu(playersWindows.elementAt(i).getKey(),false);
-			}
-
-			break;
-		}
+		break;
+	}
 	}
 }
 
@@ -220,51 +209,46 @@ void GamblingTerminalImplementation::leaveTerminal(CreatureObject* player) {
 
 	Locker _locker(_this.getReferenceUnsafeStaticCast());
 	switch (machineType) {
-		case SLOTMACHINE: {
+	case SLOTMACHINE: {
+		closeMenu(player, true);
 
-			closeMenu(player, true);
+		statusUpdate(player, LEAVETERMINAL);
 
-			statusUpdate(player, LEAVETERMINAL);
+		playersWindows.drop(player);
+		gamblingManager->stopGame(_this.getReferenceUnsafeStaticCast(), true);
 
-			playersWindows.drop(player);
-			gamblingManager->stopGame(_this.getReferenceUnsafeStaticCast(), true);
-
-			break;
-		}
-		case ROULETTEMACHINE: {
-
-			closeMenu(player, false);
-
-			statusUpdate(player, LEAVETERMINAL);
-
-			playersWindows.drop(player);
-
-			winnings.drop(player);
-
-			if (playersWindows.size() == 0) {
-				gamblingManager->stopGame(_this.getReferenceUnsafeStaticCast(), true);
-			}
-
-			break;
-		}
+		break;
 	}
+	case ROULETTEMACHINE: {
+		closeMenu(player, false);
 
+		statusUpdate(player, LEAVETERMINAL);
+
+		playersWindows.drop(player);
+
+		winnings.drop(player);
+
+		if (playersWindows.size() == 0) {
+			gamblingManager->stopGame(_this.getReferenceUnsafeStaticCast(), true);
+		}
+
+		break;
+	}
+	}
 }
 
 void GamblingTerminalImplementation::statusUpdate(int event) {
 	switch (machineType) {
-		case SLOTMACHINE: {
+	case SLOTMACHINE: {
+		statusUpdate(playersWindows.elementAt(0).getKey(), event);
 
-			statusUpdate(playersWindows.elementAt(0).getKey(), event);
+		break;
+	}
+	case ROULETTEMACHINE: {
+		statusUpdate(nullptr, event);
 
-			break;
-		}
-		case ROULETTEMACHINE: {
-
-			statusUpdate(nullptr, event);
-
-			break;
-		}
+		break;
+	}
 	}
 }
 
@@ -276,245 +260,223 @@ void GamblingTerminalImplementation::statusUpdate(CreatureObject* player, int ev
 	}
 
 	switch (machineType) {
-		case SLOTMACHINE: {
-
-			switch (event) {
-				case JOINTERMINAL: {
-
-					if (player != nullptr) {
-
-						StringIdChatParameter textPlayer("gambling/default_interface","prose_player_join");
-						textPlayer.setTO(getMachineTypeText());
-						player->sendSystemMessage(textPlayer);
-					}
-
-					break;
-				}
-				case LEAVETERMINAL: {
-
-					if (player != nullptr) {
-						StringIdChatParameter textPlayer("gambling/default_interface","prose_player_leave");
-						textPlayer.setTO(getMachineTypeText());
-						player->sendSystemMessage(textPlayer);
-					}
-
-					break;
-				}
-				case GAMESTARTED: {
-
-					if (player != nullptr) {
-						player->sendSystemMessage("@gambling/default_interface:wheel_spin");
-					}
-
-					break;
-				}
-				case TWOLEFT: {
-					first = gamblingManager->rollSlotDigit();
-
-					if (player != nullptr) {
-						player->sendSystemMessage("Slot Machine Pay Line");
-						player->sendSystemMessage("-- | " + String::valueOf(first) + " | | Rolling... | | Rolling... | --");
-					}
-
-					break;
-				}
-				case ONELEFT: {
-					second = gamblingManager->rollSlotDigit();
-
-					if (player != nullptr) {
-						player->sendSystemMessage("Slot Machine Pay Line");
-						player->sendSystemMessage("-- | " + String::valueOf(first) + " | | " + String::valueOf(second) + " | | Rolling... | --");
-					}
-
-					break;
-				}
-				case END: {
-					third = gamblingManager->rollSlotDigit();
-
-					if (player != nullptr) {
-						player->sendSystemMessage("Slot Machine Pay Line");
-						player->sendSystemMessage("-- | " + String::valueOf(first) + " | | " + String::valueOf(second) + " | | " + String::valueOf(third) + "| --");
-					}
-
-					break;
-				}
+	case SLOTMACHINE: {
+		switch (event) {
+		case JOINTERMINAL: {
+			if (player != nullptr) {
+				StringIdChatParameter textPlayer("gambling/default_interface", "prose_player_join");
+				textPlayer.setTO(getMachineTypeText());
+				player->sendSystemMessage(textPlayer);
 			}
 
 			break;
 		}
-		case ROULETTEMACHINE: {
-
-			switch (event) {
-				case JOINTERMINAL: {
-
-					StringIdChatParameter textOthers("gambling/default_interface","prose_player_join_other");
-
-					if (player != nullptr) {
-						StringIdChatParameter textPlayer("gambling/default_interface","prose_player_join");
-						textPlayer.setTO(getMachineTypeText());
-						player->sendSystemMessage(textPlayer);
-
-						textOthers.setTT(player->getFirstName());
-					}
-
-					notifyOthers(player, &textOthers);
-
-					break;
-				}
-				case LEAVETERMINAL: {
-
-					StringIdChatParameter textOthers("gambling/default_interface","prose_player_leave_other");
-
-					if (player != nullptr) {
-						StringIdChatParameter textPlayer("gambling/default_interface","prose_player_leave");
-						textPlayer.setTO(getMachineTypeText());
-						player->sendSystemMessage(textPlayer);
-
-						textOthers.setTT(player->getFirstName());
-					}
-
-					notifyOthers(player, &textOthers);
-
-					break;
-				}
-				case GAMESTARTING: {
-
-					StringIdChatParameter body("gambling/default_interface","prose_starting_in");
-					body.setDI(120);
-
-					notifyAll(&body);
-
-					break;
-				}
-				case NINETY: {
-
-					StringIdChatParameter body("gambling/default_interface","prose_starting_in");
-					body.setDI(90);
-
-					notifyAll(&body);
-
-					break;
-				}
-				case SIXTY: {
-
-					StringIdChatParameter body("gambling/default_interface","prose_starting_in");
-					body.setDI(60);
-
-					notifyAll(&body);
-
-					break;
-				}
-				case THIRTY: {
-
-					StringIdChatParameter body("gambling/default_interface","prose_starting_in");
-					body.setDI(30);
-
-					notifyAll(&body);
-
-					break;
-				}
-				case TWENTY: {
-
-					StringIdChatParameter body("gambling/default_interface","prose_starting_in");
-					body.setDI(20);
-
-					notifyAll(&body);
-
-					break;
-				}
-				case FIFTEEN: {
-
-					StringIdChatParameter body("gambling/default_interface","prose_starting_in");
-					body.setDI(15);
-
-					notifyAll(&body);
-
-					break;
-				}
-				case TEN: {
-
-					StringIdChatParameter body("gambling/default_interface","prose_starting_in");
-					body.setDI(10);
-
-					notifyAll(&body);
-
-					break;
-				}
-				case FIVE: {
-
-					StringIdChatParameter body("gambling/default_interface","prose_starting_in");
-					body.setDI(5);
-
-					notifyAll(&body);
-
-					break;
-				}
-				case WHEELSTART: {
-
-					StringIdChatParameter body("gambling/default_interface","wheel_spin");
-					notifyAll(&body);
-
-					break;
-				}
-				case WHEELBEGINSLOW: {
-
-					StringIdChatParameter body("gambling/default_interface","wheel_begin_slow");
-					notifyAll(&body);
-
-					break;
-				}
-				case WHEELSLOW: {
-
-					first = System::random(37);
-
-					StringIdChatParameter body("gambling/default_interface","prose_wheel_slow");
-					body.setTT(gamblingManager->getRoulette()->get(first));
-
-					String terminalName;
-					_this.getReferenceUnsafeStaticCast()->getObjectName()->getFullPath(terminalName);
-					body.setTO(terminalName);
-
-					notifyAll(&body);
-
-					break;
-				}
-				case WHEELSTOP: {
-
-					int random = System::random(1);
-
-					if (random == 0) {
-
-						StringIdChatParameter body("gambling/default_interface","prose_result_same");
-						body.setTT(gamblingManager->getRoulette()->get(first));
-
-						String terminalName;
-						_this.getReferenceUnsafeStaticCast()->getObjectName()->getFullPath(terminalName);
-
-						body.setTO(terminalName);
-
-						notifyAll(&body);
-
-					} else {
-
-						first = System::random(37);
-
-						StringIdChatParameter body("gambling/default_interface","prose_result_change");
-						body.setTT(gamblingManager->getRoulette()->get(first));
-
-						String terminalName;
-						_this.getReferenceUnsafeStaticCast()->getObjectName()->getFullPath(terminalName);
-
-						body.setTO(terminalName);
-
-						notifyAll(&body);
-					}
-
-					break;
-				}
+		case LEAVETERMINAL: {
+			if (player != nullptr) {
+				StringIdChatParameter textPlayer("gambling/default_interface", "prose_player_leave");
+				textPlayer.setTO(getMachineTypeText());
+				player->sendSystemMessage(textPlayer);
 			}
 
 			break;
 		}
+		case GAMESTARTED: {
+			if (player != nullptr) {
+				player->sendSystemMessage("@gambling/default_interface:wheel_spin");
+			}
+
+			break;
+		}
+		case TWOLEFT: {
+			first = gamblingManager->rollSlotDigit();
+
+			if (player != nullptr) {
+				player->sendSystemMessage("Slot Machine Pay Line");
+				player->sendSystemMessage("-- | " + String::valueOf(first) + " | | Rolling... | | Rolling... | --");
+			}
+
+			break;
+		}
+		case ONELEFT: {
+			second = gamblingManager->rollSlotDigit();
+
+			if (player != nullptr) {
+				player->sendSystemMessage("Slot Machine Pay Line");
+				player->sendSystemMessage("-- | " + String::valueOf(first) + " | | " + String::valueOf(second) + " | | Rolling... | --");
+			}
+
+			break;
+		}
+		case END: {
+			third = gamblingManager->rollSlotDigit();
+
+			if (player != nullptr) {
+				player->sendSystemMessage("Slot Machine Pay Line");
+				player->sendSystemMessage("-- | " + String::valueOf(first) + " | | " + String::valueOf(second) + " | | " + String::valueOf(third) + "| --");
+			}
+
+			break;
+		}
+		}
+
+		break;
+	}
+	case ROULETTEMACHINE: {
+		switch (event) {
+		case JOINTERMINAL: {
+			StringIdChatParameter textOthers("gambling/default_interface", "prose_player_join_other");
+
+			if (player != nullptr) {
+				StringIdChatParameter textPlayer("gambling/default_interface", "prose_player_join");
+				textPlayer.setTO(getMachineTypeText());
+				player->sendSystemMessage(textPlayer);
+
+				textOthers.setTT(player->getFirstName());
+			}
+
+			notifyOthers(player, &textOthers);
+
+			break;
+		}
+		case LEAVETERMINAL: {
+			StringIdChatParameter textOthers("gambling/default_interface", "prose_player_leave_other");
+
+			if (player != nullptr) {
+				StringIdChatParameter textPlayer("gambling/default_interface", "prose_player_leave");
+				textPlayer.setTO(getMachineTypeText());
+				player->sendSystemMessage(textPlayer);
+
+				textOthers.setTT(player->getFirstName());
+			}
+
+			notifyOthers(player, &textOthers);
+
+			break;
+		}
+		case GAMESTARTING: {
+			StringIdChatParameter body("gambling/default_interface", "prose_starting_in");
+			body.setDI(120);
+
+			notifyAll(&body);
+
+			break;
+		}
+		case NINETY: {
+			StringIdChatParameter body("gambling/default_interface", "prose_starting_in");
+			body.setDI(90);
+
+			notifyAll(&body);
+
+			break;
+		}
+		case SIXTY: {
+			StringIdChatParameter body("gambling/default_interface", "prose_starting_in");
+			body.setDI(60);
+
+			notifyAll(&body);
+
+			break;
+		}
+		case THIRTY: {
+			StringIdChatParameter body("gambling/default_interface", "prose_starting_in");
+			body.setDI(30);
+
+			notifyAll(&body);
+
+			break;
+		}
+		case TWENTY: {
+			StringIdChatParameter body("gambling/default_interface", "prose_starting_in");
+			body.setDI(20);
+
+			notifyAll(&body);
+
+			break;
+		}
+		case FIFTEEN: {
+			StringIdChatParameter body("gambling/default_interface", "prose_starting_in");
+			body.setDI(15);
+
+			notifyAll(&body);
+
+			break;
+		}
+		case TEN: {
+			StringIdChatParameter body("gambling/default_interface", "prose_starting_in");
+			body.setDI(10);
+
+			notifyAll(&body);
+
+			break;
+		}
+		case FIVE: {
+			StringIdChatParameter body("gambling/default_interface", "prose_starting_in");
+			body.setDI(5);
+
+			notifyAll(&body);
+
+			break;
+		}
+		case WHEELSTART: {
+			StringIdChatParameter body("gambling/default_interface", "wheel_spin");
+			notifyAll(&body);
+
+			break;
+		}
+		case WHEELBEGINSLOW: {
+			StringIdChatParameter body("gambling/default_interface", "wheel_begin_slow");
+			notifyAll(&body);
+
+			break;
+		}
+		case WHEELSLOW: {
+			first = System::random(37);
+
+			StringIdChatParameter body("gambling/default_interface", "prose_wheel_slow");
+			body.setTT(gamblingManager->getRoulette()->get(first));
+
+			String terminalName;
+			_this.getReferenceUnsafeStaticCast()->getObjectName()->getFullPath(terminalName);
+			body.setTO(terminalName);
+
+			notifyAll(&body);
+
+			break;
+		}
+		case WHEELSTOP: {
+			int random = System::random(1);
+
+			if (random == 0) {
+				StringIdChatParameter body("gambling/default_interface", "prose_result_same");
+				body.setTT(gamblingManager->getRoulette()->get(first));
+
+				String terminalName;
+				_this.getReferenceUnsafeStaticCast()->getObjectName()->getFullPath(terminalName);
+
+				body.setTO(terminalName);
+
+				notifyAll(&body);
+
+			} else {
+				first = System::random(37);
+
+				StringIdChatParameter body("gambling/default_interface", "prose_result_change");
+				body.setTT(gamblingManager->getRoulette()->get(first));
+
+				String terminalName;
+				_this.getReferenceUnsafeStaticCast()->getObjectName()->getFullPath(terminalName);
+
+				body.setTO(terminalName);
+
+				notifyAll(&body);
+			}
+
+			break;
+		}
+		}
+
+		break;
+	}
 	}
 }
 

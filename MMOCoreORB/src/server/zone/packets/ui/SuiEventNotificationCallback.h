@@ -19,11 +19,8 @@ class SuiEventNotificationCallback : public MessageCallback {
 	Vector<UnicodeString> arguments;
 
 public:
-	SuiEventNotificationCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), pageId(0), eventIndex(0), listSize1(0), listSize2(0) {
-
+	SuiEventNotificationCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), pageId(0), eventIndex(0), listSize1(0), listSize2(0) {
 	}
-
 
 	void parse(Message* message) {
 		pageId = message->parseInt();
@@ -48,6 +45,5 @@ public:
 		server->getSuiManager()->handleSuiEventNotification(pageId, playerCreature, eventIndex, &arguments);
 	}
 };
-
 
 #endif /* SUIEVENTNOTIFICATIONCALLBACK_H_ */

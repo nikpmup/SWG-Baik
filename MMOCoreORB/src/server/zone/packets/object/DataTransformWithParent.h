@@ -20,9 +20,7 @@
 
 class DataTransformWithParent : public ObjectControllerMessage {
 public:
-	DataTransformWithParent(SceneObject* creo)
-		: ObjectControllerMessage(creo->getObjectID(), 0x1B, 0xF1) {
-
+	DataTransformWithParent(SceneObject* creo) : ObjectControllerMessage(creo->getObjectID(), 0x1B, 0xF1) {
 		insertInt(creo->getMovementCounter());
 
 		insertLong(creo->getParentID());
@@ -38,7 +36,6 @@ public:
 
 		insertInt(0);
 	}
-
 };
 
 class DataTransformWithParentCallback : public MessageCallback {
@@ -51,9 +48,9 @@ class DataTransformWithParentCallback : public MessageCallback {
 	float parsedSpeed;
 
 	ObjectControllerMessageCallback* objectControllerMain;
+
 public:
-	DataTransformWithParentCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()) {
+	DataTransformWithParentCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()) {
 		movementStamp = 0;
 		movementCounter = 0;
 		parent = 0;
@@ -123,11 +120,8 @@ public:
 
 		int posture = object->getPosture();
 
-		//TODO: This should be derived from the locomotion table
-		if (!object->hasDizzyEvent()
-				&& (posture == CreaturePosture::UPRIGHT || posture == CreaturePosture::PRONE || posture == CreaturePosture::CROUCHED || posture == CreaturePosture::DRIVINGVEHICLE || posture == CreaturePosture::RIDINGCREATURE
-				|| posture == CreaturePosture::SKILLANIMATING)) {
-
+		// TODO: This should be derived from the locomotion table
+		if (!object->hasDizzyEvent() && (posture == CreaturePosture::UPRIGHT || posture == CreaturePosture::PRONE || posture == CreaturePosture::CROUCHED || posture == CreaturePosture::DRIVINGVEHICLE || posture == CreaturePosture::RIDINGCREATURE || posture == CreaturePosture::SKILLANIMATING)) {
 			updatePosition(object);
 		} else {
 			object->setCurrentSpeed(0);
@@ -198,7 +192,7 @@ public:
 			ObjectController* objectController = zoneServer->getObjectController();
 			objectController->activateCommand(object, STRING_HASHCODE("dismount"), 0, 0, "");
 			object->sendSystemMessage("@base_player:no_entry_while_mounted"); // "You cannot enter a structure while on your mount."
-			return; // don't allow a dismount and parent update in the same frame, this looks better than bouncing their position
+			return;															  // don't allow a dismount and parent update in the same frame, this looks better than bouncing their position
 		}
 
 		uint32 objectMovementCounter = object->getMovementCounter();
@@ -251,21 +245,21 @@ public:
 			}
 		}
 
-		if ( par != newParent) {
+		if (par != newParent) {
 			CellObject* currentCell = par.castTo<CellObject*>();
-			const PortalLayout *layout = building->getObjectTemplate()->getPortalLayout();
+			const PortalLayout* layout = building->getObjectTemplate()->getPortalLayout();
 			if (layout == nullptr)
 				return;
 
-			const CellProperty *cellProperty = layout->getCellProperty(newParent->getCellNumber());
+			const CellProperty* cellProperty = layout->getCellProperty(newParent->getCellNumber());
 			if (!cellProperty->hasConnectedCell(currentCell != nullptr ? currentCell->getCellNumber() : 0)) {
 				String zoneName = object->getZone()->getZoneName();
 
 				object->error() << object->getObjectID() << " Attempted to change parents to a cell not connected to the previous parent: "
-					<< "X: " << positionX << " Y: " << positionY << " Z: " << positionZ << " zone:" << zoneName << " parentID: " << parent;
-//				for (int i : cellProperty->getConnectedCells()) {
-//					buf << "ConnectedCell: " << i << endl;
-//				}
+								<< "X: " << positionX << " Y: " << positionY << " Z: " << positionZ << " zone:" << zoneName << " parentID: " << parent;
+				//				for (int i : cellProperty->getConnectedCells()) {
+				//					buf << "ConnectedCell: " << i << endl;
+				//				}
 
 				bounceBack(object, pos);
 				return;
@@ -288,7 +282,7 @@ public:
 
 			float err = fabs(val - positionZ);
 
-			//printf("collision error %f\n value %f", err, val);
+			// printf("collision error %f\n value %f", err, val);
 
 			if (err < minErr) {
 				minErr = err;
@@ -349,6 +343,5 @@ public:
 		}
 	}
 };
-
 
 #endif /*DATATRANSFORMWITHPARENT_H_*/

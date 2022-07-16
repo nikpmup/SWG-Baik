@@ -19,9 +19,9 @@ namespace creature {
 namespace events {
 
 class DroidPlaybackTask : public Task {
-
 	Reference<DroidPlaybackModuleDataComponent*> module;
 	bool playing;
+
 public:
 	DroidPlaybackTask(DroidPlaybackModuleDataComponent* module) : Task() {
 		this->module = module;
@@ -39,7 +39,7 @@ public:
 
 		Locker locker(droid);
 
-		if (droid->getLocalZone() == nullptr) {  // Not outdoors
+		if (droid->getLocalZone() == nullptr) { // Not outdoors
 			ManagedReference<SceneObject*> parent = droid->getParent().get();
 			if (parent == nullptr || !parent->isCellObject()) { // Not indoors either
 				module->deactivate();
@@ -58,7 +58,7 @@ public:
 		// Droid must have power
 		if (!droid->hasPower()) {
 			module->deactivate();
-			droid->showFlyText("npc_reaction/flytext","low_power", 204, 0, 0);  // "*Low Power*"
+			droid->showFlyText("npc_reaction/flytext", "low_power", 204, 0, 0); // "*Low Power*"
 			droid->removePendingTask("droid_playback");
 			return;
 		}
@@ -75,11 +75,11 @@ public:
 	}
 };
 
-} // events
-} // creature
-} // objects
-} // zone
-} // server
+} // namespace events
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::events;
 

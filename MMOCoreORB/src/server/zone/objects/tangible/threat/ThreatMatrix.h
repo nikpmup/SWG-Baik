@@ -16,9 +16,9 @@ namespace objects {
 namespace tangible {
 class TangibleObject;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::tangible;
 
@@ -57,11 +57,11 @@ public:
 
 	void print();
 };
-}
-}
-}
-}
-}
+} // namespace threat
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::tangible::threat;
 

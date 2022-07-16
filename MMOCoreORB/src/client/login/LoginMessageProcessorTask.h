@@ -38,16 +38,14 @@ public:
 		} catch (Exception& e) {
 			StringBuffer msg;
 			msg << e.getMessage();
-			//error(msg);
+			// error(msg);
 
 			e.printStackTrace();
 		}
 
 		delete message;
 		message = nullptr;
-
 	}
-
 };
 
 #endif /*LOGINMESSAGEPROCESSORTASK_H_*/

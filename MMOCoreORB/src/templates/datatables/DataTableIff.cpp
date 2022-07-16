@@ -10,7 +10,6 @@
 #include "templates/datatables/DataTableRow.h"
 
 DataTableIff::DataTableIff() {
-
 }
 
 DataTableIff::~DataTableIff() {
@@ -30,7 +29,7 @@ void DataTableIff::readObject(IffStream* iffStream) {
 	uint32 version = iffStream->getNextFormType();
 	iffStream->openForm(version);
 
-	//Parse the columns
+	// Parse the columns
 	Chunk* chunk = iffStream->openChunk('COLS');
 	uint32 totalColumns = chunk->readInt();
 
@@ -43,14 +42,14 @@ void DataTableIff::readObject(IffStream* iffStream) {
 
 	iffStream->closeChunk('COLS');
 
-	//Parse the types
+	// Parse the types
 	chunk = iffStream->openChunk('TYPE');
 
 	for (int i = 0; i < totalColumns; ++i) {
 		String typeName;
 		chunk->readString(typeName);
 
-		columnTypes.add(typeName.charAt(0)); //Just need the first character to know the type. Default value doesn't seem to matter.
+		columnTypes.add(typeName.charAt(0)); // Just need the first character to know the type. Default value doesn't seem to matter.
 	}
 
 	iffStream->closeChunk('TYPE');

@@ -5,7 +5,6 @@
 #ifndef WAYPOINTCOMMAND_H_
 #define WAYPOINTCOMMAND_H_
 
-
 #include "server/zone/objects/scene/SceneObject.h"
 #include "server/zone/objects/waypoint/WaypointObject.h"
 #include "server/zone/objects/player/PlayerObject.h"
@@ -13,14 +12,10 @@
 
 class WaypointCommand : public QueueCommand {
 public:
-
-	WaypointCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	WaypointCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -64,13 +59,12 @@ public:
 		tokenizer.setDelimeter(" ");
 
 		if (tokenizer.hasMoreTokens()) {
-
 			String arg1;
 			tokenizer.getStringToken(arg1);
 
 			if (tokenizer.hasMoreTokens()) {
 				if (isalpha(arg1[0]) == 0) {
-					//A waypoint in the form of /waypoint X Y <name>
+					// A waypoint in the form of /waypoint X Y <name>
 					x = atof(arg1.toCharArray());
 
 					if (tokenizer.hasMoreTokens()) {
@@ -96,10 +90,10 @@ public:
 						waypointName = newWaypointName.toString();
 
 				} else {
-					//A waypoint in the form of /waypoint planet X Z Y - Planetary Map
+					// A waypoint in the form of /waypoint planet X Z Y - Planetary Map
 					planet = arg1;
 
-					if (server->getZoneServer()->getZone(planet) == nullptr) { //Not a valid planet name - malformed command
+					if (server->getZoneServer()->getZone(planet) == nullptr) { // Not a valid planet name - malformed command
 						creature->sendSystemMessage(usageError);
 						return GENERALERROR;
 					}
@@ -141,7 +135,7 @@ public:
 					}
 				}
 			} else {
-				//A waypoint in the form of /waypoint <name>
+				// A waypoint in the form of /waypoint <name>
 				waypointName = arg1;
 			}
 		} else if (targetObject != nullptr) {
@@ -158,7 +152,7 @@ public:
 		y = (y < -8192) ? -8192 : y;
 		y = (y > 8192) ? 8192 : y;
 
-		Reference<PlayerObject*> playerObject =  creature->getSlottedObject("ghost").castTo<PlayerObject*>();
+		Reference<PlayerObject*> playerObject = creature->getSlottedObject("ghost").castTo<PlayerObject*>();
 
 		ManagedReference<WaypointObject*> obj = server->getZoneServer()->createObject(0xc456e788, 1).castTo<WaypointObject*>();
 
@@ -173,9 +167,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //WAYPOINTCOMMAND_H_
-
-
+#endif // WAYPOINTCOMMAND_H_

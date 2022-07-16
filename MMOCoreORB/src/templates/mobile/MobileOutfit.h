@@ -11,9 +11,9 @@
 class OutfitTangibleObject : public Object {
 	String objectTemplate;
 	VectorMap<String, uint8> customizationVariables;
+
 public:
 	OutfitTangibleObject() {
-
 	}
 
 	OutfitTangibleObject(const OutfitTangibleObject& o) : Object() {
@@ -61,9 +61,9 @@ public:
 
 class MobileOutfit : public Object {
 	Vector<OutfitTangibleObject> objects;
+
 public:
 	MobileOutfit() {
-
 	}
 
 	MobileOutfit(const MobileOutfit& o) : Object() {
@@ -95,7 +95,6 @@ public:
 	Vector<OutfitTangibleObject>* getObjects() {
 		return &objects;
 	}
-
 };
 
 #endif /* MOBILEOUTFIT_H_ */

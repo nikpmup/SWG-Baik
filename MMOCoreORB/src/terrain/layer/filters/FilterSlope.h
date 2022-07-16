@@ -8,7 +8,6 @@
 #ifndef FILTERSLOPE_H_
 #define FILTERSLOPE_H_
 
-
 #include "../ProceduralRule.h"
 #include "FilterProceduralRule.h"
 
@@ -16,11 +15,11 @@
 
 class FilterSlope : public FilterProceduralRule {
 	float minAngle; // +32
-	float max; // +40
+	float max;		// +40
 	float maxAngle; // +28
-	float min; //+36
+	float min;		//+36
 
-	//const static float defaultValue = 1.5707964;
+	// const static float defaultValue = 1.5707964;
 
 public:
 	FilterSlope() : FilterProceduralRule(2, 'FSLP'), minAngle(0), max(0), maxAngle(0), min(0) {
@@ -117,7 +116,6 @@ public:
 
 		return result;
 	}
-
 };
 
 #endif /* FILTERSLOPE_H_ */

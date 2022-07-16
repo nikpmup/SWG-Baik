@@ -15,7 +15,6 @@
 
 class AuctionTerminalDataComponent : public DataObjectComponent {
 protected:
-
 	ManagedWeakReference<AuctionManager*> auctionMan;
 	SerializableString uid;
 
@@ -26,7 +25,6 @@ public:
 	}
 
 	virtual ~AuctionTerminalDataComponent() {
-
 	}
 
 	void writeJSON(nlohmann::json& j) const {
@@ -37,9 +35,9 @@ public:
 
 	void initializeTransientMembers() {
 		ManagedReference<SceneObject*> strongParent = parent.get();
-		if(strongParent != nullptr && strongParent->getZoneServer() != nullptr) {
+		if (strongParent != nullptr && strongParent->getZoneServer() != nullptr) {
 			auctionMan = strongParent->getZoneServer()->getAuctionManager();
-			if(uid.isEmpty())
+			if (uid.isEmpty())
 				updateUID();
 		}
 	}
@@ -48,7 +46,7 @@ public:
 		ManagedReference<SceneObject*> strongParent = parent.get();
 		ManagedReference<AuctionManager*> auctionManager = auctionMan.get();
 
-		if(auctionManager == nullptr || strongParent == nullptr || strongParent->getZone() == nullptr)
+		if (auctionManager == nullptr || strongParent == nullptr || strongParent->getZone() == nullptr)
 			return;
 
 		String olduid = uid;
@@ -57,14 +55,14 @@ public:
 
 		String region = "@planet_n:" + strongParent->getZone()->getZoneName();
 		ManagedReference<CityRegion*> cityRegion = strongParent->getCityRegion().get();
-		if(cityRegion != nullptr)
+		if (cityRegion != nullptr)
 			region = cityRegion->getRegionName();
 
 		uid += region + "." + strongParent->getDisplayedName() + ".";
 		uid += String::valueOf(strongParent->getObjectID()) + "#";
 		uid += String::valueOf(((int)strongParent->getWorldPositionX())) + "," + String::valueOf(((int)strongParent->getWorldPositionY()));
 
-		if(olduid != uid)
+		if (olduid != uid)
 			auctionManager->updateVendorUID(strongParent, olduid, uid);
 	}
 
@@ -81,6 +79,5 @@ private:
 		addSerializableVariable("uid", &uid);
 	}
 };
-
 
 #endif /* AUCTIONTERMINALDATACOMPONENT_H_ */

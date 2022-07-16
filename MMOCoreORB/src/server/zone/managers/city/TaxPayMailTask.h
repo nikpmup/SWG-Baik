@@ -20,6 +20,7 @@ class TaxPayMailTask : public Task {
 	ManagedReference<CityRegion*> city;
 
 	int incomeTax;
+
 public:
 	TaxPayMailTask(int tax, const String& mayor, ManagedReference<ChatManager*> chat, ManagedReference<CityRegion*> cityRegion) {
 		mayorName = mayor;
@@ -83,7 +84,6 @@ public:
 	void addCitizen(uint64 citizen) {
 		citizens.add(citizen);
 	}
-
 };
 
 #endif /* TAXNOPAYMAILTASK_H_ */

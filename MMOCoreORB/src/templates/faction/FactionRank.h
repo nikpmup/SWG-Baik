@@ -81,7 +81,6 @@ public:
 	void setName(const String& name) {
 		this->name = name;
 	}
-
 };
 
 #endif /* FACTIONRANK_H_ */

@@ -26,9 +26,8 @@ public:
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
-		if ((agent->getOptionsBitmask() & OptionBitmask::AIENABLED) == 0 || agent->isDead() || agent->isIncapacitated()
-				|| (agent->getPvpStatusBitmask() == CreatureFlag::NONE && !(agent->isDroidObject() && agent->isPet()))
-				|| agent->getNumberOfPlayersInRange() <= 0 || agent->isRetreating() || agent->isFleeing() || agent->isInCombat())
+		if ((agent->getOptionsBitmask() & OptionBitmask::AIENABLED) == 0 || agent->isDead() || agent->isIncapacitated() || (agent->getPvpStatusBitmask() == CreatureFlag::NONE && !(agent->isDroidObject() && agent->isPet())) || agent->getNumberOfPlayersInRange() <= 0 || agent->isRetreating() || agent->isFleeing() ||
+			agent->isInCombat())
 			return FAILURE;
 
 		assert(child != nullptr);
@@ -50,12 +49,12 @@ public:
 
 		// get targets we want to apply our child tree to
 		// TODO: might have to fix numberOfPlayersInRange here
-		CloseObjectsVector* vec = (CloseObjectsVector*) agent->getCloseObjects();
+		CloseObjectsVector* vec = (CloseObjectsVector*)agent->getCloseObjects();
 
 		if (vec == nullptr)
 			return FAILURE;
 
-		SortedVector<QuadTreeEntry* > closeObjects;
+		SortedVector<QuadTreeEntry*> closeObjects;
 		vec->safeCopyReceiversTo(closeObjects, CloseObjectsVector::CREOTYPE);
 
 		// Shuffle closeobjects to randomize target checks
@@ -100,12 +99,12 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
-}
-}
+} // namespace decorator
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif // LOOKFORTARGET_H_

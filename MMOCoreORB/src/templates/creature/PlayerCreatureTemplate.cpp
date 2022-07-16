@@ -47,7 +47,7 @@ void PlayerCreatureTemplate::readObject(LuaObject* templateData) {
 	lua_pushnil(L);
 	while (lua_next(L, -2) != 0) {
 		// 'key' is at index -2 and 'value' at index -1
-		//printf("%s - %s\n",
+		// printf("%s - %s\n",
 		//		lua_tostring(L, -2), lua_typename(L, lua_type(L, -1)));
 
 		int type = lua_type(L, -2);
@@ -66,4 +66,3 @@ void PlayerCreatureTemplate::readObject(LuaObject* templateData) {
 
 	return;
 }
-

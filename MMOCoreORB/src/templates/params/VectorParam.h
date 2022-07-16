@@ -57,7 +57,7 @@ public:
 	}
 
 	String toString() const {
-		//String var;
+		// String var;
 		StringBuffer stream;
 
 		stream << "{";

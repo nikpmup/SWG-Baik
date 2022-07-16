@@ -9,16 +9,10 @@
 
 class WipeItemsCommand : public QueueCommand {
 public:
-
-	WipeItemsCommand(const String& name, ZoneProcessServer* server)
-	: QueueCommand(name, server)
-	{
-
+	WipeItemsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
-	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const
-	{
-
+	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -26,27 +20,22 @@ public:
 			return INVALIDLOCOMOTION;
 
 		try {
-
-			ManagedReference<SceneObject* > object =
-					server->getZoneServer()->getObject(target);
+			ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
 
 			ManagedReference<CreatureObject*> player = nullptr;
 
 			StringTokenizer args(arguments.toString());
 
-			if (object == nullptr || !object->isPlayerCreature())
-			{
+			if (object == nullptr || !object->isPlayerCreature()) {
 				String firstName;
 
 				if (args.hasMoreTokens()) {
 					args.getStringToken(firstName);
-					player = server->getZoneServer()->getChatManager()->getPlayer(
-							firstName);
+					player = server->getZoneServer()->getChatManager()->getPlayer(firstName);
 				}
 
-			} else
-			{
-				player = cast<CreatureObject*>( object.get());
+			} else {
+				player = cast<CreatureObject*>(object.get());
 			}
 
 			if (player == nullptr) {
@@ -61,8 +50,7 @@ public:
 			if (inventory == nullptr)
 				return GENERALERROR;
 
-			while (inventory->getContainerObjectsSize() > 0)
-			{
+			while (inventory->getContainerObjectsSize() > 0) {
 				ManagedReference<SceneObject*> object = inventory->getContainerObject(0);
 				Locker sceneObjectLocker(object);
 				object->destroyObjectFromWorld(true);
@@ -71,16 +59,12 @@ public:
 
 			creature->sendSystemMessage(player->getFirstName() + "'s inventory has been wiped.");
 
-		}
-		catch (Exception& e)
-		{
+		} catch (Exception& e) {
 			creature->sendSystemMessage("Invalid arguments for /wipeItems. Usage: /wipeItems playerName");
 		}
 
-
 		return SUCCESS;
 	}
-
 };
 
-#endif //WIPEITEMSCOMMAND_H_
+#endif // WIPEITEMSCOMMAND_H_

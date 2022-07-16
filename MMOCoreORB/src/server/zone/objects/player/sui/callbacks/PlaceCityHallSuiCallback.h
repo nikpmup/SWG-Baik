@@ -27,9 +27,7 @@ class PlaceCityHallSuiCallback : public SuiCallback {
 	int angle;
 
 public:
-	PlaceCityHallSuiCallback(Zone* zone, StructureDeed* deed, float x, float y, int angle)
-			: SuiCallback(zone->getZoneServer()) {
-
+	PlaceCityHallSuiCallback(Zone* zone, StructureDeed* deed, float x, float y, int angle) : SuiCallback(zone->getZoneServer()) {
 		this->zone = zone;
 		this->deed = deed;
 		this->x = x;
@@ -63,7 +61,7 @@ public:
 		case NameManagerResult::DECLINED_DEVELOPER:
 		case NameManagerResult::DECLINED_FICT_RESERVED:
 		case NameManagerResult::DECLINED_RESERVED:
-			creature->sendSystemMessage("@player_structure:obscene"); //That name was rejected by the name filter. Try a different name.
+			creature->sendSystemMessage("@player_structure:obscene"); // That name was rejected by the name filter. Try a different name.
 			return;
 			break;
 
@@ -77,7 +75,7 @@ public:
 			break;
 		}
 
-		//Check unique
+		// Check unique
 		PlanetManager* planetManager = zone->getPlanetManager();
 		CityManager* cityManager = server->getCityManager();
 
@@ -87,8 +85,8 @@ public:
 			return;
 
 		if (!planetManager->validateRegionName(cityName) || !cityManager->validateCityName(cityName)) {
-			creature->sendSystemMessage("@player_structure:cityname_not_unique"); //Another city already has this name. Your city's name must be unique.
-			//Resend the sui.
+			creature->sendSystemMessage("@player_structure:cityname_not_unique"); // Another city already has this name. Your city's name must be unique.
+			// Resend the sui.
 			return;
 		}
 

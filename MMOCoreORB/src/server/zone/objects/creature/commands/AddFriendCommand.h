@@ -12,14 +12,10 @@
 
 class AddFriendCommand : public QueueCommand {
 public:
-
-	AddFriendCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	AddFriendCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -82,7 +78,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //ADDFRIENDCOMMAND_H_
+#endif // ADDFRIENDCOMMAND_H_

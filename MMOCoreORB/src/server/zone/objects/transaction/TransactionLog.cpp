@@ -156,7 +156,7 @@ void TransactionLog::commit(bool discardEmpty) {
 
 			// Force a copy of trx because dtor will destroy (this) before we're done
 			Core::getTaskManager()->executeTask(
-				[trx = *this] () mutable {
+				[trx = *this]() mutable {
 					try {
 						trx.exportRelated();
 						trx.mTransaction["exportBacklog"] = exportBacklog.get() - 1;
@@ -367,7 +367,7 @@ void TransactionLog::catchAndLog(const char* functioName, Function<void()> funct
 }
 
 Logger& TransactionLog::getLogger() {
-	auto static customLogger = [] () {
+	auto static customLogger = []() {
 		Logger log("TransactionLogMessages");
 
 		log.setGlobalLogging(false);
@@ -378,13 +378,13 @@ Logger& TransactionLog::getLogger() {
 		log.setLogLevel(ConfigManager::instance()->getLogLevel("Core3.TransactionLog.LogLevel", Logger::DEBUG));
 
 		return log;
-	} ();
+	}();
 
 	return customLogger;
 };
 
 const TaskQueue* TransactionLog::getCustomQueue() {
-	auto static customQueue = [] () {
+	auto static customQueue = []() {
 		auto numberOfThreads = ConfigManager::instance()->getInt("Core3.TransactionLog.WorkerThreads", 4);
 
 		return Core::getTaskManager()->initializeCustomQueue("TransactionLogWorker", numberOfThreads);
@@ -702,7 +702,7 @@ const String TransactionLog::composeLogEntry() const {
 }
 
 void TransactionLog::writeLog() {
-	auto static trxLog = [] () {
+	auto static trxLog = []() {
 		Logger log("TransactionLog");
 
 		log.setGlobalLogging(false);
@@ -726,7 +726,7 @@ void TransactionLog::writeLog() {
 		});
 
 		return log;
-	} ();
+	}();
 
 	if (mLogged) {
 		auto trace = StackTrace();

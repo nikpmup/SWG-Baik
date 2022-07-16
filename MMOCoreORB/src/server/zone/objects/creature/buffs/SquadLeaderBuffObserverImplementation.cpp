@@ -19,7 +19,7 @@ int SquadLeaderBuffObserverImplementation::notifyObserverEvent(unsigned int even
 	if (eventType != ObserverEventType::PARENTCHANGED && eventType != ObserverEventType::BHTEFCHANGED && eventType != ObserverEventType::FACTIONCHANGED && eventType != ObserverEventType::OBJECTDESTRUCTION && eventType != ObserverEventType::CREATUREREVIVED)
 		return 0;
 
-	ManagedReference<SquadLeaderBuff* > strongBuff = buff.get();
+	ManagedReference<SquadLeaderBuff*> strongBuff = buff.get();
 
 	if (strongBuff == nullptr)
 		return 1;
@@ -31,19 +31,19 @@ int SquadLeaderBuffObserverImplementation::notifyObserverEvent(unsigned int even
 	ManagedReference<CreatureObject*> leader = strongBuff->getLeader();
 
 	if (leader == nullptr || player->getGroup() == nullptr || player->getGroup()->getLeader() != leader) {
-		Core::getTaskManager()->executeTask([=] () {
-			Locker locker(player);
-			Locker clocker(strongBuff, player);
-			player->removeBuff(strongBuff->getBuffCRC());
-		}, "SquadLeaderObserverRemoveBuffLambda");
+		Core::getTaskManager()->executeTask(
+			[=]() {
+				Locker locker(player);
+				Locker clocker(strongBuff, player);
+				player->removeBuff(strongBuff->getBuffCRC());
+			},
+			"SquadLeaderObserverRemoveBuffLambda");
 		return 1;
 	}
 
 	Reference<SquadLeaderBuffObserver*> thisObserver = _this.getReferenceUnsafeStaticCast();
 
-	Core::getTaskManager()->executeTask([=] () {
-		thisObserver->handleObserverEvent(player, strongBuff);
-	}, "HandleSquadLeaderObserverEventLambda");
+	Core::getTaskManager()->executeTask([=]() { thisObserver->handleObserverEvent(player, strongBuff); }, "HandleSquadLeaderObserverEventLambda");
 
 	return 0;
 }

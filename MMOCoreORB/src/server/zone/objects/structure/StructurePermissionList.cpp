@@ -5,7 +5,6 @@
  *      Author: crush
  */
 
-
 #include "StructurePermissionList.h"
 #include "server/zone/packets/ui/PermissionListCreateMessage.h"
 #include "server/zone/ZoneServer.h"
@@ -18,7 +17,7 @@ StructurePermissionList::StructurePermissionList() {
 	idPermissionLists.setNoDuplicateInsertPlan();
 	ownerID = 0;
 
-	//TODO: Load these from the structure template script.
+	// TODO: Load these from the structure template script.
 	addList("ADMIN");
 	addList("ENTRY");
 	addList("HOPPER");
@@ -26,8 +25,7 @@ StructurePermissionList::StructurePermissionList() {
 	addList("VENDOR");
 }
 
-StructurePermissionList::StructurePermissionList(const StructurePermissionList& spl) : Object(), permissionLists(spl.permissionLists),
-		idPermissionLists(spl.idPermissionLists), ownerName(spl.ownerName), ownerID(spl.ownerID), lock() {
+StructurePermissionList::StructurePermissionList(const StructurePermissionList& spl) : Object(), permissionLists(spl.permissionLists), idPermissionLists(spl.idPermissionLists), ownerName(spl.ownerName), ownerID(spl.ownerID), lock() {
 }
 
 bool StructurePermissionList::toBinaryStream(ObjectOutputStream* stream) {
@@ -68,37 +66,37 @@ int StructurePermissionList::writeObjectMembers(ObjectOutputStream* stream) {
 	_name.toBinaryStream(stream);
 	_offset = stream->getOffset();
 	stream->writeInt(0);
-	TypeInfo<VectorMap<String, SortedVector<String> > >::toBinaryStream(&permissionLists, stream);
-	_totalSize = (uint32) (stream->getOffset() - (_offset + 4));
+	TypeInfo<VectorMap<String, SortedVector<String>>>::toBinaryStream(&permissionLists, stream);
+	_totalSize = (uint32)(stream->getOffset() - (_offset + 4));
 	stream->writeInt(_offset, _totalSize);
-	varCount ++;
+	varCount++;
 
 	_name = "idPermissionLists";
 	_name.toBinaryStream(stream);
 	_offset = stream->getOffset();
 	stream->writeInt(0);
-	TypeInfo<VectorMap<String, SortedVector<uint64> > >::toBinaryStream(&idPermissionLists, stream);
-	_totalSize = (uint32) (stream->getOffset() - (_offset + 4));
+	TypeInfo<VectorMap<String, SortedVector<uint64>>>::toBinaryStream(&idPermissionLists, stream);
+	_totalSize = (uint32)(stream->getOffset() - (_offset + 4));
 	stream->writeInt(_offset, _totalSize);
-	varCount ++;
+	varCount++;
 
 	_name = "ownerName";
 	_name.toBinaryStream(stream);
 	_offset = stream->getOffset();
 	stream->writeInt(0);
 	TypeInfo<String>::toBinaryStream(&ownerName, stream);
-	_totalSize = (uint32) (stream->getOffset() - (_offset + 4));
+	_totalSize = (uint32)(stream->getOffset() - (_offset + 4));
 	stream->writeInt(_offset, _totalSize);
-	varCount ++;
+	varCount++;
 
 	_name = "ownerID";
 	_name.toBinaryStream(stream);
 	_offset = stream->getOffset();
 	stream->writeInt(0);
 	TypeInfo<uint64>::toBinaryStream(&ownerID, stream);
-	_totalSize = (uint32) (stream->getOffset() - (_offset + 4));
+	_totalSize = (uint32)(stream->getOffset() - (_offset + 4));
 	stream->writeInt(_offset, _totalSize);
-	varCount ++;
+	varCount++;
 
 	String emptyName; // making it serialize the same way as Serializable so bas doesnt have to update all the objects
 
@@ -107,20 +105,20 @@ int StructurePermissionList::writeObjectMembers(ObjectOutputStream* stream) {
 	_offset = stream->getOffset();
 	stream->writeInt(0);
 	TypeInfo<String>::toBinaryStream(&emptyName, stream);
-	_totalSize = (uint32) (stream->getOffset() - (_offset + 4));
+	_totalSize = (uint32)(stream->getOffset() - (_offset + 4));
 	stream->writeInt(_offset, _totalSize);
-	varCount ++;
+	varCount++;
 
 	return varCount;
 }
 
 bool StructurePermissionList::readObjectMember(ObjectInputStream* stream, const String& name) {
 	if (name == "permissionLists") {
-		TypeInfo<VectorMap<String, SortedVector<String> > >::parseFromBinaryStream(&permissionLists, stream);
+		TypeInfo<VectorMap<String, SortedVector<String>>>::parseFromBinaryStream(&permissionLists, stream);
 
 		return true;
 	} else if (name == "idPermissionLists") {
-		TypeInfo<VectorMap<String, SortedVector<uint64> > >::parseFromBinaryStream(&idPermissionLists, stream);
+		TypeInfo<VectorMap<String, SortedVector<uint64>>>::parseFromBinaryStream(&idPermissionLists, stream);
 
 		return true;
 	} else if (name == "ownerName") {
@@ -147,7 +145,7 @@ bool StructurePermissionList::parseFromBinaryStream(ObjectInputStream* stream) {
 
 		int _currentOffset = stream->getOffset();
 
-		if(readObjectMember(stream, _name)) {
+		if (readObjectMember(stream, _name)) {
 		}
 
 		stream->setOffset(_currentOffset + _varSize);
@@ -179,7 +177,7 @@ void StructurePermissionList::sendTo(CreatureObject* creature, const String& lis
 
 		if (!name.isEmpty()) {
 			listMsg->addName(name);
-		}  else {
+		} else {
 			Reference<SceneObject*> object = zoneServer->getObject(objectID);
 
 			if (object != nullptr && object->isGuildObject()) {
@@ -216,7 +214,7 @@ void StructurePermissionList::sendTo(CreatureObject* creature, const String& lis
 int StructurePermissionList::togglePermission(const String& listName, const uint64 objectID) {
 	Locker locker(&lock);
 
-	if(objectID == ownerID)
+	if (objectID == ownerID)
 		return CANTCHANGEOWNER;
 
 	if (!idPermissionLists.contains(listName))
@@ -224,7 +222,7 @@ int StructurePermissionList::togglePermission(const String& listName, const uint
 
 	SortedVector<uint64>* list = &idPermissionLists.get(listName);
 
-	//If they exist, remove them.
+	// If they exist, remove them.
 	if (list->contains(objectID)) {
 		list->drop(objectID);
 		return REVOKED;
@@ -237,7 +235,7 @@ int StructurePermissionList::togglePermission(const String& listName, const uint
 int StructurePermissionList::grantPermission(const String& listName, const uint64 objectID) {
 	Locker locker(&lock);
 
-	if(objectID == ownerID)
+	if (objectID == ownerID)
 		return CANTCHANGEOWNER;
 
 	if (!idPermissionLists.contains(listName))
@@ -253,7 +251,7 @@ int StructurePermissionList::grantPermission(const String& listName, const uint6
 int StructurePermissionList::revokePermission(const String& listName, const uint64 objectID) {
 	Locker locker(&lock);
 
-	if(objectID == ownerID)
+	if (objectID == ownerID)
 		return CANTCHANGEOWNER;
 
 	if (!idPermissionLists.contains(listName))
@@ -269,7 +267,7 @@ int StructurePermissionList::revokePermission(const String& listName, const uint
 int StructurePermissionList::revokeAllPermissions(const uint64 objectID) {
 	Locker locker(&lock);
 
-	if(objectID == ownerID)
+	if (objectID == ownerID)
 		return CANTCHANGEOWNER;
 
 	for (int i = 0; i < idPermissionLists.size(); ++i) {
@@ -311,7 +309,7 @@ void StructurePermissionList::migrateLists(ZoneServer* zoneServer, uint64 ownerO
 			const String& name = list->get(j);
 
 			if (name.beginsWith("guild:")) {
-				String abbrev = name.replaceAll("guild:","");
+				String abbrev = name.replaceAll("guild:", "");
 
 				if (abbrev == "" || !guildManager->guildAbbrevExists(abbrev)) {
 					continue;
@@ -374,5 +372,3 @@ bool StructurePermissionList::isListFull(const String& listName) const {
 
 	return list.size() >= MAX_ENTRIES;
 }
-
-

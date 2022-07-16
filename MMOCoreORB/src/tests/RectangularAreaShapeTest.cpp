@@ -56,7 +56,7 @@ TEST_F(RectangularAreaShapeTest, RectangularAreaShapeHasRadiusEqualToZeroAfterCr
 }
 
 TEST_F(RectangularAreaShapeTest, RectangularAreaShapeShouldCallContainsPointOnTheAreaToCheckIntersectionWith) {
-	//EXPECT_CALL(*intersectsWith, containsPoint(_)).Times(1); TODO: fix idlc MOCK const methods
+	// EXPECT_CALL(*intersectsWith, containsPoint(_)).Times(1); TODO: fix idlc MOCK const methods
 
 	EXPECT_FALSE(rectangularAreaShape->intersectsWith(intersectsWith));
 }
@@ -69,9 +69,9 @@ TEST_F(RectangularAreaShapeTest, IntersectsWithShouldReturnTrueIfContainsPointRe
 	EXPECT_TRUE(rectangularAreaShape->intersectsWith(intersectsWith));
 }
 */
-}
-}
-}
-}
-}
-}
+} // namespace test
+} // namespace areashapes
+} // namespace area
+} // namespace objects
+} // namespace zone
+} // namespace server

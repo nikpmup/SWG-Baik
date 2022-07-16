@@ -9,14 +9,15 @@
 #include "templates/SharedTangibleObjectTemplate.h"
 
 class DroidEffectsModuleTemplate : public SharedTangibleObjectTemplate {
-
 protected:
 	String effectName;
 	String animation;
 
 public:
-	DroidEffectsModuleTemplate()  {}
-	~DroidEffectsModuleTemplate() {}
+	DroidEffectsModuleTemplate() {
+	}
+	~DroidEffectsModuleTemplate() {
+	}
 
 	void readObject(LuaObject* templateData) {
 		SharedTangibleObjectTemplate::readObject(templateData);
@@ -32,9 +33,9 @@ public:
 		return animation;
 	}
 
-	 bool isDroidEffectsModuleTemplate() {
-		 return true;
-	 }
+	bool isDroidEffectsModuleTemplate() {
+		return true;
+	}
 };
 
 #endif /*DROIDEFFECTSMODULETEMPLATE_H_*/

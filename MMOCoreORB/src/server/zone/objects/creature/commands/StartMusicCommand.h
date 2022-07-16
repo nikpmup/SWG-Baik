@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef STARTMUSICCOMMAND_H_
@@ -13,17 +13,14 @@
 #include "server/zone/managers/skill/PerformanceManager.h"
 #include "server/zone/objects/group/GroupObject.h"
 
-class StartMusicCommand: public QueueCommand {
+class StartMusicCommand : public QueueCommand {
 public:
-
-	StartMusicCommand(const String& name, ZoneProcessServer* server) :
-		QueueCommand(name, server) {
-
+	StartMusicCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	static void startMusic(CreatureObject* creature, int performanceIndex, Instrument* instrument) {
 		ManagedReference<Facade*> facade = creature->getActiveSession(SessionFacadeType::ENTERTAINING);
-		ManagedReference<EntertainingSession*> session = dynamic_cast<EntertainingSession*> (facade.get());
+		ManagedReference<EntertainingSession*> session = dynamic_cast<EntertainingSession*>(facade.get());
 
 		if (session == nullptr) {
 			session = new EntertainingSession(creature);
@@ -34,7 +31,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -45,7 +41,7 @@ public:
 			return GENERALERROR;
 
 		ManagedReference<Facade*> facade = creature->getActiveSession(SessionFacadeType::ENTERTAINING);
-		ManagedReference<EntertainingSession*> session = dynamic_cast<EntertainingSession*> (facade.get());
+		ManagedReference<EntertainingSession*> session = dynamic_cast<EntertainingSession*>(facade.get());
 
 		if (session != nullptr && (session->isDancing() || session->isPlayingMusic())) {
 			creature->sendSystemMessage("@performance:already_performing_self"); // You are already performing.
@@ -76,7 +72,7 @@ public:
 					continue;
 
 				ManagedReference<Facade*> memberFacade = groupMember->getActiveSession(SessionFacadeType::ENTERTAINING);
-				ManagedReference<EntertainingSession*> memberSession = dynamic_cast<EntertainingSession*> (memberFacade.get());
+				ManagedReference<EntertainingSession*> memberSession = dynamic_cast<EntertainingSession*>(memberFacade.get());
 
 				if (memberSession == nullptr)
 					continue;
@@ -129,7 +125,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //STARTMUSICCOMMAND_H_
+#endif // STARTMUSICCOMMAND_H_

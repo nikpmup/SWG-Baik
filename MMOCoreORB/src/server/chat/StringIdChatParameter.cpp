@@ -16,13 +16,13 @@ StringIdChatParameter::StringIdChatParameter(const StringId& id) : StringId(id) 
 	DF = 0;
 }
 
-StringIdChatParameter::StringIdChatParameter(const char * cstr) : StringId (cstr) {
+StringIdChatParameter::StringIdChatParameter(const char* cstr) : StringId(cstr) {
 	unknownByte = 0;
 	DI = 0;
 	DF = 0;
 }
 
-StringIdChatParameter::StringIdChatParameter(const String& fullPath) : StringId (fullPath) {
+StringIdChatParameter::StringIdChatParameter(const String& fullPath) : StringId(fullPath) {
 	unknownByte = 0;
 	DI = 0;
 	DF = 0;
@@ -74,44 +74,37 @@ void StringIdChatParameter::addToPacketStream(Message* packet) const {
 }
 
 void StringIdChatParameter::parse(Message* message) {
-
 }
 
 bool StringIdChatParameter::toBinaryStream(ObjectOutputStream* stream) {
 	StringId::toBinaryStream(stream);
 
-	return TT.toBinaryStream(stream) &&
-			TU.toBinaryStream(stream) &&
-			TO.toBinaryStream(stream) &&
-			TypeInfo<uint32 >::toBinaryStream(&DI, stream) &&
-			TypeInfo<float >::toBinaryStream(&DF, stream);
+	return TT.toBinaryStream(stream) && TU.toBinaryStream(stream) && TO.toBinaryStream(stream) && TypeInfo<uint32>::toBinaryStream(&DI, stream) && TypeInfo<float>::toBinaryStream(&DF, stream);
 }
 
 bool StringIdChatParameter::parseFromBinaryStream(ObjectInputStream* stream) {
-
 	StringId::parseFromBinaryStream(stream);
 
 	TT.parseFromBinaryStream(stream);
 	TU.parseFromBinaryStream(stream);
 	TO.parseFromBinaryStream(stream);
-	TypeInfo<uint32 >::parseFromBinaryStream(&DI, stream);
-	TypeInfo<float >::parseFromBinaryStream(&DF, stream);
+	TypeInfo<uint32>::parseFromBinaryStream(&DI, stream);
+	TypeInfo<float>::parseFromBinaryStream(&DF, stream);
 
 	return true;
 }
 
 namespace server {
-	namespace chat {
-		void to_json(nlohmann::json& j, const StringIdChatParameter& p) {
-			j["file"] = p.getFile();
-			j["filler"] = p.getFiller();
-			j["stringID"] = p.getStringID();
-			j["TT"] = p.TT;
-			j["TU"] = p.TU;
-			j["TO"] = p.TO;
-			j["DI"] = p.DI;
-			j["DF"] = p.DF;
-		}
-	}
+namespace chat {
+void to_json(nlohmann::json& j, const StringIdChatParameter& p) {
+	j["file"] = p.getFile();
+	j["filler"] = p.getFiller();
+	j["stringID"] = p.getStringID();
+	j["TT"] = p.TT;
+	j["TU"] = p.TU;
+	j["TO"] = p.TO;
+	j["DI"] = p.DI;
+	j["DF"] = p.DF;
 }
-
+} // namespace chat
+} // namespace server

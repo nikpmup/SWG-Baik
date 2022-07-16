@@ -21,7 +21,7 @@ protected:
 	/**
 	 * Vector of cities.
 	 */
-	Vector<Reference<CitySpawnMap*> > citySpawnMaps;
+	Vector<Reference<CitySpawnMap*>> citySpawnMaps;
 
 	/**
 	 * Name of the planet.
@@ -51,7 +51,8 @@ public:
 	/**
 	 * Default constructor.
 	 */
-	PlanetSpawnMap() {}
+	PlanetSpawnMap() {
+	}
 
 	/**
 	 * Constructor.
@@ -68,7 +69,7 @@ public:
 	void readObject(LuaObject* luaObject) {
 		planetName = luaObject->getStringField("name");
 
-		//Load npc's.
+		// Load npc's.
 		LuaObject npcSpawns = luaObject->getObjectField("npcs");
 
 		for (int numberOfSpawns = 1; numberOfSpawns <= npcSpawns.getTableSize(); ++numberOfSpawns) {
@@ -119,22 +120,22 @@ public:
 
 	const CitySpawnMap* getRandomCityNotCloseTo(const Vector3* position) const {
 		if (citySpawnMaps.size() == 1) {
-			//Only one city, return it.
+			// Only one city, return it.
 			return citySpawnMaps.get(0);
 		} else if (citySpawnMaps.size() > 1) {
-			//Get city number of city closest to the supplied position.
+			// Get city number of city closest to the supplied position.
 			int closestCityNumber = getClosestCityNumber(position);
 
-			//Generate a random city number.
+			// Generate a random city number.
 			int randomCityNumber = System::random(citySpawnMaps.size() - 2);
 			if (randomCityNumber >= closestCityNumber) {
-				//Add one to the city number to skip the closest city.
+				// Add one to the city number to skip the closest city.
 				randomCityNumber++;
 			}
 
 			return citySpawnMaps.get(randomCityNumber);
 		} else {
-			//No cities.
+			// No cities.
 			return nullptr;
 		}
 	}

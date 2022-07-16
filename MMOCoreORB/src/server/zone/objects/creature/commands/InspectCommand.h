@@ -9,13 +9,10 @@
 
 class InspectCommand : public CombatQueueCommand {
 public:
-
-	InspectCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	InspectCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //INSPECT_H_
+#endif // INSPECT_H_

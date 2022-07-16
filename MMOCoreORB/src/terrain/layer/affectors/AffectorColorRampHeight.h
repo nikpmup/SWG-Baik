@@ -19,7 +19,6 @@ class AffectorColorRampHeight : public ProceduralRule<'ACRH'>, public AffectorPr
 
 public:
 	AffectorColorRampHeight() : familyId(0), min(0), max(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {

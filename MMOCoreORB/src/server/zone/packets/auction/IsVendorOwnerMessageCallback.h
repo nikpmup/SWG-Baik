@@ -18,9 +18,7 @@ class IsVendorOwnerMessageCallback : public MessageCallback {
 	uint64 oid;
 
 public:
-	IsVendorOwnerMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	IsVendorOwnerMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 		oid = 0;
 	}
 
@@ -47,7 +45,6 @@ public:
 		String planetString = zone->getZoneName();
 		String vendorRegion = zone->getZoneName();
 
-
 		ManagedReference<CityRegion*> cityRegion = sceno->getCityRegion().get();
 		if (cityRegion != nullptr)
 			vendorRegion = cityRegion->getRegionName();
@@ -56,6 +53,5 @@ public:
 		client->sendMessage(msg);
 	}
 };
-
 
 #endif /* ISVENDOROWNERMESSAGECALLBACK_H_ */

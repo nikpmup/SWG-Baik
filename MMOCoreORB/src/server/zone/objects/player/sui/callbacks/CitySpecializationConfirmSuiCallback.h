@@ -13,8 +13,7 @@
 
 class CitySpecializationConfirmSuiCallback : public SuiCallback {
 public:
-	CitySpecializationConfirmSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	CitySpecializationConfirmSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {

@@ -17,12 +17,10 @@ namespace leaf {
 
 class Dummy : public Behavior {
 public:
-	Dummy(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	Dummy(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
-	Dummy(const Dummy& d)
-			: Behavior(d) {
+	Dummy(const Dummy& d) : Behavior(d) {
 	}
 
 	Behavior::Status execute(AiAgent*, unsigned int) const {
@@ -32,13 +30,11 @@ public:
 
 class GeneratePatrol : public Behavior {
 public:
-	GeneratePatrol(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args), numPoints(0), distFromHome(0.0) {
+	GeneratePatrol(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args), numPoints(0), distFromHome(0.0) {
 		parseArgs(args);
 	}
 
-	GeneratePatrol(const GeneratePatrol& a)
-			: Behavior(a), numPoints(a.numPoints), distFromHome(a.distFromHome) {
+	GeneratePatrol(const GeneratePatrol& a) : Behavior(a), numPoints(a.numPoints), distFromHome(a.distFromHome) {
 	}
 
 	GeneratePatrol& operator=(const GeneratePatrol& a) {
@@ -73,13 +69,11 @@ private:
 
 class ExitCombat : public Behavior {
 public:
-	ExitCombat(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args), clearDefenders(false) {
+	ExitCombat(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args), clearDefenders(false) {
 		parseArgs(args);
 	}
 
-	ExitCombat(const ExitCombat& a)
-			: Behavior(a), clearDefenders(a.clearDefenders) {
+	ExitCombat(const ExitCombat& a) : Behavior(a), clearDefenders(a.clearDefenders) {
 	}
 
 	ExitCombat& operator=(const ExitCombat& a) {
@@ -114,12 +108,10 @@ private:
 
 class EquipStagedWeapon : public Behavior {
 public:
-	EquipStagedWeapon(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	EquipStagedWeapon(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
-	EquipStagedWeapon(const EquipStagedWeapon& a)
-			: Behavior(a) {
+	EquipStagedWeapon(const EquipStagedWeapon& a) : Behavior(a) {
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
@@ -139,13 +131,11 @@ public:
 
 class WriteBlackboard : public Behavior {
 public:
-	WriteBlackboard(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	WriteBlackboard(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 		parseArgs(args);
 	}
 
-	WriteBlackboard(const WriteBlackboard& a)
-			: Behavior(a), key(a.key), val(a.val) {
+	WriteBlackboard(const WriteBlackboard& a) : Behavior(a), key(a.key), val(a.val) {
 	}
 
 	WriteBlackboard& operator=(const WriteBlackboard& a) {
@@ -182,13 +172,11 @@ private:
 
 class EraseBlackboard : public Behavior {
 public:
-	EraseBlackboard(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args), param("") {
+	EraseBlackboard(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args), param("") {
 		parseArgs(args);
 	}
 
-	EraseBlackboard(const EraseBlackboard& a)
-			: Behavior(a), param(a.param) {
+	EraseBlackboard(const EraseBlackboard& a) : Behavior(a), param(a.param) {
 	}
 
 	EraseBlackboard& operator=(const EraseBlackboard& a) {
@@ -213,7 +201,6 @@ public:
 		msg << className << "-" << param;
 
 		return msg.toString();
-
 	}
 
 private:
@@ -222,13 +209,11 @@ private:
 
 class SelectAttack : public Behavior {
 public:
-	SelectAttack(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args), attackNum(-1) {
+	SelectAttack(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args), attackNum(-1) {
 		parseArgs(args);
 	}
 
-	SelectAttack(const SelectAttack& a)
-			: Behavior(a), attackNum(a.attackNum) {
+	SelectAttack(const SelectAttack& a) : Behavior(a), attackNum(a.attackNum) {
 	}
 
 	SelectAttack& operator=(const SelectAttack& a) {
@@ -244,31 +229,31 @@ public:
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
-		//agent->info("SelectAttack::execute", true);
+		// agent->info("SelectAttack::execute", true);
 
 		WeaponObject* weapon = agent->getWeapon();
 
-		if (weapon != nullptr && weapon->getAttackType() ==  SharedWeaponObjectTemplate::FORCEATTACK) {
+		if (weapon != nullptr && weapon->getAttackType() == SharedWeaponObjectTemplate::FORCEATTACK) {
 			return agent->selectSpecialAttack(-1) ? SUCCESS : FAILURE;
 		}
 
 		if (agent->peekBlackboard("attackType")) {
-			//agent->info("SelectAttack::execute has attackType", true);
+			// agent->info("SelectAttack::execute has attackType", true);
 
 			if (agent->readBlackboard("attackType").get<uint32>() == static_cast<uint32>(DataVal::DEFAULT)) {
-				//agent->info("SelectAttack::execute has attackType DEFAULT", true);
+				// agent->info("SelectAttack::execute has attackType DEFAULT", true);
 
 				return agent->selectDefaultAttack() ? SUCCESS : FAILURE;
 			}
 
 			if (agent->readBlackboard("attackType").get<uint32>() == static_cast<uint32>(DataVal::RANDOM)) {
-				//agent->info("SelectAttack::execute has attackType RANDOM", true);
+				// agent->info("SelectAttack::execute has attackType RANDOM", true);
 
 				return agent->selectSpecialAttack(-1) ? SUCCESS : FAILURE;
 			}
 		}
 
-		//agent->info("SelectAttack::execute has attackType attackNum", true);
+		// agent->info("SelectAttack::execute has attackType attackNum", true);
 
 		return agent->selectSpecialAttack(attackNum) ? SUCCESS : FAILURE;
 	}
@@ -286,12 +271,10 @@ private:
 
 class EnqueueAttack : public Behavior {
 public:
-	EnqueueAttack(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	EnqueueAttack(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
-	EnqueueAttack(const EnqueueAttack& a)
-			: Behavior(a) {
+	EnqueueAttack(const EnqueueAttack& a) : Behavior(a) {
 	}
 
 	EnqueueAttack& operator=(const EnqueueAttack& a) {
@@ -318,17 +301,14 @@ public:
 
 		return msg.toString();
 	}
-
 };
 
 class FindNextPosition : public Behavior {
 public:
-	FindNextPosition(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	FindNextPosition(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
-	FindNextPosition(const FindNextPosition& a)
-			: Behavior(a) {
+	FindNextPosition(const FindNextPosition& a) : Behavior(a) {
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
@@ -342,12 +322,10 @@ public:
 
 class Leash : public Behavior {
 public:
-	Leash(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	Leash(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
-	Leash(const Leash& a)
-			: Behavior(a) {
+	Leash(const Leash& a) : Behavior(a) {
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
@@ -358,13 +336,11 @@ public:
 
 class Wait : public Behavior {
 public:
-	Wait(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args), duration(-1) {
+	Wait(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args), duration(-1) {
 		parseArgs(args);
 	}
 
-	Wait(const Wait& a)
-			: Behavior(a), duration(a.duration) {
+	Wait(const Wait& a) : Behavior(a), duration(a.duration) {
 	}
 
 	Wait& operator=(const Wait& a) {
@@ -376,7 +352,7 @@ public:
 	}
 
 	void parseArgs(const LuaObject& args) {
-		duration = (int) (getArg<float>()(args, "duration") * 1000);
+		duration = (int)(getArg<float>()(args, "duration") * 1000);
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
@@ -410,8 +386,7 @@ private:
 
 class SetAlert : public Behavior {
 public:
-	SetAlert(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args), duration(0.f), show(true) {
+	SetAlert(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args), duration(0.f), show(true) {
 		parseArgs(args);
 	}
 
@@ -459,7 +434,7 @@ public:
 	}
 
 	void parseArgs(const LuaObject& args) {
-		duration = (int) (getArg<float>()(args, "duration") * 1000);
+		duration = (int)(getArg<float>()(args, "duration") * 1000);
 		show = getArg<bool>()(args, "show");
 	}
 
@@ -505,7 +480,7 @@ public:
 			ManagedReference<SceneObject*> target = nullptr;
 
 			if (agent->peekBlackboard("targetProspect"))
-				target = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >().get();
+				target = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>().get();
 
 			if (target == nullptr)
 				return FAILURE;
@@ -513,7 +488,7 @@ public:
 			postureSet->updateToCurrentTime();
 			postureSet->addMiliTime(20 * 1000);
 
-			Locker clocker(target,agent);
+			Locker clocker(target, agent);
 
 			float sqrDist = agent->getPosition().squaredDistanceTo(target->getPosition());
 
@@ -556,7 +531,7 @@ public:
 		ManagedReference<SceneObject*> target = nullptr;
 
 		if (agent->peekBlackboard("targetProspect"))
-			target = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >().get();
+			target = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>().get();
 
 		if (target == nullptr || !target->isPlayerCreature())
 			return FAILURE;
@@ -582,7 +557,6 @@ public:
 
 		return msg.toString();
 	}
-
 };
 
 class HealTarget : public Behavior {
@@ -605,7 +579,7 @@ public:
 		ManagedReference<CreatureObject*> healTarget = nullptr;
 
 		if (agent->peekBlackboard("healTarget"))
-			healTarget = agent->readBlackboard("healTarget").get<ManagedReference<CreatureObject*> >().get();
+			healTarget = agent->readBlackboard("healTarget").get<ManagedReference<CreatureObject*>>().get();
 
 		if (healTarget == nullptr || healTarget->isDead()) {
 			agent->eraseBlackboard("healTarget");
@@ -680,7 +654,7 @@ public:
 		ManagedReference<SceneObject*> target = nullptr;
 
 		if (agent->peekBlackboard("targetProspect"))
-			target = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >().get();
+			target = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>().get();
 
 		if (target == nullptr || !target->isPlayerCreature()) {
 			return FAILURE;
@@ -739,7 +713,7 @@ public:
 		ManagedReference<SceneObject*> ally = nullptr;
 
 		if (agent->peekBlackboard("allyProspect"))
-			ally = agent->readBlackboard("allyProspect").get<ManagedReference<SceneObject*> >().get();
+			ally = agent->readBlackboard("allyProspect").get<ManagedReference<SceneObject*>>().get();
 
 		if (ally == nullptr) {
 			agent->eraseBlackboard("allyProspect");
@@ -811,22 +785,22 @@ public:
 			ManagedReference<SceneObject*> enemyTarget = nullptr;
 
 			if (agent->peekBlackboard("targetProspect"))
-				enemyTarget = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >().get();
+				enemyTarget = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>().get();
 
 			if (enemyTarget != nullptr) {
-
 #ifdef DEBUG_CALLFORHELP
 				if (chatManager != nullptr)
 					chatManager->broadcastChatMessage(agent, "Notifying my ally", 0, 0, agent->getMoodID());
 #endif
 
-				Core::getTaskManager()->executeTask([allyAgent, enemyTarget] () {
-					Locker lock(allyAgent);
-					Locker enlocker(enemyTarget, allyAgent);
+				Core::getTaskManager()->executeTask(
+					[allyAgent, enemyTarget]() {
+						Locker lock(allyAgent);
+						Locker enlocker(enemyTarget, allyAgent);
 
-					allyAgent->addDefender(enemyTarget);
-
-				}, "CallForHelpLambda");
+						allyAgent->addDefender(enemyTarget);
+					},
+					"CallForHelpLambda");
 			}
 
 			agent->eraseBlackboard("allyProspect");
@@ -950,13 +924,12 @@ public:
 	}
 };
 
-
-}
-}
-}
-}
-}
-}
-}
+} // namespace leaf
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif // SIMPLEACTIONS_H_

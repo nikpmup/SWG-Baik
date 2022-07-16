@@ -16,8 +16,8 @@
 class CustomizationIdManager : public Object, public Logger, public Singleton<CustomizationIdManager> {
 	HashTable<String, int> customizationIds;
 	HashTable<int, String> reverseIds;
-	HashTable<String, Reference<PaletteData*> > paletteColumns;
-	HashTable<String, Reference<HairAssetData*> > hairAssetSkillMods;
+	HashTable<String, Reference<PaletteData*>> paletteColumns;
+	HashTable<String, Reference<HairAssetData*>> hairAssetSkillMods;
 	HashTable<String, bool> allowBald;
 
 public:

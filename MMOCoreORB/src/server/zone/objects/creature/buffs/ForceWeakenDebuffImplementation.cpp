@@ -9,7 +9,7 @@ void ForceWeakenDebuffImplementation::initializeTransientMembers() {
 void ForceWeakenDebuffImplementation::activate(bool applyModifiers) {
 	if (creature.get() != nullptr) {
 		Locker locker(creature.get());
-		Locker lockerX(_this.getReferenceUnsafeStaticCast(),creature.get());
+		Locker lockerX(_this.getReferenceUnsafeStaticCast(), creature.get());
 
 		if (creature.get()->isIncapacitated() || creature.get()->isDead()) {
 			return;
@@ -28,7 +28,7 @@ void ForceWeakenDebuffImplementation::activate(bool applyModifiers) {
 				fwBuffEvent = new ForceWeakenDebuffDurationEvent(creature.get(), _this.getReferenceUnsafeStaticCast());
 				creature.get()->addPendingTask("forceWeakenTick", fwBuffEvent, FORCE_WEAKEN_TICK_SECONDS * 1000);
 			}
-		} else if (counter < FORCE_WEAKEN_TICK_COUNT) { //Ramp up weaken effect
+		} else if (counter < FORCE_WEAKEN_TICK_COUNT) { // Ramp up weaken effect
 			doHealthActionMindTick(true);
 
 			counter++;
@@ -44,10 +44,10 @@ void ForceWeakenDebuffImplementation::activate(bool applyModifiers) {
 			Reference<ForceWeakenDebuffDurationEvent*> weakenCheck = creature.get()->getPendingTask("forceWeakenTick").castTo<ForceWeakenDebuffDurationEvent*>();
 
 			if (weakenCheck != nullptr) {
-				//Schedule for start of ramp down period, considering time already taken
+				// Schedule for start of ramp down period, considering time already taken
 				weakenCheck->reschedule(time - (FORCE_WEAKEN_RAMP_SECONDS * 1000) - (FORCE_WEAKEN_TICK_COUNT * FORCE_WEAKEN_TICK_SECONDS * 1000));
 			}
-		} else if (counter <= FORCE_WEAKEN_TICK_COUNT*2) { //Ramp down weaken effect
+		} else if (counter <= FORCE_WEAKEN_TICK_COUNT * 2) { // Ramp down weaken effect
 			doHealthActionMindTick(false);
 
 			counter++;
@@ -67,12 +67,12 @@ void ForceWeakenDebuffImplementation::deactivate(bool removeModifiers) {
 
 void ForceWeakenDebuffImplementation::doHealthActionMindTick(bool weaken) {
 	Locker locker(creature.get());
-	Locker lockerX(_this.getReferenceUnsafeStaticCast(),creature.get());
+	Locker lockerX(_this.getReferenceUnsafeStaticCast(), creature.get());
 
 	if (!creature.get()->isIncapacitated() && !creature.get()->isDead()) {
 		int tickDebuffAmount = 0;
 
-		//Determine random weakening (or restoring) amount for this tick based on range
+		// Determine random weakening (or restoring) amount for this tick based on range
 		if (creature.get()->isKnockedDown() || creature.get()->isProne()) {
 			tickDebuffAmount = ((fwKdMaxAmount - FORCE_WEAKEN_RAND_SCALE) + System::random(FORCE_WEAKEN_RAND_SCALE)) / FORCE_WEAKEN_TICK_COUNT;
 		} else {
@@ -82,26 +82,26 @@ void ForceWeakenDebuffImplementation::doHealthActionMindTick(bool weaken) {
 		for (int i = 0; i < hamDebuffAmount.size(); ++i) {
 			VectorMapEntry<int, int> currentAttribute = hamDebuffAmount.elementAt(i);
 
-			if (weaken) { //Weakening
+			if (weaken) { // Weakening
 				int currentMaxValue = creature.get()->getMaxHAM(currentAttribute.getKey());
 				int currentWounds = creature.get()->getWounds(currentAttribute.getKey());
 
-				//Prevent weakening below 1
+				// Prevent weakening below 1
 				if (currentMaxValue - currentWounds - tickDebuffAmount < 1) {
-					creature.get()->addMaxHAM(currentAttribute.getKey(), -(currentMaxValue - currentWounds - 1) ,true);
+					creature.get()->addMaxHAM(currentAttribute.getKey(), -(currentMaxValue - currentWounds - 1), true);
 
 					hamDebuffAmount.put(currentAttribute.getKey(), currentAttribute.getValue() - (currentMaxValue - currentWounds - 1));
 				} else {
-					creature.get()->addMaxHAM(currentAttribute.getKey(), -tickDebuffAmount ,true);
+					creature.get()->addMaxHAM(currentAttribute.getKey(), -tickDebuffAmount, true);
 
 					hamDebuffAmount.put(currentAttribute.getKey(), currentAttribute.getValue() - tickDebuffAmount);
 				}
-			} else if (hamDebuffAmount.elementAt(i).getValue() < 0) { //Restoring
+			} else if (hamDebuffAmount.elementAt(i).getValue() < 0) { // Restoring
 				if (-currentAttribute.getValue() < tickDebuffAmount) {
 					tickDebuffAmount = -currentAttribute.getValue();
 				}
 
-				creature.get()->addMaxHAM(currentAttribute.getKey(), tickDebuffAmount ,true);
+				creature.get()->addMaxHAM(currentAttribute.getKey(), tickDebuffAmount, true);
 
 				hamDebuffAmount.put(currentAttribute.getKey(), currentAttribute.getValue() + tickDebuffAmount);
 			}
@@ -111,7 +111,7 @@ void ForceWeakenDebuffImplementation::doHealthActionMindTick(bool weaken) {
 
 void ForceWeakenDebuffImplementation::clearBuffEvent() {
 	Locker locker(creature.get());
-	Locker lockerX(_this.getReferenceUnsafeStaticCast(),creature.get());
+	Locker lockerX(_this.getReferenceUnsafeStaticCast(), creature.get());
 
 	if (fwBuffEvent != nullptr) {
 		creature.get()->removePendingTask("forceWeakenTick");

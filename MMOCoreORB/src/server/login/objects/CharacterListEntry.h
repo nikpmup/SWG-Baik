@@ -26,7 +26,6 @@ private:
 public:
 	CharacterListEntry() = default;
 
-
 	CharacterListEntry(const CharacterListEntry& e) : Object() {
 		objectID = e.objectID;
 		accountID = e.accountID;
@@ -65,7 +64,6 @@ public:
 	}
 
 	~CharacterListEntry() {
-
 	}
 
 	uint32 getAccountID() const {
@@ -144,12 +142,11 @@ public:
 		StringBuffer fullName;
 		fullName << firstName;
 
-		if(!surName.isEmpty())
+		if (!surName.isEmpty())
 			fullName << " " << surName;
 
 		return fullName.toString();
 	}
-
 
 	bool isBanned() const {
 		return !banExpiration.isPast();
@@ -178,8 +175,6 @@ public:
 	uint32 getBanAdmin() const {
 		return banAdmin;
 	}
-
 };
-
 
 #endif /*CHARACTERLISTENTRY_H_*/

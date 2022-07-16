@@ -36,7 +36,7 @@ protected:
 	/**
 	 * Vector with all spawn points in the city.
 	 */
-	Vector<Reference<NpcSpawnPoint* > > npcSpawnMap;
+	Vector<Reference<NpcSpawnPoint*>> npcSpawnMap;
 
 	/**
 	 * Checks if a spawn point fulfills certain requirements (spawn type, distance and is free to use).
@@ -47,14 +47,12 @@ protected:
 	 * @param spawnType spawn type bitmask that must be fulfilled.
 	 * @return true if the spawn fulfills spawn type, distance and is free, false otherwise.
 	 */
-	bool fulfillsRequirements(NpcSpawnPoint* npc, const Vector3* position,
-			const float minDistance, const float maxDistance, int spawnType) const {
+	bool fulfillsRequirements(NpcSpawnPoint* npc, const Vector3* position, const float minDistance, const float maxDistance, int spawnType) const {
 		if (npc != nullptr) {
 			if (((npc->getSpawnType() & spawnType) == spawnType)) {
 				float squaredDistance = npc->getPosition()->squaredDistanceTo(*position);
-				if ((squaredDistance <= maxDistance * maxDistance) &&
-					(squaredDistance >= minDistance * minDistance)) {
-					//NPC matches requirements.
+				if ((squaredDistance <= maxDistance * maxDistance) && (squaredDistance >= minDistance * minDistance)) {
+					// NPC matches requirements.
 					return true;
 				}
 			}
@@ -92,13 +90,12 @@ public:
 	 * @param maxDistance maximum distance between the spawn point and the given position.
 	 * @return random spawn point matching the requirements or nullptr if none can be found.
 	 */
-	NpcSpawnPoint* getRandomNpcSpawnPoint(const Vector3* position, const int spawnType,
-			const float minDistance = 0.0, const float maxDistance = 100000.0) const {
+	NpcSpawnPoint* getRandomNpcSpawnPoint(const Vector3* position, const int spawnType, const float minDistance = 0.0, const float maxDistance = 100000.0) const {
 		if (npcSpawnMap.size() == 0) {
 			return nullptr;
 		}
 
-		//Try 100 random npc spawn points, return the first that fulfills the requirements.
+		// Try 100 random npc spawn points, return the first that fulfills the requirements.
 		int maximumNumberOfTries = (npcSpawnMap.size() / 4) + 1;
 		while (maximumNumberOfTries > 0) {
 			int npcNumber = System::random(npcSpawnMap.size() - 1);
@@ -112,7 +109,7 @@ public:
 			maximumNumberOfTries--;
 		}
 
-		//100 random npc spawn points failed, do a full iteration and pick the first npc that match.
+		// 100 random npc spawn points failed, do a full iteration and pick the first npc that match.
 		for (int i = 0; i < npcSpawnMap.size(); ++i) {
 			auto npc = npcSpawnMap.get(i);
 
@@ -121,7 +118,7 @@ public:
 			}
 		}
 
-		//No npc matches the requirements.
+		// No npc matches the requirements.
 		return nullptr;
 	}
 
@@ -149,9 +146,9 @@ public:
 	NpcSpawnPoint* getNearestNpcSpawnPoint(const Vector3* position) const {
 		float minimumSquaredDistance = 100000.0f * 100000.0f;
 		NpcSpawnPoint* nearestNpcSpawnPoint = nullptr;
-		//Iterate over all spawn points.
+		// Iterate over all spawn points.
 		for (int i = 0; i < npcSpawnMap.size(); i++) {
-			//Calculate distance between spawn point and supplied position and store the smallest distance.
+			// Calculate distance between spawn point and supplied position and store the smallest distance.
 			float squaredDistance = npcSpawnMap.get(i)->getPosition()->squaredDistanceTo(*position);
 			if (minimumSquaredDistance > squaredDistance) {
 				minimumSquaredDistance = squaredDistance;

@@ -57,6 +57,6 @@ TEST_F(TerrainManagerTest, GetHighestHeightDifferenceShouldReturnTheHeightDiffer
 	EXPECT_EQ(7.0, terrainManager->getHighestHeightDifference(10, 10, 20, 20));
 }
 
-}
-}
-}
+} // namespace tests
+} // namespace manager
+} // namespace terrain

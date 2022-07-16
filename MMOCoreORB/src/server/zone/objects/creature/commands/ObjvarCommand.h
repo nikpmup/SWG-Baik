@@ -7,14 +7,10 @@
 
 class ObjvarCommand : public QueueCommand {
 public:
-
-	ObjvarCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ObjvarCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //OBJVARCOMMAND_H_
+#endif // OBJVARCOMMAND_H_

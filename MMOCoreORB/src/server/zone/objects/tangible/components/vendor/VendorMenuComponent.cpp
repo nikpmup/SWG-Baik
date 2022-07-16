@@ -15,13 +15,11 @@
 #include "server/zone/managers/vendor/VendorManager.h"
 #include "server/zone/ZoneProcessServer.h"
 
-void VendorMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject,
-		ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
-	if(!sceneObject->isVendor())
+void VendorMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
+	if (!sceneObject->isVendor())
 		return;
 
-	if(sceneObject->isASubChildOf(player)) {
+	if (sceneObject->isASubChildOf(player)) {
 		menuResponse->addRadialMenuItem(14, 3, "@ui:destroy");
 		return;
 	}
@@ -32,18 +30,18 @@ void VendorMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject,
 		return;
 
 	DataObjectComponentReference* data = sceneObject->getDataObjectComponent();
-	if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
+	if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
 		return;
 	}
 
 	VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-	if(vendorData == nullptr) {
+	if (vendorData == nullptr) {
 		return;
 	}
 
 	bool owner = vendorData->getOwnerId() == player->getObjectID();
 
-	if(!owner && !playerObject->isPrivileged())
+	if (!owner && !playerObject->isPrivileged())
 		return;
 
 	menuResponse->addRadialMenuItem(70, 3, "@player_structure:vendor_control");
@@ -58,17 +56,15 @@ void VendorMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject,
 	}
 
 	if (!vendorData->isInitialized()) {
-
 		menuResponse->addRadialMenuItemToRadialID(70, 79, 3, "@player_structure:vendor_init");
 
 		menuResponse->addRadialMenuItem(10, 3, "@ui_radial:item_pickup");
 
-		menuResponse->addRadialMenuItem(51, 1, "@ui_radial:item_rotate"); //Rotate
-		menuResponse->addRadialMenuItemToRadialID(51, 52, 3, "@ui_radial:item_rotate_left"); //Rotate Left
-		menuResponse->addRadialMenuItemToRadialID(51, 53, 3, "@ui_radial:item_rotate_right"); //Rotate Right
+		menuResponse->addRadialMenuItem(51, 1, "@ui_radial:item_rotate");					  // Rotate
+		menuResponse->addRadialMenuItemToRadialID(51, 52, 3, "@ui_radial:item_rotate_left");  // Rotate Left
+		menuResponse->addRadialMenuItemToRadialID(51, 53, 3, "@ui_radial:item_rotate_right"); // Rotate Right
 
 	} else {
-
 		menuResponse->addRadialMenuItemToRadialID(70, 71, 3, "@player_structure:vendor_status");
 
 		menuResponse->addRadialMenuItemToRadialID(70, 73, 3, "@player_structure:pay_vendor_t");
@@ -97,29 +93,27 @@ void VendorMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject,
 	menuResponse->addRadialMenuItemToRadialID(70, 78, 3, "@player_structure:remove_vendor");
 }
 
-int VendorMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
-		CreatureObject* player, byte selectedID) const {
-
+int VendorMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
 	if (!sceneObject->isVendor())
 		return 0;
 
 	DataObjectComponentReference* data = sceneObject->getDataObjectComponent();
-	if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
+	if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
 		return 0;
 	}
 
 	VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-	if(vendorData == nullptr) {
+	if (vendorData == nullptr) {
 		return 0;
 	}
 
 	ManagedReference<TangibleObject*> vendor = cast<TangibleObject*>(sceneObject);
-	if(vendor == nullptr)
+	if (vendor == nullptr)
 		return 0;
 
 	bool owner = vendorData->getOwnerId() == player->getObjectID();
 
-	if(!owner) {
+	if (!owner) {
 		if (player->getPlayerObject()->isPrivileged()) {
 			if (selectedID == 71) {
 				VendorManager::instance()->handleDisplayStatus(player, vendor);
@@ -162,7 +156,7 @@ int VendorMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
 	}
 
 	case 76: {
-		if(player->hasSkill("crafting_merchant_advertising_03")) {
+		if (player->hasSkill("crafting_merchant_advertising_03")) {
 			if (vendorData->isRegistered())
 				VendorManager::instance()->handleUnregisterVendor(player, vendor);
 			else if (!vendorData->isOnStrike())
@@ -172,9 +166,8 @@ int VendorMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
 	}
 
 	case 77: {
-		if(player->hasSkill("crafting_merchant_advertising_01") && vendor->isCreatureObject()) {
+		if (player->hasSkill("crafting_merchant_advertising_01") && vendor->isCreatureObject()) {
 			if (!vendorData->isAdBarkingEnabled()) {
-
 				if (player->containsActiveSession(SessionFacadeType::VENDORADBARKING)) {
 					return 0;
 				}
@@ -194,7 +187,6 @@ int VendorMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
 		VendorManager::instance()->promptDestroyVendor(player, vendor);
 		return 0;
 	}
-
 
 	case 79: {
 		if (player->getRootParent() != vendor->getRootParent()) {

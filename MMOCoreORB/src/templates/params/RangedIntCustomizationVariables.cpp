@@ -7,19 +7,18 @@
 
 #include "RangedIntCustomizationVariables.h"
 
-
 bool RangedIntCustomizationVariables::parse(Chunk* source) {
-	//std::cout << "parsing RangedIntCustomizationVariables\n";
+	// std::cout << "parsing RangedIntCustomizationVariables\n";
 
 	uint8 unk = source->readByte();
 	uint32 num = source->readInt();
 
 	if (num == 0) {
-		//std::cout << "0 PCCVs\n";
+		// std::cout << "0 PCCVs\n";
 		return false;
 	} else {
-		//std::cout << num << " RICV\n";
-		//return;
+		// std::cout << num << " RICV\n";
+		// return;
 	}
 
 	for (int i = 0; i < variables.size(); ++i)
@@ -30,31 +29,31 @@ bool RangedIntCustomizationVariables::parse(Chunk* source) {
 	IffStream* iffStream = source->getIffStream();
 
 	if (iffStream == nullptr) {
-//		std::cout << "iffstream null\n";
+		//		std::cout << "iffstream null\n";
 		return false;
 	}
 
 	for (int i = 0; i < num; ++i) {
-		//try {
-			uint8 unk2 = iffStream->getByte();
+		// try {
+		uint8 unk2 = iffStream->getByte();
 
-			switch (unk2) {
-			case 0:
-				continue;
-			case 1:
-				parseType1(iffStream);
-				continue;
-			case 2: {
-				StringBuffer stream;
+		switch (unk2) {
+		case 0:
+			continue;
+		case 1:
+			parseType1(iffStream);
+			continue;
+		case 2: {
+			StringBuffer stream;
 
-				stream << "unhandled RangedIntCustomizationVariables type! in ";
-				stream << iffStream->getFileName() << "\n";
-				//SWGForensics::instance->printToConsole(text);
-				Logger::console.error(stream.toString());
-				// throw unhandled type!
-				continue;
-			}
-			}
+			stream << "unhandled RangedIntCustomizationVariables type! in ";
+			stream << iffStream->getFileName() << "\n";
+			// SWGForensics::instance->printToConsole(text);
+			Logger::console.error(stream.toString());
+			// throw unhandled type!
+			continue;
+		}
+		}
 		/*} catch (...) {
 			continue;
 		}*/
@@ -71,7 +70,7 @@ void RangedIntCustomizationVariables::parseType1(IffStream* iffStream) {
 	Chunk* chunk = iffStream->openForm('RICV');
 
 	if (chunk == nullptr) {
-		//std::cout << "could not open shit\n";
+		// std::cout << "could not open shit\n";
 		return;
 	}
 
@@ -87,7 +86,6 @@ void RangedIntCustomizationVariables::parseType1(IffStream* iffStream) {
 	iffStream->closeForm('RICV');
 
 	iffStream->openChunk('XXXX');
-
 }
 
 String RangedIntCustomizationVariables::toString() const {

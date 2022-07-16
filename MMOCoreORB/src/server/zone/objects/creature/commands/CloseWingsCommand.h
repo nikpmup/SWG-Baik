@@ -9,13 +9,10 @@
 
 class CloseWingsCommand : public CombatQueueCommand {
 public:
-
-	CloseWingsCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	CloseWingsCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //CLOSEWINGS_H_
+#endif // CLOSEWINGS_H_

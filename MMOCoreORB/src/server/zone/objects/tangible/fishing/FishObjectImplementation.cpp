@@ -26,20 +26,17 @@ int FishObjectImplementation::handleObjectMenuSelect(CreatureObject* player, byt
 void FishObjectImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuResponse, CreatureObject* player) {
 	TangibleObjectImplementation::fillObjectMenuResponse(menuResponse, player);
 	if (getContainerObjectsSize() > 0) {
-
 		String text = "@fishing:mnu_filet";
-          
-          	SceneObject* parent = getRootParent();
+
+		SceneObject* parent = getRootParent();
 
 		if (parent == nullptr)
 			return;
 
-		if (parent->isStructureObject())
-		{
+		if (parent->isStructureObject()) {
 			StructureObject* house = cast<StructureObject*>(parent);
 
-			if (house != nullptr && house->isOnAdminList(player))
-			{
+			if (house != nullptr && house->isOnAdminList(player)) {
 				menuResponse->addRadialMenuItem(245, 3, text);
 			}
 		}
@@ -47,8 +44,7 @@ void FishObjectImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuRe
 		SceneObject* inventory = player->getSlottedObject("inventory");
 		SceneObject* thisParent = getParent().get();
 
-		if (inventory != nullptr && thisParent != nullptr && thisParent == inventory)
-		{
+		if (inventory != nullptr && thisParent != nullptr && thisParent == inventory) {
 			menuResponse->addRadialMenuItem(245, 3, text);
 		}
 	}
@@ -59,7 +55,7 @@ void FishObjectImplementation::filet(CreatureObject* player) {
 		ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
 
 		if ((inventory->isContainerFullRecursive()) || ((inventory->getCountableObjectsRecursive() + getContainerObjectsSize()) > 80)) {
-			StringIdChatParameter body("fishing","units_inventory");
+			StringIdChatParameter body("fishing", "units_inventory");
 			body.setDI(getContainerObjectsSize());
 			player->sendSystemMessage(body);
 
@@ -69,7 +65,7 @@ void FishObjectImplementation::filet(CreatureObject* player) {
 			while (getContainerObjectsSize() > 0) {
 				item = getContainerObject((int)0);
 
-				//removeObject(item, false);
+				// removeObject(item, false);
 
 				inventory->transferObject(item, -1, true);
 			}
@@ -80,7 +76,7 @@ void FishObjectImplementation::filet(CreatureObject* player) {
 }
 
 void FishObjectImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* object) {
-	TangibleObjectImplementation::fillAttributeList(alm,object);
+	TangibleObjectImplementation::fillAttributeList(alm, object);
 
 	alm->insertAttribute("type", String("@fish_n:") + objectName.getStringID());
 	alm->insertAttribute("length", String::format("%fm", length));

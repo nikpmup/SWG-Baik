@@ -11,9 +11,7 @@
 #include "templates/creature/SharedCreatureObjectTemplate.h"
 
 class NonPlayerCreatureObjectTemplate : public SharedCreatureObjectTemplate {
-
 public:
-
 	NonPlayerCreatureObjectTemplate() {
 	}
 

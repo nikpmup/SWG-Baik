@@ -7,14 +7,10 @@
 
 class CoupDeGraceCommand : public QueueCommand {
 public:
-
-	CoupDeGraceCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CoupDeGraceCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //COUPDEGRACECOMMAND_H_
+#endif // COUPDEGRACECOMMAND_H_

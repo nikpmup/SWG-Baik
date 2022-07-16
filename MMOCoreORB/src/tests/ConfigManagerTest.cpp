@@ -11,14 +11,15 @@
 #include "conf/ConfigManager.h"
 
 using ::testing::_;
-using ::testing::Return;
-using ::testing::AnyNumber;
-using ::testing::TypedEq;
 using ::testing::An;
+using ::testing::AnyNumber;
+using ::testing::Return;
+using ::testing::TypedEq;
 
 class ConfigManagerTest : public ::testing::Test {
 protected:
 	ConfigManager* configManager = nullptr;
+
 public:
 	ConfigManagerTest() {
 		configManager = ConfigManager::instance();
@@ -58,8 +59,8 @@ TEST_F(ConfigManagerTest, EnabledZones) {
 
 	std::cerr << "[>>>>>>>>>>] ZonesEnabled = { '";
 
-	for (int i = 0;i < enabledZones.size(); i++) {
-		std::cerr << (i == 0 ? "" : "', '") <<  enabledZones.get(i).toCharArray();
+	for (int i = 0; i < enabledZones.size(); i++) {
+		std::cerr << (i == 0 ? "" : "', '") << enabledZones.get(i).toCharArray();
 	}
 
 	std::cerr << "' }" << std::endl;
@@ -74,8 +75,8 @@ TEST_F(ConfigManagerTest, TreFiles) {
 
 	std::cerr << "[>>>>>>>>>>] TreFiles = { '";
 
-	for (int i = 0;i < treFilesToLoad.size(); i++) {
-		std::cerr << (i == 0 ? "" : "', '") <<  treFilesToLoad.get(i).toCharArray();
+	for (int i = 0; i < treFilesToLoad.size(); i++) {
+		std::cerr << (i == 0 ? "" : "', '") << treFilesToLoad.get(i).toCharArray();
 	}
 
 	std::cerr << "' }" << std::endl;
@@ -161,8 +162,7 @@ TEST_F(ConfigManagerTest, JSONTest) {
 		<< "    \"TestString\": \"tset a si sihT\","
 		<< "    \"TestArray\": [ \"one\", \"two\", \"three\", \"four\", \"five\" ]"
 		<< "  }"
-		<< "}"
-		;
+		<< "}";
 
 	auto json = buf.toString();
 

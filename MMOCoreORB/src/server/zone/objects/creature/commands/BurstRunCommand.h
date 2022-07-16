@@ -7,14 +7,10 @@
 
 class BurstRunCommand : public QueueCommand {
 public:
-
-	BurstRunCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	BurstRunCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature)) {
 			if (creature->isRidingMount()) {
 				creature->sendSystemMessage("@cbt_spam:no_burst");
@@ -32,7 +28,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //BURSTRUNCOMMAND_H_
+#endif // BURSTRUNCOMMAND_H_

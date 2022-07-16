@@ -13,14 +13,10 @@
 
 class SetFirstNameCommand : public QueueCommand {
 public:
-
-	SetFirstNameCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetFirstNameCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -31,7 +27,7 @@ public:
 
 		Reference<SceneObject*> targetObj = zoneServer->getObject(target);
 
-		if(targetObj == nullptr || !targetObj->isPlayerCreature()) {
+		if (targetObj == nullptr || !targetObj->isPlayerCreature()) {
 			creature->sendSystemMessage("Invalid target. This command only works on players");
 			return INVALIDTARGET;
 		}

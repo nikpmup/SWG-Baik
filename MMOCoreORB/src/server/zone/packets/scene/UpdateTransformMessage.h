@@ -15,12 +15,12 @@ public:
 	UpdateTransformMessage(SceneObject* scno) : BaseMessage(50) {
 		insertShort(0x08);
 		insertInt(0x1B24F808);
-	    insertLong(scno->getObjectID());
+		insertLong(scno->getObjectID());
 
 		// add coordinates
-		insertSignedShort((int16) (scno->getPositionX() * 4));
-		insertSignedShort((int16) (scno->getPositionZ() * 4));
-		insertSignedShort((int16) (scno->getPositionY() * 4));
+		insertSignedShort((int16)(scno->getPositionX() * 4));
+		insertSignedShort((int16)(scno->getPositionZ() * 4));
+		insertSignedShort((int16)(scno->getPositionY() * 4));
 
 		// add movement counter
 		insertInt(scno->getMovementCounter());
@@ -42,9 +42,9 @@ public:
 		insertLong(scno->getObjectID());
 
 		// add coordinates
-		insertSignedShort((int16) (posX * 4));
-		insertSignedShort((int16) (posZ * 4));
-		insertSignedShort((int16) (posY * 4));
+		insertSignedShort((int16)(posX * 4));
+		insertSignedShort((int16)(posZ * 4));
+		insertSignedShort((int16)(posY * 4));
 
 		// add movement counter
 		insertInt(scno->getMovementCounter());
@@ -57,7 +57,7 @@ public:
 			insertByte(0);
 
 		// add direction
-		insertByte((int8) scno->getSpecialDirectionAngle());
+		insertByte((int8)scno->getSpecialDirectionAngle());
 	}
 
 	static void parse(Packet* pack, SceneObject* scno) {

@@ -46,13 +46,13 @@ public:
 		const SkillModList* skillModList = targetObject->getSkillModList();
 
 		StringBuffer promptText;
-		promptText << "Name: " << targetObject->getCustomObjectName().toString()  << endl;
+		promptText << "Name: " << targetObject->getCustomObjectName().toString() << endl;
 		promptText << "ObjectID: " << targetObject->getObjectID() << endl;
 
 		if (ghost != nullptr) {
 			promptText << "Online Status: ";
 
-			if(ghost->isOnline())
+			if (ghost->isOnline())
 				promptText << "ONLINE" << endl;
 			else {
 				promptText << "OFFLINE. Last On: " << ghost->getLastLogout()->getFormattedTime() << endl;
@@ -61,9 +61,7 @@ public:
 			if (ghost->isOnline()) {
 				auto zone = targetObject->getZone();
 
-				promptText << "Current Location: " << targetObject->getWorldPosition().toString()
-					<< " zone: " << (zone != nullptr ? zone->getZoneName() : "<nullZone>")
-					<< endl;
+				promptText << "Current Location: " << targetObject->getWorldPosition().toString() << " zone: " << (zone != nullptr ? zone->getZoneName() : "<nullZone>") << endl;
 			} else {
 				auto loginPos = targetObject->getWorldPosition();
 
@@ -134,7 +132,7 @@ public:
 						const Badge* badge = badgeList->get(prof);
 						if (prof) {
 							String stringKey = badge->getKey();
-							promptText << "@skl_n:" + stringKey << " badgeid: " << String::valueOf(prof)<<  endl;
+							promptText << "@skl_n:" + stringKey << " badgeid: " << String::valueOf(prof) << endl;
 						} else {
 							promptText << "unknown profession " << String::valueOf(prof) << endl;
 						}
@@ -144,7 +142,7 @@ public:
 				promptText << endl << "Visibility = " << ghost->getVisibility() << endl;
 
 				MissionManager* missionManager = creature->getZoneServer()->getMissionManager();
-				Vector<uint64> hunterList =  missionManager->getHuntersHuntingTarget(targetObject->getObjectID());
+				Vector<uint64> hunterList = missionManager->getHuntersHuntingTarget(targetObject->getObjectID());
 
 				for (int i = 0; i < hunterList.size(); i++) {
 					promptText << "Hunter #" << i << ": " << hunterList.get(i) << endl;
@@ -169,7 +167,6 @@ public:
 		promptText << "Datapad: " << (datapad == nullptr ? String("nullptr") : String::valueOf(datapad->getObjectID()));
 		promptText << endl;
 
-
 		box->setPromptText(promptText.toString());
 
 		creature->sendMessage(box->generateMessage());
@@ -177,6 +174,5 @@ public:
 		return 0;
 	}
 };
-
 
 #endif /* PLAYERINFOCOMMAND_H_ */

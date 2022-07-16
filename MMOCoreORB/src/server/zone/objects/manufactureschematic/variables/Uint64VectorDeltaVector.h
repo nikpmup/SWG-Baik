@@ -16,24 +16,21 @@ namespace objects {
 namespace manufactureschematic {
 namespace variables {
 
-class Uint64VectorDeltaVector: public DeltaVector<Vector<uint64> > {
+class Uint64VectorDeltaVector : public DeltaVector<Vector<uint64>> {
 public:
 	Uint64VectorDeltaVector() {
-		
 	}
-	
+
 	~Uint64VectorDeltaVector() {
-		
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace variables
+} // namespace manufactureschematic
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::manufactureschematic::variables;
-
 
 #endif /* UINT64VECTORDELTAVECTOR_H_ */

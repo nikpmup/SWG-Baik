@@ -10,7 +10,7 @@
 
 #include "DeltaBasicVariable.h"
 
-template<int BaselineName, uint8 Type, int DeltaID>
+template <int BaselineName, uint8 Type, int DeltaID>
 class DeltaLongVariable : public DeltaBasicVariable<uint64> {
 public:
 	void update(int newValue, bool broadcastStandalone = false, server::zone::objects::scene::SceneObject* obj = nullptr) {
@@ -33,7 +33,5 @@ public:
 		msg->addLongUpdate(DeltaID, object);
 	}
 };
-
-
 
 #endif /* DELTALONGVARIABLE_H_ */

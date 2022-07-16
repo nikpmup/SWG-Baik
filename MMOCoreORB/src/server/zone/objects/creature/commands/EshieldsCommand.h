@@ -9,13 +9,10 @@
 
 class EshieldsCommand : public CombatQueueCommand {
 public:
-
-	EshieldsCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	EshieldsCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //ESHIELDS_H_
+#endif // ESHIELDS_H_

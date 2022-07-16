@@ -9,30 +9,19 @@
 #include "templates/datatables/DataTableRow.h"
 
 class Badge {
-
 public:
-	enum /*Type*/ {
-		ACCUMULATION,
-		INTEREST,
-		EXPLORATION,
-		MASTER,
-		EVENT,
-		CONTENT,
-		UNKNOWN
-	};
-
+	enum /*Type*/ { ACCUMULATION, INTEREST, EXPLORATION, MASTER, EVENT, CONTENT, UNKNOWN };
 
 	Badge();
-	//Badge(Badge&) = default;
+	// Badge(Badge&) = default;
 
 	void readFromRow(DataTableRow* row);
-
 
 	inline int getIndex() const {
 		return index;
 	}
-	
-	inline const String getKey() const{
+
+	inline const String getKey() const {
 		return key;
 	}
 
@@ -43,7 +32,7 @@ public:
 	inline int getCategory() const {
 		return category;
 	}
-	
+
 	inline int getShow() const {
 		return show;
 	}
@@ -52,7 +41,7 @@ public:
 		return typeString;
 	}
 
-	inline /*Type*/uint8 getType() const {
+	inline /*Type*/ uint8 getType() const {
 		return type;
 	}
 
@@ -64,9 +53,7 @@ public:
 		return hasMusic;
 	}
 
-
 private:
-
 	static uint8 getTypeFromString(const String& string);
 
 	int index;

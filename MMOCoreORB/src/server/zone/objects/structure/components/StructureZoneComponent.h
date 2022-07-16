@@ -13,27 +13,26 @@
 #include "server/zone/objects/scene/components/ZoneComponent.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace scene {
-    class SceneObject;
-   }
-
-   namespace structure {
-    class StructureObject;
-   }
-  }
-
-  class Zone;
- }
+namespace zone {
+namespace objects {
+namespace scene {
+class SceneObject;
 }
+
+namespace structure {
+class StructureObject;
+}
+} // namespace objects
+
+class Zone;
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::scene;
 using namespace server::zone::objects::structure;
 using namespace server::zone;
 
 class StructureZoneComponent : public ZoneComponent {
-
 public:
 	void notifyInsertToZone(SceneObject* sceneObject, Zone* zone) const;
 	void notifyRemoveFromZone(SceneObject* sceneObject) const;

@@ -31,13 +31,13 @@ public:
 			return 0;
 		}
 
-		//Check for valid zone. Handle this in your manager.
-		//if (player->getZone()->getZoneID() > 9) {
+		// Check for valid zone. Handle this in your manager.
+		// if (player->getZone()->getZoneID() > 9) {
 		//	player->sendSystemMessage("You can't use the weather command in this zone.");
-	//		return 1;
+		//		return 1;
 		//}
 
-		//Parse the weather command.
+		// Parse the weather command.
 		StringTokenizer tokenizer(arguments.toString());
 		if (!tokenizer.hasMoreTokens()) {
 			sendSyntax(player);
@@ -69,7 +69,6 @@ public:
 			weatherManager->changeWeather(player, weatherID);
 
 		} else if (command == "info") {
-
 			weatherManager->printInfo(player);
 
 		} else {
@@ -78,14 +77,12 @@ public:
 		}
 
 		return 0;
-
 	}
 
 	static void sendSyntax(CreatureObject* player) {
 		if (player != nullptr)
 			player->sendSystemMessage("Syntax: /server weather [enable/disable/info/change] [0-4]");
 	}
-
 };
 
 #endif /* WEATHERCOMMAND_H_ */

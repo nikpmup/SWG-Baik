@@ -15,17 +15,15 @@
 void SlicingToolImplementation::loadTemplateData(SharedObjectTemplate* templateData) {
 	TangibleObjectImplementation::loadTemplateData(templateData);
 
-	SlicingToolTemplate* slicingTempl = dynamic_cast<SlicingToolTemplate*> (templateData);
+	SlicingToolTemplate* slicingTempl = dynamic_cast<SlicingToolTemplate*>(templateData);
 
 	if (slicingTempl == nullptr)
 		return;
 
 	effectiveness = slicingTempl->getEffectiveness();
-
 }
 
 int SlicingToolImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
-
 	if (!isASubChildOf(player))
 		return 0;
 
@@ -61,7 +59,6 @@ void SlicingToolImplementation::fillAttributeList(AttributeListMessage* msg, Cre
 
 void SlicingToolImplementation::updateCraftingValues(CraftingValues* values, bool firstUpdate) {
 	effectiveness = values->getCurrentValue("usemodifier");
-
 }
 
 bool SlicingToolImplementation::calculateSuccessRate() {

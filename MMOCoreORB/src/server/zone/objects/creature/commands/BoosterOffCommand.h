@@ -9,13 +9,10 @@
 
 class BoosterOffCommand : public CombatQueueCommand {
 public:
-
-	BoosterOffCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	BoosterOffCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //BOOSTEROFF_H_
+#endif // BOOSTEROFF_H_

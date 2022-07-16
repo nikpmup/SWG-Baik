@@ -4,20 +4,13 @@
 
 const char LuaSuiListBox::className[] = "LuaSuiListBox";
 
-Luna<LuaSuiListBox>::RegType LuaSuiListBox::Register[] = {
-		{ "_setObject", &LuaSuiListBox::_setObject },
-		{ "getMenuSize", &LuaSuiListBox::getMenuSize },
-		{ "getMenuItemName", &LuaSuiListBox::getMenuItemName },
-		{ "getMenuObjectID", &LuaSuiListBox::getMenuObjectID },
-		{ "getUsingObject", &LuaSuiBox::getUsingObject },
-		{ 0, 0 }
-};
+Luna<LuaSuiListBox>::RegType LuaSuiListBox::Register[] = {{"_setObject", &LuaSuiListBox::_setObject}, {"getMenuSize", &LuaSuiListBox::getMenuSize}, {"getMenuItemName", &LuaSuiListBox::getMenuItemName}, {"getMenuObjectID", &LuaSuiListBox::getMenuObjectID}, {"getUsingObject", &LuaSuiBox::getUsingObject}, {0, 0}};
 
-LuaSuiListBox::LuaSuiListBox(lua_State *L) : LuaSuiBox(L) {
+LuaSuiListBox::LuaSuiListBox(lua_State* L) : LuaSuiBox(L) {
 	realObject = static_cast<SuiListBox*>(lua_touserdata(L, 1));
 }
 
-LuaSuiListBox::~LuaSuiListBox(){
+LuaSuiListBox::~LuaSuiListBox() {
 }
 
 int LuaSuiListBox::_setObject(lua_State* L) {

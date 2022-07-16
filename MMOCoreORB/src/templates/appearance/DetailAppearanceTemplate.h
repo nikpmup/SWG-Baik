@@ -12,6 +12,7 @@
 
 class DetailAppearanceTemplate : public AppearanceTemplate {
 	const AppearanceTemplate* firstMesh;
+
 public:
 	virtual uint32 getType() const {
 		return 'DTAL';
@@ -49,13 +50,12 @@ public:
 		return firstMesh->intersects(ray, maxDistance, result);
 	}
 
-	virtual Vector<Reference<MeshData* > > getTransformedMeshData(const Matrix4& parentTransform) const {
-		Vector<Reference<MeshData* > > meshes;
-		if(firstMesh != nullptr)
+	virtual Vector<Reference<MeshData*>> getTransformedMeshData(const Matrix4& parentTransform) const {
+		Vector<Reference<MeshData*>> meshes;
+		if (firstMesh != nullptr)
 			meshes.addAll(firstMesh->getTransformedMeshData(parentTransform));
 		return meshes;
 	}
-
 };
 
 #endif /* DETAILAPPEARANCETEMPLATE_H_ */

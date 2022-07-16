@@ -41,7 +41,6 @@ public:
 
 		return *this;
 	}
-
 };
 
 #endif /* REGIONCENTERPOINT_H_ */

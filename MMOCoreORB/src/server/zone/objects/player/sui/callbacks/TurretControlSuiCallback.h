@@ -15,9 +15,9 @@
 class TurretControlSuiCallback : public SuiCallback {
 	ManagedWeakReference<TangibleObject*> turretObject;
 	ManagedWeakReference<TangibleObject*> turretControl;
+
 public:
-	TurretControlSuiCallback(ZoneServer* server, TangibleObject* turret, TangibleObject* terminal)
-		: SuiCallback(server) {
+	TurretControlSuiCallback(ZoneServer* server, TangibleObject* turret, TangibleObject* terminal) : SuiCallback(server) {
 		turretObject = turret;
 		turretControl = terminal;
 	}
@@ -46,7 +46,7 @@ public:
 		if (turret == nullptr)
 			return;
 
-		TurretDataComponent* turretData  = cast<TurretDataComponent*>(turret->getDataObjectComponent()->get());
+		TurretDataComponent* turretData = cast<TurretDataComponent*>(turret->getDataObjectComponent()->get());
 
 		if (turretData == nullptr)
 			return;
@@ -62,7 +62,7 @@ public:
 			return;
 
 		if (!gcwMan->canUseTurret(turret, control, player)) {
-			player->sendSystemMessage("@hq:in_use");  //  This turret control terminal is already in use."
+			player->sendSystemMessage("@hq:in_use"); //  This turret control terminal is already in use."
 			return;
 		}
 
@@ -95,7 +95,7 @@ public:
 
 		if (fireTask != nullptr && fireTask->isManualFireTask()) {
 			if (targetCreature == turretData->getManualTarget()) {
-				param.setStringId("hq","already_attacking"); //Your selected target is already being attacked by this turret.
+				param.setStringId("hq", "already_attacking"); // Your selected target is already being attacked by this turret.
 				player->sendSystemMessage(param);
 
 				clocker.release();
@@ -108,7 +108,7 @@ public:
 		}
 
 		turretData->scheduleFireTask(targetCreature, control);
-		param.setStringId("hq","attack_targets"); // "Turret is now attacking %TO.");
+		param.setStringId("hq", "attack_targets"); // "Turret is now attacking %TO.");
 		param.setTO(targetCreature->getObjectID());
 		player->sendSystemMessage(param);
 
@@ -116,7 +116,6 @@ public:
 
 		Locker clock(control, player);
 		gcwMan->sendTurretAttackListTo(player, control);
-
 	}
 };
 

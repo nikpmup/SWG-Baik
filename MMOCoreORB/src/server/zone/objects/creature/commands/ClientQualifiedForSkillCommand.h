@@ -7,14 +7,10 @@
 
 class ClientQualifiedForSkillCommand : public QueueCommand {
 public:
-
-	ClientQualifiedForSkillCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ClientQualifiedForSkillCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CLIENTQUALIFIEDFORSKILLCOMMAND_H_
+#endif // CLIENTQUALIFIEDFORSKILLCOMMAND_H_

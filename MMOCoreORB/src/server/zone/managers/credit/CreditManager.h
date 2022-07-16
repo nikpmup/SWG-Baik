@@ -21,4 +21,4 @@ public:
 	static Reference<CreditObject*> getCreditObject(uint64 creoID);
 };
 
-#endif //CORE3_CREDITMANAGER_H
+#endif // CORE3_CREDITMANAGER_H

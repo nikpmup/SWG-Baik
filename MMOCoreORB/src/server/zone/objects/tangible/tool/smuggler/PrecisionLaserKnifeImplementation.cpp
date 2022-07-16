@@ -15,11 +15,10 @@
 #include "server/zone/Zone.h"
 
 int PrecisionLaserKnifeImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
-
 	if (!isASubChildOf(player))
 		return 0;
 
-	if(!player->hasSkill("combat_smuggler_novice")){
+	if (!player->hasSkill("combat_smuggler_novice")) {
 		player->sendSystemMessage("You must be at least a Novice Smuggler to use this tool.");
 		return 0;
 	}
@@ -92,7 +91,7 @@ int PrecisionLaserKnifeImplementation::handleObjectMenuSelect(CreatureObject* pl
 		return 0;
 	}
 
-	//Create Session
+	// Create Session
 	ManagedReference<SlicingSession*> session = new SlicingSession(player);
 
 	if (target->isSecurityTerminal())
@@ -107,7 +106,6 @@ void PrecisionLaserKnifeImplementation::fillAttributeList(AttributeListMessage* 
 	SlicingToolImplementation::fillAttributeList(msg, object);
 
 	msg->insertAttribute("charges", charges);
-
 }
 
 void PrecisionLaserKnifeImplementation::updateCharges(int val) {

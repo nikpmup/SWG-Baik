@@ -25,7 +25,7 @@ protected:
 
 	bool uniqueStructure;
 
-	//If it has a maintenance rate, then it is a civic structure.
+	// If it has a maintenance rate, then it is a civic structure.
 	int cityMaintenanceBase;
 	int cityMaintenanceRate;
 
@@ -39,13 +39,12 @@ public:
 
 		uniqueStructure = false;
 
-		//If it has a maintenance rate, then it is a civic structure.
+		// If it has a maintenance rate, then it is a civic structure.
 		cityMaintenanceBase = 0;
 		cityMaintenanceRate = 0;
 	}
 
 	~SharedStructureObjectTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData);

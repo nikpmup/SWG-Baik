@@ -49,5 +49,4 @@ public:
 	}
 };
 
-
 #endif /* LOOTGROUPCOLLECTION_H_ */

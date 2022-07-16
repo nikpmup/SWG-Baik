@@ -12,11 +12,11 @@
 #include "system/lang/ref/UniqueReference.h"
 
 namespace conf {
-	class ConfigManager;
+class ConfigManager;
 }
 
 class MantisDatabase {
-	static UniqueReference<ArrayList<UniqueReference<Database*> >* > databases;
+	static UniqueReference<ArrayList<UniqueReference<Database*>>*> databases;
 	static AtomicInteger currentDB;
 
 	static String tablePrefix;

@@ -15,7 +15,7 @@ void FailMissionAfterCertainTimeTask::run() {
 		ManagedReference<MissionObjective*> objectiveRef = objectRef->getMissionObjective();
 
 		if (objectiveRef != nullptr) {
-			//Fail mission.
+			// Fail mission.
 			ManagedReference<CreatureObject*> owner = objectiveRef->getPlayerOwner();
 			if (owner != nullptr) {
 				Locker locker(owner);
@@ -23,8 +23,7 @@ void FailMissionAfterCertainTimeTask::run() {
 				owner->sendSystemMessage("Mission expired");
 
 				objectiveRef->fail();
-			}
-			else {
+			} else {
 				objectiveRef->fail();
 			}
 		}

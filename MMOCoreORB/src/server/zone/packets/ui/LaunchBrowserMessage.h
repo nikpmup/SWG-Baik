@@ -12,13 +12,12 @@
 
 class LaunchBrowserMessage : public BaseMessage {
 public:
-   LaunchBrowserMessage(const String& url) : BaseMessage() {
+	LaunchBrowserMessage(const String& url) : BaseMessage() {
 		insertShort(0x02);
-		insertInt(0x8DE7E213);  // CRC
+		insertInt(0x8DE7E213); // CRC
 
-		insertAscii(url); //url. minus the http.
-   }
-
+		insertAscii(url); // url. minus the http.
+	}
 };
 
 #endif /* LAUNCHBROWSERMESSAGE_H_ */

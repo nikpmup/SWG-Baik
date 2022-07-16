@@ -15,12 +15,10 @@ namespace decorator {
 
 class Not : public Decorator {
 public:
-	Not(const String& className, const uint32 id, const LuaObject& args)
-			: Decorator(className, id, args) {
+	Not(const String& className, const uint32 id, const LuaObject& args) : Decorator(className, id, args) {
 	}
 
-	Not(const Not& b)
-			: Decorator(b) {
+	Not(const Not& b) : Decorator(b) {
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
@@ -38,12 +36,12 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
-}
-}
+} // namespace decorator
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif // NOT_H_

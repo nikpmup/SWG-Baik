@@ -15,11 +15,9 @@ class SkillDataForm : public IffTemplate {
 
 public:
 	SkillDataForm() {
-
 	}
 
 	~SkillDataForm() {
-
 	}
 
 	void readObject(IffStream* iffStream) {
@@ -29,8 +27,7 @@ public:
 		Chunk* versionChunk = iffStream->openForm(version);
 
 		switch (version) {
-		case '0000':
-		{
+		case '0000': {
 			Vector<Chunk*> chunks;
 			versionChunk->getChildren(chunks);
 
@@ -45,8 +42,7 @@ public:
 
 				professionInfoPaths.put(key, value);
 			}
-		}
-			break;
+		} break;
 		}
 
 		iffStream->closeForm(version);

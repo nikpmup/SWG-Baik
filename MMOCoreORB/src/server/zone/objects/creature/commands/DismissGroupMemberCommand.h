@@ -12,10 +12,7 @@
 
 class DismissGroupMemberCommand : public QueueCommand {
 public:
-
-	DismissGroupMemberCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DismissGroupMemberCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -76,8 +73,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DISMISSGROUPMEMBERCOMMAND_H_
-
+#endif // DISMISSGROUPMEMBERCOMMAND_H_

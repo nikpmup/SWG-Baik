@@ -79,7 +79,7 @@ void ChatRoomImplementation::removePlayer(CreatureObject* player, bool disconnec
 }
 
 void ChatRoomImplementation::removeAllPlayers() {
-	//Room prelocked
+	// Room prelocked
 	for (int i = 0; i < playerList.size(); i++) {
 		ManagedReference<CreatureObject*> player = playerList.get(i);
 		if (player == nullptr)

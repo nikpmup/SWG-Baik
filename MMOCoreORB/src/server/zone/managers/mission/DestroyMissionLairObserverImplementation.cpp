@@ -115,8 +115,7 @@ bool DestroyMissionLairObserverImplementation::checkForNewSpawns(TangibleObject*
 
 	uint32 lairTemplateCRC = getLairTemplateName().hashCode();
 
-	for(int i = 0; i < objectsToSpawn.size(); ++i) {
-
+	for (int i = 0; i < objectsToSpawn.size(); ++i) {
 		if (spawnNumber != 4 && spawnedCreatures.size() >= spawnLimit)
 			return true;
 
@@ -156,7 +155,7 @@ bool DestroyMissionLairObserverImplementation::checkForNewSpawns(TangibleObject*
 			if (!creo->isAiAgent()) {
 				error("spawned non player creature with template " + templateToSpawn);
 			} else {
-				AiAgent* ai = cast<AiAgent*>( creo.get());
+				AiAgent* ai = cast<AiAgent*>(creo.get());
 
 				Locker clocker(ai, lair);
 
@@ -167,7 +166,6 @@ bool DestroyMissionLairObserverImplementation::checkForNewSpawns(TangibleObject*
 				ai->setLairTemplateCRC(lairTemplateCRC);
 
 				spawnedCreatures.add(creo);
-
 			}
 		}
 	}
@@ -179,4 +177,3 @@ bool DestroyMissionLairObserverImplementation::checkForNewSpawns(TangibleObject*
 
 	return objectsToSpawn.size() > 0;
 }
-

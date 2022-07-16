@@ -7,21 +7,17 @@
 
 class EmptyMailTargetCommand : public QueueCommand {
 public:
-
-	EmptyMailTargetCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	EmptyMailTargetCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
 
-		ManagedReference<CreatureObject* > targetCreature = server->getZoneServer()->getObject(creature->getTargetID()).castTo<CreatureObject*>();
+		ManagedReference<CreatureObject*> targetCreature = server->getZoneServer()->getObject(creature->getTargetID()).castTo<CreatureObject*>();
 		StringTokenizer args(arguments.toString());
 		String firstName;
 
@@ -56,7 +52,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //EMPTYMAILTARGETCOMMAND_H_
+#endif // EMPTYMAILTARGETCOMMAND_H_

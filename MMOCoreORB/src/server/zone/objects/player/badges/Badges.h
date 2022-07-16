@@ -19,6 +19,7 @@ class Badges : public Serializable, public ReadWriteLock {
 	uint32 badgeBitmask[5];
 	uint8 badgeTypeCounts[6];
 	uint8 badgeTotal;
+
 public:
 	Badges() {
 		for (int i = 0; i < 5; ++i)
@@ -76,7 +77,6 @@ public:
 	}
 
 public:
-
 	friend void to_json(nlohmann::json& j, const Badges& b) {
 		auto array = nlohmann::json::array();
 
@@ -102,7 +102,8 @@ public:
 	}
 
 	void setBadge(const Badge* badge) {
-		if (badge == nullptr) return;
+		if (badge == nullptr)
+			return;
 
 		Locker locker(this);
 
@@ -133,7 +134,8 @@ public:
 	}
 
 	void unsetBadge(const Badge* badge) {
-		if (badge == nullptr) return;
+		if (badge == nullptr)
+			return;
 		Locker locker(this);
 
 		const int badgeIndex = badge->getIndex();
@@ -154,7 +156,6 @@ public:
 			badgeTypeCounts[badgeType]--;
 			badgeTotal--;
 		}
-
 	}
 
 	bool hasBadge(int badgeindex) const {

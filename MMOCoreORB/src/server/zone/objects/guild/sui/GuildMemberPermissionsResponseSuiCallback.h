@@ -14,8 +14,7 @@
 
 class GuildMemberPermissionsResponseSuiCallback : public SuiCallback {
 public:
-	GuildMemberPermissionsResponseSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	GuildMemberPermissionsResponseSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -32,7 +31,7 @@ public:
 		if (index == -1)
 			return;
 
-		SuiListBox* listBox = cast<SuiListBox*>( suiBox);
+		SuiListBox* listBox = cast<SuiListBox*>(suiBox);
 
 		uint64 memberID = listBox->getMenuObjectID(index);
 
@@ -46,12 +45,12 @@ public:
 		if (obj == nullptr || !obj->isTerminal())
 			return;
 
-		Terminal* terminal = cast<Terminal*>( obj.get());
+		Terminal* terminal = cast<Terminal*>(obj.get());
 
 		if (!terminal->isGuildTerminal())
 			return;
 
-		GuildTerminal* guildTerminal = cast<GuildTerminal*>( terminal);
+		GuildTerminal* guildTerminal = cast<GuildTerminal*>(terminal);
 
 		ManagedReference<GuildObject*> guild = player->getGuildObject().get();
 

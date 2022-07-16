@@ -12,6 +12,7 @@
 
 class PatrolPathTemplate : public Object {
 	VectorMap<String, PatrolPathNode> pathMap;
+
 public:
 	PatrolPathTemplate() {
 		pathMap.setNoDuplicateInsertPlan();

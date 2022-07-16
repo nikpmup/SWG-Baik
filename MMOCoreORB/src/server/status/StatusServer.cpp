@@ -5,8 +5,7 @@
 #include "StatusServer.h"
 #include "StatusHandler.h"
 
-StatusServer::StatusServer(ConfigManager* conf, ZoneServer* server)
-		: StreamServiceThread("StatusServer") {
+StatusServer::StatusServer(ConfigManager* conf, ZoneServer* server) : StreamServiceThread("StatusServer") {
 	zoneServer = server;
 	configManager = conf;
 	statusHandler = new StatusHandler(this);
@@ -18,7 +17,7 @@ StatusServer::StatusServer(ConfigManager* conf, ZoneServer* server)
 #ifndef PLATFORM_WIN
 	signal(SIGPIPE, SIG_IGN);
 #endif
-	
+
 	setLogging(false);
 }
 

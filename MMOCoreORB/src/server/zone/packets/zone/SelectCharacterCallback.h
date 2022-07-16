@@ -25,10 +25,9 @@
 
 class SelectCharacterCallback : public MessageCallback {
 	uint64 characterID;
-public:
-	SelectCharacterCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), characterID(0) {
 
+public:
+	SelectCharacterCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), characterID(0) {
 		setCustomTaskQueue("slowQueue");
 	}
 
@@ -61,12 +60,7 @@ public:
 		auto clientIP = client->getIPAddress();
 		auto loggedInAccounts = zoneServer->getPlayerManager()->getOnlineZoneClientMap()->getAccountsLoggedIn(clientIP);
 
-		SessionAPIClient::instance()->approvePlayerConnect(clientIP, ghost->getAccountID(), characterID, loggedInAccounts,
-				[object = Reference<SceneObject*>(obj), characterID,
-				playerCreature = Reference<CreatureObject*>(player),
-				clientObject = Reference<ZoneClientSession*>(client),
-				zoneServer](const SessionApprovalResult& result) {
-
+		SessionAPIClient::instance()->approvePlayerConnect(clientIP, ghost->getAccountID(), characterID, loggedInAccounts, [object = Reference<SceneObject*>(obj), characterID, playerCreature = Reference<CreatureObject*>(player), clientObject = Reference<ZoneClientSession*>(client), zoneServer](const SessionApprovalResult& result) {
 			if (!result.isActionAllowed()) {
 				clientObject->info(true) << "Player connect not approved: " << result.getLogMessage();
 
@@ -114,8 +108,7 @@ public:
 			StringBuffer msg;
 			String plural = maxOnline > 1 ? "s" : "";
 
-			msg << "\\#ffff00You have reached this server's limit of " <<  maxOnline << " character" << plural << " online per account.\\#." << endl << endl
-				<< "\\#ffffffPlease logout your other character" << plural << " and try again.\\#.";
+			msg << "\\#ffff00You have reached this server's limit of " << maxOnline << " character" << plural << " online per account.\\#." << endl << endl << "\\#ffffffPlease logout your other character" << plural << " and try again.\\#.";
 
 			ErrorMessage* errMsg = new ErrorMessage("Login Error", msg.toString(), 0x0);
 			client->sendMessage(errMsg);
@@ -143,7 +136,7 @@ public:
 
 			root = root == nullptr ? playerParent : root;
 
-			//ghost->updateLastValidatedPosition();
+			// ghost->updateLastValidatedPosition();
 
 			if (root->getZone() == nullptr && root->isStructureObject()) {
 				player->initializePosition(root->getPositionX(), root->getPositionZ(), root->getPositionY());
@@ -211,7 +204,7 @@ public:
 		ReactionManager* reactionManager = zoneServer->getReactionManager();
 		reactionManager->doReactionFineMailCheck(player);
 
-		//player->info("sending login Message:" + zoneServer->getLoginMessage(), true);
+		// player->info("sending login Message:" + zoneServer->getLoginMessage(), true);
 
 		// Disable music notes if player had been playing music
 		if (!player->isPlayingMusic() && !player->isDancing()) {
@@ -230,7 +223,6 @@ public:
 			// Stop playing music/dancing animation
 			if (player->getPosture() == CreaturePosture::SKILLANIMATING)
 				player->setPosture(CreaturePosture::UPRIGHT);
-
 		}
 
 		SkillModManager::instance()->verifyWearableSkillMods(player);
@@ -257,11 +249,11 @@ public:
 			ErrorMessage* errMsg = new ErrorMessage("Login Error", "You are unable to login with this character\n\nIf you feel this is an error please close your client, and try again.", 0x0);
 			client->sendMessage(errMsg);
 
-			//client->error("invalid character id " + String::valueOf(characterID) + " in account: " + String::valueOf(client->getAccountID()));
+			// client->error("invalid character id " + String::valueOf(characterID) + " in account: " + String::valueOf(client->getAccountID()));
 			return;
 		}
 
-		//Logger::console.info("selected char id: 0x" + String::hexvalueOf((int64)characterID), true);
+		// Logger::console.info("selected char id: 0x" + String::hexvalueOf((int64)characterID), true);
 
 		ManagedReference<SceneObject*> obj = zoneServer->getObject(characterID, true);
 
@@ -285,11 +277,13 @@ public:
 				auto characterID = this->characterID;
 				auto client = this->client;
 
-				player->executeOrderedTask([obj, characterID, player, client, zoneServer] () {
-					Locker locker(obj);
+				player->executeOrderedTask(
+					[obj, characterID, player, client, zoneServer]() {
+						Locker locker(obj);
 
-					connectPlayer(obj, characterID, player, client, zoneServer);
-				}, lambdaName);
+						connectPlayer(obj, characterID, player, client, zoneServer);
+					},
+					lambdaName);
 
 				return;
 			}
@@ -303,6 +297,5 @@ public:
 		}
 	}
 };
-
 
 #endif /* SELECTCHARACTERCALLBACK_H_ */

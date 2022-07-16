@@ -350,7 +350,6 @@ void ChatManagerImplementation::initiatePlanetRooms() {
 
 		zone->setPlanetChatRoom(planetaryChat);
 	}
-
 }
 
 void ChatManagerImplementation::loadPersistentRooms() {
@@ -377,8 +376,7 @@ void ChatManagerImplementation::loadPersistentRooms() {
 		String currentGalaxy = server->getGalaxyName();
 
 		while (iterator.getNextKey(objectID)) {
-
-			//Pull the chatroom from the database.
+			// Pull the chatroom from the database.
 			Reference<ChatRoom*> room = Core::getObjectBroker()->lookUp(objectID).castTo<ChatRoom*>();
 			ObjectDatabaseManager::instance()->commitLocalTransaction();
 
@@ -388,16 +386,16 @@ void ChatManagerImplementation::loadPersistentRooms() {
 				continue;
 			}
 
-			//Validate the Galaxy name in the room path.
+			// Validate the Galaxy name in the room path.
 			String oldPath = room->getFullPath();
 			String pathGalaxy = oldPath.subString(oldPath.indexOf('.') + 1, oldPath.length());
 			pathGalaxy = pathGalaxy.subString(0, pathGalaxy.indexOf('.'));
 
-			if (pathGalaxy != currentGalaxy) { //Room needs its path corrected.
+			if (pathGalaxy != currentGalaxy) { // Room needs its path corrected.
 				if (!galaxyNameChanged) {
 					info("Detected a Galaxy name change to: '" + currentGalaxy + "'", true);
 					info("Attempting to repair chat room paths...", true);
-					galaxyNameChanged = true; //Display these messages only once.
+					galaxyNameChanged = true; // Display these messages only once.
 				}
 
 				String newPath = oldPath.replaceFirst(pathGalaxy, currentGalaxy);
@@ -416,7 +414,7 @@ void ChatManagerImplementation::loadPersistentRooms() {
 				}
 			}
 
-			//Reset transient parent's room ID on the room.
+			// Reset transient parent's room ID on the room.
 			if (!room->hasPersistentParent()) {
 				String parentPath = room->getFullPath();
 				parentPath = parentPath.subString(0, parentPath.lastIndexOf('.'));
@@ -428,7 +426,7 @@ void ChatManagerImplementation::loadPersistentRooms() {
 				}
 			}
 
-			//Re-initialize the chat room.
+			// Re-initialize the chat room.
 			room->setChatManager(_this.getReferenceUnsafeStaticCast());
 			room->setZoneServer(server);
 			addRoom(room);
@@ -442,18 +440,16 @@ void ChatManagerImplementation::loadPersistentRooms() {
 	int totalDeleted = deleted + checkRoomPaths();
 	int expired = checkRoomExpirations();
 
-	info("Load room results: Loaded = " + String::valueOf(loaded - totalDeleted - expired) + " Repaired = " +
-	String::valueOf(repaired) + " Deleted = " + String::valueOf(totalDeleted) + " Expired = " + String::valueOf(expired), true);
-
+	info("Load room results: Loaded = " + String::valueOf(loaded - totalDeleted - expired) + " Repaired = " + String::valueOf(repaired) + " Deleted = " + String::valueOf(totalDeleted) + " Expired = " + String::valueOf(expired), true);
 }
 
 int ChatManagerImplementation::checkRoomPaths() {
-	//ChatManager locked
+	// ChatManager locked
 
-	Vector<Reference<ChatRoom*> > roomsToDelete;
+	Vector<Reference<ChatRoom*>> roomsToDelete;
 	int deleted = 0;
 
-	HashTableIterator<unsigned int, ManagedReference<ChatRoom* > > iter = roomMap->iterator();
+	HashTableIterator<unsigned int, ManagedReference<ChatRoom*>> iter = roomMap->iterator();
 
 	while (iter.hasNext()) {
 		ChatRoom* room = iter.next();
@@ -461,14 +457,14 @@ int ChatManagerImplementation::checkRoomPaths() {
 		if (room == nullptr)
 			continue;
 
-		//Check if room's path is broken.
+		// Check if room's path is broken.
 		if (room->getChatRoomType() == ChatRoom::CUSTOM) {
 			if (getChatRoomByFullPath(room->getFullPath()) == nullptr)
 				roomsToDelete.add(room);
 		}
 	}
 
-	//Delete rooms with broken paths.
+	// Delete rooms with broken paths.
 	for (int i = 0; i < roomsToDelete.size(); ++i) {
 		ChatRoom* badRoom = roomsToDelete.get(i);
 		if (badRoom != nullptr) {
@@ -480,15 +476,14 @@ int ChatManagerImplementation::checkRoomPaths() {
 	}
 
 	return deleted;
-
 }
 
 int ChatManagerImplementation::checkRoomExpirations() {
-	//ChatManager locked
+	// ChatManager locked
 
 	int expired = 0;
 
-	HashTableIterator<unsigned int, ManagedReference<ChatRoom* > > iter = roomMap->iterator();
+	HashTableIterator<unsigned int, ManagedReference<ChatRoom*>> iter = roomMap->iterator();
 
 	while (iter.hasNext()) {
 		Reference<ChatRoom*> room = iter.next();
@@ -496,18 +491,17 @@ int ChatManagerImplementation::checkRoomExpirations() {
 		if (room == nullptr)
 			continue;
 
-		if (ROOMEXPIRATIONTIME > 0 && room->getLastJoinTime() / (1000*60*60)  > ROOMEXPIRATIONTIME) { //in hours
+		if (ROOMEXPIRATIONTIME > 0 && room->getLastJoinTime() / (1000 * 60 * 60) > ROOMEXPIRATIONTIME) { // in hours
 			destroyRoom(room);
 			expired++;
 		}
 	}
 
 	return expired;
-
 }
 
 Reference<ChatRoom*> ChatManagerImplementation::createRoom(const String& roomName, ChatRoom* parent) {
-	Reference<ChatRoom*> room = cast<ChatRoom*>(ObjectManager::instance()->createObject("ChatRoom", 0 , ""));
+	Reference<ChatRoom*> room = cast<ChatRoom*>(ObjectManager::instance()->createObject("ChatRoom", 0, ""));
 
 	if (parent != nullptr) {
 		room->init(server, parent, roomName);
@@ -515,7 +509,7 @@ Reference<ChatRoom*> ChatManagerImplementation::createRoom(const String& roomNam
 
 		if (parent->isPersistent())
 			room->setParentIsPersistent(true);
-	} else //Only the top "SWG" room should not have a parent.
+	} else // Only the top "SWG" room should not have a parent.
 		room->init(server, nullptr, roomName);
 
 	addRoom(room);
@@ -524,11 +518,11 @@ Reference<ChatRoom*> ChatManagerImplementation::createRoom(const String& roomNam
 }
 
 Reference<ChatRoom*> ChatManagerImplementation::createPersistentRoom(const String& roomName, ChatRoom* parent) {
-	//There should always be a valid parent room for a persistent room.
+	// There should always be a valid parent room for a persistent room.
 	if (parent == nullptr)
 		return nullptr;
 
-	Reference<ChatRoom*> room = cast<ChatRoom*>(ObjectManager::instance()->createObject("ChatRoom", 1 , "chatrooms"));
+	Reference<ChatRoom*> room = cast<ChatRoom*>(ObjectManager::instance()->createObject("ChatRoom", 1, "chatrooms"));
 
 	room->init(server, parent, roomName);
 	if (parent->isPersistent())
@@ -593,39 +587,41 @@ void ChatManagerImplementation::destroyRoom(ChatRoom* roomArg) {
 
 	Reference<ChatRoom*> room = roomArg;
 
-	Core::getTaskManager()->executeTask([=] () {
-		//Notify all players to remove the room from their Channel Browser.
-		ChatOnDestroyRoom* msg = new ChatOnDestroyRoom("SWG", room->getGalaxyName(), room->getOwnerName(), room->getRoomID());
-		broadcastMessage(msg);
+	Core::getTaskManager()->executeTask(
+		[=]() {
+			// Notify all players to remove the room from their Channel Browser.
+			ChatOnDestroyRoom* msg = new ChatOnDestroyRoom("SWG", room->getGalaxyName(), room->getOwnerName(), room->getRoomID());
+			broadcastMessage(msg);
 
-		//Clear everyone out of the room on the server side.
-		Locker locker(room);
-		room->removeAllPlayers();
+			// Clear everyone out of the room on the server side.
+			Locker locker(room);
+			room->removeAllPlayers();
 
-		//Check if this room has existing sub rooms.
-		if (room->getSubRoomsSize() > 0) { //Disable the room but don't delete it.
-			disableRoom(room);
+			// Check if this room has existing sub rooms.
+			if (room->getSubRoomsSize() > 0) { // Disable the room but don't delete it.
+				disableRoom(room);
 
-			locker.release();
-		} else { //Safe to delete the room.
-			locker.release();
+				locker.release();
+			} else { // Safe to delete the room.
+				locker.release();
 
-			deleteRoom(room);
-		}
+				deleteRoom(room);
+			}
 
-		//Remove from the owner's list of created rooms.
-		ManagedReference<CreatureObject*> owner = room->getZoneServer()->getObject(room->getOwnerID()).castTo<CreatureObject*>();
-		if (owner != nullptr) {
-			Locker olocker(owner);
-			PlayerObject* ghost = owner->getPlayerObject();
-			if (ghost != nullptr)
-				ghost->removeOwnedChatRoom(room->getRoomID());
-		}
-	}, "DestroyChatRoomLambda");
+			// Remove from the owner's list of created rooms.
+			ManagedReference<CreatureObject*> owner = room->getZoneServer()->getObject(room->getOwnerID()).castTo<CreatureObject*>();
+			if (owner != nullptr) {
+				Locker olocker(owner);
+				PlayerObject* ghost = owner->getPlayerObject();
+				if (ghost != nullptr)
+					ghost->removeOwnedChatRoom(room->getRoomID());
+			}
+		},
+		"DestroyChatRoomLambda");
 }
 
 void ChatManagerImplementation::deleteRoom(ChatRoom* room) {
-	//room unlocked
+	// room unlocked
 	ManagedReference<ChatRoom*> parent = room->getParent();
 
 	if (parent != nullptr) {
@@ -635,24 +631,28 @@ void ChatManagerImplementation::deleteRoom(ChatRoom* room) {
 
 		if (parent->isDisabled()) {
 			if (parent->getSubRoomsSize() < 1) {
-				Core::getTaskManager()->executeTask([=] () {
-					//Locker locker(parent_p);
-					deleteRoom(parent);
-				}, "DeleteChatRoomLambda");
+				Core::getTaskManager()->executeTask(
+					[=]() {
+						// Locker locker(parent_p);
+						deleteRoom(parent);
+					},
+					"DeleteChatRoomLambda");
 			}
 		}
 	}
 
 	ManagedReference<ChatRoom*> strongRef = room;
 
-	Core::getTaskManager()->executeTask([=] () {
-		removeRoom(strongRef);
-		ObjectManager::instance()->destroyObjectFromDatabase(strongRef->_getObjectID());
-	}, "DeleteChatRoomLambda2");
+	Core::getTaskManager()->executeTask(
+		[=]() {
+			removeRoom(strongRef);
+			ObjectManager::instance()->destroyObjectFromDatabase(strongRef->_getObjectID());
+		},
+		"DeleteChatRoomLambda2");
 }
 
 void ChatManagerImplementation::disableRoom(ChatRoom* room) {
-	//room prelocked
+	// room prelocked
 	room->setDisabled(true);
 
 	room->removeAllModerators();
@@ -661,9 +661,9 @@ void ChatManagerImplementation::disableRoom(ChatRoom* room) {
 }
 
 void ChatManagerImplementation::enableRoom(CreatureObject* player, ChatRoom* room, int requestID) {
-	//ChatManager locked
+	// ChatManager locked
 
-	Locker clocker (room, _this.getReferenceUnsafeStaticCast());
+	Locker clocker(room, _this.getReferenceUnsafeStaticCast());
 	room->setDisabled(false);
 	room->addModerator(player);
 	clocker.release();
@@ -677,20 +677,19 @@ void ChatManagerImplementation::enableRoom(CreatureObject* player, ChatRoom* roo
 	ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
 	if (ghost != nullptr)
 		ghost->addOwnedChatRoom(room->getRoomID());
-
 }
 
 void ChatManagerImplementation::destroyRooms() {
 	Locker _locker(_this.getReferenceUnsafeStaticCast());
 
-//	finalize does nothing and you cant force to delete anything unless theres no strong references left
-/*	HashTableIterator<unsigned int, ManagedReference<ChatRoom* > > iter = roomMap->iterator();
+	//	finalize does nothing and you cant force to delete anything unless theres no strong references left
+	/*	HashTableIterator<unsigned int, ManagedReference<ChatRoom* > > iter = roomMap->iterator();
 
-	while (iter.hasNext()) {
-		ChatRoom* room = iter.next();
-		room->finalize();
-	}
-*/
+		while (iter.hasNext()) {
+			ChatRoom* room = iter.next();
+			room->finalize();
+		}
+	*/
 	roomMap->removeAll();
 
 	gameRooms.removeAll();
@@ -729,11 +728,11 @@ void ChatManagerImplementation::handleChatRoomMessage(CreatureObject* sender, co
 		return;
 
 	Zone* zone = sender->getZone();
-	if( zone == nullptr ){
+	if (zone == nullptr) {
 		return;
 	}
 
-	//Check for moderated (muted) room.
+	// Check for moderated (muted) room.
 	if (channel->isModerated() && !channel->hasModerator(sender)) {
 		int error = 9; //"Your message to [Room Path] was not sent because you are not a moderator."
 		BaseMessage* amsg = new ChatOnSendRoomMessage(counter, error);
@@ -752,14 +751,13 @@ void ChatManagerImplementation::handleChatRoomMessage(CreatureObject* sender, co
 
 	BaseMessage* amsg = new ChatOnSendRoomMessage(counter);
 	channel->broadcastMessage(amsg);
-
 }
 
 void ChatManagerImplementation::handleChatEnterRoomById(CreatureObject* player, uint32 roomID, int requestID, bool bypassSecurity) {
 	if (player == nullptr)
 		return;
 
-	//Check if room exists.
+	// Check if room exists.
 	ManagedReference<ChatRoom*> room = getChatRoom(roomID);
 	if (room == nullptr) {
 		int error = 6; //"Chatroom [Room path] does not exist!"
@@ -768,7 +766,7 @@ void ChatManagerImplementation::handleChatEnterRoomById(CreatureObject* player, 
 		return;
 	}
 
-	//Check if player is allowed to join.
+	// Check if player is allowed to join.
 	int result = ChatManager::SUCCESS;
 
 	if (!bypassSecurity)
@@ -781,14 +779,13 @@ void ChatManagerImplementation::handleChatEnterRoomById(CreatureObject* player, 
 		return;
 	}
 
-	//Add player to the room and notify everyone in room.
-	if(room->hasPlayer(player)) {
+	// Add player to the room and notify everyone in room.
+	if (room->hasPlayer(player)) {
 		player->sendMessage(coer);
 	} else {
 		room->addPlayer(player);
 		room->broadcastMessage(coer);
 	}
-
 }
 
 void ChatManagerImplementation::handleSocialInternalMessage(CreatureObject* sender, const UnicodeString& arguments) {
@@ -833,7 +830,7 @@ void ChatManagerImplementation::handleSocialInternalMessage(CreatureObject* send
 		return;
 	}
 
-	//bool readlock = !zone->isLockedByCurrentThread();
+	// bool readlock = !zone->isLockedByCurrentThread();
 
 	bool doAnim = true, doText = true;
 
@@ -848,9 +845,9 @@ void ChatManagerImplementation::handleSocialInternalMessage(CreatureObject* send
 	if (sender->isPlayerCreature())
 		firstName = (cast<CreatureObject*>(sender))->getFirstName().toLowerCase();
 
-	CloseObjectsVector* vec = (CloseObjectsVector*) sender->getCloseObjects();
+	CloseObjectsVector* vec = (CloseObjectsVector*)sender->getCloseObjects();
 
-	SortedVector<QuadTreeEntry* > closeEntryObjects(200, 50);
+	SortedVector<QuadTreeEntry*> closeEntryObjects(200, 50);
 
 	if (vec != nullptr) {
 		vec->safeCopyReceiversTo(closeEntryObjects, CloseObjectsVector::PLAYERTYPE);
@@ -891,7 +888,7 @@ void ChatManagerImplementation::sendRoomList(CreatureObject* player) {
 
 	_locker.release();
 
-	HashTableIterator<unsigned int, ManagedReference<ChatRoom* > > iter = roomMapCopy.iterator();
+	HashTableIterator<unsigned int, ManagedReference<ChatRoom*>> iter = roomMapCopy.iterator();
 
 	while (iter.hasNext()) {
 		ChatRoom* room = iter.next();
@@ -907,7 +904,6 @@ void ChatManagerImplementation::sendRoomList(CreatureObject* player) {
 
 	crl->insertChannelListCount();
 	player->sendMessage(crl);
-
 }
 
 void ChatManagerImplementation::addPlayer(CreatureObject* player) {
@@ -978,7 +974,7 @@ void ChatManagerImplementation::broadcastGalaxy(CreatureObject* creature, const 
 	const auto stringMessage = fullMessage.toString();
 
 	Locker locker(_this.getReferenceUnsafeStaticCast());
-	//playerMap->lock();
+	// playerMap->lock();
 
 	playerMap->resetIterator(false);
 
@@ -1019,8 +1015,7 @@ void ChatManagerImplementation::broadcastMessage(BaseMessage* message) {
 	message = nullptr;
 }
 
-void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreature, const UnicodeString& message,
-		uint64 chatTargetID, uint32 spatialChatType, uint32 moodType, uint32 chatFlags, int languageID) const {
+void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreature, const UnicodeString& message, uint64 chatTargetID, uint32 spatialChatType, uint32 moodType, uint32 chatFlags, int languageID) const {
 	Zone* zone = sourceCreature->getZone();
 
 	if (zone == nullptr)
@@ -1051,20 +1046,22 @@ void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreat
 				chatMessage->setString(message.toString());
 				ManagedReference<SceneObject*> sourceObj = sourceCreature;
 
-				Core::getTaskManager()->executeTask([=] () {
-					if (sourceObj == nullptr)
-						return;
+				Core::getTaskManager()->executeTask(
+					[=]() {
+						if (sourceObj == nullptr)
+							return;
 
-					Locker locker(sourceObj);
+						Locker locker(sourceObj);
 
-					SortedVector<ManagedReference<Observer*> > observers = sourceObj->getObservers(ObserverEventType::SPATIALCHATSENT);
-					for (int oc = 0; oc < observers.size(); oc++) {
-						Observer* observer = observers.get(oc);
-						Locker clocker(observer, sourceObj);
-						if (observer->notifyObserverEvent(ObserverEventType::SPATIALCHATSENT, sourceObj, chatMessage, 0) == 1)
-							sourceObj->dropObserver(ObserverEventType::SPATIALCHATSENT, observer);
-					}
-				}, "NotifySpatialChatObserversLambda");
+						SortedVector<ManagedReference<Observer*>> observers = sourceObj->getObservers(ObserverEventType::SPATIALCHATSENT);
+						for (int oc = 0; oc < observers.size(); oc++) {
+							Observer* observer = observers.get(oc);
+							Locker clocker(observer, sourceObj);
+							if (observer->notifyObserverEvent(ObserverEventType::SPATIALCHATSENT, sourceObj, chatMessage, 0) == 1)
+								sourceObj->dropObserver(ObserverEventType::SPATIALCHATSENT, observer);
+						}
+					},
+					"NotifySpatialChatObserversLambda");
 			}
 		}
 	}
@@ -1075,7 +1072,7 @@ void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreat
 		param = new StringIdChatParameter(message.toString());
 	}
 
-	CloseObjectsVector* closeObjects = (CloseObjectsVector*) sourceCreature->getCloseObjects();
+	CloseObjectsVector* closeObjects = (CloseObjectsVector*)sourceCreature->getCloseObjects();
 
 	SortedVector<QuadTreeEntry*> closeEntryObjects(200, 50);
 
@@ -1112,7 +1109,7 @@ void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreat
 			if (creature == nullptr)
 				continue;
 
-			if (creature->isPet()){
+			if (creature->isPet()) {
 				AiAgent* pet = cast<AiAgent*>(creature);
 
 				if (pet == nullptr || pet->isDead() || pet->isIncapacitated())
@@ -1130,27 +1127,29 @@ void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreat
 				if (!msgString.contains("jedi"))
 					continue;
 
-				 SortedVector<ManagedReference<Observer*> > observers = creature->getObservers(ObserverEventType::FACTIONCHAT);
+				SortedVector<ManagedReference<Observer*>> observers = creature->getObservers(ObserverEventType::FACTIONCHAT);
 
 				if (observers.size() > 0) {
 					Reference<CreatureObject*> sourceCreo = sourceCreature;
 					Reference<CreatureObject*> observingCreo = creature;
 
-					Core::getTaskManager()->executeTask([observingCreo, sourceCreo, observers] () {
-						if (sourceCreo == nullptr || observingCreo == nullptr)
-							return;
+					Core::getTaskManager()->executeTask(
+						[observingCreo, sourceCreo, observers]() {
+							if (sourceCreo == nullptr || observingCreo == nullptr)
+								return;
 
-						Locker locker(observingCreo);
+							Locker locker(observingCreo);
 
-						Observer* observer = observers.get(0);
+							Observer* observer = observers.get(0);
 
-						if (observer != nullptr) {
-							Locker clocker(observer, observingCreo);
+							if (observer != nullptr) {
+								Locker clocker(observer, observingCreo);
 
-							if (observer->notifyObserverEvent(ObserverEventType::FACTIONCHAT, observingCreo, sourceCreo, 0) == 1)
-								observingCreo->dropObserver(ObserverEventType::FACTIONCHAT, observer);
-						}
-					}, "NotifyFactionChatObserverLambda");
+								if (observer->notifyObserverEvent(ObserverEventType::FACTIONCHAT, observingCreo, sourceCreo, 0) == 1)
+									observingCreo->dropObserver(ObserverEventType::FACTIONCHAT, observer);
+							}
+						},
+						"NotifyFactionChatObserverLambda");
 				}
 
 				continue;
@@ -1213,8 +1212,7 @@ void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreat
 		throw;
 	}
 
-	//zone->runlock();
-
+	// zone->runlock();
 }
 
 void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreature, StringIdChatParameter& message, uint64 chatTargetID, uint32 spatialChatType, uint32 moodType, uint32 chatFlags, int languageID) {
@@ -1236,8 +1234,7 @@ void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreat
 		firstName = sourceCreature->getFirstName().toLowerCase();
 		PlayerObject* myGhost = sourceCreature->getPlayerObject();
 
-		if (myGhost != nullptr)
-		{
+		if (myGhost != nullptr) {
 			if (myGhost->hasGodMode())
 				godMode = true;
 
@@ -1246,7 +1243,7 @@ void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreat
 		}
 	}
 
-	CloseObjectsVector* closeObjects = (CloseObjectsVector*) sourceCreature->getCloseObjects();
+	CloseObjectsVector* closeObjects = (CloseObjectsVector*)sourceCreature->getCloseObjects();
 
 	SortedVector<QuadTreeEntry*> closeEntryObjects(200, 50);
 
@@ -1374,7 +1371,7 @@ void ChatManagerImplementation::handleSpatialChatInternalMessage(CreatureObject*
 	}
 }
 
-//TODO: Refactor into a sendInstantMessage() method that returns a returnCode.
+// TODO: Refactor into a sendInstantMessage() method that returns a returnCode.
 void ChatManagerImplementation::handleChatInstantMessageToCharacter(ChatInstantMessageToCharacter* message) {
 	ManagedReference<CreatureObject*> sender = message->getClient()->getPlayer();
 
@@ -1431,7 +1428,7 @@ void ChatManagerImplementation::handleChatInstantMessageToCharacter(ChatInstantM
 
 		return;
 	}
-	
+
 	Reference<CreatureObject*> receiver = getPlayer(fname);
 
 	if (receiver == nullptr) {
@@ -1608,7 +1605,6 @@ void ChatManagerImplementation::handleGuildChat(CreatureObject* sender, const Un
 		BaseMessage* msg = new ChatRoomMessage(name, server->getGalaxyName(), formattedMessage, room->getRoomID());
 		room->broadcastMessageCheckIgnore(msg, name);
 	}
-
 }
 
 void ChatManagerImplementation::handlePlanetChat(CreatureObject* sender, const UnicodeString& message) {
@@ -1636,7 +1632,7 @@ void ChatManagerImplementation::handlePlanetChat(CreatureObject* sender, const U
 	}
 
 	Zone* zone = sender->getZone();
-	if( zone == nullptr ){
+	if (zone == nullptr) {
 		return;
 	}
 
@@ -1654,7 +1650,6 @@ void ChatManagerImplementation::handlePlanetChat(CreatureObject* sender, const U
 		BaseMessage* msg = new ChatRoomMessage(fullName, server->getGalaxyName(), formattedMessage, room->getRoomID());
 		room->broadcastMessageCheckIgnore(msg, name);
 	}
-
 }
 
 void ChatManagerImplementation::handleAuctionChat(CreatureObject* sender, const UnicodeString& message) {
@@ -1693,7 +1688,6 @@ void ChatManagerImplementation::handleAuctionChat(CreatureObject* sender, const 
 		BaseMessage* msg = new ChatRoomMessage(fullName, server->getGalaxyName(), formattedMessage, auctionRoom->getRoomID());
 		auctionRoom->broadcastMessageCheckIgnore(msg, name);
 	}
-
 }
 
 void ChatManagerImplementation::sendMail(const String& sendername, const UnicodeString& header, const UnicodeString& body, const String& name) {
@@ -1706,36 +1700,37 @@ void ChatManagerImplementation::sendMail(const String& sendername, const Unicode
 		return;
 	}
 
-	Core::getTaskManager()->executeTask([=] () {
-        	ManagedReference<PersistentMessage*> mail = new PersistentMessage();
-		mail->setSenderName(sendername);
-		mail->setSubject(header);
-		mail->setBody(body);
-		mail->setReceiverObjectID(receiverObjectID);
-		mail->setTimeStamp(currentTime);
-		ObjectManager::instance()->persistObject(mail, 1, "mail");
+	Core::getTaskManager()->executeTask(
+		[=]() {
+			ManagedReference<PersistentMessage*> mail = new PersistentMessage();
+			mail->setSenderName(sendername);
+			mail->setSubject(header);
+			mail->setBody(body);
+			mail->setReceiverObjectID(receiverObjectID);
+			mail->setTimeStamp(currentTime);
+			ObjectManager::instance()->persistObject(mail, 1, "mail");
 
-		ManagedReference<CreatureObject*> creo = getPlayer(name);
-		if (creo == nullptr) {
-			ManagedReference<PendingMessageList*> pendingMailList = getPendingMessages(receiverObjectID);
+			ManagedReference<CreatureObject*> creo = getPlayer(name);
+			if (creo == nullptr) {
+				ManagedReference<PendingMessageList*> pendingMailList = getPendingMessages(receiverObjectID);
 
-			Locker locker(pendingMailList);
-			pendingMailList->addPendingMessage(mail->getObjectID());
+				Locker locker(pendingMailList);
+				pendingMailList->addPendingMessage(mail->getObjectID());
 
-		} else {
-			Locker locker(creo);
+			} else {
+				Locker locker(creo);
 
-			PlayerObject* ghost = creo->getPlayerObject();
-			ghost->addPersistentMessage(mail->getObjectID());
+				PlayerObject* ghost = creo->getPlayerObject();
+				ghost->addPersistentMessage(mail->getObjectID());
 
-			if (ghost->isOnline())
-				mail->sendTo(creo, false);
-		}
-
-	}, "SendMailLambda3", "slowQueue");
+				if (ghost->isOnline())
+					mail->sendTo(creo, false);
+			}
+		},
+		"SendMailLambda3", "slowQueue");
 }
 
-int ChatManagerImplementation::sendMail(const String& sendername, const UnicodeString& subject, const UnicodeString& body, const String& recipientName, StringIdChatParameterVector* stringIdParameters, WaypointChatParameterVector* waypointParameters, Reference<PersistentMessage* >* sentMail) {
+int ChatManagerImplementation::sendMail(const String& sendername, const UnicodeString& subject, const UnicodeString& body, const String& recipientName, StringIdChatParameterVector* stringIdParameters, WaypointChatParameterVector* waypointParameters, Reference<PersistentMessage*>* sentMail) {
 	if (!playerManager->containsPlayer(recipientName))
 		return IM_OFFLINE;
 
@@ -1751,11 +1746,11 @@ int ChatManagerImplementation::sendMail(const String& sendername, const UnicodeS
 			ManagedReference<PlayerObject*> senderPlayer = nullptr;
 			senderPlayer = sender->getPlayerObject();
 
-		if (senderPlayer == nullptr)
-			return IM_OFFLINE;
+			if (senderPlayer == nullptr)
+				return IM_OFFLINE;
 
-		if (senderPlayer->hasGodMode())
-			godMode = true;
+			if (senderPlayer->hasGodMode())
+				godMode = true;
 		}
 	}
 
@@ -1791,36 +1786,37 @@ int ChatManagerImplementation::sendMail(const String& sendername, const UnicodeS
 		*sentMail = mail;
 	}
 
-	Core::getTaskManager()->executeTask([=] () {
-		Reference<CreatureObject*> receiver = getPlayer(recipientName);
-		if (receiver == nullptr) {
-			ManagedReference<PendingMessageList*> list = getPendingMessages(receiverObjectID);
-			Locker locker(list);
-			list->addPendingMessage(mail->getObjectID());
-		} else {
-			Locker locker(receiver);
-			PlayerObject* receiverPlayerObject = receiver->getPlayerObject();
+	Core::getTaskManager()->executeTask(
+		[=]() {
+			Reference<CreatureObject*> receiver = getPlayer(recipientName);
+			if (receiver == nullptr) {
+				ManagedReference<PendingMessageList*> list = getPendingMessages(receiverObjectID);
+				Locker locker(list);
+				list->addPendingMessage(mail->getObjectID());
+			} else {
+				Locker locker(receiver);
+				PlayerObject* receiverPlayerObject = receiver->getPlayerObject();
 
-			if ((receiverPlayerObject == nullptr) || (receiverPlayerObject->isIgnoring(sendername) && !godMode)) {
-				ObjectManager::instance()->destroyObjectFromDatabase(mail->getObjectID());
-				mail->setPersistent(0);
-				return;
+				if ((receiverPlayerObject == nullptr) || (receiverPlayerObject->isIgnoring(sendername) && !godMode)) {
+					ObjectManager::instance()->destroyObjectFromDatabase(mail->getObjectID());
+					mail->setPersistent(0);
+					return;
+				}
+
+				PlayerObject* ghost = receiver->getPlayerObject();
+
+				ghost->addPersistentMessage(mail->getObjectID());
+
+				if (receiver->isOnline())
+					mail->sendTo(receiver, false);
 			}
-
-			PlayerObject* ghost = receiver->getPlayerObject();
-
-			ghost->addPersistentMessage(mail->getObjectID());
-
-			if (receiver->isOnline())
-				mail->sendTo(receiver, false);
-		}
-	}, "SendMailLambda2", "slowQueue");
+		},
+		"SendMailLambda2", "slowQueue");
 
 	return IM_SUCCESS;
 }
 
 int ChatManagerImplementation::sendMail(const String& sendername, const UnicodeString& subject, StringIdChatParameter& body, const String& recipientName, WaypointObject* waypoint) {
-
 	if (!playerManager->containsPlayer(recipientName))
 		return IM_OFFLINE;
 
@@ -1854,29 +1850,31 @@ int ChatManagerImplementation::sendMail(const String& sendername, const UnicodeS
 	uint64 receiverObjectID = playerManager->getObjectID(recipientName);
 	mail->setReceiverObjectID(receiverObjectID);
 
-	Core::getTaskManager()->executeTask([=] () {
-	Reference<CreatureObject*> receiver = getPlayer(recipientName);
-	if (receiver == nullptr) {
-		ObjectManager::instance()->persistObject(mail, 1, "mail");
-		ManagedReference<PendingMessageList*> list = getPendingMessages(receiverObjectID);
-		Locker locker(list);
-		list->addPendingMessage(mail->getObjectID());
-	} else {
-		Locker locker(receiver);
-		PlayerObject* receiverPlayerObject = receiver->getPlayerObject();
+	Core::getTaskManager()->executeTask(
+		[=]() {
+			Reference<CreatureObject*> receiver = getPlayer(recipientName);
+			if (receiver == nullptr) {
+				ObjectManager::instance()->persistObject(mail, 1, "mail");
+				ManagedReference<PendingMessageList*> list = getPendingMessages(receiverObjectID);
+				Locker locker(list);
+				list->addPendingMessage(mail->getObjectID());
+			} else {
+				Locker locker(receiver);
+				PlayerObject* receiverPlayerObject = receiver->getPlayerObject();
 
-		if ((receiverPlayerObject == nullptr) || (receiverPlayerObject->isIgnoring(sendername) && !godMode))
-			return;
+				if ((receiverPlayerObject == nullptr) || (receiverPlayerObject->isIgnoring(sendername) && !godMode))
+					return;
 
-		ObjectManager::instance()->persistObject(mail, 1, "mail");
-		PlayerObject* ghost = receiver->getPlayerObject();
+				ObjectManager::instance()->persistObject(mail, 1, "mail");
+				PlayerObject* ghost = receiver->getPlayerObject();
 
-		ghost->addPersistentMessage(mail->getObjectID());
+				ghost->addPersistentMessage(mail->getObjectID());
 
-		if (receiver->isOnline())
-			mail->sendTo(receiver, false);
-	}
-	}, "SendMailLambda", "slowQueue");
+				if (receiver->isOnline())
+					mail->sendTo(receiver, false);
+			}
+		},
+		"SendMailLambda", "slowQueue");
 
 	return IM_SUCCESS;
 }
@@ -1890,7 +1888,7 @@ void ChatManagerImplementation::loadMail(CreatureObject* player) {
 
 	SortedVector<uint64>* messages = ghost->getPersistentMessages();
 
-	for (int i = messages->size() - 1; i >= 0 ; --i) {
+	for (int i = messages->size() - 1; i >= 0; --i) {
 		uint64 messageObjectID = messages->get(i);
 
 		Reference<PersistentMessage*> mail = Core::getObjectBroker()->lookUp(messageObjectID).castTo<PersistentMessage*>();
@@ -1991,7 +1989,7 @@ String ChatManagerImplementation::getTaggedName(PlayerObject* ghost, const Strin
 void ChatManagerImplementation::handleChatCreateRoom(CreatureObject* player, uint8 permissionFlag, uint8 moderationFlag, const String& roomPath, const String& roomTitle, int requestID) {
 	Locker _lock(_this.getReferenceUnsafeStaticCast());
 
-	//This request is sent by clients to make a new room and to join a room if the client doesn't have the roomID.
+	// This request is sent by clients to make a new room and to join a room if the client doesn't have the roomID.
 
 	/* Error Codes:
 	 * 0: [RoomName] You have created the channel. (successful creation)
@@ -2001,7 +1999,7 @@ void ChatManagerImplementation::handleChatCreateRoom(CreatureObject* player, uin
 
 	int error = 0;
 
-	//Check if player has reached their max allowed rooms yet.
+	// Check if player has reached their max allowed rooms yet.
 	Locker clocker(player, _this.getReferenceUnsafeStaticCast());
 	ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
 	if (ghost == nullptr || ghost->getOwnedChatRoomCount() >= MAXCUSTOMCHATROOMS) {
@@ -2012,7 +2010,7 @@ void ChatManagerImplementation::handleChatCreateRoom(CreatureObject* player, uin
 
 	clocker.release();
 
-	//Attempt to create the new room as a subroom of the second last path node (the parent).
+	// Attempt to create the new room as a subroom of the second last path node (the parent).
 	ManagedReference<ChatRoom*> newRoom = createPersistentRoomByFullPath(player, roomPath, roomTitle, requestID);
 
 	if (newRoom == nullptr)
@@ -2020,7 +2018,7 @@ void ChatManagerImplementation::handleChatCreateRoom(CreatureObject* player, uin
 
 	Locker newRoomlocker(newRoom);
 
-	//Set the room flags as specified by the player.
+	// Set the room flags as specified by the player.
 	if (permissionFlag == 0)
 		newRoom->setPrivate();
 	else
@@ -2033,7 +2031,7 @@ void ChatManagerImplementation::handleChatCreateRoom(CreatureObject* player, uin
 
 	newRoom->setTitle(roomTitle);
 
-	//Initialize the creator and owner of the new room.
+	// Initialize the creator and owner of the new room.
 	newRoom->setCreator(player->getFirstName());
 	newRoom->setOwnerName(player->getFirstName());
 	newRoom->setOwnerID(player->getObjectID());
@@ -2051,11 +2049,10 @@ void ChatManagerImplementation::handleChatCreateRoom(CreatureObject* player, uin
 
 	ChatOnCreateRoom* packet = new ChatOnCreateRoom(newRoom, requestID, error);
 	player->sendMessage(packet);
-
 }
 
 Reference<ChatRoom*> ChatManagerImplementation::createPersistentRoomByFullPath(CreatureObject* player, const String& path, const String& title, int requestID) {
-	//ChatManager locked
+	// ChatManager locked
 
 	StringTokenizer tokenizer(path);
 	tokenizer.setDelimeter(".");
@@ -2075,39 +2072,38 @@ Reference<ChatRoom*> ChatManagerImplementation::createPersistentRoomByFullPath(C
 	int persistentNodes = 0;
 
 	while (tokenizer.hasMoreTokens()) {
-
-		//Check Persistent room nodes in path does not exceed maximum.
+		// Check Persistent room nodes in path does not exceed maximum.
 		if (persistentNodes >= ChatManager::MAXPERSISTENTNODES) {
 			int error = 6; //"Cannot create the channel named '[RoomPathName]' because the name is invalid."
 			sendChatOnCreateRoomError(player, requestID, error);
 			return nullptr;
 		}
 
-		//Get name of next node in path.
+		// Get name of next node in path.
 		tokenizer.getStringToken(channel);
-		String channelLower = channel.toLowerCase(); //Subrooms are stored in lower case to prevent close duplicates.
+		String channelLower = channel.toLowerCase(); // Subrooms are stored in lower case to prevent close duplicates.
 		unsigned int subRoomID = parent->getSubRoom(channelLower);
 		Reference<ChatRoom*> subRoom = getChatRoom(subRoomID);
 
-		if (subRoom == nullptr) { //Found first node that doesn't already exist.
+		if (subRoom == nullptr) { // Found first node that doesn't already exist.
 			persistentPath = persistentPath + channelLower;
 
-			if (tokenizer.hasMoreTokens()) { //Do not create a room that is not the last node in the entered path.
-				int error = 6; //"Cannot create the channel named '[RoomPathName]' because the name is invalid."
+			if (tokenizer.hasMoreTokens()) { // Do not create a room that is not the last node in the entered path.
+				int error = 6;				 //"Cannot create the channel named '[RoomPathName]' because the name is invalid."
 				sendChatOnCreateRoomError(player, requestID, error);
 				return nullptr;
 
-			} else //First non-existent node in path is the last node, try to create it in parent.
+			} else // First non-existent node in path is the last node, try to create it in parent.
 				break;
 
-		} else { //Node exists, check if it's the last path node.
+		} else { // Node exists, check if it's the last path node.
 			if (!tokenizer.hasMoreTokens()) {
-				if (subRoom->isDisabled() && subRoom->getOwnerID() == player->getObjectID()) { //Allow owner to re-enable the room.
+				if (subRoom->isDisabled() && subRoom->getOwnerID() == player->getObjectID()) { // Allow owner to re-enable the room.
 					enableRoom(player, subRoom, requestID);
 					return nullptr;
 
-				} else { //Only the owner can re-enable the room.
-					int error = 24; //NO MESSAGE (room already exists)
+				} else {			// Only the owner can re-enable the room.
+					int error = 24; // NO MESSAGE (room already exists)
 					sendChatOnCreateRoomError(player, requestID, error);
 					return nullptr;
 				}
@@ -2128,7 +2124,7 @@ Reference<ChatRoom*> ChatManagerImplementation::createPersistentRoomByFullPath(C
 		return nullptr;
 	}
 
-	//Check permission to create channel in the parent.
+	// Check permission to create channel in the parent.
 	if (!parent->subroomsAllowed() && !parent->hasModerator(player)) {
 		int error = 1; //"Channel '[RoomPathName]' creation failed for an unknown reason.""
 		sendChatOnCreateRoomError(player, requestID, error);
@@ -2139,15 +2135,15 @@ Reference<ChatRoom*> ChatManagerImplementation::createPersistentRoomByFullPath(C
 	NameManager* nameManager = zps->getNameManager();
 	bool nameOK = true;
 
-	//Validate the room name on its own (need to compare to special cases).
+	// Validate the room name on its own (need to compare to special cases).
 	if (channel.length() > ChatManager::MAXCHATROOMNAMELENGTH || nameManager->validateChatRoomName(channel) != NameManagerResult::ACCEPTED)
 		nameOK = false;
 
-	//Check for profane room title.
+	// Check for profane room title.
 	if (nameOK && nameManager->isProfane(title))
 		nameOK = false;
 
-	//Check for profane path combinations on the path's persistent portion.
+	// Check for profane path combinations on the path's persistent portion.
 	if (nameOK && nameManager->isProfane(persistentPath))
 		nameOK = false;
 
@@ -2194,7 +2190,6 @@ void ChatManagerImplementation::handleChatDestroyRoom(CreatureObject* player, ui
 		ChatOnDestroyRoom* errorPacket = new ChatOnDestroyRoom(roomID, error, requestID);
 		player->sendMessage(errorPacket);
 	}
-
 }
 
 void ChatManagerImplementation::handleChatLeaveRoom(CreatureObject* player, const String& roomPath) {
@@ -2219,7 +2214,7 @@ void ChatManagerImplementation::handleChatQueryRoom(CreatureObject* player, cons
 }
 
 void ChatManagerImplementation::broadcastQueryResultsToRoom(ChatRoom* room) {
-	//Room prelocked
+	// Room prelocked
 
 	if (room == nullptr)
 		return;
@@ -2229,7 +2224,7 @@ void ChatManagerImplementation::broadcastQueryResultsToRoom(ChatRoom* room) {
 }
 
 void ChatManagerImplementation::handleChatInvitePlayer(CreatureObject* inviter, const String& inviteeName, const String& roomPath, int requestID) {
-	//Nothing locked
+	// Nothing locked
 
 	/* Error Codes:
 	 * 0: You have invited %TT to %TU. (SUCCESS)
@@ -2243,7 +2238,7 @@ void ChatManagerImplementation::handleChatInvitePlayer(CreatureObject* inviter, 
 	if (inviter == nullptr)
 		return;
 
-	//Validate the room.
+	// Validate the room.
 	ManagedReference<ChatRoom*> room = getChatRoomByFullPath(roomPath);
 	if (room == nullptr) {
 		sendChatOnInviteResult(inviter, inviteeName, roomPath, ChatManager::NOROOM, requestID);
@@ -2253,32 +2248,32 @@ void ChatManagerImplementation::handleChatInvitePlayer(CreatureObject* inviter, 
 		return;
 	}
 
-	//Check for moderator permission.
+	// Check for moderator permission.
 	if (!room->hasModerator(inviter)) {
 		sendChatOnInviteResult(inviter, inviteeName, roomPath, ChatManager::NOPERMISSION, requestID);
 		return;
 	}
 
-	//Get the invitee.
+	// Get the invitee.
 	ManagedReference<CreatureObject*> invitee = playerManager->getPlayer(inviteeName);
-	if (invitee == nullptr || inviteeName != invitee->getFirstName()) { //Enforce proper capitalization to prevent duplicate list entries on client.
+	if (invitee == nullptr || inviteeName != invitee->getFirstName()) { // Enforce proper capitalization to prevent duplicate list entries on client.
 		sendChatOnInviteResult(inviter, inviteeName, roomPath, ChatManager::NOAVATAR, requestID);
 		return;
 	}
 
 	Locker locker(room);
 
-	//Remove ban if applicable.
+	// Remove ban if applicable.
 	if (room->hasBanned(invitee)) {
 		room->removeBanned(invitee);
 		ChatOnUnbanFromRoom* unbanNotification = new ChatOnUnbanFromRoom(inviter, inviteeName, roomPath, ChatManager::SUCCESS);
 		room->broadcastMessage(unbanNotification); //"%TT has been unbanned from %TU."
 	}
 
-	//Add invitee and send invitation.
+	// Add invitee and send invitation.
 	if (!room->hasInvited(invitee)) {
 		room->addInvited(invitee);
-		room->sendTo(invitee); //Add to invitee's Channel Browser.
+		room->sendTo(invitee); // Add to invitee's Channel Browser.
 
 		ChatOnReceiveRoomInvitation* invitation = new ChatOnReceiveRoomInvitation(server->getGalaxyName(), inviter->getFirstName(), roomPath);
 		invitee->sendMessage(invitation);
@@ -2287,10 +2282,10 @@ void ChatManagerImplementation::handleChatInvitePlayer(CreatureObject* inviter, 
 		return;
 	}
 
-	//Notify the inviter of the successful invite.
+	// Notify the inviter of the successful invite.
 	sendChatOnInviteResult(inviter, inviteeName, roomPath, ChatManager::SUCCESS, requestID);
 
-	//Update the room list for all players in the room.
+	// Update the room list for all players in the room.
 	broadcastQueryResultsToRoom(room);
 }
 
@@ -2300,7 +2295,7 @@ void ChatManagerImplementation::sendChatOnInviteResult(CreatureObject* inviter, 
 }
 
 void ChatManagerImplementation::handleChatUninvitePlayer(CreatureObject* uninviter, const String& uninviteeName, const String& roomPath, int requestID) {
-	//Nothing locked
+	// Nothing locked
 
 	/* Error Codes:
 	 * 0: Success: You uninvited [Target] from [RoomPathName]. (SUCCESS)
@@ -2315,48 +2310,48 @@ void ChatManagerImplementation::handleChatUninvitePlayer(CreatureObject* uninvit
 	if (uninviter == nullptr)
 		return;
 
-	//Validate the room.
+	// Validate the room.
 	ManagedReference<ChatRoom*> room = getChatRoomByFullPath(roomPath);
 	if (room == nullptr) {
 		sendChatOnUninviteResult(uninviter, uninviteeName, roomPath, ChatManager::NOROOM, requestID);
 		return;
-	} else if (room->isPublic()){
+	} else if (room->isPublic()) {
 		sendChatOnUninviteResult(uninviter, uninviteeName, roomPath, ChatManager::NOTPRIVATE, requestID);
 		return;
 	}
 
-	//Check for moderator permission.
+	// Check for moderator permission.
 	if (!room->hasModerator(uninviter)) {
 		sendChatOnUninviteResult(uninviter, uninviteeName, roomPath, ChatManager::NOPERMISSION, requestID);
 		return;
 	}
 
-	//Get the uninvitee.
+	// Get the uninvitee.
 	ManagedReference<CreatureObject*> uninvitee = playerManager->getPlayer(uninviteeName);
 	if (uninvitee == nullptr) {
 		sendChatOnUninviteResult(uninviter, uninviteeName, roomPath, ChatManager::NOAVATAR, requestID);
 		return;
-	} else if (uninvitee->getObjectID() == room->getOwnerID()) { //Sorry buddy, you cannot uninvite the channel owner!
+	} else if (uninvitee->getObjectID() == room->getOwnerID()) { // Sorry buddy, you cannot uninvite the channel owner!
 		sendChatOnUninviteResult(uninviter, uninviteeName, roomPath, ChatManager::FAIL, requestID);
 		return;
 	}
 
 	Locker locker(room);
 
-	//Remove moderator status if applicable.
+	// Remove moderator status if applicable.
 	if (room->hasModerator(uninvitee)) {
 		room->removeModerator(uninvitee);
 		ChatOnRemoveModeratorFromRoom* deopNotification = new ChatOnRemoveModeratorFromRoom(uninviter, uninviteeName, roomPath, ChatManager::SUCCESS);
 		room->broadcastMessage(deopNotification); //"Moderator status has been revoked from %TU."
 	}
 
-	//Remove invite and kick from the room.
+	// Remove invite and kick from the room.
 	if (room->hasInvited(uninvitee)) {
 		if (room->hasPlayer(uninvitee)) {
 			Locker clocker(uninvitee, room);
 			room->removePlayer(uninvitee);
 
-			//Send kick notification to uninvitee.
+			// Send kick notification to uninvitee.
 			StringIdChatParameter notification;
 			notification.setStringId("guild", "kick_target"); //"%TU has removed you from %TT."
 			notification.setTU(uninviter->getFirstName());
@@ -2371,14 +2366,14 @@ void ChatManagerImplementation::handleChatUninvitePlayer(CreatureObject* uninvit
 		return;
 	}
 
-	//Notify the uninviter of the successful uninvite.
+	// Notify the uninviter of the successful uninvite.
 	sendChatOnUninviteResult(uninviter, uninviteeName, roomPath, ChatManager::SUCCESS, requestID);
 
-	//Update the room list for all players in the room.
+	// Update the room list for all players in the room.
 	broadcastQueryResultsToRoom(room);
 
-	//Remove the room from uninvitee's channel browser.
-	room->sendDestroyTo(uninvitee); //Done last in the off chance they uninvited themself so the error displays the proper room path.
+	// Remove the room from uninvitee's channel browser.
+	room->sendDestroyTo(uninvitee); // Done last in the off chance they uninvited themself so the error displays the proper room path.
 }
 
 void ChatManagerImplementation::sendChatOnUninviteResult(CreatureObject* uninviter, const String& uninviteeName, const String& roomPath, int error, int requestID) {
@@ -2387,47 +2382,46 @@ void ChatManagerImplementation::sendChatOnUninviteResult(CreatureObject* uninvit
 }
 
 void ChatManagerImplementation::handleChatKickPlayer(CreatureObject* kicker, const String& kickeeName, const String& roomPath) {
-	//Nothing locked
+	// Nothing locked
 	if (kicker == nullptr)
 		return;
 
-	//Validate the room.
+	// Validate the room.
 	ManagedReference<ChatRoom*> room = getChatRoomByFullPath(roomPath);
 	if (room == nullptr)
 		return;
 
-	//Get the player to be kicked.
-	ManagedReference<CreatureObject*> kickee = getPlayer(kickeeName); //locks ChatManager
-	if (kickee == nullptr || kickee->getObjectID() == room->getOwnerID()) //Sorry friend, you cannot kick the channel owner!
+	// Get the player to be kicked.
+	ManagedReference<CreatureObject*> kickee = getPlayer(kickeeName);	  // locks ChatManager
+	if (kickee == nullptr || kickee->getObjectID() == room->getOwnerID()) // Sorry friend, you cannot kick the channel owner!
 		return;
 
-	//Check for moderator permission.
+	// Check for moderator permission.
 	if (!room->hasModerator(kicker))
 		return;
 
-	//Remove the player from the room.
+	// Remove the player from the room.
 	if (room->hasPlayer(kickee)) {
 		Locker locker(room);
 		Locker clocker(kickee, room);
 		room->removePlayer(kickee);
 	}
 
-	//Send kick notification to kickee.
+	// Send kick notification to kickee.
 	StringIdChatParameter kickeeMsg("guild", "kick_target"); //"%TU has removed you from %TT."
 	kickeeMsg.setTU(kicker->getFirstName());
 	kickeeMsg.setTT(roomPath);
 	kickee->sendSystemMessage(kickeeMsg);
 
-	//Send kick notification to kicker.
+	// Send kick notification to kicker.
 	StringIdChatParameter kickerMsg("guild", "kick_self"); //"You remove %TU from %TT."
 	kickerMsg.setTU(kickee->getFirstName());
 	kickerMsg.setTT(roomPath);
 	kicker->sendSystemMessage(kickerMsg);
-
 }
 
 void ChatManagerImplementation::handleChatAddModerator(CreatureObject* oper, const String& opeeName, const String& roomPath, int requestID) {
-	//Nothing locked
+	// Nothing locked
 
 	/* Error Codes:
 	 * 0: Success: Moderator status has been granted to [Target]. (SUCCESS)
@@ -2440,63 +2434,63 @@ void ChatManagerImplementation::handleChatAddModerator(CreatureObject* oper, con
 	if (oper == nullptr)
 		return;
 
-	//Validate the room.
+	// Validate the room.
 	ManagedReference<ChatRoom*> room = getChatRoomByFullPath(roomPath);
 	if (room == nullptr) {
 		sendChatOnAddModeratorResult(oper, opeeName, roomPath, ChatManager::NOROOM, requestID);
 		return;
 	}
 
-	//Check for moderator permission.
+	// Check for moderator permission.
 	if (!room->hasModerator(oper)) {
 		sendChatOnAddModeratorResult(oper, opeeName, roomPath, ChatManager::NOPERMISSION, requestID);
 		return;
 	}
 
-	//Get the op'ee
+	// Get the op'ee
 	ManagedReference<CreatureObject*> opee = playerManager->getPlayer(opeeName);
 	if (opee == nullptr) {
 		sendChatOnAddModeratorResult(oper, opeeName, roomPath, ChatManager::NOAVATAR, requestID);
 		return;
-	} else if (opee->getObjectID() == room->getOwnerID()) { //Sorry guy, you cannot op the channel owner!
+	} else if (opee->getObjectID() == room->getOwnerID()) { // Sorry guy, you cannot op the channel owner!
 		sendChatOnAddModeratorResult(oper, opeeName, roomPath, ChatManager::FAIL, requestID);
 		return;
 	}
 
 	Locker locker(room);
 
-	//Check if already op'd.
+	// Check if already op'd.
 	if (room->hasModerator(opee)) {
 		sendChatOnAddModeratorResult(oper, opeeName, roomPath, ChatManager::FAIL, requestID);
 		return;
 	}
 
-	//Remove ban if applicable.
+	// Remove ban if applicable.
 	if (room->hasBanned(opee)) {
 		room->removeBanned(opee);
 		ChatOnUnbanFromRoom* unbanNotification = new ChatOnUnbanFromRoom(oper, opeeName, roomPath, ChatManager::SUCCESS);
 		room->broadcastMessage(unbanNotification); //"%TT has been unbanned from %TU."
 	}
 
-	//Add invite and send invitation if applicable.
+	// Add invite and send invitation if applicable.
 	if (room->isPrivate()) {
 		if (!room->hasInvited(opee)) {
 			room->addInvited(opee);
-			room->sendTo(opee); //Shows private room in their Channel Browser.
+			room->sendTo(opee); // Shows private room in their Channel Browser.
 
-			//Update the room list for all players in the room.
+			// Update the room list for all players in the room.
 			broadcastQueryResultsToRoom(room);
 
-			//Send invitation.
+			// Send invitation.
 			ChatOnReceiveRoomInvitation* invitation = new ChatOnReceiveRoomInvitation(server->getGalaxyName(), oper->getFirstName(), roomPath);
 			opee->sendMessage(invitation);
 		}
 	}
 
-	//Make the op'ee a moderator.
+	// Make the op'ee a moderator.
 	room->addModerator(opee);
 
-	//Notify the room of the successful op.
+	// Notify the room of the successful op.
 	ChatOnAddModeratorToRoom* opNotification = new ChatOnAddModeratorToRoom(oper, opeeName, roomPath, ChatManager::SUCCESS);
 	room->broadcastMessage(opNotification);
 
@@ -2510,7 +2504,7 @@ void ChatManagerImplementation::sendChatOnAddModeratorResult(CreatureObject* ope
 }
 
 void ChatManagerImplementation::handleChatRemoveModerator(CreatureObject* deoper, const String& deopeeName, const String& roomPath, int requestID) {
-	//Nothing locked
+	// Nothing locked
 
 	/* Error Codes:
 	 * 0: You deop'd %TT in %TU. (SUCCESS)
@@ -2523,32 +2517,32 @@ void ChatManagerImplementation::handleChatRemoveModerator(CreatureObject* deoper
 	if (deoper == nullptr)
 		return;
 
-	//Validate the room.
+	// Validate the room.
 	ManagedReference<ChatRoom*> room = getChatRoomByFullPath(roomPath);
 	if (room == nullptr) {
 		sendChatOnRemoveModeratorResult(deoper, deopeeName, roomPath, ChatManager::NOROOM, requestID);
 		return;
 	}
 
-	//Check for moderator permission.
+	// Check for moderator permission.
 	if (!room->hasModerator(deoper)) {
 		sendChatOnRemoveModeratorResult(deoper, deopeeName, roomPath, ChatManager::NOPERMISSION, requestID);
 		return;
 	}
 
-	//Get the deopee.
+	// Get the deopee.
 	ManagedReference<CreatureObject*> deopee = playerManager->getPlayer(deopeeName);
 	if (deopee == nullptr) {
 		sendChatOnRemoveModeratorResult(deoper, deopeeName, roomPath, ChatManager::NOAVATAR, requestID);
 		return;
-	} else if (deopee->getObjectID() == room->getOwnerID()) { //Sorry buddy, you cannot deop the channel owner!
+	} else if (deopee->getObjectID() == room->getOwnerID()) { // Sorry buddy, you cannot deop the channel owner!
 		sendChatOnRemoveModeratorResult(deoper, deopeeName, roomPath, ChatManager::FAIL, requestID);
 		return;
 	}
 
 	Locker locker(room);
 
-	//Remove deopee from moderator list if applicable.
+	// Remove deopee from moderator list if applicable.
 	if (room->hasModerator(deopee))
 		room->removeModerator(deopee);
 	else {
@@ -2556,13 +2550,12 @@ void ChatManagerImplementation::handleChatRemoveModerator(CreatureObject* deoper
 		return;
 	}
 
-	//Notify the room of the successful deop.
+	// Notify the room of the successful deop.
 	ChatOnRemoveModeratorFromRoom* deopNotification = new ChatOnRemoveModeratorFromRoom(deoper, deopeeName, roomPath, ChatManager::SUCCESS);
 	room->broadcastMessage(deopNotification);
 
 	if (!room->hasPlayer(deoper))
 		sendChatOnRemoveModeratorResult(deoper, deopeeName, roomPath, ChatManager::SUCCESS, requestID);
-
 }
 
 void ChatManagerImplementation::sendChatOnRemoveModeratorResult(CreatureObject* deoper, const String& deopeeName, const String& roomPath, int error, int requestID) {
@@ -2571,7 +2564,7 @@ void ChatManagerImplementation::sendChatOnRemoveModeratorResult(CreatureObject* 
 }
 
 void ChatManagerImplementation::handleChatBanPlayer(CreatureObject* banner, const String& baneeName, const String& roomPath, int requestID) {
-	//Nothing locked
+	// Nothing locked
 
 	/* Error Codes:
 	 * 0: Success: [Target] has been banned from [RoomName]. (SUCCESS)
@@ -2585,59 +2578,59 @@ void ChatManagerImplementation::handleChatBanPlayer(CreatureObject* banner, cons
 	if (banner == nullptr)
 		return;
 
-	//Validate the room.
+	// Validate the room.
 	ManagedReference<ChatRoom*> room = getChatRoomByFullPath(roomPath);
 	if (room == nullptr) {
 		sendChatOnBanResult(banner, baneeName, roomPath, ChatManager::NOROOM, requestID);
 		return;
 	}
 
-	//Check for moderator permission.
+	// Check for moderator permission.
 	if (!room->hasModerator(banner)) {
 		sendChatOnBanResult(banner, baneeName, roomPath, ChatManager::NOPERMISSION, requestID);
 		return;
 	}
 
-	//Get the banee.
+	// Get the banee.
 	ManagedReference<CreatureObject*> banee = playerManager->getPlayer(baneeName);
 	if (banee == nullptr) {
 		sendChatOnBanResult(banner, baneeName, roomPath, ChatManager::NOAVATAR, requestID);
 		return;
-	} else if (banee->getObjectID() == room->getOwnerID()) { //Sorry friend, you cannot ban the channel owner!
+	} else if (banee->getObjectID() == room->getOwnerID()) { // Sorry friend, you cannot ban the channel owner!
 		sendChatOnBanResult(banner, baneeName, roomPath, ChatManager::FAIL, requestID);
 		return;
 	}
 
 	Locker locker(room);
 
-	//Check if already banned.
+	// Check if already banned.
 	if (room->hasBanned(banee)) {
 		sendChatOnBanResult(banner, baneeName, roomPath, ChatManager::INVALIDBANSTATE, requestID);
 		return;
 	}
 
-	//Remove moderator status if applicable.
+	// Remove moderator status if applicable.
 	if (room->hasModerator(banee)) {
 		room->removeModerator(banee);
 		ChatOnRemoveModeratorFromRoom* deopNotification = new ChatOnRemoveModeratorFromRoom(banner, baneeName, roomPath, ChatManager::SUCCESS);
 		room->broadcastMessage(deopNotification); //"Moderator status has been revoked from %TU."
 	}
 
-	//Remove invite if applicable.
+	// Remove invite if applicable.
 	if (room->isPrivate()) {
 		if (room->hasInvited(banee)) {
 			room->removeInvited(banee);
-			//Update the room list for all players in the room.
+			// Update the room list for all players in the room.
 			broadcastQueryResultsToRoom(room);
 		}
 	}
 
-	//Kick player if applicable.
+	// Kick player if applicable.
 	if (room->hasPlayer(banee)) {
 		Locker clocker(banee, room);
 		room->removePlayer(banee);
 
-		//Send kick notification to banee.
+		// Send kick notification to banee.
 		StringIdChatParameter notification;
 		notification.setStringId("guild", "kick_target"); //"%TU has removed you from %TT."
 		notification.setTU(banner->getFirstName());
@@ -2645,21 +2638,20 @@ void ChatManagerImplementation::handleChatBanPlayer(CreatureObject* banner, cons
 		banee->sendSystemMessage(notification);
 	}
 
-	//Ban the banee from the room.
+	// Ban the banee from the room.
 	room->addBanned(banee);
 
-	//Notify the room of the successful ban.
+	// Notify the room of the successful ban.
 	ChatOnBanFromRoom* banNotification = new ChatOnBanFromRoom(banner, baneeName, roomPath, ChatManager::SUCCESS);
 	room->broadcastMessage(banNotification);
 
 	if (!room->hasPlayer(banner))
 		sendChatOnBanResult(banner, baneeName, roomPath, ChatManager::SUCCESS, requestID);
 
-	//Remove the room from banee's channel browser.
+	// Remove the room from banee's channel browser.
 	if (room->isPrivate())
-		room->sendDestroyTo(banee); //Done last in the off chance they banned themself so the error displays the proper room path.
+		room->sendDestroyTo(banee); // Done last in the off chance they banned themself so the error displays the proper room path.
 }
-
 
 void ChatManagerImplementation::sendChatOnBanResult(CreatureObject* banner, const String& baneeName, const String& roomPath, int error, int requestID) {
 	ChatOnBanFromRoom* notification = new ChatOnBanFromRoom(banner, baneeName, roomPath, error, requestID);
@@ -2667,7 +2659,7 @@ void ChatManagerImplementation::sendChatOnBanResult(CreatureObject* banner, cons
 }
 
 void ChatManagerImplementation::handleChatUnbanPlayer(CreatureObject* unbanner, const String& unbaneeName, const String& roomPath, int requestID) {
-	//Nothing locked
+	// Nothing locked
 
 	/* Error Codes:
 	 * 0: Success: [Target] has been unbanned from [RoomName]. (SUCCESS)
@@ -2681,32 +2673,32 @@ void ChatManagerImplementation::handleChatUnbanPlayer(CreatureObject* unbanner, 
 	if (unbanner == nullptr)
 		return;
 
-	//Validate the room.
+	// Validate the room.
 	ManagedReference<ChatRoom*> room = getChatRoomByFullPath(roomPath);
 	if (room == nullptr) {
 		sendChatOnUnbanResult(unbanner, unbaneeName, roomPath, ChatManager::NOROOM, requestID);
 		return;
 	}
 
-	//Check for moderator permission.
+	// Check for moderator permission.
 	if (!room->hasModerator(unbanner)) {
 		sendChatOnUnbanResult(unbanner, unbaneeName, roomPath, ChatManager::NOPERMISSION, requestID);
 		return;
 	}
 
-	//Get the unbanee.
+	// Get the unbanee.
 	ManagedReference<CreatureObject*> unbanee = playerManager->getPlayer(unbaneeName);
 	if (unbanee == nullptr) {
 		sendChatOnUnbanResult(unbanner, unbaneeName, roomPath, ChatManager::NOAVATAR, requestID);
 		return;
-	} else if (unbanee->getObjectID() == room->getOwnerID()) { //Sorry guy, you cannot unban the channel owner!
+	} else if (unbanee->getObjectID() == room->getOwnerID()) { // Sorry guy, you cannot unban the channel owner!
 		sendChatOnUnbanResult(unbanner, unbaneeName, roomPath, ChatManager::FAIL, requestID);
 		return;
 	}
 
 	Locker locker(room);
 
-	//Remove unbanee from banned list if applicable.
+	// Remove unbanee from banned list if applicable.
 	if (room->hasBanned(unbanee))
 		room->removeBanned(unbanee);
 	else {
@@ -2714,13 +2706,12 @@ void ChatManagerImplementation::handleChatUnbanPlayer(CreatureObject* unbanner, 
 		return;
 	}
 
-	//Notify the room of the successful unban.
+	// Notify the room of the successful unban.
 	ChatOnUnbanFromRoom* unbanNotification = new ChatOnUnbanFromRoom(unbanner, unbaneeName, roomPath, ChatManager::SUCCESS);
 	room->broadcastMessage(unbanNotification);
 
 	if (!room->hasPlayer(unbanner))
 		sendChatOnUnbanResult(unbanner, unbaneeName, roomPath, ChatManager::SUCCESS, requestID);
-
 }
 
 void ChatManagerImplementation::sendChatOnUnbanResult(CreatureObject* unbanner, const String& unbaneeName, const String& roomPath, int error, int requestID) {

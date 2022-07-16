@@ -14,19 +14,20 @@
 
 #include "DamageOverTime.h"
 
-class DamageOverTimeList : private VectorMap<uint64, Vector<DamageOverTime> > {
+class DamageOverTimeList : private VectorMap<uint64, Vector<DamageOverTime>> {
 protected:
 	Time nextTick;
 	// TODO: why is this boolean here? what purpose does it serve?
 	bool dot;
 	Mutex guard;
+
 public:
 	DamageOverTimeList() {
 		setNoDuplicateInsertPlan();
 		dot = false;
 	}
 
-	DamageOverTimeList(const DamageOverTimeList& list) : VectorMap<uint64, Vector<DamageOverTime> >(list), guard() {
+	DamageOverTimeList(const DamageOverTimeList& list) : VectorMap<uint64, Vector<DamageOverTime>>(list), guard() {
 		setNoDuplicateInsertPlan();
 
 		nextTick = list.nextTick;
@@ -45,17 +46,17 @@ public:
 	}
 
 	friend void to_json(nlohmann::json& j, const DamageOverTimeList& l) {
-		const VectorMap<uint64, Vector<DamageOverTime> >& map = l;
+		const VectorMap<uint64, Vector<DamageOverTime>>& map = l;
 
 		to_json(j, map);
 	}
 
 	bool toBinaryStream(ObjectOutputStream* stream) {
-		return VectorMap<uint64, Vector<DamageOverTime> >::toBinaryStream(stream);
+		return VectorMap<uint64, Vector<DamageOverTime>>::toBinaryStream(stream);
 	}
 
 	bool parseFromBinaryStream(ObjectInputStream* stream) {
-		return VectorMap<uint64, Vector<DamageOverTime> >::parseFromBinaryStream(stream);
+		return VectorMap<uint64, Vector<DamageOverTime>>::parseFromBinaryStream(stream);
 	}
 
 	uint64 activateDots(CreatureObject* victim);
@@ -65,7 +66,7 @@ public:
 	void clear(CreatureObject* creature);
 	void validateDots(CreatureObject* creature);
 	bool hasDot(uint64 dotType);
-	void multiplyAllDOTDurations (float multiplier);
+	void multiplyAllDOTDurations(float multiplier);
 
 	void sendStartMessage(CreatureObject* victim, uint64 type);
 	void sendStopMessage(CreatureObject* victim, uint64 type);
@@ -74,13 +75,12 @@ public:
 
 	int getStrength(uint8 pool, uint64 dotType);
 
-	uint64 generateKey(uint64 dotType, uint8 pool, uint64 parentObjectID)
-	{
-		//System::out << "oid: " << objectID << " pool: " << pool << " dotType: " << dotType << endl;
+	uint64 generateKey(uint64 dotType, uint8 pool, uint64 parentObjectID) {
+		// System::out << "oid: " << objectID << " pool: " << pool << " dotType: " << dotType << endl;
 		uint64 key = parentObjectID;
 		key ^= Long::hashCode((uint64)pool);
 		key ^= Long::hashCode((uint64)dotType);
-		//System::out << "key " << key << endl;
+		// System::out << "key " << key << endl;
 		return key;
 	}
 
@@ -103,8 +103,6 @@ public:
 	inline bool isNextTickPast() {
 		return nextTick.isPast();
 	}
-
 };
-
 
 #endif /* DAMAGEOVERTIMELIST_H_ */

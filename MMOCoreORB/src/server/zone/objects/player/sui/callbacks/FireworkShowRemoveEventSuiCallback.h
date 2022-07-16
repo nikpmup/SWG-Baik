@@ -8,8 +8,7 @@
 
 class FireworkShowRemoveEventSuiCallback : public SuiCallback {
 public:
-	FireworkShowRemoveEventSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	FireworkShowRemoveEventSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -41,7 +40,7 @@ public:
 
 		DataObjectComponent* data = fireworkShow->getDataObjectComponent()->get();
 
-		if(data == nullptr || !data->isFireworkShowData())
+		if (data == nullptr || !data->isFireworkShowData())
 			return;
 
 		FireworkShowDataComponent* fireworkShowData = cast<FireworkShowDataComponent*>(data);
@@ -67,7 +66,6 @@ public:
 
 		FireworkShowMenuComponent* showMenu = cast<FireworkShowMenuComponent*>(fireworkShow->getObjectMenuComponent());
 		showMenu->removeEvent(player, fireworkShow.castTo<FireworkObject*>());
-
 	}
 };
 

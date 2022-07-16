@@ -19,11 +19,9 @@ private:
 
 public:
 	SurveyToolTemplate() : toolType(0) {
-
 	}
 
 	~SurveyToolTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) override {

@@ -105,7 +105,7 @@ public:
 #ifdef COMPILE_CORE3_TESTS
 class MockTerrainManager : public TerrainManager {
 public:
-	MOCK_METHOD2(getHeight,float(float x, float y));
+	MOCK_METHOD2(getHeight, float(float x, float y));
 };
 #endif
 

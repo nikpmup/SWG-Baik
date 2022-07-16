@@ -9,14 +9,10 @@
 
 class ResourceCommand : public QueueCommand {
 public:
-
-	ResourceCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ResourceCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -32,35 +28,35 @@ public:
 		try {
 			String command;
 
-			if(args.hasMoreTokens())
+			if (args.hasMoreTokens())
 				args.getStringToken(command);
 
-			if(command == "list") {
+			if (command == "list") {
 				listResources(creature, &args);
 
-			} else if(command == "health") {
+			} else if (command == "health") {
 				healthCheck(creature, &args);
 
-			} else if(command == "dump") {
+			} else if (command == "dump") {
 				dumpResources(creature, &args);
 
-			} else if(command == "despawn") {
+			} else if (command == "despawn") {
 				despawnResource(creature, &args);
 
-			} else if(command == "info") {
+			} else if (command == "info") {
 				listResourceInfo(creature, &args);
 
-			} else if(command == "find") {
+			} else if (command == "find") {
 				findResources(creature, &args);
 
-			} else if(command == "create") {
+			} else if (command == "create") {
 				giveResource(creature, &args);
 
 			} else {
 				throw Exception();
 			}
 
-		} catch (Exception& e){
+		} catch (Exception& e) {
 			creature->sendSystemMessage("invalid arguments for resources command:  /resource <option> [params]");
 			creature->sendSystemMessage("		list <planet> : Lists resources on specified planet");
 			creature->sendSystemMessage("		health : Lists resource pool health stats");
@@ -75,14 +71,14 @@ public:
 	}
 
 	void listResources(CreatureObject* creature, StringTokenizer* args) const {
-		if(creature->getZoneServer() == nullptr)
+		if (creature->getZoneServer() == nullptr)
 			return;
 
 		String planet = "";
-		if(args->hasMoreTokens())
+		if (args->hasMoreTokens())
 			args->getStringToken(planet);
 
-		if(planet.isEmpty())
+		if (planet.isEmpty())
 			throw Exception();
 
 		ResourceManager* resMan = creature->getZoneServer()->getResourceManager();
@@ -90,7 +86,7 @@ public:
 	}
 
 	void healthCheck(CreatureObject* creature, StringTokenizer* args) const {
-		if(creature->getZoneServer() == nullptr)
+		if (creature->getZoneServer() == nullptr)
 			return;
 
 		ResourceManager* resMan = creature->getZoneServer()->getResourceManager();
@@ -99,7 +95,7 @@ public:
 	}
 
 	void dumpResources(CreatureObject* creature, StringTokenizer* args) const {
-		if(creature->getZoneServer() == nullptr)
+		if (creature->getZoneServer() == nullptr)
 			return;
 
 		ResourceManager* resMan = creature->getZoneServer()->getResourceManager();
@@ -108,13 +104,12 @@ public:
 	}
 
 	void despawnResource(CreatureObject* creature, StringTokenizer* args) const {
-		if(creature->getZoneServer() == nullptr)
+		if (creature->getZoneServer() == nullptr)
 			return;
 
 		String resourceName = "";
-		if(args->hasMoreTokens())
+		if (args->hasMoreTokens())
 			args->getStringToken(resourceName);
-
 
 		ResourceManager* resMan = creature->getZoneServer()->getResourceManager();
 
@@ -122,17 +117,17 @@ public:
 	}
 
 	void listResourceInfo(CreatureObject* creature, StringTokenizer* args) const {
-		if(creature->getZoneServer() == nullptr)
+		if (creature->getZoneServer() == nullptr)
 			return;
 
 		String resourceName = "";
-		if(args->hasMoreTokens())
+		if (args->hasMoreTokens())
 			args->getStringToken(resourceName);
 
 		ResourceManager* resMan = creature->getZoneServer()->getResourceManager();
 
 		ManagedReference<ResourceSpawn*> spawn = resMan->getResourceSpawn(resourceName);
-		if(spawn == nullptr) {
+		if (spawn == nullptr) {
 			creature->sendSystemMessage("Resource not found");
 			return;
 		}
@@ -143,7 +138,7 @@ public:
 		uint64 currTime = System::getTime();
 
 		int diff = 0;
-		if(despawned > currTime) {
+		if (despawned > currTime) {
 			diff = despawned - currTime;
 		} else {
 			diff = currTime - despawned;
@@ -153,11 +148,11 @@ public:
 		int hours = ((diff / 60 / 60) % 24);
 		int minutes = ((diff / 60) % 60);
 
-		if(despawned > currTime) {
+		if (despawned > currTime) {
 			creature->sendSystemMessage("Expires in: " + String::valueOf(days) + " days, " + String::valueOf(hours) + " hours, " + String::valueOf(minutes) + " minutes");
 			creature->sendSystemMessage("Pool: " + String::valueOf(spawn->getSpawnPool()));
 
-			for(int i = 0; i < spawn->getSpawnMapSize(); ++i) {
+			for (int i = 0; i < spawn->getSpawnMapSize(); ++i) {
 				creature->sendSystemMessage("Spawned on: " + spawn->getSpawnMapZone(i));
 			}
 
@@ -165,18 +160,17 @@ public:
 			creature->sendSystemMessage("Expired: " + String::valueOf(days) + " days, " + String::valueOf(hours) + " hours, " + String::valueOf(minutes) + " minutes ago");
 		}
 
-
-		for(int i = 0; i < 12; ++i) {
+		for (int i = 0; i < 12; ++i) {
 			String attribute = "";
 			int value = spawn->getAttributeAndValue(attribute, i);
-			if(attribute != "") {
+			if (attribute != "") {
 				creature->sendSystemMessage(attribute + ": " + String::valueOf(value));
 			}
 		}
 	}
 
 	void findResources(CreatureObject* creature, StringTokenizer* args) const {
-		if(creature->getZoneServer() == nullptr || !args->hasMoreTokens())
+		if (creature->getZoneServer() == nullptr || !args->hasMoreTokens())
 			throw Exception();
 
 		ResourceManager* resMan = creature->getZoneServer()->getResourceManager();
@@ -220,9 +214,9 @@ public:
 
 			Reference<ResourceMap*> tempMap = new ResourceMap();
 
-			if (andFlag) //and means only get results from that which we have already eliminated
+			if (andFlag) // and means only get results from that which we have already eliminated
 				resultsMap->getAttributeSubset(*tempMap, attribute);
-			else //or means look at everything and concat the vectors
+			else // or means look at everything and concat the vectors
 				map->getAttributeSubset(*tempMap, attribute);
 
 			for (int i = tempMap->size() - 1; i >= 0 && tempMap->size() > 0; i--) {
@@ -301,7 +295,6 @@ public:
 					promptText << "    " << StringIdManager::instance()->getStringId(attrName).toString() << ": " << String::valueOf(value) << endl;
 				}
 			}
-
 		}
 
 		box->setPromptText(promptText.toString());
@@ -310,7 +303,7 @@ public:
 	}
 
 	void giveResource(CreatureObject* creature, StringTokenizer* args) const {
-		if(creature->getZoneServer() == nullptr || !args->hasMoreTokens())
+		if (creature->getZoneServer() == nullptr || !args->hasMoreTokens())
 			throw Exception();
 
 		ResourceManager* resMan = creature->getZoneServer()->getResourceManager();
@@ -329,7 +322,6 @@ public:
 
 		resMan->givePlayerResource(creature, resName.toLowerCase(), quantity);
 	}
-
 };
 
-#endif //RESOURCECOMMAND_H_
+#endif // RESOURCECOMMAND_H_

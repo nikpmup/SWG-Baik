@@ -14,7 +14,6 @@ DroidItemStorageModuleDataComponent::DroidItemStorageModuleDataComponent() {
 }
 
 DroidItemStorageModuleDataComponent::~DroidItemStorageModuleDataComponent() {
-
 }
 
 String DroidItemStorageModuleDataComponent::getModuleName() const {
@@ -28,7 +27,7 @@ void DroidItemStorageModuleDataComponent::initializeTransientMembers() {
 		return;
 	}
 
-	if(droidComponent->hasKey("storage_module")) {
+	if (droidComponent->hasKey("storage_module")) {
 		rating = droidComponent->getAttributeValue("storage_module");
 	}
 }
@@ -38,22 +37,22 @@ void DroidItemStorageModuleDataComponent::updateCraftingValues(CraftingValues* v
 }
 
 int DroidItemStorageModuleDataComponent::getStorageRating() {
-	switch(rating) {
-		case 1:
-		case 2:
-			return 1;
-		case 3:
-		case 4:
-			return 2;
-		case 5:
-		case 6:
-			return 3;
-		case 7:
-		case 8:
-			return 4;
-		case 9:
-		case 10:
-			return 5;
+	switch (rating) {
+	case 1:
+	case 2:
+		return 1;
+	case 3:
+	case 4:
+		return 2;
+	case 5:
+	case 6:
+		return 3;
+	case 7:
+	case 8:
+		return 4;
+	case 9:
+	case 10:
+		return 5;
 	}
 
 	return 6;
@@ -61,7 +60,7 @@ int DroidItemStorageModuleDataComponent::getStorageRating() {
 
 void DroidItemStorageModuleDataComponent::fillAttributeList(AttributeListMessage* alm, CreatureObject* droid) {
 	// convert module rating to actual rating
-	alm->insertAttribute( "storage_module", rating > 10 ? 10 : rating );
+	alm->insertAttribute("storage_module", rating > 10 ? 10 : rating);
 }
 
 String DroidItemStorageModuleDataComponent::toString() const {
@@ -130,7 +129,6 @@ void DroidItemStorageModuleDataComponent::initialize(DroidObject* droid) {
 int DroidItemStorageModuleDataComponent::handleObjectMenuSelect(CreatureObject* player, byte selectedID, PetControlDevice* controller) {
 	// Handle open droid storage
 	if (selectedID == ITEM_STORAGE_MODULE_OPEN) {
-
 		ManagedReference<DroidObject*> droid = getDroidObject();
 		if (droid == nullptr) {
 			info("Droid is null");

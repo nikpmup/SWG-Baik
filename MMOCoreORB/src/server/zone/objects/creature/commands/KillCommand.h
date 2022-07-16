@@ -9,21 +9,17 @@
 
 class KillCommand : public QueueCommand {
 public:
-
-	KillCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	KillCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
 
-		//Explain syntax
+		// Explain syntax
 		if (arguments.isEmpty() && creature->getTargetID() == 0) {
 			creature->sendSystemMessage("Syntax: /kill [-area [range]] [<health> [action] [mind]]");
 			return GENERALERROR;
@@ -46,31 +42,30 @@ public:
 
 		StringTokenizer args(arguments.toString());
 
-		//Initialize default damage amount
+		// Initialize default damage amount
 		int healthDamage = 9999999;
 		int actionDamage = healthDamage;
 		int mindDamage = healthDamage;
 
-		//Initialize components used to kill nearby creatures
+		// Initialize components used to kill nearby creatures
 		bool area = false;
 		float range = 64;
 
 		while (args.hasMoreTokens()) {
-
 			String arg;
 			args.getStringToken(arg);
 			bool validOption = false;
 
-			//Command Options
+			// Command Options
 			if (arg.charAt(0) == '-') {
-				//Help Syntax
+				// Help Syntax
 				if (arg.toLowerCase() == "-help" || arg == "-H") {
 					validOption = true;
 					creature->sendSystemMessage("Syntax: /kill [-area [range]] [<health> [action] [mind]]");
 					return GENERALERROR;
 				}
 
-				//Make command area affect with optional range
+				// Make command area affect with optional range
 				if (arg.toLowerCase() == "-area" || arg == "-a") {
 					validOption = true;
 					area = true;
@@ -91,9 +86,9 @@ public:
 			}
 
 			else {
-				//Override default damage amount
+				// Override default damage amount
 				try {
-					//Test if value is integer
+					// Test if value is integer
 					for (int i = 0; i < arg.length(); i++) {
 						if (!Character::isDigit(arg.charAt(i)))
 							throw Exception("Invalid damage amount.");
@@ -105,7 +100,7 @@ public:
 
 					if (args.hasMoreTokens()) {
 						args.getStringToken(arg);
-						//Test if value is integer
+						// Test if value is integer
 						for (int i = 0; i < arg.length(); i++) {
 							if (!Character::isDigit(arg.charAt(i)))
 								throw Exception("Invalid action damage amount.");
@@ -116,7 +111,7 @@ public:
 
 						if (args.hasMoreTokens()) {
 							args.getStringToken(arg);
-							//Test if value is integer
+							// Test if value is integer
 							for (int i = 0; i < arg.length(); i++) {
 								if (!Character::isDigit(arg.charAt(i)))
 									throw Exception("Invalid mind damage amount.");
@@ -128,17 +123,16 @@ public:
 								throw Exception("Too many arguments.");
 						}
 					}
-				}
-				catch (Exception& e) {
+				} catch (Exception& e) {
 					creature->sendSystemMessage(e.getMessage());
 					return INVALIDPARAMETERS;
 				}
 			}
 		}
 
-		//Deal area damage if specified
+		// Deal area damage if specified
 		if (area) {
-			//Retrieve nearby objects
+			// Retrieve nearby objects
 			SortedVector<QuadTreeEntry*> closeObjects;
 			Zone* zone = creature->getZone();
 
@@ -147,9 +141,8 @@ public:
 				creature->info("Null closeobjects vector in KillCommand::doQueueCommand", true);
 #endif
 				zone->getInRangeObjects(creature->getPositionX(), creature->getPositionY(), range, &closeObjects, true);
-			}
-			else {
-				CloseObjectsVector* closeVector = (CloseObjectsVector*) creature->getCloseObjects();
+			} else {
+				CloseObjectsVector* closeVector = (CloseObjectsVector*)creature->getCloseObjects();
 				closeVector->safeCopyReceiversTo(closeObjects, CloseObjectsVector::CREOTYPE);
 			}
 
@@ -159,7 +152,7 @@ public:
 					targetCreature = cast<CreatureObject*>(targetObject);
 
 					Locker locker(targetCreature, creature);
-					//Deal damage if target is an attackable creature, in range, and not a player or pet
+					// Deal damage if target is an attackable creature, in range, and not a player or pet
 					if (targetCreature->isAttackableBy(creature) && creature->isInRange(targetObject, range) && !targetObject->isPlayerCreature() && !targetObject->isPet()) {
 						targetCreature->inflictDamage(creature, 0, healthDamage, true, true);
 						targetCreature->inflictDamage(creature, 3, actionDamage, true, true);
@@ -170,9 +163,9 @@ public:
 			return SUCCESS;
 		}
 
-		//Deal damage to selected target
+		// Deal damage to selected target
 		else {
-			//Deal damage if target is not a player or pet
+			// Deal damage if target is not a player or pet
 			if (targetCreature != nullptr) {
 				if (!targetCreature->isPlayerCreature() && !targetObject->isPet()) {
 					Locker locker(targetCreature, creature);
@@ -183,7 +176,7 @@ public:
 					return SUCCESS;
 				}
 			}
-			//Deal damage if target is a lair
+			// Deal damage if target is a lair
 			else if (targetLair != nullptr) {
 				Locker locker(targetLair, creature);
 
@@ -194,7 +187,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //KILLCOMMAND_H_
+#endif // KILLCOMMAND_H_

@@ -22,7 +22,6 @@ class ResourceSpawner;
 
 class ResourceTree : public Logger {
 private:
-
 	/// The tree's base node
 	ResourceTreeNode* baseNode;
 
@@ -46,8 +45,7 @@ public:
 	 * \param Excludes Vector of items that can't be chosen
 	 * \param zoneid If the resource is tied to a certain zone
 	 */
-	const ResourceTreeEntry* getEntry(const String& type,
-			const Vector<String>& excludes = 0,  const String& zoneName = "") const;
+	const ResourceTreeEntry* getEntry(const String& type, const Vector<String>& excludes = 0, const String& zoneName = "") const;
 
 	ResourceTreeNode* getBaseNode() {
 		return baseNode;
@@ -87,6 +85,4 @@ private:
 	 * Sets the recycle tool type and sub type
 	 */
 	void setRecycleToolType(ResourceTreeEntry* entry);
-
 };
-

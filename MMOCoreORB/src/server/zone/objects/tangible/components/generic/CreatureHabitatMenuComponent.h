@@ -10,10 +10,8 @@
 
 #include "../TangibleObjectMenuComponent.h"
 
-
 class CreatureHabitatMenuComponent : public TangibleObjectMenuComponent {
 public:
-
 	/**
 	 * Fills the radial options, needs to be overriden
 	 * @pre { this object is locked }
@@ -33,13 +31,10 @@ public:
 	virtual int handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const;
 
 private:
-
 	/**
 	 * Returns the live creatures stored inside the habitat when it was crafted
 	 */
-	ManagedReference<TangibleObject*> getLiveCreatures( TangibleObject* creatureHabitat ) const;
-
+	ManagedReference<TangibleObject*> getLiveCreatures(TangibleObject* creatureHabitat) const;
 };
-
 
 #endif /* CREATUREHABITATMENUCOMPONENT_H_ */

@@ -15,9 +15,9 @@ class ShuttleDepartureTask : public Task {
 	ManagedWeakReference<CreatureObject*> shuttleObject;
 
 protected:
-	int landedTime; //In seconds
-	int landingTime; //How long the landing animation takes to complete in seconds.
-	int departedTime; //In seconds
+	int landedTime;	  // In seconds
+	int landingTime;  // How long the landing animation takes to complete in seconds.
+	int departedTime; // In seconds
 
 public:
 	ShuttleDepartureTask(CreatureObject* shuttle) : Task() {
@@ -46,7 +46,7 @@ public:
 	}
 
 	int getSecondsRemaining() {
-		int seconds = (int) (getNextExecutionTime().miliDifference() / 1000.f * -1) + 1;
+		int seconds = (int)(getNextExecutionTime().miliDifference() / 1000.f * -1) + 1;
 
 		return seconds;
 	}
@@ -61,7 +61,7 @@ public:
 		if (!strongReference->isStanding())
 			return false;
 
-		//Make sure the shuttle isn't still landing
+		// Make sure the shuttle isn't still landing
 		if ((landedTime - getSecondsRemaining()) <= landingTime)
 			return false;
 

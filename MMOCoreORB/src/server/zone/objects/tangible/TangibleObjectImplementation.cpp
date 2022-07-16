@@ -44,7 +44,7 @@ void TangibleObjectImplementation::initializeTransientMembers() {
 
 	setLoggingName("TangibleObject");
 
-	if (faction !=  Factions::FACTIONREBEL && faction != Factions::FACTIONIMPERIAL) {
+	if (faction != Factions::FACTIONREBEL && faction != Factions::FACTIONIMPERIAL) {
 		faction = 0;
 	}
 }
@@ -108,12 +108,7 @@ void TangibleObjectImplementation::notifyLoadFromDatabase() {
 			auto strongAdkParent = adk->getParent().get();
 
 			if (strongAdkParent != nullptr) {
-				error()
-					<< "oid: " << getObjectID()
-					<< " has AntiDecayKit(" << adk->getObjectID()
-					<< ") with parent: " << strongAdkParent->getObjectID()
-					<< ", removing from world."
-					;
+				error() << "oid: " << getObjectID() << " has AntiDecayKit(" << adk->getObjectID() << ") with parent: " << strongAdkParent->getObjectID() << ", removing from world.";
 				Locker lock(adk);
 				adk->destroyObjectFromWorld(true);
 			}
@@ -127,12 +122,7 @@ void TangibleObjectImplementation::destroyObjectFromDatabase(bool destroyContain
 
 		if (adk != nullptr) {
 			auto strongAdkParent = adk->getParent().get();
-			error()
-				<< "destroyObjectFromDatabase oid: " << getObjectID()
-				<< " has AntiDecayKit(" << adk->getObjectID()
-				<< ") with parent: " << (strongAdkParent != nullptr ? strongAdkParent->getObjectID() : 0)
-				<< ", removing adk from database."
-				;
+			error() << "destroyObjectFromDatabase oid: " << getObjectID() << " has AntiDecayKit(" << adk->getObjectID() << ") with parent: " << (strongAdkParent != nullptr ? strongAdkParent->getObjectID() : 0) << ", removing adk from database.";
 			Locker lock(adk);
 			adk->destroyObjectFromDatabase(true);
 			antiDecayKitObject = nullptr;
@@ -186,7 +176,7 @@ void TangibleObjectImplementation::setFactionStatus(int status) {
 			if (pvpStatusBitmask & CreatureFlag::OVERT)
 				pvpStatusBitmask &= ~CreatureFlag::OVERT;
 		} else if (factionStatus == FactionStatus::OVERT) {
-			if(!(pvpStatusBitmask & CreatureFlag::OVERT)) {
+			if (!(pvpStatusBitmask & CreatureFlag::OVERT)) {
 				int cooldown = 300;
 
 				Zone* creoZone = creature->getZone();
@@ -240,7 +230,7 @@ void TangibleObjectImplementation::setFactionStatus(int status) {
 		else
 			broadcastPvpStatusBitmask(); // Invuln players still need faction changes broadcasted even without the bitmask changing
 
-		Vector<ManagedReference<CreatureObject*> > petsToStore;
+		Vector<ManagedReference<CreatureObject*>> petsToStore;
 
 		for (int i = 0; i < ghost->getActivePetsSize(); i++) {
 			Reference<AiAgent*> pet = ghost->getActivePet(i);
@@ -402,7 +392,6 @@ void TangibleObjectImplementation::synchronizedUIListen(CreatureObject* player, 
 }
 
 void TangibleObjectImplementation::synchronizedUIStopListen(CreatureObject* player, int value) {
-
 }
 
 void TangibleObjectImplementation::setSerialNumber(const String& serial) {
@@ -479,7 +468,8 @@ void TangibleObjectImplementation::setDefender(SceneObject* defender) {
 	int i = 0;
 	for (; i < defenderList.size(); i++) {
 		if (defenderList.get(i) == defender) {
-			if (i == 0) return;
+			if (i == 0)
+				return;
 			break;
 		}
 	}
@@ -589,7 +579,7 @@ void TangibleObjectImplementation::fillAttributeList(AttributeListMessage* alm, 
 
 	if (maxCondition > 0) {
 		StringBuffer cond;
-		cond << (maxCondition-(int)conditionDamage) << "/" << maxCondition;
+		cond << (maxCondition - (int)conditionDamage) << "/" << maxCondition;
 
 		auto config = ConfigManager::instance();
 
@@ -635,10 +625,9 @@ void TangibleObjectImplementation::fillAttributeList(AttributeListMessage* alm, 
 
 	if (gameObjectType == SceneObjectType::PLAYERLOOTCRATE) {
 		if (isSliceable()) {
-			alm->insertAttribute( "lock_mechanism", "@obj_attr_n:slicable" );
-		}
-		else {
-			alm->insertAttribute( "lock_mechanism", "@obj_attr_n:broken" );
+			alm->insertAttribute("lock_mechanism", "@obj_attr_n:slicable");
+		} else {
+			alm->insertAttribute("lock_mechanism", "@obj_attr_n:broken");
 		}
 	}
 }
@@ -659,7 +648,7 @@ void TangibleObjectImplementation::setCustomizationVariable(byte type, int16 val
 void TangibleObjectImplementation::setCustomizationVariable(const String& type, int16 value, bool notifyClient) {
 	customizationVariables.setVariable(type, value);
 
-	if(!notifyClient)
+	if (!notifyClient)
 		return;
 
 	TangibleObjectDeltaMessage3* dtano3 = new TangibleObjectDeltaMessage3(asTangibleObject());
@@ -667,7 +656,6 @@ void TangibleObjectImplementation::setCustomizationVariable(const String& type, 
 	dtano3->close();
 
 	broadcastMessage(dtano3, true);
-
 }
 
 void TangibleObjectImplementation::setCountdownTimer(unsigned int newUseCount, bool notifyClient) {
@@ -896,8 +884,7 @@ void TangibleObjectImplementation::clearOptionBit(uint32 option, bool notifyClie
 	}
 }
 
-void TangibleObjectImplementation::updateCraftingValues(CraftingValues* values,
-		bool firstUpdate) {
+void TangibleObjectImplementation::updateCraftingValues(CraftingValues* values, bool firstUpdate) {
 	/// I know its kind dirty, but we want generics to have quantities
 	/// Without needing their own classes
 	if (values->hasProperty("quantity")) {
@@ -913,31 +900,31 @@ void TangibleObjectImplementation::updateCraftingValues(CraftingValues* values,
 	}
 }
 
-Reference<FactoryCrate*> TangibleObjectImplementation::createFactoryCrate(int maxSize, String& factoryCrateType, bool insertSelf ) {
+Reference<FactoryCrate*> TangibleObjectImplementation::createFactoryCrate(int maxSize, String& factoryCrateType, bool insertSelf) {
 	ObjectManager* objectManager = ObjectManager::instance();
 
 	String crateType = factoryCrateType;
 	uint32 type = getGameObjectType();
 
 	if (crateType == "") {
-		if(type & SceneObjectType::ARMOR)
-        		crateType = "object/factory/factory_crate_armor.iff";
-    		else if(type == SceneObjectType::CHEMICAL || type == SceneObjectType::PHARMACEUTICAL || type == SceneObjectType::PETMEDECINE)
-        		crateType = "object/factory/factory_crate_chemicals.iff";
-    		else if(type & SceneObjectType::CLOTHING)
-        		crateType = "object/factory/factory_crate_clothing.iff";
-    		else if(type == SceneObjectType::ELECTRONICS)
-        		crateType = "object/factory/factory_crate_electronics.iff";
-    		else if(type == SceneObjectType::FOOD || type == SceneObjectType::DRINK)
-        		crateType = "object/factory/factory_crate_food.iff";
-    		else if(type == SceneObjectType::FURNITURE)
-        		crateType = "object/factory/factory_crate_furniture.iff";
-    		else if(type & SceneObjectType::INSTALLATION)
-        		crateType = "object/factory/factory_crate_installation.iff";
-    		else if(type & SceneObjectType::WEAPON)
-        		crateType = "object/factory/factory_crate_weapon.iff";
-    		else
-        	crateType = "object/factory/factory_crate_generic_items.iff";
+		if (type & SceneObjectType::ARMOR)
+			crateType = "object/factory/factory_crate_armor.iff";
+		else if (type == SceneObjectType::CHEMICAL || type == SceneObjectType::PHARMACEUTICAL || type == SceneObjectType::PETMEDECINE)
+			crateType = "object/factory/factory_crate_chemicals.iff";
+		else if (type & SceneObjectType::CLOTHING)
+			crateType = "object/factory/factory_crate_clothing.iff";
+		else if (type == SceneObjectType::ELECTRONICS)
+			crateType = "object/factory/factory_crate_electronics.iff";
+		else if (type == SceneObjectType::FOOD || type == SceneObjectType::DRINK)
+			crateType = "object/factory/factory_crate_food.iff";
+		else if (type == SceneObjectType::FURNITURE)
+			crateType = "object/factory/factory_crate_furniture.iff";
+		else if (type & SceneObjectType::INSTALLATION)
+			crateType = "object/factory/factory_crate_installation.iff";
+		else if (type & SceneObjectType::WEAPON)
+			crateType = "object/factory/factory_crate_weapon.iff";
+		else
+			crateType = "object/factory/factory_crate_generic_items.iff";
 	}
 
 	Reference<FactoryCrate*> crate = (getZoneServer()->createObject(crateType.hashCode(), 2)).castTo<FactoryCrate*>();
@@ -949,14 +936,13 @@ Reference<FactoryCrate*> TangibleObjectImplementation::createFactoryCrate(int ma
 
 	crate->setMaxCapacity(maxSize);
 
-
 	if (insertSelf) {
 		if (!crate->transferObject(asTangibleObject(), -1, false)) {
 			crate->destroyObjectFromDatabase(true);
 			return nullptr;
 		}
 	} else {
-		ManagedReference<TangibleObject*> protoclone = cast<TangibleObject*>( objectManager->cloneObject(asTangibleObject()));
+		ManagedReference<TangibleObject*> protoclone = cast<TangibleObject*>(objectManager->cloneObject(asTangibleObject()));
 
 		if (protoclone == nullptr) {
 			crate->destroyObjectFromDatabase(true);
@@ -964,11 +950,11 @@ Reference<FactoryCrate*> TangibleObjectImplementation::createFactoryCrate(int ma
 		}
 
 		/*
-		* I really didn't want to do this this way, but I had no other way of making the text on the crate be white
-		* if the item it contained has yellow magic bit set. So I stripped the yellow magic bit off when the item is placed inside
-		* the crate here, and added it back when the item is extracted from the crate if it is a crafted enhanced item.
-		*/
-		if(protoclone->getIsCraftedEnhancedItem()) {
+		 * I really didn't want to do this this way, but I had no other way of making the text on the crate be white
+		 * if the item it contained has yellow magic bit set. So I stripped the yellow magic bit off when the item is placed inside
+		 * the crate here, and added it back when the item is extracted from the crate if it is a crafted enhanced item.
+		 */
+		if (protoclone->getIsCraftedEnhancedItem()) {
 			protoclone->removeMagicBit(false);
 		}
 
@@ -1037,7 +1023,7 @@ bool TangibleObjectImplementation::canRepair(CreatureObject* player) {
 
 	for (int i = 0; i < inventory->getContainerObjectsSize(); ++i) {
 		ManagedReference<SceneObject*> item = inventory->getContainerObject(i);
-		if(item->isRepairTool()) {
+		if (item->isRepairTool()) {
 			Reference<RepairToolTemplate*> repairTemplate = cast<RepairToolTemplate*>(item->getObjectTemplate());
 
 			if (repairTemplate == nullptr) {
@@ -1055,9 +1041,8 @@ bool TangibleObjectImplementation::canRepair(CreatureObject* player) {
 	return false;
 }
 
-void TangibleObjectImplementation::repair(CreatureObject* player, RepairTool * repairTool) {
-
-	if(player == nullptr || player->getZoneServer() == nullptr)
+void TangibleObjectImplementation::repair(CreatureObject* player, RepairTool* repairTool) {
+	if (player == nullptr || player->getZoneServer() == nullptr)
 		return;
 
 	if (!isASubChildOf(player))
@@ -1068,7 +1053,7 @@ void TangibleObjectImplementation::repair(CreatureObject* player, RepairTool * r
 		return;
 	}
 
-	//Condition is unrepairable
+	// Condition is unrepairable
 	if ((getMaxCondition() - getConditionDamage()) <= 0) {
 		StringIdChatParameter cantrepair("error_message", "sys_repair_unrepairable");
 		cantrepair.setTT(getDisplayedName());
@@ -1081,7 +1066,7 @@ void TangibleObjectImplementation::repair(CreatureObject* player, RepairTool * r
 	if (repairTool == nullptr) {
 		SceneObject* inventory = player->getSlottedObject("inventory");
 
-		if(inventory == nullptr) {
+		if (inventory == nullptr) {
 			return;
 		}
 
@@ -1096,7 +1081,7 @@ void TangibleObjectImplementation::repair(CreatureObject* player, RepairTool * r
 					return;
 				}
 
-				if(repairTemplate->getRepairType() & getGameObjectType()) {
+				if (repairTemplate->getRepairType() & getGameObjectType()) {
 					repairTool = cast<RepairTool*>(item.get());
 					break;
 				}
@@ -1108,13 +1093,13 @@ void TangibleObjectImplementation::repair(CreatureObject* player, RepairTool * r
 		repairTemplate = cast<RepairToolTemplate*>(repairTool->getObjectTemplate());
 
 		if (!(repairTemplate->getRepairType() & getGameObjectType())) {
-			error ("Given RepairTool can't repair this type of object");
+			error("Given RepairTool can't repair this type of object");
 			return;
 		}
 	}
 
 	if (repairTool == nullptr) {
-		error ("No RepairTool given or found. Aborting");
+		error("No RepairTool given or found. Aborting");
 		return;
 	}
 
@@ -1179,7 +1164,7 @@ ThreatMap* TangibleObjectImplementation::getThreatMap() {
 
 bool TangibleObjectImplementation::isAttackableBy(TangibleObject* object) {
 	if (object == nullptr)
-		return  false;
+		return false;
 
 	if (object->isCreatureObject())
 		return isAttackableBy(object->asCreatureObject());

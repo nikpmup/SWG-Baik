@@ -14,7 +14,6 @@ namespace group {
 namespace tasks {
 
 class LootLotteryTimeoutTask : public Task {
-
 	ManagedReference<LootLotterySession*> session;
 
 public:
@@ -26,7 +25,6 @@ public:
 		if (session != nullptr)
 			session->doLotteryDraw();
 	}
-
 };
 
 } // namespace tasks

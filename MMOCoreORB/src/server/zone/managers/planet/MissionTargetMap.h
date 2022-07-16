@@ -12,7 +12,7 @@
 #include "server/zone/objects/scene/SceneObject.h"
 
 class MissionTargetMap : public Object {
-	SynchronizedSortedVector<Reference<SceneObject*> > missions;
+	SynchronizedSortedVector<Reference<SceneObject*>> missions;
 
 public:
 	MissionTargetMap() {
@@ -52,7 +52,7 @@ public:
 		if (coord.getPositionY() < zone->getMinY())
 			coord.setPositionY(zone->getMinY());
 
-		//rlock();
+		// rlock();
 
 		try {
 			for (int i = 0; i < missions.size(); ++i) {
@@ -71,7 +71,7 @@ public:
 			throw;
 		}
 
-		//runlock();
+		// runlock();
 
 		return result;
 	}

@@ -11,8 +11,7 @@
 
 class HealAllOther2Command : public ForceHealQueueCommand {
 public:
-	HealAllOther2Command(const String& name, ZoneProcessServer* server)
-		: ForceHealQueueCommand(name, server) {
+	HealAllOther2Command(const String& name, ZoneProcessServer* server) : ForceHealQueueCommand(name, server) {
 	}
 };
 

@@ -28,7 +28,6 @@ public:
 	bool handleError(ServiceClient* client, Exception& e);
 
 	void printInfo();
-
 };
 
 #endif /*PINGSERVERSERVER_H_*/

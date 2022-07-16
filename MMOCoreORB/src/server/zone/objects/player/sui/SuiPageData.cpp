@@ -5,7 +5,6 @@
  *      Author: crush
  */
 
-
 #include "SuiPageData.h"
 #include "SuiCommand.h"
 #include "server/zone/ZoneClientSession.h"
@@ -82,10 +81,10 @@ void SuiPageData::subscribeToEvent(const byte& eventType, const String& parent, 
 	SuiCommand* command = new SuiCommand(SuiCommand::SCT_subscribeToEvent);
 	command->addNarrowParameter(parent);
 
-    StringBuffer eventTypeBuffer;
-    eventTypeBuffer.append((char)eventType);
+	StringBuffer eventTypeBuffer;
+	eventTypeBuffer.append((char)eventType);
 
-    command->addNarrowParameter(eventTypeBuffer.toString());
+	command->addNarrowParameter(eventTypeBuffer.toString());
 	command->addNarrowParameter(callback);
 
 	callbacks.put(eventType, command);
@@ -130,7 +129,7 @@ bool SuiPageData::parseFromBinaryStream(ObjectInputStream* stream) {
 		command->parseFromBinaryStream(stream);
 
 		if (command->getCommandType() == SuiCommand::SCT_subscribeToEvent) {
-			//callbacks.put(); //TODO: Register subscribes again...
+			// callbacks.put(); //TODO: Register subscribes again...
 		}
 
 		commands.add(command);

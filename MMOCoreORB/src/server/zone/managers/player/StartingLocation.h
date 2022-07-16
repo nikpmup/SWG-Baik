@@ -47,7 +47,7 @@ public:
 		zoneName = sl.zoneName;
 	}
 
-	StartingLocation& operator= (const StartingLocation& sl) {
+	StartingLocation& operator=(const StartingLocation& sl) {
 		if (this == &sl)
 			return *this;
 
@@ -75,7 +75,7 @@ public:
 			return;
 
 		try {
-			//New style has added the z position.
+			// New style has added the z position.
 			if (row->getCellsSize() > 9) {
 				row->getValue(0, location);
 				row->getValue(1, planet);
@@ -102,8 +102,8 @@ public:
 			System::out << "Error parsing values in StartingLocation. Possible column mismatch." << endl;
 		}
 
-		//Get the terrain name from the image path.
-		//17 = "/styles.location." 17 characters long
+		// Get the terrain name from the image path.
+		// 17 = "/styles.location." 17 characters long
 		zoneName = image.subString(17, image.lastIndexOf('.'));
 	}
 

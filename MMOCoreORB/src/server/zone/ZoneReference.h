@@ -34,11 +34,9 @@ public:
 
 void to_json(nlohmann::json& j, const ZoneReference& p);
 
-}
-}
-
+} // namespace zone
+} // namespace server
 
 using namespace server::zone;
-
 
 #endif /* ZONEREFERENCE_H_ */

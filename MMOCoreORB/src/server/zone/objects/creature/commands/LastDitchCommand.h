@@ -9,13 +9,10 @@
 
 class LastDitchCommand : public CombatQueueCommand {
 public:
-
-	LastDitchCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	LastDitchCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -26,7 +23,6 @@ public:
 
 		return dmg;
 	}
-
 };
 
-#endif //LASTDITCHCOMMAND_H_
+#endif // LASTDITCHCOMMAND_H_

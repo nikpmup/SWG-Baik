@@ -22,7 +22,7 @@
 
 using namespace engine::db;
 
-//databaseManager->truncateDatabases();
+// databaseManager->truncateDatabases();
 
 // http://tinyurl.com/2g9mqh
 
@@ -83,12 +83,11 @@ ObjectManager::ObjectManager(bool initializeTemplates) : DOBObjectManager() {
 }
 
 ObjectManager::~ObjectManager() {
-
 }
 
 void ObjectManager::registerObjectTypes() {
 	debug("registering object types");
-	//objectFactory.registerObject<SceneObject>(0);
+	// objectFactory.registerObject<SceneObject>(0);
 	objectFactory.registerObject<TangibleObject>(6);
 	objectFactory.registerObject<LairObject>(SceneObjectType::LAIR);
 	objectFactory.registerObject<StaticObject>(SceneObjectType::FLORA);
@@ -113,7 +112,7 @@ void ObjectManager::registerObjectTypes() {
 	objectFactory.registerObject<TheaterObject>(SceneObjectType::THEATEROBJECT);
 	objectFactory.registerObject<TangibleObject>(SceneObjectType::EVENTPERK);
 	objectFactory.registerObject<ArmorObject>(SceneObjectType::ARMOR);
-	objectFactory.registerObject<ArmorObject>(SceneObjectType::BODYARMOR); //chest plates
+	objectFactory.registerObject<ArmorObject>(SceneObjectType::BODYARMOR); // chest plates
 	objectFactory.registerObject<ArmorObject>(SceneObjectType::HEADARMOR);
 	objectFactory.registerObject<ClothingObject>(SceneObjectType::MISCARMOR); // Some Belts Bando's'
 	objectFactory.registerObject<ArmorObject>(SceneObjectType::LEGARMOR);
@@ -247,7 +246,7 @@ void ObjectManager::registerObjectTypes() {
 	objectFactory.registerObject<VitalityPack>(SceneObjectType::PETMEDECINE);
 	objectFactory.registerObject<FsPuzzlePack>(SceneObjectType::FSPUZZLEPACK);
 
-	//clothing
+	// clothing
 	objectFactory.registerObject<ClothingObject>(SceneObjectType::CLOTHING);
 	objectFactory.registerObject<ClothingObject>(SceneObjectType::BANDOLIER);
 	objectFactory.registerObject<ClothingObject>(SceneObjectType::BELT);
@@ -266,7 +265,7 @@ void ObjectManager::registerObjectTypes() {
 	objectFactory.registerObject<ClothingObject>(SceneObjectType::WOOKIEGARB);
 	objectFactory.registerObject<ClothingObject>(SceneObjectType::MISCCLOTHING);
 	objectFactory.registerObject<ClothingObject>(SceneObjectType::SKIRT);
-	//objectFactory.registerObject<ClothingObject>(SceneObjectType::ITHOGARB);
+	// objectFactory.registerObject<ClothingObject>(SceneObjectType::ITHOGARB);
 	objectFactory.registerObject<FishingPoleObject>(SceneObjectType::FISHINGPOLE);
 	objectFactory.registerObject<FishingBaitObject>(SceneObjectType::FISHINGBAIT);
 	objectFactory.registerObject<FishObject>(SceneObjectType::FISH);
@@ -378,7 +377,7 @@ void ObjectManager::loadLastUsedObjectID() {
 
 		ObjectDatabase* db = cast<ObjectDatabase*>(database);
 
-		String dbName =	db->getDatabaseName();
+		String dbName = db->getDatabaseName();
 
 		ObjectDatabaseIterator iterator(db);
 
@@ -552,14 +551,13 @@ SceneObject* ObjectManager::cloneObject(SceneObject* object, bool makeTransient)
 	} else
 		oid = getNextFreeObjectID();
 
-
 	clonedObject = instantiateSceneObject(serverCRC, oid, false);
 
 	if (makeTransient || !object->isPersistent()) {
-		//clonedObject = createObject(serverCRC, 0, databaseName);
+		// clonedObject = createObject(serverCRC, 0, databaseName);
 		clonedObject->setPersistent(0);
 	} else if (object->isPersistent()) {
-		//clonedObject = createObject(serverCRC, object->getPersistenceLevel(), databaseName);
+		// clonedObject = createObject(serverCRC, object->getPersistenceLevel(), databaseName);
 		clonedObject->setPersistent(object->getPersistenceLevel());
 	}
 
@@ -569,7 +567,7 @@ SceneObject* ObjectManager::cloneObject(SceneObject* object, bool makeTransient)
 	clonedObject->createComponents();
 	clonedObject->setParent(nullptr);
 
-	VectorMap<String, ManagedReference<SceneObject*> > slottedObjects;
+	VectorMap<String, ManagedReference<SceneObject*>> slottedObjects;
 	clonedObject->getSlottedObjects(slottedObjects);
 
 	SortedVector<SceneObject*> inserted;
@@ -587,7 +585,7 @@ SceneObject* ObjectManager::cloneObject(SceneObject* object, bool makeTransient)
 		}
 	}
 
-	VectorMap<uint64, ManagedReference<SceneObject*> > objects;
+	VectorMap<uint64, ManagedReference<SceneObject*>> objects;
 	clonedObject->getContainerObjects(objects);
 
 	for (int i = objects.size() - 1; i >= 0; i--) {
@@ -612,7 +610,7 @@ void ObjectManager::persistObject(ManagedObject* object, int persistenceLevel, c
 	Locker _locker(this);
 
 	if (object->isPersistent()) {
-		//error("object is already persistent");
+		// error("object is already persistent");
 		return;
 	}
 
@@ -642,7 +640,7 @@ void ObjectManager::persistObject(ManagedObject* object, int persistenceLevel, c
 void ObjectManager::persistSceneObjectsRecursively(SceneObject* object, int persistenceLevel) {
 	persistObject(object, persistenceLevel, "sceneobjects");
 
-	SortedVector<ManagedReference<SceneObject* > >* childObjects = object->getChildObjects();
+	SortedVector<ManagedReference<SceneObject*>>* childObjects = object->getChildObjects();
 
 	for (int i = 0; i < childObjects->size(); i++) {
 		SceneObject* childObject = childObjects->get(i).get();
@@ -651,7 +649,7 @@ void ObjectManager::persistSceneObjectsRecursively(SceneObject* object, int pers
 			persistSceneObjectsRecursively(childObject, persistenceLevel);
 	}
 
-	VectorMap<String, ManagedReference<SceneObject* > >* slottedObjects = object->getSlottedObjects();
+	VectorMap<String, ManagedReference<SceneObject*>>* slottedObjects = object->getSlottedObjects();
 
 	for (int i = 0; i < slottedObjects->size(); i++) {
 		SceneObject* slottedObject = slottedObjects->get(i).get();
@@ -660,7 +658,7 @@ void ObjectManager::persistSceneObjectsRecursively(SceneObject* object, int pers
 			persistSceneObjectsRecursively(slottedObject, persistenceLevel);
 	}
 
-	const VectorMap<unsigned long long, ManagedReference<SceneObject* > >* containerObjects = object->getContainerObjects();
+	const VectorMap<unsigned long long, ManagedReference<SceneObject*>>* containerObjects = object->getContainerObjects();
 
 	for (int i = 0; i < containerObjects->size(); i++) {
 		SceneObject* containerObject = containerObjects->get(i).get();
@@ -682,7 +680,7 @@ Reference<DistributedObjectStub*> ObjectManager::loadPersistentObject(uint64 obj
 	if (db == nullptr || !db->isObjectDatabase())
 		return nullptr;
 
-	ObjectDatabase* database = cast<ObjectDatabase*>( db);
+	ObjectDatabase* database = cast<ObjectDatabase*>(db);
 
 	// only for debugging proposes
 	ObjectInputStream objectData(500);
@@ -699,7 +697,7 @@ Reference<DistributedObjectStub*> ObjectManager::loadPersistentObject(uint64 obj
 	DistributedObject* dobject = getObject(objectID);
 
 	if (dobject != nullptr) {
-		//error("different object already in database");
+		// error("different object already in database");
 		return cast<DistributedObjectStub*>(dobject);
 	}
 
@@ -749,14 +747,13 @@ Reference<DistributedObjectStub*> ObjectManager::loadPersistentObject(uint64 obj
 	return object;
 }
 
-
 void ObjectManager::deSerializeObject(ManagedObject* object, ObjectInputStream* data) {
 	Locker _locker(object);
 
 	try {
 		object->readObject(data);
 
-	//	uint32 lastSaveCRC = managedObject->getLastCRCSave();
+		//	uint32 lastSaveCRC = managedObject->getLastCRCSave();
 
 		uint32 currentCRC = BaseProtocol::generateCRC(data);
 
@@ -921,13 +918,13 @@ uint64 ObjectManager::getNextObjectID(const String& database) {
 }
 
 uint64 ObjectManager::getNextFreeObjectID() {
-	//assert(DistributedObjectBroker::instance()->isRootBroker());
+	// assert(DistributedObjectBroker::instance()->isRootBroker());
 
 	return DOBObjectManager::getNextFreeObjectID();
-//	its saved every 5min, that should be enough
-//	databaseManager->updateLastUsedObjectID(val);
+	//	its saved every 5min, that should be enough
+	//	databaseManager->updateLastUsedObjectID(val);
 
-	//return nextObjectID;
+	// return nextObjectID;
 }
 
 ObjectDatabase* ObjectManager::loadTable(const String& database, uint64 objectID) {
@@ -935,7 +932,7 @@ ObjectDatabase* ObjectManager::loadTable(const String& database, uint64 objectID
 
 	if (database.length() > 0) {
 		if (objectID != 0) {
-			uint16 tableID = (uint16) (objectID >> 48);
+			uint16 tableID = (uint16)(objectID >> 48);
 
 			table = databaseManager->loadObjectDatabase(database, true, tableID);
 		} else {
@@ -955,11 +952,10 @@ int ObjectManager::destroyObjectFromDatabase(uint64 objectID) {
 		obj = loadPersistentObject(objectID);
 
 	if (obj != nullptr) {
-		//setLogging(true);
-		//info("Marking " + String::valueOf(objectID) + " for deletion deletion", true);
-	//	setLogging(false);
+		// setLogging(true);
+		// info("Marking " + String::valueOf(objectID) + " for deletion deletion", true);
+		//	setLogging(false);
 		obj->_setMarkedForDeletion(true);
-
 	}
 
 	return 1;
@@ -981,7 +977,7 @@ void ObjectManager::onUpdateModifiedObjectsToDatabase(int flags) {
 	if (server != nullptr && server->getZoneServer() != nullptr) {
 		galaxyId = server->getZoneServer()->getGalaxyID();
 
-		//characters_dirty chars
+		// characters_dirty chars
 		try {
 			const static auto query = "SELECT * FROM characters_dirty WHERE galaxy_id = " + String::valueOf(galaxyId);
 
@@ -1011,10 +1007,9 @@ void ObjectManager::onCommitData() {
 					deleteQuery << " OR ";
 				}
 
-				query << "(" << charactersSaved->getUnsignedLong(0) << ", " << charactersSaved->getInt(1) << ", "
-						<< charactersSaved->getInt(2) << ", " << "\'" << String(charactersSaved->getString(3)).escapeString() << "\', "
-						<< "\'" << String(charactersSaved->getString(4)).escapeString() << "\', " << charactersSaved->getInt(5) << ", "
-						<< charactersSaved->getInt(6) << ", \'" << String(charactersSaved->getString(7)).escapeString() << "')";
+				query << "(" << charactersSaved->getUnsignedLong(0) << ", " << charactersSaved->getInt(1) << ", " << charactersSaved->getInt(2) << ", "
+					  << "\'" << String(charactersSaved->getString(3)).escapeString() << "\', "
+					  << "\'" << String(charactersSaved->getString(4)).escapeString() << "\', " << charactersSaved->getInt(5) << ", " << charactersSaved->getInt(6) << ", \'" << String(charactersSaved->getString(7)).escapeString() << "')";
 
 				deleteQuery << "character_oid = " << charactersSaved->getUnsignedLong(0) << " AND galaxy_id = " << galaxyId;
 
@@ -1031,7 +1026,7 @@ void ObjectManager::onCommitData() {
 		}
 	}
 
-	//Spawn the delete characters task.
+	// Spawn the delete characters task.
 	if (deleteCharactersTask != nullptr && !deleteCharactersTask->isScheduled()) {
 		deleteCharactersTask->updateDeletedCharacters();
 		int mins = ConfigManager::instance()->getPurgeDeletedCharacters();

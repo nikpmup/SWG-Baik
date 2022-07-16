@@ -10,14 +10,9 @@
 
 const char LuaIntangibleObject::className[] = "LuaIntangibleObject";
 
-Luna<LuaIntangibleObject>::RegType LuaIntangibleObject::Register[] = {
-		{ "_setObject", &LuaIntangibleObject::_setObject },
-		{ "_getObject", &LuaSceneObject::_getObject },
-		{ 0, 0 }
-};
+Luna<LuaIntangibleObject>::RegType LuaIntangibleObject::Register[] = {{"_setObject", &LuaIntangibleObject::_setObject}, {"_getObject", &LuaSceneObject::_getObject}, {0, 0}};
 
-
-LuaIntangibleObject::LuaIntangibleObject(lua_State *L) : LuaSceneObject(L) {
+LuaIntangibleObject::LuaIntangibleObject(lua_State* L) : LuaSceneObject(L) {
 #ifdef DYNAMIC_CAST_LUAOBJECTS
 	realObject = dynamic_cast<IntangibleObject*>(_getRealSceneObject());
 

@@ -10,14 +10,10 @@
 
 class CloseLotteryContainerCommand : public QueueCommand {
 public:
-
-	CloseLotteryContainerCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CloseLotteryContainerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -26,7 +22,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
 #endif /* CLOSELOTTERYCONTAINERCOMMAND_H_ */

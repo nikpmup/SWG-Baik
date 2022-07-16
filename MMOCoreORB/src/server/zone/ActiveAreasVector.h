@@ -14,5 +14,4 @@
 
 typedef SortedVector<ActiveArea*> ActiveAreasVector;
 
-
 #endif /* SRC_SERVER_ZONE_ACTIVEAREASVECTOR_H_ */

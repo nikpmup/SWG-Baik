@@ -16,7 +16,6 @@
 class ResourceSpawner;
 
 class SampleResultsTask : public Task {
-
 protected:
 	ManagedReference<CreatureObject*> playerCreature;
 	Reference<const ResourceSpawner*> resourceSpawner;
@@ -39,7 +38,6 @@ public:
 		playerCreature->removePendingTask("sampleresults");
 		trx.commit();
 	}
-
 };
 
 #endif /* SAMPLERESULTSTASK_H_ */

@@ -19,10 +19,10 @@ namespace creature {
 namespace ai {
 namespace bt {
 
-class MockCompositeBehavior: public CompositeBehavior {
+class MockCompositeBehavior : public CompositeBehavior {
 public:
 	MockCompositeBehavior(AiAgent* _agent, String className, uint32 size) : CompositeBehavior(_agent, className) {
-		for(uint32 i=0; i<size; i++) {
+		for (uint32 i = 0; i < size; i++) {
 			children.add(new MockBehavior());
 		}
 	}
@@ -37,12 +37,11 @@ public:
 	MOCK_METHOD0(doAction, void());
 };
 
-}
-}
-}
-}
-}
-}
-
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif /* MOCKCOMPOSITEBEHAVIOR_H_ */

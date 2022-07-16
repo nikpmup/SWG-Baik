@@ -28,7 +28,7 @@ public:
 
 	void run() {
 		CreatureObject* petCreo = pet.get();
-		CreatureObject* petOwner =  owner.get();
+		CreatureObject* petOwner = owner.get();
 
 		if (petCreo == nullptr || petOwner == nullptr)
 			return;
@@ -76,11 +76,11 @@ public:
 	}
 };
 
-} // events
-} // creature
-} // objects
-} // zone
-} // server
+} // namespace events
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::events;
 

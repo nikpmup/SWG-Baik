@@ -8,16 +8,16 @@
 #include "server/zone/objects/tangible/Container.h"
 
 bool PlaceableLootContainerComponent::checkContainerPermission(SceneObject* sceneObject, CreatureObject* creature, uint16 permission) const {
-	if(!sceneObject->isContainerObject())
+	if (!sceneObject->isContainerObject())
 		return false;
 
 	ManagedReference<Container*> container = cast<Container*>(sceneObject);
 
-	if(permission == ContainerPermissions::MOVEIN)
+	if (permission == ContainerPermissions::MOVEIN)
 		return false;
-	else if (permission == ContainerPermissions::MOVEOUT ){
+	else if (permission == ContainerPermissions::MOVEOUT) {
 		return true;
-	} else if ( permission == ContainerPermissions::OPEN  ) {
+	} else if (permission == ContainerPermissions::OPEN) {
 		return !container->isContainerLocked();
 	}
 
@@ -25,16 +25,10 @@ bool PlaceableLootContainerComponent::checkContainerPermission(SceneObject* scen
 }
 
 int PlaceableLootContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject* object, int containmentType, String& errorDescription) const {
-
-	if(sceneObject->getContainerObjectsSize() >= 0){
-		errorDescription = "@event_perk:chest_can_not_add"; //You do not have permission to add items to this container.
-		 return TransferErrorCode::INVALIDTYPE;
+	if (sceneObject->getContainerObjectsSize() >= 0) {
+		errorDescription = "@event_perk:chest_can_not_add"; // You do not have permission to add items to this container.
+		return TransferErrorCode::INVALIDTYPE;
 	}
 
 	return 1;
 }
-
-
-
-
-

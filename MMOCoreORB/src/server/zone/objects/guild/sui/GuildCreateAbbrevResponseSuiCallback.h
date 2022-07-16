@@ -14,8 +14,7 @@
 
 class GuildCreateAbbrevResponseSuiCallback : public SuiCallback {
 public:
-	GuildCreateAbbrevResponseSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	GuildCreateAbbrevResponseSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -25,15 +24,15 @@ public:
 
 		ManagedReference<GuildManager*> guildManager = server->getGuildManager();
 
-		//If the player isn't already creating a guild, then exit.
+		// If the player isn't already creating a guild, then exit.
 		if (!guildManager->isCreatingGuild(playerID))
 			return;
 
-		//After this point, we have to removePendingGuild anywhere we return, since they have to be creating a guild at this point.
+		// After this point, we have to removePendingGuild anywhere we return, since they have to be creating a guild at this point.
 
 		if (player->isInGuild()) {
 			guildManager->removePendingGuild(playerID);
-			player->sendSystemMessage("@guild:create_fail_in_guild"); //You cannot create a guild while already in a guild.
+			player->sendSystemMessage("@guild:create_fail_in_guild"); // You cannot create a guild while already in a guild.
 			return;
 		}
 
@@ -56,7 +55,7 @@ public:
 			return;
 		}
 
-		Terminal* terminal = cast<Terminal*>( obj.get());
+		Terminal* terminal = cast<Terminal*>(obj.get());
 
 		if (!terminal->isGuildTerminal()) {
 			guildManager->removePendingGuild(playerID);
@@ -65,15 +64,14 @@ public:
 
 		if (guildManager->validateGuildAbbrev(player, guildAbbrev)) {
 			String guildName = guildManager->getPendingGuildName(playerID);
-			guildManager->createGuild(player, guildName, guildAbbrev); //Handles the removing of the pending guild.
+			guildManager->createGuild(player, guildName, guildAbbrev); // Handles the removing of the pending guild.
 			return;
 		}
 
-		//Resend the create abbrev box.
+		// Resend the create abbrev box.
 		player->getPlayerObject()->addSuiBox(suiBox);
 		player->sendMessage(suiBox->generateMessage());
 	}
 };
-
 
 #endif /* GUILDCREATEABBREVRESPONSESUICALLBACK_H_ */

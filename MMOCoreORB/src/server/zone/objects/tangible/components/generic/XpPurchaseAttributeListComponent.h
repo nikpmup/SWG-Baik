@@ -4,9 +4,8 @@
 #include "templates/tangible/XpPurchaseTemplate.h"
 #include "server/zone/managers/stringid/StringIdManager.h"
 
-class XpPurchaseAttributeListComponent: public AttributeListComponent {
+class XpPurchaseAttributeListComponent : public AttributeListComponent {
 public:
-
 	/**
 	 * Fills the Attributes
 	 * @pre { this object is locked }
@@ -14,8 +13,7 @@ public:
 	 * @param menuResponse ObjectMenuResponse that will be sent to the client
 	 */
 	void fillAttributeList(AttributeListMessage* alm, CreatureObject* creature, SceneObject* object) const {
-
-		XpPurchaseTemplate* templateData = cast<XpPurchaseTemplate*> (object->getObjectTemplate());
+		XpPurchaseTemplate* templateData = cast<XpPurchaseTemplate*>(object->getObjectTemplate());
 		if (templateData == nullptr) {
 			return;
 		}
@@ -37,9 +35,7 @@ public:
 			UnicodeString skill = stringIdManager->getStringId(skillNeeded.hashCode());
 			alm->insertAttribute("skill_required", skillNeeded);
 		}
-
 	}
-
 };
 
 #endif /* XPPURCHASEATTIBUTELISTCOMPONENT_H_ */

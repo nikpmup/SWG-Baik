@@ -11,7 +11,7 @@
 #include "server/zone/objects/tangible/weapon/WeaponObject.h"
 
 void ThrowGrenadeMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-		if (sceneObject == nullptr || !sceneObject->isTangibleObject() || player == nullptr)
+	if (sceneObject == nullptr || !sceneObject->isTangibleObject() || player == nullptr)
 		return;
 
 	WeaponObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
@@ -26,18 +26,20 @@ int ThrowGrenadeMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, 
 	}
 
 	ManagedReference<WeaponObject*> weapon = cast<WeaponObject*>(sceneObject);
-	if(weapon == nullptr)
+	if (weapon == nullptr)
 		return 1;
 
-	if(selectedID == 20) {
+	if (selectedID == 20) {
 		Reference<CreatureObject*> strongRef = player;
 		Reference<WeaponObject*> strongRefWeapon = weapon;
 
-		Core::getTaskManager()->executeTask([strongRef, strongRefWeapon] () {
-			Locker locker(strongRef);
+		Core::getTaskManager()->executeTask(
+			[strongRef, strongRefWeapon]() {
+				Locker locker(strongRef);
 
-			strongRef->sendCommand(STRING_HASHCODE("throwgrenade"), String::valueOf(strongRefWeapon->getObjectID()), strongRef->getTargetID());
-		}, "ThrowGrenadeSendCommandLambda");
+				strongRef->sendCommand(STRING_HASHCODE("throwgrenade"), String::valueOf(strongRefWeapon->getObjectID()), strongRef->getTargetID());
+			},
+			"ThrowGrenadeSendCommandLambda");
 
 		return 1;
 	}

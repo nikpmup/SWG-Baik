@@ -48,7 +48,7 @@ void DroidDeedImplementation::onCloneObject(SceneObject* objectToClone) {
 		return;
 	}
 
-	//clear old modules
+	// clear old modules
 	modules.removeAll();
 
 	// Insert our stacked droid modules into the droid's crafted components container
@@ -58,7 +58,7 @@ void DroidDeedImplementation::onCloneObject(SceneObject* objectToClone) {
 	auto modulesTable = deed->getModules();
 
 	if (modulesTable != nullptr) {
-		HashTableIterator<String, ManagedReference<DroidComponent*> > iterator = modulesTable->iterator();
+		HashTableIterator<String, ManagedReference<DroidComponent*>> iterator = modulesTable->iterator();
 
 		while (iterator.hasNext()) {
 			iterator.getNextKeyAndValue(key, comp);
@@ -77,18 +77,18 @@ void DroidDeedImplementation::fillAttributeList(AttributeListMessage* alm, Creat
 
 	// Deed needs to show a few important bits
 	// 1.) HAM
-	int maxHam = DroidMechanics::determineHam(overallQuality,species);
+	int maxHam = DroidMechanics::determineHam(overallQuality, species);
 	alm->insertAttribute("challenge_level", level);
 	alm->insertAttribute("creature_health", maxHam);
 	alm->insertAttribute("creature_action", maxHam);
 	alm->insertAttribute("creature_mind", maxHam);
-	if(combatRating > 0 || (species == DroidObject::DZ70 || species == DroidObject::PROBOT) ) {
+	if (combatRating > 0 || (species == DroidObject::DZ70 || species == DroidObject::PROBOT)) {
 		StringBuffer attdisplayValue;
-		float attackSpeed = DroidMechanics::determineSpeed(species,maxHam);
-		float chanceHit = DroidMechanics::determineHit(species,maxHam);
+		float attackSpeed = DroidMechanics::determineSpeed(species, maxHam);
+		float chanceHit = DroidMechanics::determineHit(species, maxHam);
 		// do we have a combat module installed?
-		float damageMin = DroidMechanics::determineMinDamage(species,combatRating);
-		float damageMax = DroidMechanics::determineMaxDamage(species,combatRating);
+		float damageMin = DroidMechanics::determineMinDamage(species, combatRating);
+		float damageMax = DroidMechanics::determineMaxDamage(species, combatRating);
 		attdisplayValue << Math::getPrecision(attackSpeed, 2);
 		StringBuffer hitdisplayValue;
 		hitdisplayValue << Math::getPrecision(chanceHit, 2);
@@ -100,19 +100,19 @@ void DroidDeedImplementation::fillAttributeList(AttributeListMessage* alm, Creat
 	// if object is the master
 	String key;
 	ManagedReference<DroidComponent*> comp = nullptr;
-	HashTableIterator<String, ManagedReference<DroidComponent*> > iterator = modules.iterator();
-	for(int i = 0; i < modules.size(); ++i) {
+	HashTableIterator<String, ManagedReference<DroidComponent*>> iterator = modules.iterator();
+	for (int i = 0; i < modules.size(); ++i) {
 		iterator.getNextKeyAndValue(key, comp);
 		if (comp) {
 			DataObjectComponentReference* data = comp->getDataObjectComponent();
 			BaseDroidModuleComponent* module = nullptr;
-			if(data != nullptr && data->get() != nullptr && data->get()->isDroidModuleData() ){
+			if (data != nullptr && data->get() != nullptr && data->get()->isDroidModuleData()) {
 				module = cast<BaseDroidModuleComponent*>(data->get());
 			}
 			if (module == nullptr) {
 				continue;
 			}
-			module->fillAttributeList(alm,object);
+			module->fillAttributeList(alm, object);
 		}
 	}
 }
@@ -163,8 +163,8 @@ void DroidDeedImplementation::processModule(BaseDroidModuleComponent* module, ui
 }
 
 void DroidDeedImplementation::destroyObjectFromDatabase(bool destroyContainedObjects) {
-	HashTableIterator<String, ManagedReference<DroidComponent*> > iterator = modules.iterator();
-	while(iterator.hasNext()) {
+	HashTableIterator<String, ManagedReference<DroidComponent*>> iterator = modules.iterator();
+	while (iterator.hasNext()) {
 		ManagedReference<DroidComponent*> comp = iterator.getNextValue();
 		if (comp != nullptr)
 			comp->destroyObjectFromDatabase(true);
@@ -182,8 +182,8 @@ void DroidDeedImplementation::updateCraftingValues(CraftingValues* values, bool 
 	 */
 	String key;
 	ManagedReference<DroidComponent*> comp = nullptr;
-	HashTableIterator<String, ManagedReference<DroidComponent*> > iterator = modules.iterator();
-	for(int i = 0; i < modules.size(); ++i) {
+	HashTableIterator<String, ManagedReference<DroidComponent*>> iterator = modules.iterator();
+	for (int i = 0; i < modules.size(); ++i) {
 		iterator.getNextKeyAndValue(key, comp);
 		if (comp) {
 			comp->destroyObjectFromWorld(true);
@@ -210,33 +210,33 @@ void DroidDeedImplementation::updateCraftingValues(CraftingValues* values, bool 
 	ManagedReference<ManufactureSchematic*> manufact = values->getManufactureSchematic();
 	for (int i = 0; i < manufact->getSlotCount(); ++i) {
 		// Droid Component Slots
-		Reference<IngredientSlot* > iSlot = manufact->getSlot(i);
+		Reference<IngredientSlot*> iSlot = manufact->getSlot(i);
 		if (iSlot->isComponentSlot()) {
 			ComponentSlot* cSlot = cast<ComponentSlot*>(iSlot.get());
 			ManagedReference<TangibleObject*> tano = cSlot->getPrototype();
-			ManagedReference<DroidComponent*> component = cast<DroidComponent*>( tano.get());
+			ManagedReference<DroidComponent*> component = cast<DroidComponent*>(tano.get());
 			// only check modules
 			if (component != nullptr) {
 				if (component->isSocketCluster()) {
 					// pull out the objects
 					ManagedReference<SceneObject*> craftingComponents = component->getSlottedObject("crafted_components");
-					if(craftingComponents != nullptr) {
+					if (craftingComponents != nullptr) {
 						SceneObject* satchel = craftingComponents->getContainerObject(0);
 						for (int i = 0; i < satchel->getContainerObjectsSize(); ++i) {
 							ManagedReference<SceneObject*> sceno = satchel->getContainerObject(i);
 							if (sceno != nullptr) {
 								// now we have the component used in this socket item
-								ManagedReference<DroidComponent*> sub = cast<DroidComponent*>( sceno.get());
+								ManagedReference<DroidComponent*> sub = cast<DroidComponent*>(sceno.get());
 								if (sub != nullptr) {
 									DataObjectComponentReference* data = sub->getDataObjectComponent();
 									BaseDroidModuleComponent* module = nullptr;
-									if(data != nullptr && data->get() != nullptr && data->get()->isDroidModuleData() ){
+									if (data != nullptr && data->get() != nullptr && data->get()->isDroidModuleData()) {
 										module = cast<BaseDroidModuleComponent*>(data->get());
 									}
 									if (module == nullptr) {
 										continue;
 									}
-									processModule(module,sceno->getServerObjectCRC());
+									processModule(module, sceno->getServerObjectCRC());
 								}
 							}
 						}
@@ -244,13 +244,13 @@ void DroidDeedImplementation::updateCraftingValues(CraftingValues* values, bool 
 				} else {
 					DataObjectComponentReference* data = component->getDataObjectComponent();
 					BaseDroidModuleComponent* module = nullptr;
-					if(data != nullptr && data->get() != nullptr && data->get()->isDroidModuleData() ){
+					if (data != nullptr && data->get() != nullptr && data->get()->isDroidModuleData()) {
 						module = cast<BaseDroidModuleComponent*>(data->get());
 					}
 					if (module == nullptr) {
 						continue;
 					}
-					processModule(module,tano->getServerObjectCRC());
+					processModule(module, tano->getServerObjectCRC());
 				}
 			}
 		}
@@ -289,7 +289,7 @@ int DroidDeedImplementation::handleObjectMenuSelect(CreatureObject* player, byte
 		int maxStoredDroids = playerManager->getBaseStoredDroids();
 
 		for (int i = 0; i < datapad->getContainerObjectsSize(); i++) {
-			Reference<SceneObject*> obj =  datapad->getContainerObject(i).castTo<SceneObject*>();
+			Reference<SceneObject*> obj = datapad->getContainerObject(i).castTo<SceneObject*>();
 
 			if (obj != nullptr && obj->isPetControlDevice()) {
 				Reference<PetControlDevice*> petDevice = cast<PetControlDevice*>(obj.get());
@@ -309,9 +309,9 @@ int DroidDeedImplementation::handleObjectMenuSelect(CreatureObject* player, byte
 			return 1;
 
 		CreatureTemplateManager* creatureTemplateManager = CreatureTemplateManager::instance();
-		Reference<CreatureTemplate*> creatureTemplate =  creatureTemplateManager->getTemplate(mobileTemplate.hashCode());
+		Reference<CreatureTemplate*> creatureTemplate = creatureTemplateManager->getTemplate(mobileTemplate.hashCode());
 		if (creatureTemplate == nullptr) {
-			player->sendSystemMessage("wrong droid template;mobileTemplate=[" + mobileTemplate + "]" );
+			player->sendSystemMessage("wrong droid template;mobileTemplate=[" + mobileTemplate + "]");
 			return 1;
 		}
 
@@ -362,7 +362,7 @@ int DroidDeedImplementation::handleObjectMenuSelect(CreatureObject* player, byte
 
 		String key;
 		ManagedReference<DroidComponent*> comp = nullptr;
-		HashTableIterator<String, ManagedReference<DroidComponent*> > iterator = modules.iterator();
+		HashTableIterator<String, ManagedReference<DroidComponent*>> iterator = modules.iterator();
 
 		for (int i = 0; i < modules.size(); ++i) {
 			iterator.getNextKeyAndValue(key, comp);
@@ -418,7 +418,7 @@ int DroidDeedImplementation::handleObjectMenuSelect(CreatureObject* player, byte
 
 		controlDevice->callObject(player);
 
-		//Remove the deed from its container.
+		// Remove the deed from its container.
 		ManagedReference<SceneObject*> deedContainer = getParent().get();
 
 		if (deedContainer != nullptr) {

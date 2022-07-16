@@ -9,14 +9,10 @@
 
 class NpcConversationStartCommand : public QueueCommand {
 public:
-
-	NpcConversationStartCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	NpcConversationStartCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature)) {
 			return INVALIDSTATE;
 		}
@@ -63,7 +59,6 @@ public:
 		}
 		return SUCCESS;
 	}
-
 };
 
-#endif //NPCCONVERSATIONSTARTCOMMAND_H_
+#endif // NPCCONVERSATIONSTARTCOMMAND_H_

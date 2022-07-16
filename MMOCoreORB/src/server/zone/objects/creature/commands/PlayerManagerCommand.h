@@ -33,7 +33,7 @@ public:
 			return 0;
 		}
 
-		//Parse the weather command.
+		// Parse the weather command.
 		StringTokenizer tokenizer(arguments.toString());
 		if (!tokenizer.hasMoreTokens()) {
 			sendSyntax(player);
@@ -68,7 +68,7 @@ public:
 
 			auto resp = dumpCOV(player->getZoneServer(), oid, showAll);
 			ChatManager* chatManager = player->getZoneServer()->getChatManager();
-			chatManager->sendMail("System", "Dump COV" , resp, player->getFirstName());
+			chatManager->sendMail("System", "Dump COV", resp, player->getFirstName());
 			player->sendSystemMessage(resp);
 			return 0;
 		} else if (command == "bench") {
@@ -77,39 +77,34 @@ public:
 			if (tokenizer.hasMoreTokens())
 				iterations = tokenizer.getIntToken();
 
-			for (int i=0; i<iterations; i++) {
-				Core::getTaskManager()->scheduleTask([creo]{
-					Locker locker(creo);
-					creo->executeObjectControllerAction(STRING_HASHCODE("createcreature"), 0, "gorax");
-					creo->executeObjectControllerAction(STRING_HASHCODE("createcreature"), 0, "nightsister_elder");
-					creo->executeObjectControllerAction(STRING_HASHCODE("createcreature"), 0, "death_watch_wraith");
-
-				}, "spawnCreatureBenchmark", i*100);
+			for (int i = 0; i < iterations; i++) {
+				Core::getTaskManager()->scheduleTask(
+					[creo] {
+						Locker locker(creo);
+						creo->executeObjectControllerAction(STRING_HASHCODE("createcreature"), 0, "gorax");
+						creo->executeObjectControllerAction(STRING_HASHCODE("createcreature"), 0, "nightsister_elder");
+						creo->executeObjectControllerAction(STRING_HASHCODE("createcreature"), 0, "death_watch_wraith");
+					},
+					"spawnCreatureBenchmark", i * 100);
 			}
 		} else if (command == "listjedi") {
 			player->sendSystemMessage("Please wait. This may take a while.");
 
-			Core::getTaskManager()->executeTask([=] () {
-				playerManager->sendAdminJediList(player);
-			}, "ListJediLambda");
+			Core::getTaskManager()->executeTask([=]() { playerManager->sendAdminJediList(player); }, "ListJediLambda");
 
 			return 0;
 
 		} else if (command == "listfrs") {
 			player->sendSystemMessage("Please wait. This may take a while.");
 
-			Core::getTaskManager()->executeTask([=] () {
-				playerManager->sendAdminFRSList(player);
-			}, "ListFrsLambda");
+			Core::getTaskManager()->executeTask([=]() { playerManager->sendAdminFRSList(player); }, "ListFrsLambda");
 
 			return 0;
 
 		} else if (command == "listadmins") {
 			player->sendSystemMessage("Please wait. This may take a while.");
 
-			Core::getTaskManager()->executeTask([=] () {
-				playerManager->sendAdminList(player);
-			}, "ListAdminsLambda");
+			Core::getTaskManager()->executeTask([=]() { playerManager->sendAdminList(player); }, "ListAdminsLambda");
 
 			return 0;
 
@@ -134,7 +129,6 @@ public:
 		}
 
 		return 0;
-
 	}
 
 	static void sendSyntax(CreatureObject* player) {
@@ -185,7 +179,8 @@ public:
 			auto obj = static_cast<SceneObject*>(closeObjects.getUnsafe(i));
 
 			if (obj == nullptr) {
-				resp << i << ": " << "nullptr Object" << endl;
+				resp << i << ": "
+					 << "nullptr Object" << endl;
 				continue;
 			}
 
@@ -276,7 +271,7 @@ public:
 
 					if (flags == 1) {
 						resp << "Child Only: ";
-					} else if(flags == 2) {
+					} else if (flags == 2) {
 						resp << "Parent Only: ";
 					}
 					auto obj = zoneServer->getObject(oid);

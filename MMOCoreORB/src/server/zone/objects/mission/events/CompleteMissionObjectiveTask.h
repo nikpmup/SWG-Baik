@@ -32,5 +32,4 @@ public:
 	}
 };
 
-
 #endif /* AWARDREWARDTASK_H_ */

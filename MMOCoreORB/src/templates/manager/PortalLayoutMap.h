@@ -13,28 +13,28 @@
 #include "templates/appearance/AppearanceTemplate.h"
 #include "templates/building/InteriorLayoutTemplate.h"
 
-class PortalLayoutMap : public HashTable<String, Reference<PortalLayout*> > {
+class PortalLayoutMap : public HashTable<String, Reference<PortalLayout*>> {
 public:
 	PortalLayoutMap() {
 		setNullValue(nullptr);
 	}
 };
 
-class FloorMeshMap : public HashTable<String, Reference<FloorMesh*> > {
+class FloorMeshMap : public HashTable<String, Reference<FloorMesh*>> {
 public:
 	FloorMeshMap() {
 		setNullValue(nullptr);
 	}
 };
 
-class AppearanceMap : public HashTable<String, Reference<AppearanceTemplate*> > {
+class AppearanceMap : public HashTable<String, Reference<AppearanceTemplate*>> {
 public:
 	AppearanceMap() {
 		setNullValue(nullptr);
 	}
 };
 
-class InteriorMap : public HashTable<String, Reference<InteriorLayoutTemplate*> > {
+class InteriorMap : public HashTable<String, Reference<InteriorLayoutTemplate*>> {
 public:
 	InteriorMap() {
 		setNullValue(nullptr);

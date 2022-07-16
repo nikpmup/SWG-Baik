@@ -20,12 +20,11 @@ void PetMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMe
 
 		if (group == pet->getGroup()) {
 			if (group->getLeader() == player) {
-				menuResponse->addRadialMenuItem(40, 3, "@ui_radial:group_kick"); // Kick from Group
-				menuResponse->addRadialMenuItemToRadialID(40, 41, 3, "@ui_radial:group_disband" ); // Disband Group
+				menuResponse->addRadialMenuItem(40, 3, "@ui_radial:group_kick");				  // Kick from Group
+				menuResponse->addRadialMenuItemToRadialID(40, 41, 3, "@ui_radial:group_disband"); // Disband Group
 			} else {
 				menuResponse->addRadialMenuItem(39, 3, "@ui_radial:group_leave"); // Leave Group
 			}
-
 		}
 	}
 
@@ -42,7 +41,7 @@ void PetMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMe
 		return;
 
 	ManagedReference<PetControlDevice*> controlDevice = pet->getControlDevice().get().castTo<PetControlDevice*>();
-	if( controlDevice == nullptr )
+	if (controlDevice == nullptr)
 		return;
 
 	PetManager* petManager = pet->getZoneServer()->getPetManager();
@@ -50,145 +49,143 @@ void PetMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMe
 		return;
 
 	// DROIDS
-	if( controlDevice->getPetType() == PetManager::DROIDPET ){
+	if (controlDevice->getPetType() == PetManager::DROIDPET) {
 		ManagedReference<DroidObject*> droidObject = dynamic_cast<DroidObject*>(controlDevice->getControlledObject());
 		bool conversingDroid = (pet->getOptionsBitmask() & OptionBitmask::CONVERSE);
-		if(conversingDroid) {
-			menuResponse->addRadialMenuItem(132, 3, "@pet/pet_menu:droid_options"); // SERVER_ITEM_OPTIONS
-			menuResponse->addRadialMenuItemToRadialID(132, 234, 3, "@pet/pet_menu:menu_recharge" ); // PET_FEED
-			// convsering droids have less re-programmable commands
+		if (conversingDroid) {
+			menuResponse->addRadialMenuItem(132, 3, "@pet/pet_menu:droid_options");				   // SERVER_ITEM_OPTIONS
+			menuResponse->addRadialMenuItemToRadialID(132, 234, 3, "@pet/pet_menu:menu_recharge"); // PET_FEED
+																								   // convsering droids have less re-programmable commands
 		} else {
-			menuResponse->addRadialMenuItem(132, 3, "@pet/pet_menu:droid_options"); // SERVER_ITEM_OPTIONS
-			menuResponse->addRadialMenuItemToRadialID(132, 234, 3, "@pet/pet_menu:menu_recharge" ); // PET_FEED
-			menuResponse->addRadialMenuItem(141, 3, "@pet/pet_menu:menu_command_droid"); // PET_COMMAND
-			menuResponse->addRadialMenuItemToRadialID(141, 142, 3, "@pet/pet_menu:menu_follow" ); // PET_FOLLOW
-			menuResponse->addRadialMenuItemToRadialID(141, 143, 3, "@pet/pet_menu:menu_stay" ); // PET_STAY
+			menuResponse->addRadialMenuItem(132, 3, "@pet/pet_menu:droid_options");				   // SERVER_ITEM_OPTIONS
+			menuResponse->addRadialMenuItemToRadialID(132, 234, 3, "@pet/pet_menu:menu_recharge"); // PET_FEED
+			menuResponse->addRadialMenuItem(141, 3, "@pet/pet_menu:menu_command_droid");		   // PET_COMMAND
+			menuResponse->addRadialMenuItemToRadialID(141, 142, 3, "@pet/pet_menu:menu_follow");   // PET_FOLLOW
+			menuResponse->addRadialMenuItemToRadialID(141, 143, 3, "@pet/pet_menu:menu_stay");	   // PET_STAY
 			if (droidObject != nullptr && droidObject->isCombatDroid())
-				menuResponse->addRadialMenuItemToRadialID(141, 144, 3, "@pet/pet_menu:menu_guard" ); // PET_GUARD
-			menuResponse->addRadialMenuItemToRadialID(141, 145, 3, "@pet/pet_menu:menu_friend" ); // PET_FRIEND
+				menuResponse->addRadialMenuItemToRadialID(141, 144, 3, "@pet/pet_menu:menu_guard"); // PET_GUARD
+			menuResponse->addRadialMenuItemToRadialID(141, 145, 3, "@pet/pet_menu:menu_friend");	// PET_FRIEND
 			if (droidObject != nullptr && droidObject->isCombatDroid())
-				menuResponse->addRadialMenuItemToRadialID(141, 146, 3, "@pet/pet_menu:menu_attack" ); // PET_ATTACK
-			menuResponse->addRadialMenuItemToRadialID(141, 147, 3, "@pet/pet_menu:menu_patrol" ); // PET_PATROL
-			menuResponse->addRadialMenuItemToRadialID(141, 148, 3, "@pet/pet_menu:menu_get_patrol_point" ); // PET_GET_PATROL_POINT
-			menuResponse->addRadialMenuItemToRadialID(141, 149, 3, "@pet/pet_menu:menu_clear_patrol_points" ); // PET_CLEAR_PATROL_POINTS
-			menuResponse->addRadialMenuItemToRadialID(141, 150, 3, "@pet/pet_menu:menu_assume_formation_1" ); // PET_ASSUME_FORMATION_1
-			menuResponse->addRadialMenuItemToRadialID(141, 151, 3, "@pet/pet_menu:menu_assume_formation_2" ); // PET_ASSUME_FORMATION_2
-			menuResponse->addRadialMenuItemToRadialID(141, 158, 3, "@pet/pet_menu:menu_group" ); // PET_GROUP
+				menuResponse->addRadialMenuItemToRadialID(141, 146, 3, "@pet/pet_menu:menu_attack");		  // PET_ATTACK
+			menuResponse->addRadialMenuItemToRadialID(141, 147, 3, "@pet/pet_menu:menu_patrol");			  // PET_PATROL
+			menuResponse->addRadialMenuItemToRadialID(141, 148, 3, "@pet/pet_menu:menu_get_patrol_point");	  // PET_GET_PATROL_POINT
+			menuResponse->addRadialMenuItemToRadialID(141, 149, 3, "@pet/pet_menu:menu_clear_patrol_points"); // PET_CLEAR_PATROL_POINTS
+			menuResponse->addRadialMenuItemToRadialID(141, 150, 3, "@pet/pet_menu:menu_assume_formation_1");  // PET_ASSUME_FORMATION_1
+			menuResponse->addRadialMenuItemToRadialID(141, 151, 3, "@pet/pet_menu:menu_assume_formation_2");  // PET_ASSUME_FORMATION_2
+			menuResponse->addRadialMenuItemToRadialID(141, 158, 3, "@pet/pet_menu:menu_group");				  // PET_GROUP
 			if (droidObject != nullptr && droidObject->isCombatDroid() && droidObject->hasRangedWeapon())
-				menuResponse->addRadialMenuItemToRadialID(141, 163, 3, "@pet/pet_menu:menu_ranged_attack" );
-			menuResponse->addRadialMenuItemToRadialID(141, 164, 3, "@pet/pet_menu:menu_store" );
-			menuResponse->addRadialMenuItemToRadialID(141, 165, 3, "@pet/pet_menu:menu_follow_other" );
+				menuResponse->addRadialMenuItemToRadialID(141, 163, 3, "@pet/pet_menu:menu_ranged_attack");
+			menuResponse->addRadialMenuItemToRadialID(141, 164, 3, "@pet/pet_menu:menu_store");
+			menuResponse->addRadialMenuItemToRadialID(141, 165, 3, "@pet/pet_menu:menu_follow_other");
 
-			if( droidObject != nullptr && droidObject->isPowerDroid() ){
-				menuResponse->addRadialMenuItemToRadialID(141, 235, 3, "@pet/pet_menu:menu_recharge_other" );
+			if (droidObject != nullptr && droidObject->isPowerDroid()) {
+				menuResponse->addRadialMenuItemToRadialID(141, 235, 3, "@pet/pet_menu:menu_recharge_other");
 			}
 		}
-		if( pet->isIncapacitated() ){
-			menuResponse->addRadialMenuItem(166, 3, "@pet/pet_menu:awaken" );
+		if (pet->isIncapacitated()) {
+			menuResponse->addRadialMenuItem(166, 3, "@pet/pet_menu:awaken");
 		}
 
 	}
 	// FACTION
-	else if( controlDevice->getPetType() == PetManager::FACTIONPET ){
-
+	else if (controlDevice->getPetType() == PetManager::FACTIONPET) {
 		// future, if conversion do as droid objects above and not add this menu at all.
-		//bool conversingPet = (pet->getOptionsBitmask() & OptionBitmask::CONVERSE);
+		// bool conversingPet = (pet->getOptionsBitmask() & OptionBitmask::CONVERSE);
 
-		menuResponse->addRadialMenuItem(141, 3, "@pet/pet_menu:menu_command"); // PET_COMMAND
-		menuResponse->addRadialMenuItemToRadialID(141, 142, 3, "@pet/pet_menu:menu_follow" ); // PET_FOLLOW
-		menuResponse->addRadialMenuItemToRadialID(141, 143, 3, "@pet/pet_menu:menu_stay" ); // PET_STAY
-		menuResponse->addRadialMenuItemToRadialID(141, 144, 3, "@pet/pet_menu:menu_guard" ); // PET_GUARD
-		menuResponse->addRadialMenuItemToRadialID(141, 145, 3, "@pet/pet_menu:menu_friend" ); // PET_FRIEND
-		menuResponse->addRadialMenuItemToRadialID(141, 146, 3, "@pet/pet_menu:menu_attack" ); // PET_ATTACK
-		menuResponse->addRadialMenuItemToRadialID(141, 147, 3, "@pet/pet_menu:menu_patrol" ); // PET_PATROL
-		menuResponse->addRadialMenuItemToRadialID(141, 148, 3, "@pet/pet_menu:menu_get_patrol_point" ); // PET_GET_PATROL_POINT
-		menuResponse->addRadialMenuItemToRadialID(141, 149, 3, "@pet/pet_menu:menu_clear_patrol_points" ); // PET_CLEAR_PATROL_POINTS
-		menuResponse->addRadialMenuItemToRadialID(141, 150, 3, "@pet/pet_menu:menu_assume_formation_1" ); // PET_ASSUME_FORMATION_1
-		menuResponse->addRadialMenuItemToRadialID(141, 151, 3, "@pet/pet_menu:menu_assume_formation_2" ); // PET_ASSUME_FORMATION_2
-		menuResponse->addRadialMenuItemToRadialID(141, 158, 3, "@pet/pet_menu:menu_group" ); // PET_GROUP
-		menuResponse->addRadialMenuItemToRadialID(141, 163, 3, "@pet/pet_menu:menu_ranged_attack" );
-		menuResponse->addRadialMenuItemToRadialID(141, 164, 3, "@pet/pet_menu:menu_store" );
-		menuResponse->addRadialMenuItemToRadialID(141, 165, 3, "@pet/pet_menu:menu_follow_other" );
+		menuResponse->addRadialMenuItem(141, 3, "@pet/pet_menu:menu_command");							  // PET_COMMAND
+		menuResponse->addRadialMenuItemToRadialID(141, 142, 3, "@pet/pet_menu:menu_follow");			  // PET_FOLLOW
+		menuResponse->addRadialMenuItemToRadialID(141, 143, 3, "@pet/pet_menu:menu_stay");				  // PET_STAY
+		menuResponse->addRadialMenuItemToRadialID(141, 144, 3, "@pet/pet_menu:menu_guard");				  // PET_GUARD
+		menuResponse->addRadialMenuItemToRadialID(141, 145, 3, "@pet/pet_menu:menu_friend");			  // PET_FRIEND
+		menuResponse->addRadialMenuItemToRadialID(141, 146, 3, "@pet/pet_menu:menu_attack");			  // PET_ATTACK
+		menuResponse->addRadialMenuItemToRadialID(141, 147, 3, "@pet/pet_menu:menu_patrol");			  // PET_PATROL
+		menuResponse->addRadialMenuItemToRadialID(141, 148, 3, "@pet/pet_menu:menu_get_patrol_point");	  // PET_GET_PATROL_POINT
+		menuResponse->addRadialMenuItemToRadialID(141, 149, 3, "@pet/pet_menu:menu_clear_patrol_points"); // PET_CLEAR_PATROL_POINTS
+		menuResponse->addRadialMenuItemToRadialID(141, 150, 3, "@pet/pet_menu:menu_assume_formation_1");  // PET_ASSUME_FORMATION_1
+		menuResponse->addRadialMenuItemToRadialID(141, 151, 3, "@pet/pet_menu:menu_assume_formation_2");  // PET_ASSUME_FORMATION_2
+		menuResponse->addRadialMenuItemToRadialID(141, 158, 3, "@pet/pet_menu:menu_group");				  // PET_GROUP
+		menuResponse->addRadialMenuItemToRadialID(141, 163, 3, "@pet/pet_menu:menu_ranged_attack");
+		menuResponse->addRadialMenuItemToRadialID(141, 164, 3, "@pet/pet_menu:menu_store");
+		menuResponse->addRadialMenuItemToRadialID(141, 165, 3, "@pet/pet_menu:menu_follow_other");
 
-		if( pet->isIncapacitated() ){
-			menuResponse->addRadialMenuItem(166, 3, "@pet/pet_menu:awaken" );
+		if (pet->isIncapacitated()) {
+			menuResponse->addRadialMenuItem(166, 3, "@pet/pet_menu:awaken");
 		}
 
 	}
 	// CREATURES
-	else if( controlDevice->getPetType() == PetManager::CREATUREPET ){
-
-		menuResponse->addRadialMenuItem(234, 3, "@pet/pet_menu:menu_feed" ); // PET_FEED
+	else if (controlDevice->getPetType() == PetManager::CREATUREPET) {
+		menuResponse->addRadialMenuItem(234, 3, "@pet/pet_menu:menu_feed"); // PET_FEED
 
 		menuResponse->addRadialMenuItem(141, 3, "@pet/pet_menu:menu_command"); // PET_COMMAND
 
-		if( player->hasSkill( "outdoors_creaturehandler_novice" ) ){
-			menuResponse->addRadialMenuItemToRadialID(141, 142, 3, "@pet/pet_menu:menu_follow" ); // PET_FOLLOW
-			menuResponse->addRadialMenuItemToRadialID(141, 146, 3, "@pet/pet_menu:menu_attack" ); // PET_ATTACK
-			menuResponse->addRadialMenuItemToRadialID(141, 164, 3, "@pet/pet_menu:menu_store" );
+		if (player->hasSkill("outdoors_creaturehandler_novice")) {
+			menuResponse->addRadialMenuItemToRadialID(141, 142, 3, "@pet/pet_menu:menu_follow"); // PET_FOLLOW
+			menuResponse->addRadialMenuItemToRadialID(141, 146, 3, "@pet/pet_menu:menu_attack"); // PET_ATTACK
+			menuResponse->addRadialMenuItemToRadialID(141, 164, 3, "@pet/pet_menu:menu_store");
 		}
 
-		if( player->hasSkill( "outdoors_creaturehandler_training_01" ) ){
-			menuResponse->addRadialMenuItemToRadialID(141, 143, 3, "@pet/pet_menu:menu_stay" ); // PET_STAY
+		if (player->hasSkill("outdoors_creaturehandler_training_01")) {
+			menuResponse->addRadialMenuItemToRadialID(141, 143, 3, "@pet/pet_menu:menu_stay"); // PET_STAY
 		}
 
-		if( player->hasSkill( "outdoors_creaturehandler_training_02" ) ){
-			menuResponse->addRadialMenuItemToRadialID(141, 144, 3, "@pet/pet_menu:menu_guard" ); // PET_GUARD
+		if (player->hasSkill("outdoors_creaturehandler_training_02")) {
+			menuResponse->addRadialMenuItemToRadialID(141, 144, 3, "@pet/pet_menu:menu_guard"); // PET_GUARD
 		}
 
-		if( player->hasSkill( "outdoors_creaturehandler_training_03" ) ){
-			menuResponse->addRadialMenuItemToRadialID(141, 147, 3, "@pet/pet_menu:menu_patrol" ); // PET_PATROL
-			menuResponse->addRadialMenuItemToRadialID(141, 148, 3, "@pet/pet_menu:menu_get_patrol_point" ); // PET_GET_PATROL_POINT
-			menuResponse->addRadialMenuItemToRadialID(141, 149, 3, "@pet/pet_menu:menu_clear_patrol_points" ); // PET_CLEAR_PATROL_POINTS
+		if (player->hasSkill("outdoors_creaturehandler_training_03")) {
+			menuResponse->addRadialMenuItemToRadialID(141, 147, 3, "@pet/pet_menu:menu_patrol");			  // PET_PATROL
+			menuResponse->addRadialMenuItemToRadialID(141, 148, 3, "@pet/pet_menu:menu_get_patrol_point");	  // PET_GET_PATROL_POINT
+			menuResponse->addRadialMenuItemToRadialID(141, 149, 3, "@pet/pet_menu:menu_clear_patrol_points"); // PET_CLEAR_PATROL_POINTS
 		}
 
-		if( player->hasSkill( "outdoors_creaturehandler_training_04" ) ){
-			menuResponse->addRadialMenuItemToRadialID(141, 150, 3, "@pet/pet_menu:menu_assume_formation_1" ); // PET_ASSUME_FORMATION_1
-			menuResponse->addRadialMenuItemToRadialID(141, 151, 3, "@pet/pet_menu:menu_assume_formation_2" ); // PET_ASSUME_FORMATION_2
+		if (player->hasSkill("outdoors_creaturehandler_training_04")) {
+			menuResponse->addRadialMenuItemToRadialID(141, 150, 3, "@pet/pet_menu:menu_assume_formation_1"); // PET_ASSUME_FORMATION_1
+			menuResponse->addRadialMenuItemToRadialID(141, 151, 3, "@pet/pet_menu:menu_assume_formation_2"); // PET_ASSUME_FORMATION_2
 		}
 
-		if( player->hasSkill( "outdoors_creaturehandler_healing_01" ) ){
-			menuResponse->addRadialMenuItemToRadialID(141, 154, 3, "@pet/pet_menu:menu_trick_1" ); // PET_TRICK_1
+		if (player->hasSkill("outdoors_creaturehandler_healing_01")) {
+			menuResponse->addRadialMenuItemToRadialID(141, 154, 3, "@pet/pet_menu:menu_trick_1"); // PET_TRICK_1
 		}
 
-		if( player->hasSkill( "outdoors_creaturehandler_healing_03" ) ){
-			menuResponse->addRadialMenuItemToRadialID(141, 155, 3, "@pet/pet_menu:menu_trick_2" ); // PET_TRICK_2
+		if (player->hasSkill("outdoors_creaturehandler_healing_03")) {
+			menuResponse->addRadialMenuItemToRadialID(141, 155, 3, "@pet/pet_menu:menu_trick_2"); // PET_TRICK_2
 		}
 
-		if( player->hasSkill( "outdoors_creaturehandler_support_01" ) ){
-			menuResponse->addRadialMenuItemToRadialID(141, 158, 3, "@pet/pet_menu:menu_group" ); // PET_GROUP
+		if (player->hasSkill("outdoors_creaturehandler_support_01")) {
+			menuResponse->addRadialMenuItemToRadialID(141, 158, 3, "@pet/pet_menu:menu_group"); // PET_GROUP
 		}
 
-		if( player->hasSkill( "outdoors_creaturehandler_support_02" ) ){
-			menuResponse->addRadialMenuItemToRadialID(141, 165, 3, "@pet/pet_menu:menu_follow_other" );
+		if (player->hasSkill("outdoors_creaturehandler_support_02")) {
+			menuResponse->addRadialMenuItemToRadialID(141, 165, 3, "@pet/pet_menu:menu_follow_other");
 		}
 
-		if( player->hasSkill( "outdoors_creaturehandler_support_03" ) ){
-			menuResponse->addRadialMenuItemToRadialID(141, 145, 3, "@pet/pet_menu:menu_friend" ); // PET_FRIEND
+		if (player->hasSkill("outdoors_creaturehandler_support_03")) {
+			menuResponse->addRadialMenuItemToRadialID(141, 145, 3, "@pet/pet_menu:menu_friend"); // PET_FRIEND
 		}
 
-		if( player->hasSkill( "outdoors_creaturehandler_taming_03" ) && pet->hasSpecialAttack(1) ){
-			menuResponse->addRadialMenuItemToRadialID(141, 161, 3, "@pet/pet_menu:menu_specialattack_one" ); // PET_SPECIAL_ATTACK_ONE
+		if (player->hasSkill("outdoors_creaturehandler_taming_03") && pet->hasSpecialAttack(1)) {
+			menuResponse->addRadialMenuItemToRadialID(141, 161, 3, "@pet/pet_menu:menu_specialattack_one"); // PET_SPECIAL_ATTACK_ONE
 		}
 
-		if( player->hasSkill( "outdoors_creaturehandler_taming_04" ) && pet->hasSpecialAttack(2) ){
-			menuResponse->addRadialMenuItemToRadialID(141, 162, 3, "@pet/pet_menu:menu_specialattack_two" ); // PET_SPECIAL_ATTACK_TWO
+		if (player->hasSkill("outdoors_creaturehandler_taming_04") && pet->hasSpecialAttack(2)) {
+			menuResponse->addRadialMenuItemToRadialID(141, 162, 3, "@pet/pet_menu:menu_specialattack_two"); // PET_SPECIAL_ATTACK_TWO
 		}
 
-		if( player->hasSkill( "outdoors_creaturehandler_master" ) ){
+		if (player->hasSkill("outdoors_creaturehandler_master")) {
 			if (pet->hasRangedWeapon()) {
-				menuResponse->addRadialMenuItemToRadialID(141, 163, 3, "@pet/pet_menu:menu_ranged_attack" );
+				menuResponse->addRadialMenuItemToRadialID(141, 163, 3, "@pet/pet_menu:menu_ranged_attack");
 			}
 
-			menuResponse->addRadialMenuItemToRadialID(141, 152, 3, "@pet/pet_menu:menu_transfer" ); // PET_TRANSFER
+			menuResponse->addRadialMenuItemToRadialID(141, 152, 3, "@pet/pet_menu:menu_transfer"); // PET_TRANSFER
 		}
 
-		if( player->hasSkill( "outdoors_creaturehandler_support_04") && !controlDevice->isTrainedAsMount() && petManager->checkMountEligibility(controlDevice) == PetManager::CANBEMOUNTTRAINED){
-			menuResponse->addRadialMenuItemToRadialID(141, 207, 3, "@pet/pet_menu:menu_train_mount" ); // Train Pet As A Mount
+		if (player->hasSkill("outdoors_creaturehandler_support_04") && !controlDevice->isTrainedAsMount() && petManager->checkMountEligibility(controlDevice) == PetManager::CANBEMOUNTTRAINED) {
+			menuResponse->addRadialMenuItemToRadialID(141, 207, 3, "@pet/pet_menu:menu_train_mount"); // Train Pet As A Mount
 		}
 
-		if( pet->isIncapacitated() ){
-			menuResponse->addRadialMenuItem(166, 3, "@pet/pet_menu:awaken" );
+		if (pet->isIncapacitated()) {
+			menuResponse->addRadialMenuItem(166, 3, "@pet/pet_menu:awaken");
 		}
 
 		if (controlDevice->isTrainedAsMount() && !pet->isDead() && !pet->isIncapacitated()) {
@@ -200,9 +197,7 @@ void PetMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMe
 				menuResponse->addRadialMenuItem(206, 3, "@pet/pet_menu:menu_dismount"); // Climb Off Of Pet
 			}
 		}
-
 	}
-
 }
 
 int PetMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
@@ -242,63 +237,63 @@ int PetMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureO
 	if (owner != player)
 		return 0;
 
-	switch(selectedID) {
+	switch (selectedID) {
 	case 142: // Train Command: Follow
-		petControlDevice->setTrainingCommand( PetManager::FOLLOW );
+		petControlDevice->setTrainingCommand(PetManager::FOLLOW);
 		break;
 	case 143: // Train Command: Stay
-		petControlDevice->setTrainingCommand( PetManager::STAY );
+		petControlDevice->setTrainingCommand(PetManager::STAY);
 		break;
 	case 144: // Train Command: Guard
-		petControlDevice->setTrainingCommand( PetManager::GUARD );
+		petControlDevice->setTrainingCommand(PetManager::GUARD);
 		break;
 	case 145: // Train Command: Friend
-		petControlDevice->setTrainingCommand( PetManager::FRIEND );
+		petControlDevice->setTrainingCommand(PetManager::FRIEND);
 		break;
 	case 146: // Train Command: Attack
-		petControlDevice->setTrainingCommand( PetManager::ATTACK );
+		petControlDevice->setTrainingCommand(PetManager::ATTACK);
 		break;
 	case 147: // Train Command: Patrol
-		petControlDevice->setTrainingCommand( PetManager::PATROL );
+		petControlDevice->setTrainingCommand(PetManager::PATROL);
 		break;
 	case 148: // Train Command: Get Patrol Point
-		petControlDevice->setTrainingCommand( PetManager::GETPATROLPOINT );
+		petControlDevice->setTrainingCommand(PetManager::GETPATROLPOINT);
 		break;
 	case 149: // Train Command: Clear Patrol Points
-		petControlDevice->setTrainingCommand( PetManager::CLEARPATROLPOINTS );
+		petControlDevice->setTrainingCommand(PetManager::CLEARPATROLPOINTS);
 		break;
 	case 150: // Train Command: Wedge Formation
-		petControlDevice->setTrainingCommand( PetManager::FORMATION1 );
+		petControlDevice->setTrainingCommand(PetManager::FORMATION1);
 		break;
 	case 151: // Train Command: Column Formation
-		petControlDevice->setTrainingCommand( PetManager::FORMATION2 );
+		petControlDevice->setTrainingCommand(PetManager::FORMATION2);
 		break;
 	case 152: // Train Command: Transfer
-		petControlDevice->setTrainingCommand( PetManager::TRANSFER );
+		petControlDevice->setTrainingCommand(PetManager::TRANSFER);
 		break;
 	case 154: // Train Command: Trick 1
-		petControlDevice->setTrainingCommand( PetManager::TRICK1 );
+		petControlDevice->setTrainingCommand(PetManager::TRICK1);
 		break;
 	case 155: // Train Command: Trick 2
-		petControlDevice->setTrainingCommand( PetManager::TRICK2 );
+		petControlDevice->setTrainingCommand(PetManager::TRICK2);
 		break;
 	case 158: // Train Command: Group
-		petControlDevice->setTrainingCommand( PetManager::GROUP );
+		petControlDevice->setTrainingCommand(PetManager::GROUP);
 		break;
 	case 161: // Train Command: Special Attack 1
-		petControlDevice->setTrainingCommand( PetManager::SPECIAL_ATTACK1 );
+		petControlDevice->setTrainingCommand(PetManager::SPECIAL_ATTACK1);
 		break;
 	case 162: // Train Command: Special Attack 2
-		petControlDevice->setTrainingCommand( PetManager::SPECIAL_ATTACK2 );
+		petControlDevice->setTrainingCommand(PetManager::SPECIAL_ATTACK2);
 		break;
 	case 163: // Train Command: Ranged Attack
-		petControlDevice->setTrainingCommand( PetManager::RANGED_ATTACK );
+		petControlDevice->setTrainingCommand(PetManager::RANGED_ATTACK);
 		break;
 	case 164: // Train Command: Store
-		petControlDevice->setTrainingCommand( PetManager::STORE );
+		petControlDevice->setTrainingCommand(PetManager::STORE);
 		break;
 	case 165: // Train Command: Follow Other
-		petControlDevice->setTrainingCommand( PetManager::FOLLOWOTHER );
+		petControlDevice->setTrainingCommand(PetManager::FOLLOWOTHER);
 		break;
 	case 166: // Incapacitation Recovery
 		petManager->enqueueOwnerOnlyPetCommand(player, pet, STRING_HASHCODE("petrecover"), "");
@@ -317,7 +312,7 @@ int PetMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureO
 		}
 		break;
 	case 235: // Train Command: Recharge Other
-		petControlDevice->setTrainingCommand( PetManager::RECHARGEOTHER );
+		petControlDevice->setTrainingCommand(PetManager::RECHARGEOTHER);
 		break;
 	default:
 		break;

@@ -10,13 +10,11 @@
 
 #include "templates/SharedTangibleObjectTemplate.h"
 
-class LootSchematicTemplate: public SharedTangibleObjectTemplate {
+class LootSchematicTemplate : public SharedTangibleObjectTemplate {
 protected:
-
 	String targetDraftSchematic;
 	int targetUseCount;
 	String requiredSkill;
-
 
 public:
 	LootSchematicTemplate() {
@@ -26,7 +24,6 @@ public:
 	}
 
 	~LootSchematicTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -35,7 +32,6 @@ public:
 		targetDraftSchematic = templateData->getStringField("targetDraftSchematic");
 		targetUseCount = templateData->getIntField("targetUseCount");
 		requiredSkill = templateData->getStringField("requiredSkill");
-
 	}
 
 	const String& getTargetDraftSchematic() {
@@ -49,8 +45,6 @@ public:
 	int getTargetUseCount() {
 		return targetUseCount;
 	}
-
 };
-
 
 #endif /* LOOTSCHEMATICTEMPLATE_H_ */

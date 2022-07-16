@@ -13,7 +13,7 @@ class ZonePacketHandler : public Logger {
 	Zone* zone;
 
 public:
-	ZonePacketHandler(const String& s, Zone * z);
+	ZonePacketHandler(const String& s, Zone* z);
 
 	~ZonePacketHandler() {
 	}
@@ -31,7 +31,6 @@ public:
 	void handleUpdateContainmentMessage(Message* pack);
 	void handleSceneObejctDestroyMessage(Message* pack);
 	void handleClientPermissionsMessage(Message* pack);
-
 };
 
 #endif /* ZONEPACKETHANDLER_H_ */

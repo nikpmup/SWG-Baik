@@ -168,7 +168,7 @@ int FishingManagerImplementation::startFishing(CreatureObject* player) {
 	Vector3 location;
 	int locationCheck = checkLocation(player, pole->getQuality(), location);
 
-	switch(locationCheck) {
+	switch (locationCheck) {
 	case NOFISHING:
 		return locationCheck; // Player was nullptr
 	case BADCAST:
@@ -362,132 +362,132 @@ void FishingManagerImplementation::fishingStep(CreatureObject* player) {
 	animate(player, nextAction);
 
 	switch (state) {
-		case WAITING: {
-			int newFish = getFish(player, marker);
+	case WAITING: {
+		int newFish = getFish(player, marker);
 
-			if (chance + poleMod <= MISHAP + vegStat) { // Pole decreases chance of Snag
-				fishingProceed(player, nextAction, marker, newFish, boxID, SNAGGED, false, moodString);
-			} else {
-				if (chance - poleMod <= fishDensity * 1.5) { // Nibble
-					if (nextAction >= TUGUP && nextAction <= REEL) {
-						ManagedReference<SceneObject*> newMarker = updateMarker(player, marker, boxID, false);
-
-						if (newMarker != nullptr) {
-							fishingProceed(player, nextAction, newMarker, newFish, boxID, NIBBLE, true, moodString);
-						}
-					} else {
-						fishingProceed(player, nextAction, marker, newFish, boxID, NIBBLE, true, moodString);
-					}
-				} else { // Waiting
-					if (nextAction >= TUGUP && nextAction <= REEL) {
-						ManagedReference<SceneObject*> newMarker = updateMarker(player, marker, boxID, false);
-
-						if (newMarker != nullptr) {
-							fishingProceed(player, nextAction, newMarker, newFish, boxID, WAITING, false, moodString);
-						}
-					} else {
-						fishingProceed(player, nextAction, marker, newFish, boxID, WAITING, false, moodString);
-					}
-				}
-			}
-			break;
-		}
-		case SNAGGED: {
-			if (nextAction >= TUGUP && nextAction <= REEL && chance + poleMod - (vegStat / 2) >= PROCEED) { // Pole Mod increase chance to not snag and vegetation increase chance to snag
-				fishingProceed(player, nextAction, marker, fish, boxID, WAITING, false, moodString);
-			} else {
-				fishingProceed(player, nextAction, marker, fish, boxID, SNAGGED, false, moodString);
-			}
-			break;
-		}
-		case NIBBLE: {
-			if (chance + poleMod <= MISHAP) { // Pole decreases chance of mishap
-				mishapEvent("@fishing:line_snap", player, marker, boxID, true, moodString);
-				break;
-			} else if ((chance + poleMod >= (PROCEED + 10 - (fishDensity * 2))) && (nextAction >= TUGUP && nextAction <= REEL)) { // BITE
-				ManagedReference<SceneObject*> newMarker = updateMarker(player, marker, boxID, false);
-
-				if (newMarker != nullptr) {
-					fishingProceed(player, nextAction, newMarker, fish, boxID, BITE, true, moodString);
-				} else {
-					fishingProceed(player, nextAction, marker, fish, boxID, BITE, true, moodString);
-				}
-				break;
-			} else if (nextAction >= TUGUP && nextAction <= REEL) { // Action entered & BITE calculation failed
-				ManagedReference<SceneObject*> newMarker = updateMarker(player, marker, boxID, false);
-
-				if (newMarker != nullptr) {
-					fishingProceed(player, nextAction, newMarker, fish, boxID, NIBBLE, true, moodString);
-				} else {
-					fishingProceed(player, nextAction, newMarker, fish, boxID, WAITING, true, moodString);
-				}
-			} else {
-				if (chance <= 10) {
-					fishingProceed(player, nextAction, marker, fish, boxID, WAITING, true, moodString);
-				} else {
-					fishingProceed(player, nextAction, marker, fish, boxID, NIBBLE, true, moodString);
-				}
-			}
-			break;
-		}
-		case BITE: {
-			if (chance + poleMod <= MISHAP) { // Pole decreases chance of MISHAP
-				if (chance < 3) { // Lost Bait
-					mishapEvent("@fishing:lost_bait", player, marker, boxID, true, moodString);
-					break;
-				} else { // Fish pulled out the line, but the player has no penalty
-					mishapEvent("@fishing:line_spooled", player, marker, boxID, false, moodString);
-					break;
-				}
-			} else if (chance + poleMod >= PROCEED && nextAction >= TUGUP && nextAction <= REEL) {
-				ManagedReference<SceneObject*> newMarker = updateMarker(player, marker, boxID, false);
-
-				if (newMarker != nullptr) {
-					fishingProceed(player, nextAction, newMarker, fish, boxID, CATCH, true, moodString);
-				} else {
-					fishingProceed(player, nextAction, marker, fish, boxID, BITE, true, moodString);
-				}
-			} else {
-				fishingProceed(player, nextAction, marker, fish, boxID, NIBBLE, false, moodString);
-			}
-			break;
-		}
-		case CATCH: {
-			if (chance + poleMod <= MISHAP) {
-				mishapEvent("@fishing:lost_catch", player, marker, boxID, false, moodString);
-				break;
-			} else if (nextAction == DONOTHING || nextAction == REEL) {
-				fishingProceed(player, nextAction, marker, fish, boxID, REELING, true, moodString);
-			} else {
-				fishingProceed(player, nextAction, marker, fish, boxID, CATCH, true, moodString);
-			}
-			break;
-		}
-		case REELING: {
-			ManagedReference<SceneObject*> newMarker = updateMarker(player, marker, boxID, true);
-
-			if (newMarker != nullptr)
-				fishingProceed(player, nextAction, newMarker, fish, boxID, REELING, true, moodString);
-			break;
-		}
-		case REELGAME: {
-			if (chance + poleMod <= MISHAP - 5) { // Pole decreases chance of mishap
-					mishapEvent("@fishing:tore_bait", player, marker, boxID, true, moodString);
-			} else {
-				if (player->isInRange(marker, 2.0)) {
-					success(player, fish, marker, boxID);
-				} else {
-					ManagedReference<SceneObject*> newMarker = updateMarker(player, marker, boxID, true);
+		if (chance + poleMod <= MISHAP + vegStat) { // Pole decreases chance of Snag
+			fishingProceed(player, nextAction, marker, newFish, boxID, SNAGGED, false, moodString);
+		} else {
+			if (chance - poleMod <= fishDensity * 1.5) { // Nibble
+				if (nextAction >= TUGUP && nextAction <= REEL) {
+					ManagedReference<SceneObject*> newMarker = updateMarker(player, marker, boxID, false);
 
 					if (newMarker != nullptr) {
-						fishingProceed(player, nextAction, newMarker, fish, boxID, REELGAME, true, moodString);
-					} else {
-						fishingProceed(player, nextAction, newMarker, fish, boxID, REELGAME, true, moodString);
+						fishingProceed(player, nextAction, newMarker, newFish, boxID, NIBBLE, true, moodString);
 					}
+				} else {
+					fishingProceed(player, nextAction, marker, newFish, boxID, NIBBLE, true, moodString);
+				}
+			} else { // Waiting
+				if (nextAction >= TUGUP && nextAction <= REEL) {
+					ManagedReference<SceneObject*> newMarker = updateMarker(player, marker, boxID, false);
+
+					if (newMarker != nullptr) {
+						fishingProceed(player, nextAction, newMarker, newFish, boxID, WAITING, false, moodString);
+					}
+				} else {
+					fishingProceed(player, nextAction, marker, newFish, boxID, WAITING, false, moodString);
 				}
 			}
-			break;
 		}
+		break;
+	}
+	case SNAGGED: {
+		if (nextAction >= TUGUP && nextAction <= REEL && chance + poleMod - (vegStat / 2) >= PROCEED) { // Pole Mod increase chance to not snag and vegetation increase chance to snag
+			fishingProceed(player, nextAction, marker, fish, boxID, WAITING, false, moodString);
+		} else {
+			fishingProceed(player, nextAction, marker, fish, boxID, SNAGGED, false, moodString);
+		}
+		break;
+	}
+	case NIBBLE: {
+		if (chance + poleMod <= MISHAP) { // Pole decreases chance of mishap
+			mishapEvent("@fishing:line_snap", player, marker, boxID, true, moodString);
+			break;
+		} else if ((chance + poleMod >= (PROCEED + 10 - (fishDensity * 2))) && (nextAction >= TUGUP && nextAction <= REEL)) { // BITE
+			ManagedReference<SceneObject*> newMarker = updateMarker(player, marker, boxID, false);
+
+			if (newMarker != nullptr) {
+				fishingProceed(player, nextAction, newMarker, fish, boxID, BITE, true, moodString);
+			} else {
+				fishingProceed(player, nextAction, marker, fish, boxID, BITE, true, moodString);
+			}
+			break;
+		} else if (nextAction >= TUGUP && nextAction <= REEL) { // Action entered & BITE calculation failed
+			ManagedReference<SceneObject*> newMarker = updateMarker(player, marker, boxID, false);
+
+			if (newMarker != nullptr) {
+				fishingProceed(player, nextAction, newMarker, fish, boxID, NIBBLE, true, moodString);
+			} else {
+				fishingProceed(player, nextAction, newMarker, fish, boxID, WAITING, true, moodString);
+			}
+		} else {
+			if (chance <= 10) {
+				fishingProceed(player, nextAction, marker, fish, boxID, WAITING, true, moodString);
+			} else {
+				fishingProceed(player, nextAction, marker, fish, boxID, NIBBLE, true, moodString);
+			}
+		}
+		break;
+	}
+	case BITE: {
+		if (chance + poleMod <= MISHAP) { // Pole decreases chance of MISHAP
+			if (chance < 3) {			  // Lost Bait
+				mishapEvent("@fishing:lost_bait", player, marker, boxID, true, moodString);
+				break;
+			} else { // Fish pulled out the line, but the player has no penalty
+				mishapEvent("@fishing:line_spooled", player, marker, boxID, false, moodString);
+				break;
+			}
+		} else if (chance + poleMod >= PROCEED && nextAction >= TUGUP && nextAction <= REEL) {
+			ManagedReference<SceneObject*> newMarker = updateMarker(player, marker, boxID, false);
+
+			if (newMarker != nullptr) {
+				fishingProceed(player, nextAction, newMarker, fish, boxID, CATCH, true, moodString);
+			} else {
+				fishingProceed(player, nextAction, marker, fish, boxID, BITE, true, moodString);
+			}
+		} else {
+			fishingProceed(player, nextAction, marker, fish, boxID, NIBBLE, false, moodString);
+		}
+		break;
+	}
+	case CATCH: {
+		if (chance + poleMod <= MISHAP) {
+			mishapEvent("@fishing:lost_catch", player, marker, boxID, false, moodString);
+			break;
+		} else if (nextAction == DONOTHING || nextAction == REEL) {
+			fishingProceed(player, nextAction, marker, fish, boxID, REELING, true, moodString);
+		} else {
+			fishingProceed(player, nextAction, marker, fish, boxID, CATCH, true, moodString);
+		}
+		break;
+	}
+	case REELING: {
+		ManagedReference<SceneObject*> newMarker = updateMarker(player, marker, boxID, true);
+
+		if (newMarker != nullptr)
+			fishingProceed(player, nextAction, newMarker, fish, boxID, REELING, true, moodString);
+		break;
+	}
+	case REELGAME: {
+		if (chance + poleMod <= MISHAP - 5) { // Pole decreases chance of mishap
+			mishapEvent("@fishing:tore_bait", player, marker, boxID, true, moodString);
+		} else {
+			if (player->isInRange(marker, 2.0)) {
+				success(player, fish, marker, boxID);
+			} else {
+				ManagedReference<SceneObject*> newMarker = updateMarker(player, marker, boxID, true);
+
+				if (newMarker != nullptr) {
+					fishingProceed(player, nextAction, newMarker, fish, boxID, REELGAME, true, moodString);
+				} else {
+					fishingProceed(player, nextAction, newMarker, fish, boxID, REELGAME, true, moodString);
+				}
+			}
+		}
+		break;
+	}
 	}
 }
 
@@ -602,7 +602,6 @@ void FishingManagerImplementation::success(CreatureObject* player, int fish, Sce
 					if (fishingPlanet == zoneName) {
 						color = fishColors.elementAt(j).getValue();
 					}
-
 				}
 
 				lootFishObject->setCustomizationVariable("/private/index_color_1", color);
@@ -727,12 +726,8 @@ uint32 FishingManagerImplementation::createWindow(CreatureObject* player, uint32
 	if (nextAct >= fishingActions.size())
 		nextAct = 0;
 
-	String prompt = "STATUS : " + fishingStates.get(getFishingState(player) % 7)
-		+ "\nBAIT STATUS : " + baitStatus.get(freshness % 3)
-		+ "\nLINE RANGE : " + String::valueOf(ceil(player->getDistanceTo(marker) * 100) / 100)
-		+ "\nFISH DENSITY : " + getPropertyString(den % 6)
-		+ "\nVEGETATION : " + getPropertyString(veg % 6)
-		+ "\nNEXT ACTION : " + fishingActions.get(nextAct);
+	String prompt = "STATUS : " + fishingStates.get(getFishingState(player) % 7) + "\nBAIT STATUS : " + baitStatus.get(freshness % 3) + "\nLINE RANGE : " + String::valueOf(ceil(player->getDistanceTo(marker) * 100) / 100) + "\nFISH DENSITY : " + getPropertyString(den % 6) +
+					"\nVEGETATION : " + getPropertyString(veg % 6) + "\nNEXT ACTION : " + fishingActions.get(nextAct);
 
 	// create new window
 	ManagedReference<SuiListBox*> box = new SuiListBox(player, SuiWindowType::FISHING, 0);
@@ -806,12 +801,12 @@ int FishingManagerImplementation::getFish(CreatureObject* player, SceneObject* m
 			return chance;
 
 		chance = (int)((pole->getQuality() * 0.06)			// ACCOUNT FOR POLE QUALITY - quality is 50 at init
-					   + (vegStat * -0.75)		// Vegetation Decrease chance to catch a fish
+					   + (vegStat * -0.75)					// Vegetation Decrease chance to catch a fish
 					   + (density(player) * 0.75)			// ACCOUNT FOR FISH DENSITY - is 0 if density method fails
 					   + ((3 - bait->getFreshness()) * 3.0) // ACCOUNT FOR BAIT STATUS - freshness is 0 at init
-					   + player->getSkillMod("luck") // ACCOUNT FOR LUCK
-					   + (System::random(20))) // RANDOM BIAS
-				 % 7;						   // MUX NUMBER TO FISH 0-6
+					   + player->getSkillMod("luck")		// ACCOUNT FOR LUCK
+					   + (System::random(20)))				// RANDOM BIAS
+				 % 7;										// MUX NUMBER TO FISH 0-6
 	}
 
 #ifdef DEBUG_FISHING
@@ -1243,51 +1238,51 @@ SceneObject* FishingManagerImplementation::updateMarker(CreatureObject* player, 
 	if (reelGame) {
 		int event = System::random(12);
 		switch (event) {
-			case 1:
-				// Fish Charge
-				newMarkerLoc.setX(playerX + ((markerLoc.getX() - playerX) * 0.7));
-				newMarkerLoc.setY(playerY + ((markerLoc.getY() - playerY) * 0.7));
+		case 1:
+			// Fish Charge
+			newMarkerLoc.setX(playerX + ((markerLoc.getX() - playerX) * 0.7));
+			newMarkerLoc.setY(playerY + ((markerLoc.getY() - playerY) * 0.7));
 
-				player->sendSystemMessage("@fishing:fish_charge");
-				break;
-			case 2:
-				// Fight Easy
-				player->sendSystemMessage("@fishing:fish_fight_easy");
-				break;
-			case 3:
-				// Fight Hard
-				newMarkerLoc.setX(markerLoc.getX() + System::random(2));
-				newMarkerLoc.setY(markerLoc.getY() + System::random(2));
+			player->sendSystemMessage("@fishing:fish_charge");
+			break;
+		case 2:
+			// Fight Easy
+			player->sendSystemMessage("@fishing:fish_fight_easy");
+			break;
+		case 3:
+			// Fight Hard
+			newMarkerLoc.setX(markerLoc.getX() + System::random(2));
+			newMarkerLoc.setY(markerLoc.getY() + System::random(2));
 
-				player->sendSystemMessage("@fishing:fish_fight_hard");
-				break;
-			case 4:
-				// Fight Away
-				newMarkerLoc.setX(markerLoc.getX() + System::random(2));
-				newMarkerLoc.setY(markerLoc.getY() + System::random(2));
+			player->sendSystemMessage("@fishing:fish_fight_hard");
+			break;
+		case 4:
+			// Fight Away
+			newMarkerLoc.setX(markerLoc.getX() + System::random(2));
+			newMarkerLoc.setY(markerLoc.getY() + System::random(2));
 
-				player->sendSystemMessage("@fishing:fish_fight_hard");
-				break;
-			case 5: {
-				// Fish Run
-				float angle = player->getDirectionAngle();
+			player->sendSystemMessage("@fishing:fish_fight_hard");
+			break;
+		case 5: {
+			// Fish Run
+			float angle = player->getDirectionAngle();
 
-				if (angle > 360) {
-					angle = angle - 360;
-				}
-
-				angle = 2 * M_PI * angle / 360;
-
-				newMarkerLoc.setX(markerLoc.getX() + sin(angle) * System::random(5));
-				newMarkerLoc.setY(markerLoc.getY() + cos(angle) * System::random(5));
-
-				player->sendSystemMessage("@fishing:fish_run");
-				break;
+			if (angle > 360) {
+				angle = angle - 360;
 			}
-			default:
-				// succeed in drawing your catch closer
-				player->sendSystemMessage("@fishing:fish_fight_closer");
-				break;
+
+			angle = 2 * M_PI * angle / 360;
+
+			newMarkerLoc.setX(markerLoc.getX() + sin(angle) * System::random(5));
+			newMarkerLoc.setY(markerLoc.getY() + cos(angle) * System::random(5));
+
+			player->sendSystemMessage("@fishing:fish_run");
+			break;
+		}
+		default:
+			// succeed in drawing your catch closer
+			player->sendSystemMessage("@fishing:fish_fight_closer");
+			break;
 		}
 	}
 

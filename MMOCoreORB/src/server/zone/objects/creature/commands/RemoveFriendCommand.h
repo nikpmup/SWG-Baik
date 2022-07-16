@@ -7,14 +7,10 @@
 
 class RemoveFriendCommand : public QueueCommand {
 public:
-
-	RemoveFriendCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RemoveFriendCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,7 +25,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REMOVEFRIENDCOMMAND_H_
+#endif // REMOVEFRIENDCOMMAND_H_

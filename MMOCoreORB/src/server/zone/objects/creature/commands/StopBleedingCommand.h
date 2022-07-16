@@ -9,11 +9,8 @@
 
 class StopBleedingCommand : public ForceHealQueueCommand {
 public:
-
-	StopBleedingCommand(const String& name, ZoneProcessServer* server)
-		: ForceHealQueueCommand(name, server) {
-
+	StopBleedingCommand(const String& name, ZoneProcessServer* server) : ForceHealQueueCommand(name, server) {
 	}
 };
 
-#endif //STOPBLEEDINGCOMMAND_H_
+#endif // STOPBLEEDINGCOMMAND_H_

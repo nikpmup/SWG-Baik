@@ -10,7 +10,6 @@
 
 #include "server/zone/objects/player/sui/SuiCallback.h"
 
-
 class ResourceDeedSuiCallback : public SuiCallback {
 	String nodeName;
 
@@ -25,21 +24,21 @@ public:
 		if (!sui->isListBox() || cancelPressed)
 			return;
 
-		SuiListBox* listBox = cast<SuiListBox*>( sui);
+		SuiListBox* listBox = cast<SuiListBox*>(sui);
 
 		ManagedReference<SceneObject*> obj = sui->getUsingObject().get();
 
 		if (obj == nullptr)
 			return;
 
-		ResourceDeed* deed = cast<ResourceDeed*>( obj.get());
+		ResourceDeed* deed = cast<ResourceDeed*>(obj.get());
 
 		if (deed == nullptr)
 			return;
 
 		ManagedReference<SceneObject*> inventory = creature->getSlottedObject("inventory");
 
-		if (inventory == nullptr || !deed->isASubChildOf(inventory)) //No longer in inventory.
+		if (inventory == nullptr || !deed->isASubChildOf(inventory)) // No longer in inventory.
 			return;
 
 		ManagedReference<PlayerObject*> ghost = creature->getPlayerObject();
@@ -61,7 +60,7 @@ public:
 		ManagedReference<ResourceManager*> resourceManager = creature->getZoneServer()->getResourceManager();
 
 		if (backPressed) {
-			if(nodeName == "Resources" || nodeName == "Resource")
+			if (nodeName == "Resources" || nodeName == "Resource")
 				return;
 
 			listBox->setPromptTitle("@veteran:resource_title");
@@ -71,13 +70,12 @@ public:
 
 			nodeName = resourceManager->addParentNodeToListBox(listBox, nodeName);
 
-		} else if(cancelPressed)
+		} else if (cancelPressed)
 			return;
 		else {
-
 			ManagedReference<ResourceSpawn*> spawn = resourceManager->getResourceSpawn(nodeName);
 
-			//They chose the resource, eat the deed and give them what they want...fuck it.
+			// They chose the resource, eat the deed and give them what they want...fuck it.
 			if (spawn != nullptr) {
 				Locker clocker(deed, creature);
 				deed->destroyDeed();
@@ -88,12 +86,12 @@ public:
 				return;
 			}
 
-			if(index >= 0 && index < listBox->getMenuSize()) {
+			if (index >= 0 && index < listBox->getMenuSize()) {
 				nodeName = listBox->getMenuItemName(index);
 
 				listBox->removeAllMenuItems();
 
-				spawn = resourceManager->getResourceSpawn(nodeName); //Check again, this means they are looking at stats.
+				spawn = resourceManager->getResourceSpawn(nodeName); // Check again, this means they are looking at stats.
 				if (spawn != nullptr) {
 					spawn->addStatsToDeedListBox(listBox);
 				} else {

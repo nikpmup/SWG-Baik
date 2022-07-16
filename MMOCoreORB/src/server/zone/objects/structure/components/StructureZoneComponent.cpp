@@ -21,5 +21,5 @@ void StructureZoneComponent::notifyInsertToZone(SceneObject* sceneObject, Zone* 
 void StructureZoneComponent::notifyRemoveFromZone(SceneObject* sceneObject) const {
 	ZoneComponent::notifyRemoveFromZone(sceneObject);
 
-	//moved to StructureManager::destroyStructure
+	// moved to StructureManager::destroyStructure
 }

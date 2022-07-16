@@ -14,20 +14,13 @@
 #include "engine/engine.h"
 #include "SpawnDensityMap.h"
 
-
 class SpawnMap : public SynchronizedVectorMap<String, SpawnDensityMap> {
-
 public:
 	SpawnMap() {
-
 	}
 
 	~SpawnMap() {
-
 	}
-
-
 };
-
 
 #endif /* SPAWNMAP_H_ */

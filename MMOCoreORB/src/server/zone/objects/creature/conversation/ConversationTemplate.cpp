@@ -9,25 +9,20 @@ void ConversationTemplate::readObject(LuaObject* templateData) {
 
 	try {
 		templateType = templateData->getStringField("templateType");
-	}
-	catch (Exception&) {
+	} catch (Exception&) {
 		Logger::info("Missing templateType.", true);
 		templateType = "Normal";
 	}
 
 	if (templateType == "DeliverNPC") {
 		conversationTemplateType = ConversationTemplateTypeDeliverMission;
-	}
-	else if (templateType == "InformantNPC") {
+	} else if (templateType == "InformantNPC") {
 		conversationTemplateType = ConversationTemplateTypeInformantMission;
-	}
-	else if (templateType == "Lua") {
+	} else if (templateType == "Lua") {
 		conversationTemplateType = ConversationTemplateTypeLua;
-	}
-	else if (templateType == "Personality") {
+	} else if (templateType == "Personality") {
 		conversationTemplateType = ConversationTemplateTypePersonality;
-	}
-	else {
+	} else {
 		conversationTemplateType = ConversationTemplateTypeNormal;
 	}
 

@@ -8,7 +8,5 @@
 #ifndef TRAVELFARE_H_
 #define TRAVELFARE_H_
 
-class TravelFare : public VectorMap<String, VectorMap<String, int> > {
-
-};
-#endif //TRAVELFARE_H_
+class TravelFare : public VectorMap<String, VectorMap<String, int>> {};
+#endif // TRAVELFARE_H_

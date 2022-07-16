@@ -18,16 +18,14 @@ class Outfit : public Object {
 public:
 	Outfit() : Object() {
 		outfitName = "";
-
 	}
 
 	Outfit(const Outfit& outfit) : Object() {
 		outfitName = outfit.outfitName;
 		clothingCRC = outfit.clothingCRC;
-
 	}
 
-	Outfit& operator= (const Outfit& outfit) {
+	Outfit& operator=(const Outfit& outfit) {
 		if (this == &outfit)
 			return *this;
 
@@ -56,7 +54,6 @@ public:
 	inline int getClothingSize() {
 		return clothingCRC.size();
 	}
-
 };
 
 #endif /* OUTFIT_H_ */

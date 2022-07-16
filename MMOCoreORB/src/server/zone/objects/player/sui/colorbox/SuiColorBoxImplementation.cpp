@@ -17,7 +17,7 @@ BaseMessage* SuiColorBoxImplementation::generateMessage() {
 	StringBuffer id;
 	id << usingObject.get()->getObjectID();
 
-	//Set Body Options:
+	// Set Body Options:
 	addSetting("3", "bg.caption.lblTitle", "Text", "@base_player:swg");
 	addSetting("3", "ColorPicker", "TargetRangeMax", "500");
 	addSetting("3", "ColorPicker", "TargetNetworkId", id.toString().toCharArray());
@@ -25,7 +25,7 @@ BaseMessage* SuiColorBoxImplementation::generateMessage() {
 
 	setHandlerText("handleColorizeFrame");
 
-	//Generate Packet:
+	// Generate Packet:
 	generateHeader(message);
 	generateBody(message);
 	generateFooter(message);
@@ -33,4 +33,3 @@ BaseMessage* SuiColorBoxImplementation::generateMessage() {
 
 	return message;
 }
-

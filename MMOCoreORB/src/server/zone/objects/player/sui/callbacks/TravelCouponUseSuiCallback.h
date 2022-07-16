@@ -48,14 +48,14 @@ public:
 		int inventorySize = inventory->getContainerObjectsSize();
 
 		if (inventorySize + 1 > inventory->getContainerVolumeLimit()) {
-			player->sendSystemMessage("@error_message:inv_full"); //Your inventory is full.
+			player->sendSystemMessage("@error_message:inv_full"); // Your inventory is full.
 			return;
 		}
 
 		ManagedReference<SceneObject*> ticket = pmDeparture->createTicket(departurePoint, arrivalPlanet, arrivalPoint);
 
 		if (ticket == nullptr) {
-			return ;
+			return;
 		}
 
 		bool cancelPressed = (eventIndex == 1);
@@ -74,7 +74,7 @@ public:
 					suiBox->setPromptText("You do not have sufficient funds for that.");
 
 					player->sendMessage(suiBox->generateMessage());
-					player->sendSystemMessage("@travel:short_funds"); //You do not have enough money to complete the ticket purchase.
+					player->sendSystemMessage("@travel:short_funds"); // You do not have enough money to complete the ticket purchase.
 					return;
 				}
 
@@ -84,7 +84,7 @@ public:
 				trxBank.addState("arrivalPlanet", arrivalPlanet);
 				trxBank.addState("arrivalPoint", arrivalPoint);
 
-				player->subtractBankCredits(bank); //Take all from the bank, since they didn't have enough to cover.
+				player->subtractBankCredits(bank); // Take all from the bank, since they didn't have enough to cover.
 
 				TransactionLog trxCash(player, TrxCode::TRAVELSYSTEM, diff, true);
 				trxCash.groupWith(trxBank);
@@ -93,7 +93,7 @@ public:
 				trxCash.addState("arrivalPlanet", arrivalPlanet);
 				trxCash.addState("arrivalPoint", arrivalPoint);
 
-				player->subtractCashCredits(diff); //Take the rest from the cash.
+				player->subtractCashCredits(diff); // Take the rest from the cash.
 				trxCash.groupWith(trxBank);
 				trxBank.commit();
 			} else {
@@ -103,7 +103,7 @@ public:
 				trx.addState("arrivalPlanet", arrivalPlanet);
 				trx.addState("arrivalPoint", arrivalPoint);
 
-				player->subtractBankCredits(fare); //Take all of the fare from the bank.
+				player->subtractBankCredits(fare); // Take all of the fare from the bank.
 				trx.commit();
 			}
 		} else {
@@ -131,7 +131,7 @@ public:
 
 		ManagedReference<SuiMessageBox*> suiBox = new SuiMessageBox(player, 0);
 		suiBox->setPromptTitle("");
-		suiBox->setPromptText("@travel:ticket_purchase_complete"); //Ticket purchase complete
+		suiBox->setPromptText("@travel:ticket_purchase_complete"); // Ticket purchase complete
 
 		player->sendMessage(suiBox->generateMessage());
 	}

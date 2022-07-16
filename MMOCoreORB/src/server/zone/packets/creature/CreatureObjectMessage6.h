@@ -10,9 +10,7 @@
 
 class CreatureObjectMessage6 : public TangibleObjectMessage6 {
 public:
-	CreatureObjectMessage6(const CreatureObject* creo)
-			: TangibleObjectMessage6(creo, 0x4352454F, 0x16) {
-
+	CreatureObjectMessage6(const CreatureObject* creo) : TangibleObjectMessage6(creo, 0x4352454F, 0x16) {
 		insertShort((uint16)creo->getLevel());
 		insertAscii(creo->getPerformanceAnimation());
 		insertAscii(creo->getMoodString());
@@ -42,9 +40,8 @@ public:
 	}
 
 	void insertEquipmentList(const CreatureObject* creo) {
-		const DeltaVector<ManagedReference<TangibleObject*> >* wearables = creo->getWearablesDeltaVector();
+		const DeltaVector<ManagedReference<TangibleObject*>>* wearables = creo->getWearablesDeltaVector();
 		wearables->insertToMessage(this);
-
 	}
 };
 

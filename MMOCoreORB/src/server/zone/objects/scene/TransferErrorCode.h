@@ -27,5 +27,4 @@ public:
 	const static int CANTADD = 14;
 };
 
-
 #endif /* TRANSFERERRORCODES_H_ */

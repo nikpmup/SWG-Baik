@@ -16,7 +16,6 @@ ObjectController::ObjectController(Zone* zn) {
 	zone = zn;
 }
 
-
 void ObjectController::handleObjectController(SceneObject* object, uint32 header1, uint32 header2, Message* pack) {
 	switch (header2) {
 	case 0xF4:
@@ -77,7 +76,11 @@ void ObjectController::doSayCommand(const UnicodeString& msg) {
 	Locker _locker(object);
 
 	StringBuffer full;
-	full << "0 " << "0 " << "0 " << "0 " << "0 " << msg.toString();
+	full << "0 "
+		 << "0 "
+		 << "0 "
+		 << "0 "
+		 << "0 " << msg.toString();
 
 	BaseMessage* message = new ObjectControllerMessage(object->getObjectID(), 0x23, 0x116);
 
@@ -88,4 +91,3 @@ void ObjectController::doSayCommand(const UnicodeString& msg) {
 
 	object->getClient()->sendMessage(message);
 }
-

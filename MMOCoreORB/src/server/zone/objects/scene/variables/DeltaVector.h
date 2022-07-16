@@ -17,7 +17,8 @@ namespace objects {
 namespace scene {
 namespace variables {
 
-template <class E> class DeltaVector : public Variable {
+template <class E>
+class DeltaVector : public Variable {
 protected:
 	ArrayList<E> vector;
 	uint32 updateCounter;
@@ -53,7 +54,7 @@ public:
 
 	bool readObjectMember(ObjectInputStream* stream, const String& name) {
 		if (name == "vector") {
-			TypeInfo<ArrayList<E> >::parseFromBinaryStream(&vector, stream);
+			TypeInfo<ArrayList<E>>::parseFromBinaryStream(&vector, stream);
 
 			return true;
 		} else if (name == "updateCounter") {
@@ -75,7 +76,7 @@ public:
 		_offset = stream->getOffset();
 		stream->writeInt(0);
 		TypeInfo<ArrayList<E>>::toBinaryStream(&vector, stream);
-		_totalSize = (uint32) (stream->getOffset() - (_offset + 4));
+		_totalSize = (uint32)(stream->getOffset() - (_offset + 4));
 		stream->writeInt(_offset, _totalSize);
 
 		_name = "updateCounter";
@@ -83,7 +84,7 @@ public:
 		_offset = stream->getOffset();
 		stream->writeInt(0);
 		TypeInfo<uint32>::toBinaryStream(&updateCounter, stream);
-		_totalSize = (uint32) (stream->getOffset() - (_offset + 4));
+		_totalSize = (uint32)(stream->getOffset() - (_offset + 4));
 		stream->writeInt(_offset, _totalSize);
 
 		String emptyName; // making it serialize the same way as Serializable so bas doesnt have to update all the objects
@@ -93,7 +94,7 @@ public:
 		_offset = stream->getOffset();
 		stream->writeInt(0);
 		TypeInfo<String>::toBinaryStream(&emptyName, stream);
-		_totalSize = (uint32) (stream->getOffset() - (_offset + 4));
+		_totalSize = (uint32)(stream->getOffset() - (_offset + 4));
 		stream->writeInt(_offset, _totalSize);
 
 		return 3;
@@ -124,7 +125,7 @@ public:
 
 			int _currentOffset = stream->getOffset();
 
-			if(readObjectMember(stream, _name)) {
+			if (readObjectMember(stream, _name)) {
 			}
 
 			stream->setOffset(_currentOffset + _varSize);
@@ -266,17 +267,14 @@ public:
 
 		return mutex;
 	}
-
 };
 
-
-}
-}
-}
-}
-}
+} // namespace variables
+} // namespace scene
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::scene::variables;
-
 
 #endif /* DELTAVECTOR_H_ */

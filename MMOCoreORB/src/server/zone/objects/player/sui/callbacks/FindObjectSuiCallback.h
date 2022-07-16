@@ -6,12 +6,9 @@
 #include "server/zone/objects/player/sui/SuiCallback.h"
 #include "server/zone/managers/objectcontroller/ObjectController.h"
 
-
 class FindObjectSuiCallback : public SuiCallback {
-
 public:
 	FindObjectSuiCallback(ZoneServer* serv) : SuiCallback(serv) {
-
 	}
 
 	void run(CreatureObject* creature, SuiBox* sui, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -19,16 +16,16 @@ public:
 		if (!sui->isListBox() || cancelPressed || server == nullptr)
 			return;
 
-		SuiListBox* listBox = cast<SuiListBox*>( sui);
+		SuiListBox* listBox = cast<SuiListBox*>(sui);
 
-		if(!creature->isPlayerCreature())
+		if (!creature->isPlayerCreature())
 			return;
 
 		bool otherPressed = Bool::valueOf(args->get(0).toString());
 
 		int index = Integer::valueOf(args->get(1).toString());
 
-		if(index < 0)
+		if (index < 0)
 			return;
 
 		uint64 objectID = listBox->getMenuObjectID(index);
@@ -40,7 +37,7 @@ public:
 
 		Zone* zone = object->getZone();
 
-		if(otherPressed) {
+		if (otherPressed) {
 			StringBuffer arguments;
 
 			Locker locker(object, creature);

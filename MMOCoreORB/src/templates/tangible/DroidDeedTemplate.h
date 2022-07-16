@@ -17,11 +17,9 @@ class DroidDeedTemplate : public DeedTemplate {
 
 public:
 	DroidDeedTemplate() : species(0) {
-
 	}
 
 	~DroidDeedTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -43,6 +41,5 @@ public:
 		return species;
 	}
 };
-
 
 #endif /* DROIDDEEDTEMPLATE_H_ */

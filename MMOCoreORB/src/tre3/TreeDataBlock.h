@@ -11,7 +11,7 @@
 #include "engine/engine.h"
 
 namespace zlib {
-	#include <zlib.h>
+#include <zlib.h>
 }
 
 class TreeDataBlock {
@@ -20,7 +20,7 @@ class TreeDataBlock {
 	unsigned long compressedSize;
 	unsigned long uncompressedSize;
 
-	//md5sum
+	// md5sum
 
 public:
 	const static int SIZE = 6 * sizeof(int);
@@ -38,7 +38,7 @@ public:
 		uncompressedSize = tdb.uncompressedSize;
 	}
 
-	TreeDataBlock& operator= (const TreeDataBlock& tdb) {
+	TreeDataBlock& operator=(const TreeDataBlock& tdb) {
 		if (this == &tdb)
 			return *this;
 
@@ -50,7 +50,6 @@ public:
 	}
 
 	void read(FileInputStream* fileStream, int offset) {
-
 	}
 
 	/**
@@ -61,7 +60,7 @@ public:
 		byte* uncompressedData = new byte[uncompressedSize];
 
 		switch (compressionType) {
-		case 2: //Data is compressed
+		case 2: // Data is compressed
 		{
 			byte* compressedData = new byte[compressedSize];
 
@@ -69,10 +68,9 @@ public:
 
 			int result = zlib::uncompress(uncompressedData, &uncompressedSize, compressedData, compressedSize);
 
-			delete [] compressedData;
-		}
-			break;
-		case 0: //Data is uncompressed
+			delete[] compressedData;
+		} break;
+		case 0: // Data is uncompressed
 		default:
 			fileStream->read(uncompressedData, uncompressedSize);
 			break;
@@ -82,7 +80,6 @@ public:
 	}
 
 	void compress() {
-
 	}
 
 	inline void setCompressionType(uint32 value) {
@@ -105,6 +102,5 @@ public:
 		return uncompressedSize;
 	}
 };
-
 
 #endif /* TREEDATABLOCK_H_ */

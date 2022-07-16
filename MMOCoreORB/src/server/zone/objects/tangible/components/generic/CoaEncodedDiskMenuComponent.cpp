@@ -22,10 +22,10 @@ void CoaEncodedDiskMenuComponent::fillObjectMenuResponse(SceneObject* sceneObjec
 
 	String file = "@theme_park/alderaan/act2/shared_" + faction + "_missions";
 
-	menuResponse->addRadialMenuItem(20,3,file + ":use"); // Read
+	menuResponse->addRadialMenuItem(20, 3, file + ":use"); // Read
 
 	if (faction == "rebel" && !isDecoded(disk)) {
-		menuResponse->addRadialMenuItem(68,3,file + ":decode"); // Decode
+		menuResponse->addRadialMenuItem(68, 3, file + ":decode"); // Decode
 	}
 }
 
@@ -95,7 +95,7 @@ int CoaEncodedDiskMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject
 		uint32 decoderCRC = STRING_HASHCODE("object/tangible/encoded_disk/dead_eye_decoder.iff");
 		bool hasDecoder = false;
 
-		for (int i=0; i< inventory->getContainerObjectsSize(); i++) {
+		for (int i = 0; i < inventory->getContainerObjectsSize(); i++) {
 			SceneObject* sco = inventory->getContainerObject(i);
 
 			if (sco->getServerObjectCRC() == decoderCRC) {

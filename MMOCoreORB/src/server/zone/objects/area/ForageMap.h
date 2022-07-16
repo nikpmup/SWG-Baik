@@ -11,9 +11,6 @@
 #include "engine/engine.h"
 #include "ForageAreaCollection.h"
 
-class ForageMap : public VectorMap<String, Reference<ForageAreaCollection*> > {
-
-};
-
+class ForageMap : public VectorMap<String, Reference<ForageAreaCollection*>> {};
 
 #endif /*FORAGEMAP_H_*/

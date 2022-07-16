@@ -15,26 +15,26 @@ namespace managers {
 namespace crafting {
 namespace labratories {
 
-class ResourceLabratory: public SharedLabratory {
+class ResourceLabratory : public SharedLabratory {
 public:
 	ResourceLabratory();
 	virtual ~ResourceLabratory();
 	void setInitialCraftingValues(TangibleObject* prototype, ManufactureSchematic* manufactureSchematic, int assemblySuccess);
-	void experimentRow(CraftingValues* craftingValues,int rowEffected, int pointsAttempted, float failure, int experimentationResult);
+	void experimentRow(CraftingValues* craftingValues, int rowEffected, int pointsAttempted, float failure, int experimentationResult);
 	void initialize(ZoneServer* server);
 	int getCreationCount(ManufactureSchematic* manufactureSchematic);
+
 protected:
 	SortedVector<String> bioMods;
 	bool applyComponentStats(TangibleObject* prototype, ManufactureSchematic* manufactureSchematic);
 	String checkBioSkillMods(const String& property);
 };
 
-}
-}
-}
-}
-}
+} // namespace labratories
+} // namespace crafting
+} // namespace managers
+} // namespace zone
+} // namespace server
 using namespace server::zone::managers::crafting::labratories;
-
 
 #endif /* RESOURCELABRATORY_H_ */

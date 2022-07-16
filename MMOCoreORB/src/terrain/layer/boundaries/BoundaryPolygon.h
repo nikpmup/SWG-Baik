@@ -8,7 +8,6 @@
 #ifndef BOUNDARYPOLYGON_H_
 #define BOUNDARYPOLYGON_H_
 
-
 #include "../ProceduralRule.h"
 #include "../affectors/AffectorRiver.h"
 #include "Boundary.h"
@@ -31,7 +30,7 @@ public:
 	}
 
 	BoundaryPolygon() : Boundary('BPOL'), localWaterTableEnabled(0), localWaterTableHeight(0), shaderSize(0) {
-		//ruleType = BOUNDARYPOLYGON;
+		// ruleType = BOUNDARYPOLYGON;
 
 		minX = 800000000;
 		minY = 800000000;
@@ -57,7 +56,7 @@ public:
 		maxX = -80000000;
 		maxY = -80000000;
 
-		for(int i = 0; i < vertices.size(); ++i) {
+		for (int i = 0; i < vertices.size(); ++i) {
 			Point2D* point = vertices.get(i);
 
 			point->x += x;
@@ -78,7 +77,7 @@ public:
 	}
 
 	void initialize() {
-		for(int i = 0; i < vertices.size(); ++i) {
+		for (int i = 0; i < vertices.size(); ++i) {
 			const Point2D* point = vertices.get(i);
 
 			if (point->x < minX)
@@ -120,17 +119,13 @@ public:
 			Point2D* point = vertices.get(i);
 
 			if ((point->y <= y && y < lastPoint->y) || (lastPoint->y <= y && y < point->y)) {
-				if ( (y - point->y) * (lastPoint->x - point->x) / (lastPoint->y - point->y)
-				     + point->x > (double)x ) {
-
+				if ((y - point->y) * (lastPoint->x - point->x) / (lastPoint->y - point->y) + point->x > (double)x) {
 					v50 = v50 == 0;
-
 				}
 			}
 
 			lastPoint = point;
 		}
-
 
 		double v25, v43;
 
@@ -148,11 +143,10 @@ public:
 				v27 = y - point->y;
 				v26 = v27 * v27 + (x - point->x) * (x - point->x);
 
-				if ( v26 < v25 ) {
+				if (v26 < v25) {
 					v28 = v26;
 					v25 = v28;
 				}
-
 			}
 
 			double v35, v36, v44, v45, v37, v38, v39, v40, v41;
@@ -167,12 +161,12 @@ public:
 				v44 = point->y - lastPoint->y;
 				v45 = point->x - lastPoint->x;
 				v37 = ((x - lastPoint->x) * v45 + (y - lastPoint->y) * v44) / (v36 * v36 + v35 * v35);
-				if ( v37 >= 0.0 ) {
-					if ( v37 <= 1.0 ) {
+				if (v37 >= 0.0) {
+					if (v37 <= 1.0) {
 						v39 = x - (v45 * v37 + lastPoint->x);
 						v40 = y - (v44 * v37 + lastPoint->y);
 						v38 = v40 * v40 + v39 * v39;
-						if ( v38 < v25 ) {
+						if (v38 < v25) {
 							v41 = v38;
 							v25 = v41;
 						}
@@ -182,7 +176,7 @@ public:
 				lastPoint = point;
 			}
 
-			if ( v25 >= v43 - 0.00009999999747378752 && v25 <= v43 + 0.00009999999747378752 )
+			if (v25 >= v43 - 0.00009999999747378752 && v25 <= v43 + 0.00009999999747378752)
 				result = 1.0;
 			else
 				result = sqrt(v25) / featheringAmount;
@@ -198,7 +192,7 @@ public:
 	}
 
 	bool containsPoint(float px, float py) const final {
-		//System::out << "checking in polygon if contains point with vertices.size(): " << vertices.size() << endl;
+		// System::out << "checking in polygon if contains point with vertices.size(): " << vertices.size() << endl;
 
 		/*int nvert = vertices.size();
 
@@ -215,7 +209,7 @@ public:
 
 		/* The points creating the polygon. */
 
-		float x1,x2;
+		float x1, x2;
 
 		/* The coordinates of the point */
 
@@ -225,45 +219,44 @@ public:
 		/* Coordinates of the points */
 
 		/* Iterate through each line */
-		for ( int i = 0; i < vertices.size(); ++i ){
-
+		for (int i = 0; i < vertices.size(); ++i) {
 			/* This is done to ensure that we get the same result when
 			   the line goes from left to right and right to left */
-			if ( vertices.get(i)->getX() < vertices.get((i+1) % vertices.size())->getX()){
+			if (vertices.get(i)->getX() < vertices.get((i + 1) % vertices.size())->getX()) {
 				x1 = vertices.get(i)->getX();
-				x2 = vertices.get((i+1) % vertices.size())->getX();
+				x2 = vertices.get((i + 1) % vertices.size())->getX();
 			} else {
-				x1 = vertices.get((i+1) % vertices.size())->getX();
+				x1 = vertices.get((i + 1) % vertices.size())->getX();
 				x2 = vertices.get(i)->getX();
 			}
 
 			/* First check if the ray is possible to cross the line */
-			if ( px > x1 && px <= x2 && ( py < vertices.get(i)->getY() || py <= vertices.get((i+1) % vertices.size())->getY() ) ) {
+			if (px > x1 && px <= x2 && (py < vertices.get(i)->getY() || py <= vertices.get((i + 1) % vertices.size())->getY())) {
 				static const float eps = 0.000001f;
 
 				/* Calculate the equation of the line */
-				float dx = vertices.get((i+1) % vertices.size())->getX() - vertices.get(i)->getX();
-				float dy = vertices.get((i+1) % vertices.size())->getY() - vertices.get(i)->getY();
+				float dx = vertices.get((i + 1) % vertices.size())->getX() - vertices.get(i)->getX();
+				float dy = vertices.get((i + 1) % vertices.size())->getY() - vertices.get(i)->getY();
 				float k;
 
-				if ( fabs(dx) < eps ){
-					k = std::numeric_limits<float>::infinity();	// math.h
+				if (fabs(dx) < eps) {
+					k = std::numeric_limits<float>::infinity(); // math.h
 				} else {
-					k = dy/dx;
+					k = dy / dx;
 				}
 
 				float m = vertices.get(i)->getY() - k * vertices.get(i)->getX();
 
 				/* Find if the ray crosses the line */
 				float y2 = k * px + m;
-				if ( py <= y2 ){
+				if (py <= y2) {
 					crossings++;
 				}
 			}
 		}
 
-		//printf("The point is crossing %d lines", crossings);
-		if ( crossings % 2 == 1 )
+		// printf("The point is crossing %d lines", crossings);
+		if (crossings % 2 == 1)
 			return true;
 
 		return false;
@@ -291,7 +284,7 @@ public:
 
 		iffStream->openChunk('DATA');
 
-		int var1 = iffStream->getInt();//count
+		int var1 = iffStream->getInt(); // count
 
 		for (int i = 0; i < var1; i++) {
 			Point2D* point = new Point2D();
@@ -303,7 +296,7 @@ public:
 
 		featheringType = iffStream->getInt();
 		featheringAmount = iffStream->getFloat();
-		localWaterTableEnabled = iffStream->getInt(); // local water table enabled?
+		localWaterTableEnabled = iffStream->getInt();  // local water table enabled?
 		localWaterTableHeight = iffStream->getFloat(); // water height
 		shaderSize = iffStream->getFloat();
 		iffStream->getString(shaderName);
@@ -333,7 +326,5 @@ public:
 		return maxY;
 	}
 };
-
-
 
 #endif /* BOUNDARYPOLYGON_H_ */

@@ -33,7 +33,7 @@ public:
 			return;
 		}
 
-		//Creature is already locked (done in handleSuiEventNotification in SuiManager).
+		// Creature is already locked (done in handleSuiEventNotification in SuiManager).
 		Locker _lock(structure, creature);
 
 		int uncondemnCost = -structure->getSurplusMaintenance();
@@ -48,16 +48,16 @@ public:
 		ManagedReference<CreditObject*> creditObj = creature->getCreditObject();
 		{
 			Locker locker(creditObj);
-			structure->payMaintenance(uncondemnCost, creditObj , false);
+			structure->payMaintenance(uncondemnCost, creditObj, false);
 		}
-		//Give the player 10 minutes to pay more maintenance before sending out new mails.
+		// Give the player 10 minutes to pay more maintenance before sending out new mails.
 		structure->scheduleMaintenanceTask(10 * 60);
 
 		if (structure->isBuildingObject()) {
-			BuildingObject* building = cast<BuildingObject* >(structure);
+			BuildingObject* building = cast<BuildingObject*>(structure);
 
 			if (building != nullptr) {
-				//Remove ***** Condemned Structure ***** sign name.
+				// Remove ***** Condemned Structure ***** sign name.
 				building->updateSignName(true);
 			}
 		}

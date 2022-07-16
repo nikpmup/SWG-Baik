@@ -7,7 +7,6 @@
 
 #include "ZonePacketHandler.h"
 
-
 class ZoneMessageProcessorTask : public Task {
 	Message* message;
 
@@ -27,7 +26,7 @@ public:
 
 	void run() {
 		try {
-			Reference<BaseClient*> client = (BaseClient*) message->getClient();
+			Reference<BaseClient*> client = (BaseClient*)message->getClient();
 
 			if (client->isAvailable())
 				packetHandler->handleMessage(message);
@@ -42,16 +41,14 @@ public:
 		} catch (Exception& e) {
 			StringBuffer msg;
 			msg << e.getMessage();
-			//error(msg);
+			// error(msg);
 
 			e.printStackTrace();
 		}
 
 		delete message;
 		message = nullptr;
-
 	}
-
 };
 
 #endif /*LOGINMESSAGEPROCESSORTASK_H_*/

@@ -13,20 +13,18 @@
 #include "server/zone/objects/player/sessions/crafting/CraftingSession.h"
 
 class CraftingExperimentCallback : public MessageCallback {
-
 	int clientCounter;
 	int numRowsAttempted;
 	String expString;
 
 	ObjectControllerMessageCallback* objectControllerMain;
+
 public:
-	CraftingExperimentCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-		clientCounter(0), numRowsAttempted(0), objectControllerMain(objectControllerCallback) {
+	CraftingExperimentCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), clientCounter(0), numRowsAttempted(0), objectControllerMain(objectControllerCallback) {
 	}
 
 	void parse(Message* message) {
-		//System::out << message->toStringData() << endl;
+		// System::out << message->toStringData() << endl;
 		message->parseInt();
 
 		clientCounter = message->parseByte();
@@ -37,7 +35,6 @@ public:
 		StringBuffer ss;
 
 		for (int i = 0; i < numRowsAttempted; ++i) {
-
 			rowEffected = message->parseInt();
 			pointsAttempted = message->parseInt();
 
@@ -73,6 +70,5 @@ public:
 		session->experiment(numRowsAttempted, expString, clientCounter);
 	}
 };
-
 
 #endif /* CRAFTINGEXPERIMENTCALLBACK_H_ */

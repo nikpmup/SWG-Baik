@@ -51,7 +51,6 @@ bool ResourceTree::buildTreeFromClient() {
 	bool boolValue;
 
 	for (int i = 1; i < dtiff.getTotalRows(); ++i) {
-
 		DataTableRow* row = dtiff.getRow(i);
 
 		row->getValue(1, stringvalue);
@@ -109,13 +108,13 @@ bool ResourceTree::buildTreeFromClient() {
 		}
 
 		row->getCell(49)->getValue(stringvalue);
-		if(stringvalue != "")
+		if (stringvalue != "")
 			resourcecontainer = stringvalue;
 		entry->setResourceContainerType(resourcecontainer);
 
 		row->getCell(50)->getValue(stringvalue);
-		if(stringvalue != "")
-				randomname = stringvalue;
+		if (stringvalue != "")
+			randomname = stringvalue;
 		entry->setRandomNameClass(randomname);
 
 		setZoneRestriction(entry);
@@ -127,7 +126,7 @@ bool ResourceTree::buildTreeFromClient() {
 		baseNode->add(entry);
 	}
 	/// Update the Stf Entries now that the tree is built
-	//baseNode->updateEntries();
+	// baseNode->updateEntries();
 
 	return true;
 }
@@ -141,10 +140,10 @@ void ResourceTree::setZoneRestriction(ResourceTreeEntry* entry) {
 
 	const Vector<String>& activeZones = spawner->getActiveResourceZones();
 
-	for(int i = 0; i < activeZones.size(); ++i) {
+	for (int i = 0; i < activeZones.size(); ++i) {
 		String zonename = activeZones.get(i);
 
-		if(name.indexOf("_" + zonename) != -1) {
+		if (name.indexOf("_" + zonename) != -1) {
 			entry->setZoneRestriction(zonename);
 			return;
 		}
@@ -156,10 +155,10 @@ void ResourceTree::setJtl(ResourceTreeEntry* entry) {
 
 	const Vector<String>& jtlResources = spawner->getJtlResources();
 
-	for(int i = 0; i < jtlResources.size(); ++i) {
+	for (int i = 0; i < jtlResources.size(); ++i) {
 		String jtlresource = jtlResources.get(i);
 
-		if(name == jtlresource) {
+		if (name == jtlresource) {
 			entry->setJTL(true);
 			return;
 		}
@@ -167,33 +166,31 @@ void ResourceTree::setJtl(ResourceTreeEntry* entry) {
 }
 
 void ResourceTree::setSurveyToolType(ResourceTreeEntry* entry) {
-
-	if(entry->isType("energy")) {
-
+	if (entry->isType("energy")) {
 		String type = entry->getType();
-		if(type.indexOf("geothermal") != -1)
+		if (type.indexOf("geothermal") != -1)
 			entry->setSurveyToolType(SurveyTool::GEOTHERMAL);
-		else if(type.indexOf("solar") != -1)
+		else if (type.indexOf("solar") != -1)
 			entry->setSurveyToolType(SurveyTool::SOLAR);
-		else if(type.indexOf("unlimited_wind") != -1)
+		else if (type.indexOf("unlimited_wind") != -1)
 			entry->setSurveyToolType(SurveyTool::WIND);
 		else
 			entry->setSurveyToolType(SurveyTool::NOTYPE);
 
-	} else if(entry->isType("chemical"))
+	} else if (entry->isType("chemical"))
 		entry->setSurveyToolType(SurveyTool::CHEMICAL);
 
-	else if(entry->isType("flora_resources"))
+	else if (entry->isType("flora_resources"))
 		entry->setSurveyToolType(SurveyTool::FLORA);
 
-	else if(entry->isType("gas"))
+	else if (entry->isType("gas"))
 		entry->setSurveyToolType(SurveyTool::GAS);
 
-	else if(entry->isType("mineral")) {
+	else if (entry->isType("mineral")) {
 		entry->setSurveyToolType(SurveyTool::MINERAL);
 	}
 
-	else if(entry->isType("water"))
+	else if (entry->isType("water"))
 		entry->setSurveyToolType(SurveyTool::WATER);
 
 	else
@@ -201,50 +198,49 @@ void ResourceTree::setSurveyToolType(ResourceTreeEntry* entry) {
 }
 
 void ResourceTree::setRecycleToolType(ResourceTreeEntry* entry) {
-
-	if(entry->isType("chemical")) {
+	if (entry->isType("chemical")) {
 		entry->setRecycleToolType(RecycleTool::CHEMICALS);
-	} else if(entry->isType("water")) {
+	} else if (entry->isType("water")) {
 		entry->setRecycleToolType(RecycleTool::WATER);
-	} else if(entry->isType("radioactive")) {
+	} else if (entry->isType("radioactive")) {
 		entry->setRecycleToolType(RecycleTool::RADIOACTIVE);
-	} else if(entry->isType("fuel_petrochem_solid")) {
+	} else if (entry->isType("fuel_petrochem_solid")) {
 		entry->setRecycleToolType(RecycleTool::SOLIDFUEL);
 	}
 
-	else if(entry->isType("hide")) {
+	else if (entry->isType("hide")) {
 		entry->setRecycleToolType(RecycleTool::HIDE);
-	} else if(entry->isType("meat")) {
+	} else if (entry->isType("meat")) {
 		entry->setRecycleToolType(RecycleTool::MEAT);
-	} else if(entry->isType("bone")) {
+	} else if (entry->isType("bone")) {
 		entry->setRecycleToolType(RecycleTool::BONE);
-	} else if(entry->isType("horn")) {
+	} else if (entry->isType("horn")) {
 		entry->setRecycleToolType(RecycleTool::HORN);
-	} else if(entry->isType("seafood")) {
+	} else if (entry->isType("seafood")) {
 		entry->setRecycleToolType(RecycleTool::SEAFOOD);
-	} else if(entry->isType("milk")) {
+	} else if (entry->isType("milk")) {
 		entry->setRecycleToolType(RecycleTool::MILK);
 	}
 
-	else if(entry->isType("cereal")) {
+	else if (entry->isType("cereal")) {
 		entry->setRecycleToolType(RecycleTool::CEREAL);
-	} else if(entry->isType("fruit")) {
+	} else if (entry->isType("fruit")) {
 		entry->setRecycleToolType(RecycleTool::FRUIT);
-	} else if(entry->isType("vegetable")) {
+	} else if (entry->isType("vegetable")) {
 		entry->setRecycleToolType(RecycleTool::VEGETABLE);
-	} else if(entry->isType("wood")) {
+	} else if (entry->isType("wood")) {
 		entry->setRecycleToolType(RecycleTool::WOOD);
 	}
 
-	else if(entry->isType("metal_ferrous")) {
+	else if (entry->isType("metal_ferrous")) {
 		entry->setRecycleToolType(RecycleTool::FERROUS);
-	} else if(entry->isType("metal_nonferrous")) {
+	} else if (entry->isType("metal_nonferrous")) {
 		entry->setRecycleToolType(RecycleTool::NONFERROUS);
 	}
 
-	else if(entry->isType("ore_igneous")) {
+	else if (entry->isType("ore_igneous")) {
 		entry->setRecycleToolType(RecycleTool::IGNEOUS);
-	} else if(entry->isType("ore_sedimentary")) {
+	} else if (entry->isType("ore_sedimentary")) {
 		entry->setRecycleToolType(RecycleTool::SEDIMENTARY);
 	} else if (entry->isType("gemstone")) {
 		entry->setRecycleToolType(RecycleTool::GEMSTONE);
@@ -253,7 +249,6 @@ void ResourceTree::setRecycleToolType(ResourceTreeEntry* entry) {
 	else {
 		entry->setRecycleToolType(RecycleTool::NOTYPE);
 	}
-
 }
 
 void ResourceTree::toString() const {

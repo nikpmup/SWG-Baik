@@ -15,7 +15,7 @@ ServerDatabase::ServerDatabase(ConfigManager* configManager) {
 	const String& dbUser = configManager->getDBUser();
 	const String& dbPass = configManager->getDBPass();
 	const String& dbName = configManager->getDBName();
-	const int     dbPort = configManager->getDBPort();
+	const int dbPort = configManager->getDBPort();
 
 	setLoggingName("ServerDatabase " + dbHost + ":" + String::valueOf(dbPort));
 
@@ -83,49 +83,44 @@ void ServerDatabase::alterDatabase(int nextSchemaVersion, const String& alterSql
 
 void ServerDatabase::updateDatabaseSchema() {
 	alterDatabase(1001,
-		"ALTER TABLE `account_ips`"
-		" ADD COLUMN `galaxy_id` INT(5) DEFAULT -1 AFTER `account_id`,"
-		" ADD COLUMN `online_count` INT(4) DEFAULT -1 AFTER `logout`;"
-	);
+				  "ALTER TABLE `account_ips`"
+				  " ADD COLUMN `galaxy_id` INT(5) DEFAULT -1 AFTER `account_id`,"
+				  " ADD COLUMN `online_count` INT(4) DEFAULT -1 AFTER `logout`;");
 
 	alterDatabase(1002,
-		"CREATE TABLE `session_stats` ("
-		"`timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP"
-		",`ip` char(15) NOT NULL"
-		",`galaxy_id` int(5) DEFAULT '-1'"
-		",`account_id` int(10) unsigned NOT NULL"
-		",`character_oid` bigint(20) NOT NULL"
-		",`session_seconds` int(10) unsigned NOT NULL"
-		",`delta_seconds` int(10) unsigned NOT NULL"
-		",`delta_credits` int(11) NOT NULL"
-		",`delta_skillpoints` int(3) NOT NULL"
-		",`activity_xp` int(10) unsigned NOT NULL"
-		",`activity_movement` int(5) unsigned NOT NULL"
-		",`current_credits` int(11) unsigned NOT NULL"
-		",`ip_account_count` int(2) unsigned NOT NULL"
-		",`session_end` int(1) unsigned NOT NULL"
-		",KEY `idx_timestamp` (`timestamp`)"
-		",KEY `idx_ip` (`ip`)"
-		",KEY `idx_galaxy_ip` (`galaxy_id`,`ip`,`account_id`,`character_oid`)"
-		") ENGINE=MyISAM DEFAULT CHARSET=latin1;"
-	);
+				  "CREATE TABLE `session_stats` ("
+				  "`timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP"
+				  ",`ip` char(15) NOT NULL"
+				  ",`galaxy_id` int(5) DEFAULT '-1'"
+				  ",`account_id` int(10) unsigned NOT NULL"
+				  ",`character_oid` bigint(20) NOT NULL"
+				  ",`session_seconds` int(10) unsigned NOT NULL"
+				  ",`delta_seconds` int(10) unsigned NOT NULL"
+				  ",`delta_credits` int(11) NOT NULL"
+				  ",`delta_skillpoints` int(3) NOT NULL"
+				  ",`activity_xp` int(10) unsigned NOT NULL"
+				  ",`activity_movement` int(5) unsigned NOT NULL"
+				  ",`current_credits` int(11) unsigned NOT NULL"
+				  ",`ip_account_count` int(2) unsigned NOT NULL"
+				  ",`session_end` int(1) unsigned NOT NULL"
+				  ",KEY `idx_timestamp` (`timestamp`)"
+				  ",KEY `idx_ip` (`ip`)"
+				  ",KEY `idx_galaxy_ip` (`galaxy_id`,`ip`,`account_id`,`character_oid`)"
+				  ") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 
 	alterDatabase(1003,
-		"ALTER TABLE `session_stats`"
-		" ADD COLUMN `uptime` INT(11) DEFAULT '-1' AFTER `timestamp`;"
-	);
+				  "ALTER TABLE `session_stats`"
+				  " ADD COLUMN `uptime` INT(11) DEFAULT '-1' AFTER `timestamp`;");
 
 	alterDatabase(1004,
-		"ALTER TABLE `sessions`"
-		" MODIFY `session_id` CHAR(255) NOT NULL;"
-	);
+				  "ALTER TABLE `sessions`"
+				  " MODIFY `session_id` CHAR(255) NOT NULL;");
 
 	alterDatabase(1005,
-		"CREATE TABLE `galaxy_access` ("
-		"`account_id` int(10) NOT NULL DEFAULT '0'"
-		",`galaxy_id` int(5) NOT NULL"
-		",`expires` datetime DEFAULT NULL"
-		",PRIMARY KEY (`account_id`,`galaxy_id`)"
-		") ENGINE=MyISAM DEFAULT CHARSET=latin1;"
-	);
+				  "CREATE TABLE `galaxy_access` ("
+				  "`account_id` int(10) NOT NULL DEFAULT '0'"
+				  ",`galaxy_id` int(5) NOT NULL"
+				  ",`expires` datetime DEFAULT NULL"
+				  ",PRIMARY KEY (`account_id`,`galaxy_id`)"
+				  ") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 }

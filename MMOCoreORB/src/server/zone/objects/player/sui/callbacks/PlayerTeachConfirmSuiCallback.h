@@ -11,7 +11,7 @@
 #include "server/zone/objects/player/sui/SuiCallback.h"
 #include "server/zone/objects/creature/variables/Skill.h"
 
-class PlayerTeachConfirmSuiCallback: public SuiCallback {
+class PlayerTeachConfirmSuiCallback : public SuiCallback {
 	WeakReference<Skill*> skill;
 
 public:

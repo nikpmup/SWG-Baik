@@ -9,13 +9,10 @@
 
 class FlameCone2Command : public CombatQueueCommand {
 public:
-
-	FlameCone2Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	FlameCone2Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,7 +26,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //FLAMECONE2COMMAND_H_
+#endif // FLAMECONE2COMMAND_H_

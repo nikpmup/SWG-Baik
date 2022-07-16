@@ -11,9 +11,6 @@
 #include "server/zone/objects/scene/variables/DeltaVector.h"
 #include "GroupMember.h"
 
-class GroupList : public DeltaVector<GroupMember> {
-
-};
-
+class GroupList : public DeltaVector<GroupMember> {};
 
 #endif /* GROUPLIST_H_ */

@@ -14,9 +14,7 @@ namespace mission {
 namespace bountyhunter {
 namespace events {
 
-class FindTargetTaskList : public Vector<Reference<Task* > > {
-
-};
+class FindTargetTaskList : public Vector<Reference<Task*>> {};
 
 } // namespace events
 } // namespace bountyhunter

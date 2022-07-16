@@ -10,10 +10,8 @@
 
 class XpPurchaseSuiCallback : public SuiCallback {
 public:
-	XpPurchaseSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	XpPurchaseSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
-
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
 		bool cancelPressed = (eventIndex == 1);
@@ -21,7 +19,7 @@ public:
 		if (!suiBox->isMessageBox() || player == nullptr || cancelPressed)
 			return;
 
-		if(player->isDead() || player->isIncapacitated())
+		if (player->isDead() || player->isIncapacitated())
 			return;
 
 		Reference<PlayerObject*> ghost = player->getSlottedObject("ghost").castTo<PlayerObject*>();
@@ -31,7 +29,7 @@ public:
 
 		ManagedReference<SceneObject*> obj = suiBox->getUsingObject().get();
 
-		if(obj == nullptr)
+		if (obj == nullptr)
 			return;
 
 		XpPurchaseTemplate* templateData = cast<XpPurchaseTemplate*>(obj->getObjectTemplate());
@@ -45,7 +43,7 @@ public:
 
 		String skillNeeded = templateData->getRequiredSkill();
 
-		if((!skillNeeded.isEmpty() && !player->hasSkill(skillNeeded))) {
+		if ((!skillNeeded.isEmpty() && !player->hasSkill(skillNeeded))) {
 			UnicodeString skill = stringIdManager->getStringId("@skl_n:" + skillNeeded);
 			StringIdChatParameter stringID("item/xp_purchase", "msg_no_min_skill"); // You must have %TO skill in order to understand this.
 			stringID.setTO(skill);
@@ -108,14 +106,14 @@ public:
 				obj->destroyObjectFromDatabase();
 			}
 		} else if (grantType == "schematic") {
-			ManagedReference<DraftSchematic* > schematic = SchematicMap::instance()->get(grantName.hashCode());
+			ManagedReference<DraftSchematic*> schematic = SchematicMap::instance()->get(grantName.hashCode());
 
 			if (schematic == nullptr) {
 				player->error("Unable to learn schematic: " + grantName);
 				return;
 			}
 
-			if(ghost->addRewardedSchematic(schematic, SchematicList::QUEST, -1, true)) {
+			if (ghost->addRewardedSchematic(schematic, SchematicList::QUEST, -1, true)) {
 				ghost->addExperience(trx, xpType, -xpAmount, true);
 				player->sendSystemMessage("@item/xp_purchase:msg_learned_schematic");
 

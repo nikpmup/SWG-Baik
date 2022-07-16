@@ -54,7 +54,7 @@ public:
 	~AssetCustomizationManagerTemplate();
 
 	void readObject(IffStream* iffStream);
-	void getCustomizationVariables(uint32 appearanceFileCRC, VectorMap<String, Reference<CustomizationVariable*> >& variables, bool skipShared = false);
+	void getCustomizationVariables(uint32 appearanceFileCRC, VectorMap<String, Reference<CustomizationVariable*>>& variables, bool skipShared = false);
 
 private:
 	void parseCidxTable(IffStream* iffStream);
@@ -69,7 +69,6 @@ private:
 	void parsePnofTable(IffStream* iffStream);
 	void parseVnofTable(IffStream* iffStream);
 	void parseDefvTable(IffStream* iffStream);
-
 
 	static int cidxCompareFunction(const void* key, const void* value);
 	static int lidxCompareFunction(const void* key, const void* value);
@@ -87,8 +86,7 @@ private:
 
 	void getRTYP(byte a1, bool& pallete, uint16& resultIndex);
 
-	void* getCustomizationVariablesFromMap(uint16 key, uint64 a2, bool skipSharedOwner, VectorMap<String, Reference<CustomizationVariable*> >& result);
-
+	void* getCustomizationVariablesFromMap(uint16 key, uint64 a2, bool skipSharedOwner, VectorMap<String, Reference<CustomizationVariable*>>& result);
 };
 
 #endif /* ASSETCUSTOMIZATIONMANAGER_H_ */

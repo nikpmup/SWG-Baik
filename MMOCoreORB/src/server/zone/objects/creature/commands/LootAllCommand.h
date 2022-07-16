@@ -7,23 +7,18 @@
 
 class LootAllCommand : public QueueCommand {
 public:
-
-	LootAllCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
+	LootAllCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
 
-
 		return SUCCESS;
 	}
-
 };
 
-#endif //LOOTALL_H_
+#endif // LOOTALL_H_

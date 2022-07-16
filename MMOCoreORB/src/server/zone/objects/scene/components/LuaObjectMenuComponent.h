@@ -11,31 +11,30 @@
 #include "ObjectMenuComponent.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace scene {
-    class SceneObject;
-   }
-
-   namespace creature {
-    class CreatureObject;
-   }
-  }
-
-  namespace packets {
-   namespace object {
-    class ObjectMenuResponse;
-   }
-  }
-
-  class Zone;
- }
+namespace zone {
+namespace objects {
+namespace scene {
+class SceneObject;
 }
+
+namespace creature {
+class CreatureObject;
+}
+} // namespace objects
+
+namespace packets {
+namespace object {
+class ObjectMenuResponse;
+}
+} // namespace packets
+
+class Zone;
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::scene;
 using namespace server::zone::objects::creature;
 using namespace server::zone::packets::object;
-
 
 class LuaObjectMenuComponent : public ObjectMenuComponent {
 	String luaClassName;
@@ -61,7 +60,6 @@ public:
 	 * @returns 0 if successfull
 	 */
 	virtual int handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const;
-
 };
 
 #endif /* LUAOBJECTMENUCOMPONENT_H_ */

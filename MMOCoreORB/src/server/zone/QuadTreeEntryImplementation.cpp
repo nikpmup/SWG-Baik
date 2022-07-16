@@ -12,11 +12,11 @@ QuadTreeEntryImplementation::QuadTreeEntryImplementation(QuadTreeNode* n) {
 	node = n;
 	bounding = false;
 
-	//visibilityRange = 128;
+	// visibilityRange = 128;
 
 	closeobjects = nullptr;
 
-	//closeobjects.setInsertPlan(SortedVector<QuadTreeEntry*>::NO_DUPLICATE);
+	// closeobjects.setInsertPlan(SortedVector<QuadTreeEntry*>::NO_DUPLICATE);
 
 	radius = 0.5f;
 
@@ -28,27 +28,23 @@ void QuadTreeEntryImplementation::setNode(QuadTreeNode* n) {
 }
 
 bool QuadTreeEntryImplementation::containsPoint(float px, float py) const {
-	return (((px - getPositionX()) * (px - getPositionX())) + ((py - getPositionY()) * (py - getPositionY())) <= radius * radius );
+	return (((px - getPositionX()) * (px - getPositionX())) + ((py - getPositionY()) * (py - getPositionY())) <= radius * radius);
 }
 
 bool QuadTreeEntryImplementation::isInSWArea(QuadTreeNode* node) const {
-	return coordinates.getPositionX() >= node->minX && coordinates.getPositionX() < node->dividerX &&
-			coordinates.getPositionY() >= node->minY && coordinates.getPositionY() < node->dividerY;
+	return coordinates.getPositionX() >= node->minX && coordinates.getPositionX() < node->dividerX && coordinates.getPositionY() >= node->minY && coordinates.getPositionY() < node->dividerY;
 }
 
 bool QuadTreeEntryImplementation::isInSEArea(QuadTreeNode* node) const {
-	return coordinates.getPositionX() >= node->dividerX && coordinates.getPositionX() < node->maxX &&
-			coordinates.getPositionY() >= node->minY && coordinates.getPositionY() < node->dividerY;
+	return coordinates.getPositionX() >= node->dividerX && coordinates.getPositionX() < node->maxX && coordinates.getPositionY() >= node->minY && coordinates.getPositionY() < node->dividerY;
 }
 
 bool QuadTreeEntryImplementation::isInNWArea(QuadTreeNode* node) const {
-	return coordinates.getPositionX() >= node->minX && coordinates.getPositionX() < node->dividerX &&
-			coordinates.getPositionY() >= node->dividerY && coordinates.getPositionY() < node->maxY;
+	return coordinates.getPositionX() >= node->minX && coordinates.getPositionX() < node->dividerX && coordinates.getPositionY() >= node->dividerY && coordinates.getPositionY() < node->maxY;
 }
 
 bool QuadTreeEntryImplementation::isInArea(QuadTreeNode* node) const {
-	return (coordinates.getPositionX() + radius > node->dividerX && coordinates.getPositionX() - radius < node->dividerX) ||
-			(coordinates.getPositionY() + radius > node->dividerY && coordinates.getPositionY() - radius < node->dividerY);
+	return (coordinates.getPositionX() + radius > node->dividerX && coordinates.getPositionX() - radius < node->dividerX) || (coordinates.getPositionY() + radius > node->dividerY && coordinates.getPositionY() - radius < node->dividerY);
 }
 
 uint64 QuadTreeEntryImplementation::getObjectID() {

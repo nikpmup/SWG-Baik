@@ -20,9 +20,9 @@ namespace screenhandlers {
 
 class LuaScreenHandler : public ScreenHandler, Logger, public Object {
 protected:
-
 public:
-	LuaScreenHandler() : ScreenHandler(), Logger("LuaScreenHandler") {}
+	LuaScreenHandler() : ScreenHandler(), Logger("LuaScreenHandler") {
+	}
 
 	ConversationScreen* handleScreen(CreatureObject* conversingPlayer, CreatureObject* conversingNPC, int selectedOption, ConversationScreen* conversationScreen);
 
@@ -43,7 +43,5 @@ public:
 } // namespace server
 
 using namespace server::zone::objects::creature::conversation::screenhandlers;
-
-
 
 #endif /* LUASCREENHANDLER_H_ */

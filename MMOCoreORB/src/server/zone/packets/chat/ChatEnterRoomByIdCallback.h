@@ -8,7 +8,6 @@
 #ifndef CHATENTERROOMBYIDCALLBACK_H_
 #define CHATENTERROOMBYIDCALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 #include "server/chat/ChatManager.h"
 
@@ -17,8 +16,7 @@ class ChatEnterRoomByIdCallback : public MessageCallback {
 	uint32 roomID;
 
 public:
-	ChatEnterRoomByIdCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), requestID(0), roomID(0) {
+	ChatEnterRoomByIdCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), requestID(0), roomID(0) {
 	}
 
 	void parse(Message* message) {
@@ -36,8 +34,6 @@ public:
 		if (chatManager != nullptr)
 			chatManager->handleChatEnterRoomById(player, roomID, requestID);
 	}
-
 };
-
 
 #endif /* CHATENTERROOMBYIDCALLBACK_H_ */

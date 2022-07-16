@@ -327,7 +327,7 @@ void DroidHarvestModuleDataComponent::setActive(bool newActive) {
 	if (!newActive) {
 		deactivate();
 		player->sendSystemMessage("@pet/droid_modules:auto_harvest_off"); // Auto Harvest: Off
-	} else { // Toggle on
+	} else {															  // Toggle on
 		if (activate()) {
 			player->sendSystemMessage("@pet/droid_modules:auto_harvest_on"); // Auto Harvest: On
 		}

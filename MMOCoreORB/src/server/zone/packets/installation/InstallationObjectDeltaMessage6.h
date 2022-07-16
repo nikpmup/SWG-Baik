@@ -12,11 +12,9 @@ class InstallationObjectDeltaMessage6 : public DeltaMessage {
 	InstallationObject* inso;
 
 public:
-	InstallationObjectDeltaMessage6(InstallationObject* ins)
-			: DeltaMessage(ins->getObjectID(), 0x494E534F, 6) {
+	InstallationObjectDeltaMessage6(InstallationObject* ins) : DeltaMessage(ins->getObjectID(), 0x494E534F, 6) {
 		inso = ins;
 	}
-
 
 	void startDefenderUpdate(int updates) {
 		startUpdate(0x01);
@@ -45,7 +43,6 @@ public:
 	void removeDefenders() {
 		insertByte(4);
 	}
-
 };
 
 #endif /* INSTALLATIONOBJECTDELTAMESSAGE6_H_ */

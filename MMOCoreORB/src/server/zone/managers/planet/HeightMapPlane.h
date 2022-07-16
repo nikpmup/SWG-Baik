@@ -17,7 +17,7 @@ public:
 	}
 
 	~HeightMapPlane() {
-		delete [] buffer;
+		delete[] buffer;
 	}
 
 	// getters

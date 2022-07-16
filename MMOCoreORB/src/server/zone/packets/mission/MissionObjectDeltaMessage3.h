@@ -12,8 +12,7 @@ class MissionObjectDeltaMessage3 : public DeltaMessage {
 	MissionObject* miso;
 
 public:
-	MissionObjectDeltaMessage3(MissionObject* mi)
-			: DeltaMessage(mi->getObjectID(), 0x4D49534F, 3) {
+	MissionObjectDeltaMessage3(MissionObject* mi) : DeltaMessage(mi->getObjectID(), 0x4D49534F, 3) {
 		miso = mi;
 	}
 
@@ -54,7 +53,7 @@ public:
 	void updateRefreshCount(uint32 trc) {
 		startUpdate(0x0D);
 
-		//insertInt(miso->getRefreshCount());
+		// insertInt(miso->getRefreshCount());
 		insertInt(trc);
 	}
 
@@ -99,7 +98,7 @@ public:
 	void updateWaypoint(WaypointObject* way) {
 		startUpdate(0x10);
 
-		//Waypoint Info
+		// Waypoint Info
 
 		way->insertToMessage(this);
 		/*
@@ -116,7 +115,7 @@ public:
 		insertByte(0x01); //active*/
 	}
 
-	//Description Key
+	// Description Key
 	/*void updateDescKey() {
 		startUpdate(0x04);
 
@@ -151,7 +150,6 @@ public:
 
 		insertInt(miso->getDepictedObjCrc());
 	}*/
-
 };
 
 #endif /*MISSIONOBJECTDELTAMESSAGE3_H_*/

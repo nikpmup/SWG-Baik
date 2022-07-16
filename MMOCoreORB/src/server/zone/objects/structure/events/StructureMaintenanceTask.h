@@ -14,14 +14,14 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace structure {
-	class StructureObject;
+class StructureObject;
 }
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 using namespace server::zone::objects::structure;
@@ -59,11 +59,11 @@ private:
 	bool shouldBuildingBeDestroyed(StructureObject* structure);
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace structure
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::structure::events;
 

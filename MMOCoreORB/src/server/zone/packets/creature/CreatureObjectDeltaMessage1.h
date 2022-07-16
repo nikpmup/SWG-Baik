@@ -11,8 +11,7 @@ class CreatureObjectDeltaMessage1 : public DeltaMessage {
 	CreatureObjectImplementation* creo;
 
 public:
-	CreatureObjectDeltaMessage1(CreatureObjectImplementation* cr)
-			: DeltaMessage(cr->getObjectID(), 0x4352454F, 1) {
+	CreatureObjectDeltaMessage1(CreatureObjectImplementation* cr) : DeltaMessage(cr->getObjectID(), 0x4352454F, 1) {
 		creo = cr;
 	}
 
@@ -25,7 +24,6 @@ public:
 		startUpdate(0x01);
 		insertInt(creo->getCashCredits());
 	}
-
 };
 
 #endif /*CREATUREOBJECTDELTAMESSAGE1_H_*/

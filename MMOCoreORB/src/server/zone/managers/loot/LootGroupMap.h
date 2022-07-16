@@ -27,8 +27,8 @@ public:
 	enum LUA_ERROR_CODE { NO_ERROR = 0, GENERAL_ERROR };
 	static int ERROR_CODE;
 
-	HashTable<String, Reference<LootItemTemplate*> > itemTemplates;
-	HashTable<String, Reference<LootGroupTemplate*> > groupTemplates;
+	HashTable<String, Reference<LootItemTemplate*>> itemTemplates;
+	HashTable<String, Reference<LootGroupTemplate*>> groupTemplates;
 
 public:
 	LootGroupMap();

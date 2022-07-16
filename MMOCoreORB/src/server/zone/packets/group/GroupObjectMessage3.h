@@ -10,8 +10,7 @@
 
 class GroupObjectMessage3 : public BaseLineMessage {
 public:
-	GroupObjectMessage3(GroupObject* grup)
-			: BaseLineMessage(grup->getObjectID(), 0x4352454F, 3, 0x04) {
+	GroupObjectMessage3(GroupObject* grup) : BaseLineMessage(grup->getObjectID(), 0x4352454F, 3, 0x04) {
 		insertFloat(1);
 
 		insertAscii("String_id_table");
@@ -22,7 +21,6 @@ public:
 
 		setSize();
 	}
-	
 };
 
 #endif /*GROUPOBJECTMESSAGE3_H_*/

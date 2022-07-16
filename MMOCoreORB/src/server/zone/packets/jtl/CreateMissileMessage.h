@@ -14,7 +14,7 @@ class CreateMissileMessage : public BaseMessage {
 public:
 	CreateMissileMessage() : BaseMessage() {
 		insertShort(0x14);
-		insertInt(0x721CF08B);  // CRC
+		insertInt(0x721CF08B); // CRC
 
 		insertInt(0);
 		insertLong(0);
@@ -29,8 +29,7 @@ public:
 		insertInt(0);
 		insertInt(0);
 		insertInt(0);
-   }
-
+	}
 };
 
 #endif /* CREATEMISSILEMESSAGE_H_ */

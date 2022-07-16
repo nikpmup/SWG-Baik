@@ -10,10 +10,11 @@
 
 #include "templates/params/Param.h"
 
-template <class V> class TemplateBase : public Param {
+template <class V>
+class TemplateBase : public Param {
 protected:
 	V value;
-	//T unknown;
+	// T unknown;
 
 public:
 	TemplateBase(const V& defaultValue) : Param() {
@@ -27,7 +28,7 @@ public:
 	TemplateBase() = delete;
 
 	TemplateBase& operator=(const TemplateBase& t) {
-		if (this == &t)	{
+		if (this == &t) {
 			return *this;
 		}
 
@@ -37,7 +38,6 @@ public:
 	}
 
 	virtual ~TemplateBase() {
-
 	}
 
 	void create(const V& val) {
@@ -49,7 +49,8 @@ public:
 			return 1;
 		else if (value > val)
 			return -1;
-		else return 0;
+		else
+			return 0;
 	}
 
 	/*TemplateBase& operator= (const V& val) {
@@ -64,19 +65,19 @@ public:
 		return value;
 	}*/
 
-	virtual bool operator== (const V& val) const {
+	virtual bool operator==(const V& val) const {
 		return compareTo(val) == 0;
 	}
 
-	virtual bool operator< (const V& val) const {
+	virtual bool operator<(const V& val) const {
 		return compareTo(val) < 0;
 	}
 
-	virtual bool operator> (const V& val) const {
+	virtual bool operator>(const V& val) const {
 		return compareTo(val) > 0;
 	}
 
-	virtual bool operator!= (const V& val) const {
+	virtual bool operator!=(const V& val) const {
 		return compareTo(val) != 0;
 	}
 
@@ -108,9 +109,9 @@ public:
 		return value;
 	}
 
-	virtual void setValue(const V& val/*, const T& unk*/) {
+	virtual void setValue(const V& val /*, const T& unk*/) {
 		value = val;
-		//unknown = unk;
+		// unknown = unk;
 	}
 };
 

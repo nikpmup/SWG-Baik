@@ -9,10 +9,7 @@
 
 class TeachCommand : public QueueCommand {
 public:
-
-	TeachCommand(const String& name, ZoneProcessServer* server)
-	: QueueCommand(name, server) {
-
+	TeachCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* teacher, const uint64& target, const UnicodeString& arguments) const {
@@ -26,7 +23,6 @@ public:
 
 		ManagedReference<SceneObject*> student = zoneServer->getObject(target);
 		zoneServer->getPlayerManager()->promptTeachableSkills(teacher, student);
-
 
 		/**
 		experience_received You have received %DI Apprenticeship experience.
@@ -44,7 +40,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //TEACHCOMMAND_H_
+#endif // TEACHCOMMAND_H_

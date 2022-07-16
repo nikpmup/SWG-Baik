@@ -11,7 +11,8 @@
 #include "engine/engine.h"
 #include "server/zone/packets/DeltaMessage.h"
 
-template <class K, class V> class DeltaSet : public Serializable {
+template <class K, class V>
+class DeltaSet : public Serializable {
 protected:
 	VectorMap<K, V> vectorMap;
 	uint32 updateCounter;

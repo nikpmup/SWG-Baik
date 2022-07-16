@@ -14,12 +14,13 @@ namespace packets {
 class LoginEnumCluster : public BaseMessage {
 protected:
 	int galaxyCount;
+
 public:
 	LoginEnumCluster(uint32 galcnt) : BaseMessage(100) {
 		insertShort(0x02);
 		insertInt(0xC11C63B9);
 
-		insertInt(galcnt); //Galaxy count
+		insertInt(galcnt); // Galaxy count
 
 		galaxyCount = galcnt;
 	}
@@ -37,9 +38,9 @@ public:
 	}
 
 	void addGalaxy(uint32 gid, const String& name) {
-		insertInt(gid); //Zone Server ID
+		insertInt(gid); // Zone Server ID
 
-		insertAscii(name); //IP Address
+		insertAscii(name); // IP Address
 
 		insertInt(0xFFFF8F80);
 	}
@@ -51,12 +52,11 @@ public:
 	static void parse(Packet* pack) {
 		uint16 ackSequence = pack->parseShort();
 	}
-
 };
 
-}
-}
-}
+} // namespace packets
+} // namespace login
+} // namespace server
 
 using namespace server::login::packets;
 

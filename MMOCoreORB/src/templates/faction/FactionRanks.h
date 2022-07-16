@@ -31,5 +31,4 @@ public:
 	}
 };
 
-
 #endif /* FACTIONRANK_H_ */

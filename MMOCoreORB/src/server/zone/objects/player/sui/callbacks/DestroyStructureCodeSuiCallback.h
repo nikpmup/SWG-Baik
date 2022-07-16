@@ -11,7 +11,6 @@
 #include "server/zone/objects/player/sui/SuiCallback.h"
 #include "server/zone/objects/player/sessions/DestroyStructureSession.h"
 
-
 class DestroyStructureCodeSuiCallback : public SuiCallback {
 public:
 	DestroyStructureCodeSuiCallback(ZoneServer* serv) : SuiCallback(serv) {
@@ -33,7 +32,7 @@ public:
 		uint32 inputtedCode = Integer::valueOf(args->get(0).toString());
 
 		if (!session->isDestroyCode(inputtedCode)) {
-			player->sendSystemMessage("@player_structure:incorrect_destroy_code"); //You have entered an incorrect code. You will have to issue the /destroyStructure again if you wish to continue.
+			player->sendSystemMessage("@player_structure:incorrect_destroy_code"); // You have entered an incorrect code. You will have to issue the /destroyStructure again if you wish to continue.
 			session->cancelSession();
 			return;
 		}

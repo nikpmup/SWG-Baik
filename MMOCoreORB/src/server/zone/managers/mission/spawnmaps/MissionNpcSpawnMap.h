@@ -29,12 +29,14 @@ public:
 	/**
 	 * Constructor.
 	 */
-	MissionNpcSpawnMap() : Mutex(), Logger("MissionNpcSpawnMap") {}
+	MissionNpcSpawnMap() : Mutex(), Logger("MissionNpcSpawnMap") {
+	}
 
 	/**
 	 * Destructor.
 	 */
-	~MissionNpcSpawnMap() {}
+	~MissionNpcSpawnMap() {
+	}
 
 	/**
 	 * Load all spawn points from the lua script file.
@@ -51,8 +53,7 @@ public:
 	 * @param minDistance the maximum distance between the spawn point and the position supplied.
 	 * @return random npc matching requirements or nullptr if none could be found.
 	 */
-	NpcSpawnPoint* getRandomNpcSpawnPoint(const uint32 planetCRC, const Vector3* position,
-			const int spawnType, const float minDistance, const float maxDistance);
+	NpcSpawnPoint* getRandomNpcSpawnPoint(const uint32 planetCRC, const Vector3* position, const int spawnType, const float minDistance, const float maxDistance);
 
 	/**
 	 * Get the center coordinates of a random city not close to the supplied coordinates.
@@ -68,7 +69,7 @@ public:
 	 * @param npc the NPC to add.
 	 * @return the added NPC spawn point or the nearest existing spawn point if the new is within minimum distance.
 	 */
-	NpcSpawnPoint* addSpawnPoint(uint32 planetCRC, Reference<NpcSpawnPoint* > npc);
+	NpcSpawnPoint* addSpawnPoint(uint32 planetCRC, Reference<NpcSpawnPoint*> npc);
 
 	/**
 	 * Remove a spawn point from the specified planet.

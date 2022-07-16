@@ -85,4 +85,3 @@ void CustomizationIdManager::readObject(IffStream* iffStream) {
 
 	info() << "loaded " << customizationIds.size() << " customization ids";
 }
-

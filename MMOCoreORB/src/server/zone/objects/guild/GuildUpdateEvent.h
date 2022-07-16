@@ -48,10 +48,10 @@ public:
 	}
 };
 
-}
-}
-}
-}
+} // namespace guild
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::guild;
 

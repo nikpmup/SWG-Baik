@@ -5,7 +5,6 @@
  *      Author: crush
  */
 
-
 #include "server/zone/objects/tangible/sign/SignObject.h"
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/player/sui/messagebox/SuiMessageBox.h"
@@ -13,7 +12,7 @@
 
 int SignObjectImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
 	switch (selectedID) {
-	case 20: //Read Sign
+	case 20: // Read Sign
 		sendSignNameTo(player);
 		break;
 	default:
@@ -25,7 +24,7 @@ int SignObjectImplementation::handleObjectMenuSelect(CreatureObject* player, byt
 
 void SignObjectImplementation::sendSignNameTo(CreatureObject* player) {
 	ManagedReference<SuiMessageBox*> suiBox = new SuiMessageBox(player, SuiWindowType::NONE);
-	suiBox->setPromptTitle("@sui:swg"); //Star Wars Galaxies
+	suiBox->setPromptTitle("@sui:swg"); // Star Wars Galaxies
 	suiBox->setPromptText(getDisplayedName());
 
 	player->sendMessage(suiBox->generateMessage());

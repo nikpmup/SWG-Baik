@@ -8,14 +8,14 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
 namespace region {
-	class CityRegion;
+class CityRegion;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 using namespace server::zone::objects::region;
@@ -60,7 +60,7 @@ public:
 			cityManager->processCityUpdate(city);
 		} else {
 			params.setStringId("city/city", "force_city_election"); // Forcing a city update for city %TO.
-			cityManager->updateCityVoting(city,true);
+			cityManager->updateCityVoting(city, true);
 		}
 
 		player->sendSystemMessage(params);

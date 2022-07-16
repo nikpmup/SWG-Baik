@@ -15,34 +15,33 @@
 
 class PlayerManagementSessionSuiCallback : public SuiCallback {
 public:
-	PlayerManagementSessionSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	PlayerManagementSessionSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
 		bool cancelPressed = (eventIndex == 1);
 
-		if(suiBox->getWindowType() == SuiWindowType::ADMIN_ACCOUNTINFO) {
+		if (suiBox->getWindowType() == SuiWindowType::ADMIN_ACCOUNTINFO) {
 			runAccountInfo(player, suiBox, cancelPressed, args);
 			return;
 		}
 
-		if(suiBox->getWindowType() == SuiWindowType::ADMIN_BAN_DURATION) {
+		if (suiBox->getWindowType() == SuiWindowType::ADMIN_BAN_DURATION) {
 			runDurationCallback(player, suiBox, cancelPressed, args);
 			return;
 		}
 
-		if(suiBox->getWindowType() == SuiWindowType::ADMIN_BAN_REASON) {
+		if (suiBox->getWindowType() == SuiWindowType::ADMIN_BAN_REASON) {
 			runReasonCallback(player, suiBox, cancelPressed, args);
 			return;
 		}
 
-		if(suiBox->getWindowType() == SuiWindowType::ADMIN_BAN_SUMMARY) {
+		if (suiBox->getWindowType() == SuiWindowType::ADMIN_BAN_SUMMARY) {
 			runSummaryCallback(player, suiBox, cancelPressed, args);
 			return;
 		}
 
-		if(suiBox->getWindowType() == SuiWindowType::ADMIN_UNBAN_SUMMARY) {
+		if (suiBox->getWindowType() == SuiWindowType::ADMIN_UNBAN_SUMMARY) {
 			runUnbanSummaryCallback(player, suiBox, cancelPressed, args);
 			return;
 		}
@@ -79,7 +78,7 @@ public:
 
 			String listString = listBox->getMenuItemName(index);
 
-			while(listString.contains("\t")) {
+			while (listString.contains("\t")) {
 				listString = listString.replaceFirst("\t", "");
 				tablevel++;
 			}
@@ -98,7 +97,7 @@ public:
 
 					tokenizer.getStringToken(galaxyName);
 					tokenizer.getStringToken(galaxyName);
-				} catch(Exception& e) {
+				} catch (Exception& e) {
 					player->error("Unknown exception in PlayerManagementSessionSuiCallback::runAccountInfo: " + e.getMessage());
 					player->sendSystemMessage(e.getMessage());
 					galaxyID = -1;
@@ -118,7 +117,7 @@ public:
 				String accountId;
 				StringTokenizer tokenizer(listString);
 				tokenizer.setDelimiter(":");
-				while(tokenizer.hasMoreTokens()) {
+				while (tokenizer.hasMoreTokens()) {
 					tokenizer.getStringToken(accountId);
 				}
 
@@ -138,19 +137,18 @@ public:
 	}
 
 	uint32 getPlayerGalaxyID(CreatureObject* player, SuiListBox* listBox, int index, String& galaxyName) {
-
-		while(index > 0) {
+		while (index > 0) {
 			index--;
 
 			int tablevel = 0;
 
 			String listString = listBox->getMenuItemName(index);
-			while(listString.contains("\t")) {
+			while (listString.contains("\t")) {
 				listString = listString.replaceFirst("\t", "");
 				tablevel++;
 			}
 
-			if(tablevel != 1)
+			if (tablevel != 1)
 				continue;
 
 			listString = listString.trim();
@@ -164,12 +162,12 @@ public:
 				tokenizer.getStringToken(colon);
 
 				galaxyName = "";
-				while(tokenizer.hasMoreTokens()) {
+				while (tokenizer.hasMoreTokens()) {
 					String token;
 					tokenizer.getStringToken(token);
 					galaxyName += token + " ";
 				}
-			} catch(Exception& e) {
+			} catch (Exception& e) {
 				player->error("Unknown exception in PlayerManagementSessionSuiCallback::getPlayerGalaxyID: " + e.getMessage());
 				player->sendSystemMessage(e.getMessage());
 			}
@@ -177,21 +175,18 @@ public:
 			galaxyName = galaxyName.trim();
 
 			return galaxyID;
-
 		}
 
 		return -1;
-
 	}
 
 	void runDurationCallback(CreatureObject* player, SuiBox* suiBox, bool cancelPressed, Vector<UnicodeString>* args) {
-
 		ManagedReference<Facade*> facade = player->getActiveSession(SessionFacadeType::PLAYERMANAGEMENT);
 		ManagedReference<PlayerManagementSession*> session = cast<PlayerManagementSession*>(facade.get());
 		ManagedReference<PlayerManager*> playerManager = server->getPlayerManager();
 
 		if (session == nullptr || playerManager == nullptr) {
-			ManagedReference<CreatureObject*> pl = cast<CreatureObject*>( suiBox->getUsingObject().get().get());
+			ManagedReference<CreatureObject*> pl = cast<CreatureObject*>(suiBox->getUsingObject().get().get());
 			if (pl != nullptr)
 				pl->dropActiveSession(SessionFacadeType::PLAYERMANAGEMENT);
 
@@ -208,13 +203,12 @@ public:
 	}
 
 	void runReasonCallback(CreatureObject* player, SuiBox* suiBox, bool cancelPressed, Vector<UnicodeString>* args) {
-
 		ManagedReference<Facade*> facade = player->getActiveSession(SessionFacadeType::PLAYERMANAGEMENT);
 		ManagedReference<PlayerManagementSession*> session = cast<PlayerManagementSession*>(facade.get());
 		ManagedReference<PlayerManager*> playerManager = server->getPlayerManager();
 
 		if (session == nullptr || playerManager == nullptr) {
-			ManagedReference<CreatureObject*> pl = cast<CreatureObject*>( suiBox->getUsingObject().get().get());
+			ManagedReference<CreatureObject*> pl = cast<CreatureObject*>(suiBox->getUsingObject().get().get());
 			if (pl != nullptr)
 				pl->dropActiveSession(SessionFacadeType::PLAYERMANAGEMENT);
 
@@ -231,13 +225,12 @@ public:
 	}
 
 	void runSummaryCallback(CreatureObject* player, SuiBox* suiBox, bool cancelPressed, Vector<UnicodeString>* args) {
-
 		ManagedReference<Facade*> facade = player->getActiveSession(SessionFacadeType::PLAYERMANAGEMENT);
 		ManagedReference<PlayerManagementSession*> session = cast<PlayerManagementSession*>(facade.get());
 		ManagedReference<PlayerManager*> playerManager = server->getPlayerManager();
 
 		if (session == nullptr || playerManager == nullptr) {
-			ManagedReference<CreatureObject*> pl = cast<CreatureObject*>( suiBox->getUsingObject().get().get());
+			ManagedReference<CreatureObject*> pl = cast<CreatureObject*>(suiBox->getUsingObject().get().get());
 			if (pl != nullptr)
 				pl->dropActiveSession(SessionFacadeType::PLAYERMANAGEMENT);
 
@@ -250,11 +243,11 @@ public:
 
 		int index = Integer::valueOf(args->get(0).toString());
 
-		if(index == 0) {
+		if (index == 0) {
 			session->sendBanDuration();
-		} else if(index == 1) {
+		} else if (index == 1) {
 			session->sendBanReason();
-		} else if(index == 2) {
+		} else if (index == 2) {
 			session->completeBan();
 		} else {
 			session->showBanSummary();
@@ -262,13 +255,12 @@ public:
 	}
 
 	void runUnbanSummaryCallback(CreatureObject* player, SuiBox* suiBox, bool cancelPressed, Vector<UnicodeString>* args) {
-
 		ManagedReference<Facade*> facade = player->getActiveSession(SessionFacadeType::PLAYERMANAGEMENT);
 		ManagedReference<PlayerManagementSession*> session = cast<PlayerManagementSession*>(facade.get());
 		ManagedReference<PlayerManager*> playerManager = server->getPlayerManager();
 
 		if (session == nullptr || playerManager == nullptr) {
-			ManagedReference<CreatureObject*> pl = cast<CreatureObject*>( suiBox->getUsingObject().get().get());
+			ManagedReference<CreatureObject*> pl = cast<CreatureObject*>(suiBox->getUsingObject().get().get());
 			if (pl != nullptr)
 				pl->dropActiveSession(SessionFacadeType::PLAYERMANAGEMENT);
 

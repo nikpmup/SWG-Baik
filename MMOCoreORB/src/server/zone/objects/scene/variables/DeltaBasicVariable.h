@@ -10,10 +10,11 @@
 
 #include "engine/engine.h"
 
-template<typename K>
+template <typename K>
 class DeltaBasicVariable {
 protected:
 	K object;
+
 public:
 	bool toBinaryStream(ObjectOutputStream* stream) {
 		return TypeInfo<K>::toBinaryStream(&object, stream);

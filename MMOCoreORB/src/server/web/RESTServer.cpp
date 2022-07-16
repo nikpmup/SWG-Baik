@@ -1,6 +1,6 @@
 /*
-                Copyright <SWGEmu>
-        See file COPYING for copying conditions.*/
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
 
 /**
  * @author      : theanswer (theanswer@Victors-MacBook-Pro.local)
@@ -58,9 +58,9 @@ using namespace std;
 
 namespace server {
 namespace web3 {
-	UniqueReference<http_listener*> restListener;
+UniqueReference<http_listener*> restListener;
 }
-}
+} // namespace server
 
 void RESTServer::registerEndpoints() {
 	const auto addEndpoint = [this](auto endpoint) {
@@ -70,7 +70,7 @@ void RESTServer::registerEndpoints() {
 
 	info() << "Registering mAPIEndpoints...";
 
-	addEndpoint(RESTEndpoint("GET:/v1/version/", {}, [this] (APIRequest& apiRequest) -> void {
+	addEndpoint(RESTEndpoint("GET:/v1/version/", {}, [this](APIRequest& apiRequest) -> void {
 		auto result = JSONSerializationType::object();
 
 		result["api_version"] = 1;
@@ -87,23 +87,15 @@ void RESTServer::registerEndpoints() {
 		apiRequest.success(result);
 	}));
 
-	addEndpoint(RESTEndpoint("(?:GET|DELETE):/v1/object/(?:(\\d*)/|)", {"oid"}, [this] (APIRequest& apiRequest) -> void {
-		mObjectManagerProxy->handle(apiRequest);
-	}));
+	addEndpoint(RESTEndpoint("(?:GET|DELETE):/v1/object/(?:(\\d*)/|)", {"oid"}, [this](APIRequest& apiRequest) -> void { mObjectManagerProxy->handle(apiRequest); }));
 
-	addEndpoint(RESTEndpoint("(?:PUT):/v1/object/(\\d+)/(\\w+)/(\\w+)/", {"oid", "class", "property"}, [this] (APIRequest& apiRequest) -> void {
-		mObjectManagerProxy->handle(apiRequest);
-	}));
+	addEndpoint(RESTEndpoint("(?:PUT):/v1/object/(\\d+)/(\\w+)/(\\w+)/", {"oid", "class", "property"}, [this](APIRequest& apiRequest) -> void { mObjectManagerProxy->handle(apiRequest); }));
 
-	addEndpoint(RESTEndpoint("(?:GET|POST|PUT):/v1/admin/config/(?:(.*)/|)", {"key"}, [this] (APIRequest& apiRequest) -> void {
-		mConfigManagerProxy->handle(apiRequest);
-	}));
+	addEndpoint(RESTEndpoint("(?:GET|POST|PUT):/v1/admin/config/(?:(.*)/|)", {"key"}, [this](APIRequest& apiRequest) -> void { mConfigManagerProxy->handle(apiRequest); }));
 
-	addEndpoint(RESTEndpoint("(?:GET|PUT):/v1/admin/stats/", {}, [this] (APIRequest& apiRequest) -> void {
-		mStatisticsManager->handle(apiRequest);
-	}));
+	addEndpoint(RESTEndpoint("(?:GET|PUT):/v1/admin/stats/", {}, [this](APIRequest& apiRequest) -> void { mStatisticsManager->handle(apiRequest); }));
 
-	addEndpoint(RESTEndpoint("POST:/v1/admin/console/(\\w+)/", {"command"}, [this] (APIRequest& apiRequest) -> void {
+	addEndpoint(RESTEndpoint("POST:/v1/admin/console/(\\w+)/", {"command"}, [this](APIRequest& apiRequest) -> void {
 		StringBuffer buf;
 
 		buf << apiRequest.getPathFieldString("command");
@@ -125,25 +117,15 @@ void RESTServer::registerEndpoints() {
 		apiRequest.success(result);
 	}));
 
-	addEndpoint(RESTEndpoint("POST:/v1/admin/account/(\\d+)/galaxy/(\\d+)/character/(\\d+)/", {"accountID", "galaxyID", "characterID"}, [this] (APIRequest& apiRequest) -> void {
-		mPlayerManagerProxy->handle(apiRequest);
-	}));
+	addEndpoint(RESTEndpoint("POST:/v1/admin/account/(\\d+)/galaxy/(\\d+)/character/(\\d+)/", {"accountID", "galaxyID", "characterID"}, [this](APIRequest& apiRequest) -> void { mPlayerManagerProxy->handle(apiRequest); }));
 
-	addEndpoint(RESTEndpoint("POST:/v1/admin/account/(\\d+)/", {"accountID"}, [this] (APIRequest& apiRequest) -> void {
-		mPlayerManagerProxy->handle(apiRequest);
-	}));
+	addEndpoint(RESTEndpoint("POST:/v1/admin/account/(\\d+)/", {"accountID"}, [this](APIRequest& apiRequest) -> void { mPlayerManagerProxy->handle(apiRequest); }));
 
-	addEndpoint(RESTEndpoint("GET:/v1/(find|lookup)/character/", {"mode"}, [this] (APIRequest& apiRequest) -> void {
-		mPlayerManagerProxy->lookupCharacter(apiRequest);
-	}));
+	addEndpoint(RESTEndpoint("GET:/v1/(find|lookup)/character/", {"mode"}, [this](APIRequest& apiRequest) -> void { mPlayerManagerProxy->lookupCharacter(apiRequest); }));
 
-	addEndpoint(RESTEndpoint("GET:/v1/(find|lookup)/guild/", {"mode"}, [this] (APIRequest& apiRequest) -> void {
-		mGuildManagerProxy->lookupGuild(apiRequest);
-	}));
+	addEndpoint(RESTEndpoint("GET:/v1/(find|lookup)/guild/", {"mode"}, [this](APIRequest& apiRequest) -> void { mGuildManagerProxy->lookupGuild(apiRequest); }));
 
-	addEndpoint(RESTEndpoint("POST:/v1/chat/(mail|message|galaxy)/", {"msgType"}, [this] (APIRequest& apiRequest) -> void {
-		mChatManagerProxy->handle(apiRequest);
-	}));
+	addEndpoint(RESTEndpoint("POST:/v1/chat/(mail|message|galaxy)/", {"msgType"}, [this](APIRequest& apiRequest) -> void { mChatManagerProxy->handle(apiRequest); }));
 
 	info() << "Registered " << mAPIEndpoints.size() << " endpoint(s)";
 }
@@ -195,38 +177,40 @@ void RESTServer::routeRequest(http_request& request) {
 			msg.flush();
 		}
 
-		Core::getTaskManager()->executeTask([=] {
-			try {
-				auto apiRequest = APIRequest(request, endpointKey, *this);
-
-				debug() << "START REQUEST: " << apiRequest;
-
+		Core::getTaskManager()->executeTask(
+			[=] {
 				try {
-					hitEndpoint.handle(apiRequest);
-				} catch (http_exception const & e) {
-					apiRequest.fail("Failed to parse request.", "Exception handling request: " + String(e.what()));
-				}
+					auto apiRequest = APIRequest(request, endpointKey, *this);
 
-				info() << "REQUEST: " << apiRequest;
+					debug() << "START REQUEST: " << apiRequest;
 
-				if (apiRequest.getElapsedTimeMS() > 500) {
-					warning() << "SLOW API CALL: " << apiRequest;
-				}
-			} catch (Exception& e) {
-				error() << "Unexpected exception in RESTAPITask: " << e.getMessage();
-				request.reply(status_codes::BadGateway, U("Unexpected exception handling request."));
-			} catch (JSONSerializationType::exception& e) {
-				error() << "Unexpected JSON exception in RESTAPITask: " << e.what();
-				request.reply(status_codes::BadGateway, U("Unexpected JSON exception handling request."));
-			} catch (...) {
+					try {
+						hitEndpoint.handle(apiRequest);
+					} catch (http_exception const& e) {
+						apiRequest.fail("Failed to parse request.", "Exception handling request: " + String(e.what()));
+					}
+
+					info() << "REQUEST: " << apiRequest;
+
+					if (apiRequest.getElapsedTimeMS() > 500) {
+						warning() << "SLOW API CALL: " << apiRequest;
+					}
+				} catch (Exception& e) {
+					error() << "Unexpected exception in RESTAPITask: " << e.getMessage();
+					request.reply(status_codes::BadGateway, U("Unexpected exception handling request."));
+				} catch (JSONSerializationType::exception& e) {
+					error() << "Unexpected JSON exception in RESTAPITask: " << e.what();
+					request.reply(status_codes::BadGateway, U("Unexpected JSON exception handling request."));
+				} catch (...) {
 #if defined(__clang__) || defined(__GNUC__) || defined(__GNUG__)
-				error() << endpointKey << ": Uncaptured exception in RESTAPITask: " << __cxxabiv1::__cxa_current_exception_type()->name();
+					error() << endpointKey << ": Uncaptured exception in RESTAPITask: " << __cxxabiv1::__cxa_current_exception_type()->name();
 #else
-				error() << endpointKey << ": Uncaptured exception in RESTAPITask";
+					error() << endpointKey << ": Uncaptured exception in RESTAPITask";
 #endif
-				request.reply(status_codes::BadGateway, U("Uncaptured exception handling request"));
-			}
-		}, "RESTAPITask-" + hitEndpoint.toString(), "RESTServerWorker");
+					request.reply(status_codes::BadGateway, U("Uncaptured exception handling request"));
+				}
+			},
+			"RESTAPITask-" + hitEndpoint.toString(), "RESTServerWorker");
 	} catch (Exception& e) {
 		error() << endpointKey << ": Unexpected exception in request router: " + e.getMessage();
 		request.reply(status_codes::BadGateway, U("Unexpected exception in request router"));
@@ -396,11 +380,8 @@ void RESTServer::start() {
 	restListener->support([this](http_request request) { routeRequest(request); });
 
 	try {
-		restListener->open()
-			.then([this] {
-			info(true) << "listening on port " << port;
-		}).wait();
-	} catch (exception const & e) {
+		restListener->open().then([this] { info(true) << "listening on port " << port; }).wait();
+	} catch (exception const& e) {
 		error() << e.what();
 	}
 }

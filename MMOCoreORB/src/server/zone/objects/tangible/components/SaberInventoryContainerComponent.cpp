@@ -10,10 +10,9 @@
 #include "server/zone/objects/tangible/component/lightsaber/LightsaberCrystalComponent.h"
 
 int SaberInventoryContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject* object, int containmentType, String& errorDescription) const {
-
 	ManagedReference<SceneObject*> p = sceneObject->getParent().get();
 
-	if (p != nullptr){
+	if (p != nullptr) {
 		int containment = p->getContainmentType();
 
 		if (containment == 4) {
@@ -27,7 +26,7 @@ int SaberInventoryContainerComponent::canAddObject(SceneObject* sceneObject, Sce
 		return TransferErrorCode::INVALIDTYPE;
 	}
 
-	LightsaberCrystalComponent* crystal = cast<LightsaberCrystalComponent*> (object);
+	LightsaberCrystalComponent* crystal = cast<LightsaberCrystalComponent*>(object);
 
 	if (crystal->getOwnerID() == 0) {
 		errorDescription = "@jedi_spam:saber_crystal_not_tuned";
@@ -36,7 +35,7 @@ int SaberInventoryContainerComponent::canAddObject(SceneObject* sceneObject, Sce
 
 	ManagedReference<CreatureObject*> creature = crystal->getParentRecursively(SceneObjectType::PLAYERCREATURE).castTo<CreatureObject*>();
 
-	if (creature == nullptr || crystal->getOwnerID() != creature->getObjectID()){
+	if (creature == nullptr || crystal->getOwnerID() != creature->getObjectID()) {
 		errorDescription = "@jedi_spam:saber_crystal_not_owner";
 		return TransferErrorCode::INVALIDTYPE;
 	}
@@ -47,16 +46,16 @@ int SaberInventoryContainerComponent::canAddObject(SceneObject* sceneObject, Sce
 	}
 
 	if (sceneObject->getContainerObjectsSize() >= sceneObject->getContainerVolumeLimit()) {
-		errorDescription = "@container_error_message:container03"; //This container is full.
+		errorDescription = "@container_error_message:container03"; // This container is full.
 		return TransferErrorCode::CONTAINERFULL;
 	}
 
 	for (int i = 0; i < sceneObject->getContainerObjectsSize(); i++) {
-		Reference<LightsaberCrystalComponent*> crystalInside =  sceneObject->getContainerObject(i).castTo<LightsaberCrystalComponent*>();
+		Reference<LightsaberCrystalComponent*> crystalInside = sceneObject->getContainerObject(i).castTo<LightsaberCrystalComponent*>();
 
 		if (crystal->getColor() != 31 && crystalInside->getColor() != 31) {
-				errorDescription = "@jedi_spam:saber_already_has_color";
-				return TransferErrorCode::INVALIDTYPE;
+			errorDescription = "@jedi_spam:saber_already_has_color";
+			return TransferErrorCode::INVALIDTYPE;
 		}
 	}
 
@@ -68,13 +67,13 @@ int SaberInventoryContainerComponent::canAddObject(SceneObject* sceneObject, Sce
  * @param object object that has been inserted
  */
 int SaberInventoryContainerComponent::notifyObjectInserted(SceneObject* sceneObject, SceneObject* object) const {
-	ManagedReference<WeaponObject*> weao = cast<WeaponObject*>( sceneObject->getParent().get().get());
+	ManagedReference<WeaponObject*> weao = cast<WeaponObject*>(sceneObject->getParent().get().get());
 
 	Locker locker(weao);
 
 	if (weao->isJediWeapon()) {
-		ManagedReference<LightsaberCrystalComponent*> crystal = cast<LightsaberCrystalComponent*>( object);
-		if (crystal->getColor() == 31){
+		ManagedReference<LightsaberCrystalComponent*> crystal = cast<LightsaberCrystalComponent*>(object);
+		if (crystal->getColor() == 31) {
 			weao->setAttackSpeed(weao->getAttackSpeed() + crystal->getAttackSpeed());
 			weao->setMinDamage(weao->getMinDamage() + crystal->getDamage());
 			weao->setMaxDamage(weao->getMaxDamage() + crystal->getDamage());
@@ -100,43 +99,42 @@ int SaberInventoryContainerComponent::notifyObjectInserted(SceneObject* sceneObj
  * @param object object that has been inserted
  */
 int SaberInventoryContainerComponent::notifyObjectRemoved(SceneObject* sceneObject, SceneObject* object, SceneObject* destination) const {
-	ManagedReference<WeaponObject*> weao = cast<WeaponObject*>( sceneObject->getParent().get().get());
+	ManagedReference<WeaponObject*> weao = cast<WeaponObject*>(sceneObject->getParent().get().get());
 
-		if (weao->isJediWeapon()) {
-			ManagedReference<LightsaberCrystalComponent*> crystal = cast<LightsaberCrystalComponent*>( object);
+	if (weao->isJediWeapon()) {
+		ManagedReference<LightsaberCrystalComponent*> crystal = cast<LightsaberCrystalComponent*>(object);
 
-			if (crystal->isDestroyed()) {
-				return sceneObject->notifyObjectRemoved(object);
-			}
-
-			Locker locker(weao);
-
-			if (crystal->getColor() == 31){
-				weao->setAttackSpeed(weao->getAttackSpeed() - crystal->getAttackSpeed());
-				weao->setMinDamage(weao->getMinDamage() - crystal->getDamage());
-				weao->setMaxDamage(weao->getMaxDamage() - crystal->getDamage());
-				weao->setHealthAttackCost(weao->getHealthAttackCost() - crystal->getSacHealth());
-				weao->setActionAttackCost(weao->getActionAttackCost() - crystal->getSacAction());
-				weao->setMindAttackCost(weao->getMindAttackCost() - crystal->getSacMind());
-				weao->setWoundsRatio(weao->getWoundsRatio() - crystal->getWoundChance());
-				weao->setForceCost(weao->getForceCost() - crystal->getForceCost());
-			}
-
-			if (crystal->getColor() != 31) {
-				weao->setBladeColor(31);
-				weao->setCustomizationVariable("/private/index_color_blade", 31, true);
-			}
+		if (crystal->isDestroyed()) {
+			return sceneObject->notifyObjectRemoved(object);
 		}
+
+		Locker locker(weao);
+
+		if (crystal->getColor() == 31) {
+			weao->setAttackSpeed(weao->getAttackSpeed() - crystal->getAttackSpeed());
+			weao->setMinDamage(weao->getMinDamage() - crystal->getDamage());
+			weao->setMaxDamage(weao->getMaxDamage() - crystal->getDamage());
+			weao->setHealthAttackCost(weao->getHealthAttackCost() - crystal->getSacHealth());
+			weao->setActionAttackCost(weao->getActionAttackCost() - crystal->getSacAction());
+			weao->setMindAttackCost(weao->getMindAttackCost() - crystal->getSacMind());
+			weao->setWoundsRatio(weao->getWoundsRatio() - crystal->getWoundChance());
+			weao->setForceCost(weao->getForceCost() - crystal->getForceCost());
+		}
+
+		if (crystal->getColor() != 31) {
+			weao->setBladeColor(31);
+			weao->setCustomizationVariable("/private/index_color_blade", 31, true);
+		}
+	}
 
 	return sceneObject->notifyObjectRemoved(object);
 }
 
 bool SaberInventoryContainerComponent::checkContainerPermission(SceneObject* sceneObject, CreatureObject* creature, uint16 permission) const {
-	ManagedReference<WeaponObject*> saber = cast<WeaponObject*>( sceneObject->getParent().get().get());
+	ManagedReference<WeaponObject*> saber = cast<WeaponObject*>(sceneObject->getParent().get().get());
 
 	if (saber == nullptr)
 		return false;
-
 
 	if (saber->isJediWeapon() && saber->isEquipped()) {
 		ManagedReference<CreatureObject*> player = saber->getParentRecursively(SceneObjectType::PLAYERCREATURE).castTo<CreatureObject*>();

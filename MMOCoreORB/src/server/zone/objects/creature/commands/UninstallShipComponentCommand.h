@@ -7,14 +7,10 @@
 
 class UninstallShipComponentCommand : public QueueCommand {
 public:
-
-	UninstallShipComponentCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	UninstallShipComponentCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //UNINSTALLSHIPCOMPONENTCOMMAND_H_
+#endif // UNINSTALLSHIPCOMPONENTCOMMAND_H_

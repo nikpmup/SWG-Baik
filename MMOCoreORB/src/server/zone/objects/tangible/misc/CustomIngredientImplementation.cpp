@@ -30,7 +30,6 @@ void CustomIngredientImplementation::loadTemplateData(SharedObjectTemplate* temp
 		addAttribute("res_quality", getResourceValue(average));
 		addAttribute("res_shock_resistance", getResourceValue(average));
 	}
-
 }
 
 int CustomIngredientImplementation::getResourceValue(int average) {
@@ -48,7 +47,7 @@ void CustomIngredientImplementation::addAttribute(const String& attribute, int v
 	objectAttributes.put(attribute, value);
 }
 
-int CustomIngredientImplementation::getAttributeAndValue(String& attribute,	int index) {
+int CustomIngredientImplementation::getAttributeAndValue(String& attribute, int index) {
 	if (index < objectAttributes.size()) {
 		attribute = objectAttributes.elementAt(index).getKey();
 		return objectAttributes.get(index);
@@ -58,10 +57,9 @@ int CustomIngredientImplementation::getAttributeAndValue(String& attribute,	int 
 }
 
 int CustomIngredientImplementation::getValueOf(int stat) {
-
 	String attribute = "";
 
-	switch(stat) {
+	switch (stat) {
 	case CraftingManager::CR:
 		attribute = "res_cold_resist";
 		break;
@@ -101,7 +99,7 @@ int CustomIngredientImplementation::getValueOf(int stat) {
 }
 
 int CustomIngredientImplementation::getValueOf(const String& attribute) {
-	if(objectAttributes.contains(attribute))
+	if (objectAttributes.contains(attribute))
 		return objectAttributes.get(attribute);
 
 	return 0;

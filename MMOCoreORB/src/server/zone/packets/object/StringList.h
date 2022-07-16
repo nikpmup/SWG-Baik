@@ -11,7 +11,6 @@ class StringList : public ObjectControllerMessage {
 	uint8 optionCount;
 
 public:
-
 	StringList(CreatureObject* creo) : ObjectControllerMessage(creo->getObjectID(), 0x0B, 0xE0) {
 		optionCount = 0;
 		insertByte(0);

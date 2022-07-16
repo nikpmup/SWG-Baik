@@ -32,12 +32,12 @@ public:
 
 		DataObjectComponent* data = fireworkShow->getDataObjectComponent()->get();
 
-		if(data == nullptr || !data->isFireworkShowData())
+		if (data == nullptr || !data->isFireworkShowData())
 			return;
 
 		FireworkShowDataComponent* fireworkShowData = cast<FireworkShowDataComponent*>(data);
 
-		SuiFireworkDelayBox* suiDelay = cast<SuiFireworkDelayBox*>( suiBox);
+		SuiFireworkDelayBox* suiDelay = cast<SuiFireworkDelayBox*>(suiBox);
 
 		int fireworkIndex = suiDelay->getFireworkIndex();
 
@@ -45,7 +45,6 @@ public:
 
 		FireworkShowMenuComponent* showMenu = cast<FireworkShowMenuComponent*>(fireworkShow->getObjectMenuComponent());
 		showMenu->modifyEvent(player, fireworkShow.castTo<FireworkObject*>());
-
 	}
 };
 

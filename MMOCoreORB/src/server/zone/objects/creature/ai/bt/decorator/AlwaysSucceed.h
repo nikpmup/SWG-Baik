@@ -1,4 +1,4 @@
-#ifndef ALWAYSSUCCEED_H_ 
+#ifndef ALWAYSSUCCEED_H_
 #define ALWAYSSUCCEED_H_
 
 #include "server/zone/objects/creature/ai/bt/decorator/Decorator.h"
@@ -13,14 +13,12 @@ namespace ai {
 namespace bt {
 namespace decorator {
 
-class AlwaysSucceed: public Decorator {
+class AlwaysSucceed : public Decorator {
 public:
-	AlwaysSucceed(const String& className, const uint32 id, const LuaObject& args)
-			: Decorator(className, id, args) {
+	AlwaysSucceed(const String& className, const uint32 id, const LuaObject& args) : Decorator(className, id, args) {
 	}
 
-	AlwaysSucceed(const AlwaysSucceed& b)
-			: Decorator(b) {
+	AlwaysSucceed(const AlwaysSucceed& b) : Decorator(b) {
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
@@ -38,12 +36,12 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
-}
-}
+} // namespace decorator
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif // ALWAYSSUCCEED_H_

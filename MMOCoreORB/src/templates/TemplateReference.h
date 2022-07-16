@@ -12,7 +12,8 @@
 
 #include "engine/util/json_utils.h"
 
-template<class O> class TemplateReference : public Reference<O> {
+template <class O>
+class TemplateReference : public Reference<O> {
 #ifdef ODB_SERIALIZATION
 	int crc = 0;
 #endif
@@ -86,7 +87,7 @@ public:
 			return false;
 		}
 
-		Reference<O>::updateObject((O) obj);
+		Reference<O>::updateObject((O)obj);
 
 		return true;
 	}
@@ -124,12 +125,11 @@ public:
 			return false;
 		}
 
-		Reference<O>::updateObject((O) obj);
+		Reference<O>::updateObject((O)obj);
 
 		return true;
 #endif
 	}
 };
-
 
 #endif /* TEMPLATEREFERENCE_H_ */

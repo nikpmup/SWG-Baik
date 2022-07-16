@@ -15,11 +15,10 @@ void WearableContainerObjectImplementation::initializeTransientMembers() {
 	setLoggingName("WearableContainerObject");
 }
 
-void WearableContainerObjectImplementation::fillAttributeList(AttributeListMessage* alm,
-		CreatureObject* object) {
+void WearableContainerObjectImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* object) {
 	TangibleObjectImplementation::fillAttributeList(alm, object);
 
-	for(int i = 0; i < wearableSkillMods.size(); ++i) {
+	for (int i = 0; i < wearableSkillMods.size(); ++i) {
 		String key = wearableSkillMods.elementAt(i).getKey();
 		String statname = "cat_skill_mod_bonus.@stat_n:" + key;
 		int value = wearableSkillMods.get(key);
@@ -38,8 +37,7 @@ void WearableContainerObjectImplementation::applySkillModsTo(CreatureObject* cre
 		String name = wearableSkillMods.elementAt(i).getKey();
 		int value = wearableSkillMods.get(name);
 
-		if (!SkillModManager::instance()->isWearableModDisabled(name))
-		{
+		if (!SkillModManager::instance()->isWearableModDisabled(name)) {
 			creature->addSkillMod(SkillModManager::WEARABLE, name, value, true);
 			creature->updateTerrainNegotiation();
 		}
@@ -57,8 +55,7 @@ void WearableContainerObjectImplementation::removeSkillModsFrom(CreatureObject* 
 		String name = wearableSkillMods.elementAt(i).getKey();
 		int value = wearableSkillMods.get(name);
 
-		if (!SkillModManager::instance()->isWearableModDisabled(name))
-		{
+		if (!SkillModManager::instance()->isWearableModDisabled(name)) {
 			creature->removeSkillMod(SkillModManager::WEARABLE, name, value, true);
 			creature->updateTerrainNegotiation();
 		}

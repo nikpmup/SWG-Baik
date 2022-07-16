@@ -10,14 +10,10 @@
 
 class CloseContainerCommand : public QueueCommand {
 public:
-
-	CloseContainerCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CloseContainerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -35,8 +31,7 @@ public:
 
 		StringTokenizer args(arguments.toString());
 
-		if(args.hasMoreTokens()) {
-
+		if (args.hasMoreTokens()) {
 			uint64 oid = args.getLongToken();
 			container = server->getZoneServer()->getObject(oid);
 
@@ -53,7 +48,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CLOSECONTAINERCOMMAND_H_
+#endif // CLOSECONTAINERCOMMAND_H_

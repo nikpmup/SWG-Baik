@@ -9,14 +9,10 @@
 
 class SitServerCommand : public QueueCommand {
 public:
-
-	SitServerCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SitServerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -57,7 +53,7 @@ public:
 			}
 
 			if (cellParent != nullptr) {
-				Reference<Vector<float> *> collisionPoints = CollisionManager::getCellFloorCollision(x, z, cellParent);
+				Reference<Vector<float>*> collisionPoints = CollisionManager::getCellFloorCollision(x, z, cellParent);
 
 				if (collisionPoints == nullptr) {
 					return TOOFAR;
@@ -77,8 +73,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SITSERVERCOMMAND_H_
-
+#endif // SITSERVERCOMMAND_H_

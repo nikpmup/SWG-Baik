@@ -15,7 +15,6 @@ class DataTableRow {
 
 public:
 	DataTableRow() {
-
 	}
 
 	~DataTableRow() {

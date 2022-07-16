@@ -16,7 +16,6 @@ public:
 	GameServerLagResponse() : BaseMessage() {
 		insertShort(1); // figure out
 		insertInt(0x789A4E0A);
-
 	}
 };
 
@@ -25,17 +24,15 @@ public:
 	ConnectionServerLagResponse() : BaseMessage() {
 		insertShort(1); // figure out
 		insertInt(0x1590F63C);
-
 	}
 };
 
 class LagReportCallback : public MessageCallback {
 	uint32 connectionServerLag;
 	uint32 gameServerLag;
-public:
-	LagReportCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), connectionServerLag(0), gameServerLag(0) {
 
+public:
+	LagReportCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), connectionServerLag(0), gameServerLag(0) {
 	}
 
 	void parse(Message* message) {
@@ -49,9 +46,7 @@ public:
 
 class LagRequestCallback : public MessageCallback {
 public:
-	LagRequestCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	LagRequestCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {

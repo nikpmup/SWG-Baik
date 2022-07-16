@@ -18,10 +18,10 @@ void TangibleObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObjec
 	if (!sceneObject->isTangibleObject())
 		return;
 
-	TangibleObject* tano = cast<TangibleObject*>( sceneObject);
+	TangibleObject* tano = cast<TangibleObject*>(sceneObject);
 
 	// Figure out what the object is and if its able to be Sliced.
-	if(tano->isSliceable() && !tano->isSecurityTerminal()) { // Check to see if the player has the correct skill level
+	if (tano->isSliceable() && !tano->isSecurityTerminal()) { // Check to see if the player has the correct skill level
 
 		bool hasSkill = true;
 		ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
@@ -37,20 +37,18 @@ void TangibleObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObjec
 		else if (sceneObject->isArmorObject() && (!inventory->hasObjectInContainer(sceneObject->getObjectID()) || !player->hasSkill("combat_smuggler_slicing_03")))
 			hasSkill = false;
 
-		if(hasSkill)
+		if (hasSkill)
 			menuResponse->addRadialMenuItem(69, 3, "@slicing/slicing:slice"); // Slice
 	}
 
-	if(player->getPlayerObject() != nullptr && player->getPlayerObject()->isPrivileged()) {
+	if (player->getPlayerObject() != nullptr && player->getPlayerObject()->isPrivileged()) {
 		/// Viewing components used to craft item, for admins
 		ManagedReference<SceneObject*> container = tano->getSlottedObject("crafted_components");
-		if(container != nullptr) {
-
-			if(container->getContainerObjectsSize() > 0) {
-
+		if (container != nullptr) {
+			if (container->getContainerObjectsSize() > 0) {
 				SceneObject* satchel = container->getContainerObject(0);
 
-				if(satchel != nullptr && satchel->getContainerObjectsSize() > 0) {
+				if (satchel != nullptr && satchel->getContainerObjectsSize() > 0) {
 					menuResponse->addRadialMenuItem(79, 3, "@ui_radial:ship_manage_components"); // View Components
 				}
 			}
@@ -59,7 +57,7 @@ void TangibleObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObjec
 
 	ManagedReference<SceneObject*> parent = tano->getParent().get();
 	if (parent != nullptr && parent->getGameObjectType() == SceneObjectType::STATICLOOTCONTAINER) {
-		menuResponse->addRadialMenuItem(10, 3, "@ui_radial:item_pickup"); //Pick up
+		menuResponse->addRadialMenuItem(10, 3, "@ui_radial:item_pickup"); // Pick up
 	}
 }
 
@@ -67,32 +65,27 @@ int TangibleObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject
 	if (!sceneObject->isTangibleObject())
 		return 0;
 
-	TangibleObject* tano = cast<TangibleObject*>( sceneObject);
+	TangibleObject* tano = cast<TangibleObject*>(sceneObject);
 
-
-	if (selectedID == 69 && player->hasSkill("combat_smuggler_novice") ) { // Slice [PlayerLootCrate]
+	if (selectedID == 69 && player->hasSkill("combat_smuggler_novice")) { // Slice [PlayerLootCrate]
 		if (player->containsActiveSession(SessionFacadeType::SLICING)) {
 			player->sendSystemMessage("@slicing/slicing:already_slicing");
 			return 0;
 		}
 
-		//Create Session
+		// Create Session
 		ManagedReference<SlicingSession*> session = new SlicingSession(player);
 		session->initalizeSlicingMenu(player, tano);
 
 		return 0;
 	} else if (selectedID == 79) { // See components (admin)
-		if(player->getPlayerObject() != nullptr && player->getPlayerObject()->isPrivileged()) {
-
+		if (player->getPlayerObject() != nullptr && player->getPlayerObject()->isPrivileged()) {
 			SceneObject* container = tano->getSlottedObject("crafted_components");
-			if(container != nullptr) {
-
-				if(container->getContainerObjectsSize() > 0) {
-
+			if (container != nullptr) {
+				if (container->getContainerObjectsSize() > 0) {
 					SceneObject* satchel = container->getContainerObject(0);
 
-					if(satchel != nullptr) {
-
+					if (satchel != nullptr) {
 						satchel->sendWithoutContainerObjectsTo(player);
 						satchel->openContainerTo(player);
 
@@ -108,8 +101,6 @@ int TangibleObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject
 		}
 
 		return 0;
-	}else
+	} else
 		return ObjectMenuComponent::handleObjectMenuSelect(sceneObject, player, selectedID);
-
 }
-

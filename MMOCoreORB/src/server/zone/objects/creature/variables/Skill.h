@@ -10,16 +10,16 @@ namespace managers {
 namespace skill {
 class SkillManager;
 }
-}
-}
-}
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::skill;
 
 class Skill : public Object {
 protected:
 	WeakReference<Skill*> parentNode;
-	Vector<Reference<Skill*> > childNodes;
+	Vector<Reference<Skill*>> childNodes;
 
 	String skillName;
 	String parentName;
@@ -124,7 +124,6 @@ public:
 	}
 
 	void parseLuaObject(LuaObject* templateData) {
-
 		if (!templateData->isValidTable())
 			return;
 
@@ -140,13 +139,13 @@ public:
 		skillsRequiredCount = templateData->getIntField("skillsRequiredCount");
 
 		LuaObject skillsRequiredTable = templateData->getObjectField("skillsRequired");
-		for(int i = 1; i <= skillsRequiredTable.getTableSize(); i++) {
+		for (int i = 1; i <= skillsRequiredTable.getTableSize(); i++) {
 			skillsRequired.add(skillsRequiredTable.getStringAt(i));
 		}
 		skillsRequiredTable.pop();
 
 		LuaObject preclusionSkillsTable = templateData->getObjectField("preclusionSkills");
-		for(int i = 1; i <= preclusionSkillsTable.getTableSize(); i++) {
+		for (int i = 1; i <= preclusionSkillsTable.getTableSize(); i++) {
 			preclusionSkills.add(preclusionSkillsTable.getStringAt(i));
 		}
 		preclusionSkillsTable.pop();
@@ -156,7 +155,7 @@ public:
 		xpCap = templateData->getIntField("xpCap");
 
 		LuaObject missionsRequiredTable = templateData->getObjectField("missionsRequired");
-		for(int i = 1; i <= missionsRequiredTable.getTableSize(); i++) {
+		for (int i = 1; i <= missionsRequiredTable.getTableSize(); i++) {
 			missionsRequired.add(missionsRequiredTable.getStringAt(i));
 		}
 		missionsRequiredTable.pop();
@@ -164,13 +163,13 @@ public:
 		apprenticeshipsRequired = templateData->getIntField("apprenticeshipsRequired");
 
 		LuaObject statsRequiredTable = templateData->getObjectField("statsRequired");
-		for(int i = 1; i <= statsRequiredTable.getTableSize(); i++) {
+		for (int i = 1; i <= statsRequiredTable.getTableSize(); i++) {
 			statsRequired.add(statsRequiredTable.getStringAt(i));
 		}
 		statsRequiredTable.pop();
 
 		LuaObject speciesRequiredTable = templateData->getObjectField("speciesRequired");
-		for(int i = 1; i <= statsRequiredTable.getTableSize(); i++) {
+		for (int i = 1; i <= statsRequiredTable.getTableSize(); i++) {
 			speciesRequired.add(statsRequiredTable.getStringAt(i));
 		}
 		speciesRequiredTable.pop();
@@ -178,19 +177,19 @@ public:
 		jediStateRequired = templateData->getIntField("jediStateRequired");
 
 		LuaObject skillAbilityTable = templateData->getObjectField("skillAbility");
-		for(int i = 1; i <= skillAbilityTable.getTableSize(); i++) {
+		for (int i = 1; i <= skillAbilityTable.getTableSize(); i++) {
 			skillAbility.add(skillAbilityTable.getStringAt(i));
 		}
 		skillAbilityTable.pop();
 
 		LuaObject commandsTable = templateData->getObjectField("commands");
-		for(int i = 1; i <= commandsTable.getTableSize(); i++) {
+		for (int i = 1; i <= commandsTable.getTableSize(); i++) {
 			commands.add(commandsTable.getStringAt(i));
 		}
 		commandsTable.pop();
 
 		LuaObject skillModifiersTable = templateData->getObjectField("skillModifiers");
-		for(int i = 1; i <= skillModifiersTable.getTableSize(); i++) {
+		for (int i = 1; i <= skillModifiersTable.getTableSize(); i++) {
 			LuaObject skillMod = skillModifiersTable.getObjectAt(i);
 			if (skillMod.isValidTable()) {
 				String skillModName = skillMod.getStringAt(1);
@@ -202,19 +201,18 @@ public:
 		skillModifiersTable.pop();
 
 		LuaObject schematicsGrantedTable = templateData->getObjectField("schematicsGranted");
-		for(int i = 1; i <= schematicsGrantedTable.getTableSize(); i++) {
+		for (int i = 1; i <= schematicsGrantedTable.getTableSize(); i++) {
 			schematicsGranted.add(schematicsGrantedTable.getStringAt(i));
 		}
 		schematicsGrantedTable.pop();
 
 		LuaObject schematicsRevokedTable = templateData->getObjectField("schematicsRevoked");
-		for(int i = 1; i <= schematicsRevokedTable.getTableSize(); i++) {
+		for (int i = 1; i <= schematicsRevokedTable.getTableSize(); i++) {
 			schematicsRevoked.add(schematicsRevokedTable.getStringAt(i));
 		}
 		schematicsRevokedTable.pop();
 
 		searchable = templateData->getIntField("searchable");
-
 	}
 
 	inline const String& getSkillName() const {

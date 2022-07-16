@@ -19,20 +19,8 @@ class PerformEffect {
 	String effectMessage;
 
 public:
-	enum {
-		TARGET_STATIONARY = 1,
-		TARGET_OTHER = 2,
-		TARGET_SELF = 3
-	};
-	enum {
-		DAZZLE = 1,
-		DISTRACT = 2,
-		SPOTLIGHT = 3,
-		COLORLIGHTS = 4,
-		SMOKEBOMB = 5,
-		FIREJETS = 6,
-		VENTRILOQUISM = 7
-	};
+	enum { TARGET_STATIONARY = 1, TARGET_OTHER = 2, TARGET_SELF = 3 };
+	enum { DAZZLE = 1, DISTRACT = 2, SPOTLIGHT = 3, COLORLIGHTS = 4, SMOKEBOMB = 5, FIREJETS = 6, VENTRILOQUISM = 7 };
 
 	inline bool isDanceEffect() {
 		return isDance;
@@ -81,7 +69,6 @@ public:
 	inline int getEffectActionCost() {
 		return effectActionCost;
 	}
-
 
 	void parseDataTableRow(int idx, DataTableRow* row) {
 		effectIndex = idx;
@@ -146,7 +133,5 @@ public:
 		}
 	}
 };
-
-
 
 #endif /* PERFORMEFFECT_H_ */

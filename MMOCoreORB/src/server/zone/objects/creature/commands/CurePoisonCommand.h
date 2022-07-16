@@ -9,12 +9,9 @@
 
 class CurePoisonCommand : public CurePackCommand {
 public:
-
-	CurePoisonCommand(const String& name, ZoneProcessServer* server)
-		: CurePackCommand(name, server) {
+	CurePoisonCommand(const String& name, ZoneProcessServer* server) : CurePackCommand(name, server) {
 		state = CreatureState::POISONED;
 	}
-
 };
 
-#endif //CUREPOISONCOMMAND_H_
+#endif // CUREPOISONCOMMAND_H_

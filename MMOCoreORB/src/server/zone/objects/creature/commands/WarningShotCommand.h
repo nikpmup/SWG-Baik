@@ -9,9 +9,7 @@
 
 class WarningShotCommand : public CombatQueueCommand {
 public:
-
-	WarningShotCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	WarningShotCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -83,4 +81,4 @@ public:
 	}
 };
 
-#endif //WARNINGSHOTCOMMAND_H_
+#endif // WARNINGSHOTCOMMAND_H_

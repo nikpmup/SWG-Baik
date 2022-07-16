@@ -50,9 +50,7 @@ public:
 	}
 
 #ifdef CXX11_COMPILER
-	PatrolPoint(PatrolPoint&& point) : Object(), Serializable(),
-			position(std::move(point.position)), reached(point.reached), estimatedTimeOfArrival(point.estimatedTimeOfArrival) {
-
+	PatrolPoint(PatrolPoint&& point) : Object(), Serializable(), position(std::move(point.position)), reached(point.reached), estimatedTimeOfArrival(point.estimatedTimeOfArrival) {
 		addSerializableVariables();
 	}
 #endif
@@ -125,7 +123,7 @@ public:
 		return position;
 	}
 
-	//getters
+	// getters
 	inline float getPositionX() const {
 		return position.getX();
 	}
@@ -158,7 +156,7 @@ public:
 		return estimatedTimeOfArrival.isPast() || estimatedTimeOfArrival.isPresent();
 	}
 
-	//setters
+	// setters
 	inline void setPosition(float x, float z, float y) {
 		position.setCoordinates(Vector3(x, y, z));
 	}

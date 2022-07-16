@@ -7,10 +7,7 @@
 
 class ThreatenShotCommand : public CombatQueueCommand {
 public:
-
-	ThreatenShotCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
-
+	ThreatenShotCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -70,4 +67,4 @@ public:
 	}
 };
 
-#endif //THREATENSHOTCOMMAND_H_
+#endif // THREATENSHOTCOMMAND_H_

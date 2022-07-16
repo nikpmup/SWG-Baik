@@ -10,36 +10,34 @@
 namespace server {
 namespace login {
 
-	class LoginServer;
-	class LoginProcessServerImplementation;
+class LoginServer;
+class LoginProcessServerImplementation;
 
-	class LoginPacketHandler : public Logger {
-		LoginProcessServerImplementation* processServer;
-		Reference<LoginServer*> server;
+class LoginPacketHandler : public Logger {
+	LoginProcessServerImplementation* processServer;
+	Reference<LoginServer*> server;
 
-	public:
+public:
+	LoginPacketHandler() : Logger() {
+		server = nullptr;
+		processServer = nullptr;
+	}
 
-		LoginPacketHandler() : Logger() {
-			server = nullptr;
-			processServer = nullptr;
-		}
+	LoginPacketHandler(const String& s, LoginProcessServerImplementation* serv);
 
-		LoginPacketHandler(const String& s, LoginProcessServerImplementation* serv);
+	~LoginPacketHandler() {
+	}
 
-		~LoginPacketHandler() {
-		}
+	void handleMessage(Message* pack);
 
-		void handleMessage(Message* pack);
-
-		void handleClientPermissionsMessage(Message* pack);
-		void handleSelectCharacter(Message* pack);
-		void handleCmdSceneReady(Message* packet);
-		void handleLoginClientID(LoginClient* client, Message* packet);
-		void handleDeleteCharacterMessage(LoginClient* client, Message* pack);
-
-	};
-}
-}
+	void handleClientPermissionsMessage(Message* pack);
+	void handleSelectCharacter(Message* pack);
+	void handleCmdSceneReady(Message* packet);
+	void handleLoginClientID(LoginClient* client, Message* packet);
+	void handleDeleteCharacterMessage(LoginClient* client, Message* pack);
+};
+} // namespace login
+} // namespace server
 
 using namespace server::login;
 

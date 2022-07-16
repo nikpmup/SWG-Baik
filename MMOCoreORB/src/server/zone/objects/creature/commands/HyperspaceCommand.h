@@ -9,13 +9,10 @@
 
 class HyperspaceCommand : public CombatQueueCommand {
 public:
-
-	HyperspaceCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	HyperspaceCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //HYPERSPACE_H_
+#endif // HYPERSPACE_H_

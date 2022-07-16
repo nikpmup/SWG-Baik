@@ -13,7 +13,8 @@
 
 #include "server/zone/packets/DeltaMessage.h"
 
-template <class K, class V> class DeltaVectorMap : public Serializable {
+template <class K, class V>
+class DeltaVectorMap : public Serializable {
 protected:
 	VectorMap<K, V> vectorMap;
 	uint32 updateCounter;
@@ -160,6 +161,5 @@ public:
 		vectorMap.setNullValue(val);
 	}
 };
-
 
 #endif /* DELTAVECTORMAP_H_ */

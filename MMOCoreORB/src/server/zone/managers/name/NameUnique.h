@@ -2,7 +2,6 @@
 #define NAMEUNIQUE_H_
 
 class NameUnique : public Object {
-
 protected:
 	String word, root, type;
 

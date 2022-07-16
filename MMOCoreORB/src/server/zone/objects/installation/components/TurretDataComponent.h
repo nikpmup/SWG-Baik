@@ -15,7 +15,6 @@
 #include "server/zone/objects/creature/CreatureObject.h"
 
 class TurretDataComponent : public DataObjectComponent {
-
 protected:
 	int maxRange;
 	float attackSpeed;
@@ -39,7 +38,6 @@ public:
 	}
 
 	~TurretDataComponent() {
-
 	}
 
 	void writeJSON(nlohmann::json& j) const {
@@ -93,7 +91,7 @@ public:
 		return manualTarget.get();
 	}
 
-	int getMaxRange () {
+	int getMaxRange() {
 		return maxRange;
 	}
 

@@ -13,6 +13,7 @@
 class FloatParam : public TemplateBase<float> {
 	float min;
 	float max;
+
 public:
 	FloatParam() : TemplateBase<float>(0.f) {
 		setType(FLOAT);
@@ -26,7 +27,7 @@ public:
 		max = 0;
 	}
 
-	FloatParam& operator= (float val) {
+	FloatParam& operator=(float val) {
 		create(val);
 
 		return *this;
@@ -64,7 +65,6 @@ public:
 		return false;
 	}
 
-
 	virtual bool parse(engine::util::Chunk* source) {
 		uint8 readCase = source->readByte();
 		uint8 byte2 = source->readByte();
@@ -76,9 +76,8 @@ public:
 		} else if (readCase == 2 && byte2 == 0x20) {
 			IffStream* iffStream = source->getIffStream();
 
-
 			StringBuffer msg;
-			msg << "unhandled FloatParam type! in " <<  iffStream->getFileName();
+			msg << "unhandled FloatParam type! in " << iffStream->getFileName();
 			Logger::console.error(msg.toString());
 			/*stream << iffStream->getFileName().c_str() << "\n";
 			SWGForensics::instance->printToConsole(text);*/
@@ -96,9 +95,9 @@ public:
 			max = source->readFloat();
 		}
 
-			/* else {
-			create(0.f);
-		}*/
+		/* else {
+		create(0.f);
+	}*/
 
 		return false;
 	}
@@ -111,6 +110,5 @@ public:
 		return max;
 	}
 };
-
 
 #endif /* FLOATPARAM_H_ */

@@ -7,14 +7,10 @@
 
 class SetRankCommand : public QueueCommand {
 public:
-
-	SetRankCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetRankCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETRANKCOMMAND_H_
+#endif // SETRANKCOMMAND_H_

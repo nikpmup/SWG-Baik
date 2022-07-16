@@ -9,14 +9,10 @@
 
 class EndDuelCommand : public QueueCommand {
 public:
-
-	EndDuelCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	EndDuelCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -38,7 +34,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //ENDDUELCOMMAND_H_
+#endif // ENDDUELCOMMAND_H_

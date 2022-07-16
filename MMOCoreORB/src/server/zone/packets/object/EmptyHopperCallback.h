@@ -20,20 +20,19 @@ class EmptyHopperCallback : public MessageCallback {
 	uint8 byte2;
 
 	ObjectControllerMessageCallback* objectControllerMain;
+
 public:
-	EmptyHopperCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-		harvesterId(0), resourceId(0), quantity(0), byte1(0), byte2(0), objectControllerMain(objectControllerCallback) {
+	EmptyHopperCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), harvesterId(0), resourceId(0), quantity(0), byte1(0), byte2(0), objectControllerMain(objectControllerCallback) {
 	}
 
 	void parse(Message* message) {
 		message->shiftOffset(12);
-		 // skip passed player
+		// skip passed player
 		harvesterId = message->parseLong();
 		resourceId = message->parseLong();
 		quantity = message->parseInt(); // need to verify the quantity exists in the hopper
-		byte1 = message->parseByte(); // Retrieve(0) vs Discard(1)
-		byte2 = message->parseByte(); // checksum?
+		byte1 = message->parseByte();	// Retrieve(0) vs Discard(1)
+		byte2 = message->parseByte();	// checksum?
 	}
 
 	void run() {
@@ -45,15 +44,15 @@ public:
 		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(harvesterId);
 
 		if (object == nullptr || !object->isInstallationObject()) {
-			//player->error("not parsing right");
+			// player->error("not parsing right");
 			return;
 		}
 
 		GenericResponse* gr = new GenericResponse(player, 0xED, 1, byte2);
 		player->sendMessage(gr);
 
-		InstallationObject* inso = cast<InstallationObject*>( object.get());
-		
+		InstallationObject* inso = cast<InstallationObject*>(object.get());
+
 		if (inso == nullptr)
 			return;
 
@@ -104,14 +103,14 @@ public:
 			}
 
 			if (byte1 == 1) {
-				//inso->removeResourceFromHopper(container);
+				// inso->removeResourceFromHopper(container);
 				int oldQuantity = container->getQuantity();
 				int newQuantity = oldQuantity - quantity;
 
-				if(newQuantity < 0)
+				if (newQuantity < 0)
 					newQuantity = 0;
 
-				if(newQuantity > ResourceContainer::MAXSIZE)
+				if (newQuantity > ResourceContainer::MAXSIZE)
 					newQuantity = ResourceContainer::MAXSIZE;
 
 				inso->updateResourceContainerQuantity(container, newQuantity, true);
@@ -140,9 +139,8 @@ public:
 			player->error("unreported exception caught in EmptyHopperCallback::run");
 		}
 
-		//if (byte1 == 0 && player->getInventory()->getUnequippedItemCount() >= InventoryImplementation::MAXUNEQUIPPEDCOUNT)
+		// if (byte1 == 0 && player->getInventory()->getUnequippedItemCount() >= InventoryImplementation::MAXUNEQUIPPEDCOUNT)
 	}
 };
-
 
 #endif /* EMPTYHOPPERCALLBACK_H_ */

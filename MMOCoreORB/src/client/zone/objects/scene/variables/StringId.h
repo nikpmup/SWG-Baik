@@ -63,7 +63,6 @@ public:
 		message->parseAscii(stringID);
 		message->parseUnicode(customName);
 	}
-
 };
 
 #endif /* STRINGID_H_ */

@@ -8,24 +8,22 @@
 #ifndef INSERTSCHEMATICSUICALLBACK_H_
 #define INSERTSCHEMATICSUICALLBACK_H_
 
-
 #include "server/zone/objects/installation/factory/FactoryObject.h"
 #include "server/zone/objects/player/sui/SuiCallback.h"
 #include "server/zone/objects/manufactureschematic/ManufactureSchematic.h"
 
 class InsertSchematicSuiCallback : public SuiCallback {
 public:
-	InsertSchematicSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	InsertSchematicSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
 		bool cancelPressed = (eventIndex == 1);
 
-		if(suiBox->getWindowType() == SuiWindowType::FACTORY_SCHEMATIC2BUTTON)
+		if (suiBox->getWindowType() == SuiWindowType::FACTORY_SCHEMATIC2BUTTON)
 			handleInsertFactorySchem2(player, suiBox, eventIndex, args);
 
-		if(suiBox->getWindowType() == SuiWindowType::FACTORY_SCHEMATIC3BUTTON)
+		if (suiBox->getWindowType() == SuiWindowType::FACTORY_SCHEMATIC3BUTTON)
 			handleInsertFactorySchem3(player, suiBox, eventIndex, args);
 	}
 
@@ -38,14 +36,14 @@ public:
 
 		int index = Integer::valueOf(args->get(0).toString());
 
-		SuiListBox* listBox = cast<SuiListBox*>( suiBox);
+		SuiListBox* listBox = cast<SuiListBox*>(suiBox);
 
 		ManagedReference<SceneObject*> object = suiBox->getUsingObject().get();
 
 		if (object == nullptr || !object->isFactory())
 			return;
 
-		FactoryObject* factory = cast<FactoryObject*>( object.get());
+		FactoryObject* factory = cast<FactoryObject*>(object.get());
 
 		Locker locker(player);
 		Locker clocker(factory, player);
@@ -64,14 +62,14 @@ public:
 		bool otherPressed = Bool::valueOf(args->get(0).toString());
 		int index = Integer::valueOf(args->get(1).toString());
 
-		SuiListBox* listBox = cast<SuiListBox*>( suiBox);
+		SuiListBox* listBox = cast<SuiListBox*>(suiBox);
 
 		ManagedReference<SceneObject*> object = suiBox->getUsingObject().get();
 
 		if (object == nullptr || !object->isFactory())
 			return;
 
-		FactoryObject* factory = cast<FactoryObject*>( object.get());
+		FactoryObject* factory = cast<FactoryObject*>(object.get());
 
 		Locker locker(player);
 		Locker clocker(factory, player);

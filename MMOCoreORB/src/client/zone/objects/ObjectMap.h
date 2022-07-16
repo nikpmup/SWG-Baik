@@ -3,7 +3,7 @@
 
 #include "client/zone/objects/scene/SceneObject.h"
 
-class ObjectMap : public HashTable<uint64, Reference<SceneObject*> > {
+class ObjectMap : public HashTable<uint64, Reference<SceneObject*>> {
 	int maxConnections;
 
 	int hash(const uint64& key) const {
@@ -11,10 +11,9 @@ class ObjectMap : public HashTable<uint64, Reference<SceneObject*> > {
 	}
 
 public:
-	ObjectMap() : HashTable<uint64, Reference<SceneObject*> >(1000), maxConnections(3000) {
+	ObjectMap() : HashTable<uint64, Reference<SceneObject*>>(1000), maxConnections(3000) {
 		setNullValue(nullptr);
 	}
-
 };
 
 #endif /*OBJECTMAP_H_*/

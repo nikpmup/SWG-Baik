@@ -9,23 +9,10 @@
 
 class BuffAttribute {
 public:
-	enum {
-		HEALTH,
-		STRENGTH,
-		CONSTITUTION,
-		ACTION,
-		QUICKNESS,
-		STAMINA,
-		MIND,
-		FOCUS,
-		WILLPOWER,
-		POISON,
-		DISEASE,
-		UNKNOWN
-	};
+	enum { HEALTH, STRENGTH, CONSTITUTION, ACTION, QUICKNESS, STAMINA, MIND, FOCUS, WILLPOWER, POISON, DISEASE, UNKNOWN };
 
-	//TODO: This entire class needs to be removed. Posion and Disease are not attributes.
-	//THEY ARE SKILLMODS
+	// TODO: This entire class needs to be removed. Posion and Disease are not attributes.
+	// THEY ARE SKILLMODS
 	static const uint8 ARRAYSIZE = 11;
 
 	static bool isHAM(uint8 attribute) {
@@ -39,7 +26,7 @@ public:
 	static String getProtectionString(uint8 attribute) {
 		String name = "";
 
-		switch(attribute) {
+		switch (attribute) {
 		case POISON:
 			name = "resistance_poison";
 			break;
@@ -57,7 +44,7 @@ public:
 	static String getAbsorptionString(uint8 attribute) {
 		String name = "";
 
-		switch(attribute) {
+		switch (attribute) {
 		case POISON:
 			name = "absorption_poison";
 			break;
@@ -99,7 +86,6 @@ public:
 			return DISEASE;
 		else
 			return UNKNOWN;
-
 	}
 
 	static String getName(const uint8 attribute, bool initialCap = false) {
@@ -107,7 +93,7 @@ public:
 
 		switch (attribute) {
 		case HEALTH:
-			name ="health";
+			name = "health";
 			break;
 		case ACTION:
 			name = "action";
@@ -150,6 +136,5 @@ public:
 		return name;
 	}
 };
-
 
 #endif /* BUFFATTRIBUTE_H_ */

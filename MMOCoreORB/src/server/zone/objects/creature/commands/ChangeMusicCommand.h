@@ -9,14 +9,10 @@
 
 class ChangeMusicCommand : public QueueCommand {
 public:
-
-	ChangeMusicCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ChangeMusicCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -32,7 +28,6 @@ public:
 
 		// TODO: outro check
 
-
 		bool activeBandSong = false;
 
 		ManagedReference<GroupObject*> group = creature->getGroup();
@@ -45,7 +40,7 @@ public:
 					continue;
 
 				ManagedReference<Facade*> facade = groupMember->getActiveSession(SessionFacadeType::ENTERTAINING);
-				ManagedReference<EntertainingSession*> session = dynamic_cast<EntertainingSession*> (facade.get());
+				ManagedReference<EntertainingSession*> session = dynamic_cast<EntertainingSession*>(facade.get());
 
 				if (session == nullptr)
 					continue;
@@ -105,7 +100,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CHANGEMUSICCOMMAND_H_
+#endif // CHANGEMUSICCOMMAND_H_

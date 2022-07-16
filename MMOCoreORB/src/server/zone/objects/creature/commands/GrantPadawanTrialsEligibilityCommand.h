@@ -9,14 +9,10 @@
 
 class GrantPadawanTrialsEligibilityCommand : public QueueCommand {
 public:
-
-	GrantPadawanTrialsEligibilityCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GrantPadawanTrialsEligibilityCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -28,20 +24,15 @@ public:
 		if (object == nullptr || !object->isCreatureObject())
 			return INVALIDTARGET;
 
-
-		CreatureObject* targetCreature = cast<CreatureObject*>( object.get());
+		CreatureObject* targetCreature = cast<CreatureObject*>(object.get());
 
 		Locker clocker(targetCreature, creature);
 
 		PlayerManager* pman = server->getPlayerManager();
 		pman->finishHologrind(targetCreature);
 
-
-
-
 		return SUCCESS;
 	}
-
 };
 
-#endif //GRANTPADAWANTRIALSELIGIBILITYCOMMAND_H_
+#endif // GRANTPADAWANTRIALSELIGIBILITYCOMMAND_H_

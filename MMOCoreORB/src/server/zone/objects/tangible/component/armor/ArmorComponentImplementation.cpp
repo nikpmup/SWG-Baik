@@ -7,13 +7,12 @@
 
 void ArmorComponentImplementation::initializeTransientMembers() {
 	ComponentImplementation::initializeTransientMembers();
-
 }
 
 void ArmorComponentImplementation::updateCraftingValues(CraftingValues* values, bool firstUpdate) {
 	ComponentImplementation::updateCraftingValues(values, firstUpdate);
 
-	if(firstUpdate) {
+	if (firstUpdate) {
 		setPropertyToHidden("armor_special_effectiveness");
 		setPropertyToHidden("armor_special_type");
 
@@ -57,7 +56,6 @@ void ArmorComponentImplementation::updateCraftingValues(CraftingValues* values, 
 }
 
 void ArmorComponentImplementation::calculateSpecialProtection(CraftingValues* craftingValues) {
-
 	for (int i = 0; i <= 8; ++i) {
 		int type = pow((float)2, i);
 
@@ -71,14 +69,13 @@ void ArmorComponentImplementation::calculateSpecialProtection(CraftingValues* cr
 }
 
 String ArmorComponentImplementation::getStringType(int type) {
-
-	switch(type) {
+	switch (type) {
 	case SharedWeaponObjectTemplate::KINETIC:
 		return "kineticeffectiveness";
 		break;
 	case SharedWeaponObjectTemplate::ENERGY:
 		return "energyeffectiveness";
-	break;
+		break;
 	case SharedWeaponObjectTemplate::ELECTRICITY:
 		return "electricaleffectiveness";
 		break;
@@ -106,7 +103,6 @@ String ArmorComponentImplementation::getStringType(int type) {
 }
 
 void ArmorComponentImplementation::setProtectionValue(int type, float value) {
-
 	if (type & SharedWeaponObjectTemplate::KINETIC)
 		setKinetic(value);
 	if (type & SharedWeaponObjectTemplate::ENERGY)

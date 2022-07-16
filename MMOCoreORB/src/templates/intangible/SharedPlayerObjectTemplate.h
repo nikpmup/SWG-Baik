@@ -16,18 +16,16 @@ protected:
 
 public:
 	SharedPlayerObjectTemplate() {
-
 	}
 
 	~SharedPlayerObjectTemplate() {
-
 	}
 
 	void readObject(IffStream* iffStream) {
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'SPLY') {
-			//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 			SharedIntangibleObjectTemplate::readObject(iffStream);
 
@@ -44,11 +42,10 @@ public:
 			derv = iffStream->getNextFormType();
 		}
 
-
 		iffStream->openForm(derv);
 
 		try {
-			//parseFileData(iffStream);
+			// parseFileData(iffStream);
 		} catch (const Exception& e) {
 			String msg;
 			msg += "exception caught parsing file data ->";
@@ -79,7 +76,7 @@ public:
 		lua_pushnil(L);
 		while (lua_next(L, -2) != 0) {
 			// 'key' is at index -2 and 'value' at index -1
-			//printf("%s - %s\n",
+			// printf("%s - %s\n",
 			//		lua_tostring(L, -2), lua_typename(L, lua_type(L, -1)));
 
 			int type = lua_type(L, -2);
@@ -115,7 +112,6 @@ public:
 	const SortedVector<String>* getPlayerDefaultGroupPermissions() const {
 		return &playerDefaultGroupPermissions;
 	}
-
 };
 
 #endif /* SHAREDPLAYEROBJECTTEMPLATE_H_ */

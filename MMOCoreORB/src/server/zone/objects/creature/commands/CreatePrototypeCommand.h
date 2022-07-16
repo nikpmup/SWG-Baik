@@ -10,14 +10,10 @@
 
 class CreatePrototypeCommand : public QueueCommand {
 public:
-
-	CreatePrototypeCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CreatePrototypeCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -48,23 +44,23 @@ public:
 
 		StringTokenizer tokenizer(arguments.toString());
 
-		if(tokenizer.hasMoreTokens())
+		if (tokenizer.hasMoreTokens())
 			clientCounter = tokenizer.getIntToken();
 		else
 			clientCounter = 0;
 
-		if(tokenizer.hasMoreTokens())
+		if (tokenizer.hasMoreTokens())
 			createItem = tokenizer.getIntToken();
 		else
 			createItem = true;
 
 		Reference<CraftingSession*> session = creature->getActiveSession(SessionFacadeType::CRAFTING).castTo<CraftingSession*>();
 
-		if(session == nullptr) {
+		if (session == nullptr) {
 			return GENERALERROR;
 		}
 
-		if(session->getState() != 6)
+		if (session->getState() != 6)
 			return GENERALERROR;
 
 		Locker locker(session);
@@ -72,7 +68,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CREATEPROTOTYPECOMMAND_H_
+#endif // CREATEPROTOTYPECOMMAND_H_

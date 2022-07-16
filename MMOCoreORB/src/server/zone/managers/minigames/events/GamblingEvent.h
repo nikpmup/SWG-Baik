@@ -8,19 +8,18 @@
 #include "server/zone/ZoneProcessServer.h"
 
 namespace server {
-	namespace zone {
-		namespace objects {
-			namespace tangible {
-				namespace terminal {
-					namespace gambling {
-						class GamblingTerminal;
-					}
-				}
-			}
-		}
-	}
+namespace zone {
+namespace objects {
+namespace tangible {
+namespace terminal {
+namespace gambling {
+class GamblingTerminal;
 }
-
+} // namespace terminal
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 namespace server {
 namespace zone {
@@ -36,14 +35,13 @@ public:
 	GamblingEvent(server::zone::objects::tangible::terminal::gambling::GamblingTerminal* gamblingTerm, int counter);
 
 	void run();
-
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace minigames
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::minigames::events;
 

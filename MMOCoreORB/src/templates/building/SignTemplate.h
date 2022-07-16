@@ -16,10 +16,9 @@ class SignTemplate : public ChildObject {
 
 public:
 	SignTemplate() : ChildObject() {
-
 	}
 
-	SignTemplate(const SignTemplate& obj) : ChildObject( obj ) {
+	SignTemplate(const SignTemplate& obj) : ChildObject(obj) {
 		requiredSkill = obj.requiredSkill;
 		suiItem = obj.suiItem;
 	}
@@ -52,7 +51,6 @@ public:
 	inline const String& getRequiredSkill() const {
 		return requiredSkill;
 	}
-
 };
 
 #endif /* SIGNTEMPLATE_H_ */

@@ -7,14 +7,10 @@
 
 class LaunchFireworkCommand : public QueueCommand {
 public:
-
-	LaunchFireworkCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	LaunchFireworkCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //LAUNCHFIREWORKCOMMAND_H_
+#endif // LAUNCHFIREWORKCOMMAND_H_

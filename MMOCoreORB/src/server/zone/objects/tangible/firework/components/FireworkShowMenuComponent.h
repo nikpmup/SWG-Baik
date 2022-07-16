@@ -13,7 +13,6 @@
 
 class FireworkShowMenuComponent : public TangibleObjectMenuComponent {
 public:
-
 	/**
 	 * Fills the radial options, needs to be overriden
 	 * @pre { this object is locked }
@@ -41,8 +40,6 @@ public:
 	void reorderShow(CreatureObject* player, FireworkObject* firework) const;
 
 	void showData(CreatureObject* player, FireworkObject* firework) const;
-
 };
-
 
 #endif /* FIREWORKSHOWMENUCOMPONENT_H_ */

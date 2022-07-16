@@ -96,7 +96,6 @@ public:
 	void setPosition(Vector3 position) {
 		this->position = position;
 	}
-
 };
 
 #endif /* PATROLPATHNODE_H_ */

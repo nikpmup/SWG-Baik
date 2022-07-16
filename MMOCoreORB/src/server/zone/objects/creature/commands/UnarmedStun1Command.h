@@ -9,13 +9,10 @@
 
 class UnarmedStun1Command : public CombatQueueCommand {
 public:
-
-	UnarmedStun1Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	UnarmedStun1Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //UNARMEDSTUN1COMMAND_H_
+#endif // UNARMEDSTUN1COMMAND_H_

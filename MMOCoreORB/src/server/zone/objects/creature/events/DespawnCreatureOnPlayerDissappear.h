@@ -11,11 +11,10 @@
 #include "server/zone/objects/creature/ai/AiAgent.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace creature {
-    namespace events {
-
+namespace zone {
+namespace objects {
+namespace creature {
+namespace events {
 
 class DespawnCreatureOnPlayerDissappear : public Task {
 	ManagedWeakReference<AiAgent*> creature;
@@ -56,12 +55,11 @@ public:
 	}
 };
 
-
-    }
-   }
-  }
- }
-}
+} // namespace events
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::events;
 

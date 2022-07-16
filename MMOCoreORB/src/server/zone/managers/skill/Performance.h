@@ -12,11 +12,7 @@
 
 class PerformanceType {
 public:
-	enum {
-		DANCE  = -1788534963,
-		MUSIC  = 866729052
-	};
-
+	enum { DANCE = -1788534963, MUSIC = 866729052 };
 };
 
 class Performance {
@@ -49,7 +45,6 @@ class Performance {
 	String outro;
 
 public:
-
 	inline bool isDance() {
 		return type == PerformanceType::DANCE;
 	}
@@ -179,7 +174,7 @@ public:
 		uint32 typeHex;
 		row->getValue(8, typeHex);
 
-		if ((int)typeHex == PerformanceType::MUSIC)	{
+		if ((int)typeHex == PerformanceType::MUSIC) {
 			type = PerformanceType::MUSIC;
 		} else if ((int)typeHex == PerformanceType::DANCE) {
 			type = PerformanceType::DANCE;
@@ -203,9 +198,6 @@ public:
 		row->getValue(24, intro);
 		row->getValue(25, outro);
 	}
-
 };
-
-
 
 #endif /* PERFORMANCE_H_ */

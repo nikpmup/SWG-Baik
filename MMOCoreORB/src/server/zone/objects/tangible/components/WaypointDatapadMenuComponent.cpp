@@ -17,11 +17,10 @@ void WaypointDatapadMenuComponent::fillObjectMenuResponse(SceneObject* sceneObje
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
 
 	if (sceneObject->getObjectTemplate()->getFullTemplateString() == "object/tangible/loot/quest/force_sensitive/waypoint_datapad.iff")
-		menuResponse->addRadialMenuItem(6, 3, "@ui_radial:item_activate"); //Activate
+		menuResponse->addRadialMenuItem(6, 3, "@ui_radial:item_activate"); // Activate
 
 	if (sceneObject->getObjectTemplate()->getFullTemplateString() == "object/tangible/loot/quest/force_sensitive/theater_datapad.iff")
-		menuResponse->addRadialMenuItem(7, 3, "@ui_radial:item_activate"); //Activate
-
+		menuResponse->addRadialMenuItem(7, 3, "@ui_radial:item_activate"); // Activate
 }
 
 int WaypointDatapadMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
@@ -36,4 +35,3 @@ int WaypointDatapadMenuComponent::handleObjectMenuSelect(SceneObject* sceneObjec
 
 	return 0;
 }
-

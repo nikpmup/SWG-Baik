@@ -9,9 +9,9 @@ private:
 	short suiType, enclaveType;
 	int rank;
 	bool selectingRank;
+
 public:
-	EnclaveVotingTerminalSuiCallback(ZoneServer* server, short type, short enclave, int rnk, bool selectRank)
-		: SuiCallback(server) {
+	EnclaveVotingTerminalSuiCallback(ZoneServer* server, short type, short enclave, int rnk, bool selectRank) : SuiCallback(server) {
 		enclaveType = enclave;
 		suiType = type;
 		rank = rnk;
@@ -82,14 +82,15 @@ public:
 		} else {
 			uint64 playerID = 0;
 
-			SuiListBox* listBox = cast<SuiListBox*>( suiBox);
+			SuiListBox* listBox = cast<SuiListBox*>(suiBox);
 
 			if (listBox != nullptr)
 				playerID = listBox->getMenuObjectID(index);
 
 			if (suiType == FrsManager::SUI_VOTE_RECORD) {
 				frsMan->handleVoteRecordSui(player, terminal, enclaveType, rank, playerID);
-			} if (suiType == FrsManager::SUI_VOTE_DEMOTE) {
+			}
+			if (suiType == FrsManager::SUI_VOTE_DEMOTE) {
 				frsMan->handleVoteDemoteSui(player, terminal, enclaveType, rank, playerID);
 			} else if (suiType == FrsManager::SUI_CHAL_VOTE_STATUS) {
 				frsMan->handleChallengeVoteStatusSui(player, terminal, playerID);

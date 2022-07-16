@@ -11,23 +11,22 @@
 #include "server/zone/objects/scene/SceneObject.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace tangible {
-
+namespace zone {
+namespace objects {
+namespace tangible {
 
 class DespawnLairOnPlayerDisappear : public Task {
 	WeakReference<SceneObject*> lair;
 
 public:
-    DespawnLairOnPlayerDisappear(SceneObject* l);
-    void run();
+	DespawnLairOnPlayerDisappear(SceneObject* l);
+	void run();
 };
 
-   }
-  }
- }
-}
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::tangible;
 

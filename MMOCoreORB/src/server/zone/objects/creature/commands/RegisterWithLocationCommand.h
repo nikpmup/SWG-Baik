@@ -9,14 +9,10 @@
 
 class RegisterWithLocationCommand : public QueueCommand {
 public:
-
-	RegisterWithLocationCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RegisterWithLocationCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* player, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(player))
 			return INVALIDSTATE;
 
@@ -78,8 +74,7 @@ public:
 	}
 
 	bool isNoviceEntertainer(CreatureObject* player) const {
-		return (player->hasSkill("social_musician_novice") ||
-				player->hasSkill("social_dancer_novice"));
+		return (player->hasSkill("social_musician_novice") || player->hasSkill("social_dancer_novice"));
 	}
 
 	bool isInMedicalBuilding(CreatureObject* player, BuildingObject* building) const {
@@ -129,7 +124,6 @@ public:
 
 		return false;
 	}
-
 };
 
-#endif //REGISTERWITHLOCATIONCOMMAND_H_
+#endif // REGISTERWITHLOCATIONCOMMAND_H_

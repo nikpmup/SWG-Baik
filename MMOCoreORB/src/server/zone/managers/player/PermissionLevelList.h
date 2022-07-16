@@ -10,7 +10,7 @@
 
 #include "engine/engine.h"
 
-class PermissionLevel : public Object{
+class PermissionLevel : public Object {
 protected:
 	int permissionLevel, priviledgeFlag;
 	String name;
@@ -36,7 +36,7 @@ public:
 
 	PermissionLevel(const PermissionLevel& al) : Object() {
 		permissionLevel = al.permissionLevel;
-		tag  = al.tag;
+		tag = al.tag;
 		priviledgeFlag = al.priviledgeFlag;
 		skillList = al.skillList;
 		name = al.name;
@@ -61,17 +61,14 @@ public:
 	Vector<String>* getSkillList() {
 		return &skillList;
 	}
-
-
 };
 
-class PermissionLevelList : public Singleton<PermissionLevelList>, public VectorMap<uint32, Reference< PermissionLevel*> > {
+class PermissionLevelList : public Singleton<PermissionLevelList>, public VectorMap<uint32, Reference<PermissionLevel*>> {
 protected:
 	static Lua lua;
 	VectorMap<String, int> permissionNames;
 
 public:
-
 	PermissionLevelList() {
 	}
 
@@ -95,13 +92,12 @@ public:
 
 	static int includeFile(lua_State* L) {
 		String filename = lua.getStringParameter(L);
-		lua.runFile("scripts/staff/" + filename,  L);
+		lua.runFile("scripts/staff/" + filename, L);
 
 		return 0;
 	}
 
 	void loadLevel(LuaObject* luaLevel) {
-
 		if (!luaLevel->isValidTable()) {
 			return;
 		}
@@ -117,7 +113,7 @@ public:
 		int priviledgeFlag = luaLevel->getIntField("flag");
 
 		LuaObject skillsTable = luaLevel->getObjectField("skills");
-		for(int i = 1; i <= skillsTable.getTableSize(); ++i) {
+		for (int i = 1; i <= skillsTable.getTableSize(); ++i) {
 			skills.add(skillsTable.getStringAt(i));
 		}
 		skillsTable.pop();
@@ -126,21 +122,21 @@ public:
 	}
 
 	UnicodeString getPermissionTag(uint32 permissionLevel) {
-		if(!contains(permissionLevel))
+		if (!contains(permissionLevel))
 			return "";
 		else
 			return get(permissionLevel)->getTag();
 	}
 
 	Vector<String>* getPermissionSkills(uint32 permissionLevel) {
-		if(!contains(permissionLevel))
+		if (!contains(permissionLevel))
 			return nullptr;
 		else
 			return get(permissionLevel)->getSkillList();
 	}
 
 	int getPriviledgeFlag(uint32 permissionLevel) {
-		if(!contains(permissionLevel))
+		if (!contains(permissionLevel))
 			return 0;
 		else
 			return get(permissionLevel)->getPriviledgeFlag();
@@ -155,4 +151,4 @@ public:
 	}
 };
 
-#endif //PERMISSIONLEVELLIST_H_
+#endif // PERMISSIONLEVELLIST_H_

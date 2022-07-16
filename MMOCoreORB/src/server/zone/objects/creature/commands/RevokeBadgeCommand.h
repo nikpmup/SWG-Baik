@@ -7,14 +7,10 @@
 
 class RevokeBadgeCommand : public QueueCommand {
 public:
-
-	RevokeBadgeCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RevokeBadgeCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -64,7 +60,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REVOKEBADGECOMMAND_H_
+#endif // REVOKEBADGECOMMAND_H_

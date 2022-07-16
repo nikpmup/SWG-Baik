@@ -11,7 +11,6 @@
 #include "server/zone/objects/player/Races.h"
 
 void ClientCreateCharacterCallback::parse(Message* message) {
-
 	message->parseAscii(customization);
 	message->parseUnicode(characterName);
 
@@ -19,21 +18,20 @@ void ClientCreateCharacterCallback::parse(Message* message) {
 	message->parseAscii(location);
 
 	message->parseAscii(hairobj);
-	message->parseAscii(haircust); //grab the hair cust data
+	message->parseAscii(haircust); // grab the hair cust data
 
 	message->parseAscii(profession);
 
-	message->shiftOffset(1); //move past some unknown byte
+	message->shiftOffset(1); // move past some unknown byte
 
 	height = message->parseFloat();
 
 	if (height < 0.7 || height > 1.5)
 		height = 1;
 
+	message->parseUnicode(bio); // get the biography.
 
-	message->parseUnicode(bio); //get the biography.
-
-	tutflag = message->parseByte(); //tutorial bool.
+	tutflag = message->parseByte(); // tutorial bool.
 
 	int raceID = Races::getRaceID(racefile);
 	species = Races::getSpeciesID(raceID);

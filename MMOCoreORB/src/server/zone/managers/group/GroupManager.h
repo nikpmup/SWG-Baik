@@ -8,65 +8,58 @@
 #include "engine/engine.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace scene {
-	   class SceneObject;
-   }
-  }
- }
+namespace zone {
+namespace objects {
+namespace scene {
+class SceneObject;
 }
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::scene;
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace group {
-	   class GroupObject;
-   }
-  }
- }
+namespace zone {
+namespace objects {
+namespace group {
+class GroupObject;
 }
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::group;
 
-
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace creature {
-	   class CreatureObject;
-   }
-  }
- }
+namespace zone {
+namespace objects {
+namespace creature {
+class CreatureObject;
 }
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace creature {
-    namespace ai {
-	    class AiAgent;
-    }
-   }
-  }
- }
+namespace zone {
+namespace objects {
+namespace creature {
+namespace ai {
+class AiAgent;
 }
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::ai;
 
 class GroupManager : public Singleton<GroupManager>, public Object {
-
 public:
-	enum {
-		FREEFORALL = 0,
-		MASTERLOOTER = 1,
-		LOTTERY = 2,
-		RANDOM = 3
-	};
+	enum { FREEFORALL = 0, MASTERLOOTER = 1, LOTTERY = 2, RANDOM = 3 };
 
 private:
 	bool playerIsInvitingOwnPet(CreatureObject* inviter, CreatureObject* target);
@@ -93,7 +86,6 @@ public:
 	void disbandGroup(ManagedReference<GroupObject*> group, CreatureObject* player);
 
 	GroupObject* createGroup(CreatureObject* leader);
-
 };
 
 #endif /*GROUPMANAGER_H_*/

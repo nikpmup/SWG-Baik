@@ -12,8 +12,7 @@
 
 class PlayersNearYouMessage : public ObjectControllerMessage {
 public:
-	PlayersNearYouMessage(CreatureObject* creo) 
-: ObjectControllerMessage(creo->getObjectID(), 0x0B, 0x1E7) {
+	PlayersNearYouMessage(CreatureObject* creo) : ObjectControllerMessage(creo->getObjectID(), 0x0B, 0x1E7) {
 		insertInt(0); // No players.
 	}
 
@@ -50,8 +49,8 @@ public:
 				regionName = cityRegion->getRegionName();
 		}
 
-		insertAscii(regionName); //Region Name
-		insertAscii(zoneName); //Planet
+		insertAscii(regionName); // Region Name
+		insertAscii(zoneName);	 // Planet
 
 		String guildName = "";
 
@@ -73,7 +72,6 @@ public:
 	void insertPlayerCounter(uint32 foundCount) {
 		insertInt(30, foundCount);
 	}
-
 };
 
 #endif /*PLAYERSNEARYOU_H_*/

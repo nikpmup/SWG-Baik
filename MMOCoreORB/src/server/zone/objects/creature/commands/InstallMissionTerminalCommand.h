@@ -10,14 +10,10 @@
 
 class InstallMissionTerminalCommand : public QueueCommand {
 public:
-
-	InstallMissionTerminalCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	InstallMissionTerminalCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -58,7 +54,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //INSTALLMISSIONTERMINALCOMMAND_H_
+#endif // INSTALLMISSIONTERMINALCOMMAND_H_

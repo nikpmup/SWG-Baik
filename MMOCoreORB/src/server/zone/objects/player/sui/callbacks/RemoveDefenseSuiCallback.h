@@ -14,9 +14,9 @@
 class RemoveDefenseSuiCallback : public SuiCallback {
 private:
 	uint64 deed;
+
 public:
-	RemoveDefenseSuiCallback(ZoneServer* server, uint64 deedID)
-		: SuiCallback(server) {
+	RemoveDefenseSuiCallback(ZoneServer* server, uint64 deedID) : SuiCallback(server) {
 		deed = deedID;
 	}
 
@@ -35,12 +35,10 @@ public:
 
 		GCWManager* gcwMan = player->getZone()->getGCWManager();
 
-
 		if (gcwMan == nullptr)
 			return;
 
 		gcwMan->removeDefense(building, player, deed);
-
 	}
 };
 

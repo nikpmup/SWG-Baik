@@ -10,10 +10,7 @@
 
 class RequestSurveyCommand : public QueueCommand {
 public:
-
-	RequestSurveyCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RequestSurveyCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	/**
@@ -24,8 +21,6 @@ public:
 	 */
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -33,15 +28,14 @@ public:
 			return INVALIDLOCOMOTION;
 
 		if (creature->isPlayerCreature()) {
-
 			Reference<Task*> sampletask = creature->getPendingTask("sample");
 			Reference<Task*> surveytask = creature->getPendingTask("survey");
 
-			if(surveytask != nullptr)
+			if (surveytask != nullptr)
 				return SUCCESS;
 
 			if (sampletask != nullptr) {
-				SampleTask* sampleTask = cast<SampleTask*>( sampletask.get());
+				SampleTask* sampleTask = cast<SampleTask*>(sampletask.get());
 
 				if (sampleTask != nullptr) {
 					if (!sampleTask->isCancelled()) {
@@ -54,7 +48,7 @@ public:
 
 			ManagedReference<SurveySession*> session = creature->getActiveSession(SessionFacadeType::SURVEY).castTo<SurveySession*>();
 
-			if(session == nullptr) {
+			if (session == nullptr) {
 				creature->sendSystemMessage("@ui:survey_notool");
 				return GENERALERROR;
 			}
@@ -65,7 +59,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REQUESTSURVEYCOMMAND_H_
+#endif // REQUESTSURVEYCOMMAND_H_

@@ -16,7 +16,6 @@ void AttachmentImplementation::initializeTransientMembers() {
 	TangibleObjectImplementation::initializeTransientMembers();
 
 	setLoggingName("AttachmentObject");
-
 }
 
 void AttachmentImplementation::updateCraftingValues(CraftingValues* values, bool firstUpdate) {
@@ -24,20 +23,20 @@ void AttachmentImplementation::updateCraftingValues(CraftingValues* values, bool
 	int roll = System::random(100);
 	int modCount = 1;
 
-	if(roll > 99)
+	if (roll > 99)
 		modCount += 2;
 
-	if(roll < 5)
+	if (roll < 5)
 		modCount += 1;
 
-	for(int i = 0; i < modCount; ++i) {
-		//Mods can't be lower than -1 or greater than 25
-		int max = (int) Math::max(-1.f, Math::min(25.f, (float) round(0.1f * level + 3)));
-		int min = (int) Math::max(-1.f, Math::min(25.f, (float) round(0.075f * level - 1)));
+	for (int i = 0; i < modCount; ++i) {
+		// Mods can't be lower than -1 or greater than 25
+		int max = (int)Math::max(-1.f, Math::min(25.f, (float)round(0.1f * level + 3)));
+		int min = (int)Math::max(-1.f, Math::min(25.f, (float)round(0.075f * level - 1)));
 
 		int mod = System::random(max - min) + min;
 
-		if(mod == 0)
+		if (mod == 0)
 			mod = 1;
 
 		String modName = server->getZoneServer()->getLootManager()->getRandomLootableMod(gameObjectType);
@@ -54,9 +53,7 @@ void AttachmentImplementation::initializeMembers() {
 	} else if (gameObjectType == SceneObjectType::ARMORATTACHMENT) {
 		setOptionsBitmask(32, true);
 		attachmentType = ARMORTYPE;
-
 	}
-
 }
 
 void AttachmentImplementation::fillAttributeList(AttributeListMessage* msg, CreatureObject* object) {
@@ -69,8 +66,7 @@ void AttachmentImplementation::fillAttributeList(AttributeListMessage* msg, Crea
 	String key = "";
 	int value = 0;
 
-	for(int i = 0; i < skillModMap.size(); ++i) {
-
+	for (int i = 0; i < skillModMap.size(); ++i) {
 		iterator.getNextKeyAndValue(key, value);
 
 		name << "cat_skill_mod_bonus.@stat_n:" << key;
@@ -79,5 +75,4 @@ void AttachmentImplementation::fillAttributeList(AttributeListMessage* msg, Crea
 
 		name.deleteAll();
 	}
-
 }

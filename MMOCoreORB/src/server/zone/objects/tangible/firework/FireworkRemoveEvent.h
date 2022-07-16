@@ -35,5 +35,4 @@ public:
 	}
 };
 
-
 #endif /* FIREWORKREMOVEEVENT_H_ */

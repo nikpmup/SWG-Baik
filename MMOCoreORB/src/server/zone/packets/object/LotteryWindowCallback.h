@@ -8,7 +8,6 @@
 #ifndef LOTTERYWINDOWCALLBACK_H_
 #define LOTTERYWINDOWCALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 #include "server/zone/objects/player/sessions/LootLotterySession.h"
 
@@ -21,9 +20,7 @@ class LotteryWindowCallback : public MessageCallback {
 	ObjectControllerMessageCallback* objectControllerMain;
 
 public:
-	LotteryWindowCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-		containerID(0), listSize(0), objectControllerMain(objectControllerCallback) {
+	LotteryWindowCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), containerID(0), listSize(0), objectControllerMain(objectControllerCallback) {
 	}
 
 	void parse(Message* msg) {
@@ -36,20 +33,20 @@ public:
 	}
 
 	void run() {
-		//Get the player sending the loot selections.
+		// Get the player sending the loot selections.
 		ManagedReference<CreatureObject*> player = client->getPlayer();
 
 		if (player == nullptr)
 			return;
 
-		//Get the corpse the lottery is for.
+		// Get the corpse the lottery is for.
 		ManagedReference<AiAgent*> corpse = server->getZoneServer()->getObject(containerID)->getParent().get().castTo<AiAgent*>();
 		if (corpse == nullptr)
 			return;
 
 		Locker locker(corpse);
 
-		//Make sure there is an active lottery in progress.
+		// Make sure there is an active lottery in progress.
 		if (corpse->containsActiveSession(SessionFacadeType::LOOTLOTTERY)) {
 			Reference<LootLotterySession*> session = corpse->getActiveSession(SessionFacadeType::LOOTLOTTERY).castTo<LootLotterySession*>();
 			if (session == nullptr || session->isLotteryFinished())
@@ -58,13 +55,13 @@ public:
 			if (!session->containsEligiblePlayer(player))
 				return;
 
-			//If player made no selections, remove them from the Lottery.
+			// If player made no selections, remove them from the Lottery.
 			if (listSize < 1) {
 				session->removeEligiblePlayer(player);
 				return;
 			}
 
-			//Create a new Lottery Ballot with the player's item selections.
+			// Create a new Lottery Ballot with the player's item selections.
 			LootLotteryBallot* ballot = new LootLotteryBallot(player, lootIDs);
 			session->addPlayerSelections(player, ballot);
 
@@ -73,6 +70,5 @@ public:
 		}
 	}
 };
-
 
 #endif /* LOTTERYWINDOWCALLBACK_H_ */

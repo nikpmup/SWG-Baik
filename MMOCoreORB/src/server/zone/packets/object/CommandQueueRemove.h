@@ -11,14 +11,12 @@
 
 class CommandQueueRemove : public ObjectControllerMessage {
 public:
-	CommandQueueRemove(CreatureObject* creo, uint32 actioncnt, float timer, uint32 tab1, uint32 tab2) 
-			: ObjectControllerMessage(creo->getObjectID(), 0x1B, 0x117) {
+	CommandQueueRemove(CreatureObject* creo, uint32 actioncnt, float timer, uint32 tab1, uint32 tab2) : ObjectControllerMessage(creo->getObjectID(), 0x1B, 0x117) {
 		insertInt(actioncnt);
 		insertFloat(timer);
 		insertInt(tab1);
 		insertInt(tab2);
 	}
-
 };
 
 class CommandQueueRemoveCallback : public MessageCallback {
@@ -29,10 +27,7 @@ class CommandQueueRemoveCallback : public MessageCallback {
 	ObjectControllerMessageCallback* objectControllerMain;
 
 public:
-
-	CommandQueueRemoveCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-		size(0), actionCount(0), actionCRC(0), objectControllerMain(objectControllerCallback) {
+	CommandQueueRemoveCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), size(0), actionCount(0), actionCRC(0), objectControllerMain(objectControllerCallback) {
 	}
 
 	void parse(Message* message) {
@@ -48,10 +43,9 @@ public:
 		if (player == nullptr)
 			return;
 
-		//ObjectController* objectController = server->getZoneServer()->getObjectController();
+		// ObjectController* objectController = server->getZoneServer()->getObjectController();
 		player->deleteQueueAction(actionCount);
 	}
-
 };
 
 #endif /*COMMANDQUEUEREMOVE_H_*/

@@ -46,7 +46,7 @@ void LoginSession::run() {
 	info("connected to login server");
 
 #ifdef WITH_STM
-	//TransactionalMemoryManager::commitPureTransaction();
+	// TransactionalMemoryManager::commitPureTransaction();
 #endif
 
 	char userinput[32];
@@ -81,9 +81,9 @@ void LoginSession::run() {
 	Time timeout;
 	timeout.addMiliTime(2000);
 
-	sessionFinalized.wait(this); //timedWait(this, &timeout);
+	sessionFinalized.wait(this); // timedWait(this, &timeout);
 
 	unlock();
 
-	//login->disconnect();
+	// login->disconnect();
 }

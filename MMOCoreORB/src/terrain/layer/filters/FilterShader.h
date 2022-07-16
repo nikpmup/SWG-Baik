@@ -8,7 +8,6 @@
 #ifndef FILTERSHADER_H_
 #define FILTERSHADER_H_
 
-
 #include "../ProceduralRule.h"
 #include "FilterProceduralRule.h"
 
@@ -17,7 +16,6 @@ class FilterShader : public FilterProceduralRule {
 
 public:
 	FilterShader() : FilterProceduralRule(4, 'FSHD'), shaderId(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {

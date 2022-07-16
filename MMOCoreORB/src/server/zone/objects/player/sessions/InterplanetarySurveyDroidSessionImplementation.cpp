@@ -153,7 +153,7 @@ void InterplanetarySurveyDroidSessionImplementation::handleMenuSelect(CreatureOb
 		uint64 chosen = droidSuiBox->getMenuObjectID(menuID);
 		this->targetPlanet = pl->getZoneServer()->getResourceManager()->getPlanetByIndex(chosen);
 		int duration = 1000 * (3600 - (27 * quality));
-		int minutes = duration/60000;
+		int minutes = duration / 60000;
 
 		StringBuffer buffer;
 		buffer << "Droid sent, ETA for the report is ";

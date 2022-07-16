@@ -32,7 +32,7 @@ bool ZoneContainerComponent::insertActiveArea(Zone* newZone, ActiveArea* activeA
 
 		activeArea->destroyObjectFromWorld(true);
 
-		//StackTrace::printStackTrace();
+		// StackTrace::printStackTrace();
 	}
 
 	activeArea->setZone(newZone);
@@ -41,7 +41,7 @@ bool ZoneContainerComponent::insertActiveArea(Zone* newZone, ActiveArea* activeA
 
 	areaTree->insert(activeArea);
 
-	//regionTree->inRange(activeArea, 512);
+	// regionTree->inRange(activeArea, 512);
 
 	// lets update area to the in range players
 	SortedVector<QuadTreeEntry*> objects;
@@ -166,12 +166,12 @@ bool ZoneContainerComponent::transferObject(SceneObject* sceneObject, SceneObjec
 
 		return false;
 
-		//StackTrace::printStackTrace();
+		// StackTrace::printStackTrace();
 	}
 
 	ManagedReference<SceneObject*> parent = object->getParent().get();
 
-	if (parent != nullptr/* && parent->isCellObject()*/) {
+	if (parent != nullptr /* && parent->isCellObject()*/) {
 		uint64 parentID = object->getParentID();
 
 		if (containmentType == -2)
@@ -220,10 +220,10 @@ bool ZoneContainerComponent::transferObject(SceneObject* sceneObject, SceneObjec
 		// hack to get around notifyEnter/Exit only working with tangible objects
 		Vector3 worldPos = object->getWorldPosition();
 
-		SortedVector<ManagedReference<NavArea*> > meshes;
+		SortedVector<ManagedReference<NavArea*>> meshes;
 		zone->getInRangeNavMeshes(worldPos.getX(), worldPos.getY(), &meshes, false);
 
-		for(auto& mesh : meshes) {
+		for (auto& mesh : meshes) {
 			if (mesh->containsPoint(worldPos.getX(), worldPos.getY())) {
 				mesh->enqueueEnterEvent(object);
 			}
@@ -255,7 +255,6 @@ bool ZoneContainerComponent::transferObject(SceneObject* sceneObject, SceneObjec
 	return true;
 }
 
-
 bool ZoneContainerComponent::removeObject(SceneObject* sceneObject, SceneObject* object, SceneObject* destination, bool notifyClient) const {
 	Zone* zone = dynamic_cast<Zone*>(sceneObject);
 
@@ -284,14 +283,14 @@ bool ZoneContainerComponent::removeObject(SceneObject* sceneObject, SceneObject*
 		auto closeObjects = object->getCloseObjects();
 
 		if (closeObjects != nullptr) {
-			SortedVector<ManagedReference<QuadTreeEntry*> > closeSceneObjects;
+			SortedVector<ManagedReference<QuadTreeEntry*>> closeSceneObjects;
 
 			ZoneComponent::removeAllObjectsFromCOV(closeObjects, closeSceneObjects, sceneObject, object);
 		} else {
 #ifdef COV_DEBUG
 			object->info("Null closeobjects vector in ZoneContainerComponent::removeObject", true);
 #endif
-			SortedVector<ManagedReference<QuadTreeEntry*> > closeSceneObjects;
+			SortedVector<ManagedReference<QuadTreeEntry*>> closeSceneObjects;
 
 			zone->getInRangeObjects(object->getPositionX(), object->getPositionY(), 512, &closeSceneObjects, false);
 
@@ -321,7 +320,7 @@ bool ZoneContainerComponent::removeObject(SceneObject* sceneObject, SceneObject*
 
 		if (object->isTangibleObject()) {
 			TangibleObject* tano = cast<TangibleObject*>(object);
-			SortedVector<ManagedReference<ActiveArea*> >* activeAreas = tano->getActiveAreas();
+			SortedVector<ManagedReference<ActiveArea*>>* activeAreas = tano->getActiveAreas();
 
 			while (activeAreas->size() > 0) {
 				Locker _alocker(object->getContainerLock());
@@ -334,19 +333,19 @@ bool ZoneContainerComponent::removeObject(SceneObject* sceneObject, SceneObject*
 				area->enqueueExitEvent(object);
 			}
 		} else if (object->isStaticObjectClass()) {
-			SortedVector<ManagedReference<NavArea*> > meshes;
+			SortedVector<ManagedReference<NavArea*>> meshes;
 			oldZone->getInRangeNavMeshes(object->getPositionX(), object->getPositionY(), &meshes, true);
 
-			for(auto& mesh : meshes) {
+			for (auto& mesh : meshes) {
 				if (mesh->containsPoint(object->getPositionX(), object->getPositionY())) {
 					mesh->enqueueExitEvent(object);
 				}
 			}
 		}
 
-		SortedVector<ManagedReference<SceneObject*> >* childObjects = object->getChildObjects();
+		SortedVector<ManagedReference<SceneObject*>>* childObjects = object->getChildObjects();
 
-		//Remove all outdoor child objects from zone
+		// Remove all outdoor child objects from zone
 		for (int i = 0; i < childObjects->size(); ++i) {
 			ManagedReference<SceneObject*> outdoorChild = childObjects->get(i);
 
@@ -366,7 +365,7 @@ bool ZoneContainerComponent::removeObject(SceneObject* sceneObject, SceneObject*
 
 	object->notifyObservers(ObserverEventType::OBJECTREMOVEDFROMZONE, nullptr, 0);
 
-	VectorMap<uint32, ManagedReference<Facade*> >* objectActiveSessions = object->getObjectActiveSessions();
+	VectorMap<uint32, ManagedReference<Facade*>>* objectActiveSessions = object->getObjectActiveSessions();
 
 	while (objectActiveSessions->size()) {
 		ManagedReference<Facade*> facade = objectActiveSessions->remove(0).getValue();

@@ -13,6 +13,4 @@
 #include "boundaries/BoundaryPolygon.h"
 #include "boundaries/BoundaryRectangle.h"
 
-
-
 #endif /* BOUNDARIES_H_ */

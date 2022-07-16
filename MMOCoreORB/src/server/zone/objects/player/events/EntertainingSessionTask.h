@@ -18,9 +18,9 @@ namespace objects {
 namespace player {
 namespace events {
 
-
 class EntertainingSessionTask : public Task {
 	ManagedWeakReference<EntertainingSession*> session;
+
 public:
 	EntertainingSessionTask(EntertainingSession* sess) {
 		session = sess;
@@ -36,12 +36,11 @@ public:
 	}
 };
 
-
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace player
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::player::events;
 

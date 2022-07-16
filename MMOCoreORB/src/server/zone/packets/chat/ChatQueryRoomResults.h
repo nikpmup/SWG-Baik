@@ -13,21 +13,20 @@
 
 class ChatQueryRoomResults : public BaseMessage {
 public:
-
 	ChatQueryRoomResults(ChatRoom* room, int requestID = 0) : BaseMessage() {
-		insertShort(7); // Op Count
+		insertShort(7);		   // Op Count
 		insertInt(0xC4DE864E); // Opcode
 
-		insertInt(room->getPlayerSize()); //List of players in the chat room.
+		insertInt(room->getPlayerSize()); // List of players in the chat room.
 		fillPlayerList(room);
 
-		insertInt(room->getInvitedSize()); //List of invited players.
+		insertInt(room->getInvitedSize()); // List of invited players.
 		fillInvitedList(room);
 
-		insertInt(room->getModeratorSize()); //List of moderators.
+		insertInt(room->getModeratorSize()); // List of moderators.
 		fillModeratorList(room);
 
-		insertInt(room->getBannedSize()); //List of banned players.
+		insertInt(room->getBannedSize()); // List of banned players.
 		fillBannedList(room);
 
 		insertInt(requestID);
@@ -56,8 +55,8 @@ public:
 
 		insertUnicode(room->getTitle());
 
-		insertInt(0); //Don't fill duplicate moderator list.
-		insertInt(0); //Don't fill duplicate player list.
+		insertInt(0); // Don't fill duplicate moderator list.
+		insertInt(0); // Don't fill duplicate player list.
 
 		setCompression(true);
 	}
@@ -93,7 +92,6 @@ public:
 			insertAscii(room->getBannedName(i));
 		}
 	}
-
 };
 
 #endif /*CHATQUERYROOMRESULTS_H_*/

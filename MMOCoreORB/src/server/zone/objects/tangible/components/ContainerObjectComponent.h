@@ -15,5 +15,4 @@ public:
 	bool checkContainerPermission(SceneObject* sceneObject, CreatureObject* creature, uint16 permission) const;
 };
 
-
 #endif /* CONTAINEROBJECTCOMPONENT_H_ */

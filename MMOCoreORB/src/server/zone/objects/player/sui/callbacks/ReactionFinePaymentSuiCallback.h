@@ -6,11 +6,8 @@
 #include "server/zone/objects/transaction/TransactionLog.h"
 
 class ReactionFinePaymentSuiCallback : public SuiCallback {
-
 public:
-
-	ReactionFinePaymentSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	ReactionFinePaymentSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* creature, SuiBox* sui, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -19,7 +16,7 @@ public:
 		if (!sui->isMessageBox() || creature == nullptr)
 			return;
 
-		if(!creature->isPlayerCreature())
+		if (!creature->isPlayerCreature())
 			return;
 
 		ManagedReference<SceneObject*> object = sui->getUsingObject().get();
@@ -79,9 +76,7 @@ public:
 			emoteTarget->doAnimation(tauntMsg);
 			String quip = reactionManager->getReactionQuip(randomQuip);
 			chatManager->broadcastChatMessage(emoteTarget, quip, 0, 0, emoteTarget->getMoodID());
-
 		}
-
 	}
 };
 

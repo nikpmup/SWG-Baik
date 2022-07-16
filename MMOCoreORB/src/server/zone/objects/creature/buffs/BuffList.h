@@ -13,7 +13,7 @@
 class BuffList : public Serializable {
 protected:
 	bool spiceActive;
-	VectorMap<uint32, ManagedReference<Buff*> > buffList;
+	VectorMap<uint32, ManagedReference<Buff*>> buffList;
 	mutable Mutex mutex;
 
 public:
@@ -39,7 +39,7 @@ public:
 
 	friend void to_json(nlohmann::json& j, const BuffList& l);
 
-	//Getters
+	// Getters
 	inline int getBuffListSize() const {
 		return buffList.size();
 	}
@@ -84,6 +84,5 @@ public:
 		return spiceActive;
 	}
 };
-
 
 #endif /* BUFFLIST_H_ */

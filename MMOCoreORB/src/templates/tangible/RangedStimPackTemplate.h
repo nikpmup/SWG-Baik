@@ -25,7 +25,6 @@ public:
 	}
 
 	~RangedStimPackTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -35,7 +34,7 @@ public:
 		rangeMod = templateData->getFloatField("rangeMod");
 		area = templateData->getFloatField("area");
 		effectiveness = templateData->getFloatField("effectiveness");
-    }
+	}
 
 	inline float getEffectiveness() {
 		return effectiveness;
@@ -57,6 +56,5 @@ public:
 		return true;
 	}
 };
-
 
 #endif /* RANGEDSTIMPACKTEMPLATE_H_ */

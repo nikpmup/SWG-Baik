@@ -18,6 +18,7 @@ class SendMailTask : public Task {
 	ManagedReference<CreatureObject*> receiver;
 	ManagedReference<PersistentMessage*> mail;
 	UnicodeString senderName;
+
 public:
 	SendMailTask(CreatureObject* receiver, PersistentMessage* mail, const UnicodeString& sender) {
 		this->receiver = receiver;
@@ -36,6 +37,5 @@ public:
 			mail->sendTo(receiver, false);
 	}
 };
-
 
 #endif /* SENDMAILTASK_H_ */

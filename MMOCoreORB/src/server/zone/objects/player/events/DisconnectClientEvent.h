@@ -44,7 +44,7 @@ public:
 #ifdef WITH_SESSION_API
 		String eventTypeStr;
 
-		switch(eventType) {
+		switch (eventType) {
 		case DISCONNECT:
 			eventTypeStr = "disconnect";
 			break;
@@ -77,9 +77,6 @@ public:
 			break;
 		}
 	}
-
-
 };
-
 
 #endif /* DISCONNECTCLIENTEVENT_H_ */

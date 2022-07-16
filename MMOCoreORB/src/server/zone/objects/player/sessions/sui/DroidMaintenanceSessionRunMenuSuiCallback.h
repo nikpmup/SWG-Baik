@@ -14,8 +14,7 @@
 
 class DroidMaintenanceSessionRunMenuSuiCallback : public SuiCallback {
 public:
-	DroidMaintenanceSessionRunMenuSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	DroidMaintenanceSessionRunMenuSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -29,7 +28,7 @@ public:
 			return;
 		}
 
-		if (!suiBox->isListBox() || args->size() < 2  || cancelPressed) {
+		if (!suiBox->isListBox() || args->size() < 2 || cancelPressed) {
 			session->cancelSession();
 			return;
 		}
@@ -44,7 +43,7 @@ public:
 			return;
 		} else {
 			uint64 idx = Long::unsignedvalueOf(args->get(1).toString());
-			SuiListBox* suiListBox = cast<SuiListBox*>( suiBox);
+			SuiListBox* suiListBox = cast<SuiListBox*>(suiBox);
 			if (idx == -1) {
 				session->sendMaintenanceTransferBox();
 				return;
@@ -53,7 +52,7 @@ public:
 			// lookup structure
 			StructureObject* stobject = nullptr;
 			ManagedReference<SceneObject*> structure = player->getZoneServer()->getObject(itemId);
-			if( structure != nullptr && structure->isStructureObject() ) {
+			if (structure != nullptr && structure->isStructureObject()) {
 				stobject = cast<StructureObject*>(structure.get());
 				if (stobject != nullptr) {
 					session->setSelectedStructure(stobject);
@@ -68,14 +67,13 @@ public:
 			}
 		}
 
-		//int idx = Integer::valueOf(args->get(0).toString());
+		// int idx = Integer::valueOf(args->get(0).toString());
 
-		//SuiListBox* box = cast<SuiListBox*>( suiBox);
+		// SuiListBox* box = cast<SuiListBox*>( suiBox);
 
-		//byte menuID = box->getMenuObjectID(idx);
+		// byte menuID = box->getMenuObjectID(idx);
 
-		//session->handleMenuSelect(player, menuID, box);
-
+		// session->handleMenuSelect(player, menuID, box);
 	}
 };
 

@@ -13,16 +13,15 @@ class ServerTimeMessage : public BaseMessage {
 public:
 	ServerTimeMessage(uint64 time) : BaseMessage(18) {
 		insertShort(0x02);
-		insertInt(0x2EBC3BD9);  // CRC
-		insertLong(time);  // Galactic_Time
+		insertInt(0x2EBC3BD9); // CRC
+		insertLong(time);	   // Galactic_Time
 	}
-	
+
 	ServerTimeMessage(Zone* zone) : BaseMessage(18) {
 		insertShort(0x02);
-		insertInt(0x2EBC3BD9);  // CRC
-		insertLong(zone->getGalacticTime());  // Galactic_Time
+		insertInt(0x2EBC3BD9);				 // CRC
+		insertLong(zone->getGalacticTime()); // Galactic_Time
 	}
-	
 };
 
 #endif /*SERVERTIMEMESSAGE_H_*/

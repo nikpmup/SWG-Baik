@@ -11,7 +11,6 @@ JediManager::JediManager() : Logger("JediManager") {
 }
 
 JediManager::~JediManager() {
-
 }
 
 const String& JediManager::getJediManagerName() {
@@ -69,7 +68,7 @@ void JediManager::loadConfiguration(Lua* luaEngine) {
 		setJediManagerName(managerName);
 	}
 
-	info() << Thread::getCurrentThread()->getName() <<  " loaded.";
+	info() << Thread::getCurrentThread()->getName() << " loaded.";
 }
 
 void JediManager::onPlayerCreated(CreatureObject* creature) {

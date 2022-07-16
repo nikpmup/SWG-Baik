@@ -30,7 +30,7 @@ bool DataObjectComponentReference::parseFromBinaryStream(ObjectInputStream* stre
 	return true;
 }
 
-DataObjectComponent* DataObjectComponentReference::operator= (DataObjectComponent* obj) {
+DataObjectComponent* DataObjectComponentReference::operator=(DataObjectComponent* obj) {
 	updateObject(obj);
 
 	return obj;
@@ -43,5 +43,4 @@ void to_json(nlohmann::json& j, const DataObjectComponentReference& ref) {
 		object->writeJSON(j);
 	else
 		j = {};
-
 }

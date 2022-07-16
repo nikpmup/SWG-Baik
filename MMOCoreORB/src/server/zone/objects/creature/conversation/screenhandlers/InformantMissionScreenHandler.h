@@ -23,7 +23,8 @@ protected:
 public:
 	static const String STARTSCREENHANDLERID;
 
-	InformantMissionScreenHandler() : ScreenHandler(), Logger("InformantMissionScreenHandler") {}
+	InformantMissionScreenHandler() : ScreenHandler(), Logger("InformantMissionScreenHandler") {
+	}
 
 	ConversationScreen* handleScreen(CreatureObject* conversingPlayer, CreatureObject* conversingNPC, int selectedOption, ConversationScreen* conversationScreen);
 

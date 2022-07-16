@@ -7,7 +7,7 @@
 
 #ifndef UNKZONE_H_
 #define UNKZONE_H_
-//test
+// test
 
 #include "engine/service/proto/BaseMessage.h"
 
@@ -20,8 +20,6 @@ public:
 		insertByte(0x05);
 		insertByte(0);
 		insertByte(0);
-
 	}
-
 };
 #endif /* UNKZONE_H_ */

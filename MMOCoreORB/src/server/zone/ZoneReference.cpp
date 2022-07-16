@@ -44,7 +44,7 @@ bool ZoneReference::parseFromBinaryStream(ObjectInputStream* stream) {
 	return true;
 }
 
-Zone* ZoneReference::operator= (Zone* obj) {
+Zone* ZoneReference::operator=(Zone* obj) {
 	updateObject(obj);
 
 	return obj;
@@ -62,4 +62,3 @@ void server::zone::to_json(nlohmann::json& j, const ZoneReference& p) {
 		j = "";
 #endif
 }
-

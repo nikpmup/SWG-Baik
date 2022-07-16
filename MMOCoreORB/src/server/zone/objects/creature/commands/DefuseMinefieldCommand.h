@@ -7,14 +7,10 @@
 
 class DefuseMinefieldCommand : public QueueCommand {
 public:
-
-	DefuseMinefieldCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DefuseMinefieldCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DEFUSEMINEFIELDCOMMAND_H_
+#endif // DEFUSEMINEFIELDCOMMAND_H_

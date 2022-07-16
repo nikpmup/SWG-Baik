@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions.
 */
 
@@ -19,18 +19,16 @@ registerObserver(ObserverEventType::CREATUREREVIVED, new LambdaObserver(
 */
 
 class LambdaObserverFunction : public Object {
-	LambdaFunction<std::function<int(uint32, Observable*, ManagedObject*, uint64)> > function;
+	LambdaFunction<std::function<int(uint32, Observable*, ManagedObject*, uint64)>> function;
 
 public:
-	template<class L>
+	template <class L>
 	LambdaObserverFunction(L&& l, const char* name) : function(std::forward<L>(l)) {
-
 	}
 
 	int notifyObserverEvent(uint32 eventType, Observable* obs, ManagedObject* arg1, uint64 arg2) {
-	  return function.getLambda()(eventType, obs, arg1, arg2);
+		return function.getLambda()(eventType, obs, arg1, arg2);
 	}
-
 };
 
 #endif

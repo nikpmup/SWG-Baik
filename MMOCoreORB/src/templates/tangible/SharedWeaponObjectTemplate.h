@@ -10,7 +10,7 @@
 
 #include "templates/SharedTangibleObjectTemplate.h"
 
-class SharedWeaponObjectTemplate: public SharedTangibleObjectTemplate {
+class SharedWeaponObjectTemplate : public SharedTangibleObjectTemplate {
 protected:
 	StringParam weaponEffect;
 	IntegerParam weaponEffectIndex;
@@ -59,23 +59,8 @@ protected:
 	uint32 weaponType;
 
 public:
-	enum APType {
-		NONE,
-		LIGHT,
-		MEDIUM,
-		HEAVY
-	};
-	enum DamageType {
-		KINETIC = 1,
-		ENERGY = 2,
-		BLAST = 4,
-		STUN = 8,
-		LIGHTSABER = 16,
-		HEAT = 32,
-		COLD = 64,
-		ACID = 128,
-		ELECTRICITY = 256
-	};
+	enum APType { NONE, LIGHT, MEDIUM, HEAVY };
+	enum DamageType { KINETIC = 1, ENERGY = 2, BLAST = 4, STUN = 8, LIGHTSABER = 16, HEAT = 32, COLD = 64, ACID = 128, ELECTRICITY = 256 };
 
 	// multiple weapon type scenarios
 	enum WeaponClass {
@@ -84,18 +69,7 @@ public:
 		JEDIWEAPON = 0xE000,
 	};
 
-	enum WeaponAttackType {
-		MELEEATTACK = 0,
-		RANGEDATTACK = 1,
-		FORCEATTACK = 2,
-		TRAPATTACK = 3,
-		GRENADEATTACK = 4,
-		HEAVYACIDBEAMATTACK = 14,
-		HEAVYLIGHTNINGBEAMATTACK = 15,
-		HEAVYPARTICLEBEAMATTACK = 17,
-		HEAVYROCKETLAUNCHERATTACK = 18,
-		HEAVYLAUNCHERATTACK = 19
-	};
+	enum WeaponAttackType { MELEEATTACK = 0, RANGEDATTACK = 1, FORCEATTACK = 2, TRAPATTACK = 3, GRENADEATTACK = 4, HEAVYACIDBEAMATTACK = 14, HEAVYLIGHTNINGBEAMATTACK = 15, HEAVYPARTICLEBEAMATTACK = 17, HEAVYROCKETLAUNCHERATTACK = 18, HEAVYLAUNCHERATTACK = 19 };
 
 	enum WeaponType {
 		ANYWEAPON = 0xFFFFFFFF,
@@ -116,7 +90,6 @@ public:
 		TWOHANDJEDIWEAPON = 0x4000,
 		POLEARMJEDIWEAPON = 0x8000
 	};
-
 
 	SharedWeaponObjectTemplate() {
 		damageType = 0;
@@ -150,7 +123,6 @@ public:
 	}
 
 	~SharedWeaponObjectTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData);
@@ -354,7 +326,7 @@ public:
 	}
 
 	void setDefenderSecondaryDefenseModifiers(Vector<String> defenderSecondaryDefenseModifiers) {
-		this->defenderSecondaryDefenseModifiers	= defenderSecondaryDefenseModifiers;
+		this->defenderSecondaryDefenseModifiers = defenderSecondaryDefenseModifiers;
 	}
 
 	void setDefenderToughnessModifiers(Vector<String> defenderToughnessModifiers) {

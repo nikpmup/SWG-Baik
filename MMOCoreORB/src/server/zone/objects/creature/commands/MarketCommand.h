@@ -24,7 +24,7 @@ public:
 		}
 
 		ManagedReference<AuctionManager*> auctionManager = creature->getZoneServer()->getAuctionManager();
-		//Parse the weather command.
+		// Parse the weather command.
 
 		StringTokenizer tokenizer(arguments.toString());
 		if (!tokenizer.hasMoreTokens()) {
@@ -53,7 +53,6 @@ public:
 		if (player != nullptr)
 			player->sendSystemMessage("Syntax: /server market [enable/disable/info]");
 	}
-
 };
 
 #endif /* MARKETCOMMAND_H_ */

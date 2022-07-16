@@ -12,17 +12,14 @@
 
 class CraftingToolTemplate : public SharedTangibleObjectTemplate {
 private:
-
 	int toolType, complexityLevel, forceCritAssembly, forceCritExperiment;
 	Vector<uint32> tabs;
 
 public:
 	CraftingToolTemplate() : toolType(0), complexityLevel(0), forceCritAssembly(0), forceCritExperiment(0) {
-
 	}
 
 	~CraftingToolTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) override {
@@ -61,7 +58,6 @@ public:
 	const Vector<uint32>& getTabs() const {
 		return tabs;
 	}
-
 };
 
 #endif /* CRAFTINGTOOLTEMPLATE_H_ */

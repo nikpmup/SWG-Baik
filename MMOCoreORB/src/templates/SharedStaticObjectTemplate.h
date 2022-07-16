@@ -14,15 +14,11 @@
 
 class SharedStaticObjectTemplate : public SharedBuildingObjectTemplate {
 protected:
-
-
 public:
 	SharedStaticObjectTemplate() {
-
 	}
 
 	~SharedStaticObjectTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -33,7 +29,7 @@ public:
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'STAT') {
-			//Logger::console.error("expecting STAT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting STAT got " + String::hexvalueOf((int)nextType));
 
 			SharedBuildingObjectTemplate::readObject(iffStream);
 
@@ -70,8 +66,6 @@ public:
 
 		iffStream->closeForm('STAT');
 	}
-
 };
-
 
 #endif /* SHAREDSTATICOBJECTTEMPLATE_H_ */

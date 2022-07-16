@@ -158,7 +158,6 @@ public:
 		insertInt(23, size() - 27);
 		insertShort(27, updateCount);
 	}
-
 };
 
 #endif /*DELTAMESSAGE_H_*/

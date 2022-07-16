@@ -15,7 +15,6 @@ public:
 	uint32 getNewActionCount() {
 		return ++actionCount;
 	}
-
 };
 
 #endif /*CREATUREOBJECT_H_*/

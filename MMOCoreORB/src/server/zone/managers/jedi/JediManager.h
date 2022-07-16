@@ -36,18 +36,17 @@ private:
 	static void setupLuaValues(Lua* luaEngine);
 
 public:
-
 	enum {
-		NOJEDIPROGRESSION,         // Jedi progression not available.
-		HOLOGRINDJEDIPROGRESSION,  // Jedi progression through the hologrind system, i.e. master five random professions.
-		VILLAGEJEDIPROGRESSION,    // Jedi progression through the village system.
-		CUSTOMJEDIPROGRESSION      // Custom defined jedi progression system.
+		NOJEDIPROGRESSION,		  // Jedi progression not available.
+		HOLOGRINDJEDIPROGRESSION, // Jedi progression through the hologrind system, i.e. master five random professions.
+		VILLAGEJEDIPROGRESSION,	  // Jedi progression through the village system.
+		CUSTOMJEDIPROGRESSION	  // Custom defined jedi progression system.
 	};
 
 	enum {
-		ITEMHOLOCRON,         // Item type holocron.
-		ITEMWAYPOINTDATAPAD,  // Item type waypoint datapad.
-		ITEMTHEATERDATAPAD    // ITEMTHEATERDATAPAD
+		ITEMHOLOCRON,		 // Item type holocron.
+		ITEMWAYPOINTDATAPAD, // Item type waypoint datapad.
+		ITEMTHEATERDATAPAD	 // ITEMTHEATERDATAPAD
 	};
 
 	/**
@@ -147,10 +146,10 @@ public:
 	void onFSTreeCompleted(CreatureObject* creature, const String& branch);
 };
 
-}
-}
-}
-}
+} // namespace jedi
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::jedi;
 

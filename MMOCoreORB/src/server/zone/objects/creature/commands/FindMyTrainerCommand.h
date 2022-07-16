@@ -7,14 +7,10 @@
 
 class FindMyTrainerCommand : public QueueCommand {
 public:
-
-	FindMyTrainerCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	FindMyTrainerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -53,7 +49,7 @@ public:
 
 		String name = "@jedi_spam:trainer_waypoint_name";
 
-		ManagedReference<WaypointObject*> obj = ( server->getZoneServer()->createObject(0xc456e788, 1)).castTo<WaypointObject*>();
+		ManagedReference<WaypointObject*> obj = (server->getZoneServer()->createObject(0xc456e788, 1)).castTo<WaypointObject*>();
 
 		Locker locker(obj);
 
@@ -74,7 +70,7 @@ public:
 		if (zServ == nullptr)
 			return;
 
-		Vector<ManagedReference<SceneObject*> > trainers;
+		Vector<ManagedReference<SceneObject*>> trainers;
 		Vector<String> trainerTypes;
 
 		// Map categories defined here.
@@ -86,10 +82,10 @@ public:
 		trainerTypes.add("trainer_medic");
 
 		// Trainer number. Pick a random trainer, there are at least 600 in the galaxy.
-		for (int i=0; i < zServ->getZoneCount(); ++i) {
+		for (int i = 0; i < zServ->getZoneCount(); ++i) {
 			Zone* zone = zServ->getZone(i);
-			for (int j=0; j < trainerTypes.size(); ++j) {
-				SortedVector<ManagedReference<SceneObject*> > objectList = zone->getPlanetaryObjectList(trainerTypes.get(j));
+			for (int j = 0; j < trainerTypes.size(); ++j) {
+				SortedVector<ManagedReference<SceneObject*>> objectList = zone->getPlanetaryObjectList(trainerTypes.get(j));
 				trainers.addAll(objectList);
 			}
 		}
@@ -130,13 +126,11 @@ public:
 			zoneName = trainerZone->getZoneName();
 			coords = trainerCreo->getWorldPosition();
 			found = true;
-
 		}
 
 		ghost->setTrainerCoordinates(coords);
 		ghost->setTrainerZoneName(zoneName); // For the waypoint.
 	}
-
 };
 
-#endif //FINDMYTRAINERCOMMAND_H_
+#endif // FINDMYTRAINERCOMMAND_H_

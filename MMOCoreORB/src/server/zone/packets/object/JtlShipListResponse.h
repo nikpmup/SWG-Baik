@@ -11,22 +11,19 @@
 #include "ObjectControllerMessage.h"
 #include "server/zone/objects/creature/CreatureObject.h"
 
-//TODO: This is very unsafe still...
+// TODO: This is very unsafe still...
 class JtlShipListResponse : public ObjectControllerMessage {
 public:
-	JtlShipListResponse(CreatureObject* creo, SceneObject* terminal)
-		: ObjectControllerMessage(creo->getObjectID(), 0x0B, 0x41D) {
-
+	JtlShipListResponse(CreatureObject* creo, SceneObject* terminal) : ObjectControllerMessage(creo->getObjectID(), 0x0B, 0x41D) {
 		insertInt(0); // size
-
 
 		SceneObject* datapad = creo->getSlottedObject("datapad");
 
-		//int offs = getOffset();
+		// int offs = getOffset();
 
-		//insertInt(2);
+		// insertInt(2);
 
-		//insertLong(terminal->getObjectID());
+		// insertLong(terminal->getObjectID());
 
 		/* TODO: Better method of this.
 		ManagedReference<ActiveArea*> region = terminal->getActiveRegion();

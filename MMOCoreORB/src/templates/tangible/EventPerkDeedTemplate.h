@@ -27,7 +27,6 @@ public:
 	}
 
 	~EventPerkDeedTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -44,7 +43,7 @@ public:
 		}
 
 		allowzones.pop();
-    }
+	}
 
 	int getPerkType() {
 		return perkType;
@@ -57,8 +56,6 @@ public:
 	inline bool isAllowedZone(const String& zoneName) {
 		return allowedZones.isEmpty() || allowedZones.contains(zoneName);
 	}
-
 };
-
 
 #endif /* EVENTPERKDEEDTEMPLATE_H_ */

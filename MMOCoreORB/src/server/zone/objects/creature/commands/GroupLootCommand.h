@@ -14,14 +14,10 @@
 
 class GroupLootCommand : public QueueCommand {
 public:
-
-	GroupLootCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GroupLootCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -32,7 +28,7 @@ public:
 		if (ghost == nullptr)
 			return GENERALERROR;
 
-		//Check if player is in a group.
+		// Check if player is in a group.
 		ManagedReference<GroupObject*> group = creature->getGroup();
 		if (group == nullptr) {
 			StringIdChatParameter groupOnly("group", "group_only"); //"You can only set or check group looting options if you are in a group."
@@ -42,22 +38,22 @@ public:
 
 		Locker glocker(group, creature);
 
-		//Check if player is the group leader. If not, give current loot rule and stop.
+		// Check if player is the group leader. If not, give current loot rule and stop.
 		if (group->getLeader() != creature) {
 			StringIdChatParameter error;
 
 			switch (group->getLootRule()) {
 			case GroupManager::FREEFORALL:
-				error.setStringId("group","selected_free4all"); //"Group Leader selected Free For All as the loot type for the group."
+				error.setStringId("group", "selected_free4all"); //"Group Leader selected Free For All as the loot type for the group."
 				break;
 			case GroupManager::MASTERLOOTER:
-				error.setStringId("group","selected_master"); //"Group Leader selected Master Looter as the loot type for the group."
+				error.setStringId("group", "selected_master"); //"Group Leader selected Master Looter as the loot type for the group."
 				break;
 			case GroupManager::LOTTERY:
-				error.setStringId("group","selected_lotto"); //"Group Leader selected Lottery as the loot type for the group."
+				error.setStringId("group", "selected_lotto"); //"Group Leader selected Lottery as the loot type for the group."
 				break;
 			case GroupManager::RANDOM:
-				error.setStringId("group","selected_random"); //"Group Leader selected Random as the loot type for the group."
+				error.setStringId("group", "selected_random"); //"Group Leader selected Random as the loot type for the group."
 				break;
 			default:
 				return GENERALERROR;
@@ -67,30 +63,28 @@ public:
 			return GENERALERROR;
 		}
 
-		//Close SUI box if already open.
+		// Close SUI box if already open.
 		ghost->closeSuiWindowType(SuiWindowType::GROUP_LOOT_RULE);
 
-		//Create the Group Loot Selection SUI box.
+		// Create the Group Loot Selection SUI box.
 		ManagedReference<SuiListBox*> sui = new SuiListBox(creature, SuiWindowType::GROUP_LOOT_RULE);
 		sui->setPromptTitle("@group:set_loot_type_title"); //"CHOOSE GROUP LOOT TYPE"
-		sui->setPromptText("@group:set_loot_type_text"); //"Choose from the following:"
+		sui->setPromptText("@group:set_loot_type_text");   //"Choose from the following:"
 		sui->setCancelButton(true, "@ui:cancel");
 		sui->setOkButton(true, "@ui:ok");
 		sui->setCallback(new GroupLootRuleSuiCallback(creature->getZoneServer()));
 
-		sui->addMenuItem("Free For All"); //No string in client?
-		sui->addMenuItem("Master Looter"); //No string in client?
+		sui->addMenuItem("Free For All");	   // No string in client?
+		sui->addMenuItem("Master Looter");	   // No string in client?
 		sui->addMenuItem("@ui_lottery:title"); //"Lottery"
-		sui->addMenuItem("@group:random"); //"Random"
+		sui->addMenuItem("@group:random");	   //"Random"
 
-		//Send group leader the SUI box.
+		// Send group leader the SUI box.
 		ghost->addSuiBox(sui);
 		creature->sendMessage(sui->generateMessage());
 
 		return SUCCESS;
-
 	}
-
 };
 
 #endif /* GROUPLOOTCOMMAND_H_ */

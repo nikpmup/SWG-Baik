@@ -7,14 +7,10 @@
 
 class NpcCommand : public QueueCommand {
 public:
-
-	NpcCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	NpcCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //NPCCOMMAND_H_
+#endif // NPCCOMMAND_H_

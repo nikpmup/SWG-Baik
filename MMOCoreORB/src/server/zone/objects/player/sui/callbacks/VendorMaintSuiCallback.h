@@ -12,10 +12,8 @@
 #include "server/zone/objects/tangible/components/vendor/VendorDataComponent.h"
 
 class VendorMaintSuiCallback : public SuiCallback {
-
 public:
 	VendorMaintSuiCallback(ZoneServer* serv) : SuiCallback(serv) {
-
 	}
 
 	void run(CreatureObject* creature, SuiBox* sui, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -30,28 +28,26 @@ public:
 
 			ManagedReference<SceneObject*> vendor = sui->getUsingObject().get();
 
-			if(vendor == nullptr)
+			if (vendor == nullptr)
 				return;
 
 			DataObjectComponentReference* data = vendor->getDataObjectComponent();
-			if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
+			if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
 				return;
 			}
 
 			VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-			if(vendorData == nullptr) {
+			if (vendorData == nullptr) {
 				return;
 			}
 
-			if(sui->getWindowType() == SuiWindowType::STRUCTURE_VENDOR_PAY) {
+			if (sui->getWindowType() == SuiWindowType::STRUCTURE_VENDOR_PAY) {
 				vendorData->handlePayMaintanence(value);
 			} else {
 				vendorData->handleWithdrawMaintanence(value);
 			}
 
-
-		} catch(Exception& e) {
-
+		} catch (Exception& e) {
 		}
 	}
 };

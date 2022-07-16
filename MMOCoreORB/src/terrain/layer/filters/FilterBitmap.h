@@ -8,7 +8,6 @@
 #ifndef FILTERBITMAP_H_
 #define FILTERBITMAP_H_
 
-
 #include "../ProceduralRule.h"
 
 #include "FilterProceduralRule.h"
@@ -17,15 +16,15 @@ class TargaBitmap;
 
 class FilterBitmap : public FilterProceduralRule {
 	int bitmapId;
-	//int featharingType;
-	//float featheringAmount;
+	// int featharingType;
+	// float featheringAmount;
 	float min;
 	float max;
 
 	TargaBitmap* map;
 
 public:
-	FilterBitmap() : FilterProceduralRule(5, 'FBIT'), bitmapId(0), min(0), max(0), map(nullptr) { //magic numbers from the client
+	FilterBitmap() : FilterProceduralRule(5, 'FBIT'), bitmapId(0), min(0), max(0), map(nullptr) { // magic numbers from the client
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {
@@ -52,7 +51,7 @@ public:
 
 		iffStream->openChunk('PARM');
 
-		//5 vars
+		// 5 vars
 		bitmapId = iffStream->getInt();
 		featheringType = iffStream->getInt();
 		featheringAmount = iffStream->getFloat();
@@ -66,6 +65,5 @@ public:
 
 	float process(float x, float y, float transformValue, float& baseValue, TerrainGenerator* terrainGenerator, FilterRectangle* rect);
 };
-
 
 #endif /* FILTERBIT_H_ */

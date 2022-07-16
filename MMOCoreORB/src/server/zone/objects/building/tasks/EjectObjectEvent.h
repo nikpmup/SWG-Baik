@@ -25,14 +25,9 @@ public:
 
 		if (object->isCreatureObject()) {
 			StringBuffer msg;
-			msg << "EjectObjectEvent("
-				<< object->getObjectID()
-				<< ", x:" << x
-				<< ", z:" << z
-				<< ", y:" << y
-				<< ")"
+			msg << "EjectObjectEvent(" << object->getObjectID() << ", x:" << x << ", z:" << z << ", y:" << y << ")"
 				<< " from " << object->getWorldPosition().toString();
-				;
+			;
 
 			auto creo = object->asCreatureObject();
 
@@ -54,6 +49,5 @@ public:
 		object->updateZone(true, true);
 	}
 };
-
 
 #endif /* EJECTOBJECTEVENT_H_ */

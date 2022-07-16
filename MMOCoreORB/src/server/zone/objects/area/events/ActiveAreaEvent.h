@@ -18,47 +18,46 @@
 #include "server/zone/Zone.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace area {
+namespace zone {
+namespace objects {
+namespace area {
 
-   namespace events {
+namespace events {
 
-   class ActiveAreaEvent : public Task {
-	   uint32 eventType;
+class ActiveAreaEvent : public Task {
+	uint32 eventType;
 
-	   ManagedWeakReference<ActiveArea*> activeArea;
-	   ManagedWeakReference<SceneObject*> sceneObject;
+	ManagedWeakReference<ActiveArea*> activeArea;
+	ManagedWeakReference<SceneObject*> sceneObject;
 
-   public:
-	   const static int ENTEREVENT = 1;
-	   const static int EXITEVENT = 2;
+public:
+	const static int ENTEREVENT = 1;
+	const static int EXITEVENT = 2;
 
-   public:
-	   ActiveAreaEvent(ActiveArea* ar, SceneObject* obj, uint32 eventt) {
-		   activeArea = ar;
-		   eventType = eventt;
-		   sceneObject = obj;
+public:
+	ActiveAreaEvent(ActiveArea* ar, SceneObject* obj, uint32 eventt) {
+		activeArea = ar;
+		eventType = eventt;
+		sceneObject = obj;
 
-		   if (!obj) {
-		   	return;
-		   }
+		if (!obj) {
+			return;
+		}
 
-		   const auto zone = obj->getZone();
+		const auto zone = obj->getZone();
 
-		   if (zone) {
-		   	setCustomTaskQueue(zone->getZoneName());
-		   }
-	   }
+		if (zone) {
+			setCustomTaskQueue(zone->getZoneName());
+		}
+	}
 
-	   void run();
-
-   };
-    }
-   }
-  }
- }
-}
+	void run();
+};
+} // namespace events
+} // namespace area
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::area::events;
 

@@ -7,7 +7,6 @@
 
 class ForceAbsorb1Command : public JediQueueCommand {
 public:
-
 	ForceAbsorb1Command(const String& name, ZoneProcessServer* server) : JediQueueCommand(name, server) {
 		buffCRC = BuffCRC::JEDI_FORCE_ABSORB_1;
 		blockingCRCs.add(BuffCRC::JEDI_FORCE_ABSORB_2);
@@ -41,4 +40,4 @@ public:
 	}
 };
 
-#endif //FORCEABSORB1COMMAND_H_
+#endif // FORCEABSORB1COMMAND_H_

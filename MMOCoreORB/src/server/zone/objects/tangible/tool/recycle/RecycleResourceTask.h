@@ -32,11 +32,11 @@ public:
 	}
 
 	void run() {
-		ManagedReference<SceneObject* > sceno = recycler->getParentRecursively(SceneObjectType::PLAYERCREATURE);
+		ManagedReference<SceneObject*> sceno = recycler->getParentRecursively(SceneObjectType::PLAYERCREATURE);
 		if (!sceno->isPlayerCreature() || sceno == nullptr) {
 			return;
 		} else {
-			player = cast <CreatureObject*>(sceno.get());
+			player = cast<CreatureObject*>(sceno.get());
 		}
 
 		Locker locker(player);
@@ -55,21 +55,21 @@ public:
 
 		ResourceContainer* resCon = cast<ResourceContainer*>(insertedItem.get());
 
-		if(resCon == nullptr) {
+		if (resCon == nullptr) {
 			removeFromRecycler("resource container nullptr");
 			return;
 		}
 
 		resource = resCon->getSpawnObject();
 
-		if(resource == nullptr) {
+		if (resource == nullptr) {
 			removeFromRecycler("spawn object nullptr");
 			return;
 		}
 
 		ResourceManager* manager = player->getZoneServer()->getResourceManager();
 
-		if(manager == nullptr) {
+		if (manager == nullptr) {
 			removeFromRecycler("failed to get resourceManager");
 			return;
 		}
@@ -92,14 +92,13 @@ public:
 			return;
 		}
 
-
 		if (resourceRecycleType == RecycleTool::NOTYPE) {
 			player->sendSystemMessage("@recycler_messages:no_type"); // That resource can not be recycled as it does not have a processed form.
 			removeFromRecycler("invalid resource");
 			return;
 		}
 
-		if(resourceRecycleType != recyclerSelectedType) {
+		if (resourceRecycleType != recyclerSelectedType) {
 			removeFromRecycler("mismatched resource type");
 			String stub = "@recycler_messages:only_";
 			if (recycler->getToolType() == RecycleTool::METAL) {

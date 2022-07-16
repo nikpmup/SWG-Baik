@@ -35,21 +35,18 @@ public:
 		Locker _locker(strongParent);
 
 		if (play->isOnline() || play->isLinkDead()) {
-			if (play->getForcePowerMax() > 0  && (play->getForcePowerMax() - play->getForcePower() > 0)){
+			if (play->getForcePowerMax() > 0 && (play->getForcePowerMax() - play->getForcePower() > 0)) {
 				play->doForceRegen();
 			}
 		}
-
-
 	}
-
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace player
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::player::events;
 

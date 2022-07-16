@@ -19,34 +19,32 @@ public:
 class DenyTradeMessageCallback : public MessageCallback {
 public:
 	DenyTradeMessageCallback(ZoneClientSession *session, ZoneProcessServer *server) : MessageCallback(session, server) {
-
 	}
 
-	void parse(Message* message) {
-
+	void parse(Message *message) {
 	}
 
 	void run() {
-		Reference<CreatureObject*> object = client->getPlayer();
+		Reference<CreatureObject *> object = client->getPlayer();
 
 		if (object == nullptr)
 			return;
 
 		Locker _locker(object);
-		Reference<TradeSession*> tradeContainer = object->getActiveSession(SessionFacadeType::TRADE).castTo<TradeSession*>();
+		Reference<TradeSession *> tradeContainer = object->getActiveSession(SessionFacadeType::TRADE).castTo<TradeSession *>();
 
 		if (tradeContainer == nullptr) {
 			object->error("DenyTradeMessage without TradeSession");
 			return;
-                }
+		}
 
 		uint64 targetID = tradeContainer->getTradeTargetPlayer();
 
-		Reference<ZoneServer*> zone = getServer()->getZoneServer();
+		Reference<ZoneServer *> zone = getServer()->getZoneServer();
 		if (zone == nullptr)
 			return;
 
-		Reference<CreatureObject*> target = zone->getObject(targetID).castTo<CreatureObject*>();
+		Reference<CreatureObject *> target = zone->getObject(targetID).castTo<CreatureObject *>();
 		if (target != nullptr)
 			target->sendMessage(new DenyTradeMessage());
 	}

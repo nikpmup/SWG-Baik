@@ -9,12 +9,9 @@
 
 class Animation : public ObjectControllerMessage {
 public:
-	Animation(CreatureObject* creo, const String& anim) 
-			: ObjectControllerMessage(creo->getObjectID(), 0x1B, 0xF2, false) {
-				
-			insertAscii(anim.toCharArray());
+	Animation(CreatureObject* creo, const String& anim) : ObjectControllerMessage(creo->getObjectID(), 0x1B, 0xF2, false) {
+		insertAscii(anim.toCharArray());
 	}
-
 };
 
 #endif /*STRINGANIMATION_H_*/

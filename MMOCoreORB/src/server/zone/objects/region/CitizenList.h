@@ -18,5 +18,4 @@ public:
 	}
 };
 
-
 #endif /* CITIZENLIST_H_ */

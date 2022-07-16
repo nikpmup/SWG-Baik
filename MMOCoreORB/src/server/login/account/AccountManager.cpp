@@ -47,7 +47,6 @@ AccountManager::AccountManager(LoginServer* loginserv) : Logger("AccountManager"
 }
 
 AccountManager::~AccountManager() {
-
 }
 
 void AccountManager::loginAccount(LoginClient* client, Message* packet) {
@@ -68,17 +67,9 @@ void AccountManager::loginAccount(LoginClient* client, Message* packet) {
 		return;
 
 #ifdef WITH_SESSION_API
-	SessionAPIClient::instance()->approveNewSession(client->getIPAddress(), account->getAccountID(),
-			[this,
-			loginClient = Reference<LoginClient*>(client),
-			loginAccount = Reference<Account*>(account)
-			](const SessionApprovalResult& result) {
-
+	SessionAPIClient::instance()->approveNewSession(client->getIPAddress(), account->getAccountID(), [this, loginClient = Reference<LoginClient*>(client), loginAccount = Reference<Account*>(account)](const SessionApprovalResult& result) {
 		if (result.isActionTemporaryFailure()) {
-			error()
-			    << "Unexpected failure in approveNewSession for user ["
-				<< (loginAccount == nullptr ? "<unknown user>" : loginAccount->getUsername())
-				<< "]: " << result.getLogMessage();
+			error() << "Unexpected failure in approveNewSession for user [" << (loginAccount == nullptr ? "<unknown user>" : loginAccount->getUsername()) << "]: " << result.getLogMessage();
 		}
 
 		if (loginClient == nullptr || loginAccount == nullptr)
@@ -136,23 +127,21 @@ void AccountManager::loginApprovedAccount(LoginClient* client, ManagedReference<
 Reference<Account*> AccountManager::validateAccountCredentials(LoginClient* client, const String& username, const String& password) {
 	StringBuffer query;
 	query << "SELECT a.account_id, a.username, a.password, a.salt, a.account_id, a.station_id, "
-		"UNIX_TIMESTAMP(a.created), a.admin_level FROM accounts a WHERE a.username = '" << username << "' LIMIT 1;";
+			 "UNIX_TIMESTAMP(a.created), a.admin_level FROM accounts a WHERE a.username = '"
+		  << username << "' LIMIT 1;";
 
 	String passwordStored;
-	Reference<Account*> account = getAccount(query.toString(), passwordStored, true); //force update of mysql rows to update galaxy bans
+	Reference<Account*> account = getAccount(query.toString(), passwordStored, true); // force update of mysql rows to update galaxy bans
 
 	if (account == nullptr) {
-		//The user name didn't exist, so we check if auto registration is enabled and create a new account
+		// The user name didn't exist, so we check if auto registration is enabled and create a new account
 		if (isAutoRegistrationEnabled() && client != nullptr) {
 			account = createAccount(username, password, passwordStored);
 		} else {
 			if (client != nullptr) {
-				client->sendErrorMessage("Login Error",
-					ConfigManager::instance()->getString("Core3.RegistrationMessage",
-						"Automatic registration is currently disabled. "
-						"Please contact the administrators of the server in order to get an authorized account."
-					)
-				);
+				client->sendErrorMessage("Login Error", ConfigManager::instance()->getString("Core3.RegistrationMessage",
+																							 "Automatic registration is currently disabled. "
+																							 "Please contact the administrators of the server in order to get an authorized account."));
 			}
 
 			return nullptr;
@@ -164,16 +153,13 @@ Reference<Account*> AccountManager::validateAccountCredentials(LoginClient* clie
 			const String& inactTitle = ConfigManager::instance()->getInactiveAccountTitle();
 			const String& inactText = ConfigManager::instance()->getInactiveAccountText();
 
-			client->sendErrorMessage(
-				inactTitle.length() == 0 ? "Account Disabled" : inactTitle,
-				inactText.length() == 0 ? "The server administrators have disabled your account." : inactText
-			);
+			client->sendErrorMessage(inactTitle.length() == 0 ? "Account Disabled" : inactTitle, inactText.length() == 0 ? "The server administrators have disabled your account." : inactText);
 		}
 
 		return nullptr;
 	}
 
-	//Check hash version
+	// Check hash version
 	String passwordHashed;
 	if (account->getSalt() == "") {
 		passwordHashed = Crypto::SHA1Hash(password);
@@ -182,16 +168,16 @@ Reference<Account*> AccountManager::validateAccountCredentials(LoginClient* clie
 	}
 
 	if (passwordStored != passwordHashed) {
-		if(client != nullptr)
+		if (client != nullptr)
 			client->sendErrorMessage("Wrong Password", "The password you entered was incorrect.");
 
 		return nullptr;
 	}
-	//update hash if unsalted
+	// update hash if unsalted
 	if (account->getSalt() == "")
 		updateHash(username, password);
 
-	//Check if they are banned
+	// Check if they are banned
 	if (account->isBanned()) {
 		StringBuffer reason;
 		reason << "Your account has been banned from the server by the administrators.\n\n";

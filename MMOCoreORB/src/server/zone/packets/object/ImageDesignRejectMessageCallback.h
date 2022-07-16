@@ -22,13 +22,11 @@ class ImageDesignRejectMessageCallback : public MessageCallback {
 	ObjectControllerMessageCallback* objectControllerMain;
 
 public:
-	ImageDesignRejectMessageCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-			MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-			designer(0), target(0), tent(0), type(0), objectControllerMain(objectControllerCallback) {
+	ImageDesignRejectMessageCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), designer(0), target(0), tent(0), type(0), objectControllerMain(objectControllerCallback) {
 	}
 
 	void parse(Message* message) {
-		message->shiftOffset(4);//?
+		message->shiftOffset(4); //?
 		designer = message->parseLong();
 		target = message->parseLong();
 		tent = message->parseLong();
@@ -52,6 +50,5 @@ public:
 		session->cancelImageDesign(designer, target, tent, type, data);
 	}
 };
-
 
 #endif /* IMAGEDESIGNREJECTMESSAGECALLBACK_H_ */

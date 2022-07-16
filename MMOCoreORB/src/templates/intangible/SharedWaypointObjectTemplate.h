@@ -11,21 +11,18 @@
 #include "templates/SharedIntangibleObjectTemplate.h"
 
 class SharedWaypointObjectTemplate : public SharedIntangibleObjectTemplate {
-
 public:
 	SharedWaypointObjectTemplate() {
-
 	}
 
 	~SharedWaypointObjectTemplate() {
-
 	}
 
 	void readObject(IffStream* iffStream) {
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'SWAY') {
-			//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 			SharedIntangibleObjectTemplate::readObject(iffStream);
 
@@ -42,11 +39,10 @@ public:
 			derv = iffStream->getNextFormType();
 		}
 
-
 		iffStream->openForm(derv);
 
 		try {
-			//parseFileData(iffStream);
+			// parseFileData(iffStream);
 		} catch (Exception& e) {
 			String msg;
 			msg += "exception caught parsing file data ->";
@@ -63,8 +59,6 @@ public:
 
 		iffStream->closeForm('SWAY');
 	}
-
 };
-
 
 #endif /* SHAREDWAYPOINTOBJECTTEMPLATE_H_ */

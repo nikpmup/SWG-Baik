@@ -9,19 +9,19 @@
 
 namespace server {
 namespace zone {
-	namespace objects {
-		namespace creature {
-			class CreatureObject;
-		}
-	}
+namespace objects {
+namespace creature {
+class CreatureObject;
+}
+} // namespace objects
 namespace managers {
 namespace player {
 
 using namespace server::zone::objects::creature;
 
 class PlayerMap : public Mutex, public Object {
-	HashTable<String, Reference<CreatureObject*> > players;
-	HashTableIterator<String, Reference<CreatureObject*> > iter;
+	HashTable<String, Reference<CreatureObject*>> players;
+	HashTableIterator<String, Reference<CreatureObject*>> iter;
 
 public:
 	PlayerMap(int initsize);
@@ -40,16 +40,13 @@ public:
 	void resetIterator(bool doLock = true);
 
 	int size(bool doLock = true);
-
 };
 
-
-}
-}
-}
-}
+} // namespace player
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::player;
-
 
 #endif /*PLAYERMAPIMPLEMENTATION_H_*/

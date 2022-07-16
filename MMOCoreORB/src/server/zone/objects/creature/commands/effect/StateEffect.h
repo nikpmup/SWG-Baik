@@ -34,7 +34,7 @@ public:
 
 	StateEffect(const StateEffect& effect) : Object() {
 		effectType = effect.effectType;
-		defenderExclusionTimers =  effect.defenderExclusionTimers;
+		defenderExclusionTimers = effect.defenderExclusionTimers;
 		defenderStateDefenseModifiers = effect.defenderStateDefenseModifiers;
 		defenderJediStateDefenseModifiers = effect.defenderJediStateDefenseModifiers;
 		stateChance = effect.stateChance;
@@ -42,12 +42,12 @@ public:
 		stateLength = effect.stateLength;
 	}
 
-	StateEffect& operator= (const StateEffect& effect) {
+	StateEffect& operator=(const StateEffect& effect) {
 		if (this == &effect)
 			return *this;
 
 		effectType = effect.effectType;
-		defenderExclusionTimers =  effect.defenderExclusionTimers;
+		defenderExclusionTimers = effect.defenderExclusionTimers;
 		defenderStateDefenseModifiers = effect.defenderStateDefenseModifiers;
 		defenderJediStateDefenseModifiers = effect.defenderJediStateDefenseModifiers;
 		stateChance = effect.stateChance;
@@ -61,7 +61,8 @@ public:
 		return 0;
 	}
 
-	virtual ~StateEffect() {}
+	virtual ~StateEffect() {
+	}
 
 	void loadState(LuaObject state) {
 		effectType = state.getByteField("effectType");
@@ -150,6 +151,5 @@ public:
 		this->stateStrength = stateStrength;
 	}
 };
-
 
 #endif /* STATEEFFECT_H_ */

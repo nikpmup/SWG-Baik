@@ -2,7 +2,6 @@
 				Copyright <SWGEmu>
 		See file COPYING for copying conditions.*/
 
-
 #ifndef CELLOBJECTDELTAMESSAGE3_H_
 #define CELLOBJECTDELTAMESSAGE3_H_
 
@@ -13,8 +12,7 @@ class CellObjectDeltaMessage3 : public DeltaMessage {
 	CellObject* cell;
 
 public:
-	CellObjectDeltaMessage3(CellObject* co)
-			: DeltaMessage(co->getObjectID(), 0x53434C54, 3) {
+	CellObjectDeltaMessage3(CellObject* co) : DeltaMessage(co->getObjectID(), 0x53434C54, 3) {
 		cell = co;
 	}
 

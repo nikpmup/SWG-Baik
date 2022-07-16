@@ -11,10 +11,7 @@
 
 class DatabaseCommand : public QueueCommand {
 public:
-
-	DatabaseCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DatabaseCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -42,33 +39,31 @@ public:
 			objectID = tokenizer.getLongToken();
 
 		} catch (const Exception& err) {
-			creature->sendSystemMessage("Error parsing objectID: " +  err.getMessage());
+			creature->sendSystemMessage("Error parsing objectID: " + err.getMessage());
 			return INVALIDPARAMETERS;
 		}
 
 		String strResource;
 
-		if (!(arg0 == "cityregions" || arg0 == "factionstructures" || arg0 == "playerstructures" || arg0 == "sceneobjects" || arg0 == "clientobjects" || arg0 == "resourcespawns" ||
-				arg0 == "characters" || arg0 == "deleted_characters") ){
+		if (!(arg0 == "cityregions" || arg0 == "factionstructures" || arg0 == "playerstructures" || arg0 == "sceneobjects" || arg0 == "clientobjects" || arg0 == "resourcespawns" || arg0 == "characters" || arg0 == "deleted_characters")) {
 			creature->sendSystemMessage("Command format is database  < playerstructures | cityregions  | sceneobjects | clientobjects >  <objectid>");
 
 			return INVALIDPARAMETERS;
 		}
 
 		try {
-			if (arg0 == "characters" || arg0 == "deleted_characters" ) {
+			if (arg0 == "characters" || arg0 == "deleted_characters") {
 				doSQLQuery(creature, arg0, objectID);
 			} else {
 				doObjectDBQuery(creature, arg0, objectID);
 			}
-		} catch (const  Exception& err) {
+		} catch (const Exception& err) {
 			creature->sendSystemMessage("Error in database lookup: " + err.getMessage());
 			error() << err.getMessage();
 		}
 
 		return SUCCESS;
 	}
-
 
 private:
 	void doObjectDBQuery(CreatureObject* creature, String db, uint64 objectID) const {
@@ -87,14 +82,14 @@ private:
 
 			ObjectDatabase* thisDatabase = cast<ObjectDatabase*>(ObjectDatabaseManager::instance()->getDatabase(id));
 
-			if(thisDatabase == nullptr || !thisDatabase->isObjectDatabase()) {
+			if (thisDatabase == nullptr || !thisDatabase->isObjectDatabase()) {
 				creature->sendSystemMessage("Error retrieving " + db + " database.");
 				return;
 			}
 
 			ObjectInputStream objectData(2000);
 
-			if (!(thisDatabase->getData(objectID,&objectData))) {
+			if (!(thisDatabase->getData(objectID, &objectData))) {
 				uint32 serverObjectCRC;
 				String className;
 
@@ -113,7 +108,7 @@ private:
 			}
 		} catch (const DatabaseException& err) {
 			msg << endl << err.getMessage();
-		} catch (const Exception& err){
+		} catch (const Exception& err) {
 			msg << endl << err.getMessage();
 		}
 
@@ -128,9 +123,9 @@ private:
 			selectStatement << "SELECT * FROM " << db << " WHERE character_oid = " << objectID;
 			UniqueReference<ResultSet*> queryResults(ServerDatabase::instance()->executeQuery(selectStatement));
 
-			if (queryResults == nullptr || queryResults.get()->getRowsAffected() == 0){
+			if (queryResults == nullptr || queryResults.get()->getRowsAffected() == 0) {
 				msg << endl << "No results for " << selectStatement.toString();
-			} else if ( queryResults->getRowsAffected() > 1) {
+			} else if (queryResults->getRowsAffected() > 1) {
 				msg << endl << "Duplicate character id.";
 			} else {
 				while (queryResults->next()) {
@@ -146,7 +141,7 @@ private:
 						msg << "Name: " << queryResults->getString(3) << " " << queryResults->getString(4) << endl;
 
 					if (db == "deleted_characters")
-						msg << "db_deleted: " <<  String::valueOf(queryResults->getInt(9)) << endl;
+						msg << "db_deleted: " << String::valueOf(queryResults->getInt(9)) << endl;
 				}
 			}
 		} catch (const DatabaseException& err) {
@@ -159,4 +154,4 @@ private:
 	}
 };
 
-#endif //DATABASECOMMAND_H_
+#endif // DATABASECOMMAND_H_

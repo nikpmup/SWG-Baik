@@ -14,14 +14,14 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
 namespace region {
-	class CityRegion;
+class CityRegion;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 using namespace server::zone::objects::region;
@@ -31,9 +31,7 @@ class CitySetTaxSuiCallback : public SuiCallback {
 	int taxSelected;
 
 public:
-	CitySetTaxSuiCallback(ZoneServer* server, CityRegion* city, int tax)
-		: SuiCallback(server) {
-
+	CitySetTaxSuiCallback(ZoneServer* server, CityRegion* city, int tax) : SuiCallback(server) {
 		cityRegion = city;
 		taxSelected = tax;
 	}

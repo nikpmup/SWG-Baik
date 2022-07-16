@@ -7,14 +7,10 @@
 
 class SplitCreditsWithGroupCommand : public QueueCommand {
 public:
-
-	SplitCreditsWithGroupCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SplitCreditsWithGroupCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SPLITCREDITSWITHGROUPCOMMAND_H_
+#endif // SPLITCREDITSWITHGROUPCOMMAND_H_

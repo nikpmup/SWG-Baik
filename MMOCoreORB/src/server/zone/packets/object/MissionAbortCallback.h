@@ -8,29 +8,24 @@
 #ifndef MISSIONABORTCALLBACK_H_
 #define MISSIONABORTCALLBACK_H_
 
-
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "ObjectControllerMessageCallback.h"
 #include "server/zone/managers/mission/MissionManager.h"
 #include "server/zone/objects/mission/MissionObject.h"
 
-
 class MissionAbortCallback : public MessageCallback {
 	uint64 missionObjectID;
 
 	ObjectControllerMessageCallback* objectControllerMain;
-public:
-	MissionAbortCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-		missionObjectID(0), objectControllerMain(objectControllerCallback) {
 
+public:
+	MissionAbortCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), missionObjectID(0), objectControllerMain(objectControllerCallback) {
 	}
 
 	void parse(Message* message) {
-		//System::out << message->toStringData() << endl;
+		// System::out << message->toStringData() << endl;
 		message->parseInt();
 		missionObjectID = message->parseLong();
-
 	}
 
 	void run() {
@@ -47,7 +42,7 @@ public:
 		if (!mission->isMissionObject())
 			return;
 
-		MissionObject* missionObject = cast<MissionObject*>( mission.get());
+		MissionObject* missionObject = cast<MissionObject*>(mission.get());
 
 		MissionManager* manager = server->getZoneServer()->getMissionManager();
 		manager->handleMissionAbort(missionObject, player);
@@ -58,6 +53,5 @@ public:
 		player->sendMessage(mar);
 	}
 };
-
 
 #endif /* MISSIONABORTCALLBACK_H_ */

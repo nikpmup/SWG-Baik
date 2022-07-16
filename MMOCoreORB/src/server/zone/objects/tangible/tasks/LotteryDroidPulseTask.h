@@ -33,8 +33,8 @@ public:
 		if (gameStatus == LotteryDroid::GAMESTARTED) {
 			strongRef->endGame();
 
-				// Resets duration to so that droid will stay in world for 72 hours after game ends to give lottery results
-				this->reschedule(72 * 60 * 60 * 1000); // 72 hours
+			// Resets duration to so that droid will stay in world for 72 hours after game ends to give lottery results
+			this->reschedule(72 * 60 * 60 * 1000); // 72 hours
 		} else if (gameStatus == LotteryDroid::GAMEENDED) {
 			EventPerkDataComponent* gameData = cast<EventPerkDataComponent*>(strongRef->getDataObjectComponent()->get());
 
@@ -51,11 +51,11 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace tasks
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::tangible::tasks;
 

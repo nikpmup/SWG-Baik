@@ -10,9 +10,8 @@
 
 #include "templates/SharedTangibleObjectTemplate.h"
 
-class LiveSampleTemplate: public SharedTangibleObjectTemplate {
+class LiveSampleTemplate : public SharedTangibleObjectTemplate {
 protected:
-
 	String animation;
 
 public:
@@ -21,19 +20,16 @@ public:
 	}
 
 	~LiveSampleTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
 		SharedTangibleObjectTemplate::readObject(templateData);
 		animation = templateData->getStringField("animation");
-
 	}
 
 	String getAnimation() {
 		return animation;
 	}
 };
-
 
 #endif /* LIVESAMPLETEMPLATE_H_ */

@@ -21,16 +21,14 @@
 #include "DraftSchematicGroup.h"
 
 class SchematicMap : public Singleton<SchematicMap>, public Lua {
-
-	VectorMap<uint32, Reference<DraftSchematic* > > schematicCrcMap;
-	VectorMap<String, DraftSchematicGroup* > groupMap;
+	VectorMap<uint32, Reference<DraftSchematic*>> schematicCrcMap;
+	VectorMap<String, DraftSchematicGroup*> groupMap;
 	Reference<ZoneServer*> zoneServer;
 	ObjectManager* objectManager;
 
 	VectorMap<uint32, String> iffGroupMap;
 
 public:
-
 	SchematicMap();
 	~SchematicMap();
 
@@ -40,8 +38,8 @@ public:
 
 	bool addSchematics(PlayerObject* playerObject, const Vector<String>& schematicgroups, bool updateClient);
 	void removeSchematics(PlayerObject* playerObject, const Vector<String>& schematicgroups, bool updateClient);
-//	bool addSchematic(PlayerObject* playerObject, DraftSchematic* schematic, bool updateClient);
-//	void removeSchematic(PlayerObject* playerObject, DraftSchematic* schematic, bool updateClient);
+	//	bool addSchematic(PlayerObject* playerObject, DraftSchematic* schematic, bool updateClient);
+	//	void removeSchematic(PlayerObject* playerObject, DraftSchematic* schematic, bool updateClient);
 
 	void sendDraftSlotsTo(CreatureObject* player, uint32 schematicID);
 	void sendResourceWeightsTo(CreatureObject* player, uint32 schematicID);
@@ -51,7 +49,6 @@ public:
 	}
 
 private:
-
 	void loadSchematicGroups();
 	void loadDraftSchematicFile(String file);
 	void buildSchematicGroups();

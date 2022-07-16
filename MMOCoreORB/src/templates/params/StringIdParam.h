@@ -14,6 +14,7 @@
 class StringIdParamData {
 	StringParam file;
 	StringParam stringId;
+
 public:
 	StringIdParamData(const String& File, const String& id) {
 		file = File;
@@ -41,31 +42,28 @@ public:
 		stringId = "";
 	}
 
-
-	bool operator< (const StringIdParamData& val) const {
+	bool operator<(const StringIdParamData& val) const {
 		return false;
 	}
 
-	bool operator> (const StringIdParamData& val) const {
+	bool operator>(const StringIdParamData& val) const {
 		return false;
 	}
 
-	StringIdParamData& operator+= (const StringIdParamData& val) {
+	StringIdParamData& operator+=(const StringIdParamData& val) {
 		return *this;
 	}
 
-	StringIdParamData& operator-= (const StringIdParamData& val) {
+	StringIdParamData& operator-=(const StringIdParamData& val) {
 		return *this;
 	}
-
 
 	friend class StringIdParam;
 };
 
 class StringIdParam : public TemplateBase<StringIdParamData> {
-
 public:
-	StringIdParam(const String& str) :  TemplateBase<StringIdParamData>(StringIdParamData(str)) {
+	StringIdParam(const String& str) : TemplateBase<StringIdParamData>(StringIdParamData(str)) {
 		setType(STRINGID);
 	}
 
@@ -84,7 +82,7 @@ public:
 		int readCase = source->readByte();
 
 		if (readCase != 1) {
-			//create(StringIdParamData());
+			// create(StringIdParamData());
 			return false;
 		}
 
@@ -118,7 +116,7 @@ public:
 		else return "@" + file + ":" + stringId + "";
 	}*/
 
-	StringIdParam& operator= (const StringIdParamData& custom) {
+	StringIdParam& operator=(const StringIdParamData& custom) {
 		create(custom);
 
 		return *this;
@@ -126,18 +124,17 @@ public:
 
 	String getFullString() const {
 		String file = get().file.get();
-		//std::cout << "testFile:[" << file.toStdString() << "]\n";
+		// std::cout << "testFile:[" << file.toStdString() << "]\n";
 
 		String stringId = get().stringId.get();
-		//std::cout << "testStringId:[" << stringId.toStdString() << "]\n";
+		// std::cout << "testStringId:[" << stringId.toStdString() << "]\n";
 
 		if (stringId.isEmpty())
 			return get().file.toString();
 
-		else return "@" + file + ":" + stringId;
+		else
+			return "@" + file + ":" + stringId;
 	}
-
 };
-
 
 #endif /* STRINGIDPARAM_H_ */

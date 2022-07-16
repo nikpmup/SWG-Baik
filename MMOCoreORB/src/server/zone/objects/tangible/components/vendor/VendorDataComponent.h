@@ -12,7 +12,7 @@
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/managers/auction/AuctionsMap.h"
 
-class VendorDataComponent: public AuctionTerminalDataComponent {
+class VendorDataComponent : public AuctionTerminalDataComponent {
 protected:
 	uint64 ownerId;
 
@@ -48,27 +48,25 @@ protected:
 	Mutex adBarkingMutex;
 
 public:
-
 	enum {
-		USEXPINTERVAL       = 5, // 5 minutes
+		USEXPINTERVAL = 5, // 5 minutes
 
 		VENDORCHECKINTERVAL = 60, // 60 Minutes
-		VENDORCHECKDELAY    = 20, // 20 Minutes
+		VENDORCHECKDELAY = 20,	  // 20 Minutes
 
-		EMPTYWARNING        = 60 * 60 * 24 * 14, // 14 days
-		EMPTYDELETE         = 60 * 60 * 24 * 28, // 28 days
+		EMPTYWARNING = 60 * 60 * 24 * 14, // 14 days
+		EMPTYDELETE = 60 * 60 * 24 * 28,  // 28 days
 
-		DELETEWARNING       = 60 * 60 * 24 * 100, // 100 days
+		DELETEWARNING = 60 * 60 * 24 * 100, // 100 days
 
-		BARKRANGE           = 15, // 15 Meters
-		BARKINTERVAL        = 60 * 2 // 2 Minutes
+		BARKRANGE = 15,		  // 15 Meters
+		BARKINTERVAL = 60 * 2 // 2 Minutes
 	};
 
 public:
 	VendorDataComponent();
 
 	virtual ~VendorDataComponent() {
-
 	}
 
 	void initializeTransientMembers();
@@ -175,8 +173,7 @@ public:
 		if (auctionManager == nullptr)
 			return false;
 
-		ManagedReference<AuctionsMap*> auctionsMap =
-				auctionManager->getAuctionMap();
+		ManagedReference<AuctionsMap*> auctionsMap = auctionManager->getAuctionMap();
 		if (auctionsMap == nullptr) {
 			return false;
 		}

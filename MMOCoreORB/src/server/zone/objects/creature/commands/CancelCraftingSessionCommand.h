@@ -9,26 +9,22 @@
 
 class CancelCraftingSessionCommand : public QueueCommand {
 public:
-
-	CancelCraftingSessionCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CancelCraftingSessionCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
 
-		if(!creature->isPlayerCreature())
+		if (!creature->isPlayerCreature())
 			return INVALIDTARGET;
 
 		Reference<CraftingSession*> session = creature->getActiveSession(SessionFacadeType::CRAFTING).castTo<CraftingSession*>();
 
-		if(session == nullptr) {
+		if (session == nullptr) {
 			return GENERALERROR;
 		}
 
@@ -37,7 +33,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CANCELCRAFTINGSESSIONCOMMAND_H_
+#endif // CANCELCRAFTINGSESSIONCOMMAND_H_

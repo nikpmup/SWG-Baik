@@ -8,8 +8,7 @@
 
 class FireworkShowReorderShowSuiCallback : public SuiCallback {
 public:
-	FireworkShowReorderShowSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	FireworkShowReorderShowSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -43,7 +42,7 @@ public:
 
 		DataObjectComponent* data = fireworkShow->getDataObjectComponent()->get();
 
-		if(data == nullptr || !data->isFireworkShowData())
+		if (data == nullptr || !data->isFireworkShowData())
 			return;
 
 		FireworkShowDataComponent* fireworkShowData = cast<FireworkShowDataComponent*>(data);

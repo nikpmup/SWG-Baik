@@ -18,8 +18,7 @@ ThreatMatrix::ThreatMatrix() : damageMap(1, 0), aggroMap(1, 0), healMap(1, 0) {
 ThreatMatrix::~ThreatMatrix() {
 }
 
-ThreatMatrix::ThreatMatrix(const ThreatMatrix& e)
-	: tauntThreat(e.tauntThreat), focusedThreat(e.focusedThreat), damageMap(e.damageMap), aggroMap(e.aggroMap), healMap(e.healMap) {
+ThreatMatrix::ThreatMatrix(const ThreatMatrix& e) : tauntThreat(e.tauntThreat), focusedThreat(e.focusedThreat), damageMap(e.damageMap), aggroMap(e.aggroMap), healMap(e.healMap) {
 }
 
 ThreatMatrix& ThreatMatrix::operator=(const ThreatMatrix& e) {

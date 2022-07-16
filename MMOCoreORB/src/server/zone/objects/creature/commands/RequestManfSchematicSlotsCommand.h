@@ -7,14 +7,10 @@
 
 class RequestManfSchematicSlotsCommand : public QueueCommand {
 public:
-
-	RequestManfSchematicSlotsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RequestManfSchematicSlotsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REQUESTMANFSCHEMATICSLOTSCOMMAND_H_
+#endif // REQUESTMANFSCHEMATICSLOTSCOMMAND_H_

@@ -17,6 +17,7 @@ using namespace server::db::mysql;
 class MysqlTask final : public Task {
 	MySqlDatabase* database;
 	String query;
+
 public:
 	MysqlTask(MySqlDatabase* db, const String& q) : database(db), query(q) {
 	}
@@ -27,7 +28,6 @@ public:
 		} catch (const Exception& e) {
 			database->error(e.getMessage().toCharArray());
 		}
-
 	}
 };
 
@@ -36,8 +36,7 @@ class MysqlCallback final : public Task {
 	Function<void(engine::db::ResultSet*)> callback;
 
 public:
-	MysqlCallback(engine::db::ResultSet* res, Function<void(engine::db::ResultSet*)>&& f)
-			: result(res), callback(std::move(f)) {
+	MysqlCallback(engine::db::ResultSet* res, Function<void(engine::db::ResultSet*)>&& f) : result(res), callback(std::move(f)) {
 	}
 
 	void run() final {
@@ -51,8 +50,7 @@ class MysqlLambda final : public Task {
 	Function<void(engine::db::ResultSet*)> function;
 
 public:
-	MysqlLambda(MySqlDatabase* db, const char* q,
-				Function<void(engine::db::ResultSet*)>&& f): database(db), query(q), function(std::move(f)) {
+	MysqlLambda(MySqlDatabase* db, const char* q, Function<void(engine::db::ResultSet*)>&& f) : database(db), query(q), function(std::move(f)) {
 	}
 
 	void run() final {
@@ -138,7 +136,7 @@ void MySqlDatabase::doExecuteStatement(const String& statement) {
 	while (mysql_query(&mysql, statement.toCharArray())) {
 		unsigned int errorNumber = mysql_errno(&mysql);
 
-		if (errorNumber != 1205/*ER_LOCK_WAIT_TIMEOUT*/) {
+		if (errorNumber != 1205 /*ER_LOCK_WAIT_TIMEOUT*/) {
 			error(statement.toCharArray());
 			break;
 		} else
@@ -159,7 +157,6 @@ void MySqlDatabase::doExecuteStatement(const String& statement) {
 		worker->addMysqlStats(statement, elapsed);
 	}
 #endif
-
 }
 
 void MySqlDatabase::executeStatement(const char* statement) {
@@ -193,7 +190,7 @@ engine::db::ResultSet* MySqlDatabase::executeQuery(const char* statement) {
 	while (mysql_query(&mysql, statement)) {
 		unsigned int errorNumber = mysql_errno(&mysql);
 
-		if (errorNumber != 1205/* ER_LOCK_WAIT_TIMEOUT*/) {
+		if (errorNumber != 1205 /* ER_LOCK_WAIT_TIMEOUT*/) {
 			error(statement);
 			break;
 		} else
@@ -203,8 +200,8 @@ engine::db::ResultSet* MySqlDatabase::executeQuery(const char* statement) {
 	MYSQL_RES* result = mysql_store_result(&mysql);
 
 	if (result == nullptr) {
-		//TA: insert statements return nullptr result
-		//but if the table has auto_increment you can still call mysql_insert_id(mysql) to get the last affected row
+		// TA: insert statements return nullptr result
+		// but if the table has auto_increment you can still call mysql_insert_id(mysql) to get the last affected row
 		if (mysql_field_count(&mysql) != 0) {
 			error(statement);
 		}

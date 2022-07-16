@@ -13,7 +13,6 @@ public:
 		insertShort(0x01);
 		insertInt(0xBBADAEB9);
 	}
-	
 };
 
 #endif /*GAMESCENECHANGEDMESSAGE_H_*/

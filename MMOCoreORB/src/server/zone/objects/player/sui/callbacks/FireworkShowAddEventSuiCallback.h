@@ -9,8 +9,7 @@
 
 class FireworkShowAddEventSuiCallback : public SuiCallback {
 public:
-	FireworkShowAddEventSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	FireworkShowAddEventSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -44,17 +43,17 @@ public:
 
 		DataObjectComponent* data = fireworkShow->getDataObjectComponent()->get();
 
-		if(data == nullptr || !data->isFireworkShowData())
+		if (data == nullptr || !data->isFireworkShowData())
 			return;
 
 		FireworkShowDataComponent* fireworkShowData = cast<FireworkShowDataComponent*>(data);
 
 		int curFireworks = fireworkShowData->getTotalFireworkCount();
 
-		if(firework->getUseCount() > 1) {
+		if (firework->getUseCount() > 1) {
 			ObjectManager* objectManager = ObjectManager::instance();
-			ManagedReference<TangibleObject*> clone = cast<TangibleObject*>( objectManager->cloneObject(firework));
-			if(clone == nullptr)
+			ManagedReference<TangibleObject*> clone = cast<TangibleObject*>(objectManager->cloneObject(firework));
+			if (clone == nullptr)
 				return;
 
 			Locker locker(clone);
@@ -78,7 +77,7 @@ public:
 
 		ManagedReference<TangibleObject*> fireworkShowObject = fireworkShow.castTo<TangibleObject*>();
 
-		if (fireworkShowObject != nullptr ) {
+		if (fireworkShowObject != nullptr) {
 			Locker locker(fireworkShowObject);
 			fireworkShowObject->setUseCount(fireworkShowObject->getUseCount() + 1, true);
 		}

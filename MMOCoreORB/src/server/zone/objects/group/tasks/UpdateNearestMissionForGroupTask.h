@@ -10,16 +10,16 @@
 namespace server {
 namespace zone {
 namespace objects {
-	namespace mission {
-		class MissionObject;
-	}
+namespace mission {
+class MissionObject;
+}
 
-	namespace player {
-		class PlayerObject;
-	}
+namespace player {
+class PlayerObject;
+}
 
 namespace group {
-	class GroupObject;
+class GroupObject;
 
 namespace tasks {
 
@@ -34,8 +34,7 @@ public:
 private:
 	float calculateManhattanDistanceToMission(const Vector3& position, server::zone::objects::mission::MissionObject* mission);
 
-	void setPlayersNearestMissionForGroupWaypoint(server::zone::objects::player::PlayerObject* ghost, 
-		server::zone::objects::mission::MissionObject* nearestMissionForGroup);
+	void setPlayersNearestMissionForGroupWaypoint(server::zone::objects::player::PlayerObject* ghost, server::zone::objects::mission::MissionObject* nearestMissionForGroup);
 };
 
 } // namespace tasks

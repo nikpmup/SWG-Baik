@@ -7,11 +7,12 @@
 class FieldFactionChangeSuiCallback : public SuiCallback {
 private:
 	int newStatus;
-public:
-	virtual ~FieldFactionChangeSuiCallback() { }
 
-	FieldFactionChangeSuiCallback(ZoneServer* server, int status)
-		: SuiCallback(server) {
+public:
+	virtual ~FieldFactionChangeSuiCallback() {
+	}
+
+	FieldFactionChangeSuiCallback(ZoneServer* server, int status) : SuiCallback(server) {
 		newStatus = status;
 	}
 
@@ -49,26 +50,30 @@ public:
 
 			ManagedReference<CreatureObject*> creo = player->asCreatureObject();
 
-			Core::getTaskManager()->scheduleTask([creo]{
-				if(creo != nullptr) {
-					Locker locker(creo);
+			Core::getTaskManager()->scheduleTask(
+				[creo] {
+					if (creo != nullptr) {
+						Locker locker(creo);
 
-					creo->setFactionStatus(FactionStatus::COVERT);
-				}
-			}, "UpdateFactionStatusTask", 30000);
+						creo->setFactionStatus(FactionStatus::COVERT);
+					}
+				},
+				"UpdateFactionStatusTask", 30000);
 		} else if (newStatus == FactionStatus::OVERT) {
 			player->sendSystemMessage("You will be flagged as Special Forces in 5 minutes."); // No string available for overt.
 			player->setFutureFactionStatus(FactionStatus::OVERT);
 
 			ManagedReference<CreatureObject*> creo = player->asCreatureObject();
 
-			Core::getTaskManager()->scheduleTask([creo]{
-				if(creo != nullptr) {
-					Locker locker(creo);
+			Core::getTaskManager()->scheduleTask(
+				[creo] {
+					if (creo != nullptr) {
+						Locker locker(creo);
 
-					creo->setFactionStatus(FactionStatus::OVERT);
-				}
-			}, "UpdateFactionStatusTask", 300000);
+						creo->setFactionStatus(FactionStatus::OVERT);
+					}
+				},
+				"UpdateFactionStatusTask", 300000);
 		}
 	}
 };

@@ -24,12 +24,11 @@ public:
 	}
 
 	void run() {
-
 		Locker locker(player);
 
 		player->removePendingTask("call_mount");
 
-		if(player->isInCombat())
+		if (player->isInCombat())
 			return;
 
 		ManagedReference<TangibleObject*> vehicle = device->getControlledObject();

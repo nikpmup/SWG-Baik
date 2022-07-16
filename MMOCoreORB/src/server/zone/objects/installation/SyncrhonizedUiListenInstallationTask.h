@@ -11,13 +11,13 @@
 #include "server/zone/objects/installation/InstallationObject.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace installation {
-
+namespace zone {
+namespace objects {
+namespace installation {
 
 class SyncrhonizedUiListenInstallationTask : public Task, public Logger {
 	ManagedWeakReference<InstallationObject*> installation;
+
 public:
 	SyncrhonizedUiListenInstallationTask(InstallationObject* inso) : Task(5000), Logger("SyncrhonizedUiListenInstallationTask") {
 		installation = inso;
@@ -36,7 +36,7 @@ public:
 				return;
 
 			strongRef->updateInstallationWork();
-			//strongRef->updateOperators();
+			// strongRef->updateOperators();
 			strongRef->verifyOperators();
 			strongRef->activateUiSync();
 
@@ -47,12 +47,11 @@ public:
 	}
 };
 
+} // namespace installation
+} // namespace objects
 
-   }
-  }
-
- }
-}
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::installation;
 

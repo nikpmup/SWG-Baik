@@ -145,8 +145,7 @@ void ImageDesignSessionImplementation::updateImageDesign(CreatureObject* updater
 
 		bool statMig = imageDesignData.isStatMigrationRequested();
 
-		if (statMig && strongReferenceDesigner->getParentRecursively(SceneObjectType::SALONBUILDING) &&
-			strongReferenceDesigner->getParentRecursively(SceneObjectType::SALONBUILDING) && strongReferenceDesigner != strongReferenceTarget) {
+		if (statMig && strongReferenceDesigner->getParentRecursively(SceneObjectType::SALONBUILDING) && strongReferenceDesigner->getParentRecursively(SceneObjectType::SALONBUILDING) && strongReferenceDesigner != strongReferenceTarget) {
 			ManagedReference<Facade*> facade = strongReferenceTarget->getActiveSession(SessionFacadeType::MIGRATESTATS);
 			ManagedReference<MigrateStatsSession*> session = dynamic_cast<MigrateStatsSession*>(facade.get());
 
@@ -169,8 +168,7 @@ void ImageDesignSessionImplementation::updateImageDesign(CreatureObject* updater
 			if (hairObject != nullptr)
 				hairObject->getCustomizationString(oldCustomization);
 
-			hairObject = imageDesignManager->createHairObject(strongReferenceDesigner, strongReferenceTarget, imageDesignData.getHairTemplate(),
-															  imageDesignData.getHairCustomizationString());
+			hairObject = imageDesignManager->createHairObject(strongReferenceDesigner, strongReferenceTarget, imageDesignData.getHairTemplate(), imageDesignData.getHairCustomizationString());
 
 			if (hairObject != nullptr) {
 				Locker hlocker(hairObject);

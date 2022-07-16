@@ -8,10 +8,8 @@
 #ifndef CREATEAUCTIONMESSAGECALLBACK_H_
 #define CREATEAUCTIONMESSAGECALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 #include "server/zone/managers/auction/AuctionManager.h"
-
 
 class CreateAuctionMessageCallback : public MessageCallback {
 	uint64 objectID;
@@ -23,24 +21,21 @@ class CreateAuctionMessageCallback : public MessageCallback {
 	UnicodeString description;
 
 	byte premium;
-public:
-	CreateAuctionMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-			MessageCallback(client, server), objectID(0), vendorID(0), price(0), duration(0), premium(0) {
 
+public:
+	CreateAuctionMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), objectID(0), vendorID(0), price(0), duration(0), premium(0) {
 	}
 
 	void parse(Message* message) {
-
 		objectID = message->parseLong(); // object for sale
 		vendorID = message->parseLong(); // vendor
 
-		price = message->parseInt(); // Sale price
+		price = message->parseInt();	// Sale price
 		duration = message->parseInt(); // How long to sell for in minutes
 
 		message->parseUnicode(description);
 
 		premium = message->parseByte();
-
 	}
 
 	void run() {
@@ -64,8 +59,6 @@ public:
 		if (auctionManager != nullptr)
 			auctionManager->addSaleItem(player, objectID, vendor, description, price, duration, true, premium);
 	}
-
 };
-
 
 #endif /* CREATEAUCTIONMESSAGECALLBACK_H_ */

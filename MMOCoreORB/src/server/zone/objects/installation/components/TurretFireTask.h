@@ -22,13 +22,11 @@ class TurretFireTask : public Task {
 	bool isManual;
 
 public:
-
 	TurretFireTask(TangibleObject* turret, TangibleObject* terminal, bool manual) {
 		turretObject = turret;
 		terminalObject = terminal;
 		isManual = manual;
 	}
-
 
 	void run() {
 		ManagedReference<TangibleObject*> turret = turretObject.get();
@@ -50,7 +48,7 @@ public:
 		if (isManual) {
 			target = turretData->getManualTarget();
 
-			if(!checkTarget(turret, target)) {
+			if (!checkTarget(turret, target)) {
 				turretData->rescheduleFireTask(true, false);
 				return;
 			}
@@ -140,7 +138,6 @@ public:
 		ManagedReference<CreatureObject*> attacker = turretData->getController();
 
 		if (!target->isAttackableBy(turret) || !turret->isInRange(target, turretData->getMaxRange())) {
-
 			closeControls(attacker);
 
 			if (attacker)
@@ -156,7 +153,6 @@ public:
 				attacker->sendSystemMessage("@hq:no_line_of_site"); // The turret does not have line of site with that target and is unable to attack it.
 
 			return false;
-
 		}
 
 		return true;

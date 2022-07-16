@@ -10,8 +10,7 @@
 
 class PlayerObjectMessage8 : public BaseLineMessage {
 public:
-	PlayerObjectMessage8(PlayerObjectImplementation* play)
-			: BaseLineMessage(play->getObjectID(), 0x504C4159, 8, 0x07) {
+	PlayerObjectMessage8(PlayerObjectImplementation* play) : BaseLineMessage(play->getObjectID(), 0x504C4159, 8, 0x07) {
 		// experiences
 		const DeltaVectorMap<String, int>* xpList = play->getExperienceList();
 		xpList->insertToMessage(this);
@@ -41,7 +40,6 @@ public:
 
 		setSize();
 	}
-
 };
 
 #endif /*PLAYEROBJECTMESSAGE8_H_*/

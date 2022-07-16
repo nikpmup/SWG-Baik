@@ -101,5 +101,4 @@ public:
 	}
 };
 
-
 #endif /* SKILLMODMAP_H_ */

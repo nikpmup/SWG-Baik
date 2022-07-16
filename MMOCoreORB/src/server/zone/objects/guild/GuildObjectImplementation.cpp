@@ -109,7 +109,6 @@ bool GuildObjectImplementation::isInWaringGuild(CreatureObject* creature) {
 	ManagedReference<GuildObject*> attackerGuild = creature->getGuildObject().get();
 
 	if (attackerGuild != nullptr) {
-
 		try {
 			if (isAtWarWith(attackerGuild->getObjectID())) {
 				return true;
@@ -117,7 +116,6 @@ bool GuildObjectImplementation::isInWaringGuild(CreatureObject* creature) {
 		} catch (...) {
 			error("unreported exception caught in bool GuildObjectImplementation::isInWaringGuild(CreatureObject* creature)");
 		}
-
 	}
 
 	return false;

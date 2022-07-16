@@ -13,9 +13,9 @@
 
 class RequestCategoriesResponseMessage : public BaseMessage {
 public:
-   RequestCategoriesResponseMessage(SortedVector<BugCategory>* categories) : BaseMessage() {
+	RequestCategoriesResponseMessage(SortedVector<BugCategory>* categories) : BaseMessage() {
 		insertShort(0x03);
-		insertInt(0x61148FD4);  // CRC
+		insertInt(0x61148FD4); // CRC
 
 		insertInt(0); //??
 		insertInt(categories->size());
@@ -30,16 +30,14 @@ public:
 		}
 
 		setCompression(true);
-   }
+	}
 };
 
 class RequestCategoriesMessageCallback : public MessageCallback {
 	String language;
 
 public:
-	RequestCategoriesMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	RequestCategoriesMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {

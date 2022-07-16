@@ -7,10 +7,7 @@
 
 class DismountandstoreCommand : public QueueCommand {
 public:
-
-	DismountandstoreCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DismountandstoreCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -30,7 +27,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DISMOUNTANDSTORECOMMAND_H_
+#endif // DISMOUNTANDSTORECOMMAND_H_

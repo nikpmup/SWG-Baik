@@ -8,6 +8,7 @@ class CoaMessageDataComponent : public DataObjectComponent {
 protected:
 	SerializableString faction;
 	int number;
+
 public:
 	CoaMessageDataComponent() {
 		number = 1;
@@ -15,7 +16,6 @@ public:
 	}
 
 	virtual ~CoaMessageDataComponent() {
-
 	}
 
 	void writeJSON(nlohmann::json& j) const {
@@ -51,6 +51,5 @@ private:
 		addSerializableVariable("number", &number);
 	}
 };
-
 
 #endif /* COAMESSAGEDATACOMPONENT_H_ */

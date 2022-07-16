@@ -2,18 +2,13 @@
 
 const char LuaQuestTasks::className[] = "LuaQuestTasks";
 
-Luna<LuaQuestTasks>::RegType LuaQuestTasks::Register[] = {
-		{ "_setObject", &LuaQuestTasks::_setObject },
-		{ "getNumberOfTasks", &LuaQuestTasks::getNumberOfTasks },
-		{ "getTask", &LuaQuestTasks::getTask },
-		{ 0, 0 }
-};
+Luna<LuaQuestTasks>::RegType LuaQuestTasks::Register[] = {{"_setObject", &LuaQuestTasks::_setObject}, {"getNumberOfTasks", &LuaQuestTasks::getNumberOfTasks}, {"getTask", &LuaQuestTasks::getTask}, {0, 0}};
 
-LuaQuestTasks::LuaQuestTasks(lua_State *L) {
+LuaQuestTasks::LuaQuestTasks(lua_State* L) {
 	realObject = static_cast<QuestTasks*>(lua_touserdata(L, 1));
 }
 
-LuaQuestTasks::~LuaQuestTasks(){
+LuaQuestTasks::~LuaQuestTasks() {
 }
 
 int LuaQuestTasks::_setObject(lua_State* L) {

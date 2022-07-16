@@ -1,4 +1,4 @@
- /*
+/*
  * SharedTangibleObjectTemplate.h
  *
  *  Created on: 30/04/2010
@@ -62,8 +62,8 @@ protected:
 	Vector<short>* experimentalCombineType;
 	Vector<uint32>* playerRaces;
 
-	Vector<Reference<ResourceWeight* > >* resourceWeights;
-	//CustomizationVariableMapping customizationVariableMapping;
+	Vector<Reference<ResourceWeight*>>* resourceWeights;
+	// CustomizationVariableMapping customizationVariableMapping;
 
 public:
 	SharedTangibleObjectTemplate();
@@ -166,7 +166,7 @@ public:
 		this->jediRobe = jediRobe;
 	}
 
-	const Vector<short >* getNumberExperimentalProperties() const {
+	const Vector<short>* getNumberExperimentalProperties() const {
 		return numberExperimentalProperties;
 	}
 
@@ -174,7 +174,7 @@ public:
 		return experimentalProperties;
 	}
 
-	const Vector<short >* getExperimentalWeights() const {
+	const Vector<short>* getExperimentalWeights() const {
 		return experimentalWeights;
 	}
 
@@ -194,7 +194,7 @@ public:
 		return experimentalMax;
 	}
 
-	const Vector<short >* getExperimentalPrecision() const {
+	const Vector<short>* getExperimentalPrecision() const {
 		return experimentalPrecision;
 	}
 
@@ -202,7 +202,7 @@ public:
 		return playerRaces;
 	}
 
-	const Vector<Reference<ResourceWeight* > >* getResourceWeights() const {
+	const Vector<Reference<ResourceWeight*>>* getResourceWeights() const {
 		return resourceWeights;
 	}
 
@@ -218,7 +218,5 @@ public:
 		return true;
 	}
 };
-
-
 
 #endif /* SHAREDTANGIBLEOBJECTTEMPLATE_H_ */

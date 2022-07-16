@@ -9,13 +9,10 @@
 
 class DisarmingShot1Command : public CombatQueueCommand {
 public:
-
-	DisarmingShot1Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	DisarmingShot1Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -26,4 +23,4 @@ public:
 	}
 };
 
-#endif //DISARMINGSHOT1COMMAND_H_
+#endif // DISARMINGSHOT1COMMAND_H_

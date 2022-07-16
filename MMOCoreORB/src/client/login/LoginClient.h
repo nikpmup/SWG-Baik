@@ -64,15 +64,15 @@ public:
 	}
 
 	void sendMessage(Message* msg) {
-		client->sendPacket((BasePacket*) msg);
+		client->sendPacket((BasePacket*)msg);
 
-	#ifdef WITH_STM
-		//TransactionalMemoryManager::commitPureTransaction();
-	#endif
+#ifdef WITH_STM
+		// TransactionalMemoryManager::commitPureTransaction();
+#endif
 	}
 
 	void sendMessage(StandaloneBaseMessage* msg) {
-		client->sendPacket((BasePacket*) msg);
+		client->sendPacket((BasePacket*)msg);
 	}
 
 	LoginSession* getLoginSession() {
@@ -83,6 +83,5 @@ public:
 		return client;
 	}
 };
-
 
 #endif /* LOGINCLIENT_H_ */

@@ -1,6 +1,6 @@
 /*
-                Copyright <SWGEmu>
-        See file COPYING for copying conditions.*/
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
 
 /**
  * @author      : theanswer (theanswer@Victors-MacBook-Pro.local)
@@ -16,34 +16,34 @@
 #include "system/thread/atomic/AtomicBoolean.h"
 
 namespace web {
- namespace json {
-  class value;
- }
- namespace http {
-  class http_request;
- }
+namespace json {
+class value;
 }
+namespace http {
+class http_request;
+}
+} // namespace web
 
 namespace server {
- namespace web3 {
- class APIRequest;
- class APIProxyPlayerManager;
- class APIProxyChatManager;
- class APIProxyObjectManager;
- class APIProxyGuildManager;
- class APIProxyConfigManager;
- class APIProxyStatisticsManager;
- class RESTEndpoint;
+namespace web3 {
+class APIRequest;
+class APIProxyPlayerManager;
+class APIProxyChatManager;
+class APIProxyObjectManager;
+class APIProxyGuildManager;
+class APIProxyConfigManager;
+class APIProxyStatisticsManager;
+class RESTEndpoint;
 
- using namespace web;
- using namespace web::http;
+using namespace web;
+using namespace web::http;
 
- class RESTServer : public Logger {
- protected:
+class RESTServer : public Logger {
+protected:
 	AtomicBoolean doRun;
 	uint16 port{};
 
- private:
+private:
 	String mAuthHeader;
 	ArrayList<RESTEndpoint, ArrayListNoReallocTrait::value> mAPIEndpoints;
 	APIProxyPlayerManager* mPlayerManagerProxy = nullptr;
@@ -59,7 +59,7 @@ namespace server {
 	bool checkAuth(http_request& request);
 	void routeRequest(http_request& request);
 
- public:
+public:
 	RESTServer();
 	~RESTServer();
 
@@ -68,6 +68,6 @@ namespace server {
 	void stop();
 };
 
-}
-}
+} // namespace web3
+} // namespace server
 #endif // WITH_REST_API

@@ -12,10 +12,7 @@
 
 class DeclareresidenceCommand : public QueueCommand {
 public:
-
-	DeclareresidenceCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DeclareresidenceCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -27,11 +24,11 @@ public:
 
 		ManagedReference<SceneObject*> object = creature->getRootParent();
 		if (object == nullptr || !object->isBuildingObject()) {
-			creature->sendSystemMessage("@player_structure:must_be_in_building"); //You must be in a building to do that.
+			creature->sendSystemMessage("@player_structure:must_be_in_building"); // You must be in a building to do that.
 			return INVALIDTARGET;
 		}
 
-		BuildingObject* building = cast<BuildingObject*>( object.get());
+		BuildingObject* building = cast<BuildingObject*>(object.get());
 
 		Locker clocker(building, creature);
 		if (building->isGCWBase()) {
@@ -41,7 +38,7 @@ public:
 
 		ManagedReference<SceneObject*> obj = creature->getParentRecursively(SceneObjectType::BUILDING);
 		ManagedReference<SceneObject*> tobj = creature->getParentRecursively(SceneObjectType::THEATERBUILDING);
-		if ( obj == nullptr || !obj->isStructureObject() ){
+		if (obj == nullptr || !obj->isStructureObject()) {
 			// wasn't a building. Is it a theater, as theater has different object flag
 			if (tobj == nullptr || !tobj->isStructureObject()) {
 				return INVALIDPARAMETERS;
@@ -58,7 +55,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DECLARERESIDENCECOMMAND_H_
+#endif // DECLARERESIDENCECOMMAND_H_

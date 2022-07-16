@@ -99,7 +99,7 @@ void FrsManagerImplementation::loadFrsData() {
 			}
 		}
 	} catch (DatabaseException& e) {
-		error("Database exception in FrsManagerImplementation::loadFrsData(): "	+ e.getMessage());
+		error("Database exception in FrsManagerImplementation::loadFrsData(): " + e.getMessage());
 	}
 
 	if (managerData == nullptr) {
@@ -111,7 +111,7 @@ void FrsManagerImplementation::loadFrsData() {
 
 	Locker locker(managerData);
 
-	Vector<ManagedReference<FrsRank*> >* rankData = managerData->getLightRanks();
+	Vector<ManagedReference<FrsRank*>>* rankData = managerData->getLightRanks();
 
 	if (rankData->size() == 0) {
 		short newStatus = VOTING_CLOSED;
@@ -126,7 +126,7 @@ void FrsManagerImplementation::loadFrsData() {
 	rankData = managerData->getDarkRanks();
 
 	if (rankData->size() == 0) {
-		Vector<ManagedReference<FrsRank*> >* newRankData = nullptr;
+		Vector<ManagedReference<FrsRank*>>* newRankData = nullptr;
 		short newStatus = VOTING_CLOSED;
 
 		for (int i = 1; i <= 11; i++) {
@@ -179,7 +179,7 @@ void FrsManagerImplementation::loadLuaConfig() {
 	LuaObject luaObject = lua->getGlobalObject("enclaveRoomRequirements");
 
 	if (luaObject.isValidTable()) {
-		for(int i = 1; i <= luaObject.getTableSize(); ++i) {
+		for (int i = 1; i <= luaObject.getTableSize(); ++i) {
 			LuaObject entry = luaObject.getObjectAt(i);
 
 			uint32 cellID = entry.getIntAt(1);
@@ -196,7 +196,7 @@ void FrsManagerImplementation::loadLuaConfig() {
 	luaObject = lua->getGlobalObject("lightRankingData");
 
 	if (luaObject.isValidTable()) {
-		for(int i = 1; i <= luaObject.getTableSize(); ++i) {
+		for (int i = 1; i <= luaObject.getTableSize(); ++i) {
 			LuaObject entry = luaObject.getObjectAt(i);
 
 			int rank = entry.getIntAt(1);
@@ -218,7 +218,7 @@ void FrsManagerImplementation::loadLuaConfig() {
 	luaObject = lua->getGlobalObject("darkRankingData");
 
 	if (luaObject.isValidTable()) {
-		for(int i = 1; i <= luaObject.getTableSize(); ++i) {
+		for (int i = 1; i <= luaObject.getTableSize(); ++i) {
 			LuaObject entry = luaObject.getObjectAt(i);
 
 			int rank = entry.getIntAt(1);
@@ -240,7 +240,7 @@ void FrsManagerImplementation::loadLuaConfig() {
 	luaObject = lua->getGlobalObject("frsExperienceValues");
 
 	if (luaObject.isValidTable()) {
-		for(int i = 1; i <= luaObject.getTableSize(); ++i) {
+		for (int i = 1; i <= luaObject.getTableSize(); ++i) {
 			LuaObject entry = luaObject.getObjectAt(i);
 			uint64 keyHash = entry.getStringAt(1).hashCode();
 
@@ -284,18 +284,17 @@ FrsRank* FrsManagerImplementation::getFrsRank(short councilType, int rank) {
 	Locker locker(managerData);
 
 	if (councilType == COUNCIL_LIGHT) {
-		Vector<ManagedReference<FrsRank*> >* rankData = managerData->getLightRanks();
+		Vector<ManagedReference<FrsRank*>>* rankData = managerData->getLightRanks();
 
 		frsRank = rankData->get(rank - 1);
 	} else if (councilType == COUNCIL_DARK) {
-		Vector<ManagedReference<FrsRank*> >* rankData = managerData->getDarkRanks();
+		Vector<ManagedReference<FrsRank*>>* rankData = managerData->getDarkRanks();
 
 		frsRank = rankData->get(rank - 1);
 	}
 
 	return frsRank;
 }
-
 
 void FrsManagerImplementation::setupEnclaveRooms(BuildingObject* enclaveBuilding, const String& groupName) {
 	for (int j = 1; j <= enclaveBuilding->getTotalCellNumber(); ++j) {
@@ -398,7 +397,7 @@ bool FrsManagerImplementation::isBanned(CreatureObject* player) {
 
 	Reference<CharacterList*> characters = account->getCharacterList();
 
-	for (int i = 0; i<characters->size(); i++) {
+	for (int i = 0; i < characters->size(); i++) {
 		CharacterListEntry& entry = characters->get(i);
 
 		if (entry.getFirstName() == player->getFirstName() && entry.getGalaxyID() == galaxyID && entry.isBanned())
@@ -680,7 +679,7 @@ void FrsManagerImplementation::handleSkillRevoked(CreatureObject* player, const 
 		return;
 
 	if (skillName.hashCode() == STRING_HASHCODE("force_title_jedi_rank_03")) {
-		VectorMap<uint32, Reference<FrsRankingData*> > rankingData;
+		VectorMap<uint32, Reference<FrsRankingData*>> rankingData;
 
 		if (councilType == COUNCIL_LIGHT)
 			rankingData = lightRankingData;
@@ -690,7 +689,7 @@ void FrsManagerImplementation::handleSkillRevoked(CreatureObject* player, const 
 		auto zoneServer = this->zoneServer.get();
 		SkillManager* skillManager = zoneServer->getSkillManager();
 
-		for (int i = rankingData.size() -1; i >= 0; i--) {
+		for (int i = rankingData.size() - 1; i >= 0; i--) {
 			Reference<FrsRankingData*> rankData = rankingData.get(i);
 			String rankSkill = rankData->getSkillName();
 
@@ -716,7 +715,7 @@ void FrsManagerImplementation::handleSkillRevoked(CreatureObject* player, const 
 }
 
 int FrsManagerImplementation::getSkillRank(const String& skillName, int councilType) {
-	VectorMap<uint32, Reference<FrsRankingData*> > rankingData;
+	VectorMap<uint32, Reference<FrsRankingData*>> rankingData;
 
 	if (councilType == COUNCIL_LIGHT)
 		rankingData = lightRankingData;
@@ -745,7 +744,7 @@ void FrsManagerImplementation::updatePlayerSkills(CreatureObject* player) {
 	FrsData* playerData = ghost->getFrsData();
 	int playerRank = playerData->getRank();
 	int councilType = playerData->getCouncilType();
-	VectorMap<uint32, Reference<FrsRankingData*> > rankingData;
+	VectorMap<uint32, Reference<FrsRankingData*>> rankingData;
 
 	if (councilType == COUNCIL_LIGHT)
 		rankingData = lightRankingData;
@@ -800,11 +799,13 @@ void FrsManagerImplementation::promotePlayer(CreatureObject* player) {
 	ManagedReference<FrsManager*> strongMan = _this.getReferenceUnsafeStaticCast();
 	ManagedReference<CreatureObject*> strongRef = player->asCreatureObject();
 
-	Core::getTaskManager()->executeTask([strongMan, strongRef, newRank] () {
-		Locker locker(strongRef);
-		strongMan->setPlayerRank(strongRef, newRank);
-		strongMan->recoverJediItems(strongRef);
-	}, "SetPlayerRankTask");
+	Core::getTaskManager()->executeTask(
+		[strongMan, strongRef, newRank]() {
+			Locker locker(strongRef);
+			strongMan->setPlayerRank(strongRef, newRank);
+			strongMan->recoverJediItems(strongRef);
+		},
+		"SetPlayerRankTask");
 
 	String stfRank = "@force_rank:rank" + String::valueOf(newRank);
 	String rankString = StringIdManager::instance()->getStringId(stfRank.hashCode()).toString();
@@ -833,10 +834,12 @@ void FrsManagerImplementation::demotePlayer(CreatureObject* player) {
 	ManagedReference<FrsManager*> strongMan = _this.getReferenceUnsafeStaticCast();
 	ManagedReference<CreatureObject*> strongRef = player->asCreatureObject();
 
-	Core::getTaskManager()->executeTask([strongMan, strongRef, newRank] () {
-		Locker locker(strongRef);
-		strongMan->setPlayerRank(strongRef, newRank);
-	}, "SetPlayerRankTask");
+	Core::getTaskManager()->executeTask(
+		[strongMan, strongRef, newRank]() {
+			Locker locker(strongRef);
+			strongMan->setPlayerRank(strongRef, newRank);
+		},
+		"SetPlayerRankTask");
 }
 
 void FrsManagerImplementation::adjustFrsExperience(CreatureObject* player, int amount, bool sendSystemMessage) {
@@ -851,14 +854,12 @@ void FrsManagerImplementation::adjustFrsExperience(CreatureObject* player, int a
 	TransactionLog trx(TrxCode::EXPERIENCE, player);
 
 	if (amount > 0) {
-
-          	if (ghost->hasCappedExperience("force_rank_xp"))
-                {
-                	StringIdChatParameter message("base_player", "prose_hit_xp_cap"); //You have achieved your current limit for %TO experience.
-                	message.setTO("exp_n", "force_rank_xp");
-                	player->sendSystemMessage(message);
-                	return;
-                }
+		if (ghost->hasCappedExperience("force_rank_xp")) {
+			StringIdChatParameter message("base_player", "prose_hit_xp_cap"); // You have achieved your current limit for %TO experience.
+			message.setTO("exp_n", "force_rank_xp");
+			player->sendSystemMessage(message);
+			return;
+		}
 
 		ghost->addExperience(trx, "force_rank_xp", amount, true);
 
@@ -928,7 +929,7 @@ Vector<uint64> FrsManagerImplementation::getFullPlayerList() {
 Vector<uint64> FrsManagerImplementation::getPlayerListByCouncil(int councilType) {
 	Vector<uint64> playerList;
 
-	Vector<ManagedReference<FrsRank*> >* rankData;
+	Vector<ManagedReference<FrsRank*>>* rankData;
 
 	Locker locker(managerData);
 
@@ -1172,10 +1173,10 @@ void FrsManagerImplementation::sendVoteSUI(CreatureObject* player, SceneObject* 
 
 	if (suiType == SUI_VOTE_STATUS) {
 		box->setPromptText("@force_rank:vote_status_select"); // Select the rank whose status you wish to view.
-		box->setPromptTitle("@force_rank:rank_selection"); // Rank Selection
+		box->setPromptTitle("@force_rank:rank_selection");	  // Rank Selection
 	} else if (suiType == SUI_VOTE_RECORD) {
 		box->setPromptText("@force_rank:vote_record_select"); // Select the rank for which you wish to record your vote.
-		box->setPromptTitle("@force_rank:rank_selection"); // Rank Selection
+		box->setPromptTitle("@force_rank:rank_selection");	  // Rank Selection
 		FrsData* playerData = ghost->getFrsData();
 		int rank = playerData->getRank();
 
@@ -1198,13 +1199,13 @@ void FrsManagerImplementation::sendVoteSUI(CreatureObject* player, SceneObject* 
 		}
 	} else if (suiType == SUI_VOTE_ACCEPT_PROMOTE) {
 		box->setPromptText("@force_rank:vote_promotion_select"); // Select the rank whose status you wish to view.
-		box->setPromptTitle("@force_rank:rank_selection"); // Rank Selection
+		box->setPromptTitle("@force_rank:rank_selection");		 // Rank Selection
 	} else if (suiType == SUI_VOTE_DEMOTE) {
 		box->setPromptText("@force_rank:demote_select_rank"); // Select the rank whose member you wish to demote.
-		box->setPromptTitle("@force_rank:rank_selection"); // Rank Selection
-	}  else if (suiType == SUI_VOTE_PETITION) {
+		box->setPromptTitle("@force_rank:rank_selection");	  // Rank Selection
+	} else if (suiType == SUI_VOTE_PETITION) {
 		box->setPromptText("@force_rank:vote_petition_select"); // Select the rank for which you wish to petition for membership.
-		box->setPromptTitle("@force_rank:rank_selection"); // Rank Selection
+		box->setPromptTitle("@force_rank:rank_selection");		// Rank Selection
 	} else if (suiType == SUI_FORCE_PHASE_CHANGE && ghost->isPrivileged()) {
 		box->setPromptText("Select the rank you want to force a phase change on.");
 		box->setPromptTitle("@force_rank:rank_selection"); // Rank Selection
@@ -1281,7 +1282,6 @@ void FrsManagerImplementation::handleVoteStatusSui(CreatureObject* player, Scene
 	auto zoneServer = this->zoneServer.get();
 
 	if (voteStatus == PETITIONING || voteStatus == VOTING_OPEN) {
-
 		VectorMap<uint64, int>* petitionerList = rankData->getPetitionerList();
 
 		if (petitionerList->size() > 0) {
@@ -1384,7 +1384,7 @@ void FrsManagerImplementation::sendVoteRecordSui(CreatureObject* player, SceneOb
 	box->setCancelButton(true, "@cancel");
 
 	box->setPromptText("@force_rank:vote_record_select_player"); // Select the petitioner to whom you wish to promote.
-	box->setPromptTitle("@force_rank:vote_player_selection"); // Petitioner Selection
+	box->setPromptTitle("@force_rank:vote_player_selection");	 // Petitioner Selection
 
 	for (int i = 0; i < petitionerList->size(); i++) {
 		VectorMapEntry<uint64, int>* entry = &petitionerList->elementAt(i);
@@ -1650,7 +1650,7 @@ bool FrsManagerImplementation::isEligibleForPromotion(CreatureObject* player, in
 
 	FrsData* playerData = ghost->getFrsData();
 	int councilType = playerData->getCouncilType();
-	VectorMap<uint32, Reference<FrsRankingData*> > rankingData;
+	VectorMap<uint32, Reference<FrsRankingData*>> rankingData;
 
 	if (councilType == COUNCIL_LIGHT)
 		rankingData = lightRankingData;
@@ -1683,40 +1683,46 @@ int FrsManagerImplementation::getVoteWeight(int playerRank, int voteRank) {
 		return 2;
 
 	switch (voteRank) {
-	    case 1:
-	    case 2:
-	    case 3:
-	    case 4:
-	        return (playerRank < 5) ? 1 : -1; // Players of rank 1-4 can participate in votes of rank 1-4
-	    case 5:
-	    case 6:
-	    case 7:
-	        return (playerRank > 4 && playerRank < 8) ? 1 : -1; // Players of rank 5-7 can participate in votes of rank 5-7
-	    case 8:
-	    case 9:
-	        return (playerRank == 8 || playerRank == 9) ? 1 : -1; // Players of rank 8-9 can particpate in votes of rank 8-9
-	    case 10:
-	    case 11:
-	        return (playerRank == 10 || playerRank == 11) ? 1 : -1; // Players of rank 10-11 can particpate in votes of rank 10-11
-	    default:
-	        return -1;
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+		return (playerRank < 5) ? 1 : -1; // Players of rank 1-4 can participate in votes of rank 1-4
+	case 5:
+	case 6:
+	case 7:
+		return (playerRank > 4 && playerRank < 8) ? 1 : -1; // Players of rank 5-7 can participate in votes of rank 5-7
+	case 8:
+	case 9:
+		return (playerRank == 8 || playerRank == 9) ? 1 : -1; // Players of rank 8-9 can particpate in votes of rank 8-9
+	case 10:
+	case 11:
+		return (playerRank == 10 || playerRank == 11) ? 1 : -1; // Players of rank 10-11 can particpate in votes of rank 10-11
+	default:
+		return -1;
 	}
 }
 
 int FrsManagerImplementation::getRankTier(int rank) {
 	switch (rank) {
-		case 11: return 5;
-		case 10: return 4;
-		case 9:
-		case 8: return 3;
-		case 7:
-		case 6:
-		case 5: return 2;
-		case 4:
-		case 3:
-		case 2:
-		case 1: return 1;
-		default: return 0;
+	case 11:
+		return 5;
+	case 10:
+		return 4;
+	case 9:
+	case 8:
+		return 3;
+	case 7:
+	case 6:
+	case 5:
+		return 2;
+	case 4:
+	case 3:
+	case 2:
+	case 1:
+		return 1;
+	default:
+		return 0;
 	}
 }
 
@@ -1743,7 +1749,7 @@ int FrsManagerImplementation::getAvailableRankSlots(FrsRank* rankData) {
 	short councilType = rankData->getCouncilType();
 	int rank = rankData->getRank();
 
-	VectorMap<uint32, Reference<FrsRankingData*> > rankingData;
+	VectorMap<uint32, Reference<FrsRankingData*>> rankingData;
 
 	if (councilType == COUNCIL_LIGHT)
 		rankingData = lightRankingData;
@@ -1761,7 +1767,7 @@ int FrsManagerImplementation::getAvailableRankSlots(FrsRank* rankData) {
 void FrsManagerImplementation::runChallengeVoteUpdate() {
 	Locker locker(managerData);
 
-	VectorMap<uint64, ManagedReference<ChallengeVoteData*> >* challenges = managerData->getLightChallenges();
+	VectorMap<uint64, ManagedReference<ChallengeVoteData*>>* challenges = managerData->getLightChallenges();
 
 	if (challenges->size() == 0)
 		return;
@@ -1811,12 +1817,14 @@ void FrsManagerImplementation::runChallengeVoteUpdate() {
 		int challengedRank = challengeData->getPlayerRank();
 
 		if (playerRank != challengedRank || councilType != COUNCIL_LIGHT) {
-			Core::getTaskManager()->executeTask([strongRef, challengedRank, challengedName] () {
-				StringIdChatParameter mailBody("@force_rank:challenge_vote_cancelled_body"); // The no-confidence vote on %TO has been cancelled due to a change in the member's ranking.
-				mailBody.setTO(challengedName);
+			Core::getTaskManager()->executeTask(
+				[strongRef, challengedRank, challengedName]() {
+					StringIdChatParameter mailBody("@force_rank:challenge_vote_cancelled_body"); // The no-confidence vote on %TO has been cancelled due to a change in the member's ranking.
+					mailBody.setTO(challengedName);
 
-				strongRef->sendChallengeVoteMail(challengedRank, "@force_rank:challenge_vote_cancelled_sub", mailBody);
-			}, "ChallengeVoteMailTask");
+					strongRef->sendChallengeVoteMail(challengedRank, "@force_rank:challenge_vote_cancelled_sub", mailBody);
+				},
+				"ChallengeVoteMailTask");
 
 			managerData->removeLightChallenge(challengedID);
 			continue;
@@ -1828,26 +1836,30 @@ void FrsManagerImplementation::runChallengeVoteUpdate() {
 		bool votePassed = yesVotes >= noVotes * 2;
 
 		if (votePassed) {
-			Core::getTaskManager()->executeTask([strongRef, challengedRank, challenged, yesVotes, noVotes] () {
-				StringIdChatParameter mailBody("@force_rank:challenge_vote_success_body"); // The vote against %TT has succeeded with %TO votes for and %DI votes against.
-				mailBody.setTT(challenged->getFirstName());
-				mailBody.setTO(String::valueOf(yesVotes));
-				mailBody.setDI(noVotes);
+			Core::getTaskManager()->executeTask(
+				[strongRef, challengedRank, challenged, yesVotes, noVotes]() {
+					StringIdChatParameter mailBody("@force_rank:challenge_vote_success_body"); // The vote against %TT has succeeded with %TO votes for and %DI votes against.
+					mailBody.setTT(challenged->getFirstName());
+					mailBody.setTO(String::valueOf(yesVotes));
+					mailBody.setDI(noVotes);
 
-				strongRef->sendChallengeVoteMail(challengedRank, "@force_rank:challenge_vote_success_sub", mailBody);
+					strongRef->sendChallengeVoteMail(challengedRank, "@force_rank:challenge_vote_success_sub", mailBody);
 
-				Locker locker(challenged);
-				strongRef->demotePlayer(challenged);
-			}, "ChallengeVoteMailTask");
+					Locker locker(challenged);
+					strongRef->demotePlayer(challenged);
+				},
+				"ChallengeVoteMailTask");
 		} else {
-			Core::getTaskManager()->executeTask([strongRef, challengedRank, challengedName, yesVotes, noVotes] () {
-				StringIdChatParameter mailBody("@force_rank:challenge_vote_fail_body"); // The vote against %TT has failed to pass with %TO votes for and %DI votes against. (Note that for a vote to succeed, two-thirds or more must be for it.)
-				mailBody.setTT(challengedName);
-				mailBody.setTO(String::valueOf(yesVotes));
-				mailBody.setDI(noVotes);
+			Core::getTaskManager()->executeTask(
+				[strongRef, challengedRank, challengedName, yesVotes, noVotes]() {
+					StringIdChatParameter mailBody("@force_rank:challenge_vote_fail_body"); // The vote against %TT has failed to pass with %TO votes for and %DI votes against. (Note that for a vote to succeed, two-thirds or more must be for it.)
+					mailBody.setTT(challengedName);
+					mailBody.setTO(String::valueOf(yesVotes));
+					mailBody.setDI(noVotes);
 
-				strongRef->sendChallengeVoteMail(challengedRank, "@force_rank:challenge_vote_fail_sub", mailBody);
-			}, "ChallengeVoteMailTask");
+					strongRef->sendChallengeVoteMail(challengedRank, "@force_rank:challenge_vote_fail_sub", mailBody);
+				},
+				"ChallengeVoteMailTask");
 		}
 
 		challengeData->setStatus(ChallengeVoteData::VOTING_CLOSED);
@@ -1895,10 +1907,12 @@ void FrsManagerImplementation::runVotingUpdate(FrsRank* rankData) {
 			ManagedReference<FrsManager*> strongMan = _this.getReferenceUnsafeStaticCast();
 			ManagedReference<CreatureObject*> strongRef = player->asCreatureObject();
 
-			Core::getTaskManager()->executeTask([strongMan, strongRef] () {
-				Locker locker(strongRef);
-				strongMan->validatePlayerData(strongRef);
-			}, "ValidatePlayerTask");
+			Core::getTaskManager()->executeTask(
+				[strongMan, strongRef]() {
+					Locker locker(strongRef);
+					strongMan->validatePlayerData(strongRef);
+				},
+				"ValidatePlayerTask");
 		}
 	}
 
@@ -1922,13 +1936,12 @@ void FrsManagerImplementation::runVotingUpdate(FrsRank* rankData) {
 			} else {
 				rankData->setVoteStatus(PETITIONING);
 			}
-
 		}
 	} else if (status == PETITIONING) {
 		int totalPetitioners = rankData->getTotalPetitioners();
 
 		if (totalPetitioners == 0) { // No one petitioned
-			if (availSlots == 0) { // No slots available, so clear vote data and set back to voting closed
+			if (availSlots == 0) {	 // No slots available, so clear vote data and set back to voting closed
 				rankData->resetVotingData();
 				rankData->setVoteStatus(VOTING_CLOSED);
 			}
@@ -2155,12 +2168,12 @@ void FrsManagerImplementation::sendChallengeVoteSUI(CreatureObject* player, Scen
 			box->setPromptTitle("@force_rank:challenge_vote_status_title"); // No-Confidence Vote Status
 		} else {
 			box->setPromptText("@force_rank:challenge_vote_record_vote"); // Select the no-confidence challenge for which you wish to vote.
-			box->setPromptTitle("@force_rank:rank_selection"); // No-Confidence Voting
+			box->setPromptTitle("@force_rank:rank_selection");			  // No-Confidence Voting
 		}
 
 		Locker clocker(managerData, player);
 
-		VectorMap<uint64, ManagedReference<ChallengeVoteData*> >* challenges = managerData->getLightChallenges();
+		VectorMap<uint64, ManagedReference<ChallengeVoteData*>>* challenges = managerData->getLightChallenges();
 
 		if (challenges->size() == 0) {
 			player->sendSystemMessage("@force_rank:no_challenge_votes"); // There are not any active no-confidence votes at this time.
@@ -2188,7 +2201,7 @@ void FrsManagerImplementation::sendChallengeVoteSUI(CreatureObject* player, Scen
 			box->addMenuItem(playerName, challengedID);
 		}
 	} else if (suiType == SUI_CHAL_VOTE_ISSUE) {
-		box->setPromptText("@force_rank:challenge_vote_select_name"); // Select the name of the Jedi you wish to issue a no-confidence challenge vote. The cost of calling for such a vote is 1000 Force Rank experience per rank challenged. If successful that Jedi will be demoted one rank.
+		box->setPromptText("@force_rank:challenge_vote_select_name");		 // Select the name of the Jedi you wish to issue a no-confidence challenge vote. The cost of calling for such a vote is 1000 Force Rank experience per rank challenged. If successful that Jedi will be demoted one rank.
 		box->setPromptTitle("@force_rank:challenge_vote_select_name_title"); // No-Confidence Vote Selection
 
 		ManagedReference<FrsRank*> rankData = getFrsRank(COUNCIL_LIGHT, playerRank + 1);
@@ -2215,7 +2228,6 @@ void FrsManagerImplementation::sendChallengeVoteSUI(CreatureObject* player, Scen
 		return;
 	}
 
-
 	box->setUsingObject(terminal);
 	ghost->addSuiBox(box);
 	player->sendMessage(box->generateMessage());
@@ -2240,7 +2252,6 @@ void FrsManagerImplementation::handleChallengeVoteIssueSui(CreatureObject* playe
 
 	PlayerObject* challengedGhost = challenged->getPlayerObject();
 
-
 	if (challengedGhost == nullptr)
 		return;
 
@@ -2248,7 +2259,6 @@ void FrsManagerImplementation::handleChallengeVoteIssueSui(CreatureObject* playe
 		player->sendSystemMessage("You cannot issue challenges against other characters on your account.");
 		return;
 	}
-
 
 	Locker xlock(challenged, player);
 
@@ -2329,13 +2339,15 @@ void FrsManagerImplementation::handleChallengeVoteIssueSui(CreatureObject* playe
 	ManagedReference<FrsManager*> strongRef = _this.getReferenceUnsafeStaticCast();
 	String challengerName = player->getFirstName();
 
-	Core::getTaskManager()->executeTask([strongRef, challengedRank, playerName, challengerName] () {
-		StringIdChatParameter mailBody("@force_rank:challenge_vote_begun_body"); // %TT has initiated a no-confidence challenge vote against %TO. It is your Enclave duty to vote for or against this motion as soon as possible.
-		mailBody.setTT(challengerName);
-		mailBody.setTO(playerName);
+	Core::getTaskManager()->executeTask(
+		[strongRef, challengedRank, playerName, challengerName]() {
+			StringIdChatParameter mailBody("@force_rank:challenge_vote_begun_body"); // %TT has initiated a no-confidence challenge vote against %TO. It is your Enclave duty to vote for or against this motion as soon as possible.
+			mailBody.setTT(challengerName);
+			mailBody.setTO(playerName);
 
-		strongRef->sendChallengeVoteMail(challengedRank, "@force_rank:challenge_vote_begun_sub", mailBody);
-	}, "ChallengeVoteMailTask");
+			strongRef->sendChallengeVoteMail(challengedRank, "@force_rank:challenge_vote_begun_sub", mailBody);
+		},
+		"ChallengeVoteMailTask");
 }
 
 void FrsManagerImplementation::handleChallengeVoteStatusSui(CreatureObject* player, SceneObject* terminal, uint64 challengedID) {
@@ -2577,7 +2589,7 @@ void FrsManagerImplementation::sendVoteDemoteSui(CreatureObject* player, SceneOb
 	box->setCancelButton(true, "@cancel");
 
 	box->setPromptText("@force_rank:demote_select_player"); // Select the member that you wish to demote. Once you make this selection, it may not be undone.
-	box->setPromptTitle("@force_rank:demote_selection"); // Demote Selection
+	box->setPromptTitle("@force_rank:demote_selection");	// Demote Selection
 
 	ManagedReference<PlayerManager*> playerManager = zoneServer->getPlayerManager();
 
@@ -2702,10 +2714,12 @@ void FrsManagerImplementation::handleVoteDemoteSui(CreatureObject* player, Scene
 	ManagedReference<FrsManager*> strongMan = _this.getReferenceUnsafeStaticCast();
 	ManagedReference<CreatureObject*> strongRef = playerToDemote->asCreatureObject();
 
-	Core::getTaskManager()->executeTask([strongMan, strongRef] () {
-		Locker locker(strongRef);
-		strongMan->demotePlayer(strongRef);
-	}, "DemotePlayerTask");
+	Core::getTaskManager()->executeTask(
+		[strongMan, strongRef]() {
+			Locker locker(strongRef);
+			strongMan->demotePlayer(strongRef);
+		},
+		"DemotePlayerTask");
 
 	StringIdChatParameter param("@force_rank:demote_player_complete"); // You demote %TO.
 	param.setTO(playerToDemote->getFirstName());
@@ -2741,7 +2755,6 @@ void FrsManagerImplementation::handleVoteDemoteSui(CreatureObject* player, Scene
 
 	chatManager->sendMail("Enclave Records", "@force_rank:demote_request_sub_rank", mBody, playerName);
 }
-
 
 String FrsManagerImplementation::getTimeString(uint64 timestamp) {
 	String abbrvs[4] = {"seconds", "minutes", "hours", "days"};
@@ -2809,7 +2822,7 @@ void FrsManagerImplementation::recoverJediItems(CreatureObject* player) {
 	if (inventory == nullptr)
 		return;
 
-	for (int i=0; i < inventory->getContainerObjectsSize(); i++) {
+	for (int i = 0; i < inventory->getContainerObjectsSize(); i++) {
 		ManagedReference<SceneObject*> invObj = inventory->getContainerObject(i);
 
 		if (invObj == nullptr)
@@ -2944,7 +2957,7 @@ void FrsManagerImplementation::handleArenaChallengeViewSui(CreatureObject* playe
 	if (index < 0)
 		return;
 
-	SuiListBox* listBox = cast<SuiListBox*>( suiBox);
+	SuiListBox* listBox = cast<SuiListBox*>(suiBox);
 
 	if (listBox == nullptr)
 		return;
@@ -2956,14 +2969,14 @@ void FrsManagerImplementation::handleArenaChallengeViewSui(CreatureObject* playe
 	if (getTotalOpenArenaChallenges(rank) <= 0)
 		return;
 
-	const VectorMap<uint64, ManagedReference<ArenaChallengeData*> >* arenaChallenges = managerData->getArenaChallenges();
+	const VectorMap<uint64, ManagedReference<ArenaChallengeData*>>* arenaChallenges = managerData->getArenaChallenges();
 
 	clocker.release();
 
 	ManagedReference<SuiListBox*> box = new SuiListBox(player, SuiWindowType::ENCLAVE_VOTING, SuiListBox::HANDLESINGLEBUTTON);
 	box->setOkButton(true, "@ok");
 	box->setForceCloseDistance(16.f);
-	box->setPromptText("@pvp_rating:ch_terminal_pending"); // Pending challenges for selected rank:
+	box->setPromptText("@pvp_rating:ch_terminal_pending");			// Pending challenges for selected rank:
 	box->setPromptTitle("@pvp_rating:ch_terminal_view_challenges"); // View Issued Challenges
 
 	auto zoneServer = this->zoneServer.get();
@@ -3029,7 +3042,7 @@ void FrsManagerImplementation::handleArenaChallengeViewSui(CreatureObject* playe
 }
 
 int FrsManagerImplementation::getTotalOpenArenaChallenges(int rank) {
-	const VectorMap<uint64, ManagedReference<ArenaChallengeData*> >* arenaChallenges = managerData->getArenaChallenges();
+	const VectorMap<uint64, ManagedReference<ArenaChallengeData*>>* arenaChallenges = managerData->getArenaChallenges();
 
 	if (arenaChallenges->size() == 0)
 		return 0;
@@ -3063,7 +3076,7 @@ bool FrsManagerImplementation::playerAbleToChallenge(CreatureObject* player) {
 
 bool FrsManagerImplementation::hasPlayerAcceptedArenaChallenge(CreatureObject* player) {
 	uint64 playerID = player->getObjectID();
-	const VectorMap<uint64, ManagedReference<ArenaChallengeData*> >* arenaChallenges = managerData->getArenaChallenges();
+	const VectorMap<uint64, ManagedReference<ArenaChallengeData*>>* arenaChallenges = managerData->getArenaChallenges();
 
 	if (arenaChallenges->size() == 0)
 		return false;
@@ -3122,10 +3135,12 @@ void FrsManagerImplementation::updateArenaScores() {
 				if (player != nullptr) {
 					ManagedReference<FrsManager*> strongMan = _this.getReferenceUnsafeStaticCast();
 
-					Core::getTaskManager()->executeTask([strongMan, player] () {
-						Locker locker(player);
-						strongMan->setPlayerRank(player, 0);
-					}, "SetPlayerRankTask");
+					Core::getTaskManager()->executeTask(
+						[strongMan, player]() {
+							Locker locker(player);
+							strongMan->setPlayerRank(player, 0);
+						},
+						"SetPlayerRankTask");
 				}
 			}
 
@@ -3139,7 +3154,7 @@ void FrsManagerImplementation::updateArenaScores() {
 }
 
 void FrsManagerImplementation::wipeArenaChallenges() {
-	VectorMap<uint64, ManagedReference<ArenaChallengeData*> >* arenaChallenges = managerData->getArenaChallenges();
+	VectorMap<uint64, ManagedReference<ArenaChallengeData*>>* arenaChallenges = managerData->getArenaChallenges();
 	int arenaChallengeCount = arenaChallenges->size();
 	auto zoneServer = this->zoneServer.get();
 
@@ -3184,9 +3199,7 @@ void FrsManagerImplementation::wipeArenaChallenges() {
 	if (arenaStatus == ARENA_CLOSED && arenaChallengeCount > 0) {
 		ManagedReference<FrsManager*> strongMan = _this.getReferenceUnsafeStaticCast();
 
-		Core::getTaskManager()->executeTask([strongMan] () {
-			strongMan->updateArenaScores();
-		}, "UpdateArenaScoresTask");
+		Core::getTaskManager()->executeTask([strongMan]() { strongMan->updateArenaScores(); }, "UpdateArenaScoresTask");
 	}
 }
 
@@ -3208,14 +3221,14 @@ void FrsManagerImplementation::performArenaMaintenance() {
 		managerData->updateLastArenaOpenTime();
 	}
 
-	VectorMap<uint64, ManagedReference<ArenaChallengeData*> >* arenaChallenges = managerData->getArenaChallenges();
+	VectorMap<uint64, ManagedReference<ArenaChallengeData*>>* arenaChallenges = managerData->getArenaChallenges();
 
 	bool challengeEnded = false;
 	auto zoneServer = this->zoneServer.get();
 
 	// Not all challenges will end at the interval, challenges started towards the end of the interval will continue until their duration is up
 	for (int i = arenaChallenges->size() - 1; i >= 0; i--) {
-		VectorMapEntry<uint64, ManagedReference<ArenaChallengeData*> > entry = arenaChallenges->elementAt(i);
+		VectorMapEntry<uint64, ManagedReference<ArenaChallengeData*>> entry = arenaChallenges->elementAt(i);
 		uint64 challengeKey = entry.getKey();
 		ManagedReference<ArenaChallengeData*> challengeData = entry.getValue();
 
@@ -3272,7 +3285,7 @@ void FrsManagerImplementation::performArenaMaintenance() {
 
 		xlck.release();
 
-		if (challengerRank+1 != challengeRank) {
+		if (challengerRank + 1 != challengeRank) {
 			if (challengeAccepterID == 0) {
 				Locker xlck(rankData, managerData);
 				int chalCount = rankData->getArenaChallengesThisPhase();
@@ -3314,9 +3327,7 @@ void FrsManagerImplementation::performArenaMaintenance() {
 	if (arenaStatus == ARENA_CLOSED && arenaChallenges->size() == 0 && (justClosedArena || challengeEnded)) {
 		ManagedReference<FrsManager*> strongMan = _this.getReferenceUnsafeStaticCast();
 
-		Core::getTaskManager()->executeTask([strongMan] () {
-			strongMan->updateArenaScores();
-		}, "UpdateArenaScoresTask");
+		Core::getTaskManager()->executeTask([strongMan]() { strongMan->updateArenaScores(); }, "UpdateArenaScoresTask");
 	}
 }
 
@@ -3332,7 +3343,7 @@ bool FrsManagerImplementation::handleDarkCouncilIncap(CreatureObject* killer, Cr
 	if (!isFightingInArena(killerID) || !isFightingInArena(victimID))
 		return false;
 
-	VectorMap<uint64, ManagedReference<ArenaChallengeData*> >* arenaChallenges = managerData->getArenaChallenges();
+	VectorMap<uint64, ManagedReference<ArenaChallengeData*>>* arenaChallenges = managerData->getArenaChallenges();
 
 	for (int i = 0; i < arenaChallenges->size(); i++) {
 		ManagedReference<ArenaChallengeData*> tempData = arenaChallenges->get(i);
@@ -3357,7 +3368,7 @@ bool FrsManagerImplementation::handleDarkCouncilDeath(CreatureObject* killer, Cr
 
 	Locker locker(managerData);
 
-	VectorMap<uint64, ManagedReference<ArenaChallengeData*> >* arenaChallenges = managerData->getArenaChallenges();
+	VectorMap<uint64, ManagedReference<ArenaChallengeData*>>* arenaChallenges = managerData->getArenaChallenges();
 	ManagedReference<ArenaChallengeData*> challengeData = nullptr;
 	bool challengerWon = false;
 
@@ -3392,29 +3403,31 @@ bool FrsManagerImplementation::handleDarkCouncilDeath(CreatureObject* killer, Cr
 	ManagedReference<CreatureObject*> strongKiller = killer->asCreatureObject();
 	ManagedReference<CreatureObject*> strongVictim = victim->asCreatureObject();
 
-	Core::getTaskManager()->executeTask([strongMan, strongKiller, strongVictim, killerXp, victimXp, forfeit, challengerWon] () {
-		Locker locker(strongKiller);
+	Core::getTaskManager()->executeTask(
+		[strongMan, strongKiller, strongVictim, killerXp, victimXp, forfeit, challengerWon]() {
+			Locker locker(strongKiller);
 
-		if (!forfeit)
-			strongMan->adjustFrsExperience(strongKiller, killerXp);
+			if (!forfeit)
+				strongMan->adjustFrsExperience(strongKiller, killerXp);
 
-		strongKiller->removePersonalEnemyFlag(strongVictim);
+			strongKiller->removePersonalEnemyFlag(strongVictim);
 
-		Locker clocker(strongVictim, strongKiller);
+			Locker clocker(strongVictim, strongKiller);
 
-		if (!forfeit)
-			strongMan->adjustFrsExperience(strongVictim, victimXp);
+			if (!forfeit)
+				strongMan->adjustFrsExperience(strongVictim, victimXp);
 
-		strongVictim->removePersonalEnemyFlag(strongKiller);
+			strongVictim->removePersonalEnemyFlag(strongKiller);
 
-		strongVictim->sendPvpStatusTo(strongKiller);
-		strongKiller->sendPvpStatusTo(strongVictim);
+			strongVictim->sendPvpStatusTo(strongKiller);
+			strongKiller->sendPvpStatusTo(strongVictim);
 
-		if (challengerWon) {
-			strongMan->demotePlayer(strongVictim);
-			strongMan->promotePlayer(strongKiller);
-		}
-	}, "HandleDarkCouncilDeathXpTask");
+			if (challengerWon) {
+				strongMan->demotePlayer(strongVictim);
+				strongMan->promotePlayer(strongKiller);
+			}
+		},
+		"HandleDarkCouncilDeathXpTask");
 
 	String mailString = "@pvp_rating:challenge_concluded_defender_win"; // %TU has defeated %TT during a battle for the honor of rank %DI. As a result, %TU will remain at their station in rank %DI, while %TT will live in shame for their defeat.
 
@@ -3460,7 +3473,7 @@ bool FrsManagerImplementation::handleDarkCouncilDeath(CreatureObject* killer, Cr
 void FrsManagerImplementation::handleLeftArena(CreatureObject* player) {
 	Locker locker(managerData);
 
-	VectorMap<uint64, ManagedReference<ArenaChallengeData*> >* arenaChallenges = managerData->getArenaChallenges();
+	VectorMap<uint64, ManagedReference<ArenaChallengeData*>>* arenaChallenges = managerData->getArenaChallenges();
 	ManagedReference<CreatureObject*> opponent = nullptr;
 	uint64 playerID = player->getObjectID();
 	auto zoneServer = this->zoneServer.get();
@@ -3486,9 +3499,7 @@ void FrsManagerImplementation::handleLeftArena(CreatureObject* player) {
 	ManagedReference<CreatureObject*> strongPlayer = player->asCreatureObject();
 	ManagedReference<CreatureObject*> strongOpponent = opponent->asCreatureObject();
 
-	Core::getTaskManager()->executeTask([strongMan, strongPlayer, strongOpponent] () {
-		strongMan->handleDarkCouncilDeath(strongOpponent, strongPlayer, true);
-	}, "HandleDarkCouncilDeathTask");
+	Core::getTaskManager()->executeTask([strongMan, strongPlayer, strongOpponent]() { strongMan->handleDarkCouncilDeath(strongOpponent, strongPlayer, true); }, "HandleDarkCouncilDeathTask");
 }
 
 void FrsManagerImplementation::issueArenaChallenge(CreatureObject* player, int rank) {
@@ -3515,7 +3526,8 @@ void FrsManagerImplementation::issueArenaChallenge(CreatureObject* player, int r
 
 	managerData->updateChallengeTime(playerID);
 
-	StringIdChatParameter sysMsg("@pvp_rating:challenge_issued_challenger"); // You have issued a challenge against rank %DI. Any member of that rank may accept your challenge during the next 60 minutes. Should a rank member accept your challenge and you are not present in the enclave (or you are dead), you will lose the challenge by default. If you are not in the arena hall when the challange is accepted you will be teleported there as long as you are within the walls of the enclave. Should you win the challenge, you will be granted a position in rank %DI. Should you lose the challenge, you will lose a quantity of Force RankXP.
+	StringIdChatParameter sysMsg("@pvp_rating:challenge_issued_challenger"); // You have issued a challenge against rank %DI. Any member of that rank may accept your challenge during the next 60 minutes. Should a rank member accept your challenge and you are not present in the enclave (or you are dead), you will lose
+																			 // the challenge by default. If you are not in the arena hall when the challange is accepted you will be teleported there as long as you are within the walls of the enclave. Should you win the challenge, you will be granted a position in rank %DI. Should you lose the challenge, you will lose a quantity of Force RankXP.
 	sysMsg.setDI(rank);
 
 	player->sendSystemMessage(sysMsg);
@@ -3601,9 +3613,7 @@ void FrsManagerImplementation::acceptArenaChallenge(CreatureObject* player, uint
 		ManagedReference<CreatureObject*> strongPlayer = player->asCreatureObject();
 		ManagedReference<CreatureObject*> strongChallenger = challenger->asCreatureObject();
 
-		Core::getTaskManager()->executeTask([strongMan, strongPlayer, strongChallenger] () {
-			strongMan->handleDarkCouncilDeath(strongPlayer, strongChallenger, true);
-		}, "HandleDarkCouncilDeathTask");
+		Core::getTaskManager()->executeTask([strongMan, strongPlayer, strongChallenger]() { strongMan->handleDarkCouncilDeath(strongPlayer, strongChallenger, true); }, "HandleDarkCouncilDeathTask");
 
 		player->sendSystemMessage("@pvp_rating:ch_terminal_challenger_forfeit"); // The challenger has forfeit this battle by not being present and alive in the enclave to complete the duel. Honor has been restored to your rank.
 
@@ -3655,16 +3665,18 @@ void FrsManagerImplementation::acceptArenaChallenge(CreatureObject* player, uint
 	ManagedReference<CreatureObject*> strongRef = player->asCreatureObject();
 	ManagedReference<CreatureObject*> strongChal = challenger->asCreatureObject();
 
-	Core::getTaskManager()->executeTask([strongRef, strongChal] () {
-		Locker locker(strongRef);
-		strongRef->addPersonalEnemyFlag(strongChal, 0);
+	Core::getTaskManager()->executeTask(
+		[strongRef, strongChal]() {
+			Locker locker(strongRef);
+			strongRef->addPersonalEnemyFlag(strongChal, 0);
 
-		Locker clocker(strongChal, strongRef);
-		strongChal->addPersonalEnemyFlag(strongRef, 0);
+			Locker clocker(strongChal, strongRef);
+			strongChal->addPersonalEnemyFlag(strongRef, 0);
 
-		strongRef->sendPvpStatusTo(strongChal);
-		strongChal->sendPvpStatusTo(strongRef);
-	}, "AddPersonalEnemyFlagTask");
+			strongRef->sendPvpStatusTo(strongChal);
+			strongChal->sendPvpStatusTo(strongRef);
+		},
+		"AddPersonalEnemyFlagTask");
 }
 
 void FrsManagerImplementation::teleportPlayerToDarkArena(CreatureObject* player) {
@@ -3683,7 +3695,7 @@ void FrsManagerImplementation::teleportPlayerToDarkArena(CreatureObject* player)
 		uint64 playerCell = player->getParentID();
 
 		auto msg = player->info();
-		msg << "Dark Enclave Arena Movement  X = " << randX  << "  Y = " << randY << " Cell ID:  " << playerCell;
+		msg << "Dark Enclave Arena Movement  X = " << randX << "  Y = " << randY << " Cell ID:  " << playerCell;
 		msg.flush();
 	}
 
@@ -3709,13 +3721,14 @@ void FrsManagerImplementation::sendArenaChallengeSUI(CreatureObject* player, Sce
 	box->setOkButton(true, "@ok");
 	box->setCancelButton(true, "@cancel");
 
-	VectorMap<uint64, ManagedReference<ArenaChallengeData*> >* arenaChallenges = managerData->getArenaChallenges();
+	VectorMap<uint64, ManagedReference<ArenaChallengeData*>>* arenaChallenges = managerData->getArenaChallenges();
 
 	if (suiType == SUI_ARENA_CHAL_SCORES) {
-		box->setPromptText("@pvp_rating:ch_rank_scores"); // A challenge score of zero denotes a rank that is meeting its challenges. A negative score denotes ranks that have missed a number of challenges. Once a rank reaches -8 points, every member of that rank will be demoted to rank zero. Every time a rank fails to meet at least one challenge during a challenge period (which occurs once every 30 hours), they incur a -1 penalty. Should no challenges be issued during a challenge period, that rank's challenge score will return to zero. If challenges were issued, the rank must answer at least 50% of the challenges for the score to return to zero, else the rank will incur a -1 score penalty even though some challenges may have been answered.
+		box->setPromptText("@pvp_rating:ch_rank_scores"); // A challenge score of zero denotes a rank that is meeting its challenges. A negative score denotes ranks that have missed a number of challenges. Once a rank reaches -8 points, every member of that rank will be demoted to rank zero. Every time a rank fails to
+														  // meet at least one challenge during a challenge period (which occurs once every 30 hours), they incur a -1 penalty. Should no challenges be issued during a challenge period, that rank's challenge score will return to zero. If challenges were issued, the rank must answer at least 50% of the challenges for the score to return to zero, else the rank will incur a -1 score penalty even though some challenges may have been answered.
 		box->setPromptTitle("@pvp_rating:ch_terminal_view_scores"); // View Challenge Scores
 
-		Vector<ManagedReference<FrsRank*> >* rankData = managerData->getDarkRanks();
+		Vector<ManagedReference<FrsRank*>>* rankData = managerData->getDarkRanks();
 
 		clocker.release();
 
@@ -3734,7 +3747,7 @@ void FrsManagerImplementation::sendArenaChallengeSUI(CreatureObject* player, Sce
 			return;
 		}
 
-		box->setPromptText("@pvp_rating:ch_select_active_challenges"); // Select the rank you wish to view challenges for. If a rank is not listed here, that rank has no active challenges.
+		box->setPromptText("@pvp_rating:ch_select_active_challenges");	// Select the rank you wish to view challenges for. If a rank is not listed here, that rank has no active challenges.
 		box->setPromptTitle("@pvp_rating:ch_terminal_view_challenges"); // View Issued Challenges
 
 		for (int i = 2; i <= 11; i++) {
@@ -3769,7 +3782,6 @@ void FrsManagerImplementation::sendArenaChallengeSUI(CreatureObject* player, Sce
 
 		Locker xlock(rankData, player);
 
-
 		if (getAvailableRankSlots(rankData) >= 3) {
 			player->sendSystemMessage("@pvp_rating:ch_terminal_no_need_challenge"); // You do not need to challenge the rank as there are enough open seats available. Use the Voting Terminal in the enclave to petition for one of these open slots.
 			return;
@@ -3795,10 +3807,10 @@ void FrsManagerImplementation::sendArenaChallengeSUI(CreatureObject* player, Sce
 		if (rank <= 1 || managerData->isFightingInArena(player->getObjectID()))
 			return;
 
-		box->setPromptText("@pvp_rating:ch_terminal_choose_challenge"); // Choose the challenger that you wish to combat in defense of your rank's honor!
+		box->setPromptText("@pvp_rating:ch_terminal_choose_challenge");	 // Choose the challenger that you wish to combat in defense of your rank's honor!
 		box->setPromptTitle("@pvp_rating:ch_terminal_accept_challenge"); // Accept a Challenge
 
-		VectorMap<uint64, ManagedReference<ArenaChallengeData*> >* arenaChallenges = managerData->getArenaChallenges();
+		VectorMap<uint64, ManagedReference<ArenaChallengeData*>>* arenaChallenges = managerData->getArenaChallenges();
 
 		if (arenaChallenges->size() == 0)
 			return;
@@ -3865,7 +3877,7 @@ void FrsManagerImplementation::sendArenaChallengeSUI(CreatureObject* player, Sce
 
 		ManagedReference<SuiMessageBox*> confirmBox = new SuiMessageBox(player, SuiWindowType::ENCLAVE_VOTING);
 		confirmBox->setCallback(new EnclaveVotingTerminalSuiCallback(zoneServer, suiType, enclaveType, -1, false));
-		confirmBox->setPromptTitle("@pvp_rating:ch_terminal_accept_challenge"); // Accept a Challenge
+		confirmBox->setPromptTitle("@pvp_rating:ch_terminal_accept_challenge");		  // Accept a Challenge
 		confirmBox->setPromptText("@pvp_rating:ch_terminal_verify_accept_challenge"); // Are you certain you wish to accept the responsibility of defending the honor of your rank against the challengers? The battle will be to the death. Should you be bested in combat, your punishment will be demotion to the rank below yours, while the challenger will receive your position in the rank. If you leave the arena during the battle you will concede the battle.
 		confirmBox->setUsingObject(terminal);
 		confirmBox->setForceCloseDistance(16.f);
@@ -3953,9 +3965,7 @@ void FrsManagerImplementation::handleArenaChallengeIssueSui(CreatureObject* play
 	ManagedReference<CreatureObject*> strongRef = player->asCreatureObject();
 	int chalRank = rank + 1;
 
-	Core::getTaskManager()->executeTask([strongMan, strongRef, chalRank] () {
-		strongMan->issueArenaChallenge(strongRef, chalRank);
-	}, "IssueArenaChallengeTask");
+	Core::getTaskManager()->executeTask([strongMan, strongRef, chalRank]() { strongMan->issueArenaChallenge(strongRef, chalRank); }, "IssueArenaChallengeTask");
 }
 
 bool FrsManagerImplementation::rankHasOpenChallenges(int rank) {
@@ -4073,27 +4083,29 @@ void FrsManagerImplementation::modifySuddenDeathFlags(CreatureObject* player, Fr
 
 		ManagedReference<CreatureObject*> strongRef = player->asCreatureObject();
 
-		Core::getTaskManager()->executeTask([strongRef, petitioner, doRemove] () {
-			Locker locker(strongRef);
-			Locker clocker(petitioner, strongRef);
+		Core::getTaskManager()->executeTask(
+			[strongRef, petitioner, doRemove]() {
+				Locker locker(strongRef);
+				Locker clocker(petitioner, strongRef);
 
-			if (doRemove) {
-				strongRef->removePersonalEnemyFlag(petitioner);
-			} else {
-				if (!strongRef->hasPersonalEnemyFlag(petitioner))
-					strongRef->addPersonalEnemyFlag(petitioner, 0);
-			}
+				if (doRemove) {
+					strongRef->removePersonalEnemyFlag(petitioner);
+				} else {
+					if (!strongRef->hasPersonalEnemyFlag(petitioner))
+						strongRef->addPersonalEnemyFlag(petitioner, 0);
+				}
 
-			if (doRemove) {
-				strongRef->removePersonalEnemyFlag(petitioner);
-			} else {
-				if (!petitioner->hasPersonalEnemyFlag(strongRef))
-					petitioner->addPersonalEnemyFlag(strongRef, 0);
-			}
+				if (doRemove) {
+					strongRef->removePersonalEnemyFlag(petitioner);
+				} else {
+					if (!petitioner->hasPersonalEnemyFlag(strongRef))
+						petitioner->addPersonalEnemyFlag(strongRef, 0);
+				}
 
-			strongRef->sendPvpStatusTo(petitioner);
-			petitioner->sendPvpStatusTo(strongRef);
-		}, "AddPersonalEnemyFlagTask");
+				strongRef->sendPvpStatusTo(petitioner);
+				petitioner->sendPvpStatusTo(strongRef);
+			},
+			"AddPersonalEnemyFlagTask");
 	}
 }
 

@@ -16,7 +16,7 @@
 /**
  * Rename for clarity/convenience
  */
-using Mod = VectorMapEntry<String,int>;
+using Mod = VectorMapEntry<String, int>;
 
 /**
  * @inf
@@ -31,8 +31,10 @@ using Mod = VectorMapEntry<String,int>;
  */
 class ModSortingHelper : public Mod {
 public:
-	ModSortingHelper(): Mod( "", 0) {}
-	ModSortingHelper(String name, int value) : Mod(name, value) {}
+	ModSortingHelper() : Mod("", 0) {
+	}
+	ModSortingHelper(String name, int value) : Mod(name, value) {
+	}
 
 	/**
 	 * @inf
@@ -46,9 +48,9 @@ public:
 	 * will result in a vector of {A, C, D, B}. This overload results in a
 	 * vector of {A, B, C, D }.
 	 */
-	int compareTo(const Mod& e) const  {
+	int compareTo(const Mod& e) const {
 		// Make copies of this and e to get around getValue not being const
-		if(  Mod(*this).getValue() >= Mod(e).getValue() ) {
+		if (Mod(*this).getValue() >= Mod(e).getValue()) {
 			return 1;
 		} else {
 			return -1;
@@ -61,8 +63,7 @@ void WearableObjectImplementation::initializeTransientMembers() {
 	setLoggingName("WearableObject");
 }
 
-void WearableObjectImplementation::fillAttributeList(AttributeListMessage* alm,
-		CreatureObject* object) {
+void WearableObjectImplementation::fillAttributeList(AttributeListMessage* alm, CreatureObject* object) {
 	TangibleObjectImplementation::fillAttributeList(alm, object);
 
 	int remainingSockets = getRemainingSockets();
@@ -70,7 +71,7 @@ void WearableObjectImplementation::fillAttributeList(AttributeListMessage* alm,
 	if (remainingSockets > 0)
 		alm->insertAttribute("sockets", remainingSockets);
 
-	for(int i = 0; i < wearableSkillMods.size(); ++i) {
+	for (int i = 0; i < wearableSkillMods.size(); ++i) {
 		String key = wearableSkillMods.elementAt(i).getKey();
 		String statname = "cat_skill_mod_bonus.@stat_n:" + key;
 		int value = wearableSkillMods.get(key);
@@ -79,11 +80,10 @@ void WearableObjectImplementation::fillAttributeList(AttributeListMessage* alm,
 			alm->insertAttribute(statname, value);
 	}
 
-	//Anti Decay Kit
-	if (hasAntiDecayKit() && !isArmorObject()){
+	// Anti Decay Kit
+	if (hasAntiDecayKit() && !isArmorObject()) {
 		alm->insertAttribute("@veteran_new:antidecay_examine_title", "@veteran_new:antidecay_examine_text");
 	}
-
 }
 
 void WearableObjectImplementation::updateCraftingValues(CraftingValues* values, bool initialUpdate) {
@@ -93,7 +93,7 @@ void WearableObjectImplementation::updateCraftingValues(CraftingValues* values, 
 	 * hitpoints			1000-1000 (Don't Use)
 	 */
 	if (initialUpdate) {
-		if(values->hasProperty("sockets") && values->getCurrentValue("sockets") >= 0)
+		if (values->hasProperty("sockets") && values->getCurrentValue("sockets") >= 0)
 			generateSockets(values);
 	}
 }
@@ -173,16 +173,16 @@ void WearableObjectImplementation::applyAttachment(CreatureObject* player, Attac
 		String statName;
 		int newValue;
 
-		SortedVector< ModSortingHelper > sortedMods;
-		for( int i = 0; i < mods->size(); i++){
+		SortedVector<ModSortingHelper> sortedMods;
+		for (int i = 0; i < mods->size(); i++) {
 			iterator.getNextKeyAndValue(statName, newValue);
-			sortedMods.put( ModSortingHelper( statName, newValue));
+			sortedMods.put(ModSortingHelper(statName, newValue));
 		}
 
 		// Select the next mod in the SEA, sorted high-to-low. If that skill mod is already on the
 		// wearable, with higher or equal value, don't apply and continue. Break once one mod
 		// is applied.
-		for (int i = 0; i < sortedMods.size(); i++ ) {
+		for (int i = 0; i < sortedMods.size(); i++) {
 			String modName = sortedMods.elementAt(i).getKey();
 			int modValue = sortedMods.elementAt(i).getValue();
 
@@ -191,7 +191,7 @@ void WearableObjectImplementation::applyAttachment(CreatureObject* player, Attac
 				existingValue = wearableSkillMods.get(modName);
 
 			if (modValue > existingValue) {
-				wearableSkillMods.put( modName, modValue );
+				wearableSkillMods.put(modName, modValue);
 				break;
 			}
 		}
@@ -217,8 +217,7 @@ void WearableObjectImplementation::applySkillModsTo(CreatureObject* creature) co
 		String name = wearableSkillMods.elementAt(i).getKey();
 		int value = wearableSkillMods.get(name);
 
-		if (!SkillModManager::instance()->isWearableModDisabled(name))
-		{
+		if (!SkillModManager::instance()->isWearableModDisabled(name)) {
 			creature->addSkillMod(SkillModManager::WEARABLE, name, value, true);
 			creature->updateTerrainNegotiation();
 		}
@@ -236,8 +235,7 @@ void WearableObjectImplementation::removeSkillModsFrom(CreatureObject* creature)
 		String name = wearableSkillMods.elementAt(i).getKey();
 		int value = wearableSkillMods.get(name);
 
-		if (!SkillModManager::instance()->isWearableModDisabled(name))
-		{
+		if (!SkillModManager::instance()->isWearableModDisabled(name)) {
 			creature->removeSkillMod(SkillModManager::WEARABLE, name, value, true);
 			creature->updateTerrainNegotiation();
 		}
@@ -257,15 +255,15 @@ bool WearableObjectImplementation::isEquipped() {
 String WearableObjectImplementation::repairAttempt(int repairChance) {
 	String message = "@error_message:";
 
-	if(repairChance < 25) {
+	if (repairChance < 25) {
 		message += "sys_repair_failed";
 		setMaxCondition(1, true);
 		setConditionDamage(0, true);
-	} else if(repairChance < 50) {
+	} else if (repairChance < 50) {
 		message += "sys_repair_imperfect";
 		setMaxCondition(getMaxCondition() * .65f, true);
 		setConditionDamage(0, true);
-	} else if(repairChance < 75) {
+	} else if (repairChance < 75) {
 		setMaxCondition(getMaxCondition() * .80f, true);
 		setConditionDamage(0, true);
 		message += "sys_repair_slight";
@@ -277,4 +275,3 @@ String WearableObjectImplementation::repairAttempt(int repairChance) {
 
 	return message;
 }
-

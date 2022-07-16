@@ -13,13 +13,14 @@ namespace chat {
 
 class LuaStringIdChatParameter {
 	Reference<StringIdChatParameter*> realObject;
+
 public:
 	// Constants
 	static const char className[];
 	static Luna<LuaStringIdChatParameter>::RegType Register[];
 
 	// Initialize the string
-	LuaStringIdChatParameter(lua_State *L);
+	LuaStringIdChatParameter(lua_State* L);
 	~LuaStringIdChatParameter();
 
 	int _setObject(lua_State* L);
@@ -31,8 +32,8 @@ public:
 	int setDF(lua_State* L);
 };
 
-}
-}
+} // namespace chat
+} // namespace server
 
 using namespace server::chat;
 

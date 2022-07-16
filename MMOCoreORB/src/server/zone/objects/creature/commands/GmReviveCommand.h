@@ -9,13 +9,10 @@
 
 class GmReviveCommand : public QueueCommand {
 public:
-
 	GmReviveCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
-
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -33,7 +30,7 @@ public:
 			if (!args.hasMoreTokens()) { // No arguments passed
 
 				if (object != nullptr && (object->isPlayerCreature() || object->isPet())) { // Target is a player or pet, rez target
-					patient = cast<CreatureObject*>( object.get());
+					patient = cast<CreatureObject*>(object.get());
 					revivePatient(creature, patient);
 
 				} else if (object == nullptr) { // No target, rez self
@@ -109,7 +106,7 @@ public:
 #endif
 							zone->getInRangeObjects(creature->getPositionX(), creature->getPositionY(), range, &closeObjects, true);
 						} else {
-							CloseObjectsVector* closeVector = (CloseObjectsVector*) creature->getCloseObjects();
+							CloseObjectsVector* closeVector = (CloseObjectsVector*)creature->getCloseObjects();
 							closeVector->safeCopyReceiversTo(closeObjects, CloseObjectsVector::CREOTYPE);
 						}
 
@@ -155,10 +152,10 @@ public:
 						}
 					}
 
-				} else if (buff) {  // Buff was the only argument
+				} else if (buff) { // Buff was the only argument
 
 					if (object != nullptr && (object->isPlayerCreature() || object->isPet())) { // Target is a player or pet, buff target
-						patient = cast<CreatureObject*>( object.get());
+						patient = cast<CreatureObject*>(object.get());
 						Locker clocker(patient, creature);
 
 						if (patient->isPlayerCreature()) {
@@ -203,11 +200,10 @@ public:
 		ManagedReference<PlayerObject*> targetGhost = patient->getPlayerObject();
 
 		if (targetGhost != nullptr) {
-
-			if(targetGhost->getJediState() > 1)
+			if (targetGhost->getJediState() > 1)
 				targetGhost->setForcePower(targetGhost->getForcePowerMax());
 
-			if(patient->isDead())
+			if (patient->isDead())
 				targetGhost->removeSuiBoxType(SuiWindowType::CLONE_REQUEST);
 		}
 
@@ -240,4 +236,4 @@ public:
 	}
 };
 
-#endif //GMREVIVECOMMAND_H_
+#endif // GMREVIVECOMMAND_H_

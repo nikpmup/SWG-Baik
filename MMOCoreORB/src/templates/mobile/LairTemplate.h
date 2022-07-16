@@ -13,8 +13,8 @@
 
 class LairTemplate : public Object {
 public:
-	enum MobType {CREATURE, NPC};
-	enum BuildingType {LAIR, THEATER, NONE};
+	enum MobType { CREATURE, NPC };
+	enum BuildingType { LAIR, THEATER, NONE };
 
 protected:
 	VectorMap<String, int> mobiles; // mobile template, weighting
@@ -22,7 +22,7 @@ protected:
 	VectorMap<String, int> bossMobiles; // mobile template, number to spawn
 	int spawnLimit;
 
-	VectorMap<uint32, Reference<Vector<String>*> > buildings;
+	VectorMap<uint32, Reference<Vector<String>*>> buildings;
 
 	String missionBuilding;
 	String name;
@@ -33,7 +33,7 @@ protected:
 	BuildingType buildingType;
 
 public:
-	enum { VERYEASY = 0, EASY, MEDIUM, HARD, VERYHARD};
+	enum { VERYEASY = 0, EASY, MEDIUM, HARD, VERYHARD };
 
 	LairTemplate(const String& templateName) {
 		spawnLimit = 0;

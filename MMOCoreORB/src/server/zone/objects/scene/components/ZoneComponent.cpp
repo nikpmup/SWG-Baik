@@ -23,7 +23,7 @@ void ZoneComponent::notifyInsertToZone(SceneObject* sceneObject, Zone* newZone) 
 	if (newZone == nullptr)
 		return;
 
-	//Locker locker(sceneObject);
+	// Locker locker(sceneObject);
 
 	sceneObject->teleport(sceneObject->getPositionX(), sceneObject->getPositionZ(), sceneObject->getPositionY(), sceneObject->getParentID());
 
@@ -31,9 +31,9 @@ void ZoneComponent::notifyInsertToZone(SceneObject* sceneObject, Zone* newZone) 
 }
 
 void ZoneComponent::insertChildObjectsToZone(SceneObject* sceneObject, Zone* zone) const {
-	SortedVector<ManagedReference<SceneObject*> >* childObjects = sceneObject->getChildObjects();
+	SortedVector<ManagedReference<SceneObject*>>* childObjects = sceneObject->getChildObjects();
 
-	//Insert all outdoor child objects to zone
+	// Insert all outdoor child objects to zone
 	for (int i = 0; i < childObjects->size(); ++i) {
 		ManagedReference<SceneObject*> outdoorChild = childObjects->get(i);
 
@@ -68,7 +68,7 @@ void ZoneComponent::teleport(SceneObject* sceneObject, float newPositionX, float
 			sceneObject->updateZoneWithParent(newParent, false, false);
 		}
 
-		//sceneObject->info("sending data transform with parent", true);
+		// sceneObject->info("sending data transform with parent", true);
 
 		sceneObject->incrementMovementCounter();
 
@@ -80,7 +80,7 @@ void ZoneComponent::teleport(SceneObject* sceneObject, float newPositionX, float
 			sceneObject->updateZone(false, false);
 		}
 
-		//sceneObject->info("sending data transform", true);
+		// sceneObject->info("sending data transform", true);
 
 		sceneObject->incrementMovementCounter();
 
@@ -210,7 +210,7 @@ void ZoneComponent::updateZoneWithParent(SceneObject* sceneObject, SceneObject* 
 		}
 	}
 
-	//notify in range objects that i moved
+	// notify in range objects that i moved
 	try {
 		CloseObjectsVector* closeObjects = sceneObject->getCloseObjects();
 
@@ -394,7 +394,7 @@ void ZoneComponent::removeObjectFromZone(SceneObject* sceneObject, Zone* zone, S
 
 	locker.release();
 
-	SortedVector<ManagedReference<QuadTreeEntry*> > closeSceneObjects;
+	SortedVector<ManagedReference<QuadTreeEntry*>> closeSceneObjects;
 
 	CloseObjectsVector* closeobjects = sceneObject->getCloseObjects();
 	ManagedReference<SceneObject*> vectorOwner = sceneObject;
@@ -436,7 +436,7 @@ void ZoneComponent::removeObjectFromZone(SceneObject* sceneObject, Zone* zone, S
 	TangibleObject* tano = sceneObject->asTangibleObject();
 
 	if (tano != nullptr) {
-		SortedVector<ManagedReference<ActiveArea*> >* activeAreas = tano->getActiveAreas();
+		SortedVector<ManagedReference<ActiveArea*>>* activeAreas = tano->getActiveAreas();
 
 		while (activeAreas->size() > 0) {
 			Locker _alocker(sceneObject->getContainerLock());
@@ -450,11 +450,11 @@ void ZoneComponent::removeObjectFromZone(SceneObject* sceneObject, Zone* zone, S
 	} else if (sceneObject->isStaticObjectClass()) {
 		// hack to get around notifyEnter/Exit only working with tangible objects
 		Vector3 worldPos = sceneObject->getWorldPosition();
-		SortedVector<ActiveArea* > objects;
+		SortedVector<ActiveArea*> objects;
 		zone->getInRangeActiveAreas(worldPos.getX(), worldPos.getY(), &objects, false);
 
-		for(auto& area : objects) {
-			NavArea *mesh = area->asNavArea();
+		for (auto& area : objects) {
+			NavArea* mesh = area->asNavArea();
 
 			if (mesh != nullptr) {
 				if (mesh->containsPoint(worldPos.getX(), worldPos.getY())) {
@@ -469,9 +469,7 @@ void ZoneComponent::notifySelfPositionUpdate(SceneObject* sceneObject) const {
 	sceneObject->notifySelfPositionUpdate();
 }
 
-void ZoneComponent::removeAllObjectsFromCOV(CloseObjectsVector *closeobjects,
-					SortedVector<ManagedReference<QuadTreeEntry *> > &closeSceneObjects,
-					SceneObject *sceneObject, SceneObject *vectorOwner) {
+void ZoneComponent::removeAllObjectsFromCOV(CloseObjectsVector* closeobjects, SortedVector<ManagedReference<QuadTreeEntry*>>& closeSceneObjects, SceneObject* sceneObject, SceneObject* vectorOwner) {
 	for (int i = 0; closeobjects->size() != 0 && i < 100; i++) {
 		closeobjects->safeCopyTo(closeSceneObjects);
 
@@ -483,7 +481,7 @@ void ZoneComponent::removeAllObjectsFromCOV(CloseObjectsVector *closeobjects,
 			if (vectorOwner == sceneObject) {
 				try {
 					vectorOwner->removeInRangeObject(obj, false);
-				} catch (ArrayIndexOutOfBoundsException &e) {
+				} catch (ArrayIndexOutOfBoundsException& e) {
 					Logger::console.error("exception removing in range object: " + e.getMessage());
 				}
 			}

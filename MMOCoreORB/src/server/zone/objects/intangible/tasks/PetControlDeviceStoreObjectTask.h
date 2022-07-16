@@ -7,6 +7,7 @@ class PetControlDeviceStoreObjectTask : public Task {
 	ManagedReference<PetControlDevice*> pet;
 	ManagedReference<CreatureObject*> player;
 	bool force;
+
 public:
 	PetControlDeviceStoreObjectTask(PetControlDevice* pet, CreatureObject* player, bool force) {
 		this->pet = pet;
@@ -27,10 +28,5 @@ public:
 		pet->storeObject(player, force);
 	}
 };
-
-
-
-
-
 
 #endif /* PETCONTROLDEVICESTOREOBJECTTASK_H_ */

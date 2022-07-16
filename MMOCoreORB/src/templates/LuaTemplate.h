@@ -16,7 +16,6 @@ public:
 	virtual void readObject(LuaObject* templateData) = 0;
 
 	virtual ~LuaTemplate() {
-
 	}
 };
 

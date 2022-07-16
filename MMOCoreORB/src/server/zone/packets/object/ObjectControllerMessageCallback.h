@@ -18,14 +18,13 @@ class ObjectControllerMessageCallback : public MessageCallback {
 	uint64 objectID;
 
 	Reference<MessageCallback*> objectControllerCallback;
-public:
-	ObjectControllerMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), priority(0), type(0), objectID(0) {
 
+public:
+	ObjectControllerMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), priority(0), type(0), objectID(0) {
 		objectControllerCallback = nullptr;
 	}
 
-	static UniqueReference<MessageCallbackFactory<MessageCallback* (ObjectControllerMessageCallback*), uint32>*> objectMessageControllerFactory;
+	static UniqueReference<MessageCallbackFactory<MessageCallback*(ObjectControllerMessageCallback*), uint32>*> objectMessageControllerFactory;
 
 	const char* getTaskName();
 
@@ -44,8 +43,6 @@ public:
 	inline uint64 getObjectID() const {
 		return objectID;
 	}
-
 };
-
 
 #endif /* OBJECTCONTROLLERMESSAGECALLBACK_H_ */

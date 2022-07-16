@@ -7,36 +7,29 @@
 
 class SetPerformanceBuffTargetCommand : public QueueCommand {
 public:
-
-	SetPerformanceBuffTargetCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetPerformanceBuffTargetCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
 
-		if(!creature->isPlayerCreature())
-			return GENERALERROR
-					;
+		if (!creature->isPlayerCreature())
+			return GENERALERROR;
 		ManagedReference<PlayerObject*> playerObj = creature->getPlayerObject();
 
 		ManagedReference<CreatureObject*> targetObject = server->getZoneServer()->getObject(target).castTo<CreatureObject*>();
 
-
-		if(targetObject == nullptr) {
+		if (targetObject == nullptr) {
 			creature->sendSystemMessage("@performance:buff_invalid_target_self");
 			return GENERALERROR;
 		}
 
-		if(targetObject == creature || !targetObject->isPlayerCreature())
+		if (targetObject == creature || !targetObject->isPlayerCreature())
 			return GENERALERROR;
-
 
 		StringIdChatParameter selfMessage;
 		StringIdChatParameter otherMessage;
@@ -51,7 +44,6 @@ public:
 		playerObj->setPerformanceBuffTarget(target);
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETPERFORMANCEBUFFTARGETCOMMAND_H_
+#endif // SETPERFORMANCEBUFFTARGETCOMMAND_H_

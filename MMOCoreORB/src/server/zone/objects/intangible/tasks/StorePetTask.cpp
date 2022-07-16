@@ -70,14 +70,12 @@ void StorePetTask::run() {
 		controlDevice->setLastCommand(PetManager::FOLLOW);
 	}
 
-
 	const CreatureTemplate* creoTemp = pet->getCreatureTemplate();
 
 	if (creoTemp != nullptr) {
 		pet->setFaction(creoTemp->getFaction().hashCode());
 		pet->setPvpStatusBitmask(creoTemp->getPvpBitmask(), false);
-	}
-	else {
+	} else {
 		pet->setFaction(0);
 		pet->setPvpStatusBitmask(0, false);
 	}
@@ -91,5 +89,4 @@ void StorePetTask::run() {
 
 	if (group != nullptr)
 		GroupManager::instance()->leaveGroup(group, pet);
-
 }

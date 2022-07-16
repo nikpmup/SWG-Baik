@@ -17,7 +17,6 @@ class AffectorColorRampFractal : public ProceduralRule<'ACRF'>, public AffectorP
 
 public:
 	AffectorColorRampFractal() : familyId(0), var2(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {
@@ -54,8 +53,5 @@ public:
 		iffStream->closeForm('DATA');
 	}
 };
-
-
-
 
 #endif /* AFFECTORCOLORRAMPFRACTAL_H_ */

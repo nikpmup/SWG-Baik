@@ -24,18 +24,18 @@ void BountyHunterDroidMenuComponent::fillObjectMenuResponse(SceneObject* droidOb
 
 	if (isProbeDroid(droidObject)) {
 		if (droidIsInPlayerInventory(droidObject, player)) {
-			menuResponse->addRadialMenuItem(138, 3, "@ui_radial:control_call"); //Call
+			menuResponse->addRadialMenuItem(138, 3, "@ui_radial:control_call"); // Call
 		} else if (droidIsInZone(droidObject) && playerOwnsTheDroid(droidObject, player)) {
-			menuResponse->addRadialMenuItem(138, 3, "@mission/mission_generic:probe_droid_activate"); //Probe Droid Command
-			menuResponse->addRadialMenuItemToRadialID(138, 184, 3, "@mission/mission_generic:probe_droid_program"); //Transmit Biological Signature
+			menuResponse->addRadialMenuItem(138, 3, "@mission/mission_generic:probe_droid_activate");				// Probe Droid Command
+			menuResponse->addRadialMenuItemToRadialID(138, 184, 3, "@mission/mission_generic:probe_droid_program"); // Transmit Biological Signature
 		}
 	} else if (isSeekerDroid(droidObject)) {
 		if (droidIsInPlayerInventory(droidObject, player)) {
-			menuResponse->addRadialMenuItem(138, 3, "@mission/mission_generic:probe_droid_activate"); //Probe Droid Command
-			menuResponse->addRadialMenuItemToRadialID(138, 137, 3, "@mission/mission_generic:probe_droid_find_target"); //Find Bounty Target
+			menuResponse->addRadialMenuItem(138, 3, "@mission/mission_generic:probe_droid_activate");					// Probe Droid Command
+			menuResponse->addRadialMenuItemToRadialID(138, 137, 3, "@mission/mission_generic:probe_droid_find_target"); // Find Bounty Target
 
 			if (playerCanUseTrack(player))
-				menuResponse->addRadialMenuItemToRadialID(138, 136, 3, "@mission/mission_generic:probe_droid_track_target"); //Find and Track Target
+				menuResponse->addRadialMenuItemToRadialID(138, 136, 3, "@mission/mission_generic:probe_droid_track_target"); // Find and Track Target
 		}
 	}
 }
@@ -79,9 +79,7 @@ bool BountyHunterDroidMenuComponent::playerCanUseDroids(CreatureObject* player) 
 }
 
 bool BountyHunterDroidMenuComponent::isProbeDroid(SceneObject* droidObject) const {
-	return droidObject->getObjectTemplate()->getTemplateFileName() == "mission_bounty_droid_probot" ||
-			droidObject->getObjectTemplate()->getTemplateFileName() == "probot" ||
-			droidObject->getObjectTemplate()->getTemplateFileName() == "imperial_probot";
+	return droidObject->getObjectTemplate()->getTemplateFileName() == "mission_bounty_droid_probot" || droidObject->getObjectTemplate()->getTemplateFileName() == "probot" || droidObject->getObjectTemplate()->getTemplateFileName() == "imperial_probot";
 }
 
 bool BountyHunterDroidMenuComponent::isSeekerDroid(SceneObject* droidObject) const {

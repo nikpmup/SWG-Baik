@@ -40,9 +40,6 @@ public:
 
 		iffStream->closeChunk('SGMT');
 	}
-
-
 };
-
 
 #endif /* SGMT_H_ */

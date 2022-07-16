@@ -33,5 +33,4 @@ public:
 	}
 };
 
-
 #endif /* INSTRUMENTOBJECTTEMPLATE_H_ */

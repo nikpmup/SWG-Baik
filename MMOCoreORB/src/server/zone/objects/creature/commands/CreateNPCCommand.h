@@ -11,14 +11,10 @@
 
 class CreateNPCCommand : public QueueCommand {
 public:
-
-	CreateNPCCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CreateNPCCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -71,7 +67,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CREATENPCCOMMAND_H_
+#endif // CREATENPCCOMMAND_H_

@@ -15,7 +15,6 @@ namespace minigames {
 namespace events {
 
 class ForagingEvent : public Task {
-
 	ManagedReference<CreatureObject*> player;
 	int forageType;
 	float forageX;
@@ -39,11 +38,11 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace minigames
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::minigames::events;
 

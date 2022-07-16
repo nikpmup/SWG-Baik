@@ -12,10 +12,7 @@
 
 class PlaceStructureModeCommand : public QueueCommand {
 public:
-
-	PlaceStructureModeCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	PlaceStructureModeCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -35,34 +32,33 @@ public:
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
 
-
 		if (creature->getParent() != nullptr) {
-			creature->sendSystemMessage("@player_structure:not_inside"); //You can not place a structure while you are inside a building.
+			creature->sendSystemMessage("@player_structure:not_inside"); // You can not place a structure while you are inside a building.
 			return GENERALERROR;
 		}
 
 		ManagedReference<CityRegion*> city = creature->getCityRegion().get();
 
 		if (city != nullptr && city->isClientRegion()) {
-			creature->sendSystemMessage("@player_structure:not_permitted"); //Building is not permitted here.
+			creature->sendSystemMessage("@player_structure:not_permitted"); // Building is not permitted here.
 			return INVALIDPARAMETERS;
 		}
 
 		ManagedReference<SceneObject*> obj = server->getZoneServer()->getObject(target);
 
 		if (obj == nullptr || !obj->isDeedObject()) {
-			creature->sendSystemMessage("@player_structure:not_a_deed"); //That is not a deed.
+			creature->sendSystemMessage("@player_structure:not_a_deed"); // That is not a deed.
 			return INVALIDTARGET;
 		}
 
 		if (!obj->isASubChildOf(creature))
-			return GENERALERROR; //Deed must be in inventory...
+			return GENERALERROR; // Deed must be in inventory...
 
 		Deed* deed = cast<Deed*>(obj.get());
 
-		//Check deed faction, player faction and status to make sure they are allowed to place a faction deeds (bases)
-		if (deed->getFaction() != Factions::FACTIONNEUTRAL){
-			if (creature->getFaction() == Factions::FACTIONNEUTRAL || creature->getFactionStatus() == FactionStatus::ONLEAVE){
+		// Check deed faction, player faction and status to make sure they are allowed to place a faction deeds (bases)
+		if (deed->getFaction() != Factions::FACTIONNEUTRAL) {
+			if (creature->getFaction() == Factions::FACTIONNEUTRAL || creature->getFactionStatus() == FactionStatus::ONLEAVE) {
 				StringIdChatParameter message("@faction_perk:prose_not_neutral"); // You cannot use %TT if you are neutral or on leave.
 				message.setTT(deed->getDisplayedName());
 
@@ -94,7 +90,7 @@ public:
 		Reference<SharedStructureObjectTemplate*> serverTemplate = dynamic_cast<SharedStructureObjectTemplate*>(templateManager->getTemplate(serverTemplatePath.hashCode()));
 
 		if (serverTemplate == nullptr)
-			return GENERALERROR; //Template is unknown.
+			return GENERALERROR; // Template is unknown.
 
 		int lots = serverTemplate->getLotSize();
 
@@ -114,4 +110,4 @@ public:
 	}
 };
 
-#endif //PLACESTRUCTUREMODECOMMAND_H_
+#endif // PLACESTRUCTUREMODECOMMAND_H_

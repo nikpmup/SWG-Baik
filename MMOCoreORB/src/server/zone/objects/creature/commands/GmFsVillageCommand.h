@@ -10,10 +10,7 @@
 
 class GmFsVillageCommand : public QueueCommand {
 public:
-
-	GmFsVillageCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GmFsVillageCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -35,7 +32,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //GMFSVILLAGECOMMAND_H_
+#endif // GMFSVILLAGECOMMAND_H_

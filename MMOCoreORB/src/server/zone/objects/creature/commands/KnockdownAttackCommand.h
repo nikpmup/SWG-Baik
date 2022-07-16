@@ -9,12 +9,10 @@
 
 class KnockdownAttackCommand : public CombatQueueCommand {
 public:
-
 	KnockdownAttackCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -26,7 +24,6 @@ public:
 
 		return doCombatAction(creature, target, arguments);
 	}
-
 };
 
-#endif //KNOCKDOWNATTACKCOMMAND_H_
+#endif // KNOCKDOWNATTACKCOMMAND_H_

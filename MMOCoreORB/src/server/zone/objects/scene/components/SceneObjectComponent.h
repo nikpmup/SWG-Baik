@@ -10,8 +10,6 @@
 
 #include "engine/engine.h"
 
-class SceneObjectComponent : public virtual Object {
-
-};
+class SceneObjectComponent : public virtual Object {};
 
 #endif /* SCENEOBJECTCOMPONENT_H_ */

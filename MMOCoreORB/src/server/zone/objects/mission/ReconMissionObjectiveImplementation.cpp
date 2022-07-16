@@ -17,7 +17,7 @@
 
 void ReconMissionObjectiveImplementation::activate() {
 	MissionObjectiveImplementation::activate();
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
 
 	if (mission == nullptr)
 		return;
@@ -25,7 +25,7 @@ void ReconMissionObjectiveImplementation::activate() {
 	ManagedReference<ZoneServer*> zoneServer = Core::lookupObject<ZoneServer>("ZoneServer");
 
 	if (locationActiveArea == nullptr) {
-		locationActiveArea = ( zoneServer->createObject(STRING_HASHCODE("object/mission_recon_area.iff"), 1)).castTo<MissionReconActiveArea*>();
+		locationActiveArea = (zoneServer->createObject(STRING_HASHCODE("object/mission_recon_area.iff"), 1)).castTo<MissionReconActiveArea*>();
 		Locker locker(locationActiveArea);
 		locationActiveArea->setMissionObjective(_this.getReferenceUnsafeStaticCast());
 	}
@@ -36,22 +36,24 @@ void ReconMissionObjectiveImplementation::activate() {
 		Zone* zone = zoneServer->getZone(planetName);
 
 		if (zone != nullptr) {
-			Reference<MissionReconActiveArea* > area = locationActiveArea;
+			Reference<MissionReconActiveArea*> area = locationActiveArea;
 
-			Core::getTaskManager()->executeTask([zone, area, this, mission] () {
-				Locker locker(area);
+			Core::getTaskManager()->executeTask(
+				[zone, area, this, mission]() {
+					Locker locker(area);
 
-				area->initializePosition(mission->getStartPositionX(), 0, mission->getStartPositionY());
-				area->setRadius(32.f);
+					area->initializePosition(mission->getStartPositionX(), 0, mission->getStartPositionY());
+					area->setRadius(32.f);
 
-				if (zone != nullptr) {
-					zone->transferObject(area, -1, true);
-				} else {
-					error("Failed to insert recon location to zone.");
-					abort();
-					return;
-				}
-			}, "ReconMissionObjectiveActivateLambda");
+					if (zone != nullptr) {
+						zone->transferObject(area, -1, true);
+					} else {
+						error("Failed to insert recon location to zone.");
+						abort();
+						return;
+					}
+				},
+				"ReconMissionObjectiveActivateLambda");
 		}
 	}
 
@@ -70,41 +72,45 @@ void ReconMissionObjectiveImplementation::abort() {
 	MissionObjectiveImplementation::abort();
 
 	if (locationActiveArea != nullptr) {
-		Reference<MissionReconActiveArea* > area = locationActiveArea;
+		Reference<MissionReconActiveArea*> area = locationActiveArea;
 
-		Core::getTaskManager()->executeTask([=] () {
-			Locker locker(area);
+		Core::getTaskManager()->executeTask(
+			[=]() {
+				Locker locker(area);
 
-			area->destroyObjectFromWorld(true);
-			area->destroyObjectFromDatabase(true);
-		}, "DestroyReconMissionAreaLambda");
+				area->destroyObjectFromWorld(true);
+				area->destroyObjectFromDatabase(true);
+			},
+			"DestroyReconMissionAreaLambda");
 	}
 }
 
 void ReconMissionObjectiveImplementation::complete() {
-	Reference<MissionReconActiveArea* > area = locationActiveArea;
+	Reference<MissionReconActiveArea*> area = locationActiveArea;
 
-	Core::getTaskManager()->executeTask([=] () {
-		Locker locker(area);
+	Core::getTaskManager()->executeTask(
+		[=]() {
+			Locker locker(area);
 
-		area->destroyObjectFromWorld(true);
-		area->destroyObjectFromDatabase(true);
-	}, "DestroyReconMissionAreaLambda2");
+			area->destroyObjectFromWorld(true);
+			area->destroyObjectFromDatabase(true);
+		},
+		"DestroyReconMissionAreaLambda2");
 
 	MissionObjectiveImplementation::complete();
 }
 
 Vector3 ReconMissionObjectiveImplementation::getEndPosition() {
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
 
 	Vector3 missionEndPoint;
-	if(mission == nullptr)
+	if (mission == nullptr)
 		return missionEndPoint;
 
 	missionEndPoint.setX(mission->getStartPositionX());
 	missionEndPoint.setY(mission->getStartPositionY());
 
-	Zone* zone =  getPlayerOwner()->getZone();
+	Zone* zone = getPlayerOwner()->getZone();
 
 	if (zone != nullptr) {
 		TerrainManager* terrain = zone->getPlanetManager()->getTerrainManager();

@@ -8,7 +8,7 @@
 #include "engine/engine.h"
 
 namespace conf {
-	class ConfigManager;
+class ConfigManager;
 }
 
 class ServerDatabase : public Logger {
@@ -32,6 +32,7 @@ public:
 	inline int getSchemaVersion() const {
 		return dbSchemaVersion;
 	}
+
 private:
 	void alterDatabase(int nextVersion, const String& alterSql);
 	void updateDatabaseSchema();

@@ -55,8 +55,6 @@ public:
 	inline TargaBitmap* getBitmap(int index) {
 		return mfrcs.get((uint32)index);
 	}
-
 };
-
 
 #endif /* BITMAPGROUP_H_ */

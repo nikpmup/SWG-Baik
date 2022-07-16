@@ -83,9 +83,8 @@ void BuffList::addBuff(Buff* buff) {
 
 	uint32 buffcrc = buff->getBuffCRC();
 
-	//Remove the old buff if it exists. (Exists checked in removeBuff)
-	if ((buff->getBuffType() == BuffType::FOOD && !buff->isAttributeBuff())
-			|| (buff->getBuffType() != BuffType::FOOD))
+	// Remove the old buff if it exists. (Exists checked in removeBuff)
+	if ((buff->getBuffType() == BuffType::FOOD && !buff->isAttributeBuff()) || (buff->getBuffType() != BuffType::FOOD))
 		removeBuff(buffcrc);
 
 	if (!buff->isPersistent())
@@ -145,7 +144,6 @@ void BuffList::removeBuff(Buff* buff) {
 		try {
 			buff->deactivate();
 		} catch (...) {
-
 		}
 
 		if (buff->isPersistent())
@@ -160,7 +158,7 @@ int BuffList::findBuff(Buff* buff) const {
 
 	uint32 buffCRC = buff->getBuffCRC();
 
-	VectorMapEntry<uint32, ManagedReference<Buff*> > entry(buffCRC);
+	VectorMapEntry<uint32, ManagedReference<Buff*>> entry(buffCRC);
 
 	int index = buffList.lowerBound(entry);
 
@@ -184,7 +182,7 @@ int BuffList::findBuff(Buff* buff) const {
 void BuffList::clearBuffs(bool updateclient, bool removeAll) {
 	Locker guard(&mutex);
 
-	for (int i = buffList.size() -1; i >= 0; i--) {
+	for (int i = buffList.size() - 1; i >= 0; i--) {
 		ManagedReference<Buff*> buff = buffList.get(i);
 
 		if (!removeAll && !buff->removeOnClearBuffs())
@@ -199,7 +197,7 @@ void BuffList::clearBuffs(bool updateclient, bool removeAll) {
 		mutex.unlock();
 
 		try {
-			//Already null checked the buff.
+			// Already null checked the buff.
 			if (buff->isSpiceBuff())
 				buff->deactivate(false); // this wont create the downer
 			else
@@ -208,7 +206,6 @@ void BuffList::clearBuffs(bool updateclient, bool removeAll) {
 			if (buff->isPersistent())
 				ObjectManager::instance()->destroyObjectFromDatabase(buff->_getObjectID());
 		} catch (...) {
-
 		}
 
 		mutex.lock();

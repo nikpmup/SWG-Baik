@@ -19,7 +19,6 @@ public:
 	bool toBinaryStream(ObjectOutputStream* stream);
 	bool parseFromBinaryStream(ObjectInputStream* stream);
 	DataObjectComponent* operator=(DataObjectComponent* obj);
-
 };
 
 void to_json(nlohmann::json& j, const DataObjectComponentReference& ref);

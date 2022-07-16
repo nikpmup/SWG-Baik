@@ -22,7 +22,6 @@ DroidStimpackModuleDataComponent::DroidStimpackModuleDataComponent() {
 }
 
 DroidStimpackModuleDataComponent::~DroidStimpackModuleDataComponent() {
-
 }
 
 String DroidStimpackModuleDataComponent::getModuleName() const {
@@ -36,7 +35,7 @@ void DroidStimpackModuleDataComponent::initializeTransientMembers() {
 		return;
 	}
 
-	if (droidComponent->hasKey( "stimpack_capacity")) {
+	if (droidComponent->hasKey("stimpack_capacity")) {
 		capacity = droidComponent->getAttributeValue("stimpack_capacity");
 	}
 
@@ -170,7 +169,7 @@ void DroidStimpackModuleDataComponent::countUses() {
 
 	DroidObject* droid = getDroidObject();
 	if (droid == nullptr) {
-		return ;
+		return;
 	}
 
 	Locker dlock(droid);
@@ -208,10 +207,10 @@ void DroidStimpackModuleDataComponent::onStore() {
  * Add Droid sub-radial options, need to be a top level radial not submenu
  */
 void DroidStimpackModuleDataComponent::fillObjectMenuResponse(SceneObject* droidObject, ObjectMenuResponse* menuResponse, CreatureObject* player) {
-	menuResponse->addRadialMenuItem(REQUEST_STIMPACK, 3, "@pet/droid_modules:request_stimpack" );
+	menuResponse->addRadialMenuItem(REQUEST_STIMPACK, 3, "@pet/droid_modules:request_stimpack");
 
 	if (player != nullptr && player->hasSkill("science_medic_ability_04"))
-		menuResponse->addRadialMenuItemToRadialID(REQUEST_STIMPACK, LOAD_STIMPACK, 3, "@pet/droid_modules:load_stimpack" );
+		menuResponse->addRadialMenuItemToRadialID(REQUEST_STIMPACK, LOAD_STIMPACK, 3, "@pet/droid_modules:load_stimpack");
 }
 
 void DroidStimpackModuleDataComponent::initialize(DroidObject* droid) {
@@ -223,13 +222,11 @@ void DroidStimpackModuleDataComponent::initialize(DroidObject* droid) {
 		return;
 	}
 
-	//This will instantiate the crafted_components slotted container and satchel if they do not exist
+	// This will instantiate the crafted_components slotted container and satchel if they do not exist
 	ManagedReference<SceneObject*> satchel = droidComponent->getCraftedComponentsSatchel();
 	if (satchel != nullptr) {
 		satchel->setContainerVolumeLimit(capacity);
 	}
-
-
 }
 
 int DroidStimpackModuleDataComponent::handleObjectMenuSelect(CreatureObject* player, byte selectedID, PetControlDevice* controller) {
@@ -285,7 +282,7 @@ int DroidStimpackModuleDataComponent::handleObjectMenuSelect(CreatureObject* pla
 
 		// Droid must have power
 		if (!droid->hasPower()) {
-			droid->showFlyText("npc_reaction/flytext","low_power", 204, 0, 0);  // "*Low Power*"
+			droid->showFlyText("npc_reaction/flytext", "low_power", 204, 0, 0); // "*Low Power*"
 			return 0;
 		}
 
@@ -295,7 +292,7 @@ int DroidStimpackModuleDataComponent::handleObjectMenuSelect(CreatureObject* pla
 		}
 
 		// Submit stimpack task
-		Reference<Task*> task = new DroidStimpackTask( droid,player,controller->getCustomObjectName().toString() );
+		Reference<Task*> task = new DroidStimpackTask(droid, player, controller->getCustomObjectName().toString());
 		droid->addPendingTask("droid_request_stimpack", task, 1); // rte determines when it will fire it
 	}
 
@@ -303,7 +300,7 @@ int DroidStimpackModuleDataComponent::handleObjectMenuSelect(CreatureObject* pla
 }
 
 void DroidStimpackModuleDataComponent::sendLoadUI(CreatureObject* player) {
-	ManagedReference<SceneObject* > inventory = player->getSlottedObject("inventory");
+	ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
 
 	if (inventory == nullptr)
 		return;

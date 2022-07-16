@@ -28,7 +28,7 @@ public:
 		if (gcwManager == nullptr || buildingObject == nullptr || hqTerminal == nullptr || player == nullptr)
 			return;
 
-		ManagedReference<PlayerObject* > ghost = player->getPlayerObject();
+		ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
 
 		if (ghost == nullptr)
 			return;
@@ -52,7 +52,7 @@ public:
 			ghost->closeSuiWindowType(SuiWindowType::HQ_TERMINAL);
 
 		Observer* shutdownObserver = nullptr;
-		SortedVector<ManagedReference<Observer* > > observers = player->getObservers(ObserverEventType::PARENTCHANGED);
+		SortedVector<ManagedReference<Observer*>> observers = player->getObservers(ObserverEventType::PARENTCHANGED);
 
 		for (int i = 0; i < observers.size(); i++) {
 			Observer* observer = observers.get(i);
@@ -70,7 +70,7 @@ public:
 
 		ManagedReference<SuiMessageBox*> suiMessageBox = new SuiMessageBox(player, SuiWindowType::HQ_TERMINAL);
 		suiMessageBox->setPromptTitle("@faction/faction_hq/faction_hq_response:terminal_response27"); // Confirm Facility Shutdown
-		suiMessageBox->setPromptText("@faction/faction_hq/faction_hq_response:terminal_response28"); // Are you sure that you want to shut down the facility?
+		suiMessageBox->setPromptText("@faction/faction_hq/faction_hq_response:terminal_response28");  // Are you sure that you want to shut down the facility?
 		suiMessageBox->setCancelButton(true, "Cancel");
 		suiMessageBox->setUsingObject(hqTerminal);
 		suiMessageBox->setCallback(new BaseShutdownSuiCallback(player->getZoneServer()));

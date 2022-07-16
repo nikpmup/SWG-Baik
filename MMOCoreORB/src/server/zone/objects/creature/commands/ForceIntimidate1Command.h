@@ -11,14 +11,10 @@
 
 class ForceIntimidate1Command : public ForcePowersQueueCommand {
 public:
-
-	ForceIntimidate1Command(const String& name, ZoneProcessServer* server)
-		: ForcePowersQueueCommand(name, server) {
-
+	ForceIntimidate1Command(const String& name, ZoneProcessServer* server) : ForcePowersQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -35,23 +31,21 @@ public:
 			return INVALIDTARGET;
 		}
 
-		CreatureObject *tarCreo = targetObject->asCreatureObject();
+		CreatureObject* tarCreo = targetObject->asCreatureObject();
 
 		int res = doCombatAction(creature, target);
 
-		if(res == SUCCESS) {
+		if (res == SUCCESS) {
 			CreatureAttackData data = CreatureAttackData("", this, target);
-			Reference<SortedVector<ManagedReference<TangibleObject*> >* > targets = CombatManager::instance()->getAreaTargets(creature, creature->getWeapon(), tarCreo, data);
-			if(targets->size() != 0) {
-				ForceIntimidateTask *task = new ForceIntimidateTask(tarCreo, targets, this);
+			Reference<SortedVector<ManagedReference<TangibleObject*>>*> targets = CombatManager::instance()->getAreaTargets(creature, creature->getWeapon(), tarCreo, data);
+			if (targets->size() != 0) {
+				ForceIntimidateTask* task = new ForceIntimidateTask(tarCreo, targets, this);
 				task->schedule(1500);
 			}
 		}
 
 		return res;
 	}
-
-
 };
 
-#endif //FORCEINTIMIDATE1COMMAND_H_
+#endif // FORCEINTIMIDATE1COMMAND_H_

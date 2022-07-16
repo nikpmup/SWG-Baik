@@ -1,7 +1,6 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
-
 
 #ifndef FORCEMEDITATETASK_H_
 #define FORCEMEDITATETASK_H_
@@ -9,7 +8,7 @@
 #include "engine/engine.h"
 #include "server/zone/objects/creature/CreatureObject.h"
 
-class ForceMeditateTask: public Task {
+class ForceMeditateTask : public Task {
 	ManagedReference<CreatureObject*> player;
 	String moodString;
 
@@ -35,7 +34,6 @@ public:
 			if (!player->isMeditating())
 				return;
 
-
 			if (fmeditateTask != nullptr)
 				fmeditateTask->reschedule(5000);
 
@@ -43,7 +41,6 @@ public:
 			player->error("unreported exception caught in ForceMeditateTask::activate");
 		}
 	}
-
 };
 
 #endif /* FORCEMEDITATETASK_H_ */

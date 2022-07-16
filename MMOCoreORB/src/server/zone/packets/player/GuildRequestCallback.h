@@ -16,9 +16,7 @@ class GuildRequestCallback : public MessageCallback {
 	uint64 objectID;
 
 public:
-	GuildRequestCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), objectID(0) {
-
+	GuildRequestCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), objectID(0) {
 	}
 
 	void parse(Message* message) {
@@ -31,7 +29,7 @@ public:
 		if (obj == nullptr || !obj->isCreatureObject())
 			return;
 
-		CreatureObject* creature = cast<CreatureObject*>( obj.get());
+		CreatureObject* creature = cast<CreatureObject*>(obj.get());
 
 		GuildResponseMessage* msg = new GuildResponseMessage(creature);
 		client->sendMessage(msg);

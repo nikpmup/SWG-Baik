@@ -13,16 +13,16 @@ void ActiveAreaEvent::run() {
 	Locker locker(area, object);
 
 	switch (eventType) {
-		case ENTEREVENT:
-			area->notifyEnter(object);
-			break;
+	case ENTEREVENT:
+		area->notifyEnter(object);
+		break;
 
-		case EXITEVENT:
-			area->notifyExit(object);
-			break;
+	case EXITEVENT:
+		area->notifyExit(object);
+		break;
 
-		default:
-			break;
+	default:
+		break;
 	}
 
 	StringBuffer newName;
@@ -36,4 +36,3 @@ void ActiveAreaEvent::run() {
 
 	setTaskName(newName.toString().toCharArray());
 }
-

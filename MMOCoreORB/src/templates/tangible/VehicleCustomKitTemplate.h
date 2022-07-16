@@ -11,25 +11,20 @@
 #include "templates/SharedTangibleObjectTemplate.h"
 
 class VehicleCustomKitTemplate : public SharedTangibleObjectTemplate {
-
 public:
 	VehicleCustomKitTemplate() {
-
 	}
 
 	~VehicleCustomKitTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
 		SharedTangibleObjectTemplate::readObject(templateData);
-
-    }
+	}
 
 	bool isVehicleCustomKitTemplate() {
 		return true;
 	}
-
 };
 
 #endif /* VEHICLECUSTOMKITTEMPLATE_H_ */

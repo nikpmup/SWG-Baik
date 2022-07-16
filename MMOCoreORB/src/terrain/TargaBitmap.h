@@ -10,18 +10,18 @@
 
 class TargaHeader {
 public:
-	char  idlength;
-	char  colourmaptype;
-	char  datatypecode;
+	char idlength;
+	char colourmaptype;
+	char datatypecode;
 	short int colourmaporigin;
 	short int colourmaplength;
-	char  colourmapdepth;
+	char colourmapdepth;
 	short int x_origin;
 	short int y_origin;
 	short width;
 	short height;
-	char  bitsperpixel;
-	char  imagedescriptor;
+	char bitsperpixel;
+	char imagedescriptor;
 
 	TargaHeader() {
 		idlength = 0;
@@ -39,7 +39,7 @@ public:
 	}
 
 	void readData(ObjectInputStream* fileReader) {
-		//header
+		// header
 		idlength = fileReader->readByte();
 		colourmaptype = fileReader->readByte();
 		datatypecode = fileReader->readByte();
@@ -53,23 +53,19 @@ public:
 		bitsperpixel = fileReader->readByte();
 		imagedescriptor = fileReader->readByte();
 	}
-
 };
 
 class TargaPixel {
 public:
 	TargaPixel() {
-
 	}
 
 	virtual ~TargaPixel() {
-
 	}
 
 	virtual void read(ObjectInputStream* data, int bytes) = 0;
 	virtual void clear() = 0;
 };
-
 
 class TargaBitmap {
 protected:
@@ -93,6 +89,5 @@ public:
 
 	unsigned char getData(int offset) const;
 };
-
 
 #endif /* TARGABITMAP_H_ */

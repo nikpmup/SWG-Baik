@@ -11,21 +11,18 @@
 #include "templates/SharedUniverseObjectTemplate.h"
 
 class SharedJediManagerTemplate : public SharedUniverseObjectTemplate {
-
 public:
 	SharedJediManagerTemplate() {
-
 	}
 
 	~SharedJediManagerTemplate() {
-
 	}
 
 	void readObject(IffStream* iffStream) {
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'SJED') {
-			//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 			SharedUniverseObjectTemplate::readObject(iffStream);
 
@@ -49,7 +46,7 @@ public:
 		iffStream->openForm(derv);
 
 		try {
-			//parseFileData(iffStream);
+			// parseFileData(iffStream);
 		} catch (Exception& e) {
 			String msg;
 			msg += "exception caught parsing file data ->";
@@ -66,7 +63,6 @@ public:
 
 		iffStream->closeForm('SJED');
 	}
-
 };
 
 #endif /* SHAREDJEDIMANAGERTEMPLATE_H_ */

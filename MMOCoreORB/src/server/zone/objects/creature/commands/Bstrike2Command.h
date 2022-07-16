@@ -9,13 +9,10 @@
 
 class Bstrike2Command : public CombatQueueCommand {
 public:
-
-	Bstrike2Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	Bstrike2Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //BSTRIKE2_H_
+#endif // BSTRIKE2_H_

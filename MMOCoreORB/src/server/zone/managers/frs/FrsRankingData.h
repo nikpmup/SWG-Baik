@@ -7,7 +7,6 @@ namespace managers {
 namespace frs {
 
 class FrsRankingData : public Object {
-
 protected:
 	int rank, requiredXp, playerCap;
 	String skillName, robeTemplate;
@@ -43,12 +42,11 @@ public:
 	const String& getRobeTemplate() const {
 		return robeTemplate;
 	}
-
 };
 
-}
-}
-}
-}
+} // namespace frs
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 #endif /* FRSRANKINGDATA_H_ */

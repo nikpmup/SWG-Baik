@@ -56,7 +56,7 @@ public:
 				return entry->getKey();
 		}
 
-		//Should never get here unless the scripts didn't add up to 10000000.
+		// Should never get here unless the scripts didn't add up to 10000000.
 		return "";
 	}
 
@@ -68,11 +68,11 @@ public:
 			int weight = entry->getValue();
 			totalChance += weight;
 
-			if (totalChance >= roll && weight > 0 )
+			if (totalChance >= roll && weight > 0)
 				return i;
 		}
 
-		//Should never get here unless the scripts didn't add up to 10000000.
+		// Should never get here unless the scripts didn't add up to 10000000.
 		return -1;
 	}
 
@@ -81,10 +81,10 @@ public:
 	}
 
 	String getLootGroupEntryAt(int i) const {
-		if( i < 0 )
+		if (i < 0)
 			return "";
 
-		if( i >= entryMap.size() )
+		if (i >= entryMap.size())
 			return "";
 
 		VectorMapEntry<String, int>* entry = &entryMap.elementAt(i);
@@ -122,6 +122,5 @@ public:
 		return templateName;
 	}
 };
-
 
 #endif /* LOOTGROUPTEMPLATE_H_ */

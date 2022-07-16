@@ -11,13 +11,12 @@
 #include "server/zone/objects/player/sui/listbox/SuiListBox.h"
 
 class VendorSelectionNode : public Object {
-
 	String nodeTitle;
 	String nodePath;
 	String suiDisplay;
 	int hiringRequired;
 
-	SortedVector<Reference<VendorSelectionNode*> > childNodes;
+	SortedVector<Reference<VendorSelectionNode*>> childNodes;
 
 public:
 	VendorSelectionNode() : Object() {
@@ -30,10 +29,9 @@ public:
 		suiDisplay = node.suiDisplay;
 		hiringRequired = node.hiringRequired;
 		childNodes = node.childNodes;
-
 	}
 
-	VendorSelectionNode& operator= (const VendorSelectionNode& node) {
+	VendorSelectionNode& operator=(const VendorSelectionNode& node) {
 		if (this == &node)
 			return *this;
 
@@ -130,8 +128,7 @@ public:
 	}
 
 	String getRandomTemplate(int skillLevel) {
-
-		if(childNodes.size() == 0)
+		if (childNodes.size() == 0)
 			return "";
 
 		VendorSelectionNode* node = nullptr;
@@ -140,9 +137,9 @@ public:
 		do {
 			node = childNodes.get(System::random(childNodes.size() - 1));
 			loop++;
-		} while((node == nullptr || node->getHiringRequired() > skillLevel) && loop < 10 );
+		} while ((node == nullptr || node->getHiringRequired() > skillLevel) && loop < 10);
 
-		if(node == nullptr)
+		if (node == nullptr)
 			return "";
 
 		return node->getTemplatePath();
@@ -163,7 +160,6 @@ public:
 	inline String& getTemplatePath() {
 		return nodePath;
 	}
-
 };
 
 #endif /* VENDORSELECTIONNODE_H_ */

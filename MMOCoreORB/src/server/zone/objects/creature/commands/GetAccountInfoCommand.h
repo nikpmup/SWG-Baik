@@ -10,14 +10,10 @@
 
 class GetAccountInfoCommand : public QueueCommand {
 public:
-
-	GetAccountInfoCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GetAccountInfoCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -26,7 +22,7 @@ public:
 
 		Reference<PlayerObject*> admin = creature->getSlottedObject("ghost").castTo<PlayerObject*>();
 
-		if(admin == nullptr)
+		if (admin == nullptr)
 			return GENERALERROR;
 
 		Reference<PlayerManagementSession*> session;
@@ -36,8 +32,8 @@ public:
 
 		session = creature->getActiveSession(SessionFacadeType::PLAYERMANAGEMENT).castTo<PlayerManagementSession*>();
 
-		if(session != nullptr) {
-			if(!admin->hasSuiBoxWindowType(SuiWindowType::ADMIN_ACCOUNTINFO))
+		if (session != nullptr) {
+			if (!admin->hasSuiBoxWindowType(SuiWindowType::ADMIN_ACCOUNTINFO))
 				creature->dropActiveSession(SessionFacadeType::PLAYERMANAGEMENT);
 			else {
 				creature->sendSystemMessage("You are already viewing an account");
@@ -47,11 +43,11 @@ public:
 
 		StringTokenizer args(arguments.toString());
 
-		if(args.hasMoreTokens()) {
+		if (args.hasMoreTokens()) {
 			String type;
 			args.getStringToken(type);
 
-			if(!args.hasMoreTokens()) {
+			if (!args.hasMoreTokens()) {
 				sendUsage(creature);
 				return GENERALERROR;
 			}
@@ -59,14 +55,14 @@ public:
 			String name;
 			args.getStringToken(name);
 
-			if(type.toLowerCase() == "-c") {
+			if (type.toLowerCase() == "-c") {
 				targetCreature = playerManager->getPlayer(name);
 
 				if (targetCreature != nullptr) {
-				    auto ghost = targetCreature->getPlayerObject();
+					auto ghost = targetCreature->getPlayerObject();
 
 					if (ghost != nullptr)
-							account = ghost->getAccount();
+						account = ghost->getAccount();
 				}
 
 				if (account != nullptr) {
@@ -76,8 +72,8 @@ public:
 					creature->sendSystemMessage("Error fetching Account Object from Player Object");
 					return GENERALERROR;
 				}
-			} else if(type.toLowerCase() == "-a") {
-				while(args.hasMoreTokens()) {
+			} else if (type.toLowerCase() == "-a") {
+				while (args.hasMoreTokens()) {
 					String token;
 					args.getStringToken(token);
 
@@ -86,14 +82,13 @@ public:
 
 				account = AccountManager::getAccount(name, true);
 
-				if(account == nullptr) {
+				if (account == nullptr) {
 					try {
 						account = AccountManager::getAccount(Long::valueOf(name), true);
-					} catch(Exception& e) {
-
+					} catch (Exception& e) {
 					}
 				}
-			} else if(type.toLowerCase() == "-i") {
+			} else if (type.toLowerCase() == "-i") {
 				try {
 					SortedVector<uint32> loggedInAccounts = server->getZoneServer()->getPlayerManager()->getOnlineZoneClientMap()->getAccountsLoggedIn(name);
 
@@ -101,7 +96,7 @@ public:
 						account = AccountManager::getAccount(loggedInAccounts.get(0));
 					else
 						creature->sendSystemMessage("Did not find any online accounts with ip [" + name + "]");
-				} catch(Exception& e) {
+				} catch (Exception& e) {
 					// Do nothing
 				}
 			} else {
@@ -113,7 +108,7 @@ public:
 			return GENERALERROR;
 		}
 
-		if(account == nullptr) {
+		if (account == nullptr) {
 			creature->sendSystemMessage("Account not found");
 			return SUCCESS;
 		}
@@ -140,14 +135,14 @@ public:
 		header << "Admin Level: " << String::valueOf(account->getAdminLevel()) << endl;
 		header << "Created: " << createdTime.getFormattedTime() << endl;
 
-		if(account->isBanned()) {
+		if (account->isBanned()) {
 			header << "\\#FF0000 (BANNED)\\#FFFFFF " << endl;
 			header << session->getBanDuration(account->getBanExpires());
-			header << "Reason: "  << account->getBanReason() << endl;
+			header << "Reason: " << account->getBanReason() << endl;
 
 			Reference<Account*> adminAccount = AccountManager::getAccount(account->getBanAdmin());
 
-			if(adminAccount != nullptr) {
+			if (adminAccount != nullptr) {
 				Locker writeAdminLock(adminAccount);
 
 				header << "Banned by: " << adminAccount->getUsername() << endl;
@@ -165,13 +160,13 @@ public:
 		// Get first logged in ip on this galaxy
 		String loggedInIp;
 
-		for(int i = 0; i < characterList->size(); ++i) {
+		for (int i = 0; i < characterList->size(); ++i) {
 			auto entry = &characterList->get(i);
 
-			if(entry->getGalaxyID() == server->getZoneServer()->getGalaxyID()) {
+			if (entry->getGalaxyID() == server->getZoneServer()->getGalaxyID()) {
 				targetCreature = playerManager->getPlayer(entry->getFirstName());
 
-				if(targetCreature != nullptr && targetCreature->isPlayerCreature()) {
+				if (targetCreature != nullptr && targetCreature->isPlayerCreature()) {
 					auto ghost = targetCreature->getPlayerObject();
 
 					if (ghost != nullptr) {
@@ -205,33 +200,33 @@ public:
 		}
 
 		String username = account->getUsername();
-		if(account->isBanned())
+		if (account->isBanned())
 			username += " \\#FF0000(BANNED)\\#FFFFFF ";
 		box->addMenuItem("Account: " + username, 0);
 
-		VectorMap<String, Vector<String> > characters;
+		VectorMap<String, Vector<String>> characters;
 
-		for(int i = 0; i < characterList->size(); ++i) {
+		for (int i = 0; i < characterList->size(); ++i) {
 			CharacterListEntry* entry = &characterList->get(i);
 
 			Reference<PlayerObject*> ghost;
 			Reference<ZoneClientSession*> charClient;
 
-			if(entry->getGalaxyID() == server->getZoneServer()->getGalaxyID()) {
+			if (entry->getGalaxyID() == server->getZoneServer()->getGalaxyID()) {
 				targetCreature = playerManager->getPlayer(entry->getFirstName());
 
-				if(targetCreature != nullptr && targetCreature->isPlayerCreature()) {
+				if (targetCreature != nullptr && targetCreature->isPlayerCreature()) {
 					ghost = targetCreature->getPlayerObject();
 
 					if (ghost != nullptr)
-							charClient = targetCreature->getClient();
+						charClient = targetCreature->getClient();
 				}
 			}
 
 			StringBuffer gname;
 			gname << entry->getGalaxyID() << " : " << entry->getGalaxyName();
 
-			if(!characters.contains(gname.toString()))
+			if (!characters.contains(gname.toString()))
 				characters.put(gname.toString(), Vector<String>());
 
 			Vector<String>* galaxy = &characters.get(gname.toString());
@@ -239,8 +234,8 @@ public:
 			StringBuffer line;
 			line << "\t\t" << entry->getFullName();
 
-			if(ghost != nullptr) {
-				if(ghost->isOnline())
+			if (ghost != nullptr) {
+				if (ghost->isOnline())
 					line << " \\#00FF00(ONLINE";
 				else {
 					line << " \\#AAAAAA(Last On: " << ghost->getLastLogout()->getFormattedTime();
@@ -249,7 +244,7 @@ public:
 				line << " \\#EE7600(n/a";
 			}
 
-			if(entry->isBanned()) {
+			if (entry->isBanned()) {
 				line << " \\#FF0000(BANNED: " << entry->getBanReason();
 			}
 
@@ -261,7 +256,7 @@ public:
 			galaxy->add(line.toString());
 		}
 
-		for(int i = 0; i < characters.size(); ++i) {
+		for (int i = 0; i < characters.size(); ++i) {
 			Vector<String>* galaxy = &characters.get(i);
 
 			String galaxyName = characters.elementAt(i).getKey();
@@ -271,12 +266,12 @@ public:
 			uint32 galaxyID = tokenizer.getIntToken();
 
 			const GalaxyBanEntry* galaxyBan = account->getGalaxyBan(galaxyID);
-			if(galaxyBan != nullptr)
+			if (galaxyBan != nullptr)
 				galaxyName += " \\#FF0000(BANNED)\\#FFFFFF" + galaxyBan->getBanReason();
 
 			box->addMenuItem("\t" + galaxyName, 0);
 
-			for(int j = 0; j < galaxy->size(); ++j) {
+			for (int j = 0; j < galaxy->size(); ++j) {
 				box->addMenuItem(galaxy->get(j), 0);
 			}
 		}

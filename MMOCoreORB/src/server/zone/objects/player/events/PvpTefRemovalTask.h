@@ -11,7 +11,7 @@ namespace objects {
 namespace player {
 namespace events {
 
-class PvpTefRemovalTask: public Task {
+class PvpTefRemovalTask : public Task {
 	ManagedWeakReference<CreatureObject*> creature;
 
 public:
@@ -55,11 +55,11 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace player
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::player::events;
 

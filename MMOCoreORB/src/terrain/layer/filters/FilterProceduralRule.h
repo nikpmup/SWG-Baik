@@ -39,12 +39,10 @@ public:
 	const static int SHADER = 4;
 	const static int BITMAP = 5;
 
-	FilterProceduralRule(int type, uint32 formType) : featheringType(0),
-		featheringAmount(0), filterType(0), internalType(type), formType(formType) {
+	FilterProceduralRule(int type, uint32 formType) : featheringType(0), featheringAmount(0), filterType(0), internalType(type), formType(formType) {
 	}
 
 	virtual ~FilterProceduralRule() {
-
 	}
 
 	virtual float process(float x, float y, float transformValue, float& baseValue, TerrainGenerator* terrainGenerator, FilterRectangle* rect) {
@@ -61,7 +59,6 @@ public:
 	}
 
 	virtual void parseFromIffStream(engine::util::IffStream* iffStream) {
-
 	}
 
 	inline bool isEnabled() const {
@@ -83,8 +80,6 @@ public:
 	inline bool isType(int type) const {
 		return internalType == type;
 	}
-
 };
-
 
 #endif /* FILTERPROCEDURALRULE_H_ */

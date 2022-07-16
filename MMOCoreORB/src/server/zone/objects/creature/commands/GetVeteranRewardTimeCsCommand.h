@@ -7,14 +7,10 @@
 
 class GetVeteranRewardTimeCsCommand : public QueueCommand {
 public:
-
-	GetVeteranRewardTimeCsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GetVeteranRewardTimeCsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //GETVETERANREWARDTIMECSCOMMAND_H_
+#endif // GETVETERANREWARDTIMECSCOMMAND_H_

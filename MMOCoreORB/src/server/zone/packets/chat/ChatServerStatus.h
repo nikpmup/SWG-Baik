@@ -12,14 +12,12 @@
 
 class ChatServerStatus : public BaseMessage {
 public:
-   ChatServerStatus(byte flag) : BaseMessage() {
+	ChatServerStatus(byte flag) : BaseMessage() {
 		insertShort(0x02);
-		insertInt(0x7102B15F);  // CRC
+		insertInt(0x7102B15F); // CRC
 
-		insertByte(flag); //status. -0 offline  1 online
-
-   }
-
+		insertByte(flag); // status. -0 offline  1 online
+	}
 };
 
 #endif /* CHATSERVERSTATUS_H_ */

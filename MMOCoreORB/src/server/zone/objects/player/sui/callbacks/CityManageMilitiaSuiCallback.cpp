@@ -34,7 +34,7 @@ void CityManageMilitiaSuiCallback::run(CreatureObject* player, SuiBox* suiBox, u
 
 	CityManager* cityManager = server->getCityManager();
 
-	if (objectid == 0) { //Add militia member dialog
+	if (objectid == 0) { // Add militia member dialog
 		cityManager->promptAddMilitiaMember(city, player, suiBox->getUsingObject().get());
 	} else {
 		ManagedReference<CityRemoveMilitiaSession*> session = new CityRemoveMilitiaSession(player, city, objectid);

@@ -15,7 +15,7 @@ class CheckGCWTask : public Task {
 	ManagedWeakReference<GCWManager*> gcwManager;
 
 public:
-	CheckGCWTask(GCWManager* manager){
+	CheckGCWTask(GCWManager* manager) {
 		gcwManager = manager;
 
 		setCustomTaskQueue("slowQueue");
@@ -24,7 +24,7 @@ public:
 	void run() {
 		ManagedReference<GCWManager*> strongRef = gcwManager.get();
 
-		if (strongRef == nullptr){
+		if (strongRef == nullptr) {
 			return;
 		}
 

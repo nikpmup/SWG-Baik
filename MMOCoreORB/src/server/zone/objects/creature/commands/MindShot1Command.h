@@ -9,13 +9,10 @@
 
 class MindShot1Command : public CombatQueueCommand {
 public:
-
-	MindShot1Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	MindShot1Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //MINDSHOT1COMMAND_H_
+#endif // MINDSHOT1COMMAND_H_

@@ -10,18 +10,13 @@
 
 const char LuaConversationTemplate::className[] = "LuaConversationTemplate";
 
-Luna<LuaConversationTemplate>::RegType LuaConversationTemplate::Register[] = {
-		{ "_setObject", &LuaConversationTemplate::_setObject },
-		{ "getScreen", &LuaConversationTemplate::getScreen},
-		{ "getInitialScreen", &LuaConversationTemplate::getInitialScreen},
-		{ 0, 0 }
-};
+Luna<LuaConversationTemplate>::RegType LuaConversationTemplate::Register[] = {{"_setObject", &LuaConversationTemplate::_setObject}, {"getScreen", &LuaConversationTemplate::getScreen}, {"getInitialScreen", &LuaConversationTemplate::getInitialScreen}, {0, 0}};
 
-LuaConversationTemplate::LuaConversationTemplate(lua_State *L) {
+LuaConversationTemplate::LuaConversationTemplate(lua_State* L) {
 	realObject = static_cast<ConversationTemplate*>(lua_touserdata(L, 1));
 }
 
-LuaConversationTemplate::~LuaConversationTemplate(){
+LuaConversationTemplate::~LuaConversationTemplate() {
 }
 
 int LuaConversationTemplate::_setObject(lua_State* L) {
@@ -47,7 +42,6 @@ int LuaConversationTemplate::getScreen(lua_State* L) {
 
 	return 1;
 }
-
 
 int LuaConversationTemplate::getInitialScreen(lua_State* L) {
 	ConversationScreen* screen = realObject->getInitialScreen();

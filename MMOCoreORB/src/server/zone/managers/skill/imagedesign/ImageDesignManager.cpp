@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #include "ImageDesignManager.h"
@@ -56,7 +56,7 @@ void ImageDesignManager::updateCustomization(CreatureObject* imageDesigner, Cust
 
 	String appearanceFilename = creo->getObjectTemplate()->getAppearanceFilename();
 
-	VectorMap<String, Reference<CustomizationVariable*> > variableLimits;
+	VectorMap<String, Reference<CustomizationVariable*>> variableLimits;
 
 	AssetCustomizationManagerTemplate::instance()->getCustomizationVariables(appearanceFilename.hashCode(), variableLimits, false);
 
@@ -103,7 +103,7 @@ void ImageDesignManager::updateCustomization(CreatureObject* imageDesigner, Cust
 
 				creatureObject->setCustomizationVariable(fullVariableNameLimit, setVal, true);
 
-				//info("setting " + fullVariableNameLimit + " to " + String::valueOf(setVal), true);
+				// info("setting " + fullVariableNameLimit + " to " + String::valueOf(setVal), true);
 			}
 		}
 	}
@@ -132,7 +132,7 @@ void ImageDesignManager::updateCustomization(CreatureObject* imageDesigner, cons
 void ImageDesignManager::updateColorVariable(const Vector<String>& fullVariables, uint32 value, TangibleObject* tano, int skillLevel) {
 	String appearanceFilename = tano->getObjectTemplate()->getAppearanceFilename();
 
-	VectorMap<String, Reference<CustomizationVariable*> > variableLimits;
+	VectorMap<String, Reference<CustomizationVariable*>> variableLimits;
 
 	AssetCustomizationManagerTemplate::instance()->getCustomizationVariables(appearanceFilename.hashCode(), variableLimits, false);
 
@@ -142,7 +142,7 @@ void ImageDesignManager::updateColorVariable(const Vector<String>& fullVariables
 		for (int j = 0; j < variableLimits.size(); ++j) {
 			String fullVariableNameLimit = variableLimits.elementAt(j).getKey();
 
-			//info("checking customization variable " + fullVariableNameLimit + " for " + var, true);
+			// info("checking customization variable " + fullVariableNameLimit + " for " + var, true);
 
 			if (fullVariableNameLimit.contains(var)) {
 				BasicRangedIntCustomizationVariable* ranged = dynamic_cast<BasicRangedIntCustomizationVariable*>(variableLimits.elementAt(j).getValue().get());
@@ -170,7 +170,7 @@ void ImageDesignManager::updateColorVariable(const Vector<String>& fullVariables
 				Locker locker(tano);
 				tano->setCustomizationVariable(fullVariableNameLimit, currentVal, true);
 
-				//info("setting " + fullVariableNameLimit + " to " + String::valueOf(currentVal), true);
+				// info("setting " + fullVariableNameLimit + " to " + String::valueOf(currentVal), true);
 			}
 		}
 	}
@@ -252,12 +252,12 @@ int ImageDesignManager::getSkillLevel(CreatureObject* imageDesigner, const Strin
 		skillName += "_0";
 	}
 
-	//info("testing for " + skillName, true);
+	// info("testing for " + skillName, true);
 
 	for (int i = 4; i >= 1; --i) {
 		String testName = skillName + String::valueOf(i);
 
-		//info("testing for " + testName, true);
+		// info("testing for " + testName, true);
 
 		if (imageDesigner->hasSkill(testName)) {
 			return i;
@@ -279,7 +279,7 @@ void ImageDesignManager::loadCustomizationData() {
 	if (iffStream == nullptr)
 		return;
 
-	//Get the datatable, and parse it into a datatable object.
+	// Get the datatable, and parse it into a datatable object.
 	DataTableIff dataTable;
 	dataTable.readObject(iffStream);
 
@@ -289,7 +289,7 @@ void ImageDesignManager::loadCustomizationData() {
 		if (dataRow == nullptr)
 			continue;
 
-		//Get the species gender
+		// Get the species gender
 		String speciesGender = dataRow->getCell(0)->toString();
 		uint32 templateCRC = String::hashCode("object/creature/player/" + speciesGender + ".iff");
 		PlayerCreatureTemplate* tmpl = dynamic_cast<PlayerCreatureTemplate*>(templateManager->getTemplate(templateCRC));
@@ -308,17 +308,16 @@ void ImageDesignManager::loadCustomizationData() {
 		if (!dataMap.contains(customizationData.getCustomizationName()))
 			dataMap.put(customizationData.getCustomizationName(), Vector<CustomizationData>());
 
-		Vector<CustomizationData> &records = dataMap.get(customizationData.getCustomizationName());
+		Vector<CustomizationData>& records = dataMap.get(customizationData.getCustomizationName());
 
 		records.add(customizationData);
 	}
 
-	//Done with the stream, so delete it.
+	// Done with the stream, so delete it.
 	if (iffStream != nullptr) {
 		delete iffStream;
 		iffStream = nullptr;
 	}
-
 }
 
 const Vector<CustomizationData>* ImageDesignManager::getCustomizationData(const String& speciesGender, const String& customizationName) {
@@ -377,7 +376,7 @@ TangibleObject* ImageDesignManager::createHairObject(CreatureObject* imageDesign
 
 	ManagedReference<SceneObject*> hair = imageDesigner->getZoneServer()->createObject(hairTemplate.hashCode(), 1);
 
-	//TODO: Validate hairCustomization
+	// TODO: Validate hairCustomization
 	if (hair == nullptr || !hair->isTangibleObject()) {
 		if (hair != nullptr) {
 			Locker locker(hair);
@@ -387,7 +386,7 @@ TangibleObject* ImageDesignManager::createHairObject(CreatureObject* imageDesign
 		return oldHair;
 	}
 
-	TangibleObject* tanoHair = cast<TangibleObject*>( hair.get());
+	TangibleObject* tanoHair = cast<TangibleObject*>(hair.get());
 
 	Locker locker(tanoHair);
 
@@ -429,12 +428,14 @@ TangibleObject* ImageDesignManager::updateHairObject(CreatureObject* creo, Tangi
 	// Without it placing a hair object in the inventory.
 	ManagedReference<CreatureObject*> strongCreo = creo;
 	ManagedReference<TangibleObject*> strongHair = hairObject;
-	Core::getTaskManager()->scheduleTask([strongCreo, strongHair]{
-		Locker locker(strongCreo);
-		Locker cLocker(strongCreo, strongHair);
-		strongCreo->transferObject(strongHair, 4);
-		strongCreo->broadcastObject(strongHair, true);
-	}, "TransferHairTask", 100);
+	Core::getTaskManager()->scheduleTask(
+		[strongCreo, strongHair] {
+			Locker locker(strongCreo);
+			Locker cLocker(strongCreo, strongHair);
+			strongCreo->transferObject(strongHair, 4);
+			strongCreo->broadcastObject(strongHair, true);
+		},
+		"TransferHairTask", 100);
 
 	return hair;
 }
@@ -447,12 +448,12 @@ bool ImageDesignManager::validatePalette(PaletteColorCustomizationVariable* pale
 		String paletteName = paletteFileName.subString(idx + 1);
 		paletteName = paletteName.subString(0, paletteName.indexOf("."));
 
-		//info("palette name = " + paletteName, true);
+		// info("palette name = " + paletteName, true);
 
 		PaletteData* data = CustomizationIdManager::instance()->getPaletteData(paletteName);
 
 		if (data == nullptr) {
-			//error("could not find palette data for " + paletteName);
+			// error("could not find palette data for " + paletteName);
 		} else {
 			int maxIndex;
 
@@ -488,7 +489,7 @@ bool ImageDesignManager::validatePalette(PaletteColorCustomizationVariable* pale
 
 				return false;
 			} else {
-				//info(name + " value " + String::valueOf(val) + " inside bound " + String::valueOf(maxIndex) + " for " + name , true);
+				// info(name + " value " + String::valueOf(val) + " inside bound " + String::valueOf(maxIndex) + " for " + name , true);
 			}
 		}
 	}
@@ -497,7 +498,7 @@ bool ImageDesignManager::validatePalette(PaletteColorCustomizationVariable* pale
 }
 
 bool ImageDesignManager::validateCustomizationString(CustomizationVariables* data, const String& appearanceFilename, int skillLevel) {
-	VectorMap<String, Reference<CustomizationVariable*> > variables;
+	VectorMap<String, Reference<CustomizationVariable*>> variables;
 	variables.setNullValue(nullptr);
 	AssetCustomizationManagerTemplate::instance()->getCustomizationVariables(appearanceFilename.hashCode(), variables, false);
 
@@ -512,7 +513,7 @@ bool ImageDesignManager::validateCustomizationString(CustomizationVariables* dat
 
 		String name = CustomizationIdManager::instance()->getCustomizationVariable(id);
 
-		//instance()->info("validating " + name + " with value " + String::valueOf(val), true);
+		// instance()->info("validating " + name + " with value " + String::valueOf(val), true);
 
 		CustomizationVariable* customizationVariable = variables.get(name).get();
 
@@ -542,14 +543,12 @@ bool ImageDesignManager::validateCustomizationString(CustomizationVariables* dat
 
 					return false;
 				} else {
-					//instance()->info("variable " + name + " value " + String::valueOf(val) + " inside bounds [" + String::valueOf(minIncl) + "," + String::valueOf(maxExcl) + ")", true);
+					// instance()->info("variable " + name + " value " + String::valueOf(val) + " inside bounds [" + String::valueOf(minIncl) + "," + String::valueOf(maxExcl) + ")", true);
 				}
-
 			}
 		}
 
-
-		//info("setting variable:" + name + " to " + String::valueOf(val), true);
+		// info("setting variable:" + name + " to " + String::valueOf(val), true);
 	}
 
 	return true;

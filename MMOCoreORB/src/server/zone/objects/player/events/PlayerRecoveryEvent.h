@@ -37,7 +37,7 @@ public:
 			return;
 
 		ManagedReference<SceneObject*> strongParent = play->getParent().get();
-		
+
 		if (strongParent == nullptr)
 			return;
 
@@ -45,22 +45,19 @@ public:
 
 		if (play->isOnline() || play->isLinkDead())
 			play->doRecovery(startTime.miliDifference());
-
-
 	}
 
-	void schedule(uint64 delay = 0)
-	{
+	void schedule(uint64 delay = 0) {
 		startTime.updateToCurrentTime();
 		Task::schedule(delay);
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace player
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::player::events;
 

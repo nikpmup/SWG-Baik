@@ -28,9 +28,7 @@ public:
 			insertAscii(serverName);
 			insertAscii(friendList->get(i));
 		}
-
 	}
-
 };
 
 #endif /*CHATONGETFRIENDSLIST_H_*/

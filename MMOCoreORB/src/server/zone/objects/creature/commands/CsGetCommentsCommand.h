@@ -7,14 +7,10 @@
 
 class CsGetCommentsCommand : public QueueCommand {
 public:
-
-	CsGetCommentsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CsGetCommentsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CSGETCOMMENTSCOMMAND_H_
+#endif // CSGETCOMMENTSCOMMAND_H_

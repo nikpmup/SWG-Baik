@@ -7,14 +7,10 @@
 
 class ShowMusicianVisualsCommand : public QueueCommand {
 public:
-
-	ShowMusicianVisualsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ShowMusicianVisualsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SHOWMUSICIANVISUALSCOMMAND_H_
+#endif // SHOWMUSICIANVISUALSCOMMAND_H_

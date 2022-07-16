@@ -9,33 +9,29 @@
 
 class AreatrackCommand : public QueueCommand {
 public:
-
-	AreatrackCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	AreatrackCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
 
-		if(!creature->isPlayerCreature())
+		if (!creature->isPlayerCreature())
 			return GENERALERROR;
 
-		if(!creature->hasSkill("outdoors_ranger_novice"))
+		if (!creature->hasSkill("outdoors_ranger_novice"))
 			return GENERALERROR;
 
-		if(creature->getParent() != nullptr && creature->getParent().get()->isCellObject()) {
+		if (creature->getParent() != nullptr && creature->getParent().get()->isCellObject()) {
 			creature->sendSystemMessage("@skl_use:sys_scan_inside"); // Your tracking skills only apply to outdoor environments.
 			return GENERALERROR;
 		}
 
 		CooldownTimerMap* cooldownTimerMap = creature->getCooldownTimerMap();
-		if(cooldownTimerMap == nullptr || !cooldownTimerMap->isPast("areatrack")) {
+		if (cooldownTimerMap == nullptr || !cooldownTimerMap->isPast("areatrack")) {
 			creature->sendSystemMessage("@skl_use:sys_scan_already"); // You are already searching for information.
 			return GENERALERROR;
 		}
@@ -51,14 +47,14 @@ public:
 		chooseTrackTarget->setCallback(new AreaTrackSuiCallback(server->getZoneServer(), "AreaTrack"));
 
 		chooseTrackTarget->setPromptTitle("@skl_use:scan_type_t"); // Area Track Type
-		chooseTrackTarget->setPromptText("@skl_use:scan_type_d"); // Select the type of entity you want to search the area for.
+		chooseTrackTarget->setPromptText("@skl_use:scan_type_d");  // Select the type of entity you want to search the area for.
 
 		chooseTrackTarget->addMenuItem("@cmd_n:areatrack_animal");
 
-		if(creature->hasSkill("outdoors_ranger_harvest_02"))
+		if (creature->hasSkill("outdoors_ranger_harvest_02"))
 			chooseTrackTarget->addMenuItem("@cmd_n:areatrack_npc");
 
-		if(creature->hasSkill("outdoors_ranger_harvest_04"))
+		if (creature->hasSkill("outdoors_ranger_harvest_04"))
 			chooseTrackTarget->addMenuItem("@cmd_n:areatrack_player");
 
 		chooseTrackTarget->setCancelButton(true, "");
@@ -69,7 +65,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //AREATRACKCOMMAND_H_
+#endif // AREATRACKCOMMAND_H_

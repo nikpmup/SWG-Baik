@@ -12,7 +12,6 @@
 #include "server/zone/Zone.h"
 
 void PlayerZoneComponent::notifyInsertToZone(SceneObject* sceneObject, Zone* newZone) const {
-
 	if (sceneObject->isPlayerCreature() && newZone != nullptr) {
 		PlayerObject* ghost = sceneObject->asCreatureObject()->getPlayerObject();
 
@@ -24,7 +23,7 @@ void PlayerZoneComponent::notifyInsertToZone(SceneObject* sceneObject, Zone* new
 }
 
 void PlayerZoneComponent::notifyInsert(SceneObject* sceneObject, QuadTreeEntry* entry) const {
-	SceneObject* scno = static_cast<SceneObject*>( entry);
+	SceneObject* scno = static_cast<SceneObject*>(entry);
 
 	if (scno == sceneObject)
 		return;
@@ -46,7 +45,7 @@ void PlayerZoneComponent::notifyInsert(SceneObject* sceneObject, QuadTreeEntry* 
 }
 
 void PlayerZoneComponent::notifyDissapear(SceneObject* sceneObject, QuadTreeEntry* entry) const {
-	SceneObject* scno = static_cast<SceneObject*>( entry);
+	SceneObject* scno = static_cast<SceneObject*>(entry);
 
 	if (scno == sceneObject)
 		return;
@@ -92,7 +91,6 @@ void PlayerZoneComponent::teleport(SceneObject* sceneObject, float newPositionX,
 	ManagedReference<SceneObject*> par = sceneObject->getParent().get();
 
 	if (player != nullptr && par != nullptr && parentID != 0) {
-
 		if (par->isVehicleObject() || par->isMount()) {
 			player->executeObjectControllerAction(STRING_HASHCODE("dismount"));
 		}

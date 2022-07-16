@@ -7,14 +7,10 @@
 
 class TransferItemCommand : public QueueCommand {
 public:
-
-	TransferItemCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	TransferItemCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +20,6 @@ public:
 		// creature->info("transfer item command");
 		return SUCCESS;
 	}
-
 };
 
-#endif //TRANSFERITEMCOMMAND_H_
+#endif // TRANSFERITEMCOMMAND_H_

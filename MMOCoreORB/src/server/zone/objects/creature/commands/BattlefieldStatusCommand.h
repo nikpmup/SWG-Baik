@@ -7,14 +7,10 @@
 
 class BattlefieldStatusCommand : public QueueCommand {
 public:
-
-	BattlefieldStatusCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	BattlefieldStatusCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //BATTLEFIELDSTATUSCOMMAND_H_
+#endif // BATTLEFIELDSTATUSCOMMAND_H_

@@ -5,9 +5,7 @@
  *      Author: Kyle
  */
 
-
 #include "CampStructureTemplate.h"
-
 
 void CampStructureTemplate::readObject(LuaObject* templateData) {
 	SharedBuildingObjectTemplate::readObject(templateData);
@@ -22,4 +20,3 @@ void CampStructureTemplate::readObject(LuaObject* templateData) {
 	actionWoundRegenRate = templateData->getIntField("actionWoundRegenRate");
 	mindWoundRegenRate = templateData->getIntField("mindWoundRegenRate");
 }
-

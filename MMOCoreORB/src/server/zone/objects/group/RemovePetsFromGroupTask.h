@@ -10,10 +10,9 @@
 class RemovePetsFromGroupTask : public Task {
 	ManagedReference<CreatureObject*> player;
 	ManagedReference<GroupObject*> group;
-public:
-	RemovePetsFromGroupTask(CreatureObject* creo, GroupObject* grp) :
-		player(creo), group(grp) {
 
+public:
+	RemovePetsFromGroupTask(CreatureObject* creo, GroupObject* grp) : player(creo), group(grp) {
 	}
 
 	void run() {
@@ -65,7 +64,5 @@ public:
 		}
 	}
 };
-
-
 
 #endif /* REMOVEPETSFROMGROUPTASK_H_ */

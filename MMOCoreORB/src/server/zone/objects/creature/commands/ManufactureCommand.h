@@ -7,14 +7,10 @@
 
 class ManufactureCommand : public QueueCommand {
 public:
-
-	ManufactureCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ManufactureCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //MANUFACTURECOMMAND_H_
+#endif // MANUFACTURECOMMAND_H_

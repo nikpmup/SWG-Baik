@@ -2,7 +2,6 @@
 				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
-
 #include "NameManager.h"
 #include "engine/lua/Lua.h"
 #include <regex>
@@ -81,7 +80,6 @@ void NameManager::loadConfigData(bool reload) {
 		darktrooperPrefixes.removeAll();
 		swamptrooperPrefixes.removeAll();
 	}
-
 
 	LuaObject luaObject = lua->getGlobalObject("nameManagerBothan");
 	bothanData = new NameData();
@@ -180,7 +178,7 @@ void NameManager::loadConfigData(bool reload) {
 	luaObject = lua->getGlobalObject("reservedNames");
 
 	if (luaObject.isValidTable()) {
-		for(int i = 1; i <= luaObject.getTableSize(); ++i) {
+		for (int i = 1; i <= luaObject.getTableSize(); ++i) {
 			LuaObject entry = luaObject.getObjectAt(i);
 
 			String regexEntry = entry.getStringAt(1);
@@ -227,7 +225,7 @@ int NameManager::validateReservedNames(const String& name, int resultType) const
 			continue;
 
 		if (std::regex_search(name.toCharArray(), regexCheck)) {
-			//error("Name " + name + " failed check against regex " + entry.getKey() + " , reason: " + reservedReason);
+			// error("Name " + name + " failed check against regex " + entry.getKey() + " , reason: " + reservedReason);
 			return reservedReason;
 		}
 	}
@@ -244,17 +242,28 @@ int NameManager::validateName(const CreatureObject* obj) const {
 
 const NameData* NameManager::getSpeciesData(int species) const {
 	switch (species) {
-	case CreatureObject::HUMAN: return humanData;
-	case CreatureObject::RODIAN: return rodianData;
-	case CreatureObject::TRANDOSHAN: return trandoshanData;
-	case CreatureObject::MONCAL: return monCalData;
-	case CreatureObject::WOOKIE: return wookieeData;
-	case CreatureObject::BOTHAN: return bothanData;
-	case CreatureObject::TWILEK: return twilekData;
-	case CreatureObject::ZABRAK: return zabrakData;
-	case CreatureObject::ITHORIAN: return ithorianData;
-	case CreatureObject::SULLUSTAN: return sullustanData;
-	default: return humanData;
+	case CreatureObject::HUMAN:
+		return humanData;
+	case CreatureObject::RODIAN:
+		return rodianData;
+	case CreatureObject::TRANDOSHAN:
+		return trandoshanData;
+	case CreatureObject::MONCAL:
+		return monCalData;
+	case CreatureObject::WOOKIE:
+		return wookieeData;
+	case CreatureObject::BOTHAN:
+		return bothanData;
+	case CreatureObject::TWILEK:
+		return twilekData;
+	case CreatureObject::ZABRAK:
+		return zabrakData;
+	case CreatureObject::ITHORIAN:
+		return ithorianData;
+	case CreatureObject::SULLUSTAN:
+		return sullustanData;
+	default:
+		return humanData;
 	}
 }
 
@@ -273,7 +282,7 @@ int NameManager::validateName(const String& name, int species) const {
 
 	String firstName, lastName;
 
-	//Split the name into first and last
+	// Split the name into first and last
 	int spc = name.indexOf(" ");
 	if (spc != -1) {
 		firstName = name.subString(0, spc);
@@ -392,13 +401,13 @@ int NameManager::validateChatRoomName(const String& name) const {
 	if (isProfane(name))
 		return NameManagerResult::DECLINED_PROFANE;
 
-	//Chat rooms can only have letters and numbers in the name, no special characters or spaces.
+	// Chat rooms can only have letters and numbers in the name, no special characters or spaces.
 	if (strspn(name.toCharArray(), "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz") != name.length())
 		return NameManagerResult::DECLINED_SYNTAX;
 
 	uint32 hash = name.hashCode();
 
-	//The following are special names in the game client and should not be used by players.
+	// The following are special names in the game client and should not be used by players.
 	if (hash == STRING_HASHCODE("Planet") || hash == STRING_HASHCODE("Quest"))
 		return NameManagerResult::DECLINED_RESERVED;
 
@@ -486,8 +495,8 @@ void NameManager::test() const {
 
 	int iterations = 1000000;
 
-	for(int i = 0;i < iterations; ++i)
-		//System::out << makeCreatureName(true) << endl;
+	for (int i = 0; i < iterations; ++i)
+		// System::out << makeCreatureName(true) << endl;
 		makeCreatureName(1);
 
 	uint64 end = Time::currentNanoTime();
@@ -496,12 +505,12 @@ void NameManager::test() const {
 	float milli = nano * .000001;
 	float seconds = milli / 1000;
 	System::out << "Old name generator:" << endl;
-	System::out << "Average: " << nano / iterations  << " nanoseconds / " << milli / iterations << " milliseconds" << seconds / iterations  << " seconds" << endl;
+	System::out << "Average: " << nano / iterations << " nanoseconds / " << milli / iterations << " milliseconds" << seconds / iterations << " seconds" << endl;
 	System::out << "Total: " << nano << " nanoseconds / " << milli << " milliseconds" << seconds << " seconds" << endl;
 
 	start = Time::currentNanoTime();
 
-	for(int i = 0;i < iterations; ++i)
+	for (int i = 0; i < iterations; ++i)
 		generateResourceName("plain_resource");
 
 	end = Time::currentNanoTime();
@@ -510,7 +519,7 @@ void NameManager::test() const {
 	milli = nano * .000001;
 	seconds = milli / 1000;
 	System::out << "New name generator:" << endl;
-	System::out << "Average: " << nano / iterations  << " nanoseconds / " << milli / iterations << " milliseconds" << seconds / iterations  << " seconds" << endl;
+	System::out << "Average: " << nano / iterations << " nanoseconds / " << milli / iterations << " milliseconds" << seconds / iterations << " seconds" << endl;
 	System::out << "Total: " << nano << " nanoseconds / " << milli << " milliseconds" << seconds << " seconds" << endl;
 }
 
@@ -748,7 +757,7 @@ String NameManager::appendSyllable(const String& left, const String& right, cons
 }
 
 int NameManager::getFragmentType(const String& frag, const NameData* data) const {
-	if (data->beginningConsonantContains(frag) || data->middeConsonantContains(frag)|| data->endingConsonantContains(frag))
+	if (data->beginningConsonantContains(frag) || data->middeConsonantContains(frag) || data->endingConsonantContains(frag))
 		return NameManagerType::FRAG_CONSONANT;
 	else if (data->vowelsContains(frag))
 		return NameManagerType::FRAG_VOWEL;

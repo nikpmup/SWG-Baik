@@ -10,9 +10,6 @@
 
 #include "WaypointChatParameter.h"
 
-class WaypointChatParameterVector : public Vector<WaypointChatParameter> {
-
-};
-
+class WaypointChatParameterVector : public Vector<WaypointChatParameter> {};
 
 #endif /* WAYPOINTCHATPARAMETERVECTOR_H_ */

@@ -5,7 +5,6 @@
  *      Author: Kyle
  */
 
-
 #include "server/zone/objects/tangible/threat/ThreatMapObserver.h"
 #include "ThreatMap.h"
 #include "server/zone/objects/creature/CreatureObject.h"
@@ -30,28 +29,30 @@ int ThreatMapObserverImplementation::notifyObserverEvent(uint32 eventType, Obser
 	if (healer == nullptr)
 		return 0;
 
-	Core::getTaskManager()->executeTask([=]{
-		Locker locker(strongRef);
+	Core::getTaskManager()->executeTask(
+		[=] {
+			Locker locker(strongRef);
 
-		ThreatMap* threatMap = strongRef->getThreatMap();
+			ThreatMap* threatMap = strongRef->getThreatMap();
 
-		if (threatMap != nullptr) {
-			int targetIndex = threatMap->find(healTarget);
-			int healerIndex = threatMap->find(healer);
+			if (threatMap != nullptr) {
+				int targetIndex = threatMap->find(healTarget);
+				int healerIndex = threatMap->find(healer);
 
-			if (targetIndex >= 0) {
-				ThreatMapEntry& entry = threatMap->get(targetIndex);
+				if (targetIndex >= 0) {
+					ThreatMapEntry& entry = threatMap->get(targetIndex);
 
-				if (entry.getAggroMod() == 0) {
+					if (entry.getAggroMod() == 0) {
+						return;
+					}
+				} else if (healerIndex < 0) {
 					return;
 				}
-			} else if (healerIndex < 0) {
-				return;
-			}
 
-			threatMap->addHeal(healer, arg2);
-		}
-	}, "updateThreatMapHeal");
+				threatMap->addHeal(healer, arg2);
+			}
+		},
+		"updateThreatMapHeal");
 
 	return 0;
 }

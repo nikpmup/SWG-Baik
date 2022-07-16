@@ -13,10 +13,7 @@
 
 class SecurityTerminalMenuComponent : public ObjectMenuComponent {
 protected:
-
-
 public:
-
 	/**
 	 * Fills the radial options, needs to be overriden
 	 * @pre { this object is locked }
@@ -34,9 +31,6 @@ public:
 	 * @returns 0 if successfull
 	 */
 	int handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const;
-
-
 };
-
 
 #endif /* SECURITYTERMINALMENUCOMPONENT_H_ */

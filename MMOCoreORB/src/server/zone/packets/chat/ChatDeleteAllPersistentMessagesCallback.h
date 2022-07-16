@@ -1,7 +1,6 @@
 #ifndef CHATDELETEALLPERSISTENTMESSAGESCALLBACK_H_
 #define CHATDELETEALLPERSISTENTMESSAGESCALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 
 class ChatDeleteAllPersistentMessagesCallback : public MessageCallback {
@@ -9,8 +8,7 @@ class ChatDeleteAllPersistentMessagesCallback : public MessageCallback {
 	uint64 targetID;
 
 public:
-	ChatDeleteAllPersistentMessagesCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), playerID(0), targetID(0) {
+	ChatDeleteAllPersistentMessagesCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), playerID(0), targetID(0) {
 	}
 
 	void parse(Message* message) {
@@ -24,7 +22,7 @@ public:
 		if (obj == nullptr || !obj->isPlayerCreature())
 			return;
 
-		CreatureObject* creature = cast<CreatureObject*>( obj.get());
+		CreatureObject* creature = cast<CreatureObject*>(obj.get());
 		ManagedReference<CreatureObject*> player = client->getPlayer();
 
 		if (creature == nullptr || player == nullptr)
@@ -50,8 +48,6 @@ public:
 		ghost->deleteAllPersistentMessages();
 		player->sendSystemMessage(emptyPass);
 	}
-
 };
-
 
 #endif /* CHATDELETEALLPERSISTENTMESSAGESCALLBACK_H_ */

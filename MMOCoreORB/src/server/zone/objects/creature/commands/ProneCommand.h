@@ -9,10 +9,7 @@
 
 class ProneCommand : public QueueCommand {
 public:
-
-	ProneCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ProneCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -43,4 +40,4 @@ public:
 	}
 };
 
-#endif //PRONECOMMAND_H_
+#endif // PRONECOMMAND_H_

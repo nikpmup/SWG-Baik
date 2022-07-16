@@ -9,9 +9,7 @@ class GuildChangeAbbrevResponseSuiCallback : public SuiCallback {
 	ManagedWeakReference<GuildObject*> guildObject;
 
 public:
-	GuildChangeAbbrevResponseSuiCallback(ZoneServer* server, GuildObject* guild)
-		: SuiCallback(server) {
-
+	GuildChangeAbbrevResponseSuiCallback(ZoneServer* server, GuildObject* guild) : SuiCallback(server) {
 		guildObject = guild;
 	}
 
@@ -27,11 +25,11 @@ public:
 
 		Locker glocker(guild, player);
 
-		//If the new name isn't set, then exit.
+		// If the new name isn't set, then exit.
 		if (guild->getPendingNewName().isEmpty())
 			return;
 
-		//After this point, we have to resetRename() anywhere we return prematurely
+		// After this point, we have to resetRename() anywhere we return prematurely
 
 		if (!guild->hasNamePermission(playerID) && !player->getPlayerObject()->isPrivileged()) {
 			guild->resetRename();
@@ -57,11 +55,10 @@ public:
 			return;
 		}
 
-		//Resend the create abbrev box.
+		// Resend the create abbrev box.
 		player->getPlayerObject()->addSuiBox(suiBox);
 		player->sendMessage(suiBox->generateMessage());
 	}
 };
-
 
 #endif /* GUILDCHANGEABBREVRESPONSESUICALLBACK_H_ */

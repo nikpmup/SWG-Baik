@@ -14,8 +14,10 @@
 
 class ShutdownTask : public Task {
 	int minutesRemaining;
-	int shutdownFlags;;
+	int shutdownFlags;
+	;
 	ManagedReference<ZoneServer*> zoneServer;
+
 public:
 	ShutdownTask(ZoneServer* srv, int minutes, int flags = 0) {
 		zoneServer = srv;
@@ -40,9 +42,7 @@ public:
 		} else {
 			schedule(60 * 1000);
 		}
-
 	}
 };
-
 
 #endif /* SHUTDOWNTASK_H_ */

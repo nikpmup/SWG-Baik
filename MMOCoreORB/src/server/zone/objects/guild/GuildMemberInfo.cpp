@@ -13,7 +13,7 @@ GuildMemberInfo::GuildMemberInfo(uint64 playerid) : Object() {
 	permissions = GuildObject::PERMISSION_NONE;
 	declaredAllegiance = 0;
 
-	//addSerializableVariables();
+	// addSerializableVariables();
 }
 
 int GuildMemberInfo::compareTo(const GuildMemberInfo& gmi) const {

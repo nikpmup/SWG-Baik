@@ -97,7 +97,7 @@ public:
 		isHidden = si.isHidden;
 	}
 
-	SkillInfo& operator= (const SkillInfo& si) {
+	SkillInfo& operator=(const SkillInfo& si) {
 		if (this == &si)
 			return *this;
 
@@ -107,7 +107,7 @@ public:
 	void parseFromDataTableRow(DataTableRow* row) {
 		try {
 			row->getValue(0, skillName);
-			//row->getValue(1, parentSkill);
+			// row->getValue(1, parentSkill);
 			row->getValue(2, graphType);
 			row->getValue(3, godOnly);
 			row->getValue(4, isTitle);
@@ -123,10 +123,10 @@ public:
 			row->getValue(14, xpCap);
 			row->getValue(15, missionsRequired);
 			row->getValue(16, apprenticeshipsRequired);
-			//row->getValue(17, statsRequired);
+			// row->getValue(17, statsRequired);
 			row->getValue(18, speciesRequired);
 			row->getValue(19, jediStateRequired);
-			//row->getValue(20, skillAbility);
+			// row->getValue(20, skillAbility);
 			row->getValue(21, commands);
 
 			SortedVector<String> skillModTokens;
@@ -144,13 +144,11 @@ public:
 			row->getValue(23, schematicsGranted);
 			row->getValue(24, schematicsRevoked);
 			row->getValue(25, searchable);
-			//row->getValue(26, ender); //What is ender?
+			// row->getValue(26, ender); //What is ender?
 
 		} catch (Exception& e) {
-
 		}
 	}
 };
-
 
 #endif /* SKILLINFO_H_ */

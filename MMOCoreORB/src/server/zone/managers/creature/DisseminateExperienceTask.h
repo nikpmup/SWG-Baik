@@ -17,14 +17,12 @@ class DisseminateExperienceTask : public Task {
 
 	ThreatMap copyThreatMap;
 
-	SynchronizedVector<ManagedReference<CreatureObject*> > spawnedCreatures;
+	SynchronizedVector<ManagedReference<CreatureObject*>> spawnedCreatures;
 
 	Zone* lairZone;
 
 public:
-
-	DisseminateExperienceTask(TangibleObject* obj, ThreatMap* threatMap, SynchronizedVector<ManagedReference<CreatureObject*> >* creatures,Zone* lairZone) : lair(obj),
-		copyThreatMap(*threatMap), spawnedCreatures(*creatures) ,lairZone(lairZone){
+	DisseminateExperienceTask(TangibleObject* obj, ThreatMap* threatMap, SynchronizedVector<ManagedReference<CreatureObject*>>* creatures, Zone* lairZone) : lair(obj), copyThreatMap(*threatMap), spawnedCreatures(*creatures), lairZone(lairZone) {
 	}
 
 	void run() {
@@ -36,7 +34,7 @@ public:
 		Locker locker(strongRef);
 
 		PlayerManager* playerManager = strongRef->getZoneServer()->getPlayerManager();
-		playerManager->disseminateExperience(strongRef, &copyThreatMap, &spawnedCreatures,lairZone);
+		playerManager->disseminateExperience(strongRef, &copyThreatMap, &spawnedCreatures, lairZone);
 	}
 };
 

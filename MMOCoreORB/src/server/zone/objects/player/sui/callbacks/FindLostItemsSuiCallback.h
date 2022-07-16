@@ -28,7 +28,7 @@ public:
 		if (obj == nullptr || !obj->isBuildingObject())
 			return;
 
-		BuildingObject* building = cast<BuildingObject*>( obj.get());
+		BuildingObject* building = cast<BuildingObject*>(obj.get());
 
 		if (building->getZone() == nullptr)
 			return;

@@ -9,13 +9,10 @@
 
 class PolearmStun2Command : public CombatQueueCommand {
 public:
-
-	PolearmStun2Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	PolearmStun2Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //POLEARMSTUN2COMMAND_H_
+#endif // POLEARMSTUN2COMMAND_H_

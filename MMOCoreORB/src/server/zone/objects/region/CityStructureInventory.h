@@ -10,9 +10,6 @@
 
 #include "engine/engine.h"
 
-class CityStructureInventory : public VectorMap<byte, SortedVector<ManagedReference<SceneObject* > > > {
-
-};
-
+class CityStructureInventory : public VectorMap<byte, SortedVector<ManagedReference<SceneObject*>>> {};
 
 #endif /* CITYSTRUCTUREINVENTORY_H_ */

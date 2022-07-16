@@ -7,7 +7,7 @@
 
 #include "RentalVehicleObjectMenuComponent.h"
 #include "server/zone/packets/object/ObjectMenuResponse.h"
-#include"server/zone/ZoneServer.h"
+#include "server/zone/ZoneServer.h"
 #include "server/zone/objects/intangible/VehicleControlDevice.h"
 #include "server/zone/objects/creature/VehicleObject.h"
 #include "server/zone/managers/player/PlayerManager.h"
@@ -29,7 +29,7 @@ int RentalVehicleObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneO
 		// create control device here
 
 		if (player->isInCombat() || player->getParentRecursively(SceneObjectType::BUILDING) != nullptr) {
-			player->sendSystemMessage("@pet/pet_menu:cant_call_vehicle"); //You can only unpack vehicles while Outside and not in Combat.
+			player->sendSystemMessage("@pet/pet_menu:cant_call_vehicle"); // You can only unpack vehicles while Outside and not in Combat.
 			return 1;
 		}
 
@@ -47,9 +47,9 @@ int RentalVehicleObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneO
 		int maxStoredVehicles = playerManager->getBaseStoredVehicles();
 
 		for (int i = 0; i < datapad->getContainerObjectsSize(); i++) {
-			Reference<SceneObject*> obj =  datapad->getContainerObject(i).castTo<SceneObject*>();
+			Reference<SceneObject*> obj = datapad->getContainerObject(i).castTo<SceneObject*>();
 
-			if (obj != nullptr && obj->isVehicleControlDevice() )
+			if (obj != nullptr && obj->isVehicleControlDevice())
 				vehiclesInDatapad++;
 		}
 
@@ -107,7 +107,6 @@ int RentalVehicleObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneO
 			vehicleControlDevice->destroyObjectFromDatabase(true);
 			return 1;
 		}
-
 	}
 
 	return 0;

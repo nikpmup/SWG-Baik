@@ -7,14 +7,10 @@
 
 class RegenerationCommand : public QueueCommand {
 public:
-
-	RegenerationCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RegenerationCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -38,7 +34,7 @@ public:
 			const Time* cdTime = player->getCooldownTime("innate_regeneration");
 
 			// Returns -time. Multiple by -1 to return positive.
-			int timeLeft = floor((float)cdTime->miliDifference() / 1000)*-1;
+			int timeLeft = floor((float)cdTime->miliDifference() / 1000) * -1;
 
 			stringId.setStringId("@innate:regen_wait"); // You are still recovering from your last regeneration. Command available in %DI seconds.
 			stringId.setDI(timeLeft);
@@ -54,7 +50,7 @@ public:
 		if (regenFoodBuff > 0) {
 			if (regenFoodBuff > 100)
 				regenFoodBuff = 100;
-			regenBuffMod = ((regenFoodBuff / 100 ) * 175);
+			regenBuffMod = ((regenFoodBuff / 100) * 175);
 		}
 		// Base modifier of 175, multiplied by the species skill mod, and added to enhancement from Karkan food
 		int regenValue = 175 * regenMod + regenBuffMod;
@@ -72,12 +68,11 @@ public:
 
 		player->addBuff(regenBuff);
 		player->showFlyText("combat_effects", "innate_regeneration", 0, 255, 0); // +Regeneration+
-		player->addCooldown("innate_regeneration", 3600 * 1000); // 1 hour reuse time.
-		player->removeSkillMod(SkillModManager::TEMPORARYMOD,"enhanced_regen",true);
+		player->addCooldown("innate_regeneration", 3600 * 1000);				 // 1 hour reuse time.
+		player->removeSkillMod(SkillModManager::TEMPORARYMOD, "enhanced_regen", true);
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REGENERATIONCOMMAND_H_
+#endif // REGENERATIONCOMMAND_H_

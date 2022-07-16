@@ -3,7 +3,7 @@
 #include "server/zone/objects/creature/ai/AiAgent.h"
 
 void SpawnObserverImplementation::despawnSpawns() {
-	Vector<ManagedReference<AiAgent* > > agents;
+	Vector<ManagedReference<AiAgent*>> agents;
 
 	for (int i = 0; i < spawnedCreatures.size(); ++i) {
 		ManagedReference<CreatureObject*> obj = spawnedCreatures.get(i);
@@ -16,13 +16,15 @@ void SpawnObserverImplementation::despawnSpawns() {
 
 	spawnedCreatures.removeAll();
 
-	Core::getTaskManager()->executeTask([=] () {
-		for (int i = 0; i < agents.size(); ++i) {
-			AiAgent* agent = agents.get(i);
+	Core::getTaskManager()->executeTask(
+		[=]() {
+			for (int i = 0; i < agents.size(); ++i) {
+				AiAgent* agent = agents.get(i);
 
-			Locker locker(agent);
+				Locker locker(agent);
 
-			agent->setDespawnOnNoPlayerInRange(true);
-		}
-	}, "DespawnSpawnsLambda");
+				agent->setDespawnOnNoPlayerInRange(true);
+			}
+		},
+		"DespawnSpawnsLambda");
 }

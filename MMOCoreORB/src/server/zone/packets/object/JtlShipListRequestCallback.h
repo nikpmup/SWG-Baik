@@ -18,9 +18,7 @@ class JtlShipListRequestCallback : public MessageCallback {
 	uint64 terminalObjectID;
 
 public:
-	JtlShipListRequestCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-		objectControllerMain(objectControllerCallback), terminalObjectID(0) {
+	JtlShipListRequestCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), objectControllerMain(objectControllerCallback), terminalObjectID(0) {
 	}
 
 	void parse(Message* message) {
@@ -39,7 +37,7 @@ public:
 		if (invokedObject == nullptr)
 			return;
 
-		//This should be handled by the radial?
+		// This should be handled by the radial?
 		if (!invokedObject->isInRange(player, 9.f)) {
 			player->sendSystemMessage("You are too far out of range.");
 			return;
@@ -49,6 +47,5 @@ public:
 		player->sendMessage(resp);
 	}
 };
-
 
 #endif /* JTLSHIPLISTREQUESTCALLBACK_H_ */

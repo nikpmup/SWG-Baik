@@ -6,7 +6,6 @@
 
 class CoaMessageFragmentMenuComponent : public TangibleObjectMenuComponent {
 public:
-
 	/**
 	 * Fills the radial options, needs to be overridden
 	 * @pre { this object is locked }
@@ -24,8 +23,6 @@ public:
 	 * @returns 0 if successful
 	 */
 	virtual int handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const;
-
 };
-
 
 #endif /* COAMESSAGEFRAGMENTMENUCOMPONENT_H_ */

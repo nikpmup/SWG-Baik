@@ -40,5 +40,4 @@ public:
 	}
 };
 
-
 #endif /* FIREWORKLAUNCHEVENT_H_ */

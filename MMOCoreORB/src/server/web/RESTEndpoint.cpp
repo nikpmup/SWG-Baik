@@ -1,6 +1,6 @@
 /*
-                Copyright <SWGEmu>
-        See file COPYING for copying conditions.*/
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
 
 /**
  * @author      : lordkator (lordkator@swgemu.com)
@@ -16,13 +16,11 @@
 using namespace std;
 using namespace server::web3;
 
-RESTEndpoint::RESTEndpoint(const String &regex, ArrayList<String> pathFieldNames, Function<void(APIRequest& apiRequest)> handler)
-	: mRegExStr(regex), mPathFieldNames(pathFieldNames), mHandler(handler) {
-
-		mRegEx = std::regex(regex.toCharArray());
+RESTEndpoint::RESTEndpoint(const String& regex, ArrayList<String> pathFieldNames, Function<void(APIRequest& apiRequest)> handler) : mRegExStr(regex), mPathFieldNames(pathFieldNames), mHandler(handler) {
+	mRegEx = std::regex(regex.toCharArray());
 }
 
-void RESTEndpoint::setRegEx(const String &regex) {
+void RESTEndpoint::setRegEx(const String& regex) {
 	mRegExStr = regex;
 	mRegEx = std::regex(regex.toCharArray());
 }
@@ -74,7 +72,7 @@ HashTable<String, String> RESTEndpoint::getPathFields(const String& endpointKey)
 	ArrayList<String> matches;
 	std::cmatch reMatches;
 
-	if (!std::regex_match (endpointKey.toCharArray(), reMatches, mRegEx))
+	if (!std::regex_match(endpointKey.toCharArray(), reMatches, mRegEx))
 		return pathFields;
 
 	if ((reMatches.size() - 1) != mPathFieldNames.size()) {
@@ -85,8 +83,8 @@ HashTable<String, String> RESTEndpoint::getPathFields(const String& endpointKey)
 		throw InvalidEndpoint(buf.toString());
 	}
 
-	for (int i = 0;i < mPathFieldNames.size();i++) {
-		pathFields.put(mPathFieldNames.get(i), String(reMatches[i+1]));
+	for (int i = 0; i < mPathFieldNames.size(); i++) {
+		pathFields.put(mPathFieldNames.get(i), String(reMatches[i + 1]));
 	}
 
 	return pathFields;

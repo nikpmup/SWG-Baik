@@ -9,14 +9,10 @@
 
 class SaberPolearmDervishCommand : public JediCombatQueueCommand {
 public:
-
-	SaberPolearmDervishCommand(const String& name, ZoneProcessServer* server)
-		: JediCombatQueueCommand(name, server) {
-
+	SaberPolearmDervishCommand(const String& name, ZoneProcessServer* server) : JediCombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,7 +25,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //SABERPOLEARMDERVISHCOMMAND_H_
+#endif // SABERPOLEARMDERVISHCOMMAND_H_

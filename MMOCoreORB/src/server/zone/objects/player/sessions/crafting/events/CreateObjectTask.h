@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef CREATEOBJECTTASK_H_
@@ -8,14 +8,12 @@
 #include "server/zone/objects/transaction/TransactionLog.h"
 
 class CreateObjectTask : public Task {
-
 	ManagedReference<CraftingTool*> craftingTool;
 	ManagedReference<CreatureObject*> crafter;
 	bool practice;
 
 public:
 	CreateObjectTask(CreatureObject* player, CraftingTool* tool, bool pract) : Task() {
-
 		craftingTool = tool;
 		crafter = player;
 		practice = pract;
@@ -45,7 +43,6 @@ public:
 		ManagedReference<SceneObject*> inventory = crafter->getSlottedObject("inventory");
 
 		if (inventory != nullptr && craftingTool->isASubChildOf(crafter) && !inventory->isContainerFullRecursive()) {
-
 			TransactionLog trx(crafter, inventory, prototype, TrxCode::CRAFTINGSESSION);
 
 			if (inventory->transferObject(prototype, -1, true)) {

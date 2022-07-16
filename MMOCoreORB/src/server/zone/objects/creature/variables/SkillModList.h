@@ -26,7 +26,7 @@ public:
 		if (this == &m)
 			return *this;
 
-		VectorMap<String, int>::operator =(m);
+		VectorMap<String, int>::operator=(m);
 
 		return *this;
 	}
@@ -37,7 +37,6 @@ protected:
 	VectorMap<uint32, SkillModGroup> mods;
 
 public:
-
 	SkillModList() {
 		mods.setAllowOverwriteInsertPlan();
 
@@ -84,7 +83,7 @@ public:
 			SkillModGroup* group = &mods.get(modType);
 			int oldValue = group->get(skillMod);
 			int newValue = oldValue + value;
-			if(newValue != 0)
+			if (newValue != 0)
 				group->put(skillMod, newValue);
 			else
 				group->drop(skillMod);
@@ -100,27 +99,26 @@ public:
 			uint32 modType = mods.elementAt(i).getKey();
 			SkillModGroup* group = &mods.elementAt(i).getValue();
 
-			if(group->contains(skillMod)) {
-
+			if (group->contains(skillMod)) {
 				int maxSkill = SkillModManager::instance()->getMaxSkill(modType);
 				int minSkill = SkillModManager::instance()->getMinSkill(modType);
 
-				if(modType & SkillModManager::BONUSMOD) {
+				if (modType & SkillModManager::BONUSMOD) {
 					int newSkillBonus = newEntry.getSkillBonus() + group->get(skillMod);
 
-					if(maxSkill != 0 && minSkill != 0) {
-						if(newSkillBonus >= 0)
+					if (maxSkill != 0 && minSkill != 0) {
+						if (newSkillBonus >= 0)
 							newSkillBonus = Math::min(newSkillBonus, maxSkill);
 						else
 							newSkillBonus = Math::max(newSkillBonus, minSkill);
 					}
 					newEntry.setSkillBonus(newSkillBonus);
 
-				} else if(modType & SkillModManager::PERMANENTMOD) {
+				} else if (modType & SkillModManager::PERMANENTMOD) {
 					int newSkillMod = newEntry.getSkillMod() + group->get(skillMod);
 
-					if(maxSkill != 0 && minSkill != 0) {
-						if(newSkillMod >= 0)
+					if (maxSkill != 0 && minSkill != 0) {
+						if (newSkillMod >= 0)
 							newSkillMod = Math::min(newSkillMod, maxSkill);
 						else
 							newSkillMod = Math::max(newSkillMod, minSkill);
@@ -128,14 +126,13 @@ public:
 
 					newEntry.setSkillMod(newSkillMod);
 				}
-
 			}
 		}
 		return newEntry;
 	}
 
 	SkillModGroup* getSkillModGroup(const uint32 type) {
-		if(!mods.contains(type)) {
+		if (!mods.contains(type)) {
 			SkillModGroup group;
 			mods.put(type, group);
 		}
@@ -151,13 +148,12 @@ public:
 			const SkillModGroup* group = &mods.elementAt(i).getValue();
 
 			if (group->contains(skillMod)) {
-
 				int maxSkill = SkillModManager::instance()->getMaxSkill(modType);
 				int minSkill = SkillModManager::instance()->getMinSkill(modType);
 
 				int newSkillBonus = group->get(skillMod);
 
-				if(maxSkill != 0 && minSkill != 0) {
+				if (maxSkill != 0 && minSkill != 0) {
 					if (newSkillBonus >= 0)
 						newSkillBonus = Math::min(newSkillBonus, maxSkill);
 					else
@@ -189,21 +185,21 @@ public:
 			uint32 modType = mods.elementAt(i).getKey();
 			const SkillModGroup* group = &mods.elementAt(i).getValue();
 
-			for(int j = 0; j < group->size(); ++j) {
+			for (int j = 0; j < group->size(); ++j) {
 				String skillMod = group->elementAt(j).getKey();
 				int skillModValue = group->get(skillMod);
 
 				int maxSkill = SkillModManager::instance()->getMaxSkill(modType);
 				int minSkill = SkillModManager::instance()->getMinSkill(modType);
 
-				if(maxSkill != 0 && minSkill != 0) {
+				if (maxSkill != 0 && minSkill != 0) {
 					if (skillModValue >= 0)
 						skillModValue = Math::min(skillModValue, maxSkill);
 					else
 						skillModValue = Math::max(skillModValue, minSkill);
 				}
 
-				if(skills.contains(skillMod))
+				if (skills.contains(skillMod))
 					skillModValue += skills.get(skillMod);
 
 				skills.put(skillMod, skillModValue);
@@ -211,7 +207,7 @@ public:
 		}
 
 		StringBuffer skill;
-		for(int i = 0; i < skills.size(); ++i) {
+		for (int i = 0; i < skills.size(); ++i) {
 			skill << skills.elementAt(i).getKey() << " : " << skills.get(i) << "\n";
 		}
 

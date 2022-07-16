@@ -29,7 +29,7 @@ public:
 
 		int index = Integer::valueOf(args->get(0).toString());
 
-		SuiListBox* listBox = cast<SuiListBox*>( sui);
+		SuiListBox* listBox = cast<SuiListBox*>(sui);
 
 		if (index < 0 || index >= listBox->getMenuSize())
 			return;

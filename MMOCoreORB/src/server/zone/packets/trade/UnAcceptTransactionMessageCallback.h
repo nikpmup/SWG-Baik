@@ -8,21 +8,15 @@
 #ifndef UNACCEPTTRANSACTIONMESSAGECALLBACK_H_
 #define UNACCEPTTRANSACTIONMESSAGECALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 #include "server/zone/managers/player/PlayerManager.h"
 
 class UnAcceptTransactionMessageCallback : public MessageCallback {
-
-
 public:
-	UnAcceptTransactionMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	UnAcceptTransactionMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {
-
 	}
 
 	void run() {
@@ -34,8 +28,6 @@ public:
 		PlayerManager* playerManager = server->getZoneServer()->getPlayerManager();
 		playerManager->handleUnAcceptTransactionMessage(player);
 	}
-
 };
-
 
 #endif /* UNUnAcceptTransactionMessageCallback_H_ */

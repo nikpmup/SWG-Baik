@@ -57,5 +57,4 @@ public:
 	}
 };
 
-
 #endif /* SPAWNCREATURETASK_H_ */

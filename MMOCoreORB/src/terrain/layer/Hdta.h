@@ -8,17 +8,14 @@
 #ifndef HDTA_H_
 #define HDTA_H_
 
-
 #include "../TemplateVariable.h"
 #include "Segment.h"
 
 class Hdta : public TemplateVariable<'HDTA'> {
 	Vector<Segment*> sgmts;
 
-
 public:
 	Hdta() : IffTemplateVariable() {
-
 	}
 
 	~Hdta() {
@@ -53,10 +50,6 @@ public:
 			sgmts.add(sgmt);
 		}
 	}
-
-
 };
-
-
 
 #endif /* HDTA_H_ */

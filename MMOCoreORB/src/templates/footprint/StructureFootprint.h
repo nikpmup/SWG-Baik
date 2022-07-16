@@ -47,7 +47,7 @@ public:
 		rows = sfp.rows;
 	}
 
-	StructureFootprint& operator= (const StructureFootprint& sfp) {
+	StructureFootprint& operator=(const StructureFootprint& sfp) {
 		if (this == &sfp)
 			return *this;
 
@@ -72,20 +72,18 @@ public:
 		iffStream->openForm(version);
 
 		switch (version) {
-			case '0000':
-			{
-				Chunk* info = iffStream->openChunk('INFO');
-				colSize = info->readInt();
-				rowSize = info->readInt();
-				centerX = info->readInt();
-				centerY = info->readInt();
-				colChunkSize = info->readFloat();
-				rowChunkSize = info->readFloat();
-				iffStream->closeChunk('INFO');
+		case '0000': {
+			Chunk* info = iffStream->openChunk('INFO');
+			colSize = info->readInt();
+			rowSize = info->readInt();
+			centerX = info->readInt();
+			centerY = info->readInt();
+			colChunkSize = info->readFloat();
+			rowChunkSize = info->readFloat();
+			iffStream->closeChunk('INFO');
 
-				//TODO: Parse chunk PRNT
-			}
-			break;
+			// TODO: Parse chunk PRNT
+		} break;
 		}
 
 		iffStream->closeForm(version);

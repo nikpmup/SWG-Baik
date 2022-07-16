@@ -12,10 +12,7 @@
 
 class CreateCreatureCommand : public QueueCommand {
 public:
-
-	CreateCreatureCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CreateCreatureCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -123,7 +120,7 @@ public:
 
 				objName = "";
 			} else if (tokenizer.hasMoreTokens()) {
-					posX = tokenizer.getFloatToken();
+				posX = tokenizer.getFloatToken();
 			}
 
 			if (tokenizer.hasMoreTokens())
@@ -161,8 +158,8 @@ public:
 			if (npc != nullptr) {
 				npc->setAITemplate();
 
-				//Locker _nlocker(npc);
-				//npc->setAIDebug(true);
+				// Locker _nlocker(npc);
+				// npc->setAIDebug(true);
 			}
 		}
 
@@ -185,7 +182,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CREATECREATURECOMMAND_H_
+#endif // CREATECREATURECOMMAND_H_

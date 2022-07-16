@@ -12,17 +12,13 @@
 
 class EnragepetsCommand : public QueueCommand {
 public:
-
-	EnragepetsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	EnragepetsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* player, const uint64& target, const UnicodeString& arguments) const {
-
 		int cooldownMilli = 300000; // 5 min
-		int durationSec =  60; // 1 min
-		int mindCost = player->calculateCostAdjustment(CreatureAttribute::FOCUS, 100 );
+		int durationSec = 60;		// 1 min
+		int mindCost = player->calculateCostAdjustment(CreatureAttribute::FOCUS, 100);
 		unsigned int buffCRC = STRING_HASHCODE("enragePet");
 
 		if (!checkStateMask(player))
@@ -35,7 +31,7 @@ public:
 			return INVALIDSTATE;
 
 		ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
-		if( ghost == nullptr )
+		if (ghost == nullptr)
 			return GENERALERROR;
 
 		// Check player mind
@@ -47,38 +43,36 @@ public:
 		// Loop over all active pets
 		bool petEnraged = false;
 		for (int i = 0; i < ghost->getActivePetsSize(); ++i) {
-
 			ManagedReference<AiAgent*> pet = ghost->getActivePet(i);
-			if(pet == nullptr)
+			if (pet == nullptr)
 				continue;
 
 			ManagedReference<PetControlDevice*> controlDevice = pet->getControlDevice().get().castTo<PetControlDevice*>();
-			if( controlDevice == nullptr )
+			if (controlDevice == nullptr)
 				continue;
 
 			// Creatures only
-			if( controlDevice->getPetType() == PetManager::CREATUREPET ) {
-
+			if (controlDevice->getPetType() == PetManager::CREATUREPET) {
 				Locker plocker(pet, player);
 
 				// Check states
-				if( pet->isIncapacitated() || pet->isDead() )
+				if (pet->isIncapacitated() || pet->isDead())
 					continue;
 
 				// Check range
-				if( !player->isInRange( pet, 50.0 ) )
+				if (!player->isInRange(pet, 50.0))
 					continue;
 
 				// Check if pet already has buff
-				if ( pet->hasBuff(buffCRC) )
+				if (pet->hasBuff(buffCRC))
 					continue;
 
 				// Check cooldown
-				if( pet->getCooldownTimerMap() == nullptr || !pet->getCooldownTimerMap()->isPast("enragePetsCooldown") )
+				if (pet->getCooldownTimerMap() == nullptr || !pet->getCooldownTimerMap()->isPast("enragePetsCooldown"))
 					continue;
 
 				// Determine damage bonus (15% of average damage)
-				int damageBonus = (int) ((((float)pet->getDamageMin() + (float)pet->getDamageMax())/2) * 0.15);
+				int damageBonus = (int)((((float)pet->getDamageMin() + (float)pet->getDamageMax()) / 2) * 0.15);
 
 				// Determine damage susceptibility (half of damage bonus)
 				int damageSusceptibility = damageBonus / 2;
@@ -98,17 +92,16 @@ public:
 				petEnraged = true;
 
 			} // end if creature
-		} // end active pets loop
+		}	  // end active pets loop
 
 		// At least one pet was enraged
-		if( petEnraged ){
+		if (petEnraged) {
 			player->inflictDamage(player, CreatureAttribute::MIND, mindCost, false);
 			player->sendSystemMessage("@pet/pet_menu:sys_enrage"); // "You drive your pets into a wild rage."
 		}
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //ENRAGEPETSCOMMAND_H_
+#endif // ENRAGEPETSCOMMAND_H_

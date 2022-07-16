@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef ZONE_H_
@@ -13,9 +13,9 @@ class ObjectController;
 class ObjectManager;
 
 class Zone : public Thread, public Mutex, public Logger {
-	//LoginSession* loginSession;
+	// LoginSession* loginSession;
 
-	//ObjectMap objectMap;
+	// ObjectMap objectMap;
 
 	uint64 characterID;
 	uint32 accountID;
@@ -46,7 +46,7 @@ public:
 	static int createdChar;
 
 	void run();
-	//void initConnection();
+	// void initConnection();
 
 	void disconnect();
 
@@ -59,12 +59,12 @@ public:
 
 	bool doCommand(const String& command, const String& arguments);
 
-	//LocalPlayer* createLocalPlayer(uint64 pid);
+	// LocalPlayer* createLocalPlayer(uint64 pid);
 
 	void insertPlayer();
 	void insertPlayer(PlayerCreature* player);
 
-	//void waitFor();
+	// void waitFor();
 
 	/*inline void addEvent(Event* event, uint64 time) {
 		scheduler->addEvent(event, time);

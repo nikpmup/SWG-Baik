@@ -5,7 +5,6 @@
  *      Author: crush
  */
 
-
 #include "server/zone/objects/tangible/terminal/guild/GuildTerminal.h"
 #include "server/zone/ZoneServer.h"
 #include "server/zone/objects/creature/CreatureObject.h"
@@ -14,7 +13,6 @@
 #include "server/zone/objects/guild/GuildObject.h"
 #include "server/zone/managers/guild/GuildManager.h"
 #include "server/zone/objects/building/BuildingObject.h"
-
 
 void GuildTerminalImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuResponse, CreatureObject* player) {
 	ManagedReference<BuildingObject*> building = getParentRecursively(SceneObjectType::BUILDING).castTo<BuildingObject*>();
@@ -36,12 +34,10 @@ void GuildTerminalImplementation::fillObjectMenuResponse(ObjectMenuResponse* men
 	ManagedReference<GuildObject*> guildObject = owner->getGuildObject().get();
 
 	if (guildObject == nullptr) {
-
 		if (player == owner) {
 			if (!player->isInGuild()) {
 				menuResponse->addRadialMenuItem(185, 3, "@guild:menu_create"); // Create Guild
 			}
-
 		}
 
 		return;
@@ -49,7 +45,7 @@ void GuildTerminalImplementation::fillObjectMenuResponse(ObjectMenuResponse* men
 
 	uint64 playerID = player->getObjectID();
 
-	//Only members have access.
+	// Only members have access.
 	if (!guildObject->hasMember(playerID) && !playerGhost->isPrivileged())
 		return;
 
@@ -58,9 +54,9 @@ void GuildTerminalImplementation::fillObjectMenuResponse(ObjectMenuResponse* men
 	if (guildObject->getGuildLeaderID() == playerID)
 		isLeader = true;
 
-	//Guild exists -> display these functions.
-	menuResponse->addRadialMenuItem(193, 3, "@guild:menu_guild_management"); // Guild Management
-	menuResponse->addRadialMenuItemToRadialID(193, 186, 3, "@guild:menu_info"); // Guild Information
+	// Guild exists -> display these functions.
+	menuResponse->addRadialMenuItem(193, 3, "@guild:menu_guild_management");	   // Guild Management
+	menuResponse->addRadialMenuItemToRadialID(193, 186, 3, "@guild:menu_info");	   // Guild Information
 	menuResponse->addRadialMenuItemToRadialID(193, 189, 3, "@guild:menu_enemies"); // Guild Enemies
 
 	if (guildObject->hasDisbandPermission(playerID))
@@ -69,7 +65,7 @@ void GuildTerminalImplementation::fillObjectMenuResponse(ObjectMenuResponse* men
 	if (guildObject->hasNamePermission(playerID) || playerGhost->isPrivileged())
 		menuResponse->addRadialMenuItemToRadialID(193, 192, 3, "@guild:menu_namechange"); // Change Guild Name
 
-	menuResponse->addRadialMenuItem(194, 3, "@guild:menu_member_management"); // Member Management
+	menuResponse->addRadialMenuItem(194, 3, "@guild:menu_member_management");	   // Member Management
 	menuResponse->addRadialMenuItemToRadialID(194, 187, 3, "@guild:menu_members"); // Guild Members
 
 	if (guildObject->getSponsoredPlayerCount() > 0)
@@ -85,7 +81,7 @@ void GuildTerminalImplementation::fillObjectMenuResponse(ObjectMenuResponse* men
 		menuResponse->addRadialMenuItemToRadialID(194, 69, 3, "@guild:accept_hall"); // Transfer PA Hall Lots to Myself
 
 	if (guildObject->isElectionEnabled()) {
-		menuResponse->addRadialMenuItem(70, 3, "@guild:menu_leader_race"); // Guild Leader Elections
+		menuResponse->addRadialMenuItem(70, 3, "@guild:menu_leader_race");					  // Guild Leader Elections
 		menuResponse->addRadialMenuItemToRadialID(70, 71, 3, "@guild:menu_leader_standings"); // View Standings
 
 		if (guildObject->hasMember(playerID)) {
@@ -103,12 +99,12 @@ void GuildTerminalImplementation::fillObjectMenuResponse(ObjectMenuResponse* men
 		}
 
 	} else if (isLeader) {
-		menuResponse->addRadialMenuItem(70, 3, "@guild:menu_leader_race"); // Guild Leader Elections
+		menuResponse->addRadialMenuItem(70, 3, "@guild:menu_leader_race");					  // Guild Leader Elections
 		menuResponse->addRadialMenuItemToRadialID(70, 75, 3, "@guild:menu_enable_elections"); // Enable Elections
 	}
 
 	if (playerGhost->isPrivileged())
-		menuResponse->addRadialMenuItemToRadialID(193, 76, 3, "Process Guild Update"); //TODO: Remove this temporary ability
+		menuResponse->addRadialMenuItemToRadialID(193, 76, 3, "Process Guild Update"); // TODO: Remove this temporary ability
 
 	return;
 }
@@ -249,5 +245,3 @@ int GuildTerminalImplementation::handleObjectMenuSelect(CreatureObject* player, 
 
 	return 0;
 }
-
-

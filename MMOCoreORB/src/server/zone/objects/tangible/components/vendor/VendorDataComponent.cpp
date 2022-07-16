@@ -77,21 +77,19 @@ void VendorDataComponent::writeJSON(nlohmann::json& j) const {
 }
 
 void VendorDataComponent::initializeTransientMembers() {
-
 	AuctionTerminalDataComponent::initializeTransientMembers();
 
 	lastBark = 0;
 	ManagedReference<SceneObject*> strongParent = parent.get();
 
-	if(strongParent != nullptr) {
-
+	if (strongParent != nullptr) {
 		if (isInitialized()) {
 			scheduleVendorCheckTask(VENDORCHECKDELAY + System::random(VENDORCHECKINTERVAL));
 
-			if(originalDirection == 1000)
+			if (originalDirection == 1000)
 				originalDirection = strongParent->getDirectionAngle();
 
-			if(isRegistered() && strongParent->getZone() != nullptr)
+			if (isRegistered() && strongParent->getZone() != nullptr)
 				strongParent->getZone()->registerObjectWithPlanetaryMap(strongParent);
 		}
 	}
@@ -100,11 +98,11 @@ void VendorDataComponent::initializeTransientMembers() {
 void VendorDataComponent::notifyObjectDestroyingFromDatabase() {
 	ManagedReference<SceneObject*> strong = parent.get();
 
-	if(strong == nullptr)
+	if (strong == nullptr)
 		return;
 
 	ManagedReference<CreatureObject*> player = strong->getZoneServer()->getObject(ownerId).castTo<CreatureObject*>();
-	if(player == nullptr)
+	if (player == nullptr)
 		return;
 
 	ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
@@ -185,7 +183,6 @@ void VendorDataComponent::runVendorUpdate() {
 			setVendorSearchEnabled(false);
 
 		if (time(0) - inactiveTimer.getTime() > DELETEWARNING) {
-
 			ManagedReference<ChatManager*> cman = strongParent->getZoneServer()->getChatManager();
 
 			String sender = strongParent->getDisplayedName();
@@ -198,7 +195,6 @@ void VendorDataComponent::runVendorUpdate() {
 		}
 
 	} else {
-
 		/// Award hourly XP
 		E3_ASSERT(vendor->isLockedByCurrentThread());
 
@@ -206,7 +202,6 @@ void VendorDataComponent::runVendorUpdate() {
 		playerManager->awardExperience(owner, "merchant", 150 * hoursSinceLastUpdate, false);
 
 		playerManager->awardExperience(owner, "merchant", awardUsageXP * 50, false);
-
 	}
 
 	awardUsageXP = 0;
@@ -223,10 +218,10 @@ float VendorDataComponent::getMaintenanceRate() {
 
 	// Apply reduction for merchant skills
 	ManagedReference<CreatureObject*> owner = strongParent->getZoneServer()->getObject(getOwnerId()).castTo<CreatureObject*>();
-	if (owner != nullptr && owner->isPlayerCreature() ) {
-		if(owner->hasSkill("crafting_merchant_master"))
+	if (owner != nullptr && owner->isPlayerCreature()) {
+		if (owner->hasSkill("crafting_merchant_master"))
 			maintRate *= .60f;
-		else if(owner->hasSkill("crafting_merchant_sales_02"))
+		else if (owner->hasSkill("crafting_merchant_sales_02"))
 			maintRate *= .80f;
 	}
 
@@ -243,11 +238,11 @@ void VendorDataComponent::payMaintanence() {
 		return;
 
 	ManagedReference<CreatureObject*> owner = strongParent->getZoneServer()->getObject(getOwnerId()).castTo<CreatureObject*>();
-	if(owner == nullptr)
+	if (owner == nullptr)
 		return;
 
 	ManagedReference<SuiInputBox*> input = new SuiInputBox(owner, SuiWindowType::STRUCTURE_VENDOR_PAY);
-	input->setPromptTitle("@player_structure:pay_vendor_t"); //Add Militia Member
+	input->setPromptTitle("@player_structure:pay_vendor_t"); // Add Militia Member
 	input->setPromptText("@player_structure:pay_vendor_d");
 	input->setUsingObject(strongParent);
 	input->setForceCloseDistance(5.f);
@@ -255,7 +250,6 @@ void VendorDataComponent::payMaintanence() {
 
 	owner->getPlayerObject()->addSuiBox(input);
 	owner->sendMessage(input->generateMessage());
-
 }
 
 void VendorDataComponent::handlePayMaintanence(int value) {
@@ -264,21 +258,21 @@ void VendorDataComponent::handlePayMaintanence(int value) {
 		return;
 
 	ManagedReference<CreatureObject*> owner = strongParent->getZoneServer()->getObject(getOwnerId()).castTo<CreatureObject*>();
-	if(owner == nullptr)
+	if (owner == nullptr)
 		return;
 
-	if(value > 100000) {
+	if (value > 100000) {
 		owner->sendSystemMessage("@player_structure:vendor_maint_invalid");
 		return;
 	}
 
-	if(value <= 0) {
+	if (value <= 0) {
 		owner->sendSystemMessage("@player_structure:amt_greater_than_zero");
 		return;
 	}
 
-	if(owner->getBankCredits() + owner->getCashCredits() >= value) {
-		if(owner->getBankCredits() > value) {
+	if (owner->getBankCredits() + owner->getCashCredits() >= value) {
+		if (owner->getBankCredits() > value) {
 			TransactionLog trx(owner, strongParent, TrxCode::VENDORMAINTANENCE, value, false);
 			maintAmount += value;
 			owner->subtractBankCredits(value);
@@ -308,11 +302,11 @@ void VendorDataComponent::withdrawMaintanence() {
 		return;
 
 	ManagedReference<CreatureObject*> owner = strongParent->getZoneServer()->getObject(getOwnerId()).castTo<CreatureObject*>();
-	if(owner == nullptr)
+	if (owner == nullptr)
 		return;
 
 	ManagedReference<SuiInputBox*> input = new SuiInputBox(owner, SuiWindowType::STRUCTURE_VENDOR_WITHDRAW);
-	input->setPromptTitle("@player_structure:withdraw_vendor_t"); //Add Militia Member
+	input->setPromptTitle("@player_structure:withdraw_vendor_t"); // Add Militia Member
 	input->setPromptText("@player_structure:withdraw_vendor_d");
 	input->setUsingObject(strongParent);
 	input->setForceCloseDistance(5.f);
@@ -320,7 +314,6 @@ void VendorDataComponent::withdrawMaintanence() {
 
 	owner->getPlayerObject()->addSuiBox(input);
 	owner->sendMessage(input->generateMessage());
-
 }
 
 void VendorDataComponent::handleWithdrawMaintanence(int value) {
@@ -329,17 +322,17 @@ void VendorDataComponent::handleWithdrawMaintanence(int value) {
 		return;
 
 	ManagedReference<CreatureObject*> owner = strongParent->getZoneServer()->getObject(getOwnerId()).castTo<CreatureObject*>();
-	if(owner == nullptr)
+	if (owner == nullptr)
 		return;
 
-	if(value > maintAmount) {
+	if (value > maintAmount) {
 		StringIdChatParameter message("@player_structure:vendor_withdraw_fail"); // The vendor maintenance pool doesn't have %DI credits!
 		message.setDI(value);
 		owner->sendSystemMessage(message);
 		return;
 	}
 
-	if(value <= 0) {
+	if (value <= 0) {
 		owner->sendSystemMessage("@player_structure:amt_greater_than_zero"); // The amount must be greater than zero.
 		return;
 	}
@@ -366,7 +359,6 @@ void VendorDataComponent::setVendorSearchEnabled(bool enabled) {
 	auctionManager->updateVendorSearch(strongParent, vendorSearchEnabled);
 }
 
-
 void VendorDataComponent::performVendorBark(SceneObject* target) {
 	if (isOnStrike()) {
 		return;
@@ -383,38 +375,40 @@ void VendorDataComponent::performVendorBark(SceneObject* target) {
 	resetLastBark();
 	addBarkTarget(target);
 
-	Core::getTaskManager()->executeTask([=] () {
-		Locker locker(vendor);
+	Core::getTaskManager()->executeTask(
+		[=]() {
+			Locker locker(vendor);
 
-		VendorDataComponent* data = cast<VendorDataComponent*>(vendor->getDataObjectComponent()->get());
+			VendorDataComponent* data = cast<VendorDataComponent*>(vendor->getDataObjectComponent()->get());
 
-		if (data == nullptr)
-			return;
+			if (data == nullptr)
+				return;
 
-		vendor->faceObject(player);
-		vendor->updateDirection(Math::deg2rad(vendor->getDirectionAngle()));
+			vendor->faceObject(player);
+			vendor->updateDirection(Math::deg2rad(vendor->getDirectionAngle()));
 
-		SpatialChat* chatMessage = nullptr;
-		String barkMessage = data->getAdPhrase();
-		ChatManager* chatManager = vendor->getZoneServer()->getChatManager();
+			SpatialChat* chatMessage = nullptr;
+			String barkMessage = data->getAdPhrase();
+			ChatManager* chatManager = vendor->getZoneServer()->getChatManager();
 
-		if (barkMessage.beginsWith("@")) {
-			StringIdChatParameter message;
-			message.setStringId(barkMessage);
-			message.setTT(player->getObjectID());
-			chatMessage = new SpatialChat(vendor->getObjectID(), player->getObjectID(), player->getObjectID(), message, 50, 0, chatManager->getMoodID(data->getAdMood()), 0, 0);
+			if (barkMessage.beginsWith("@")) {
+				StringIdChatParameter message;
+				message.setStringId(barkMessage);
+				message.setTT(player->getObjectID());
+				chatMessage = new SpatialChat(vendor->getObjectID(), player->getObjectID(), player->getObjectID(), message, 50, 0, chatManager->getMoodID(data->getAdMood()), 0, 0);
 
-		} else {
-			UnicodeString uniMessage(barkMessage);
-			chatMessage = new SpatialChat(vendor->getObjectID(), player->getObjectID(), player->getObjectID(), uniMessage, 50, 0, chatManager->getMoodID(data->getAdMood()), 0, 0);
-		}
+			} else {
+				UnicodeString uniMessage(barkMessage);
+				chatMessage = new SpatialChat(vendor->getObjectID(), player->getObjectID(), player->getObjectID(), uniMessage, 50, 0, chatManager->getMoodID(data->getAdMood()), 0, 0);
+			}
 
-		vendor->broadcastMessage(chatMessage, true);
-		vendor->doAnimation(data->getAdAnimation());
+			vendor->broadcastMessage(chatMessage, true);
+			vendor->doAnimation(data->getAdAnimation());
 
-		Reference<VendorReturnToPositionTask*> returnTask = new VendorReturnToPositionTask(vendor, data->getOriginalDirection());
-		vendor->addPendingTask("vendorreturn", returnTask, 3000);
-	}, "VendorBarkLambda");
+			Reference<VendorReturnToPositionTask*> returnTask = new VendorReturnToPositionTask(vendor, data->getOriginalDirection());
+			vendor->addPendingTask("vendorreturn", returnTask, 3000);
+		},
+		"VendorBarkLambda");
 }
 
 void VendorDataComponent::scheduleVendorCheckTask(int delay) {

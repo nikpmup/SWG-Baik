@@ -9,14 +9,10 @@
 
 class StopBandCommand : public QueueCommand {
 public:
-
-	StopBandCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	StopBandCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -72,7 +68,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //STOPBANDCOMMAND_H_
+#endif // STOPBANDCOMMAND_H_

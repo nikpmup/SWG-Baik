@@ -5,7 +5,7 @@
 #include "server/zone/managers/name/NameUnique.h"
 #include "engine/lua/Lua.h"
 
-class NameData: public Object {
+class NameData : public Object {
 	NameRules* firstNameRules;
 	NameRules* lastNameRules;
 
@@ -15,7 +15,7 @@ class NameData: public Object {
 	VectorMap<String, int> vowels;
 	VectorMap<String, int> specialSyllables;
 
-	Vector<Reference<NameUnique*> > uniques;
+	Vector<Reference<NameUnique*>> uniques;
 	VectorMap<String, int> uniquePatterns;
 
 	int beginningConsonantOdds, middleConsonantOdds, endingConsonantOdds;
@@ -397,8 +397,8 @@ public:
 		return pattern;
 	}
 
-	String getRandomUnique(const String& type, String &root) const {
-		Vector<Reference<NameUnique*> > uniqueList;
+	String getRandomUnique(const String& type, String& root) const {
+		Vector<Reference<NameUnique*>> uniqueList;
 
 		for (int i = 0; i < uniques.size(); i++) {
 			Reference<NameUnique*> unique = uniques.get(i);

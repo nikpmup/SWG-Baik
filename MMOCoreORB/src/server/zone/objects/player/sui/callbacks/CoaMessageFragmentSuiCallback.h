@@ -6,11 +6,8 @@
 #include "server/zone/objects/tangible/components/generic/CoaMessageDataComponent.h"
 
 class CoaMessageFragmentSuiCallback : public SuiCallback {
-
 public:
-	CoaMessageFragmentSuiCallback(ZoneServer* serv) :
-		SuiCallback(serv) {
-
+	CoaMessageFragmentSuiCallback(ZoneServer* serv) : SuiCallback(serv) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -151,6 +148,5 @@ public:
 		player->sendSystemMessage("@encoded_disk/message_fragment:sys_message_assembled"); // You successfully assemble the fragments into a single file.
 	}
 };
-
 
 #endif /* COAMESSAGEFRAGMENTSUICALLBACK_H_ */

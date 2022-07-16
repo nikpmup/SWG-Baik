@@ -13,7 +13,6 @@
 class GroupLootChangedSuiCallback : public SuiCallback {
 public:
 	GroupLootChangedSuiCallback(ZoneServer* server) : SuiCallback(server) {
-
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -22,17 +21,13 @@ public:
 		if (cancelPressed || player == nullptr)
 			return;
 
-		//Player clicked "Leave Group" on notification box.
+		// Player clicked "Leave Group" on notification box.
 		ManagedReference<GroupObject*> group = player->getGroup();
 		if (group == nullptr)
 			return;
 
 		GroupManager::instance()->leaveGroup(group.get(), player);
 	}
-
 };
-
-
-
 
 #endif /* GROUPLOOTCHANGEDSUICALLBACK_H_ */

@@ -9,13 +9,10 @@
 
 class IffscrambleCommand : public CombatQueueCommand {
 public:
-
-	IffscrambleCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	IffscrambleCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //IFFSCRAMBLE_H_
+#endif // IFFSCRAMBLE_H_

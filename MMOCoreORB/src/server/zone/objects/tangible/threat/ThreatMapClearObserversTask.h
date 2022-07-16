@@ -32,9 +32,7 @@ public:
 
 			threatMap.remove(0);
 		}
-
 	}
 };
-
 
 #endif /* THREATMAPCLEAROBSERVERSTASK_H_ */

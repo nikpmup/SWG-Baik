@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef PERFORMANCEMANAGER_H_
@@ -10,7 +10,7 @@
 #include "engine/log/Logger.h"
 #include "server/zone/objects/creature/CreatureObject.h"
 
-class PerformanceManager: public Logger {
+class PerformanceManager : public Logger {
 	HashTable<String, String> danceMap;
 	HashTable<String, int> instrumentIdMap;
 
@@ -37,7 +37,7 @@ public:
 	int getMatchingPerformanceIndex(int type, int instrumentType);
 	String getInstrumentFromIndex(int performanceIndex);
 
-	Vector<Performance*> getPerformanceListFromMod(const String& requiredSkillMod, int playerSkillModValue,	int instrument);
+	Vector<Performance*> getPerformanceListFromMod(const String& requiredSkillMod, int playerSkillModValue, int instrument);
 
 	String getInstrumentAnimation(int instrumentType);
 	String getInstrument(int instrumentType);
@@ -53,14 +53,12 @@ public:
 	bool canPlayInstrument(CreatureObject* player, int instrumentType);
 	bool canPerformDance(CreatureObject* player, int performanceIndex);
 
-
 	void performanceMessageToSelf(CreatureObject* actor, CreatureObject* target, const String& table, const String& text);
 	void performanceMessageToPlayer(CreatureObject* player, CreatureObject* actor, CreatureObject* target, const String& table, const String& text);
 	void performanceMessageToBand(CreatureObject* actor, CreatureObject* target, const String& table, const String& text);
 	void performanceMessageToBandPatrons(CreatureObject* actor, CreatureObject* target, const String& table, const String& text);
 	void performanceMessageToPatrons(CreatureObject* actor, CreatureObject* target, const String& table, const String& text);
 	void performanceMessageToDroidOwner(CreatureObject* droid, CreatureObject* target, const String& table, const String& text);
-
 };
 
 #endif /*PERFORMANCEMANAGER_H_*/

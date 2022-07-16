@@ -14,31 +14,31 @@ namespace server {
 namespace zone {
 namespace managers {
 namespace sui {
-	class SuiManager;
+class SuiManager;
 
-	class LuaSuiManager {
-	public:
-		static const char className[];
-		static Luna<LuaSuiManager>::RegType Register[];
+class LuaSuiManager {
+public:
+	static const char className[];
+	static Luna<LuaSuiManager>::RegType Register[];
 
-		LuaSuiManager(lua_State *L);
-		~LuaSuiManager();
+	LuaSuiManager(lua_State* L);
+	~LuaSuiManager();
 
-		int sendKeypadSui(lua_State* L);
-		int sendConfirmSui(lua_State* L);
-		int sendMessageBox(lua_State* L);
-		int sendInputBox(lua_State* L);
-		int sendListBox(lua_State* L);
-		int sendTransferBox(lua_State* L);
-		int sendSuiPage(lua_State* L);
+	int sendKeypadSui(lua_State* L);
+	int sendConfirmSui(lua_State* L);
+	int sendMessageBox(lua_State* L);
+	int sendInputBox(lua_State* L);
+	int sendListBox(lua_State* L);
+	int sendTransferBox(lua_State* L);
+	int sendSuiPage(lua_State* L);
 
-	private:
-		Reference<SuiManager*> realObject;
-	};
-}
-}
-}
-}
+private:
+	Reference<SuiManager*> realObject;
+};
+} // namespace sui
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::sui;
 

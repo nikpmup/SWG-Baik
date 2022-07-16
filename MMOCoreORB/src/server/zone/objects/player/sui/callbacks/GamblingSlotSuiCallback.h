@@ -13,8 +13,7 @@
 
 class GamblingSlotSuiCallback : public SuiCallback {
 public:
-	GamblingSlotSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	GamblingSlotSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -32,7 +31,6 @@ public:
 
 		Locker locker(manager);
 		manager->handleSlot(player, cancelPressed, otherPressed);
-
 	}
 };
 

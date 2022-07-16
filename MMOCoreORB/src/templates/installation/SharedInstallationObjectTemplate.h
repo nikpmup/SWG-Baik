@@ -72,7 +72,7 @@ public:
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'SIOT') {
-			//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 			SharedTangibleObjectTemplate::readObject(iffStream);
 
@@ -96,7 +96,7 @@ public:
 		iffStream->openForm(derv);
 
 		try {
-			//parseFileData(iffStream);
+			// parseFileData(iffStream);
 		} catch (Exception& e) {
 			String msg;
 			msg += "exception caught parsing file data ->";
@@ -174,6 +174,5 @@ public:
 		return factionString;
 	}
 };
-
 
 #endif /* SHAREDINSTALLATIONOBJECTTEMPLATE_H_ */

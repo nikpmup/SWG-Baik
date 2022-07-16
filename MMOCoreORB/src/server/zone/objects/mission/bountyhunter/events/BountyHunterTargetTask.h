@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef BOUNTYHUNTERTARGETTASK_H_
@@ -19,7 +19,7 @@ namespace mission {
 namespace bountyhunter {
 namespace events {
 
-class BountyHunterTargetTask: public Task, public Logger {
+class BountyHunterTargetTask : public Task, public Logger {
 	ManagedWeakReference<MissionObject*> mission;
 	ManagedWeakReference<BountyMissionObjective*> objective;
 	ManagedWeakReference<CreatureObject*> player;
@@ -30,8 +30,7 @@ class BountyHunterTargetTask: public Task, public Logger {
 	String zoneName;
 
 public:
-	BountyHunterTargetTask(MissionObject* mission, CreatureObject* player, const String& zoneName) :
-		Logger("BountyHunterTargetTask") {
+	BountyHunterTargetTask(MissionObject* mission, CreatureObject* player, const String& zoneName) : Logger("BountyHunterTargetTask") {
 		this->mission = mission;
 		this->player = player;
 		this->zoneName = zoneName;
@@ -40,7 +39,7 @@ public:
 		this->targetSpawned = false;
 		this->destination = Vector3(0, 0, 0);
 
-		objective = cast<BountyMissionObjective*> (mission->getMissionObjective());
+		objective = cast<BountyMissionObjective*>(mission->getMissionObjective());
 
 		currentPosition.setX(mission->getEndPositionX());
 		currentPosition.setY(mission->getEndPositionY());
@@ -175,7 +174,7 @@ private:
 			return;
 
 		Zone* zone = playerRef->getZone();
-		SortedVector<ManagedReference<NavArea*> > areas;
+		SortedVector<ManagedReference<NavArea*>> areas;
 
 		Sphere sphere(Vector3(currentPosition.getX(), currentPosition.getY(), zone->getHeightNoCache(currentPosition.getX(), currentPosition.getY())), 20);
 		Vector3 result;
@@ -190,14 +189,14 @@ private:
 			return;
 		}
 
-		//Spawning at coordinates failed, try to find new coordinates.
+		// Spawning at coordinates failed, try to find new coordinates.
 		int radius = 50;
 		while (radius <= 1600) {
-			//Max 20 retries per radius, total 120 retries.
+			// Max 20 retries per radius, total 120 retries.
 			int retries = 20;
 
 			while (retries > 0) {
-				//Generate a random direction and move the target position in that direction within the radius.
+				// Generate a random direction and move the target position in that direction within the radius.
 				Vector3 direction;
 				direction.setX((float)System::random(2 * radius) - radius);
 				direction.setY((float)System::random(2 * radius) - radius);
@@ -215,7 +214,7 @@ private:
 			radius *= 2;
 		}
 
-		//Failed to find new spawn for the target, spawn at current position.
+		// Failed to find new spawn for the target, spawn at current position.
 	}
 
 	bool canSpawnTargetAt(const Vector3& position) {

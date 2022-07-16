@@ -12,14 +12,12 @@
 #include "server/zone/objects/tangible/TangibleObject.h"
 
 class LairAggroTask : public Task {
-
 	bool all;
 	ManagedWeakReference<TangibleObject*> lair;
 	ManagedWeakReference<LairObserver*> observer;
 	ManagedWeakReference<TangibleObject*> attacker;
 
 public:
-
 	LairAggroTask(TangibleObject* obj, ManagedWeakReference<TangibleObject*> attacker, LairObserver* observer, bool allAttack) {
 		all = allAttack;
 		lair = obj;
@@ -32,7 +30,6 @@ public:
 
 		if (strongRef == nullptr)
 			return;
-
 
 		ManagedReference<LairObserver*> strongObserver = observer.get();
 		ManagedReference<TangibleObject*> strongAttackerRef = attacker.get();

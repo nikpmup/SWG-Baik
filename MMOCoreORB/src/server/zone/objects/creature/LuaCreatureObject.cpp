@@ -22,142 +22,140 @@
 
 const char LuaCreatureObject::className[] = "LuaCreatureObject";
 
-Luna<LuaCreatureObject>::RegType LuaCreatureObject::Register[] = {
-		{ "_setObject", &LuaCreatureObject::_setObject },
-		{ "_getObject", &LuaSceneObject::_getObject },
-		{ "sendSystemMessage", &LuaCreatureObject::sendSystemMessage },
-		{ "sendSystemMessageWithDI", &LuaCreatureObject::sendSystemMessageWithDI },
-		{ "sendSystemMessageWithTO", &LuaCreatureObject::sendSystemMessageWithTO },
-		{ "sendGroupMessage", &LuaCreatureObject::sendGroupMessage },
-		{ "playMusicMessage", &LuaCreatureObject::playMusicMessage },
-		{ "sendNewbieTutorialRequest", &LuaCreatureObject::sendNewbieTutorialRequest },
-		{ "hasScreenPlayState", &LuaCreatureObject::hasScreenPlayState },
-		{ "setScreenPlayState", &LuaCreatureObject::setScreenPlayState },
-		{ "getScreenPlayState", &LuaCreatureObject::getScreenPlayState },
-		{ "playEffect", &LuaSceneObject::playEffect },
-		{ "sendNewbieTutorialEnableHudElement", &LuaCreatureObject::sendNewbieTutorialEnableHudElement },
-		{ "getInCellNumber", &LuaCreatureObject::getInCellNumber },
-		{ "getBuildingParentID", &LuaCreatureObject::getBuildingParentID },
-		{ "sendOpenHolocronToPageMessage", &LuaCreatureObject::sendOpenHolocronToPageMessage },
-		{ "inflictDamage", &LuaCreatureObject::inflictDamage },
-		{ "setHAM", &LuaCreatureObject::setHAM },
-		{ "setBaseHAM", &LuaCreatureObject::setBaseHAM },
-		{ "setMaxHAM", &LuaCreatureObject::setMaxHAM },
-		{ "getHAM", &LuaCreatureObject::getHAM },
-		{ "getBaseHAM", &LuaCreatureObject::getBaseHAM },
-		{ "getMaxHAM", &LuaCreatureObject::getMaxHAM },
-		{ "getTargetID", &LuaCreatureObject::getTargetID },
-		{ "clearCombatState", &LuaCreatureObject::clearCombatState },
-		{ "getParent", &LuaSceneObject::getParent },
-		{ "getZoneName", &LuaSceneObject::getZoneName },
-		{ "getObjectID", &LuaSceneObject::getObjectID },
-		{ "getPositionX", &LuaSceneObject::getPositionX },
-		{ "getPositionY", &LuaSceneObject::getPositionY },
-		{ "getPositionZ", &LuaSceneObject::getPositionZ },
-		{ "getDirectionAngle", &LuaSceneObject::getDirectionAngle },
-		{ "getWorldPositionX", &LuaSceneObject::getWorldPositionX },
-		{ "getWorldPositionY", &LuaSceneObject::getWorldPositionY },
-		{ "getWorldPositionZ", &LuaSceneObject::getWorldPositionZ },
-		{ "getParentID", &LuaSceneObject::getParentID },
-		{ "isInRangeWithObject", &LuaSceneObject::isInRangeWithObject },
-		{ "getDistanceTo", &LuaSceneObject::getDistanceTo },
-		{ "getServerObjectCRC", &LuaSceneObject::getServerObjectCRC },
-		{ "isFeigningDeath", &LuaCreatureObject::isFeigningDeath},
-		{ "hasState", &LuaCreatureObject::hasState},
-		{ "setState", &LuaCreatureObject::setState},
-		{ "setLootRights", &LuaCreatureObject::setLootRights},
-		{ "getPosture", &LuaCreatureObject::getPosture},
-		{ "setPosture", &LuaCreatureObject::setPosture},
-		{ "setMoodString", &LuaCreatureObject::setMoodString},
-		{ "getMoodString", &LuaCreatureObject::getMoodString},
-		{ "hasSkill", &LuaCreatureObject::hasSkill},
-		{ "removeSkill", &LuaCreatureObject::removeSkill},
-		{ "surrenderSkill", &LuaCreatureObject::surrenderSkill},
-		{ "getConversationSession", &LuaCreatureObject::getConversationSession},
-		{ "doAnimation", &LuaCreatureObject::doAnimation},
-		{ "engageCombat", &LuaCreatureObject::engageCombat},
-		{ "getPlayerObject", &LuaCreatureObject::getPlayerObject},
-		{ "setCustomObjectName", &LuaSceneObject::setCustomObjectName},
-		{ "getFaction", &LuaCreatureObject::getFaction},
-		{ "setFaction", &LuaCreatureObject::setFaction},
-		{ "isRebel", &LuaCreatureObject::isRebel},
-		{ "isImperial", &LuaCreatureObject::isImperial},
-		{ "isNeutral", &LuaCreatureObject::isNeutral},
-		{ "teleport", &LuaSceneObject::teleport},
-		{ "getFirstName", &LuaCreatureObject::getFirstName},
-		{ "getLastName", &LuaCreatureObject::getLastName},
-		{ "setLastName", &LuaCreatureObject::setLastName},
-		{ "isAiAgent", &LuaCreatureObject::isAiAgent},
-		{ "setFactionRank", &LuaCreatureObject::setFactionRank},
-		{ "getFactionRank", &LuaCreatureObject::getFactionRank},
-		{ "getCashCredits", &LuaCreatureObject::getCashCredits},
-		{ "getBankCredits", &LuaCreatureObject::getBankCredits },
-		{ "subtractCashCredits", &LuaCreatureObject::subtractCashCredits},
-		{ "subtractBankCredits", &LuaCreatureObject::subtractBankCredits},
-		{ "addCashCredits", &LuaCreatureObject::addCashCredits},
-		{ "addBankCredits", &LuaCreatureObject::addBankCredits},
-		{ "removeScreenPlayState", &LuaCreatureObject::removeScreenPlayState},
-		{ "isGrouped", &LuaCreatureObject::isGrouped},
-		{ "isGroupedWith", &LuaCreatureObject::isGroupedWith},
-		{ "getGroupSize", &LuaCreatureObject::getGroupSize},
-		{ "getGroupMember", &LuaCreatureObject::getGroupMember},
-		{ "getOptionsBitmask", &LuaTangibleObject::getOptionsBitmask},
-		{ "setOptionsBitmask", &LuaCreatureObject::setOptionsBitmask},
-		{ "setOptionBit", &LuaTangibleObject::setOptionBit},
-		{ "clearOptionBit", &LuaTangibleObject::clearOptionBit},
-		{ "getPvpStatusBitmask", &LuaTangibleObject::getPvpStatusBitmask},
-		{ "setPvpStatusBitmask", &LuaTangibleObject::setPvpStatusBitmask},
-		{ "setPvpStatusBit", &LuaTangibleObject::setPvpStatusBit},
-		{ "isChangingFactionStatus", &LuaTangibleObject::isChangingFactionStatus },
-		{ "getFactionStatus", &LuaTangibleObject::getFactionStatus },
-		{ "setFutureFactionStatus", &LuaTangibleObject::setFutureFactionStatus },
-		{ "addDotState", &LuaCreatureObject::addDotState},
-		{ "getSlottedObject", &LuaSceneObject::getSlottedObject},
-		{ "checkCooldownRecovery", &LuaCreatureObject::checkCooldownRecovery},
-		{ "addCooldown", &LuaCreatureObject::addCooldown},
-		{ "isDead", &LuaCreatureObject::isDead},
-		{ "isIncapacitated", &LuaCreatureObject::isIncapacitated },
-		{ "getLevel", &LuaCreatureObject::getLevel},
-		{ "getQueueSize", &LuaCreatureObject::getQueueSize },
-		{ "isDancing", &LuaCreatureObject::isDancing},
-		{ "isPlayingMusic", &LuaCreatureObject::isPlayingMusic},
-		{ "getPerformanceName", &LuaCreatureObject::getPerformanceName},
-		{ "getWalkSpeed", &LuaCreatureObject::getWalkSpeed },
-		{ "isAttackableBy", &LuaCreatureObject::isAttackableBy },
-		{ "getSpecies", &LuaCreatureObject::getSpecies },
-		{ "isDroidPet", &LuaCreatureObject::isDroidPet },
-		{ "isCombatDroidPet", &LuaCreatureObject::isCombatDroidPet },
-		{ "awardExperience", &LuaCreatureObject::awardExperience },
-		{ "getOwner", &LuaCreatureObject::getOwner },
-		{ "getCurrentSpeed", &LuaCreatureObject::getCurrentSpeed },
-		{ "isInvisible", &LuaTangibleObject::isInvisible },
-		{ "isInCombat", &LuaCreatureObject::isInCombat },
-		{ "healDamage", &LuaCreatureObject::healDamage },
-		{ "getGroupID", &LuaCreatureObject::getGroupID },
-		{ "enhanceCharacter", &LuaCreatureObject::enhanceCharacter },
-		{ "setWounds", &LuaCreatureObject::setWounds },
-		{ "setShockWounds", &LuaCreatureObject::setShockWounds },
-		{ "getForceSensitiveSkillCount", &LuaCreatureObject::getForceSensitiveSkillCount },
-		{ "villageKnightPrereqsMet", &LuaCreatureObject::villageKnightPrereqsMet },
-		{ "isOnLeave", &LuaTangibleObject::isOnLeave },
-		{ "isOvert", &LuaTangibleObject::isOvert },
-		{ "isCovert", &LuaTangibleObject::isCovert },
-		{ "setFactionStatus", &LuaTangibleObject::setFactionStatus },
-		{ "getDamageDealerList", &LuaCreatureObject::getDamageDealerList },
-		{ "getHealingThreatList", &LuaCreatureObject::getHealingThreatList },
-		{ "getAllThreatsList", &LuaCreatureObject::getAllThreatsList },
-		{ "dropFromThreatMap", &LuaCreatureObject::dropFromThreatMap },
-		{ "getSkillMod", &LuaCreatureObject::getSkillMod },
-		{ "getGender", &LuaCreatureObject::getGender },
-		{ "isRidingMount", &LuaCreatureObject::isRidingMount },
-		{ "dismount", &LuaCreatureObject::dismount },
-		{ "setAppearance", &LuaCreatureObject::setAppearance },
-		{ "getMainDefender", &LuaTangibleObject::getMainDefender },
-		{ "getWeaponType", &LuaCreatureObject::getWeaponType },
-		{ 0, 0 }
-};
+Luna<LuaCreatureObject>::RegType LuaCreatureObject::Register[] = {{"_setObject", &LuaCreatureObject::_setObject},
+																  {"_getObject", &LuaSceneObject::_getObject},
+																  {"sendSystemMessage", &LuaCreatureObject::sendSystemMessage},
+																  {"sendSystemMessageWithDI", &LuaCreatureObject::sendSystemMessageWithDI},
+																  {"sendSystemMessageWithTO", &LuaCreatureObject::sendSystemMessageWithTO},
+																  {"sendGroupMessage", &LuaCreatureObject::sendGroupMessage},
+																  {"playMusicMessage", &LuaCreatureObject::playMusicMessage},
+																  {"sendNewbieTutorialRequest", &LuaCreatureObject::sendNewbieTutorialRequest},
+																  {"hasScreenPlayState", &LuaCreatureObject::hasScreenPlayState},
+																  {"setScreenPlayState", &LuaCreatureObject::setScreenPlayState},
+																  {"getScreenPlayState", &LuaCreatureObject::getScreenPlayState},
+																  {"playEffect", &LuaSceneObject::playEffect},
+																  {"sendNewbieTutorialEnableHudElement", &LuaCreatureObject::sendNewbieTutorialEnableHudElement},
+																  {"getInCellNumber", &LuaCreatureObject::getInCellNumber},
+																  {"getBuildingParentID", &LuaCreatureObject::getBuildingParentID},
+																  {"sendOpenHolocronToPageMessage", &LuaCreatureObject::sendOpenHolocronToPageMessage},
+																  {"inflictDamage", &LuaCreatureObject::inflictDamage},
+																  {"setHAM", &LuaCreatureObject::setHAM},
+																  {"setBaseHAM", &LuaCreatureObject::setBaseHAM},
+																  {"setMaxHAM", &LuaCreatureObject::setMaxHAM},
+																  {"getHAM", &LuaCreatureObject::getHAM},
+																  {"getBaseHAM", &LuaCreatureObject::getBaseHAM},
+																  {"getMaxHAM", &LuaCreatureObject::getMaxHAM},
+																  {"getTargetID", &LuaCreatureObject::getTargetID},
+																  {"clearCombatState", &LuaCreatureObject::clearCombatState},
+																  {"getParent", &LuaSceneObject::getParent},
+																  {"getZoneName", &LuaSceneObject::getZoneName},
+																  {"getObjectID", &LuaSceneObject::getObjectID},
+																  {"getPositionX", &LuaSceneObject::getPositionX},
+																  {"getPositionY", &LuaSceneObject::getPositionY},
+																  {"getPositionZ", &LuaSceneObject::getPositionZ},
+																  {"getDirectionAngle", &LuaSceneObject::getDirectionAngle},
+																  {"getWorldPositionX", &LuaSceneObject::getWorldPositionX},
+																  {"getWorldPositionY", &LuaSceneObject::getWorldPositionY},
+																  {"getWorldPositionZ", &LuaSceneObject::getWorldPositionZ},
+																  {"getParentID", &LuaSceneObject::getParentID},
+																  {"isInRangeWithObject", &LuaSceneObject::isInRangeWithObject},
+																  {"getDistanceTo", &LuaSceneObject::getDistanceTo},
+																  {"getServerObjectCRC", &LuaSceneObject::getServerObjectCRC},
+																  {"isFeigningDeath", &LuaCreatureObject::isFeigningDeath},
+																  {"hasState", &LuaCreatureObject::hasState},
+																  {"setState", &LuaCreatureObject::setState},
+																  {"setLootRights", &LuaCreatureObject::setLootRights},
+																  {"getPosture", &LuaCreatureObject::getPosture},
+																  {"setPosture", &LuaCreatureObject::setPosture},
+																  {"setMoodString", &LuaCreatureObject::setMoodString},
+																  {"getMoodString", &LuaCreatureObject::getMoodString},
+																  {"hasSkill", &LuaCreatureObject::hasSkill},
+																  {"removeSkill", &LuaCreatureObject::removeSkill},
+																  {"surrenderSkill", &LuaCreatureObject::surrenderSkill},
+																  {"getConversationSession", &LuaCreatureObject::getConversationSession},
+																  {"doAnimation", &LuaCreatureObject::doAnimation},
+																  {"engageCombat", &LuaCreatureObject::engageCombat},
+																  {"getPlayerObject", &LuaCreatureObject::getPlayerObject},
+																  {"setCustomObjectName", &LuaSceneObject::setCustomObjectName},
+																  {"getFaction", &LuaCreatureObject::getFaction},
+																  {"setFaction", &LuaCreatureObject::setFaction},
+																  {"isRebel", &LuaCreatureObject::isRebel},
+																  {"isImperial", &LuaCreatureObject::isImperial},
+																  {"isNeutral", &LuaCreatureObject::isNeutral},
+																  {"teleport", &LuaSceneObject::teleport},
+																  {"getFirstName", &LuaCreatureObject::getFirstName},
+																  {"getLastName", &LuaCreatureObject::getLastName},
+																  {"setLastName", &LuaCreatureObject::setLastName},
+																  {"isAiAgent", &LuaCreatureObject::isAiAgent},
+																  {"setFactionRank", &LuaCreatureObject::setFactionRank},
+																  {"getFactionRank", &LuaCreatureObject::getFactionRank},
+																  {"getCashCredits", &LuaCreatureObject::getCashCredits},
+																  {"getBankCredits", &LuaCreatureObject::getBankCredits},
+																  {"subtractCashCredits", &LuaCreatureObject::subtractCashCredits},
+																  {"subtractBankCredits", &LuaCreatureObject::subtractBankCredits},
+																  {"addCashCredits", &LuaCreatureObject::addCashCredits},
+																  {"addBankCredits", &LuaCreatureObject::addBankCredits},
+																  {"removeScreenPlayState", &LuaCreatureObject::removeScreenPlayState},
+																  {"isGrouped", &LuaCreatureObject::isGrouped},
+																  {"isGroupedWith", &LuaCreatureObject::isGroupedWith},
+																  {"getGroupSize", &LuaCreatureObject::getGroupSize},
+																  {"getGroupMember", &LuaCreatureObject::getGroupMember},
+																  {"getOptionsBitmask", &LuaTangibleObject::getOptionsBitmask},
+																  {"setOptionsBitmask", &LuaCreatureObject::setOptionsBitmask},
+																  {"setOptionBit", &LuaTangibleObject::setOptionBit},
+																  {"clearOptionBit", &LuaTangibleObject::clearOptionBit},
+																  {"getPvpStatusBitmask", &LuaTangibleObject::getPvpStatusBitmask},
+																  {"setPvpStatusBitmask", &LuaTangibleObject::setPvpStatusBitmask},
+																  {"setPvpStatusBit", &LuaTangibleObject::setPvpStatusBit},
+																  {"isChangingFactionStatus", &LuaTangibleObject::isChangingFactionStatus},
+																  {"getFactionStatus", &LuaTangibleObject::getFactionStatus},
+																  {"setFutureFactionStatus", &LuaTangibleObject::setFutureFactionStatus},
+																  {"addDotState", &LuaCreatureObject::addDotState},
+																  {"getSlottedObject", &LuaSceneObject::getSlottedObject},
+																  {"checkCooldownRecovery", &LuaCreatureObject::checkCooldownRecovery},
+																  {"addCooldown", &LuaCreatureObject::addCooldown},
+																  {"isDead", &LuaCreatureObject::isDead},
+																  {"isIncapacitated", &LuaCreatureObject::isIncapacitated},
+																  {"getLevel", &LuaCreatureObject::getLevel},
+																  {"getQueueSize", &LuaCreatureObject::getQueueSize},
+																  {"isDancing", &LuaCreatureObject::isDancing},
+																  {"isPlayingMusic", &LuaCreatureObject::isPlayingMusic},
+																  {"getPerformanceName", &LuaCreatureObject::getPerformanceName},
+																  {"getWalkSpeed", &LuaCreatureObject::getWalkSpeed},
+																  {"isAttackableBy", &LuaCreatureObject::isAttackableBy},
+																  {"getSpecies", &LuaCreatureObject::getSpecies},
+																  {"isDroidPet", &LuaCreatureObject::isDroidPet},
+																  {"isCombatDroidPet", &LuaCreatureObject::isCombatDroidPet},
+																  {"awardExperience", &LuaCreatureObject::awardExperience},
+																  {"getOwner", &LuaCreatureObject::getOwner},
+																  {"getCurrentSpeed", &LuaCreatureObject::getCurrentSpeed},
+																  {"isInvisible", &LuaTangibleObject::isInvisible},
+																  {"isInCombat", &LuaCreatureObject::isInCombat},
+																  {"healDamage", &LuaCreatureObject::healDamage},
+																  {"getGroupID", &LuaCreatureObject::getGroupID},
+																  {"enhanceCharacter", &LuaCreatureObject::enhanceCharacter},
+																  {"setWounds", &LuaCreatureObject::setWounds},
+																  {"setShockWounds", &LuaCreatureObject::setShockWounds},
+																  {"getForceSensitiveSkillCount", &LuaCreatureObject::getForceSensitiveSkillCount},
+																  {"villageKnightPrereqsMet", &LuaCreatureObject::villageKnightPrereqsMet},
+																  {"isOnLeave", &LuaTangibleObject::isOnLeave},
+																  {"isOvert", &LuaTangibleObject::isOvert},
+																  {"isCovert", &LuaTangibleObject::isCovert},
+																  {"setFactionStatus", &LuaTangibleObject::setFactionStatus},
+																  {"getDamageDealerList", &LuaCreatureObject::getDamageDealerList},
+																  {"getHealingThreatList", &LuaCreatureObject::getHealingThreatList},
+																  {"getAllThreatsList", &LuaCreatureObject::getAllThreatsList},
+																  {"dropFromThreatMap", &LuaCreatureObject::dropFromThreatMap},
+																  {"getSkillMod", &LuaCreatureObject::getSkillMod},
+																  {"getGender", &LuaCreatureObject::getGender},
+																  {"isRidingMount", &LuaCreatureObject::isRidingMount},
+																  {"dismount", &LuaCreatureObject::dismount},
+																  {"setAppearance", &LuaCreatureObject::setAppearance},
+																  {"getMainDefender", &LuaTangibleObject::getMainDefender},
+																  {"getWeaponType", &LuaCreatureObject::getWeaponType},
+																  {0, 0}};
 
-LuaCreatureObject::LuaCreatureObject(lua_State *L) : LuaTangibleObject(L) {
+LuaCreatureObject::LuaCreatureObject(lua_State* L) : LuaTangibleObject(L) {
 #ifdef DYNAMIC_CAST_LUAOBJECTS
 	realObject = dynamic_cast<CreatureObject*>(_getRealSceneObject());
 
@@ -167,7 +165,7 @@ LuaCreatureObject::LuaCreatureObject(lua_State *L) : LuaTangibleObject(L) {
 #endif
 }
 
-LuaCreatureObject::~LuaCreatureObject(){
+LuaCreatureObject::~LuaCreatureObject() {
 }
 
 int LuaCreatureObject::_setObject(lua_State* L) {
@@ -231,7 +229,7 @@ int LuaCreatureObject::setLastName(lua_State* L) {
 }
 
 int LuaCreatureObject::addDotState(lua_State* L) {
-	//addDotState(unsigned long dotType, unsigned int strength, byte type, unsigned int duration, float potency, unsigned int defense)
+	// addDotState(unsigned long dotType, unsigned int strength, byte type, unsigned int duration, float potency, unsigned int defense)
 	uint32 defense = lua_tointeger(L, -1);
 	uint32 objectID = lua_tointeger(L, -2);
 	float potency = lua_tonumber(L, -3);
@@ -254,14 +252,14 @@ int LuaCreatureObject::isFeigningDeath(lua_State* L) {
 }
 
 int LuaCreatureObject::hasState(lua_State* L) {
-	uint32 state = (uint32) lua_tonumber(L, -1);
+	uint32 state = (uint32)lua_tonumber(L, -1);
 
 	lua_pushnumber(L, realObject->hasState(state));
 	return 1;
 }
 
 int LuaCreatureObject::setState(lua_State* L) {
-	uint32 state = (uint32) lua_tonumber(L, -1);
+	uint32 state = (uint32)lua_tonumber(L, -1);
 
 	Locker locker(realObject);
 
@@ -277,7 +275,7 @@ int LuaCreatureObject::getPosture(lua_State* L) {
 }
 
 int LuaCreatureObject::setPosture(lua_State* L) {
-	uint32 posture = (uint32) lua_tonumber(L, -1);
+	uint32 posture = (uint32)lua_tonumber(L, -1);
 
 	Locker locker(realObject);
 
@@ -325,7 +323,7 @@ int LuaCreatureObject::sendSystemMessage(lua_State* L) {
 
 int LuaCreatureObject::sendSystemMessageWithDI(lua_State* L) {
 	String text = lua_tostring(L, -2);
-	uint32 value = (uint32) lua_tonumber(L, -1);
+	uint32 value = (uint32)lua_tonumber(L, -1);
 
 	StringIdChatParameter param(text);
 	param.setDI(value);
@@ -377,8 +375,8 @@ int LuaCreatureObject::sendGroupMessage(lua_State* L) {
 }
 
 int LuaCreatureObject::setHAM(lua_State* L) {
-	uint32 type = (uint32) lua_tonumber(L, -2);
-	uint32 value = (uint32) lua_tonumber(L, -1);
+	uint32 type = (uint32)lua_tonumber(L, -2);
+	uint32 value = (uint32)lua_tonumber(L, -1);
 
 	Locker locker(realObject);
 
@@ -388,8 +386,8 @@ int LuaCreatureObject::setHAM(lua_State* L) {
 }
 
 int LuaCreatureObject::setBaseHAM(lua_State* L) {
-	uint32 type = (uint32) lua_tonumber(L, -2);
-	uint32 value = (uint32) lua_tonumber(L, -1);
+	uint32 type = (uint32)lua_tonumber(L, -2);
+	uint32 value = (uint32)lua_tonumber(L, -1);
 
 	Locker locker(realObject);
 
@@ -399,8 +397,8 @@ int LuaCreatureObject::setBaseHAM(lua_State* L) {
 }
 
 int LuaCreatureObject::setMaxHAM(lua_State* L) {
-	uint32 type = (uint32) lua_tonumber(L, -2);
-	uint32 value = (uint32) lua_tonumber(L, -1);
+	uint32 type = (uint32)lua_tonumber(L, -2);
+	uint32 value = (uint32)lua_tonumber(L, -1);
 
 	Locker locker(realObject);
 
@@ -409,21 +407,21 @@ int LuaCreatureObject::setMaxHAM(lua_State* L) {
 	return 0;
 }
 
-int LuaCreatureObject::playMusicMessage(lua_State *L) {
+int LuaCreatureObject::playMusicMessage(lua_State* L) {
 	String value = lua_tostring(L, -1);
 	realObject->playMusicMessage(value);
 
 	return 0;
 }
 
-int LuaCreatureObject::sendNewbieTutorialRequest(lua_State *L) {
+int LuaCreatureObject::sendNewbieTutorialRequest(lua_State* L) {
 	String value = lua_tostring(L, -1);
 	realObject->sendNewbieTutorialRequest(value);
 
 	return 0;
 }
 
-int LuaCreatureObject::hasScreenPlayState(lua_State *L) {
+int LuaCreatureObject::hasScreenPlayState(lua_State* L) {
 	String play = lua_tostring(L, -1);
 	uint64 stateToCheck = lua_tointeger(L, -2);
 
@@ -436,7 +434,7 @@ int LuaCreatureObject::hasScreenPlayState(lua_State *L) {
 	return 1;
 }
 
-int LuaCreatureObject::getScreenPlayState(lua_State *L) {
+int LuaCreatureObject::getScreenPlayState(lua_State* L) {
 	String play = lua_tostring(L, -1);
 	uint64 state = realObject->getScreenPlayState(play);
 
@@ -482,7 +480,6 @@ int LuaCreatureObject::surrenderSkill(lua_State* L) {
 	return 0;
 }
 
-
 int LuaCreatureObject::getInCellNumber(lua_State* L) {
 	SceneObject* parent = realObject->getParent().get().get();
 
@@ -508,7 +505,7 @@ int LuaCreatureObject::getBuildingParentID(lua_State* L) {
 	return 1;
 }
 
-int LuaCreatureObject::setScreenPlayState(lua_State *L) {
+int LuaCreatureObject::setScreenPlayState(lua_State* L) {
 	String play = lua_tostring(L, -1);
 	uint64 stateToSet = lua_tointeger(L, -2);
 
@@ -577,12 +574,12 @@ int LuaCreatureObject::getMaxHAM(lua_State* L) {
 }
 
 int LuaCreatureObject::inflictDamage(lua_State* L) {
- //int inflictDamage(TangibleObject attacker, int damageType, int damage, boolean destroy, boolean notifyClient = true);
+	// int inflictDamage(TangibleObject attacker, int damageType, int damage, boolean destroy, boolean notifyClient = true);
 	int destroy = lua_tonumber(L, -1);
 	int damage = lua_tonumber(L, -2);
 	int damageType = lua_tonumber(L, -3);
 
-	SceneObject* scene = (SceneObject*) lua_touserdata(L, -4);
+	SceneObject* scene = (SceneObject*)lua_touserdata(L, -4);
 
 	TangibleObject* attacker = cast<TangibleObject*>(scene);
 
@@ -597,7 +594,7 @@ int LuaCreatureObject::inflictDamage(lua_State* L) {
 	return 0;
 }
 
-int LuaCreatureObject::getBankCredits(lua_State *L) {
+int LuaCreatureObject::getBankCredits(lua_State* L) {
 	lua_pushnumber(L, realObject->getBankCredits());
 
 	return 1; // we return the number of vars pushed to the L stack
@@ -770,7 +767,7 @@ int LuaCreatureObject::isGrouped(lua_State* L) {
 }
 
 int LuaCreatureObject::isGroupedWith(lua_State* L) {
-	CreatureObject* groupMember = (CreatureObject*) lua_touserdata(L, -1);
+	CreatureObject* groupMember = (CreatureObject*)lua_touserdata(L, -1);
 
 	if (realObject == nullptr || groupMember == nullptr || !realObject->isGrouped())
 		return 0;
@@ -783,7 +780,7 @@ int LuaCreatureObject::isGroupedWith(lua_State* L) {
 }
 
 int LuaCreatureObject::setLootRights(lua_State* L) {
-	CreatureObject* player = (CreatureObject*) lua_touserdata(L, -1);
+	CreatureObject* player = (CreatureObject*)lua_touserdata(L, -1);
 
 	if (realObject == nullptr)
 		return 0;
@@ -924,7 +921,7 @@ int LuaCreatureObject::isDancing(lua_State* L) {
 int LuaCreatureObject::isPlayingMusic(lua_State* L) {
 	bool retVal = realObject->isPlayingMusic();
 
-	lua_pushboolean(L,  retVal);
+	lua_pushboolean(L, retVal);
 
 	return 1;
 }
@@ -937,7 +934,7 @@ int LuaCreatureObject::getPerformanceName(lua_State* L) {
 		return 1;
 	}
 
-	ManagedReference<EntertainingSession*> session = dynamic_cast<EntertainingSession*> (facade.get());
+	ManagedReference<EntertainingSession*> session = dynamic_cast<EntertainingSession*>(facade.get());
 
 	if (session == nullptr) {
 		lua_pushnil(L);
@@ -958,7 +955,7 @@ int LuaCreatureObject::getWalkSpeed(lua_State* L) {
 }
 
 int LuaCreatureObject::isAttackableBy(lua_State* L) {
-	TangibleObject* obj = (TangibleObject*) lua_touserdata(L, -1);
+	TangibleObject* obj = (TangibleObject*)lua_touserdata(L, -1);
 
 	bool retVal = realObject->isAttackableBy(obj);
 	lua_pushboolean(L, retVal);
@@ -1036,7 +1033,6 @@ int LuaCreatureObject::healDamage(lua_State* L) {
 }
 
 int LuaCreatureObject::getGroupID(lua_State* L) {
-
 	lua_pushnumber(L, realObject->getGroupID());
 
 	return 1;
@@ -1205,7 +1201,6 @@ int LuaCreatureObject::getSkillMod(lua_State* L) {
 }
 
 int LuaCreatureObject::getGender(lua_State* L) {
-
 	lua_pushnumber(L, realObject->getGender());
 
 	return 1;
@@ -1224,7 +1219,7 @@ int LuaCreatureObject::dismount(lua_State* L) {
 	return 0;
 }
 
-int LuaCreatureObject::setAppearance(lua_State* L){
+int LuaCreatureObject::setAppearance(lua_State* L) {
 	String appearanceString = lua_tostring(L, -1);
 
 	Locker pLocker(realObject);
@@ -1233,7 +1228,7 @@ int LuaCreatureObject::setAppearance(lua_State* L){
 	if (appearanceString == "") {
 		Zone* zone = realObject->getZone();
 
-		realObject->setAlternateAppearance(appearanceString , true);
+		realObject->setAlternateAppearance(appearanceString, true);
 
 		if (zone != nullptr) {
 			realObject->switchZone(zone->getZoneName(), realObject->getPositionX(), realObject->getPositionZ(), realObject->getPositionY(), realObject->getParentID());

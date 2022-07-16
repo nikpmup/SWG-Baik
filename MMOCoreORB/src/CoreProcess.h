@@ -30,20 +30,19 @@ public:
 	}
 
 	void handleCrash() {
-		//TODO: implement
+		// TODO: implement
 	}
 
 	bool isDeadlocked() {
-		//TODO: implement
+		// TODO: implement
 		return false;
 	}
 
 	void handleDeadlock() {
-		//TODO: implement
+		// TODO: implement
 	}
 };
 
 #endif
 
 #endif /* end of include guard COREPROCESS_H */
-

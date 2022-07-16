@@ -13,7 +13,6 @@
 #include "server/zone/QuadTreeEntry.h"
 
 class VendorZoneComponent : public ZoneComponent {
-
 public:
 	void notifyPositionUpdate(SceneObject* sceneObject, QuadTreeEntry* entry) const {
 		ManagedReference<SceneObject*> target = cast<SceneObject*>(entry);

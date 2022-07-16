@@ -7,14 +7,10 @@
 
 class SetPlayerAppearanceCommand : public QueueCommand {
 public:
-
-	SetPlayerAppearanceCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetPlayerAppearanceCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -85,7 +81,6 @@ public:
 		creature->sendSystemMessage("EXAMPLE: /setPlayerAppearance playerName object/mobile/shared_darth_vader.iff");
 		creature->sendSystemMessage("EXAMPLE RESET: /setPlayerAppearance playerName");
 	}
-
 };
 
-#endif //SETPLAYERAPPEARANCECOMMAND_H_
+#endif // SETPLAYERAPPEARANCECOMMAND_H_

@@ -11,17 +11,15 @@
 #include "templates/SharedIntangibleObjectTemplate.h"
 
 class SharedConstructionContractObjectTemplate : public SharedIntangibleObjectTemplate {
-
 public:
 	SharedConstructionContractObjectTemplate() {
-
 	}
 
 	void readObject(IffStream* iffStream) {
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'SCNC') {
-			//Logger::console.error("expecting SCNC got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SCNC got " + String::hexvalueOf((int)nextType));
 
 			SharedIntangibleObjectTemplate::readObject(iffStream);
 
@@ -45,7 +43,7 @@ public:
 		iffStream->openForm(derv);
 
 		try {
-			//parseFileData(iffStream);
+			// parseFileData(iffStream);
 		} catch (Exception& e) {
 			String msg;
 			msg += "exception caught parsing file data ->";
@@ -64,11 +62,7 @@ public:
 	}
 
 	~SharedConstructionContractObjectTemplate() {
-
 	}
-
-
 };
-
 
 #endif /* SHAREDCONSTRUCTIONCONTRACTOBJECTTEMPLATE_H_ */

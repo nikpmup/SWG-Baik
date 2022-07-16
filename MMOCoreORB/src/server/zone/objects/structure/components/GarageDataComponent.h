@@ -14,11 +14,9 @@ protected:
 
 public:
 	GarageDataComponent() {
-
 	}
 
 	~GarageDataComponent() {
-
 	}
 
 	bool hasNotifiedPlayer(const uint64 oid) {

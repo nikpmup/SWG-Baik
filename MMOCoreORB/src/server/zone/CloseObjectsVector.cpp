@@ -12,12 +12,12 @@ CloseObjectsVector::CloseObjectsVector() : messageReceivers() {
 	messageReceivers.setNoDuplicateInsertPlan();
 }
 
-void CloseObjectsVector::safeCopyTo(Vector<ManagedReference<QuadTreeEntry*> >& vec) const {
+void CloseObjectsVector::safeCopyTo(Vector<ManagedReference<QuadTreeEntry*>>& vec) const {
 	vec.removeAll(size(), size() / 2);
 
 	ReadLocker locker(&mutex);
 
-	//vec.addAll(*this);
+	// vec.addAll(*this);
 	for (int i = 0; i < objects.size(); ++i) {
 		const auto& obj = objects.getUnsafe(i);
 
@@ -25,10 +25,10 @@ void CloseObjectsVector::safeCopyTo(Vector<ManagedReference<QuadTreeEntry*> >& v
 	}
 }
 
-SortedVector<ManagedReference<QuadTreeEntry*> > CloseObjectsVector::getSafeCopy() const {
+SortedVector<ManagedReference<QuadTreeEntry*>> CloseObjectsVector::getSafeCopy() const {
 	ReadLocker locker(&mutex);
 
-	SortedVector<ManagedReference<QuadTreeEntry*> > copy;
+	SortedVector<ManagedReference<QuadTreeEntry*>> copy;
 
 	for (int i = 0; i < objects.size(); ++i) {
 		const auto& obj = objects.getUnsafe(i);
@@ -139,7 +139,7 @@ void CloseObjectsVector::safeRunForEach(const Function<void(QuadTreeEntry* const
 	}
 }
 
-void CloseObjectsVector::safeCopyReceiversTo(Vector<ManagedReference<QuadTreeEntry*> >& vec, uint32 receiverType) const {
+void CloseObjectsVector::safeCopyReceiversTo(Vector<ManagedReference<QuadTreeEntry*>>& vec, uint32 receiverType) const {
 	ReadLocker locker(&mutex);
 
 	int i = messageReceivers.find(receiverType);
@@ -165,7 +165,7 @@ void CloseObjectsVector::safeAppendReceiversTo(Vector<QuadTreeEntry*>& vec, uint
 	}
 }
 
-void CloseObjectsVector::safeAppendReceiversTo(Vector<ManagedReference<QuadTreeEntry*> >& vec, uint32 receiverType) const {
+void CloseObjectsVector::safeAppendReceiversTo(Vector<ManagedReference<QuadTreeEntry*>>& vec, uint32 receiverType) const {
 	ReadLocker locker(&mutex);
 
 	int i = messageReceivers.find(receiverType);

@@ -7,14 +7,10 @@
 
 class ItemrotateleftCommand : public QueueCommand {
 public:
-
-	ItemrotateleftCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ItemrotateleftCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -25,7 +21,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //ITEMROTATELEFTCOMMAND_H_
+#endif // ITEMROTATELEFTCOMMAND_H_

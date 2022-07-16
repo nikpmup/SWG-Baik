@@ -14,7 +14,6 @@ namespace minigames {
 namespace events {
 
 class ForageCleanupEvent : public Task {
-
 public:
 	ForageCleanupEvent(const String& name, ZoneProcessServer* zoneServer);
 
@@ -22,14 +21,13 @@ public:
 
 	String playerName;
 	ManagedReference<ZoneProcessServer*> zoneServer;
-
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace minigames
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::minigames::events;
 

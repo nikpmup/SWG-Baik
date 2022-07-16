@@ -33,12 +33,12 @@ MissionObject* InformantMissionScreenHandler::getBountyMissionObject(CreatureObj
 		}
 	}
 
-	//No relevant mission found.
+	// No relevant mission found.
 	return nullptr;
 }
 
 ConversationScreen* InformantMissionScreenHandler::handleScreen(CreatureObject* conversingPlayer, CreatureObject* conversingNPC, int selectedOption, ConversationScreen* conversationScreen) {
-	//Get informant level.
+	// Get informant level.
 	int informantLevel;
 	if (conversationScreen->getOptionLink(0) == "1") {
 		informantLevel = 1;
@@ -51,45 +51,45 @@ ConversationScreen* InformantMissionScreenHandler::handleScreen(CreatureObject* 
 		return nullptr;
 	}
 
-	//Check if player is bounty hunter.
+	// Check if player is bounty hunter.
 	if (!conversingPlayer->hasSkill("combat_bountyhunter_novice")) {
 		conversationScreen->setDialogText(String("@mission/mission_generic:informant_not_bounty_hunter"));
 	} else {
-		//Get bounty mission object if it exists.
+		// Get bounty mission object if it exists.
 		MissionObject* mission = getBountyMissionObject(conversingPlayer);
 
 		if (mission == nullptr) {
-			//Player has no bounty mission.
+			// Player has no bounty mission.
 			conversationScreen->setDialogText(String("@mission/mission_generic:informant_no_bounty_mission"));
 		} else {
-			//Check mission level.
+			// Check mission level.
 			if (mission->getMissionLevel() < informantLevel) {
-				//Incorrect informant level.
+				// Incorrect informant level.
 				conversationScreen->setDialogText(String("@mission/mission_bounty_informant:informant_find_easier"));
 			} else if (mission->getMissionLevel() > informantLevel) {
-				//Incorrect informant level.
+				// Incorrect informant level.
 				conversationScreen->setDialogText(String("@mission/mission_bounty_informant:informant_find_harder"));
 			} else {
-				//Player has bounty mission.
+				// Player has bounty mission.
 				BountyMissionObjective* objective = cast<BountyMissionObjective*>(mission->getMissionObjective());
 				if (objective != nullptr) {
-					//Run mission logic.
+					// Run mission logic.
 					if (objective->getObjectiveStatus() == BountyMissionObjective::INITSTATUS) {
 						objective->updateMissionStatus(informantLevel);
 						if (objective->getObjectiveStatus() == BountyMissionObjective::HASBIOSIGNATURESTATUS) {
-							//Player received info about target position.
+							// Player received info about target position.
 							int randomStringValue = System::random(4) + 1;
 							conversationScreen->setDialogText("@mission/mission_bounty_informant:target_easy_" + String::valueOf(randomStringValue));
 						} else {
-							//Should never happen.
+							// Should never happen.
 							error("Bounty mission update failed.");
 						}
 					} else {
-						//Player has already got the target position.
+						// Player has already got the target position.
 						conversationScreen->setDialogText(String("@mission/mission_generic:informant_no_bounty_mission"));
 					}
 				} else {
-					//Player has already got the target position.
+					// Player has already got the target position.
 					conversationScreen->setDialogText(String("@mission/mission_generic:informant_no_bounty_mission"));
 				}
 			}

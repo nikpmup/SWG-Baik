@@ -13,23 +13,23 @@ class SceneObjectCreateMessage : public BaseMessage {
 public:
 	SceneObjectCreateMessage(const SceneObject* scno) : BaseMessage() {
 		insertShort(0x05);
-		insertInt(0xFE89DDEA);  // CRC
-		insertLong(const_cast<SceneObject*>(scno)->getObjectID());  // ObjectID
+		insertInt(0xFE89DDEA);									   // CRC
+		insertLong(const_cast<SceneObject*>(scno)->getObjectID()); // ObjectID
 		insertFloat(scno->getDirectionX());
 		insertFloat(scno->getDirectionY());
 		insertFloat(scno->getDirectionZ());
 		insertFloat(scno->getDirectionW());
-/*
-		insertFloat(0);
-		insertFloat(0);
-		insertFloat(0);
-		insertFloat(1);
-*/
+		/*
+				insertFloat(0);
+				insertFloat(0);
+				insertFloat(0);
+				insertFloat(1);
+		*/
 		insertFloat(scno->getPositionX());
 		insertFloat(scno->getPositionZ());
-		//scno->info("sending z = " + String::valueOf(scno->getPositionZ()), true);
+		// scno->info("sending z = " + String::valueOf(scno->getPositionZ()), true);
 		insertFloat(scno->getPositionY());
-		insertInt(scno->getClientObjectCRC());  // ObjectCRC
+		insertInt(scno->getClientObjectCRC()); // ObjectCRC
 		insertByte(0);
 
 		setCompression(true);
@@ -37,8 +37,8 @@ public:
 
 	SceneObjectCreateMessage(uint64 oid, uint32 objCrc) : BaseMessage() {
 		insertShort(0x05);
-		insertInt(0xFE89DDEA);  // CRC
-		insertLong(oid);  // ObjectID
+		insertInt(0xFE89DDEA); // CRC
+		insertLong(oid);	   // ObjectID
 		insertFloat(0);
 		insertFloat(0);
 		insertFloat(0);
@@ -46,7 +46,7 @@ public:
 		insertFloat(0);
 		insertFloat(0);
 		insertFloat(0);
-		insertInt(objCrc);  // ObjectCRC
+		insertInt(objCrc); // ObjectCRC
 		insertByte(0x00);
 
 		setCompression(true);

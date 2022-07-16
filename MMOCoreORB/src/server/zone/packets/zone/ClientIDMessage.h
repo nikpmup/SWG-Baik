@@ -13,13 +13,11 @@ public:
 		insertShort(0x03);
 		insertInt(0xD5899226);
 
-		insertInt(0); // unk
-		insertInt(0); // dataLen
+		insertInt(0);		// unk
+		insertInt(0);		// dataLen
 		insertInt(session); // session key
 		insertInt(accid);
 	}
-
 };
-
 
 #endif /*CLIENTIDMESSAGE_H_*/

@@ -19,23 +19,21 @@ public:
 	}
 
 	~CamoKitTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
 		SharedTangibleObjectTemplate::readObject(templateData);
 
 		effectiveZone = templateData->getStringField("effectiveZone");
-}
+	}
 
 	inline String& getEffectiveZone() {
 		return effectiveZone;
 	}
 
-    bool isCamoKitTemplate() {
-    	return true;
-    }
-
+	bool isCamoKitTemplate() {
+		return true;
+	}
 };
 
 #endif /* CAMOKITTEMPLATE_H_ */

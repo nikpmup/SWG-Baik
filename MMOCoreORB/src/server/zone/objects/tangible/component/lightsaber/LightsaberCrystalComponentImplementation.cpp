@@ -357,7 +357,7 @@ int LightsaberCrystalComponentImplementation::handleObjectMenuSelect(CreatureObj
 	}
 
 	PlayerObject* ghost = player->getPlayerObject();
-	if (ghost != nullptr && ghost->isPrivileged()){
+	if (ghost != nullptr && ghost->isPrivileged()) {
 		if (selectedID == 130 && getColor() == 31) {
 			generateCrystalStats();
 		} else if (selectedID == 131 && ownerID != 0) {
@@ -402,7 +402,7 @@ bool LightsaberCrystalComponentImplementation::hasPlayerAsParent(CreatureObject*
 }
 
 void LightsaberCrystalComponentImplementation::tuneCrystal(CreatureObject* player) {
-	if(!player->hasSkill("force_title_jedi_rank_01") || !hasPlayerAsParent(player)) {
+	if (!player->hasSkill("force_title_jedi_rank_01") || !hasPlayerAsParent(player)) {
 		return;
 	}
 
@@ -443,7 +443,7 @@ void LightsaberCrystalComponentImplementation::tuneCrystal(CreatureObject* playe
 	}
 }
 
-void LightsaberCrystalComponentImplementation::updateCrystal(int value){
+void LightsaberCrystalComponentImplementation::updateCrystal(int value) {
 	byte type = 0x02;
 	setCustomizationVariable(type, value, true);
 }
@@ -496,7 +496,7 @@ int LightsaberCrystalComponentImplementation::inflictDamage(TangibleObject* atta
 					ManagedReference<CreatureObject*> parent = cast<CreatureObject*>(weapon->getParent().get().get());
 					ManagedReference<SceneObject*> inventory = parent->getSlottedObject("inventory");
 					inventory->transferObject(weapon, -1, true, true);
-					parent->sendSystemMessage("@jedi_spam:lightsaber_no_color"); //That lightsaber can not be used until it has a color-modifying Force crystal installed.
+					parent->sendSystemMessage("@jedi_spam:lightsaber_no_color"); // That lightsaber can not be used until it has a color-modifying Force crystal installed.
 				}
 			}
 		}

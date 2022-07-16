@@ -30,5 +30,4 @@ public:
 	 * @param object object that has been inserted
 	 */
 	int notifyObjectRemoved(SceneObject* sceneObject, SceneObject* object, SceneObject* destination) const;
-
 };

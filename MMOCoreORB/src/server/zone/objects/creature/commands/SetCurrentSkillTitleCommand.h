@@ -7,14 +7,10 @@
 
 class SetCurrentSkillTitleCommand : public QueueCommand {
 public:
-
-	SetCurrentSkillTitleCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetCurrentSkillTitleCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -35,7 +31,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETCURRENTSKILLTITLECOMMAND_H_
+#endif // SETCURRENTSKILLTITLECOMMAND_H_

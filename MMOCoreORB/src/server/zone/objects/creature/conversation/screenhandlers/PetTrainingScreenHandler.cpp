@@ -28,18 +28,17 @@ const String PetTrainingScreenHandler::PETGROUPCOMMAND = "pet_group_command";
 const String PetTrainingScreenHandler::PETRELEASECOMMAND = "pet_release_command";
 
 ConversationScreen* PetTrainingScreenHandler::handleScreen(CreatureObject* conversingPlayer, CreatureObject* conversingNPC, int selectedOption, ConversationScreen* conversationScreen) {
-
 	ManagedReference<PetControlDevice*> controller = conversingNPC->getControlDevice().get().castTo<PetControlDevice*>();
 	if (controller == nullptr) {
 		return nullptr;
 	}
 
 	if (conversationScreen->getScreenID() == "convoscreenpetinfo") {
-		if(conversingNPC->isDroidObject()) {
+		if (conversingNPC->isDroidObject()) {
 			// we can technically just re-add the 4 options from base hireling
 			DroidObject* droid = cast<DroidObject*>(conversingNPC);
 			if (droid->getModule("repair_module") != nullptr) {
-				conversationScreen->addOption("@hireling/hireling:menu_repair_other","pet_repair_command");
+				conversationScreen->addOption("@hireling/hireling:menu_repair_other", "pet_repair_command");
 			}
 		}
 	}
@@ -116,7 +115,6 @@ ConversationScreen* PetTrainingScreenHandler::handleScreen(CreatureObject* conve
 		}
 		return nullptr;
 	}
-
 
 	return conversationScreen;
 }

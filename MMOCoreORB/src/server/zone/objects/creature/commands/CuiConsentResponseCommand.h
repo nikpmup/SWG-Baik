@@ -7,25 +7,20 @@
 
 class CuiConsentResponseCommand : public QueueCommand {
 public:
-
-	CuiConsentResponseCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CuiConsentResponseCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
+		// if (!checkStateMask(creature))
+		// return INVALIDSTATE;
 
-		//if (!checkStateMask(creature))
-			//return INVALIDSTATE;
-
-		//if (!checkInvalidLocomotions(creature))
-			//return INVALIDLOCOMOTION;
+		// if (!checkInvalidLocomotions(creature))
+		// return INVALIDLOCOMOTION;
 
 		error("CuiConsentResponseCommand got called!!!!!!!!!!!!!!!!!!!!");
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CUICONSENTRESPONSECOMMAND_H_
+#endif // CUICONSENTRESPONSECOMMAND_H_

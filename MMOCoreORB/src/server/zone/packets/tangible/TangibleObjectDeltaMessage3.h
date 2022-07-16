@@ -15,8 +15,7 @@ class TangibleObjectDeltaMessage3 : public DeltaMessage {
 	ManagedReference<TangibleObject*> tano;
 
 public:
-	TangibleObjectDeltaMessage3(TangibleObject* ta, uint32 objType = 0x54414E4F)
-	: DeltaMessage(ta->getObjectID(), objType, 3) {
+	TangibleObjectDeltaMessage3(TangibleObject* ta, uint32 objType = 0x54414E4F) : DeltaMessage(ta->getObjectID(), objType, 3) {
 		tano = ta;
 	}
 
@@ -36,7 +35,7 @@ public:
 
 	void updateCustomName(const UnicodeString& name, const UnicodeString& tag = "") {
 		if (tano->isPlayerCreature()) {
-			CreatureObject* player = cast<CreatureObject*>( tano.get());
+			CreatureObject* player = cast<CreatureObject*>(tano.get());
 
 			if (player->getPlayerObject()->hasGodMode() && tag != "") {
 				UnicodeString customName = name + " \\#ffff00[" + tag + "]\\#.";

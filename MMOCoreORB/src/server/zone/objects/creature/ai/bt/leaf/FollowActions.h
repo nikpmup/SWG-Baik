@@ -26,12 +26,10 @@ namespace leaf {
 
 class GetProspectFromThreatMap : public Behavior {
 public:
-	GetProspectFromThreatMap(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	GetProspectFromThreatMap(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
-	GetProspectFromThreatMap(const GetProspectFromThreatMap& a)
-			: Behavior(a) {
+	GetProspectFromThreatMap(const GetProspectFromThreatMap& a) : Behavior(a) {
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
@@ -51,12 +49,10 @@ public:
 
 class GetProspectFromDefenders : public Behavior {
 public:
-	GetProspectFromDefenders(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	GetProspectFromDefenders(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
-	GetProspectFromDefenders(const GetProspectFromDefenders& a)
-			: Behavior(a) {
+	GetProspectFromDefenders(const GetProspectFromDefenders& a) : Behavior(a) {
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
@@ -76,12 +72,10 @@ public:
 
 class GetProspectFromTarget : public Behavior {
 public:
-	GetProspectFromTarget(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	GetProspectFromTarget(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
-	GetProspectFromTarget(const GetProspectFromTarget& a)
-			: Behavior(a) {
+	GetProspectFromTarget(const GetProspectFromTarget& a) : Behavior(a) {
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
@@ -120,12 +114,10 @@ public:
 
 class GetProspectFromCommand : public Behavior {
 public:
-	GetProspectFromCommand(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	GetProspectFromCommand(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
-	GetProspectFromCommand(const GetProspectFromCommand& a)
-			: Behavior(a) {
+	GetProspectFromCommand(const GetProspectFromCommand& a) : Behavior(a) {
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
@@ -152,12 +144,10 @@ public:
 
 class RestoreFollow : public Behavior {
 public:
-	RestoreFollow(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	RestoreFollow(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
-	RestoreFollow(const RestoreFollow& a)
-			: Behavior(a) {
+	RestoreFollow(const RestoreFollow& a) : Behavior(a) {
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
@@ -168,19 +158,17 @@ public:
 
 class DropProspectFromDefenders : public Behavior {
 public:
-	DropProspectFromDefenders(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	DropProspectFromDefenders(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
-	DropProspectFromDefenders(const DropProspectFromDefenders& a)
-			: Behavior(a) {
+	DropProspectFromDefenders(const DropProspectFromDefenders& a) : Behavior(a) {
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
 		if (!agent->peekBlackboard("targetProspect"))
 			return SUCCESS;
 
-		ManagedReference<SceneObject*> tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		ManagedReference<SceneObject*> tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 		if (tar == nullptr) {
 			agent->eraseBlackboard("targetProspect");
 			return SUCCESS;
@@ -207,7 +195,7 @@ public:
 		if (!agent->peekBlackboard("targetProspect"))
 			return FAILURE;
 
-		ManagedReference<SceneObject*> tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		ManagedReference<SceneObject*> tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 		if (tar == nullptr) {
 			agent->eraseBlackboard("targetProspect");
 			return FAILURE;
@@ -234,7 +222,7 @@ public:
 			return FAILURE;
 		}
 
-		ManagedReference<SceneObject*> tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+		ManagedReference<SceneObject*> tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 		if (tar == nullptr) {
 			agent->eraseBlackboard("targetProspect");
@@ -249,12 +237,10 @@ public:
 
 class UpdateRangeToFollow : public Behavior {
 public:
-	UpdateRangeToFollow(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	UpdateRangeToFollow(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
-	UpdateRangeToFollow(const UpdateRangeToFollow& a)
-			: Behavior(a) {
+	UpdateRangeToFollow(const UpdateRangeToFollow& a) : Behavior(a) {
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
@@ -273,13 +259,11 @@ public:
 
 class SetMovementState : public Behavior {
 public:
-	SetMovementState(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args), state(0) {
+	SetMovementState(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args), state(0) {
 		parseArgs(args);
 	}
 
-	SetMovementState(const SetMovementState& a)
-			: Behavior(a), state(a.state) {
+	SetMovementState(const SetMovementState& a) : Behavior(a), state(a.state) {
 	}
 
 	SetMovementState& operator=(const SetMovementState& a) {
@@ -293,7 +277,7 @@ public:
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
 		ManagedReference<SceneObject*> tar = nullptr;
 		if (agent->peekBlackboard("targetProspect"))
-			tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+			tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 		if (tar == nullptr && !(agent->getCreatureBitmask() & CreatureFlag::FOLLOW) && (state == AiAgent::WATCHING || state == AiAgent::STALKING || state == AiAgent::FOLLOWING)) {
 			agent->setFollowObject(nullptr);
@@ -348,14 +332,13 @@ private:
 
 class CalculateAggroMod : public Behavior {
 public:
-	CalculateAggroMod(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	CalculateAggroMod(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
 	Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const {
 		ManagedReference<SceneObject*> tar = nullptr;
 		if (agent->peekBlackboard("targetProspect"))
-			tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+			tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 		if (tar == nullptr || !tar->isCreatureObject())
 			return FAILURE;
@@ -377,13 +360,11 @@ public:
 
 class RunAway : public Behavior {
 public:
-	RunAway(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args), dist(0.f) {
+	RunAway(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args), dist(0.f) {
 		parseArgs(args);
 	}
 
-	RunAway(const RunAway& b)
-			: Behavior(b), dist(b.dist) {
+	RunAway(const RunAway& b) : Behavior(b), dist(b.dist) {
 	}
 
 	RunAway& operator=(const RunAway& b) {
@@ -401,7 +382,7 @@ public:
 		ManagedReference<SceneObject*> tar = nullptr;
 
 		if (agent->peekBlackboard("targetProspect"))
-			tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+			tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 		if (tar == nullptr || !tar->isCreatureObject())
 			return FAILURE;
@@ -444,13 +425,11 @@ private:
 
 class Evade : public Behavior {
 public:
-	Evade(const String& className, const uint32 id, const LuaObject& args)
-		: Behavior(className, id, args), minEvadeChance(0.015), maxEvadeChance(0.05) {
-			parseArgs(args);
+	Evade(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args), minEvadeChance(0.015), maxEvadeChance(0.05) {
+		parseArgs(args);
 	}
 
-	Evade(const Evade& a)
-			: Behavior(a), minEvadeChance(a.minEvadeChance), maxEvadeChance(a.maxEvadeChance) {
+	Evade(const Evade& a) : Behavior(a), minEvadeChance(a.minEvadeChance), maxEvadeChance(a.maxEvadeChance) {
 	}
 
 	Evade& operator=(const Evade& a) {
@@ -514,7 +493,7 @@ public:
 		ManagedReference<SceneObject*> tar = nullptr;
 
 		if (agent->peekBlackboard("targetProspect"))
-			tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >();
+			tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>();
 
 		if (tar == nullptr || !tar->isCreatureObject())
 			return FAILURE;
@@ -585,7 +564,7 @@ public:
 		return msg.toString();
 	}
 
-	private:
+private:
 	float minEvadeChance;
 	float maxEvadeChance;
 };
@@ -606,7 +585,7 @@ public:
 		ManagedReference<SceneObject*> tar = nullptr;
 
 		if (agent->peekBlackboard("targetProspect"))
-			tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >().get();
+			tar = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>().get();
 
 		if (tar == nullptr)
 			return FAILURE;
@@ -665,7 +644,7 @@ public:
 		ManagedReference<SceneObject*> target = nullptr;
 
 		if (agent->peekBlackboard("targetProspect"))
-			target = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >().get();
+			target = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>().get();
 
 		if (target != nullptr && target->isCreatureObject()) {
 			CreatureObject* targetCreo = target->asCreatureObject();
@@ -700,7 +679,7 @@ public:
 		return msg.toString();
 	}
 
-	private:
+private:
 	int delay;
 };
 
@@ -821,7 +800,7 @@ public:
 		parseArgs(args);
 	}
 
-	GetHealTarget(const GetHealTarget& a) : Behavior(a), range(a.range){
+	GetHealTarget(const GetHealTarget& a) : Behavior(a), range(a.range) {
 	}
 
 	GetHealTarget& operator=(const GetHealTarget& a) {
@@ -836,7 +815,7 @@ public:
 		ManagedReference<SceneObject*> target = nullptr;
 
 		if (agent->peekBlackboard("targetProspect"))
-			target = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*> >().get();
+			target = agent->readBlackboard("targetProspect").get<ManagedReference<SceneObject*>>().get();
 
 		if (target == nullptr || !target->isCreatureObject())
 			return FAILURE;
@@ -889,7 +868,7 @@ public:
 	}
 
 	void parseArgs(const LuaObject& args) {
-		range = (float) (getArg<float>()(args, "range"));
+		range = (float)(getArg<float>()(args, "range"));
 	}
 
 	String print() const {
@@ -974,7 +953,7 @@ public:
 
 			target = zoneServer->getObject(targetID, true);
 		} else {
-			target = agent->readBlackboard("harvestTarget").get<ManagedReference<SceneObject*> >();
+			target = agent->readBlackboard("harvestTarget").get<ManagedReference<SceneObject*>>();
 		}
 
 		if (target == nullptr || !target->isCreature())
@@ -1045,12 +1024,12 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
-}
-}
+} // namespace leaf
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif // FOLLOWACTIONS_H_

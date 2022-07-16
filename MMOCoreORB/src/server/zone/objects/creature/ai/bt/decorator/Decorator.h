@@ -16,12 +16,10 @@ protected:
 	Reference<Behavior*> child;
 
 public:
-	Decorator(const String& className, const uint32 id, const LuaObject& args)
-			: Behavior(className, id, args) {
+	Decorator(const String& className, const uint32 id, const LuaObject& args) : Behavior(className, id, args) {
 	}
 
-	Decorator(const Decorator& b)
-			: Behavior(b) {
+	Decorator(const Decorator& b) : Behavior(b) {
 		child = b.child;
 	}
 
@@ -119,12 +117,12 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
-}
-}
+} // namespace decorator
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif /* DECORATOR_H_ */

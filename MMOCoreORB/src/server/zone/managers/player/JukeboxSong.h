@@ -2,7 +2,6 @@
 #define JUKEBOXSONG_H_
 
 class JukeboxSong : public Object {
-
 protected:
 	String stringId, songFile;
 

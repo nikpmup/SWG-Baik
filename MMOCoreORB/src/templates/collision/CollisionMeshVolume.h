@@ -15,9 +15,13 @@ protected:
 	Vector<Vector3> verts;
 	Vector<unsigned int> indicies;
 	AABB bbox;
+
 public:
-	bool isCollisionMesh() { return true; }
-	CollisionMeshVolume() : bbox(Vector3(0, 0, 0), Vector3(0, 0, 0)){ }
+	bool isCollisionMesh() {
+		return true;
+	}
+	CollisionMeshVolume() : bbox(Vector3(0, 0, 0), Vector3(0, 0, 0)) {
+	}
 	virtual void read(IffStream* iff);
 	const AABB& getBoundingBox() const {
 		return bbox;

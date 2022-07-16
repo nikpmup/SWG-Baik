@@ -28,7 +28,6 @@ public:
 	}
 
 	virtual void executeRule(ProceduralTerrainAppearance* generator) {
-
 	}
 
 	void readObject(engine::util::IffStream* iffStream) {
@@ -41,7 +40,6 @@ public:
 	}
 
 	virtual void parseFromIffStream(engine::util::IffStream* iffStream) = 0;
-
 
 	virtual bool containsPoint(float x, float y) const = 0;
 
@@ -68,4 +66,3 @@ public:
 		return informationHeader.isEnabled();
 	}
 };
-

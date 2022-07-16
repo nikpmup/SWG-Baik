@@ -16,7 +16,6 @@ class PackedVelocity {
 
 public:
 	PackedVelocity() : speed(0) {
-
 	}
 
 	PackedVelocity(const Vector3& vector) {
@@ -37,15 +36,14 @@ public:
 	void set(const Vector3& v) {
 		float const mag = v.length();
 
-		speed = static_cast<int16>(clamp(-512.f, mag, 512.f)*(32767.f / 512.f));
+		speed = static_cast<int16>(clamp(-512.f, mag, 512.f) * (32767.f / 512.f));
 
-		direction.set(mag ? v/mag : Vector3(0, 0, 1));
+		direction.set(mag ? v / mag : Vector3(0, 0, 1));
 	}
 
 	Vector3 get() {
-		return direction.get() * (speed*(512.f / 32767.f));
+		return direction.get() * (speed * (512.f / 32767.f));
 	}
 };
-
 
 #endif /* SRC_SERVER_ZONE_PACKETS_SHIP_PACKEDVELOCITY_H_ */

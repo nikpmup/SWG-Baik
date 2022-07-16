@@ -24,7 +24,7 @@ public:
 		SharedTangibleObjectTemplate::readObject(templateData);
 
 		missionTerminalType = templateData->getStringField("missionTerminalType");
-    }
+	}
 
 	inline String& getMissionTerminalType() {
 		return missionTerminalType;
@@ -34,6 +34,5 @@ public:
 		return true;
 	}
 };
-
 
 #endif /* MISSIONTERMINALTEMPLATE_H_ */

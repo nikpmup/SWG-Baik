@@ -13,8 +13,7 @@
 
 class SelectHarvestSuiCallback : public SuiCallback {
 public:
-	SelectHarvestSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	SelectHarvestSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -30,7 +29,7 @@ public:
 
 		int index = Integer::valueOf(args->get(0).toString());
 
-		SuiListBox* listBox = cast<SuiListBox*>( suiBox);
+		SuiListBox* listBox = cast<SuiListBox*>(suiBox);
 		ManagedReference<SceneObject*> object = suiBox->getUsingObject().get();
 
 		if (object == nullptr) {
@@ -38,21 +37,20 @@ public:
 		}
 
 		DroidObject* droid = cast<DroidObject*>(object.get());
-		if (droid == nullptr){
+		if (droid == nullptr) {
 			return;
 		}
 
 		auto module = droid->getModule("harvest_module").castTo<DroidHarvestModuleDataComponent*>();
 
-		if(module == nullptr) {
+		if (module == nullptr) {
 			return;
 		}
 
-		Locker crosslock(droid,player);
+		Locker crosslock(droid, player);
 
 		module->setHarvestInterest(player, index);
 	}
-
 };
 
 #endif /* SELECTHARVESTSUICALLBACK_H_ */

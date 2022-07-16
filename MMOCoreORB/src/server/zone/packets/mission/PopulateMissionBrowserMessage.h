@@ -16,5 +16,4 @@ public:
 	}
 };
 
-
 #endif /*POPULATEMISSIONBROWSERMESSAGE_H_*/

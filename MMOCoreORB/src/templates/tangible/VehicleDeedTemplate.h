@@ -16,24 +16,20 @@ private:
 
 public:
 	VehicleDeedTemplate() {
-
 	}
 
 	~VehicleDeedTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
 		DeedTemplate::readObject(templateData);
 
 		controlDeviceObjectTemplate = templateData->getStringField("controlDeviceObjectTemplate");
-    }
+	}
 
-	String getControlDeviceObjectTemplate()
-	{
+	String getControlDeviceObjectTemplate() {
 		return controlDeviceObjectTemplate;
 	}
 };
-
 
 #endif /* VEHICLEDEEDTEMPLATE_H_ */

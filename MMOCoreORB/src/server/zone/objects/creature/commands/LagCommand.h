@@ -7,14 +7,10 @@
 
 class LagCommand : public QueueCommand {
 public:
-
-	LagCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	LagCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //LAGCOMMAND_H_
+#endif // LAGCOMMAND_H_

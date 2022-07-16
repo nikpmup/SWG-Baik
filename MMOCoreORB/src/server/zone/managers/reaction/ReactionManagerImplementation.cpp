@@ -24,8 +24,7 @@ void ReactionManagerImplementation::loadLuaConfig() {
 	if (!emoteReactions.isValidTable()) {
 		error("Invalid emoteReactionLevels table.");
 	} else {
-
-		for(int i = 1; i <= emoteReactions.getTableSize(); ++i) {
+		for (int i = 1; i <= emoteReactions.getTableSize(); ++i) {
 			LuaObject entry = emoteReactions.getObjectAt(i);
 
 			String emote = entry.getStringAt(1);
@@ -44,7 +43,7 @@ void ReactionManagerImplementation::loadLuaConfig() {
 	if (!reactionRanks.isValidTable()) {
 		error("Invalid imperialReactionRanks table.");
 	} else {
-		for(int i = 1; i <= reactionRanks.getTableSize(); ++i) {
+		for (int i = 1; i <= reactionRanks.getTableSize(); ++i) {
 			LuaObject entry = reactionRanks.getObjectAt(i);
 
 			String name = entry.getStringAt(1);
@@ -126,7 +125,6 @@ void ReactionManagerImplementation::sendChatReaction(AiAgent* npc, SceneObject* 
 					return;
 				}
 			}
-
 		}
 	}
 
@@ -140,7 +138,7 @@ void ReactionManagerImplementation::sendChatReaction(AiAgent* npc, SceneObject* 
 
 	String typeString;
 
-	switch(type) {
+	switch (type) {
 	case ReactionManager::ALERT:
 		typeString = "alert_";
 		break;
@@ -365,7 +363,6 @@ void ReactionManagerImplementation::reactionFine(CreatureObject* emoteUser, AiAg
 		emoteUser->sendMessage(box->generateMessage());
 
 		ghost->addToReactionFines(reactionFine->getCreditFine());
-
 	}
 }
 
@@ -402,7 +399,6 @@ EmoteReactionFine* ReactionManagerImplementation::getEmoteReactionFine(CreatureO
 		} else if (userFactionRank == targetReactionRank) {
 			rankCompare = 0;
 		}
-
 	}
 
 	for (int i = 0; i < emoteReactionFines.size(); i++) {
@@ -457,9 +453,7 @@ void ReactionManagerImplementation::doKnockdown(CreatureObject* victim, AiAgent*
 	else
 		knockdownAnim = "attack_high_center_light_0";
 
-
 	victim->inflictDamage(attacker, CreatureAttribute::MIND, victim->getHAM(CreatureAttribute::MIND) + 200, true, true, true);
-
 
 	victim->updatePostures(); // set posture, don't send posture message, but send DeltaCreo3
 

@@ -9,14 +9,10 @@
 
 class NewbiehelperCommand : public QueueCommand {
 public:
-
-	NewbiehelperCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	NewbiehelperCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -33,7 +29,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //NEWBIEHELPERCOMMAND_H_
+#endif // NEWBIEHELPERCOMMAND_H_

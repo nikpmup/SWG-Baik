@@ -30,7 +30,6 @@ public:
 	~ShaderFamily() {
 		while (shaderVars.size() > 0)
 			delete shaderVars.remove(0);
-
 	}
 
 	void readObject(IffStream* iffStream) {
@@ -61,6 +60,5 @@ public:
 		iffStream->closeChunk('SFAM');
 	}
 };
-
 
 #endif /* SHADERFAMILY_H_ */

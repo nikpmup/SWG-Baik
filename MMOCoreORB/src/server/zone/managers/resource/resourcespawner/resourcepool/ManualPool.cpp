@@ -16,7 +16,6 @@ ManualPool::ManualPool(ResourceSpawner* spawner) : ResourcePool(spawner) {
 }
 
 ManualPool::~ManualPool() {
-
 }
 
 void ManualPool::addResource(ManagedReference<ResourceSpawn*> resourceSpawn, const String& poolSlot) {
@@ -35,11 +34,9 @@ bool ManualPool::update() {
 	int despawnedCount = 0;
 
 	for (int i = 0; i < includedResources.size(); ++i) {
-
-		ManagedReference<ResourceSpawn* > spawn = includedResources.get(i);
+		ManagedReference<ResourceSpawn*> spawn = includedResources.get(i);
 
 		if (!spawn->inShift()) {
-
 			includedResources.drop(includedResources.elementAt(i).getKey());
 			i--;
 			resourceSpawner->despawn(spawn);
@@ -54,20 +51,18 @@ bool ManualPool::update() {
 }
 
 String ManualPool::healthCheck() {
-
 	StringBuffer buffer;
-	buffer << "****** ManualPool " << "(" <<  includedResources.size() << ") ************" << endl;
-	for(int i = 0; i < includedResources.size(); ++i) {
+	buffer << "****** ManualPool "
+		   << "(" << includedResources.size() << ") ************" << endl;
+	for (int i = 0; i < includedResources.size(); ++i) {
 		String resourceType = includedResources.elementAt(i).getKey();
-		ManagedReference<ResourceSpawn* > spawn = includedResources.elementAt(i).getValue();
+		ManagedReference<ResourceSpawn*> spawn = includedResources.elementAt(i).getValue();
 
 		if (spawn != nullptr) {
 			buffer << "   " << i << ". " << resourceType << " : "
-					<< "Pass ("
-					<< spawn->getType() << endl;
+				   << "Pass (" << spawn->getType() << endl;
 		} else {
-			buffer << "   " << i << ". " << resourceType << " : " << ("Fail")
-					<< " ()" << endl;
+			buffer << "   " << i << ". " << resourceType << " : " << ("Fail") << " ()" << endl;
 		}
 	}
 	buffer << "***************************************" << endl;
@@ -79,7 +74,7 @@ void ManualPool::print() {
 	info("**** ManualPool ****", true);
 
 	for (int i = 0; i < includedResources.size(); ++i) {
-		ManagedReference<ResourceSpawn* > spawn = includedResources.get(i);
+		ManagedReference<ResourceSpawn*> spawn = includedResources.get(i);
 
 		StringBuffer msg;
 

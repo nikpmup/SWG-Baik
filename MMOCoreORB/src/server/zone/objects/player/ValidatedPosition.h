@@ -13,20 +13,21 @@
 #include "engine/util/json_utils.h"
 
 namespace server {
- namespace zone {
-  class ZoneServer;
+namespace zone {
+class ZoneServer;
 
-  namespace objects {
-   namespace scene {
-    class SceneObject;
-   }
-  }
- }
+namespace objects {
+namespace scene {
+class SceneObject;
 }
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 class ValidatedPosition : public Serializable {
 	SerializableVector3 point;
 	uint64 parent;
+
 public:
 	ValidatedPosition() {
 		parent = 0;
@@ -89,7 +90,6 @@ private:
 		addSerializableVariable("point", &point);
 		addSerializableVariable("parent", &parent);
 	}
-
 };
 
 #endif /* VALIDATEDPOSITION_H_ */

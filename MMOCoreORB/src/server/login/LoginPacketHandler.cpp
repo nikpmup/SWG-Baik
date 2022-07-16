@@ -2,7 +2,6 @@
 				Copyright <SWGEmu>
 		See file COPYING for copying conditions.*/
 
-
 #include "objects.h"
 
 #include "LoginPacketHandler.h"
@@ -11,9 +10,7 @@
 
 #include "account/AccountManager.h"
 
-LoginPacketHandler::LoginPacketHandler(const String& s, LoginProcessServerImplementation* serv)
-		: Logger(s) {
-
+LoginPacketHandler::LoginPacketHandler(const String& s, LoginProcessServerImplementation* serv) : Logger(s) {
 	processServer = serv;
 
 	server = processServer->getLoginServer().get();
@@ -40,14 +37,14 @@ void LoginPacketHandler::handleMessage(Message* pack) {
 		break;
 	case 3:
 		switch (opcode) {
-			case 0xE87AD031:
+		case 0xE87AD031:
 			handleDeleteCharacterMessage(client, pack);
 			break;
 		}
 		break;
 	case 4:
 		switch (opcode) {
-		case 0x41131F96: //LoginClientID CLIENT VERSION BUILD DATE AND LOGIN INFO
+		case 0x41131F96: // LoginClientID CLIENT VERSION BUILD DATE AND LOGIN INFO
 			handleLoginClientID(client, pack);
 			break;
 		}
@@ -66,7 +63,7 @@ void LoginPacketHandler::handleLoginClientID(LoginClient* client, Message* pack)
 
 void LoginPacketHandler::handleDeleteCharacterMessage(LoginClient* client, Message* pack) {
 	if (!client->hasAccount()) {
-		auto* msg = new DeleteCharacterReplyMessage(1); //FAIL
+		auto* msg = new DeleteCharacterReplyMessage(1); // FAIL
 		client->sendMessage(msg);
 		return;
 	}
@@ -75,7 +72,7 @@ void LoginPacketHandler::handleDeleteCharacterMessage(LoginClient* client, Messa
 
 	uint32 ServerId = pack->parseInt();
 
-	//pack->shiftOffset(4);
+	// pack->shiftOffset(4);
 	uint64 charId = pack->parseLong();
 
 	StringBuffer moveStatement;
@@ -98,9 +95,7 @@ void LoginPacketHandler::handleDeleteCharacterMessage(LoginClient* client, Messa
 		if (moveResults == nullptr || moveResults.get()->getRowsAffected() == 0) {
 			dbDelete = 1;
 
-			error() << "Could not move character to deleted_characters table. " << endl <<
-				"QUERY: " << moveStatement;
-
+			error() << "Could not move character to deleted_characters table. " << endl << "QUERY: " << moveStatement;
 		}
 
 		UniqueReference<ResultSet*> verifyResults(ServerDatabase::instance()->executeQuery(verifyStatement.toString()));
@@ -108,8 +103,7 @@ void LoginPacketHandler::handleDeleteCharacterMessage(LoginClient* client, Messa
 		if (verifyResults == nullptr || verifyResults.get()->getRowsAffected() == 0) {
 			dbDelete = 1;
 
-			error() << "Could not verify character was moved to deleted_characters " << endl <<
-				"QUERY: " << moveStatement;
+			error() << "Could not verify character was moved to deleted_characters " << endl << "QUERY: " << moveStatement;
 		}
 
 	} catch (const Exception& e) {
@@ -123,8 +117,7 @@ void LoginPacketHandler::handleDeleteCharacterMessage(LoginClient* client, Messa
 			UniqueReference<ResultSet*> deleteResults(ServerDatabase::instance()->executeQuery(deleteStatement));
 
 			if (deleteResults == nullptr || deleteResults.get()->getRowsAffected() == 0) {
-				error() << "Unable to delete character from character table. " << endl
-					<< "QUERY: " << deleteStatement;
+				error() << "Unable to delete character from character table. " << endl << "QUERY: " << deleteStatement;
 
 				dbDelete = 1;
 			}
@@ -137,5 +130,3 @@ void LoginPacketHandler::handleDeleteCharacterMessage(LoginClient* client, Messa
 	auto* msg = new DeleteCharacterReplyMessage(dbDelete);
 	client->sendMessage(msg);
 }
-
-

@@ -8,7 +8,6 @@
 #ifndef ROAD_H_
 #define ROAD_H_
 
-
 #include "../TemplateVariable.h"
 #include "Segment.h"
 
@@ -17,7 +16,6 @@ class Road : public TemplateVariable<'ROAD'> {
 
 public:
 	Road() : IffTemplateVariable() {
-
 	}
 
 	~Road() {
@@ -53,6 +51,5 @@ public:
 		}
 	}
 };
-
 
 #endif /* ROAD_H_ */

@@ -7,7 +7,6 @@
 
 class MapLocationType {
 public:
-
 	static const int UNKNOWN = 1;
 	static const int BANK = 2;
 	static const int CANTINA = 3;
@@ -84,14 +83,12 @@ public:
 	static const int SPACE_RECRUITER = 59;
 	static const int SPACE_STARSHIP_CHASSIS_BROKER = 60;
 	static const int SPACE_STARSHIP_CHASSIS = 61; // ??
-	static const int SPACE_SHIPS = 67; // ??
-
+	static const int SPACE_SHIPS = 67;			  // ??
 
 	static String getMapLocationName(uint8 maptype) {
 		String name = "";
 
 		switch (maptype) {
-
 		case UNKNOWN:
 			name = "@map_loc_cat_n:unknown";
 			break;
@@ -281,13 +278,10 @@ public:
 		default:
 			name = "@map_loc_cat_n:other";
 			break;
-
 		}
 
 		return name;
-
 	}
-
 };
 
 #endif /*MapLocationType_H_*/

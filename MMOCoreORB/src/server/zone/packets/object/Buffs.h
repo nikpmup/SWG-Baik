@@ -16,9 +16,7 @@ public:
 	 * @param duration {float} The duration of the buff in seconds.
 	 * @return {AddBuffMessage} The add buff message..
 	 */
-	AddBuffMessage(SceneObject* player, uint32 buffcrc, float duration)
-			: ObjectControllerMessage(player->getObjectID(), 0x1B, 0x229, false) {
-
+	AddBuffMessage(SceneObject* player, uint32 buffcrc, float duration) : ObjectControllerMessage(player->getObjectID(), 0x1B, 0x229, false) {
 		insertInt(buffcrc);
 		insertFloat(duration);
 	}
@@ -32,9 +30,7 @@ public:
 	 * @param buffcrc {uint32} The crc of the buff to remove.
 	 * @return {RemoveBuffMessage} The remove buff message.
 	 */
-	RemoveBuffMessage(CreatureObject* player, uint32 buffcrc)
-			: ObjectControllerMessage(player->getObjectID(), 0x1B, 0x22A, false) {
-
+	RemoveBuffMessage(CreatureObject* player, uint32 buffcrc) : ObjectControllerMessage(player->getObjectID(), 0x1B, 0x22A, false) {
 		insertInt(buffcrc);
 	}
 };

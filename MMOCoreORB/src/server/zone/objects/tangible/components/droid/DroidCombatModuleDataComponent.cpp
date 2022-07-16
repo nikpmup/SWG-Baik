@@ -12,7 +12,6 @@ DroidCombatModuleDataComponent::DroidCombatModuleDataComponent() {
 }
 
 DroidCombatModuleDataComponent::~DroidCombatModuleDataComponent() {
-
 }
 
 String DroidCombatModuleDataComponent::getModuleName() const {

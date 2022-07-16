@@ -14,15 +14,13 @@
 class FloorMesh;
 
 class PathGraph : public IffTemplate {
-	enum PathGraphType
-	{
+	enum PathGraphType {
 		Cell,
 		Building,
 		City,
 
 		None,
 	};
-
 
 	Vector<PathNode*> pathNodes;
 	Vector<PathEdge> pathEdges;
@@ -108,8 +106,6 @@ public:
 	inline PathGraphType getType() const {
 		return type;
 	}
-
 };
-
 
 #endif /* PATHGRAPH_H_ */

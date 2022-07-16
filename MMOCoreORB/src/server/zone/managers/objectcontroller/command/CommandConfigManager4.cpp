@@ -181,9 +181,7 @@
 #include "server/zone/objects/creature/commands/InspacerrCommand.h"
 #include "server/zone/objects/creature/commands/RequestSpaceTrainerCommand.h"
 
-
 using namespace server::zone::managers::objectcontroller::command;
-
 
 void CommandConfigManager::registerCommands4() {
 	commandFactory.registerCommand<SuppressionFire1Command>(String("suppressionFire1").toLowerCase());

@@ -38,7 +38,7 @@ public:
 
 		ManagedReference<SceneObject*> targetObject = zoneServer->getObject(target, true);
 
-		if (targetObject == nullptr || !targetObject->isCreatureObject()) {  // pets should be able to follow other mobiles as a command. i found multiple references to this. -- washu
+		if (targetObject == nullptr || !targetObject->isCreatureObject()) {	 // pets should be able to follow other mobiles as a command. i found multiple references to this. -- washu
 			pet->showFlyText("npc_reaction/flytext", "confused", 204, 0, 0); // "?!!?!?!"
 			return GENERALERROR;
 		}

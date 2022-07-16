@@ -27,7 +27,7 @@ int ScreenPlayObserverImplementation::notifyObserverEvent(uint32 eventType, Obse
 		}
 
 		if (!lua_isnumber(lua->getLuaState(), -1)) {
-			Logger::console.fatal() <<  "ScreenPlayObserver " << play << ":" << key << "didnt return a valid value in an observer handler";
+			Logger::console.fatal() << "ScreenPlayObserver " << play << ":" << key << "didnt return a valid value in an observer handler";
 		}
 
 		ret = lua->getIntParameter(lua->getLuaState());
@@ -36,7 +36,7 @@ int ScreenPlayObserverImplementation::notifyObserverEvent(uint32 eventType, Obse
 		Logger::console.error() << "Panic exception: " << panic.getMessage() << " while trying to run SceenPlayObserver: " << play << ":" << key;
 	}
 
-	//1 remove observer, 0 keep observer
+	// 1 remove observer, 0 keep observer
 
 	return ret;
 }

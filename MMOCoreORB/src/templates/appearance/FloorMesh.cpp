@@ -43,18 +43,18 @@ void FloorMeshTriangleNode::readObject(IffStream* iffStream) {
 	edges[1].portalID = iffStream->getInt();
 	edges[2].portalID = iffStream->getInt();
 
-	for(int i=0; i<3; i++) {
+	for (int i = 0; i < 3; i++) {
 		EdgeID edgeID(triangleID, i);
-		switch(edges[i].flags) {
-			case 0:
-				mesh->uncrossableEdges.put(edgeID);
-				break;
-			case 1:
-				mesh->connectedEdges.put(edgeID);
-				break;
-			case 2:
-				mesh->blockingEdges.put(edgeID);
-				break;
+		switch (edges[i].flags) {
+		case 0:
+			mesh->uncrossableEdges.put(edgeID);
+			break;
+		case 1:
+			mesh->connectedEdges.put(edgeID);
+			break;
+		case 2:
+			mesh->blockingEdges.put(edgeID);
+			break;
 		}
 	}
 }
@@ -111,7 +111,7 @@ void FloorMesh::readObject(IffStream* iffStream) {
 		FloorMeshTriangleNode* tri = tris.get(i);
 		const FloorMeshTriangleNode::Edge* edges = tri->getEdges();
 
-		for(int i=0; i<3; i++) {
+		for (int i = 0; i < 3; i++) {
 			if (edges[i].neighbor != -1)
 				tri->addNeighbor(tris.get(edges[i].neighbor));
 		}
@@ -125,13 +125,13 @@ void FloorMesh::readObject(IffStream* iffStream) {
 		delete path;
 	}*/
 
-	//tris.removeAll(1, 1);
-	//vertices.removeAll(1, 1);
+	// tris.removeAll(1, 1);
+	// vertices.removeAll(1, 1);
 
 	AABBTreeHeuristic heurData;
-	heurData.maxdepth = 2; // maximum depth
-	heurData.mintricnt = 5; // minimum triangle count
-	heurData.tartricnt = 10; // target triangle count
+	heurData.maxdepth = 2;	  // maximum depth
+	heurData.mintricnt = 5;	  // minimum triangle count
+	heurData.tartricnt = 10;  // target triangle count
 	heurData.minerror = 0.5f; // minimum error required
 	heurData.storePrimitives = true;
 
@@ -164,8 +164,7 @@ const TriangleNode* FloorMesh::findNearestTriangle(const Vector3& point) const {
 	}
 
 	if (found == nullptr) {
-		error() << "ERROR findNearestTriangle nullptr tris.size() = " << tris.size() << "point: x:" << point.getX() << " y:"
-				<< point.getY() << " z:" << point.getZ() << endl;
+		error() << "ERROR findNearestTriangle nullptr tris.size() = " << tris.size() << "point: x:" << point.getX() << " y:" << point.getY() << " z:" << point.getZ() << endl;
 
 		StackTrace::printStackTrace();
 	}
@@ -394,11 +393,11 @@ bool FloorMesh::testCollide(float x, float z, float y, float radius) const {
 	return aabbTree->testCollide(sphere);
 }
 
-Vector <Reference<MeshData*>> FloorMesh::getTransformedMeshData(const Matrix4& parentTransform) const {
+Vector<Reference<MeshData*>> FloorMesh::getTransformedMeshData(const Matrix4& parentTransform) const {
 	Reference<MeshData*> data = new MeshData();
 
-	Vector<Vector3> *vertices = data->getVerts();
-	Vector<MeshTriangle> *triangles = data->getTriangles();
+	Vector<Vector3>* vertices = data->getVerts();
+	Vector<MeshTriangle>* triangles = data->getTriangles();
 
 	for (const auto& edge : uncrossableEdges) {
 		const auto& tri = tris.get(edge.getTriangleID());
@@ -407,7 +406,7 @@ Vector <Reference<MeshData*>> FloorMesh::getTransformedMeshData(const Matrix4& p
 		Vector3 start = tri->getVertex(startIndex);
 		Vector3 end = tri->getVertex(startIndex < 2 ? startIndex + 1 : 0);
 
-		//negate z + transform
+		// negate z + transform
 		start.setZ(-start.getZ());
 		start = start * parentTransform;
 

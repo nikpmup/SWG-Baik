@@ -13,14 +13,10 @@
 
 class LogoutCommand : public QueueCommand {
 public:
-
-	LogoutCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	LogoutCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -31,4 +27,4 @@ public:
 	}
 };
 
-#endif //LOGOUTCOMMAND_H_
+#endif // LOGOUTCOMMAND_H_

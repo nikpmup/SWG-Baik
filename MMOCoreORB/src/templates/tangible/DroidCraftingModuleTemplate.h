@@ -9,7 +9,6 @@
 #include "templates/SharedTangibleObjectTemplate.h"
 
 class DroidCraftingModuleTemplate : public SharedTangibleObjectTemplate {
-
 protected:
 	int craftingType;
 	String craftingStationTemplate;
@@ -17,11 +16,9 @@ protected:
 
 public:
 	DroidCraftingModuleTemplate() : craftingType(0) {
-
 	}
 
 	~DroidCraftingModuleTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {

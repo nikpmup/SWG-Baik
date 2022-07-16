@@ -7,11 +7,11 @@
 BaseMessage* SuiMessageBoxImplementation::generateMessage() {
 	SuiCreatePageMessage* message = new SuiCreatePageMessage(boxID, "Script.messageBox");
 
-	//Declare Headers:
+	// Declare Headers:
 	addHeader("Prompt.lblPrompt", "Text");
 	addHeader("bg.caption.lblTitle", "Text");
 
-	//Set Body Options:
+	// Set Body Options:
 	addSetting("3", "Prompt.lblPrompt", "Text", promptText);
 	addSetting("3", "bg.caption.lblTitle", "Text", promptTitle);
 
@@ -30,11 +30,11 @@ BaseMessage* SuiMessageBoxImplementation::generateMessage() {
 		addSetting("3", "btnOk", "Text", okButtonText);
 
 	if (otherButton) {
-		addSetting("3", "btnRevert","Enabled","True");
-		addSetting("3", "btnRevert","Visible","True");
+		addSetting("3", "btnRevert", "Enabled", "True");
+		addSetting("3", "btnRevert", "Visible", "True");
 
 		if (otherButtonText.indexOf("@") == 0)
-			addSetting("3", "btnRevert","Text", otherButtonText);
+			addSetting("3", "btnRevert", "Text", otherButtonText);
 	} else {
 		addSetting("3", "btnRevert", "Enabled", "False");
 		addSetting("3", "btnRevert", "Visible", "False");
@@ -42,7 +42,7 @@ BaseMessage* SuiMessageBoxImplementation::generateMessage() {
 
 	setHandlerText("handleSUI");
 
-	//Generate Packet:
+	// Generate Packet:
 	generateHeader(message);
 	generateBody(message);
 	generateFooter(message);

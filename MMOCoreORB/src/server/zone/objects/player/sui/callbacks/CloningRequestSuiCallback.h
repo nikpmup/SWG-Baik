@@ -16,9 +16,7 @@ class CloningRequestSuiCallback : public SuiCallback {
 	int typeofdeath;
 
 public:
-	CloningRequestSuiCallback(ZoneServer* server, int tod)
-		: SuiCallback(server) {
-
+	CloningRequestSuiCallback(ZoneServer* server, int tod) : SuiCallback(server) {
 		typeofdeath = tod;
 	}
 

@@ -1,7 +1,6 @@
 #ifndef LOTTERYDROIDSUICALLBACK_H_
 #define LOTTERYDROIDSUICALLBACK_H_
 
-
 #include "server/zone/objects/player/sui/SuiCallback.h"
 #include "server/zone/objects/tangible/eventperk/LotteryDroid.h"
 #include "server/zone/objects/player/sui/messagebox/SuiMessageBox.h"
@@ -11,9 +10,9 @@
 class LotteryDroidSuiCallback : public SuiCallback {
 private:
 	int optionalArg;
+
 public:
-	LotteryDroidSuiCallback(ZoneServer* server, int optArg)
-		: SuiCallback(server) {
+	LotteryDroidSuiCallback(ZoneServer* server, int optArg) : SuiCallback(server) {
 		optionalArg = optArg;
 	}
 

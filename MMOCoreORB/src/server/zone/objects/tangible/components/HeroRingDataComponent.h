@@ -7,6 +7,7 @@
 class HeroRingDataComponent : public DataObjectComponent {
 protected:
 	int charges;
+
 public:
 	HeroRingDataComponent() {
 		charges = 50;
@@ -14,7 +15,6 @@ public:
 	}
 
 	virtual ~HeroRingDataComponent() {
-
 	}
 
 	void writeJSON(nlohmann::json& j) const {
@@ -40,6 +40,5 @@ private:
 		addSerializableVariable("charges", &charges);
 	}
 };
-
 
 #endif /* HERORINGDATACOMPONENT_H_ */

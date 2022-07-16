@@ -11,9 +11,7 @@
 #include "server/zone/packets/object/ObjectMenuResponse.h"
 #include "server/zone/packets/chat/ChatSystemMessage.h"
 
-void DiceMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject,
-		ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
+void DiceMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
 	if (!sceneObject->isDiceObject())
 		return;
 
@@ -24,18 +22,18 @@ void DiceMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject,
 	}
 
 	/// Basic single roll
-	menuResponse->addRadialMenuItem(172,3,"@dice/dice:dice_roll_single");
+	menuResponse->addRadialMenuItem(172, 3, "@dice/dice:dice_roll_single");
 
 	/// configurable die
-	if(diceTemplate->isConfigurable()) {
-		menuResponse->addRadialMenuItem(164, 3,"@dice/dice_details:eqp_dice_configure");
-		menuResponse->addRadialMenuItemToRadialID(164, 165, 3,"@dice/dice:dice_two_single");
-		menuResponse->addRadialMenuItemToRadialID(164, 166, 3,"@dice/dice:dice_three_single");
-		menuResponse->addRadialMenuItemToRadialID(164, 167, 3,"@dice/dice:dice_four_single");
-		menuResponse->addRadialMenuItemToRadialID(164, 168, 3,"@dice/dice:dice_five_single");
-		menuResponse->addRadialMenuItemToRadialID(164, 169, 3,"@dice/dice:dice_six_single");
-		menuResponse->addRadialMenuItemToRadialID(164, 170, 3,"@dice/dice:dice_seven_single");
-		menuResponse->addRadialMenuItemToRadialID(164, 171, 3,"@dice/dice:dice_eight_single");
+	if (diceTemplate->isConfigurable()) {
+		menuResponse->addRadialMenuItem(164, 3, "@dice/dice_details:eqp_dice_configure");
+		menuResponse->addRadialMenuItemToRadialID(164, 165, 3, "@dice/dice:dice_two_single");
+		menuResponse->addRadialMenuItemToRadialID(164, 166, 3, "@dice/dice:dice_three_single");
+		menuResponse->addRadialMenuItemToRadialID(164, 167, 3, "@dice/dice:dice_four_single");
+		menuResponse->addRadialMenuItemToRadialID(164, 168, 3, "@dice/dice:dice_five_single");
+		menuResponse->addRadialMenuItemToRadialID(164, 169, 3, "@dice/dice:dice_six_single");
+		menuResponse->addRadialMenuItemToRadialID(164, 170, 3, "@dice/dice:dice_seven_single");
+		menuResponse->addRadialMenuItemToRadialID(164, 171, 3, "@dice/dice:dice_eight_single");
 	}
 
 	if (!diceTemplate->isConfigurable() && !diceTemplate->isChanceCube()) {
@@ -45,12 +43,10 @@ void DiceMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject,
 		menuResponse->addRadialMenuItem(175, 3, "@dice/dice:dice_roll_four_single");
 	}
 
-	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject,
-			menuResponse, player);
+	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
 }
 
-int DiceMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
-		CreatureObject* player, byte selectedID) const {
+int DiceMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
 	if (!sceneObject->isDiceObject())
 		return 0;
 
@@ -78,17 +74,17 @@ int DiceMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
 	/// Get sides count
 	byte sides = diceTemplate->getSides();
 	DataObjectComponent* data = dice->getDataObjectComponent()->get();
-	if(data != nullptr && data->isDiceData()) {
+	if (data != nullptr && data->isDiceData()) {
 		diceData = cast<DiceDataComponent*>(data);
 		sides = diceData->getSides();
 	}
 
-	if((selectedID > 171 && selectedID < 176) && sides == 0) {
+	if ((selectedID > 171 && selectedID < 176) && sides == 0) {
 		player->sendSystemMessage("@dice/dice:dice_configure_msg");
 		return 0;
 	}
 
-	switch(selectedID) {
+	switch (selectedID) {
 	case 175:
 		/// 4 Roll
 		doRoll(player, diceTemplate, sides, diceTemplate->getSidesText(), 4);
@@ -107,49 +103,47 @@ int DiceMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
 		break;
 	case 171:
 		/// 8 sides
-		if(diceData != nullptr)
+		if (diceData != nullptr)
 			diceData->setSides(8);
 		break;
 	case 170:
 		/// 7 sides
-		if(diceData != nullptr)
+		if (diceData != nullptr)
 			diceData->setSides(7);
 		break;
 	case 169:
 		/// 6 sides
-		if(diceData != nullptr)
+		if (diceData != nullptr)
 			diceData->setSides(6);
 		break;
 	case 168:
 		/// 5 sides
-		if(diceData != nullptr)
+		if (diceData != nullptr)
 			diceData->setSides(5);
 		break;
 	case 167:
 		/// 4 sides
-		if(diceData != nullptr)
+		if (diceData != nullptr)
 			diceData->setSides(4);
 		break;
 	case 166:
 		/// 3 sides
-		if(diceData != nullptr)
+		if (diceData != nullptr)
 			diceData->setSides(3);
 		break;
 	case 165:
 		/// 2 sides
-		if(diceData != nullptr)
+		if (diceData != nullptr)
 			diceData->setSides(2);
 		break;
 	default:
-		return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject,
-				player, selectedID);
+		return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject, player, selectedID);
 	}
 
 	return 0;
 }
 
 void DiceMenuComponent::doRoll(CreatureObject* player, DiceTemplate* diceTemplate, int sides, const String& sidesText, int numRoll) const {
-
 	StringIdChatParameter self("dice/dice", diceTemplate->getSelfSingleResult());
 	StringIdChatParameter others("dice/dice", diceTemplate->getOthersSingleResult());
 
@@ -165,11 +159,10 @@ void DiceMenuComponent::doRoll(CreatureObject* player, DiceTemplate* diceTemplat
 		}
 		others.setTT(player->getFirstName());
 	} else {
-
 		StringBuffer rolled;
 
-		for(int i = 0; i < numRoll; ++i) {
-			if(i != 0)
+		for (int i = 0; i < numRoll; ++i) {
+			if (i != 0)
 				rolled << ",";
 			rolled << " " << System::random(sides - 1) + 1;
 		}
@@ -182,10 +175,8 @@ void DiceMenuComponent::doRoll(CreatureObject* player, DiceTemplate* diceTemplat
 		others.setTO(rolled.toString());
 	}
 
-	ChatSystemMessage* msg = new ChatSystemMessage(others,
-			ChatSystemMessage::DISPLAY_CHATANDSCREEN);
+	ChatSystemMessage* msg = new ChatSystemMessage(others, ChatSystemMessage::DISPLAY_CHATANDSCREEN);
 
 	player->broadcastMessage(msg, false);
 	player->sendSystemMessage(self);
 }
-

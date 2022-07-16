@@ -21,7 +21,7 @@ protected:
 
 	int minLevelCeiling;
 
-	Vector<Reference<LairSpawn*> > spawnList;
+	Vector<Reference<LairSpawn*>> spawnList;
 
 public:
 	SpawnGroup() {
@@ -49,7 +49,6 @@ public:
 		}
 
 		lairSpawns.pop();
-
 	}
 
 	SpawnGroup(const SpawnGroup& gr) : Object() {
@@ -58,7 +57,8 @@ public:
 		minLevelCeiling = gr.minLevelCeiling;
 	}
 
-	virtual ~SpawnGroup() {}
+	virtual ~SpawnGroup() {
+	}
 
 	SpawnGroup& operator=(const SpawnGroup& gr) {
 		if (this == &gr)
@@ -75,7 +75,7 @@ public:
 		return templateName;
 	}
 
-	const Vector<Reference<LairSpawn*> >& getSpawnList() {
+	const Vector<Reference<LairSpawn*>>& getSpawnList() {
 		return spawnList;
 	}
 
@@ -88,9 +88,9 @@ public:
 	}
 };
 
-}
-}
-}
-}
+} // namespace creature
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 #endif /* SPAWNGROUP_H_ */

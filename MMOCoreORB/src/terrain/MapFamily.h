@@ -16,6 +16,7 @@ class MapFamily : public TemplateVariable<'MFAM'> {
 	int var1;
 	String var2;
 	MapFractal mfrc;
+
 public:
 	MapFamily() : var1(0) {
 	}
@@ -47,6 +48,5 @@ public:
 		return var2;
 	}
 };
-
 
 #endif /* MAPFAMILY_H_ */

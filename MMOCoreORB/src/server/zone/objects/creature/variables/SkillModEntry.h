@@ -17,11 +17,9 @@ public:
 	SkillModEntry() : Object() {
 		skillMod = 0;
 		skillBonus = 0;
-
 	}
 
 	SkillModEntry(const SkillModEntry& mod) : Object() {
-
 		skillMod = mod.skillMod;
 		skillBonus = mod.skillBonus;
 	}
@@ -37,9 +35,7 @@ public:
 	}
 
 	bool operator==(SkillModEntry mod) {
-		return
-			skillMod == mod.skillMod &&
-			skillBonus == mod.skillBonus;
+		return skillMod == mod.skillMod && skillBonus == mod.skillBonus;
 	}
 
 	void setSkillMod(int mod) {
@@ -63,8 +59,7 @@ public:
 	}
 
 	bool toBinaryStream(ObjectOutputStream* stream) {
-		return TypeInfo<int >::toBinaryStream(&skillMod, stream) &&
-				TypeInfo<int >::toBinaryStream(&skillBonus, stream);
+		return TypeInfo<int>::toBinaryStream(&skillMod, stream) && TypeInfo<int>::toBinaryStream(&skillBonus, stream);
 	}
 
 	friend void to_json(nlohmann::json& j, const SkillModEntry& e) {
@@ -73,9 +68,8 @@ public:
 	}
 
 	bool parseFromBinaryStream(ObjectInputStream* stream) {
-
-		TypeInfo<int >::parseFromBinaryStream(&skillMod, stream);
-		TypeInfo<int >::parseFromBinaryStream(&skillBonus, stream);
+		TypeInfo<int>::parseFromBinaryStream(&skillMod, stream);
+		TypeInfo<int>::parseFromBinaryStream(&skillBonus, stream);
 
 		return true;
 	}

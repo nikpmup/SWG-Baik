@@ -30,16 +30,14 @@ public:
 		Locker locker(buff);
 
 		buff->doHamTick();
-
 	}
-
 };
 
-}
-}
-}
-}
-}
+} // namespace buffs
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::buffs;
 

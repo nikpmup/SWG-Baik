@@ -10,14 +10,10 @@
 
 class TameCommand : public QueueCommand {
 public:
-
-	TameCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	TameCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -27,7 +23,7 @@ public:
 		if (!creature->isPlayerCreature())
 			return GENERALERROR;
 
-		ManagedReference<SceneObject* > object = server->getZoneServer()->getObject(target);
+		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
 
 		if (object == nullptr || !object->isCreature()) {
 			creature->sendSystemMessage("@pet/pet_menu:sys_cant_tame"); // You can't tame that
@@ -36,7 +32,7 @@ public:
 
 		Creature* baby = cast<Creature*>(object.get());
 
-		if (!checkDistance(object, creature, 8.0f)){
+		if (!checkDistance(object, creature, 8.0f)) {
 			creature->sendSystemMessage("@system_msg:out_of_range"); // You are out of range
 			return TOOFAR;
 		}
@@ -74,7 +70,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //TAMECOMMAND_H_
+#endif // TAMECOMMAND_H_

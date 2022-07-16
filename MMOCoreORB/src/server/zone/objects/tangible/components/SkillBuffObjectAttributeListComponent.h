@@ -11,9 +11,8 @@
 #include "templates/tangible/SkillBuffTemplate.h"
 #include "server/zone/objects/scene/components/AttributeListComponent.h"
 
-class SkillBuffObjectAttributeListComponent: public AttributeListComponent {
+class SkillBuffObjectAttributeListComponent : public AttributeListComponent {
 public:
-
 	/**
 	 * Fills the Attributes
 	 * @pre { this object is locked }
@@ -21,14 +20,13 @@ public:
 	 * @param menuResponse ObjectMenuResponse that will be sent to the client
 	 */
 	void fillAttributeList(AttributeListMessage* alm, CreatureObject* creature, SceneObject* object) const {
-
 		Reference<SkillBuffTemplate*> skillBuff = cast<SkillBuffTemplate*>(object->getObjectTemplate());
 		if (skillBuff == nullptr) {
 			error("No SkillBuffTemplate for: " + String::valueOf(object->getServerObjectCRC()));
 			return;
 		}
 
-		if(!object->isTangibleObject())
+		if (!object->isTangibleObject())
 			return;
 
 		// Already handled in tano.
@@ -38,18 +36,18 @@ public:
 		if(tano->getUseCount() > 1)
 			alm->insertAttribute("quantity", tano->getUseCount());*/
 
-		VectorMap<String,float>* modifiers = skillBuff->getModifiers();
+		VectorMap<String, float>* modifiers = skillBuff->getModifiers();
 
 		for (int i = 0; i < modifiers->size(); ++i) {
 			VectorMapEntry<String, float>* entry = &modifiers->elementAt(i);
-			alm->insertAttribute("cat_skill_mod_bonus.@stat_n:" + entry->getKey(), (int)entry->getValue() );
+			alm->insertAttribute("cat_skill_mod_bonus.@stat_n:" + entry->getKey(), (int)entry->getValue());
 		}
 
 		StringBuffer durationstring;
-		int minutes = (int) floor(skillBuff->getDuration() / 60.0f);
+		int minutes = (int)floor(skillBuff->getDuration() / 60.0f);
 		int seconds = skillBuff->getDuration() % 60;
 
-		if (minutes > 0){
+		if (minutes > 0) {
 			durationstring << minutes << "m ";
 		}
 
@@ -57,7 +55,6 @@ public:
 
 		alm->insertAttribute("duration", durationstring.toString());
 	}
-
 };
 
 #endif /* SKILLBUFFATTRIBUTELISTCOMPONENT_H_ */

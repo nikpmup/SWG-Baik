@@ -9,7 +9,6 @@
 #include "server/zone/objects/scene/SceneObject.h"
 
 class GarageZoneComponent : public StructureZoneComponent {
-
 public:
 	void notifyPositionUpdate(SceneObject* sceneObject, QuadTreeEntry* entry) const;
 	void notifyDissapear(SceneObject* sceneObject, QuadTreeEntry* entry) const;

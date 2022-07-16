@@ -9,14 +9,10 @@
 
 class SetPlayerStateCommand : public QueueCommand {
 public:
-
-	SetPlayerStateCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetPlayerStateCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -36,7 +32,7 @@ public:
 			tok.getStringToken(targetName);
 			obj = server->getPlayerManager()->getPlayer(targetName);
 
-			//The command issuer is the target if they have not specified a target or name.
+			// The command issuer is the target if they have not specified a target or name.
 			if (obj != nullptr && obj->isPlayerCreature())
 				targetCreature = obj.castTo<CreatureObject*>();
 		} else {
@@ -75,7 +71,6 @@ public:
 	String getSyntax() const {
 		return String("/setPlayerState [target|name] {state}");
 	}
-
 };
 
-#endif //SETPLAYERSTATECOMMAND_H_
+#endif // SETPLAYERSTATECOMMAND_H_

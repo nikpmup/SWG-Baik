@@ -82,7 +82,7 @@ void DroidObjectImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuR
 
 	try {
 		for (int i = 0; i < modules.size(); i++) {
-			auto &module = modules.get(i);
+			auto& module = modules.get(i);
 
 			module->fillObjectMenuResponse(_this.getReferenceUnsafeStaticCast(), menuResponse, player);
 		}
@@ -94,7 +94,7 @@ void DroidObjectImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuR
 void DroidObjectImplementation::notifyInsertToZone(Zone* zone) {
 	SceneObjectImplementation::notifyInsertToZone(zone);
 
-	ManagedReference<CreatureObject* > linkedCreature = getLinkedCreature().get();
+	ManagedReference<CreatureObject*> linkedCreature = getLinkedCreature().get();
 	if (linkedCreature == nullptr)
 		return;
 
@@ -111,10 +111,10 @@ void DroidObjectImplementation::notifyInsertToZone(Zone* zone) {
 
 			// Fade color to white
 			String appearanceFilename = getObjectTemplate()->getAppearanceFilename();
-			VectorMap<String, Reference<CustomizationVariable*> > variables;
+			VectorMap<String, Reference<CustomizationVariable*>> variables;
 			AssetCustomizationManagerTemplate::instance()->getCustomizationVariables(appearanceFilename.hashCode(), variables, false);
 
-			for (int i = 0; i< variables.size(); ++i) {
+			for (int i = 0; i < variables.size(); ++i) {
 				String varkey = variables.elementAt(i).getKey();
 				if (varkey.contains("color")) {
 					setCustomizationVariable(varkey, paintCount - 1, true); // Palette values 3,2,1,0 are grey->white
@@ -144,7 +144,7 @@ int DroidObjectImplementation::rechargeFromBattery(CreatureObject* player) {
 
 	// Battery not found
 	if (batterySceno == nullptr) {
-		showFlyText("npc_reaction/flytext","nobattery", 204, 0, 0); // "You don't have a power storage device."
+		showFlyText("npc_reaction/flytext", "nobattery", 204, 0, 0); // "You don't have a power storage device."
 		return 0;
 	}
 
@@ -165,7 +165,7 @@ int DroidObjectImplementation::rechargeFromBattery(CreatureObject* player) {
 
 	batteryTano->decreaseUseCount();
 
-	showFlyText("npc_reaction/flytext","recharged", 0, 153, 0);  // "*Recharged*"
+	showFlyText("npc_reaction/flytext", "recharged", 0, 153, 0); // "*Recharged*"
 	doAnimation("power_up");
 	return 0;
 }
@@ -176,7 +176,7 @@ void DroidObjectImplementation::rechargeFromDroid() {
 	int droidsbf = getShockWounds();
 	addShockWounds(-droidsbf, true, false);
 
-	showFlyText("npc_reaction/flytext","recharged", 0, 153, 0);  // "*Recharged*"
+	showFlyText("npc_reaction/flytext", "recharged", 0, 153, 0); // "*Recharged*"
 	doAnimation("power_up");
 	return;
 }
@@ -188,7 +188,7 @@ void DroidObjectImplementation::rechargeOtherDroid(DroidObject* otherDroid) {
 
 void DroidObjectImplementation::handleLowPower() {
 	// Send fly text
-	showFlyText("npc_reaction/flytext","low_power", 204, 0, 0);  // "*Low Power*"
+	showFlyText("npc_reaction/flytext", "low_power", 204, 0, 0); // "*Low Power*"
 	doAnimation("power_down");
 
 	// Stop following
@@ -238,7 +238,7 @@ void DroidObjectImplementation::initDroidModules() {
 }
 
 void DroidObjectImplementation::initDroidWeapons() {
-	//Set weapon stats
+	// Set weapon stats
 	WeaponObject* weapon = asAiAgent()->getDefaultWeapon();
 
 	if (weapon != nullptr) {
@@ -469,7 +469,7 @@ bool DroidObjectImplementation::sendConversationStartTo(SceneObject* player) {
 		return false;
 	}
 
-	//Face player.
+	// Face player.
 	faceObject(player);
 
 	PatrolPoint current(coordinates.getPosition(), getParent().get().castTo<CellObject*>());
@@ -480,19 +480,19 @@ bool DroidObjectImplementation::sendConversationStartTo(SceneObject* player) {
 	StartNpcConversation* conv = new StartNpcConversation(playerCreature, getObjectID(), "");
 	player->sendMessage(conv);
 
-	SortedVector<ManagedReference<Observer*> > observers = getObservers(ObserverEventType::STARTCONVERSATION);
+	SortedVector<ManagedReference<Observer*>> observers = getObservers(ObserverEventType::STARTCONVERSATION);
 
-	for (int i = 0;  i < observers.size(); ++i) {
+	for (int i = 0; i < observers.size(); ++i) {
 		if (dynamic_cast<ConversationObserver*>(observers.get(i).get()) != nullptr) {
 			return true;
 		}
 	}
 
-	//Create conversation observer.
+	// Create conversation observer.
 	ConversationObserver* conversationObserver = ConversationManager::instance()->getConversationObserver(personality->getPersonalityConversationTemplate());
 
 	if (conversationObserver != nullptr) {
-		//Register observers.
+		// Register observers.
 		registerObserver(ObserverEventType::CONVERSE, conversationObserver);
 		registerObserver(ObserverEventType::STARTCONVERSATION, conversationObserver);
 		registerObserver(ObserverEventType::SELECTCONVERSATION, conversationObserver);

@@ -8,7 +8,7 @@
 #ifndef COMBATQUEUECOMMAND_H_
 #define COMBATQUEUECOMMAND_H_
 
-#include"server/zone/ZoneServer.h"
+#include "server/zone/ZoneServer.h"
 #include "server/zone/objects/scene/SceneObject.h"
 #include "server/zone/managers/combat/CombatManager.h"
 #include "server/zone/objects/player/PlayerObject.h"
@@ -76,13 +76,12 @@ protected:
 
 public:
 	enum AnimGenTypes {
-		GENERATE_NONE, // Uses animation as given - Default
-		GENERATE_RANGED, // Generates _light|_medium as well as appends _face with headshots
+		GENERATE_NONE,	   // Uses animation as given - Default
+		GENERATE_RANGED,   // Generates _light|_medium as well as appends _face with headshots
 		GENERATE_INTENSITY // generates _light|_medium only
 	};
 
 	CombatQueueCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
-
 		minDamage = 0;
 		maxDamage = 0;
 		damageType = 0;
@@ -112,7 +111,7 @@ public:
 
 		coneRange = -1;
 
-		//for weapon set -1
+		// for weapon set -1
 		range = -1;
 
 		accuracySkillMod = "";
@@ -126,7 +125,6 @@ public:
 		animation = "";
 		animType = GENERATE_NONE;
 
-
 		forceAttack = false;
 		trails = CombatManager::DEFAULTTRAIL;
 
@@ -136,7 +134,7 @@ public:
 	void onFail(uint32 actioncntr, CreatureObject* creature, uint32 errorNumber) const {
 		// evidence shows that this has a custom OOR message.
 		if (errorNumber == TOOFAR) {
-			creature->sendSystemMessage("@error_message:target_out_of_range"); //Your target is out of range for this action.
+			creature->sendSystemMessage("@error_message:target_out_of_range");											// Your target is out of range for this action.
 			CombatSpam* spam = new CombatSpam(creature, nullptr, creature, nullptr, 0, "cbt_spam", "out_of_range", 10); // That target is out of range. (red)
 			creature->sendMessage(spam);
 			QueueCommand::onFail(actioncntr, creature, GENERALERROR);
@@ -154,10 +152,9 @@ public:
 		float rangeToCheck = range;
 
 		if (weapon == nullptr) {
-			if(creature->getWeapon() == nullptr) {
+			if (creature->getWeapon() == nullptr) {
 				return GENERALERROR;
-			}
-			else {
+			} else {
 				weapon = creature->getWeapon();
 			}
 		}
@@ -166,7 +163,7 @@ public:
 			return INVALIDWEAPON;
 
 		if (rangeToCheck == -1)
-			rangeToCheck = (float) Math::max(10, weapon->getMaxRange());
+			rangeToCheck = (float)Math::max(10, weapon->getMaxRange());
 
 		if (creature->isDead() || (creature->isPet() && creature->isIncapacitated()))
 			return INVALIDLOCOMOTION;
@@ -192,14 +189,13 @@ public:
 
 							if (targetCreature != nullptr) {
 								if (targetCreature->isPlayerCreature()) {
-
 									if (!CombatManager::instance()->areInDuel(creature, targetCreature) && !targetCreature->hasBountyMissionFor(creature) && !creature->hasBountyMissionFor(targetCreature) && targetCreature->getFactionStatus() == FactionStatus::OVERT)
 										ghost->doFieldFactionChange(FactionStatus::OVERT);
 								} else if (targetCreature->isPet()) {
 									ManagedReference<CreatureObject*> targetOwner = targetCreature->getLinkedCreature().get();
 
 									if (targetOwner != nullptr && !creature->hasBountyMissionFor(targetOwner) && !targetOwner->hasBountyMissionFor(creature) && !CombatManager::instance()->areInDuel(creature, targetOwner) && targetOwner->getFactionStatus() == FactionStatus::OVERT) {
-											ghost->doFieldFactionChange(FactionStatus::OVERT);
+										ghost->doFieldFactionChange(FactionStatus::OVERT);
 									}
 								} else {
 									if (creature->getFactionStatus() == FactionStatus::ONLEAVE)
@@ -265,7 +261,7 @@ public:
 		return SUCCESS;
 	}
 
-	float getCommandDuration(CreatureObject *object, const UnicodeString& arguments) const {
+	float getCommandDuration(CreatureObject* object, const UnicodeString& arguments) const {
 		return CombatManager::instance()->calculateWeaponAttackSpeed(object, object->getWeapon(), speedMultiplier);
 	}
 
@@ -410,15 +406,15 @@ public:
 	}
 
 	static inline String getIntensity(int threshold, int damage) {
-		if(damage > threshold)
+		if (damage > threshold)
 			return "_medium";
 		else
 			return "_light";
 	}
 
 	String getDefaultAttackAnimation(TangibleObject* attacker, WeaponObject* weapon, uint8 hitLocation, int damage) const {
-		enum lateralLocations {LEFT, CENTER, RIGHT};
-		static const char* headLocations[] =  {"attack_high_left", "attack_high_center", "attack_high_right"};
+		enum lateralLocations { LEFT, CENTER, RIGHT };
+		static const char* headLocations[] = {"attack_high_left", "attack_high_center", "attack_high_right"};
 		static const char* chestLocations[] = {"attack_mid_left", "attack_mid_center", "attack_mid_right"};
 		static const char* legLocations[] = {"attack_low_left", "attack_low_center", "attack_low_right"};
 
@@ -431,7 +427,6 @@ public:
 			return "droid_attack" + intensity;
 		} else if (!attacker->isCreature()) {
 			if (weapon->isRangedWeapon()) {
-
 				buffer << rangedAttacks[System::random(2)];
 
 				buffer << intensity;
@@ -443,7 +438,7 @@ public:
 				if (hitLocation == 0)
 					hitLocation = System::random(5) + 1;
 
-				switch(hitLocation) {
+				switch (hitLocation) {
 				case CombatManager::HIT_BODY:
 					buffer << chestLocations[CENTER];
 					break;
@@ -486,7 +481,7 @@ public:
 	inline String generateAnimation(uint8 hitLocation, int weaponThreshold, int damage) const {
 		String anim = animation;
 
-		switch(animType) {
+		switch (animType) {
 		case GENERATE_NONE:
 			break;
 		case GENERATE_RANGED:
@@ -627,7 +622,7 @@ public:
 
 		targetDefense -= mod;
 
-		uint32 duration = (uint32) Math::max(5.f, effect.getStateLength()*(1.f-targetDefense/120.f));
+		uint32 duration = (uint32)Math::max(5.f, effect.getStateLength() * (1.f - targetDefense / 120.f));
 
 		switch (effectType) {
 		case CommandEffect::BLIND:
@@ -723,20 +718,20 @@ public:
 			break;
 		case CommandEffect::HEALTHDEGRADE:
 			buff = new Buff(defender, STRING_HASHCODE("healthdegrade"), duration, BuffType::STATE);
-			buff->setAttributeModifier(CreatureAttribute::CONSTITUTION, -1*effect.getStateStrength());
-			buff->setAttributeModifier(CreatureAttribute::STRENGTH, -1*effect.getStateStrength());
+			buff->setAttributeModifier(CreatureAttribute::CONSTITUTION, -1 * effect.getStateStrength());
+			buff->setAttributeModifier(CreatureAttribute::STRENGTH, -1 * effect.getStateStrength());
 			defender->addBuff(buff);
 			break;
 		case CommandEffect::ACTIONDEGRADE:
 			buff = new Buff(defender, STRING_HASHCODE("actiondegrade"), duration, BuffType::STATE);
-			buff->setAttributeModifier(CreatureAttribute::QUICKNESS, -1*effect.getStateStrength());
-			buff->setAttributeModifier(CreatureAttribute::STAMINA, -1*effect.getStateStrength());
+			buff->setAttributeModifier(CreatureAttribute::QUICKNESS, -1 * effect.getStateStrength());
+			buff->setAttributeModifier(CreatureAttribute::STAMINA, -1 * effect.getStateStrength());
 			defender->addBuff(buff);
 			break;
 		case CommandEffect::MINDDEGRADE:
 			buff = new Buff(defender, STRING_HASHCODE("minddegrade"), duration, BuffType::STATE);
-			buff->setAttributeModifier(CreatureAttribute::FOCUS, -1*effect.getStateStrength());
-			buff->setAttributeModifier(CreatureAttribute::WILLPOWER, -1*effect.getStateStrength());
+			buff->setAttributeModifier(CreatureAttribute::FOCUS, -1 * effect.getStateStrength());
+			buff->setAttributeModifier(CreatureAttribute::WILLPOWER, -1 * effect.getStateStrength());
 			defender->addBuff(buff);
 			break;
 		case CommandEffect::REMOVECOVER:
@@ -761,7 +756,7 @@ public:
 		return;
 	}
 
-	//Override for special cases (skills like Taunt that don't have 5 result strings)
+	// Override for special cases (skills like Taunt that don't have 5 result strings)
 	virtual void sendAttackCombatSpam(TangibleObject* attacker, TangibleObject* defender, int attackResult, int damage, const CreatureAttackData& data) const {
 		if (attacker == nullptr || defender == nullptr)
 			return;
@@ -792,7 +787,6 @@ public:
 		}
 
 		CombatManager::instance()->broadcastCombatSpam(attacker, defender, nullptr, damage, "cbt_spam", stringName, color);
-
 	}
 
 	bool isForceAttack() const {

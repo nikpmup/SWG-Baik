@@ -13,8 +13,7 @@
 
 class RenameVendorSuiCallback : public SuiCallback {
 public:
-	RenameVendorSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	RenameVendorSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {

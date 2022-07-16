@@ -8,7 +8,6 @@
 #include "server/zone/objects/transaction/TransactionLog.h"
 
 int FactionRecruiterContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject* object, int containmentType, String& errorDescription) const {
-
 	if (sceneObject == object) {
 		return TransferErrorCode::CANTADDTOITSELF;
 	}
@@ -72,7 +71,7 @@ bool FactionRecruiterContainerComponent::transferObject(SceneObject* sceneObject
 	AiAgent* recruiter = cast<AiAgent*>(sceneObject);
 
 	String recruiterFaction = recruiter->getFactionString().toLowerCase();
-	
+
 	const Badge* badge = BadgeList::instance()->get("event_project_dead_eye_1");
 
 	if (badge == nullptr)

@@ -14,8 +14,7 @@
 
 class CreateVendorSuiCallback : public SuiCallback {
 public:
-	CreateVendorSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	CreateVendorSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -39,11 +38,10 @@ public:
 		}
 
 		int idx = Integer::valueOf(args->get(0).toString());
-		SuiListBox* box = cast<SuiListBox*>( suiBox);
+		SuiListBox* box = cast<SuiListBox*>(suiBox);
 		byte menuID = box->getMenuObjectID(idx);
 
 		session->handleVendorSelection(menuID);
-
 	}
 };
 

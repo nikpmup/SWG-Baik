@@ -60,14 +60,14 @@ public:
 		// target must be a creature
 		Reference<CreatureObject*> target = server->getZoneServer()->getObject(targetID, true).castTo<CreatureObject*>();
 		if (target == nullptr || !target->isCreature()) {
-			droid->showFlyText("npc_reaction/flytext", "confused", 204, 0, 0);  // "?!!?!?!"
+			droid->showFlyText("npc_reaction/flytext", "confused", 204, 0, 0);	// "?!!?!?!"
 			owner->sendSystemMessage("@pet/droid_modules:invalid_trap_target"); // "That is not a valid target."
 			return INVALIDTARGET;
 		}
 
 		// target must be attackable
 		if (!(target->getPvpStatusBitmask() & CreatureFlag::ATTACKABLE)) {
-			droid->showFlyText("npc_reaction/flytext", "confused", 204, 0, 0);  // "?!!?!?!"
+			droid->showFlyText("npc_reaction/flytext", "confused", 204, 0, 0);	// "?!!?!?!"
 			owner->sendSystemMessage("@pet/droid_modules:invalid_trap_target"); // "That is not a valid target."
 			return INVALIDTARGET;
 		}
@@ -75,7 +75,7 @@ public:
 		// Check range to target
 		if (!checkDistance(droid, target, 64.0f)) {							   // traps via launcher get their own range
 			droid->showFlyText("npc_reaction/flytext", "confused", 204, 0, 0); // "?!!?!?!"
-			owner->sendSystemMessage("@pet/droid_modules:target_too_far");	 // "That target is out of range."
+			owner->sendSystemMessage("@pet/droid_modules:target_too_far");	   // "That target is out of range."
 			return TOOFAR;
 		}
 

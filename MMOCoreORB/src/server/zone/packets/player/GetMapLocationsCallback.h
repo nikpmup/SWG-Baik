@@ -15,9 +15,7 @@ class GetMapLocationsCallback : public MessageCallback {
 	String zoneName;
 
 public:
-	GetMapLocationsCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	GetMapLocationsCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {

@@ -33,9 +33,7 @@ protected:
 	String effectName;
 
 public:
-	TendCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	TendCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		mindCost = 0;
 		mindWoundCost = 0;
 
@@ -79,7 +77,7 @@ public:
 		} else if (actionDamage > 0) {
 			msgBody << actionDamage << " action";
 		} else {
-			return; //No damage to heal.
+			return; // No damage to heal.
 		}
 
 		msgTail << " damage.";
@@ -112,9 +110,9 @@ public:
 		if (creature == creatureTarget) {
 			msgTarget << "You heal yourself for " << msgTail.toString();
 			creatureTarget->sendSystemMessage(msgTarget.toString());
-		} else if (creatureTarget->isPlayerCreature()){
-			msgPlayer << "You heal " << creatureTarget->getFirstName() << " for "  << msgTail.toString();
-			msgTarget << creature->getFirstName() << " heals you for "  << msgTail.toString();
+		} else if (creatureTarget->isPlayerCreature()) {
+			msgPlayer << "You heal " << creatureTarget->getFirstName() << " for " << msgTail.toString();
+			msgTarget << creature->getFirstName() << " heals you for " << msgTail.toString();
 
 			creature->sendSystemMessage(msgPlayer.toString());
 			creatureTarget->sendSystemMessage(msgTarget.toString());
@@ -130,7 +128,7 @@ public:
 
 		CreatureObject* player = cast<CreatureObject*>(creature);
 
-		int amount = (int) round((float) power * 1.0f);
+		int amount = (int)round((float)power * 1.0f);
 
 		if (amount <= 0)
 			return;
@@ -151,7 +149,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		int result = doCommonMedicalCommandChecks(creature);
 
 		if (result != SUCCESS)
@@ -166,7 +163,7 @@ public:
 				if (tangibleObject != nullptr && tangibleObject->isAttackableBy(creature)) {
 					object = creature;
 				} else {
-					creature->sendSystemMessage("@healing_response:healing_response_a1"); //Target must be a player or a creature pet in order to tend damage
+					creature->sendSystemMessage("@healing_response:healing_response_a1"); // Target must be a player or a creature pet in order to tend damage
 					return GENERALERROR;
 				}
 			}
@@ -181,7 +178,7 @@ public:
 		if ((creatureTarget->isAiAgent() && !creatureTarget->isPet()) || creatureTarget->isDroidObject() || creatureTarget->isVehicleObject() || creatureTarget->isDead() || creatureTarget->isRidingMount() || creatureTarget->isAttackableBy(creature))
 			creatureTarget = creature;
 
-		if(!checkDistance(creature, creatureTarget, range))
+		if (!checkDistance(creature, creatureTarget, range))
 			return TOOFAR;
 
 		if (creature != creatureTarget && checkForArenaDuel(creatureTarget)) {
@@ -190,7 +187,7 @@ public:
 		}
 
 		if (!creatureTarget->isHealableBy(creature)) {
-			creature->sendSystemMessage("@healing:pvp_no_help");  //It would be unwise to help such a patient.
+			creature->sendSystemMessage("@healing:pvp_no_help"); // It would be unwise to help such a patient.
 			return GENERALERROR;
 		}
 
@@ -206,7 +203,7 @@ public:
 		int mindCostNew = creature->calculateCostAdjustment(CreatureAttribute::FOCUS, mindCost);
 
 		if (creature->getHAM(CreatureAttribute::MIND) < mindCostNew) {
-			creature->sendSystemMessage("@healing_response:not_enough_mind"); //You do not have enough mind to do that.
+			creature->sendSystemMessage("@healing_response:not_enough_mind"); // You do not have enough mind to do that.
 			return GENERALERROR;
 		}
 
@@ -215,7 +212,7 @@ public:
 		if (tendDamage) {
 			if (!creatureTarget->hasDamage(CreatureAttribute::HEALTH) && !creatureTarget->hasDamage(CreatureAttribute::ACTION)) {
 				if (creatureTarget == creature)
-					creature->sendSystemMessage("@healing_response:healing_response_61"); //You have no damage to heal.
+					creature->sendSystemMessage("@healing_response:healing_response_61"); // You have no damage to heal.
 				else if (creatureTarget->isPlayerCreature()) {
 					StringIdChatParameter stringId("healing_response", "healing_response_63"); //%NT has no damage to heal.
 					stringId.setTT(creatureTarget->getObjectID());
@@ -239,7 +236,7 @@ public:
 
 			StringTokenizer args(arguments.toString());
 
-			if(args.hasMoreTokens()) {
+			if (args.hasMoreTokens()) {
 				String specifiedAttribute;
 				args.getStringToken(specifiedAttribute);
 
@@ -253,8 +250,8 @@ public:
 
 			if (attribute == CreatureAttribute::UNKNOWN || creatureTarget->getWounds(attribute) == 0) {
 				if (creatureTarget == creature)
-					creature->sendSystemMessage("@healing_response:healing_response_67"); //You have no wounds of that type to heal.
-				else if (creatureTarget->isPlayerCreature()){
+					creature->sendSystemMessage("@healing_response:healing_response_67"); // You have no wounds of that type to heal.
+				else if (creatureTarget->isPlayerCreature()) {
 					creature->sendSystemMessage(creatureTarget->getFirstName() + " has no wounds of that type to heal.");
 				} else {
 					creature->sendSystemMessage(creatureTarget->getDisplayedName() + " has no wounds of that type to heal.");
@@ -293,7 +290,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
 #endif /* TENDCOMMAND_H_ */

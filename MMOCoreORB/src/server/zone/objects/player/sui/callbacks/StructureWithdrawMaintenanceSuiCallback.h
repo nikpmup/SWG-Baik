@@ -7,7 +7,6 @@
 #include "server/zone/objects/structure/StructureObject.h"
 #include "server/zone/managers/structure/StructureManager.h"
 
-
 class StructureWithdrawMaintenanceSuiCallback : public SuiCallback {
 public:
 	StructureWithdrawMaintenanceSuiCallback(ZoneServer* serv) : SuiCallback(serv) {
@@ -29,7 +28,7 @@ public:
 		if (obj == nullptr || !obj->isStructureObject())
 			return;
 
-		//Withdraw the maintenance
+		// Withdraw the maintenance
 		StructureObject* structure = cast<StructureObject*>(obj.get());
 
 		ManagedReference<Zone*> zone = structure->getZone();
@@ -37,7 +36,7 @@ public:
 		if (zone == nullptr)
 			return;
 
-		//Creature is already locked (done in handleSuiEventNotification in SuiManager).
+		// Creature is already locked (done in handleSuiEventNotification in SuiManager).
 		Locker _lock(structure, creature);
 
 		StructureManager::instance()->withdrawMaintenance(structure, creature, amount);

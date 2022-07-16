@@ -18,11 +18,9 @@ class HealStateCommand : public QueueCommand {
 	float mindCost;
 	float range;
 	Vector<uint64> healableStates;
+
 public:
-
-	HealStateCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HealStateCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		mindCost = 20;
 		range = 6;
 		healableStates.add(CreatureState::STUNNED);
@@ -36,7 +34,7 @@ public:
 		int delay = (int)round(20.0f - (modSkill / 5));
 
 		if (creature->hasBuff(BuffCRC::FOOD_HEAL_RECOVERY)) {
-			DelayedBuff* buff = cast<DelayedBuff*>( creature->getBuff(BuffCRC::FOOD_HEAL_RECOVERY));
+			DelayedBuff* buff = cast<DelayedBuff*>(creature->getBuff(BuffCRC::FOOD_HEAL_RECOVERY));
 
 			if (buff != nullptr) {
 				float percent = buff->getSkillModifierValue("heal_recovery");
@@ -45,10 +43,10 @@ public:
 			}
 		}
 
-		//Force the delay to be at least 4 seconds.
+		// Force the delay to be at least 4 seconds.
 		delay = (delay < 4) ? 4 : delay;
 
-		StringIdChatParameter message("healing_response", "healing_response_58"); //You are now ready to heal more damage.
+		StringIdChatParameter message("healing_response", "healing_response_58"); // You are now ready to heal more damage.
 		Reference<InjuryTreatmentTask*> task = new InjuryTreatmentTask(creature, message, "stateTreatment");
 		creature->addPendingTask("stateTreatment", task, delay * 1000);
 	}
@@ -103,12 +101,12 @@ public:
 
 	bool canPerformSkill(CreatureObject* creature, CreatureObject* creatureTarget, StatePack* statePack, int mindCostNew) const {
 		if (!creature->canTreatStates()) {
-			creature->sendSystemMessage("@healing_response:healing_must_wait"); //You must wait before you can do that.
+			creature->sendSystemMessage("@healing_response:healing_must_wait"); // You must wait before you can do that.
 			return false;
 		}
 
 		if (statePack == nullptr) {
-			creature->sendSystemMessage("@healing_response:healing_response_60"); //No valid medicine found.
+			creature->sendSystemMessage("@healing_response:healing_response_60"); // No valid medicine found.
 			return false;
 		}
 
@@ -118,12 +116,12 @@ public:
 		}
 
 		if (!creatureTarget->isHealableBy(creature)) {
-			creature->sendSystemMessage("@healing:pvp_no_help");  //It would be unwise to help such a patient.
+			creature->sendSystemMessage("@healing:pvp_no_help"); // It would be unwise to help such a patient.
 			return false;
 		}
 
 		if (creature->getHAM(CreatureAttribute::MIND) < mindCostNew) {
-			creature->sendSystemMessage("@healing_response:not_enough_mind"); //You do not have enough mind to do that.
+			creature->sendSystemMessage("@healing_response:not_enough_mind"); // You do not have enough mind to do that.
 			return false;
 		}
 
@@ -176,7 +174,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		int result = doCommonMedicalCommandChecks(creature);
 
 		if (result != SUCCESS)
@@ -191,7 +188,7 @@ public:
 				if (tangibleObject != nullptr && tangibleObject->isAttackableBy(creature)) {
 					object = creature;
 				} else {
-					creature->sendSystemMessage("@healing_response:healing_response_73"); //Target must be a player or a creature pet in order to heal a state.
+					creature->sendSystemMessage("@healing_response:healing_response_73"); // Target must be a player or a creature pet in order to heal a state.
 					return GENERALERROR;
 				}
 			}
@@ -199,7 +196,7 @@ public:
 			object = creature;
 		}
 
-		CreatureObject* creatureTarget = cast<CreatureObject*>( object.get());
+		CreatureObject* creatureTarget = cast<CreatureObject*>(object.get());
 
 		Locker clocker(creatureTarget, creature);
 
@@ -215,34 +212,32 @@ public:
 
 		ManagedReference<StatePack*> statePack = nullptr;
 
-		if(state != CreatureState::INVALID || objectId != 0) {
+		if (state != CreatureState::INVALID || objectId != 0) {
 			if (inventory != nullptr) {
 				statePack = inventory->getContainerObject(objectId).castTo<StatePack*>();
 			}
 
 			if (statePack == nullptr)
 				statePack = findStatePack(creature, state);
-		}else {
+		} else {
 			uint64 targetStateBitmask = creatureTarget->getStateBitmask();
-			for(int i=0; i<healableStates.size(); i++) {
-
+			for (int i = 0; i < healableStates.size(); i++) {
 				uint64 healableState = healableStates.get(i);
 
-				if(!(targetStateBitmask & healableState))
+				if (!(targetStateBitmask & healableState))
 					continue;
-
 
 				state = healableState;
 				statePack = findStatePack(creature, healableState);
 
-				if(statePack != nullptr) {
+				if (statePack != nullptr) {
 					break;
 				}
 			}
 
-			//if state is INVALID they had no healable states
-			//if it is valid but statePack is nullptr they had no valid medicine for *any* state and will error in canPerformSkill
-			if(state == CreatureState::INVALID) {
+			// if state is INVALID they had no healable states
+			// if it is valid but statePack is nullptr they had no valid medicine for *any* state and will error in canPerformSkill
+			if (state == CreatureState::INVALID) {
 				StringIdChatParameter stringId("healing", "no_state_to_heal"); // %TT has no state that you can heal.
 				stringId.setTT(creatureTarget->getDisplayedName());
 				creature->sendSystemMessage(stringId);
@@ -255,7 +250,7 @@ public:
 		if (!canPerformSkill(creature, creatureTarget, statePack, mindCostNew))
 			return GENERALERROR;
 
-		if(!checkDistance(creature, creatureTarget, range))
+		if (!checkDistance(creature, creatureTarget, range))
 			return TOOFAR;
 
 		PlayerManager* playerManager = server->getPlayerManager();
@@ -274,8 +269,8 @@ public:
 
 		if (!creatureTarget->removeStateBuff(state)) {
 			if (creature == creatureTarget)
-				creature->sendSystemMessage("@healing_response:healing_response_72"); //You have no state of that type to heal.
-			else if (creatureTarget->isPlayerCreature()){
+				creature->sendSystemMessage("@healing_response:healing_response_72"); // You have no state of that type to heal.
+			else if (creatureTarget->isPlayerCreature()) {
 				StringIdChatParameter msg("healing_response", "healing_response_74"); //%NT has no state of that type to heal.
 				msg.setTT(creatureTarget->getObjectID());
 				creature->sendSystemMessage(msg);
@@ -300,7 +295,7 @@ public:
 		}
 
 		if (creatureTarget != creature && !creatureTarget->isPet())
-			awardXp(creature, "medical", 50); //No experience for healing yourself or pets.
+			awardXp(creature, "medical", 50); // No experience for healing yourself or pets.
 
 		doAnimations(creature, creatureTarget);
 
@@ -310,7 +305,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //HEALSTATECOMMAND_H_
+#endif // HEALSTATECOMMAND_H_

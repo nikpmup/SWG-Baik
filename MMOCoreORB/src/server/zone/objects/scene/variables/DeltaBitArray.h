@@ -26,7 +26,7 @@ public:
 		if (this == &v)
 			return *this;
 
-		DeltaVector<byte>::operator =(v);
+		DeltaVector<byte>::operator=(v);
 
 		return *this;
 	}
@@ -73,6 +73,5 @@ public:
 		return size() * 8;
 	}
 };
-
 
 #endif /* DELTABITARRAY_H_ */

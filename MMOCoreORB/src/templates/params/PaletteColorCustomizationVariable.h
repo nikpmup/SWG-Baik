@@ -32,7 +32,6 @@ public:
 	}
 
 	~PaletteColorCustomizationVariable() {
-
 	}
 
 	PaletteColorCustomizationVariable& operator=(const PaletteColorCustomizationVariable& p) {
@@ -54,8 +53,7 @@ public:
 
 		stream << "{";
 
-		stream << variableName.toString() << ", " << palettePathName.toString()
-				<< ", " << defaultValue.toString();
+		stream << variableName.toString() << ", " << palettePathName.toString() << ", " << defaultValue.toString();
 
 		stream << "}";
 
@@ -71,7 +69,7 @@ public:
 		Chunk* chunk = iffStream->openChunk('PCNT');
 
 		if (chunk == nullptr) {
-			//std::cout << "could not open pcnt\n";
+			// std::cout << "could not open pcnt\n";
 			return false;
 		}
 
@@ -85,7 +83,7 @@ public:
 			String varName;
 			var->readString(varName);
 
-			//std::cout << "parsing pccv:[" << varName.toStdString() << "]\n";
+			// std::cout << "parsing pccv:[" << varName.toStdString() << "]\n";
 
 			if (varName == "variableName") {
 				variableName.parse(var);
@@ -101,7 +99,6 @@ public:
 		return true;
 	}
 
-
 	inline const String& getPaletteFileName() const {
 		return palettePathName.get();
 	}
@@ -113,7 +110,6 @@ public:
 	const String& getVariableName() const {
 		return variableName.get();
 	}
-
 };
 
 #endif /* PALETTECOLORCUSTOMIZATIONVARIABLE_H_ */

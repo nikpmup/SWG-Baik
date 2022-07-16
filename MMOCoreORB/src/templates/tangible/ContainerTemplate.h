@@ -15,24 +15,20 @@ class ContainerTemplate : public SharedTangibleObjectTemplate {
 
 public:
 	ContainerTemplate() : lock(false) {
-
 	}
 
 	~ContainerTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
 		SharedTangibleObjectTemplate::readObject(templateData);
 
 		lock = templateData->getByteField("locked");
-
-    }
+	}
 
 	inline bool getLocked() const {
 		return lock;
 	}
-
 };
 
 #endif /* CONTAINERTEMPLATE_H_ */

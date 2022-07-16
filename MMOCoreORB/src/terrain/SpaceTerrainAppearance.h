@@ -35,7 +35,6 @@ public:
 	float getSize() const override {
 		return 16384 * 16384;
 	}
-
 };
 
 #endif /* SPACETERRAINAPPEARANCE_H_ */

@@ -10,16 +10,13 @@
 
 class DiagnoseCommand : public QueueCommand {
 	float range;
+
 public:
-
-	DiagnoseCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DiagnoseCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		range = 6;
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -34,7 +31,7 @@ public:
 		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
 
 		if (object == nullptr || !object->isCreatureObject()) {
-			creature->sendSystemMessage("@healing_response:healing_response_b6"); //You cannot diagnose that.
+			creature->sendSystemMessage("@healing_response:healing_response_b6"); // You cannot diagnose that.
 			return GENERALERROR;
 		}
 
@@ -42,20 +39,20 @@ public:
 
 		Locker clocker(creatureTarget, creature);
 
-		if(!checkDistance(creature, creatureTarget, range)) {
-			StringIdChatParameter params("@cmd_err:target_range_prose"); //Your target is too far away to %TO.
+		if (!checkDistance(creature, creatureTarget, range)) {
+			StringIdChatParameter params("@cmd_err:target_range_prose"); // Your target is too far away to %TO.
 			params.setTO("Diagnose");
 			creature->sendSystemMessage(params);
 			return TOOFAR;
 		}
 
 		if (creatureTarget->isDroidSpecies() || creatureTarget->isWalkerSpecies() || creatureTarget->isVehicleObject()) {
-			creature->sendSystemMessage("@healing_response:healing_response_b6"); //You cannot diagnose that.
+			creature->sendSystemMessage("@healing_response:healing_response_b6"); // You cannot diagnose that.
 			return GENERALERROR;
 		}
 
 		if ((creatureTarget->isImperial() || creatureTarget->isRebel()) && !creatureTarget->isHealableBy(creature)) {
-			creature->sendSystemMessage("@healing:pvp_no_help"); //It would be unwise to help such a patient.
+			creature->sendSystemMessage("@healing:pvp_no_help"); // It would be unwise to help such a patient.
 			return GENERALERROR;
 		}
 
@@ -122,7 +119,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DIAGNOSECOMMAND_H_
+#endif // DIAGNOSECOMMAND_H_

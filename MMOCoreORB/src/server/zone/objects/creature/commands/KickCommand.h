@@ -9,14 +9,10 @@
 
 class KickCommand : public QueueCommand {
 public:
-
-	KickCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	KickCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,9 +20,7 @@ public:
 			return INVALIDLOCOMOTION;
 
 		try {
-
-			ManagedReference<SceneObject* > object =
-					server->getZoneServer()->getObject(target);
+			ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
 
 			ManagedReference<CreatureObject*> player = nullptr;
 
@@ -37,12 +31,11 @@ public:
 
 				if (args.hasMoreTokens()) {
 					args.getStringToken(firstName);
-					player = server->getZoneServer()->getChatManager()->getPlayer(
-							firstName);
+					player = server->getZoneServer()->getChatManager()->getPlayer(firstName);
 				}
 
 			} else {
-				player = cast<CreatureObject*>( object.get());
+				player = cast<CreatureObject*>(object.get());
 			}
 
 			if (player == nullptr) {
@@ -58,7 +51,7 @@ public:
 				banReason << reason << " ";
 			}
 
-			if(banReason.toString().isEmpty()) {
+			if (banReason.toString().isEmpty()) {
 				creature->sendSystemMessage("You must provide a reason for kicking");
 				return GENERALERROR;
 			}
@@ -73,10 +66,8 @@ public:
 			creature->sendSystemMessage("invalid arguments for kick command.");
 		}
 
-
 		return SUCCESS;
 	}
-
 };
 
-#endif //KICKCOMMAND_H_
+#endif // KICKCOMMAND_H_

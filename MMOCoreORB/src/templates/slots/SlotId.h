@@ -34,7 +34,7 @@ public:
 		unk6 = sid.unk6;
 	}
 
-	SlotId& operator= (const SlotId& sid) {
+	SlotId& operator=(const SlotId& sid) {
 		if (this == &sid)
 			return *this;
 
@@ -82,4 +82,3 @@ public:
 		return slotName;
 	}
 };
-

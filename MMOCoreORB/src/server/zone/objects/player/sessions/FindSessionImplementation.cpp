@@ -24,7 +24,7 @@
 #include "templates/appearance/CellProperty.h"
 
 void FindSessionImplementation::initalizeFindMenu() {
-	ManagedReference<CreatureObject* > player = this->player.get();
+	ManagedReference<CreatureObject*> player = this->player.get();
 
 	if (player == nullptr)
 		return;
@@ -65,7 +65,7 @@ void FindSessionImplementation::initalizeFindMenu() {
 }
 
 WaypointObject* FindSessionImplementation::addWaypoint(float x, float y, const String& name) {
-	ManagedReference<CreatureObject* > player = this->player.get();
+	ManagedReference<CreatureObject*> player = this->player.get();
 
 	if (player == nullptr)
 		return nullptr;
@@ -76,8 +76,7 @@ WaypointObject* FindSessionImplementation::addWaypoint(float x, float y, const S
 	String planet = zone->getZoneName();
 	StringIdChatParameter msg;
 
-	ManagedReference<WaypointObject*> wpt =
-			( player->getZoneServer()->createObject(0xc456e788, 1)).castTo<WaypointObject*>(); // 0xC456E788 Waypoint
+	ManagedReference<WaypointObject*> wpt = (player->getZoneServer()->createObject(0xc456e788, 1)).castTo<WaypointObject*>(); // 0xC456E788 Waypoint
 
 	Locker locker(wpt);
 
@@ -96,7 +95,7 @@ WaypointObject* FindSessionImplementation::addWaypoint(float x, float y, const S
 }
 
 void FindSessionImplementation::clearWaypoint() {
-	ManagedReference<CreatureObject* > player = this->player.get();
+	ManagedReference<CreatureObject*> player = this->player.get();
 
 	if (player == nullptr)
 		return;
@@ -107,7 +106,7 @@ void FindSessionImplementation::clearWaypoint() {
 }
 
 void FindSessionImplementation::findPlanetaryObject(String& maplocationtype) {
-	ManagedReference<CreatureObject* > player = this->player.get();
+	ManagedReference<CreatureObject*> player = this->player.get();
 
 	if (player == nullptr)
 		return;
@@ -158,8 +157,8 @@ void FindSessionImplementation::findPlanetaryObject(String& maplocationtype) {
 	WorldCoordinates start(player);
 	WorldCoordinates end(object);
 
-	SortedVector<ManagedReference<NavArea*> > areas;
-	//fetch nav meshes near the target position
+	SortedVector<ManagedReference<NavArea*>> areas;
+	// fetch nav meshes near the target position
 	zone->getInRangeNavMeshes(end.getX(), end.getY(), &areas, false);
 
 	bool withinNavMesh = false;
@@ -173,8 +172,8 @@ void FindSessionImplementation::findPlanetaryObject(String& maplocationtype) {
 	}
 
 	if (withinNavMesh) {
-		Vector <WorldCoordinates> endCoords;
-		Reference < Vector < WorldCoordinates > * > path = nullptr;
+		Vector<WorldCoordinates> endCoords;
+		Reference<Vector<WorldCoordinates>*> path = nullptr;
 
 		if (object->isBuildingObject()) {
 			BuildingObject* building = object->asBuildingObject();

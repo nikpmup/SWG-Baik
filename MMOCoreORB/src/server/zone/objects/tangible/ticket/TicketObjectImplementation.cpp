@@ -16,7 +16,6 @@ void TicketObjectImplementation::fillAttributeList(AttributeListMessage* alm, Cr
 	alm->insertAttribute("travel_arrival_point", arrivalPoint);
 }
 
-
 int TicketObjectImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
 	if (selectedID != 20)
 		return 0;
@@ -24,7 +23,7 @@ int TicketObjectImplementation::handleObjectMenuSelect(CreatureObject* player, b
 	if (!isASubChildOf(player))
 		return 0;
 
-	player->executeObjectControllerAction(0x5DCD41A2, getObjectID(), ""); //boardShuttle
+	player->executeObjectControllerAction(0x5DCD41A2, getObjectID(), ""); // boardShuttle
 
 	return 0;
 }

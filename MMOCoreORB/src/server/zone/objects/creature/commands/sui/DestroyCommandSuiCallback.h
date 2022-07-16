@@ -12,8 +12,7 @@
 
 class DestroyCommandSuiCallback : public SuiCallback {
 public:
-	DestroyCommandSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	DestroyCommandSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* creature, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -31,7 +30,6 @@ public:
 			creature->sendSystemMessage("Destroying players with this command is prohibited.");
 			return;
 		}
-
 
 		obj->destroyObjectFromWorld(true);
 

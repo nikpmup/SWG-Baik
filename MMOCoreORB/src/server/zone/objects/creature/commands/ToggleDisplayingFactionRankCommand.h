@@ -9,14 +9,10 @@
 
 class ToggleDisplayingFactionRankCommand : public QueueCommand {
 public:
-
-	ToggleDisplayingFactionRankCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ToggleDisplayingFactionRankCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -33,7 +29,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //TOGGLEDISPLAYINGFACTIONRANKCOMMAND_H_
+#endif // TOGGLEDISPLAYINGFACTIONRANKCOMMAND_H_

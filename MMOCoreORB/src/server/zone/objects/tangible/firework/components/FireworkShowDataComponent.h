@@ -7,17 +7,14 @@
 #include "system/util/VectorMap.h"
 
 class FireworkShowDataComponent : public DataObjectComponent {
-
 private:
 	VectorMap<ManagedReference<FireworkObject*>, int> fireworkList;
 
 public:
 	FireworkShowDataComponent() {
-
 	}
 
 	virtual ~FireworkShowDataComponent() {
-
 	}
 
 	void writeJSON(nlohmann::json& j) const {
@@ -42,8 +39,8 @@ public:
 		_name.toBinaryStream(stream);
 		_offset = stream->getOffset();
 		stream->writeInt(0);
-		TypeInfo<VectorMap<ManagedReference<FireworkObject*>, int> >::toBinaryStream(&fireworkList, stream);
-		_totalSize = (uint32) (stream->getOffset() - (_offset + 4));
+		TypeInfo<VectorMap<ManagedReference<FireworkObject*>, int>>::toBinaryStream(&fireworkList, stream);
+		_totalSize = (uint32)(stream->getOffset() - (_offset + 4));
 		stream->writeInt(_offset, _totalSize);
 
 		return 1;
@@ -51,7 +48,7 @@ public:
 
 	bool readObjectMember(ObjectInputStream* stream, const String& name) {
 		if (name == "fireworkList") {
-			TypeInfo<VectorMap<ManagedReference<FireworkObject*>, int> >::parseFromBinaryStream(&fireworkList, stream);
+			TypeInfo<VectorMap<ManagedReference<FireworkObject*>, int>>::parseFromBinaryStream(&fireworkList, stream);
 
 			return true;
 		}
@@ -66,7 +63,7 @@ public:
 			_name.parseFromBinaryStream(stream);
 			uint32 _varSize = stream->readInt();
 			int _currentOffset = stream->getOffset();
-			if(readObjectMember(stream, _name)) {
+			if (readObjectMember(stream, _name)) {
 			}
 			stream->setOffset(_currentOffset + _varSize);
 		}
@@ -77,27 +74,27 @@ public:
 		return true;
 	}
 
-	int getTotalFireworkCount(){
+	int getTotalFireworkCount() {
 		return fireworkList.size();
 	}
 
-	int getIndexOfFirework(FireworkObject* firework){
-		for(int i =0; i< fireworkList.size();i++){
-			if(fireworkList.elementAt(i).getKey() == firework)
+	int getIndexOfFirework(FireworkObject* firework) {
+		for (int i = 0; i < fireworkList.size(); i++) {
+			if (fireworkList.elementAt(i).getKey() == firework)
 				return i;
 		}
 		return -1;
 	}
 
-	FireworkObject* getFirework(int index){
+	FireworkObject* getFirework(int index) {
 		return fireworkList.elementAt(index).getKey();
 	}
 
-	int getFireworkDelay(int index){
+	int getFireworkDelay(int index) {
 		return fireworkList.elementAt(index).getValue();
 	}
 
-	void setFireworkDelay(int index, int delay){
+	void setFireworkDelay(int index, int delay) {
 		VectorMapEntry<ManagedReference<FireworkObject*>, int> entry(fireworkList.elementAt(index).getKey(), delay);
 		fireworkList.remove(index);
 		fireworkList.add(index, entry);
@@ -107,13 +104,13 @@ public:
 		VectorMapEntry<ManagedReference<FireworkObject*>, int> entry(firework, delay);
 		fireworkList.add(index, entry);
 	}
-	void removeFirework(int index){
-		if(index < fireworkList.size()) {
+	void removeFirework(int index) {
+		if (index < fireworkList.size()) {
 			fireworkList.remove(index);
 		}
 	}
 
-	void swapFireworkPositions(int index, int index2){
+	void swapFireworkPositions(int index, int index2) {
 		VectorMapEntry<ManagedReference<FireworkObject*>, int> temp(fireworkList.elementAt(index).getKey(), fireworkList.elementAt(index).getValue());
 		VectorMapEntry<ManagedReference<FireworkObject*>, int> temp2(fireworkList.elementAt(index2).getKey(), fireworkList.elementAt(index2).getValue());
 		fireworkList.remove(index);
@@ -122,7 +119,5 @@ public:
 		fireworkList.add(index2, temp);
 	}
 };
-
-
 
 #endif /* FIREWORKSHOWDATACOMPONENT_H_ */

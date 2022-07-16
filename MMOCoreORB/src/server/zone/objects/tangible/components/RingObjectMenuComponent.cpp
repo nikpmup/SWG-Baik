@@ -40,7 +40,6 @@ void RingObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, O
 	}
 
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
-
 }
 
 int RingObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {

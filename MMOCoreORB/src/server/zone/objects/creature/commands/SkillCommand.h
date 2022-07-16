@@ -7,14 +7,10 @@
 
 class SkillCommand : public QueueCommand {
 public:
-
-	SkillCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SkillCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SKILLCOMMAND_H_
+#endif // SKILLCOMMAND_H_

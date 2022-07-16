@@ -10,7 +10,6 @@
 
 #include "server/zone/objects/player/sui/SuiCallback.h"
 
-
 class ColorGogglesSuiCallback : public SuiCallback {
 	String nodeName;
 

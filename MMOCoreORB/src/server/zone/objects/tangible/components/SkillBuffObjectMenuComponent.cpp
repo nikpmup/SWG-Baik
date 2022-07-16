@@ -12,20 +12,17 @@
 #include "templates/tangible/SkillBuffTemplate.h"
 
 void SkillBuffObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
-	if(!sceneObject->isTangibleObject())
+	if (!sceneObject->isTangibleObject())
 		return;
 
 	TangibleObject* tano = cast<TangibleObject*>(sceneObject);
-	if(tano == nullptr)
+	if (tano == nullptr)
 		return;
 
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
-
 }
 
 int SkillBuffObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
-
 	if (!sceneObject->isASubChildOf(player))
 		return 0;
 
@@ -36,7 +33,7 @@ int SkillBuffObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObjec
 	if (player->isDead() || player->isIncapacitated())
 		return 0;
 
-	if(!sceneObject->isTangibleObject())
+	if (!sceneObject->isTangibleObject())
 		return 0;
 
 	ManagedReference<TangibleObject*> tano = cast<TangibleObject*>(sceneObject);
@@ -52,8 +49,8 @@ int SkillBuffObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObjec
 	VectorMap<String, float>* modifiers = skillBuff->getModifiers();
 
 	// Check if buff of same type is already active
-	if ( player->hasBuff(buffCRC) ) {
-		player->sendSystemMessage("@skill_buff_n:already_have"); //You already have that skill modifier active.
+	if (player->hasBuff(buffCRC)) {
+		player->sendSystemMessage("@skill_buff_n:already_have"); // You already have that skill modifier active.
 		return 0;
 	}
 
@@ -69,7 +66,7 @@ int SkillBuffObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObjec
 	}
 
 	// Submit buff
-	if (buff != nullptr){
+	if (buff != nullptr) {
 		player->addBuff(buff);
 	}
 
@@ -77,7 +74,7 @@ int SkillBuffObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObjec
 	StringIdChatParameter stringId("skill_buff_d", "consume"); // You feel enhanced!
 	player->sendSystemMessage(stringId);
 
-	//Consume a charge from the item, destroy it if it reaches 0 charges remaining.
+	// Consume a charge from the item, destroy it if it reaches 0 charges remaining.
 	tano->decreaseUseCount();
 
 	return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject, player, selectedID);

@@ -15,7 +15,6 @@ public:
 	constexpr const static bool is_virtual_object = true;
 
 	virtual ~TemplateData() {
-
 	}
 };
 

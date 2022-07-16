@@ -11,7 +11,7 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace mission {
-	class MissionObject;
+class MissionObject;
 
 namespace events {
 

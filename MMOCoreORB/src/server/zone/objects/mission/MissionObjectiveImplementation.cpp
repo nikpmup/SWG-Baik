@@ -45,7 +45,7 @@ Reference<CreatureObject*> MissionObjectiveImplementation::getPlayerOwner() {
 
 void MissionObjectiveImplementation::activate() {
 	if (!activated) {
-		ManagedReference<MissionObject* > mission = this->mission.get();
+		ManagedReference<MissionObject*> mission = this->mission.get();
 
 		if (mission == nullptr) {
 			return;
@@ -117,9 +117,9 @@ void MissionObjectiveImplementation::clearFailTask() {
 }
 
 void MissionObjectiveImplementation::awardFactionPoints() {
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
 
-	if(mission == nullptr)
+	if (mission == nullptr)
 		return;
 
 	int factionPointsRebel = mission->getRewardFactionPointsRebel();
@@ -129,7 +129,7 @@ void MissionObjectiveImplementation::awardFactionPoints() {
 		return;
 	}
 
-	//Award faction points for faction delivery missions.
+	// Award faction points for faction delivery missions.
 	ManagedReference<CreatureObject*> creatureOwner = getPlayerOwner();
 
 	if (creatureOwner != nullptr) {
@@ -137,7 +137,7 @@ void MissionObjectiveImplementation::awardFactionPoints() {
 		if (ghost != nullptr) {
 			Locker lockerGroup(creatureOwner, _this.getReferenceUnsafeStaticCast());
 
-			//Switch to get the correct order.
+			// Switch to get the correct order.
 			switch (mission->getFaction()) {
 			case Factions::FACTIONIMPERIAL:
 				if (factionPointsImperial > 0) {
@@ -162,7 +162,7 @@ void MissionObjectiveImplementation::awardFactionPoints() {
 
 void MissionObjectiveImplementation::removeMissionFromPlayer() {
 	ManagedReference<CreatureObject*> player = getPlayerOwner();
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
 
 	if (player != nullptr && mission != nullptr) {
 		ZoneServer* zoneServer = player->getZoneServer();
@@ -182,13 +182,13 @@ void MissionObjectiveImplementation::addMissionStats(TransactionLog& trx) {
 }
 
 void MissionObjectiveImplementation::awardReward() {
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
 
 	if (mission == nullptr) {
 		return;
 	}
 
-	Vector<ManagedReference<CreatureObject*> > players;
+	Vector<ManagedReference<CreatureObject*>> players;
 	PlayMusicMessage* pmm = new PlayMusicMessage("sound/music_mission_complete.snd");
 
 	Vector3 missionEndPoint = getEndPosition();
@@ -245,7 +245,7 @@ void MissionObjectiveImplementation::awardReward() {
 		playerCount = group->getNumberOfPlayerMembers();
 
 #ifdef LOCKFREE_BCLIENT_BUFFERS
-	Reference<BasePacket*> pack = pmm;
+		Reference<BasePacket*> pack = pmm;
 #endif
 
 		for (int i = 0; i < group->getGroupSize(); i++) {
@@ -258,7 +258,7 @@ void MissionObjectiveImplementation::awardReward() {
 			trx.addRelatedObject(groupMember);
 
 			if (groupMember->isPlayerCreature()) {
-				//Play mission complete sound.
+				// Play mission complete sound.
 #ifdef LOCKFREE_BCLIENT_BUFFERS
 				groupMember->sendMessage(pack);
 #else
@@ -273,7 +273,7 @@ void MissionObjectiveImplementation::awardReward() {
 				if (memberPosition.distanceTo(missionEndPoint) < 128) {
 					players.add(groupMember);
 				}
-			} else if(groupMember->isPet()) {
+			} else if (groupMember->isPet()) {
 				Vector3 petPosition = groupMember->getWorldPosition();
 
 				if (groupMember->getFaction() != 0) {
@@ -296,7 +296,7 @@ void MissionObjectiveImplementation::awardReward() {
 		delete pmm;
 #endif
 	} else {
-		//Play mission complete sound.
+		// Play mission complete sound.
 		owner->sendMessage(pmm);
 		players.add(owner);
 	}
@@ -383,7 +383,7 @@ void MissionObjectiveImplementation::awardReward() {
 }
 
 Vector3 MissionObjectiveImplementation::getEndPosition() {
-	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<MissionObject*> mission = this->mission.get();
 
 	Vector3 missionEndPoint;
 	if (mission != nullptr) {

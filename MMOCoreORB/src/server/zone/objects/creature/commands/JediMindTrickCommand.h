@@ -12,7 +12,6 @@
 
 class JediMindTrickCommand : public ForcePowersQueueCommand {
 public:
-
 	JediMindTrickCommand(const String& name, ZoneProcessServer* server) : ForcePowersQueueCommand(name, server) {
 	}
 
@@ -106,7 +105,6 @@ public:
 
 		return result;
 	}
-
 };
 
-#endif //JEDIMINDTRICKCOMMAND_H_
+#endif // JEDIMINDTRICKCOMMAND_H_

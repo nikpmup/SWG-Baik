@@ -57,7 +57,7 @@ void StructureMaintenanceTask::run() {
 	setTaskName(taskName.toString().toCharArray());
 
 	if (strongRef->getSurplusMaintenance() > 0) {
-		//Incorrect scheduling, reschedule.
+		// Incorrect scheduling, reschedule.
 		Locker locker(strongRef);
 
 		strongRef->scheduleMaintenanceExpirationEvent();
@@ -67,15 +67,15 @@ void StructureMaintenanceTask::run() {
 	Locker _lock(strongRef);
 	Locker locker(creditObj, strongRef);
 
-	//Structure is out of maintenance. Start the decaying process...
+	// Structure is out of maintenance. Start the decaying process...
 	strongRef->updateStructureStatus();
 
-	//Calculate one week of maintenance +- any existing maintenance/decay.
+	// Calculate one week of maintenance +- any existing maintenance/decay.
 	int oneWeekMaintenance = 7 * 24 * strongRef->getMaintenanceRate() - strongRef->getSurplusMaintenance();
 
 	// add city tax to the week maintenance
 	ManagedReference<CityRegion*> city = strongRef->getCityRegion().get();
-	if(strongRef->isBuildingObject() && city != nullptr){
+	if (strongRef->isBuildingObject() && city != nullptr) {
 		oneWeekMaintenance += city->getPropertyTax() / 100.0f * oneWeekMaintenance;
 	}
 
@@ -86,8 +86,8 @@ void StructureMaintenanceTask::run() {
 
 	// Check if owner has money in the bank and structure not decaying.
 	if (oneWeekMaintenance > 0 && creditObj->getBankCredits() >= oneWeekMaintenance) {
-		//Withdraw 1 week maintenance from owner bank account and add to the structure
-		//maintenance pool.
+		// Withdraw 1 week maintenance from owner bank account and add to the structure
+		// maintenance pool.
 		strongRef->payMaintenance(oneWeekMaintenance, creditObj, false);
 
 		if (strongRef->isDecayed() && strongRef->isBuildingObject()) {
@@ -97,19 +97,19 @@ void StructureMaintenanceTask::run() {
 				building->updateSignName(true);
 		}
 
-		//Send email notification to owner.
+		// Send email notification to owner.
 		sendMailMaintenanceWithdrawnFromBank(name, strongRef);
 
-		//Reschedule task in 1 week.
+		// Reschedule task in 1 week.
 		strongRef->scheduleMaintenanceExpirationEvent();
 	} else {
-		//Start decay process.
+		// Start decay process.
 
 		int decayCycleSeconds = 24 * 60 * 60; // Default to daily schedule
 
 #if DEBUG_STRUCTURE_RAPID_DECAY
 		decayCycleSeconds = 15; // Every 15 seconds for debugging.
-#endif // DEBUG_STRUCTURE_RAPID_DECAY
+#endif							// DEBUG_STRUCTURE_RAPID_DECAY
 
 		if (!strongRef->isDecayed()) {
 			// Notify owner about decay.
@@ -125,7 +125,7 @@ void StructureMaintenanceTask::run() {
 			if (strongRef->isBuildingObject() && !shouldBuildingBeDestroyed(strongRef)) {
 				BuildingObject* building = strongRef.castTo<BuildingObject*>();
 
-				//Building is condemned since it has decayed.
+				// Building is condemned since it has decayed.
 				sendMailCondemned(name, strongRef);
 
 				strongRef->info("Structure decayed, it is now condemned, out of maintenance for " + String::valueOf(outOfMaintenanceHrs) + " hour(s).", true);
@@ -145,7 +145,7 @@ void StructureMaintenanceTask::run() {
 void StructureMaintenanceTask::destroyStructureWithReason(StructureObject* structure, const String& reason) {
 #if DEBUG_STRUCTURE_TASK_NO_DESTROY
 	structure->info("Will not be destroyed because DEBUG_STRUCTURE_TASK_NO_DESTROY is set, should destroy because " + reason, true);
-#else // DEBUG_STRUCTURE_TASK_NO_DESTROY
+#else  // DEBUG_STRUCTURE_TASK_NO_DESTROY
 	structure->info("Destroying because " + reason);
 
 	// Force a synchronous export because the objects will be deleted before we can export them!
@@ -170,7 +170,7 @@ void StructureMaintenanceTask::sendMailMaintenanceWithdrawnFromBank(const String
 			zoneName = structure->getZone()->getZoneName();
 		}
 
-		//Your %TT %TO has an empty maintenance pool. It will start deducting from your bank account automatically.
+		// Your %TT %TO has an empty maintenance pool. It will start deducting from your bank account automatically.
 		StringIdChatParameter emailBody("@player_structure:structure_maintenance_empty_body");
 		emailBody.setTT(structure->getObjectName());
 		emailBody.setTO("(" + String::valueOf((int)structure->getPositionX()) + ", " + String::valueOf((int)structure->getPositionY()) + " on " + zoneName + ")");
@@ -185,10 +185,10 @@ void StructureMaintenanceTask::sendMailDecay(const String& creoName, StructureOb
 	if (chatManager != nullptr) {
 		UnicodeString subject = "@player_structure:mail_structure_damage_sub";
 
-		//Your %TT %TO is currently at %DI percent condition. It will be destroyed if it reaches 0. If you wish to keep this structure, you should immediately add maintenance.
+		// Your %TT %TO is currently at %DI percent condition. It will be destroyed if it reaches 0. If you wish to keep this structure, you should immediately add maintenance.
 		String bodyName = "mail_structure_damage";
 		if (structure->isBuildingObject()) {
-			//Your %TT %TO is currently at %DI percent condition. It will be condemned if it reaches 0. If you wish to keep this structure, you should immediately add maintenance.
+			// Your %TT %TO is currently at %DI percent condition. It will be condemned if it reaches 0. If you wish to keep this structure, you should immediately add maintenance.
 			bodyName = "mail_structure_damage_condemn";
 		}
 
@@ -207,7 +207,7 @@ void StructureMaintenanceTask::sendMailDecay(const String& creoName, StructureOb
 }
 
 void StructureMaintenanceTask::sendMailCondemned(const String& creoName, StructureObject* structure) {
-	//Create an email.
+	// Create an email.
 	ManagedReference<ChatManager*> chatManager = structure->getZoneServer()->getChatManager();
 
 	if (chatManager != nullptr) {
@@ -218,7 +218,7 @@ void StructureMaintenanceTask::sendMailCondemned(const String& creoName, Structu
 			zoneName = structure->getZone()->getZoneName();
 		}
 
-		//Your %TT %TO has been condemned by the order of the Empire due to lack of maintenance. You must pay %DI credits to uncondemn this structure.
+		// Your %TT %TO has been condemned by the order of the Empire due to lack of maintenance. You must pay %DI credits to uncondemn this structure.
 		StringIdChatParameter emailBody("@player_structure:structure_condemned_body");
 		emailBody.setTT(structure->getObjectName());
 		emailBody.setTO("(" + String::valueOf((int)structure->getPositionX()) + ", " + String::valueOf((int)structure->getPositionY()) + " on " + zoneName + ")");
@@ -231,7 +231,7 @@ void StructureMaintenanceTask::sendMailDestroy(const String& creoName, Structure
 	ManagedReference<ChatManager*> chatManager = structure->getZoneServer()->getChatManager();
 
 	if (chatManager == nullptr)
-	    return;
+		return;
 
 	UnicodeString subject = "Structure Destroyed!";
 
@@ -270,7 +270,7 @@ bool StructureMaintenanceTask::shouldBuildingBeDestroyed(StructureObject* struct
 
 #if DEBUG_STRUCTURE_RAPID_DECAY
 	delayDestroyHours = 0.1f; // Delay destruction by 6 minutes in rapid decay mode
-#endif // DEBUG_STRUCTURE_RAPID_DECAY
+#endif						  // DEBUG_STRUCTURE_RAPID_DECAY
 
 	int maxBackMaintenance = (int)(delayDestroyHours * (float)structure->getMaintenanceRate());
 

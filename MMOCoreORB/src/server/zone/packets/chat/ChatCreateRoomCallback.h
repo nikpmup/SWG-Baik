@@ -8,14 +8,13 @@
 #ifndef CHATCREATEROOMCALLBACK_H_
 #define CHATCREATEROOMCALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 #include "server/chat/ChatManager.h"
 
 class ChatCreateRoomCallback : public MessageCallback {
-	uint8 moderationFlag; //0=not-moderated, 1=moderated
-	uint8 permissionFlag; //0=private, 1=public
-	String roomPath; //"SWG.Bria.group.281263685532.GroupChat.RoomName"
+	uint8 moderationFlag; // 0=not-moderated, 1=moderated
+	uint8 permissionFlag; // 0=private, 1=public
+	String roomPath;	  //"SWG.Bria.group.281263685532.GroupChat.RoomName"
 	String roomTitle;
 	int requestID;
 	short unknown;
@@ -35,11 +34,10 @@ public:
 	void parse(Message* message) {
 		permissionFlag = message->parseByte();
 		moderationFlag = message->parseByte();
-		unknown = message->parseShort(); //not used, always 0.
+		unknown = message->parseShort(); // not used, always 0.
 		message->parseAscii(roomPath);
 		message->parseAscii(roomTitle);
 		requestID = message->parseInt();
-
 	}
 
 	void run() {
@@ -52,8 +50,6 @@ public:
 		if (chatManager != nullptr)
 			chatManager->handleChatCreateRoom(player, permissionFlag, moderationFlag, roomPath, roomTitle, requestID);
 	}
-
 };
-
 
 #endif /* CHATCREATEROOMCALLBACK_H_ */

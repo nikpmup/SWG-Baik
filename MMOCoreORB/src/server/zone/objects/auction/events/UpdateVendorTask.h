@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef UPDATEVENDORTASK_H_
@@ -15,7 +15,7 @@ namespace objects {
 namespace auction {
 namespace events {
 
-class UpdateVendorTask: public Task {
+class UpdateVendorTask : public Task {
 protected:
 	ManagedWeakReference<SceneObject*> vendor;
 
@@ -27,7 +27,6 @@ public:
 	}
 
 	void run() {
-
 		ManagedReference<SceneObject*> strongRef = vendor.get();
 
 		if (strongRef == nullptr || strongRef->isBazaarTerminal())
@@ -36,12 +35,12 @@ public:
 		Locker locker(strongRef);
 
 		DataObjectComponentReference* data = strongRef->getDataObjectComponent();
-		if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
+		if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
 			return;
 		}
 
 		VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-		if(vendorData == nullptr) {
+		if (vendorData == nullptr) {
 			return;
 		}
 
@@ -49,14 +48,13 @@ public:
 
 		vendorData->runVendorUpdate();
 	}
-
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace auction
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::auction::events;
 

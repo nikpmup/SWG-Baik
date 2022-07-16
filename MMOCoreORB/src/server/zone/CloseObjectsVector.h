@@ -14,14 +14,14 @@
 
 #include "engine/core/ManagedReference.h"
 namespace server {
- namespace zone {
+namespace zone {
 class QuadTreeEntry;
 
 class CloseObjectsVector : public Object {
 	mutable ReadWriteLock mutex;
-	SortedVector<Reference<server::zone::QuadTreeEntry*> > objects;
+	SortedVector<Reference<server::zone::QuadTreeEntry*>> objects;
 
-	VectorMap<uint32, SortedVector<server::zone::QuadTreeEntry*> > messageReceivers;
+	VectorMap<uint32, SortedVector<server::zone::QuadTreeEntry*>> messageReceivers;
 
 	uint32 count;
 
@@ -32,15 +32,9 @@ class CloseObjectsVector : public Object {
 protected:
 	void dropReceiver(server::zone::QuadTreeEntry* entry);
 	void putReceiver(server::zone::QuadTreeEntry* entry, uint32 receiverTypes);
+
 public:
-	enum {
-		PLAYERTYPE = 1 << 0,
-		CREOTYPE = 1 << 1,
-		COLLIDABLETYPE = 1 << 2,
-		INSTALLATIONTYPE = 1 << 3,
-		STRUCTURETYPE = 1 << 4,
-		MAXTYPES = STRUCTURETYPE
-	};
+	enum { PLAYERTYPE = 1 << 0, CREOTYPE = 1 << 1, COLLIDABLETYPE = 1 << 2, INSTALLATIONTYPE = 1 << 3, STRUCTURETYPE = 1 << 4, MAXTYPES = STRUCTURETYPE };
 
 	CloseObjectsVector();
 
@@ -53,14 +47,14 @@ public:
 	bool drop(const Reference<server::zone::QuadTreeEntry*>& o);
 
 	void safeCopyTo(Vector<server::zone::QuadTreeEntry*>& vec) const;
-	void safeCopyTo(Vector<ManagedReference<server::zone::QuadTreeEntry*> >& vec) const;
+	void safeCopyTo(Vector<ManagedReference<server::zone::QuadTreeEntry*>>& vec) const;
 
 	void safeCopyReceiversTo(Vector<server::zone::QuadTreeEntry*>& vec, uint32 receiverType) const;
-	void safeCopyReceiversTo(Vector<ManagedReference<server::zone::QuadTreeEntry*> >& vec, uint32 receiverType) const;
+	void safeCopyReceiversTo(Vector<ManagedReference<server::zone::QuadTreeEntry*>>& vec, uint32 receiverType) const;
 	void safeAppendReceiversTo(Vector<server::zone::QuadTreeEntry*>& vec, uint32 receiverType) const;
-	void safeAppendReceiversTo(Vector<ManagedReference<server::zone::QuadTreeEntry*> >& vec, uint32 receiverType) const;
+	void safeAppendReceiversTo(Vector<ManagedReference<server::zone::QuadTreeEntry*>>& vec, uint32 receiverType) const;
 
-	SortedVector<ManagedReference<server::zone::QuadTreeEntry*> > getSafeCopy() const;
+	SortedVector<ManagedReference<server::zone::QuadTreeEntry*>> getSafeCopy() const;
 
 	const Reference<server::zone::QuadTreeEntry*>& get(int idx) const;
 
@@ -115,8 +109,8 @@ public:
 	}
 };
 
- }
-}
+} // namespace zone
+} // namespace server
 
 using namespace server::zone;
 

@@ -30,8 +30,7 @@ ZoneClient::~ZoneClient() {
 
 	player = nullptr;
 
-	delete basePacketHandler,
-	basePacketHandler = nullptr;
+	delete basePacketHandler, basePacketHandler = nullptr;
 }
 
 void ZoneClient::handleMessage(ServiceClient* client, Packet* message) {

@@ -60,13 +60,12 @@ public:
 		Locker locker(strongPlayer);
 
 		strongRef->getAuctionData(strongPlayer, strongVendorInUse, planet, region, strongVendor, screen, category, filterText, minPrice, maxPrice, includeEntranceFee, clientCounter, offset);
-
 	}
 };
 
-}
-}
-}
-}
+} // namespace auction
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 #endif /* AUCTIONSEARCHTASK_H_ */

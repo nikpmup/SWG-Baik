@@ -11,13 +11,13 @@
 #include "templates/SharedObjectTemplate.h"
 #include "templates/TemplateReference.h"
 
-class TemplateCRCMap : public HashTable<uint32, TemplateReference<SharedObjectTemplate*> > {
+class TemplateCRCMap : public HashTable<uint32, TemplateReference<SharedObjectTemplate*>> {
 	int hash(const uint32& k) const override {
 		return k;
 	}
 
 public:
-	TemplateCRCMap() : HashTable<uint32, TemplateReference<SharedObjectTemplate*> >(16000) {
+	TemplateCRCMap() : HashTable<uint32, TemplateReference<SharedObjectTemplate*>>(16000) {
 		setNullValue(nullptr);
 	}
 };

@@ -12,12 +12,12 @@
 #include "templates/appearance/MeshData.h"
 
 class MeshAppearanceTemplate : public AppearanceTemplate {
-	Vector<Reference<MeshData*> > meshes;
-	//Vector<Triangle> triangles;
+	Vector<Reference<MeshData*>> meshes;
+	// Vector<Triangle> triangles;
 
 	AABBTree* aabbTree;
 	Sphere* boundingSphere;
-	//String file;
+	// String file;
 
 public:
 	virtual uint32 getType() const {
@@ -65,7 +65,7 @@ public:
 		return boundingSphere;
 	}
 
-	const Vector<Reference<MeshData*> >& getMeshes() const {
+	const Vector<Reference<MeshData*>>& getMeshes() const {
 		return meshes;
 	}
 
@@ -88,9 +88,9 @@ public:
 		return aabbTree->intersects(ray, maxDistance, result);
 	}
 
-	virtual Vector<Reference<MeshData* > > getTransformedMeshData(const Matrix4& parentTransform) const {
-		Vector<Reference<MeshData* > > newMeshes;
-		for(int i=0; i<meshes.size(); i++) {
+	virtual Vector<Reference<MeshData*>> getTransformedMeshData(const Matrix4& parentTransform) const {
+		Vector<Reference<MeshData*>> newMeshes;
+		for (int i = 0; i < meshes.size(); i++) {
 			newMeshes.emplace(MeshData::makeCopyNegateZ(meshes.get(i), parentTransform));
 		}
 		return newMeshes;

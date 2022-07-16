@@ -13,9 +13,7 @@
 
 class PlayerMoneyRequestMessageCallback : public MessageCallback {
 public:
-	PlayerMoneyRequestMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	PlayerMoneyRequestMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {
@@ -27,11 +25,9 @@ public:
 		if (player == nullptr)
 			return;
 
-		PlayerMoneyResponseMessage* reply = new  PlayerMoneyResponseMessage(player);
+		PlayerMoneyResponseMessage* reply = new PlayerMoneyResponseMessage(player);
 		client->sendMessage(reply);
 	}
-
 };
-
 
 #endif /* PLAYERMONEYREQUEST_H_ */

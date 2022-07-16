@@ -16,7 +16,6 @@ namespace components {
 namespace droid {
 
 class DroidCraftingModuleDataComponent : public BaseDroidModuleComponent {
-
 protected:
 	int craftingType;
 	String attributeListString;
@@ -77,12 +76,12 @@ public:
 	void copy(BaseDroidModuleComponent* other);
 };
 
-} // droid
-} // components
-} // tangible
-} // objects
-} // zone
-} // server
+} // namespace droid
+} // namespace components
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 using namespace server::zone::objects::tangible::components::droid;
 
 #endif /* DROIDCRAFTINGMODULEDATACOMPONENT_H_ */

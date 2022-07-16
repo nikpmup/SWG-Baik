@@ -9,7 +9,7 @@ namespace zone {
 namespace managers {
 namespace frs {
 
-class RankMaintenanceTask: public Task {
+class RankMaintenanceTask : public Task {
 	ManagedWeakReference<FrsManager*> frsManager;
 
 public:
@@ -51,26 +51,28 @@ public:
 				taskList.add(playerList.get(curIndex));
 			}
 
-			Core::getTaskManager()->scheduleTask([taskList, strongRef]{
-				for (int i = 0; i < taskList.size(); i++) {
-					ManagedReference<CreatureObject*> player = strongRef->getZoneServer()->getObject(taskList.get(i)).castTo<CreatureObject*>();
+			Core::getTaskManager()->scheduleTask(
+				[taskList, strongRef] {
+					for (int i = 0; i < taskList.size(); i++) {
+						ManagedReference<CreatureObject*> player = strongRef->getZoneServer()->getObject(taskList.get(i)).castTo<CreatureObject*>();
 
-					if (player != nullptr) {
-						Locker lock(player);
-						strongRef->validatePlayerData(player, true);
-						strongRef->deductMaintenanceXp(player);
+						if (player != nullptr) {
+							Locker lock(player);
+							strongRef->validatePlayerData(player, true);
+							strongRef->deductMaintenanceXp(player);
+						}
 					}
-				}
-			}, "frsMaintenanceTask", (i + 1) * 500);
+				},
+				"frsMaintenanceTask", (i + 1) * 500);
 		}
 
 		reschedule(strongRef->getMaintenanceInterval());
 	}
 };
 
-}
-}
-}
-}
+} // namespace frs
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 #endif /* RANKMAINTENANCETASK_H_ */

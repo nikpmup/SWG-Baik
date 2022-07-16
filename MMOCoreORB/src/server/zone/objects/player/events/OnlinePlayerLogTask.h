@@ -1,9 +1,9 @@
 /*
-* OnlinePlayerLogTask.h
-*
-*  Created on: Sat Jul  6 14:59:26 UTC 2019
-*      Author: lordkator
-*/
+ * OnlinePlayerLogTask.h
+ *
+ *  Created on: Sat Jul  6 14:59:26 UTC 2019
+ *      Author: lordkator
+ */
 
 #ifndef ONLINEPLAYERLOGTASK_H_
 #define ONLINEPLAYERLOGTASK_H_
@@ -18,7 +18,7 @@ namespace player {
 namespace events {
 
 class OnlinePlayerLogTask : public Task {
-	public:
+public:
 	OnlinePlayerLogTask() : Task() {
 	}
 
@@ -26,7 +26,7 @@ class OnlinePlayerLogTask : public Task {
 		auto server = ServerCore::getZoneServer();
 
 		if (server == nullptr)
-				return;
+			return;
 
 		Reference<PlayerManager*> playerManager = server->getPlayerManager();
 
@@ -37,11 +37,11 @@ class OnlinePlayerLogTask : public Task {
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace player
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::player::events;
 

@@ -15,28 +15,27 @@ class PathGraph;
 
 class PathNode {
 public:
-	enum PathNodeType
-	{
-		CellPortal           = 0,
-		CellWaypoint         = 1,
-		CellPOI              = 2,
+	enum PathNodeType {
+		CellPortal = 0,
+		CellWaypoint = 1,
+		CellPOI = 2,
 
-		BuildingEntrance     = 3,
-		BuildingCell         = 4,
-		BuildingPortal       = 5,
+		BuildingEntrance = 3,
+		BuildingCell = 4,
+		BuildingPortal = 5,
 
 		CityBuildingEntrance = 6,
-		CityWaypoint         = 7,
-		CityPOI              = 8,
-		CityBuilding         = 9,
-		CityEntrance         = 10,
+		CityWaypoint = 7,
+		CityPOI = 8,
+		CityBuilding = 9,
+		CityEntrance = 10,
 
-		BuildingCellPart     = 11,
+		BuildingCellPart = 11,
 
-		Invalid              = 12,
+		Invalid = 12,
 	};
-protected:
 
+protected:
 	Vector<PathNode*> children;
 
 	uint32 id;
@@ -60,16 +59,16 @@ public:
 	}
 
 	void readObject(IffStream* iffStream) {
-		id = iffStream->getInt(); // index
-		var2 = iffStream->getInt(); // ID
-		globalGraphNodeID = iffStream->getInt(); // Key
+		id = iffStream->getInt();							   // index
+		var2 = iffStream->getInt();							   // ID
+		globalGraphNodeID = iffStream->getInt();			   // Key
 		type = static_cast<PathNodeType>(iffStream->getInt()); // type
 
 		x = iffStream->getFloat(); // position
 		z = iffStream->getFloat();
 		y = iffStream->getFloat();
-		radius = iffStream->getFloat(); //radius
-		if(radius == 0.0f)
+		radius = iffStream->getFloat(); // radius
+		if (radius == 0.0f)
 			radius = 0.5f;
 	}
 
@@ -125,19 +124,32 @@ public:
 
 	inline static String typeToString(PathNodeType nodeType) {
 		switch (nodeType) {
-		case CellPortal:           return "CellPortal";
-		case CellWaypoint:         return "CellWaypoint";
-		case CellPOI:              return "CellPOI";
-		case BuildingEntrance:     return "BuildingEntrance";
-		case BuildingCell:         return "BuildingCell";
-		case BuildingPortal:       return "BuildingPortal";
-		case CityBuildingEntrance: return "CityBuildingEntrance";
-		case CityWaypoint:         return "CityWaypoint";
-		case CityPOI:              return "CityPOI";
-		case CityBuilding:         return "CityBuilding";
-		case CityEntrance:         return "CityEntrance";
-		case BuildingCellPart:     return "BuildingCellPart";
-		case Invalid:              return "Invalid";
+		case CellPortal:
+			return "CellPortal";
+		case CellWaypoint:
+			return "CellWaypoint";
+		case CellPOI:
+			return "CellPOI";
+		case BuildingEntrance:
+			return "BuildingEntrance";
+		case BuildingCell:
+			return "BuildingCell";
+		case BuildingPortal:
+			return "BuildingPortal";
+		case CityBuildingEntrance:
+			return "CityBuildingEntrance";
+		case CityWaypoint:
+			return "CityWaypoint";
+		case CityPOI:
+			return "CityPOI";
+		case CityBuilding:
+			return "CityBuilding";
+		case CityEntrance:
+			return "CityEntrance";
+		case BuildingCellPart:
+			return "BuildingCellPart";
+		case Invalid:
+			return "Invalid";
 		default:
 			StringBuffer buf;
 			buf << "UnknownType(" << nodeType << ")";
@@ -148,14 +160,7 @@ public:
 	inline String toString() const {
 		StringBuffer buf;
 
-		buf << "PathNode(id: " << id
-			<< ", type: " << typeToString(type)
-			<< ", x: " << x
-			<< ", y: " << y
-			<< ", z: " << z
-			<< ", radius: " << radius
-			<< ", globalGraphNodeID: " << globalGraphNodeID
-			<< ")";
+		buf << "PathNode(id: " << id << ", type: " << typeToString(type) << ", x: " << x << ", y: " << y << ", z: " << z << ", radius: " << radius << ", globalGraphNodeID: " << globalGraphNodeID << ")";
 
 		return buf.toString();
 	}

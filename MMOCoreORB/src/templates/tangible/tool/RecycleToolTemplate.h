@@ -5,17 +5,14 @@
 
 class RecycleToolTemplate : public ContainerTemplate {
 private:
-
 	short toolType;
 	Vector<String> resourceTypes;
 
 public:
 	RecycleToolTemplate() : toolType(0) {
-
 	}
 
 	~RecycleToolTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) override {

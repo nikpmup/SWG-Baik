@@ -13,10 +13,7 @@ class HealPetCommand : public QueueCommand {
 	float mindCost;
 
 public:
-
-	HealPetCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HealPetCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		range = 5;
 		mindCost = 50;
 	}
@@ -24,7 +21,7 @@ public:
 	void deactivateInjuryTreatment(CreatureObject* creature) const {
 		int delay = 20;
 
-		StringIdChatParameter message("healing_response", "healing_response_58"); //You are now ready to heal more damage.
+		StringIdChatParameter message("healing_response", "healing_response_58"); // You are now ready to heal more damage.
 		Reference<InjuryTreatmentTask*> task = new InjuryTreatmentTask(creature, message, "injuryTreatment");
 		creature->addPendingTask("injuryTreatment", task, delay * 1000);
 	}
@@ -60,22 +57,22 @@ public:
 
 	bool canPerformSkill(CreatureObject* creature, CreatureObject* pet, StimPack* stimPack, int mindCostNew) const {
 		if (!creature->canTreatInjuries()) {
-			creature->sendSystemMessage("@healing_response:healing_must_wait"); //You must wait before you can do that.
+			creature->sendSystemMessage("@healing_response:healing_must_wait"); // You must wait before you can do that.
 			return false;
 		}
 
 		if (stimPack == nullptr) {
-			creature->sendSystemMessage("@healing_response:healing_response_60"); //No valid medicine found.
+			creature->sendSystemMessage("@healing_response:healing_response_60"); // No valid medicine found.
 			return false;
 		}
 
 		if (creature->getHAM(CreatureAttribute::MIND) < mindCostNew) {
-			creature->sendSystemMessage("@healing_response:not_enough_mind"); //You do not have enough mind to do that.
+			creature->sendSystemMessage("@healing_response:not_enough_mind"); // You do not have enough mind to do that.
 			return false;
 		}
 
 		if (!pet->isHealableBy(creature)) {
-			creature->sendSystemMessage("@healing:pvp_no_help"); //It would be unwise to help such a patient.
+			creature->sendSystemMessage("@healing:pvp_no_help"); // It would be unwise to help such a patient.
 			return false;
 		}
 
@@ -118,7 +115,7 @@ public:
 		} else if (mindDamage > 0) {
 			msgBody << mindDamage << " mind";
 		} else {
-			return; //No damage to heal.
+			return; // No damage to heal.
 		}
 
 		msgTail << " damage.";
@@ -128,7 +125,6 @@ public:
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		int result = doCommonMedicalCommandChecks(creature);
 
 		if (result != SUCCESS)
@@ -141,7 +137,7 @@ public:
 			return GENERALERROR;
 		}
 
-		Creature* pet = cast<Creature*>( object.get());
+		Creature* pet = cast<Creature*>(object.get());
 
 		Locker clocker(pet, creature);
 
@@ -156,7 +152,7 @@ public:
 			return GENERALERROR;
 		}
 
-		if(!checkDistance(creature, pet, range))
+		if (!checkDistance(creature, pet, range))
 			return TOOFAR;
 
 		uint64 objectID = 0;
@@ -165,7 +161,6 @@ public:
 			if (!arguments.isEmpty())
 				objectID = UnsignedLong::valueOf(arguments.toString());
 		} catch (Exception& e) {
-
 		}
 
 		ManagedReference<StimPack*> stimPack = nullptr;
@@ -190,7 +185,6 @@ public:
 		Vector<byte> atts = stimPack->getAttributes();
 		int healthHealed = 0, actionHealed = 0, mindHealed = 0;
 		bool notifyObservers = true;
-
 
 		if (atts.contains(CreatureAttribute::HEALTH)) {
 			healthHealed = pet->healDamage(creature, CreatureAttribute::HEALTH, stimPower);
@@ -234,7 +228,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //HEALPETCOMMAND_H_
+#endif // HEALPETCOMMAND_H_

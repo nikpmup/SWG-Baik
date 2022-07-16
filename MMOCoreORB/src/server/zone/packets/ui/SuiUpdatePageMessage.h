@@ -5,7 +5,6 @@
 #include "server/zone/objects/player/sui/SuiPageData.h"
 
 class SuiUpdatePageMessage : public BaseMessage {
-
 public:
 	SuiUpdatePageMessage(SuiPageData* sui) {
 		insertShort(0x02);

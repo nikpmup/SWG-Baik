@@ -9,14 +9,10 @@
 
 class SetWaypointNameCommand : public QueueCommand {
 public:
-
-	SetWaypointNameCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetWaypointNameCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -26,7 +22,7 @@ public:
 		if (!creature->isPlayerCreature())
 			return GENERALERROR;
 
-		CreatureObject* playerCreature = cast<CreatureObject*>( creature);
+		CreatureObject* playerCreature = cast<CreatureObject*>(creature);
 		PlayerObject* ghost = playerCreature->getPlayerObject();
 
 		if (ghost == nullptr)
@@ -40,7 +36,7 @@ public:
 		if (arguments.isEmpty() || arguments.length() > 150)
 			return GENERALERROR;
 
-		WaypointObject* waypoint = cast<WaypointObject*>( object.get());
+		WaypointObject* waypoint = cast<WaypointObject*>(object.get());
 
 		if (!ghost->hasWaypoint(waypoint->getObjectID()))
 			return GENERALERROR;
@@ -56,7 +52,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETWAYPOINTNAMECOMMAND_H_
+#endif // SETWAYPOINTNAMECOMMAND_H_

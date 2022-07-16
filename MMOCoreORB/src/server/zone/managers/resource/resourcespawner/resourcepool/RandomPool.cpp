@@ -16,32 +16,29 @@ RandomPool::RandomPool(ResourceSpawner* spawner) : ResourcePool(spawner) {
 }
 
 RandomPool::~RandomPool() {
-
 }
 
 void RandomPool::initialize(LuaObject includes, const String& excludes, int size) {
 	ResourcePool::initializeByTable(includes, excludes);
 
-	for(int i = 0; i < size; ++i)
+	for (int i = 0; i < size; ++i)
 		pool.add(nullptr);
 }
 
 void RandomPool::addResource(ManagedReference<ResourceSpawn*> resourceSpawn, const String& poolSlot) {
-
 	bool hasRoom = false;
 
 	for (int i = 0; i < pool.size(); ++i) {
+		ManagedReference<ResourceSpawn*> spawninpool = pool.get(i);
 
-		ManagedReference<ResourceSpawn* > spawninpool = pool.get(i);
-
-		if(spawninpool == nullptr) {
+		if (spawninpool == nullptr) {
 			pool.setElementAt(i, resourceSpawn);
 			hasRoom = true;
 			break;
 		}
 	}
 
-	if(!hasRoom)
+	if (!hasRoom)
 		resourceSpawn->setSpawnPool(ResourcePool::NOPOOL, "");
 }
 
@@ -56,26 +53,24 @@ bool RandomPool::update() {
 	StringBuffer buffer;
 	buffer << "RandomPool updating: ";
 
-	for(int i = 0; i < pool.size(); ++i) {
-
-		ManagedReference<ResourceSpawn* > resourceSpawn = pool.get(i);
+	for (int i = 0; i < pool.size(); ++i) {
+		ManagedReference<ResourceSpawn*> resourceSpawn = pool.get(i);
 
 		if (resourceSpawn == nullptr || !resourceSpawn->inShift()) {
-
-			if(resourceSpawn != nullptr) {
+			if (resourceSpawn != nullptr) {
 				resourceSpawner->despawn(resourceSpawn);
 				despawnedCount++;
-				//buffer << "Removing: " << spawn->getName() << " : " << spawn->getType();
+				// buffer << "Removing: " << spawn->getName() << " : " << spawn->getType();
 			}
 
 			String resourceType = includedResources.elementAt(System::random(includedResources.size() - 1)).getKey();
-			ManagedReference<ResourceSpawn* > newSpawn = resourceSpawner->createResourceSpawn(resourceType, excludedResources);
-			if(newSpawn != nullptr) {
+			ManagedReference<ResourceSpawn*> newSpawn = resourceSpawner->createResourceSpawn(resourceType, excludedResources);
+			if (newSpawn != nullptr) {
 				Locker locker(newSpawn);
 				newSpawn->setSpawnPool(ResourcePool::RANDOMPOOL, "");
 				spawnedCount++;
 
-				//buffer << " and replacing with " << newSpawn->getName() << " : " << newSpawn->getType() << endl;
+				// buffer << " and replacing with " << newSpawn->getName() << " : " << newSpawn->getType() << endl;
 
 				pool.setElementAt(i, newSpawn);
 			} else {
@@ -90,11 +85,11 @@ bool RandomPool::update() {
 }
 
 ResourceSpawn* RandomPool::removeSpawn(const String& type) {
-	ManagedReference<ResourceSpawn* > spawn = nullptr;
+	ManagedReference<ResourceSpawn*> spawn = nullptr;
 
-	for(int i = 0; i < pool.size(); ++i) {
+	for (int i = 0; i < pool.size(); ++i) {
 		spawn = pool.get(i);
-		if(spawn != nullptr && spawn->isType(type)) {
+		if (spawn != nullptr && spawn->isType(type)) {
 			pool.setElementAt(i, nullptr);
 			return spawn;
 		}
@@ -103,46 +98,41 @@ ResourceSpawn* RandomPool::removeSpawn(const String& type) {
 }
 
 String RandomPool::healthCheck() {
-
 	StringBuffer buffer;
-	buffer << "****** RandomPool " << "(" <<  includedResources.size() << ") ************" << endl;
+	buffer << "****** RandomPool "
+		   << "(" << includedResources.size() << ") ************" << endl;
 
 	bool heathly = true;
 
-	for(int i = 0; i < pool.size(); ++i) {
-		ManagedReference<ResourceSpawn* > spawn = pool.get(i);
+	for (int i = 0; i < pool.size(); ++i) {
+		ManagedReference<ResourceSpawn*> spawn = pool.get(i);
 		String resourceType = "";
 
 		bool isRightType = false;
 
-		if(spawn != nullptr) {
+		if (spawn != nullptr) {
 			resourceType = spawn->getType();
 
-			for(int j = 0; j < includedResources.size(); ++j) {
+			for (int j = 0; j < includedResources.size(); ++j) {
 				String included = includedResources.elementAt(j).getKey();
-				if(spawn->isType(included)) {
+				if (spawn->isType(included)) {
 					isRightType = true;
 					break;
 				}
 			}
 		}
 
-		if(!isRightType)
+		if (!isRightType)
 			heathly = false;
 
 		if (spawn != nullptr) {
-			buffer << "   " << i << ". " << resourceType << " : "
-					<< (isRightType ? "Pass" : "Fail")
-					<< "  " << spawn->getName() << " Zones: " << String::valueOf(spawn->getSpawnMapSize())
-					<< " (" << spawn->getType() << ")" << endl;
-			if(spawn->getSpawnMapSize() == 0)
+			buffer << "   " << i << ". " << resourceType << " : " << (isRightType ? "Pass" : "Fail") << "  " << spawn->getName() << " Zones: " << String::valueOf(spawn->getSpawnMapSize()) << " (" << spawn->getType() << ")" << endl;
+			if (spawn->getSpawnMapSize() == 0)
 				heathly = false;
 		} else {
-			buffer << "   " << i << ". " << resourceType << " : " << ("Fail")
-					<< " ()" << endl;
+			buffer << "   " << i << ". " << resourceType << " : " << ("Fail") << " ()" << endl;
 			heathly = false;
 		}
-
 	}
 	buffer << "***********" << (heathly ? "HEALTHY!" : "ERRORS!") << "*****************" << endl;
 
@@ -153,7 +143,7 @@ void RandomPool::print() {
 	info("**** RandomPool ****", true);
 
 	for (int i = 0; i < pool.size(); ++i) {
-		ManagedReference<ResourceSpawn* > spawn = pool.get(i);
+		ManagedReference<ResourceSpawn*> spawn = pool.get(i);
 
 		StringBuffer msg;
 

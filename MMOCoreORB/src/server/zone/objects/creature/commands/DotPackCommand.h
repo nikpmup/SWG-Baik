@@ -24,6 +24,7 @@ class DotPackCommand : public QueueCommand {
 protected:
 	String effectName;
 	String skillName;
+
 public:
 	DotPackCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		effectName = "clienteffect/healing_healenhance.cef";
@@ -49,7 +50,7 @@ public:
 				crc = "throw_grenade_far_poison";
 		}
 
-		CombatAction* action = new CombatAction(creature, targetCreature,  crc.hashCode(), 0x01, 0L);
+		CombatAction* action = new CombatAction(creature, targetCreature, crc.hashCode(), 0x01, 0L);
 		creature->broadcastMessage(action, true);
 	}
 
@@ -166,12 +167,11 @@ public:
 				closeObjects.removeAll(vec->size(), 10);
 				vec->safeCopyTo(closeObjects);
 			} else {
-	#ifdef COV_DEBUG
+#ifdef COV_DEBUG
 				attacker->info("Null closeobjects vector in DotPackCommand::handleArea", true);
-	#endif
+#endif
 				zone->getInRangeObjects(attackerCreo->getPositionX(), attackerCreo->getPositionY(), 128, &closeObjects, true);
 			}
-
 
 			for (int i = 0; i < closeObjects.size(); i++) {
 				SceneObject* object = static_cast<SceneObject*>(closeObjects.get(i));
@@ -284,7 +284,7 @@ public:
 
 		// Check cooldown timer
 		if (!creature->checkCooldownRecovery(skillName)) {
-			creature->sendSystemMessage("@healing_response:healing_must_wait"); //You must wait before you can do that.
+			creature->sendSystemMessage("@healing_response:healing_must_wait"); // You must wait before you can do that.
 			return GENERALERROR;
 		}
 
@@ -324,7 +324,7 @@ public:
 		if (targetCreature == nullptr)
 			return GENERALERROR;
 
-		int	range = int(dotPack->getRange() + creature->getSkillMod("healing_range") / 100 * 14);
+		int range = int(dotPack->getRange() + creature->getSkillMod("healing_range") / 100 * 14);
 
 		// Distance Check
 		if (!checkDistance(creature, targetCreature, range))
@@ -348,10 +348,10 @@ public:
 		doAnimationsRange(creature, targetCreature, dotPack->getObjectID(), creature->getWorldPosition().distanceTo(targetCreature->getWorldPosition()), dotPack->isArea());
 
 		float modSkill = (float)creature->getSkillMod("healing_range_speed");
-		int delay = (int)round(12.0f - (6.0f * modSkill / 100 ));
+		int delay = (int)round(12.0f - (6.0f * modSkill / 100));
 
 		if (creature->hasBuff(BuffCRC::FOOD_HEAL_RECOVERY)) {
-			DelayedBuff* buff = cast<DelayedBuff*>( creature->getBuff(BuffCRC::FOOD_HEAL_RECOVERY));
+			DelayedBuff* buff = cast<DelayedBuff*>(creature->getBuff(BuffCRC::FOOD_HEAL_RECOVERY));
 
 			if (buff != nullptr) {
 				float percent = buff->getSkillModifierValue("heal_recovery");
@@ -431,7 +431,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
 #endif /* DOTPACKCOMMAND_H_ */

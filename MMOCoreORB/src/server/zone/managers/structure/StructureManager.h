@@ -10,28 +10,28 @@
 
 namespace server {
 namespace zone {
-	class ZoneServer;
+class ZoneServer;
 namespace objects {
 namespace scene {
-	class SceneObject;
+class SceneObject;
 }
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
 namespace structure {
-	class StructureObject;
+class StructureObject;
 }
 namespace tangible {
-	class TangibleObject;
+class TangibleObject;
 namespace deed {
 namespace structure {
-	class StructureDeed;
+class StructureDeed;
 }
-}
-}
-}
-}
-}
+} // namespace deed
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone;
 using namespace server::zone::objects::scene;

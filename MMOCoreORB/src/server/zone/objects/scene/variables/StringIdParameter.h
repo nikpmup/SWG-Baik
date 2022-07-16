@@ -12,9 +12,9 @@
 
 namespace server {
 namespace chat {
-	class StringIdChatParameter;
+class StringIdChatParameter;
 }
-}
+} // namespace server
 
 using namespace server::chat;
 
@@ -150,12 +150,11 @@ public:
 	friend class server::chat::StringIdChatParameter;
 };
 
-
-}
-}
-}
-}
-}
+} // namespace variables
+} // namespace scene
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::scene::variables;
 #endif /* STRINGIDPARAMETER_H_ */

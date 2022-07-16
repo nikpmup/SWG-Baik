@@ -10,11 +10,11 @@
 
 #include "PlanetTravelPoint.h"
 
-class PlanetTravelPointList : public VectorMap<String, Reference<PlanetTravelPoint*> >, public ReadWriteLock {
+class PlanetTravelPointList : public VectorMap<String, Reference<PlanetTravelPoint*>>, public ReadWriteLock {
 	String zoneName;
-public:
 
-	PlanetTravelPointList() : VectorMap<String, Reference<PlanetTravelPoint*> >() {
+public:
+	PlanetTravelPointList() : VectorMap<String, Reference<PlanetTravelPoint*>>() {
 		setNoDuplicateInsertPlan();
 		setNullValue(nullptr);
 	}
@@ -22,7 +22,7 @@ public:
 	Reference<PlanetTravelPoint*> get(int index) {
 		ReadLocker guard(this);
 
-		Reference<PlanetTravelPoint*> point = VectorMap<String, Reference<PlanetTravelPoint*> >::get(index);
+		Reference<PlanetTravelPoint*> point = VectorMap<String, Reference<PlanetTravelPoint*>>::get(index);
 
 		return point;
 	}
@@ -30,7 +30,7 @@ public:
 	Reference<PlanetTravelPoint*> get(const String& name) {
 		ReadLocker guard(this);
 
-		Reference<PlanetTravelPoint*> point = VectorMap<String, Reference<PlanetTravelPoint*> >::get(name);
+		Reference<PlanetTravelPoint*> point = VectorMap<String, Reference<PlanetTravelPoint*>>::get(name);
 
 		return point;
 	}
@@ -41,14 +41,14 @@ public:
 		int totalPoints = size();
 
 #ifdef PLATFORM_WIN
-		char* incomingAllowed = (char*) _malloca(totalPoints);
+		char* incomingAllowed = (char*)_malloca(totalPoints);
 #else
 		bool incomingAllowed[totalPoints];
 #endif
 		int insertionPoints = totalPoints;
 
 		for (int i = 0; i < totalPoints; ++i) {
-			Reference<PlanetTravelPoint*> ptp = VectorMap<String, Reference<PlanetTravelPoint*> >::get(i);
+			Reference<PlanetTravelPoint*> ptp = VectorMap<String, Reference<PlanetTravelPoint*>>::get(i);
 			incomingAllowed[i] = ptp->isIncomingAllowed();
 			if (!incomingAllowed[i])
 				insertionPoints--;
@@ -58,14 +58,14 @@ public:
 
 		for (int i = 0; i < totalPoints; ++i) {
 			if (incomingAllowed[i])
-				message->insertAscii(VectorMap<String, Reference<PlanetTravelPoint*> >::get(i)->getPointName());
+				message->insertAscii(VectorMap<String, Reference<PlanetTravelPoint*>>::get(i)->getPointName());
 		}
 
 		message->insertInt(insertionPoints);
 
 		for (int i = 0; i < totalPoints; ++i) {
 			if (incomingAllowed[i]) {
-				Reference<PlanetTravelPoint*> ptp = VectorMap<String, Reference<PlanetTravelPoint*> >::get(i);
+				Reference<PlanetTravelPoint*> ptp = VectorMap<String, Reference<PlanetTravelPoint*>>::get(i);
 				message->insertFloat(ptp->getArrivalPositionX());
 				message->insertFloat(ptp->getArrivalPositionZ());
 				message->insertFloat(ptp->getArrivalPositionY());
@@ -74,18 +74,18 @@ public:
 
 		message->insertInt(insertionPoints);
 
-		for (int i = 0; i < totalPoints; ++i){
+		for (int i = 0; i < totalPoints; ++i) {
 			if (incomingAllowed[i]) {
-				Reference<PlanetTravelPoint*> ptp = VectorMap<String, Reference<PlanetTravelPoint*> >::get(i);
+				Reference<PlanetTravelPoint*> ptp = VectorMap<String, Reference<PlanetTravelPoint*>>::get(i);
 				ManagedReference<CreatureObject*> shuttle = ptp->getShuttle();
-				if(shuttle == nullptr){
+				if (shuttle == nullptr) {
 					message->insertInt(0);
 					continue;
 				}
 
 				ManagedReference<CityRegion*> city = shuttle->getCityRegion().get();
 
-				if(city == nullptr) {
+				if (city == nullptr) {
 					message->insertInt(0);
 					continue;
 				}
@@ -101,7 +101,7 @@ public:
 
 		for (int i = 0; i < totalPoints; ++i) {
 			if (incomingAllowed[i])
-				message->insertByte((byte) VectorMap<String, Reference<PlanetTravelPoint*> >::get(i)->isInterplanetary());
+				message->insertByte((byte)VectorMap<String, Reference<PlanetTravelPoint*>>::get(i)->isInterplanetary());
 		}
 
 #ifdef PLATFORM_WIN
@@ -138,7 +138,7 @@ public:
 		zoneName = name;
 	}
 
-	void addPlayerCityTravelPoint(PlanetTravelPoint* planetTravelPoint){
+	void addPlayerCityTravelPoint(PlanetTravelPoint* planetTravelPoint) {
 		wlock();
 
 		put(planetTravelPoint->getPointName(), planetTravelPoint);
@@ -146,7 +146,7 @@ public:
 		unlock();
 	}
 
-	void removePlayerCityTravelPoint(const String& pointName){
+	void removePlayerCityTravelPoint(const String& pointName) {
 		wlock();
 
 		drop(pointName);

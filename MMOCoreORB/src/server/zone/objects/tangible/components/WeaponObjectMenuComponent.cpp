@@ -13,27 +13,24 @@
 #include "server/zone/objects/player/sessions/SlicingSession.h"
 
 void WeaponObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
 	if (!sceneObject->isTangibleObject())
 		return;
 
 	ManagedReference<WeaponObject*> weapon = cast<WeaponObject*>(sceneObject);
-	if(weapon == nullptr)
+	if (weapon == nullptr)
 		return;
 
-	if(weapon->isASubChildOf(player)) {
-
-		if(weapon->hasPowerup()) {
+	if (weapon->isASubChildOf(player)) {
+		if (weapon->hasPowerup()) {
 			menuResponse->addRadialMenuItem(71, 3, "@powerup:mnu_remove_powerup"); // Remove Powerup
 		}
 
-		if(weapon->getConditionDamage() > 0 && weapon->canRepair(player)) {
+		if (weapon->getConditionDamage() > 0 && weapon->canRepair(player)) {
 			menuResponse->addRadialMenuItem(70, 3, "@sui:repair"); // Slice
 		}
 	}
 
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
-
 }
 
 int WeaponObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
@@ -41,11 +38,10 @@ int WeaponObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, 
 		return 0;
 
 	ManagedReference<WeaponObject*> weapon = cast<WeaponObject*>(sceneObject);
-	if(weapon == nullptr)
+	if (weapon == nullptr)
 		return 1;
 
-	if(weapon->isASubChildOf(player)) {
-
+	if (weapon->isASubChildOf(player)) {
 		if (selectedID == 69 && player->hasSkill("combat_smuggler_slicing_02")) {
 			if (weapon->isSliced()) {
 				player->sendSystemMessage("@slicing/slicing:already_sliced");
@@ -60,33 +56,30 @@ int WeaponObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, 
 				return 0;
 			}
 
-			//Create Session
+			// Create Session
 			session = new SlicingSession(player);
 			session->initalizeSlicingMenu(player, weapon);
 
 			return 0;
-
 		}
 
-		if(selectedID == 70) {
-
+		if (selectedID == 70) {
 			weapon->repair(player);
 			return 1;
 		}
 
-		if(selectedID == 71) {
-
+		if (selectedID == 71) {
 			ManagedReference<PowerupObject*> pup = weapon->removePowerup();
-			if(pup == nullptr)
+			if (pup == nullptr)
 				return 1;
 
 			Locker locker(pup);
 
-			pup->destroyObjectFromWorld( true );
-			pup->destroyObjectFromDatabase( true );
+			pup->destroyObjectFromWorld(true);
+			pup->destroyObjectFromDatabase(true);
 
-			StringIdChatParameter message("powerup", "prose_remove_powerup"); //You detach your powerup from %TT.
-			message.setTT(weapon->getDisplayedName()); 
+			StringIdChatParameter message("powerup", "prose_remove_powerup"); // You detach your powerup from %TT.
+			message.setTT(weapon->getDisplayedName());
 			player->sendSystemMessage(message);
 
 			return 1;

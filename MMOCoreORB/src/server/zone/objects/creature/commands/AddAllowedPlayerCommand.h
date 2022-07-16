@@ -7,14 +7,10 @@
 
 class AddAllowedPlayerCommand : public QueueCommand {
 public:
-
-	AddAllowedPlayerCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	AddAllowedPlayerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //ADDALLOWEDPLAYERCOMMAND_H_
+#endif // ADDALLOWEDPLAYERCOMMAND_H_

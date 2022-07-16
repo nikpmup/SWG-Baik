@@ -7,14 +7,10 @@
 
 class VitalizeCommand : public QueueCommand {
 public:
-
-	VitalizeCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	VitalizeCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -36,7 +32,7 @@ public:
 			const Time* cdTime = player->getCooldownTime("innate_vitalize");
 
 			// Returns -time. Multiple by -1 to return positive.
-			int timeLeft = floor((float)cdTime->miliDifference() / 1000) *-1;
+			int timeLeft = floor((float)cdTime->miliDifference() / 1000) * -1;
 
 			stringId.setStringId("@innate:vit_wait"); // You are still recovering from you last vitalization. Command available in %DI seconds.
 			stringId.setDI(timeLeft);
@@ -65,7 +61,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //VITALIZECOMMAND_H_
+#endif // VITALIZECOMMAND_H_

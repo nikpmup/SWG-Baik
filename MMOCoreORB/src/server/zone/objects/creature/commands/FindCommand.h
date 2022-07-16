@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef FINDCOMMAND_H_
@@ -7,17 +7,12 @@
 
 #include "server/zone/objects/player/sessions/FindSession.h"
 
-class FindCommand: public QueueCommand {
-
+class FindCommand : public QueueCommand {
 public:
-
-	FindCommand(const String& name, ZoneProcessServer* server) :
-		QueueCommand(name, server) {
-
+	FindCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -28,7 +23,6 @@ public:
 			return GENERALERROR;
 
 		try {
-
 			CreatureObject* player = cast<CreatureObject*>(creature);
 			StringTokenizer args(arguments.toString());
 			String location;
@@ -64,12 +58,10 @@ public:
 
 		} catch (Exception& e) {
 			creature->sendSystemMessage("@base_player:find_general_error"); // /Find was unable to complete your request. Please try again.
-
 		}
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //FINDCOMMAND_H_
+#endif // FINDCOMMAND_H_

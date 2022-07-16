@@ -25,7 +25,7 @@ void VetHarvesterDeedImplementation::fillObjectMenuResponse(ObjectMenuResponse* 
 	if (!isASubChildOf(creature))
 		return;
 
-	menuResponse->addRadialMenuItem(20, 3, "@ui_radial:convert_harvester"); //use
+	menuResponse->addRadialMenuItem(20, 3, "@ui_radial:convert_harvester"); // use
 }
 
 int VetHarvesterDeedImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
@@ -41,7 +41,7 @@ int VetHarvesterDeedImplementation::handleObjectMenuSelect(CreatureObject* playe
 int VetHarvesterDeedImplementation::useObject(CreatureObject* creature) {
 	ManagedReference<PlayerObject*> ghost = creature->getPlayerObject();
 
-	ZoneServer *zone = creature->getZoneServer();
+	ZoneServer* zone = creature->getZoneServer();
 
 	if (ghost == nullptr || zone == nullptr)
 		return 0;
@@ -73,10 +73,12 @@ int VetHarvesterDeedImplementation::useObject(CreatureObject* creature) {
 
 	cman->sendMail("system", "@veteran:harvester_converted_subject", messageBody, creature->getFirstName());
 
-	Core::getTaskManager()->executeTask([=] () {
-		Locker locker(harvester);
-		harvester->setSelfPowered(true);
-	}, "SetSelfPoweredLambda");
+	Core::getTaskManager()->executeTask(
+		[=]() {
+			Locker locker(harvester);
+			harvester->setSelfPowered(true);
+		},
+		"SetSelfPoweredLambda");
 
 	destroyDeed();
 

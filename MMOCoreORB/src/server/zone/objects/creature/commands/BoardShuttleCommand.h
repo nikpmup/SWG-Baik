@@ -25,12 +25,9 @@
 
 class BoardShuttleCommand : public QueueCommand {
 public:
-
 	static int MAXIMUM_PLAYER_COUNT;
 
-	BoardShuttleCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	BoardShuttleCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -68,27 +65,27 @@ public:
 		}
 
 		if (!shuttle->isInRange(creature, 25.f)) {
-			creature->sendSystemMessage("@player_structure:boarding_too_far"); //You are too far from the shuttle to board.
+			creature->sendSystemMessage("@player_structure:boarding_too_far"); // You are too far from the shuttle to board.
 			return GENERALERROR;
 		}
 
 		if (creature->isRidingMount()) {
-			creature->sendSystemMessage("@travel:no_pets"); //You cannot board the shuttle when you are riding on a pet or in a vehicle.
+			creature->sendSystemMessage("@travel:no_pets"); // You cannot board the shuttle when you are riding on a pet or in a vehicle.
 			return GENERALERROR;
 		}
 
 		// Get tickets user has in inventory for this location
-		SortedVector<ManagedReference<TicketObject*> > tickets = findTicketsInInventory(creature, closestPoint);
+		SortedVector<ManagedReference<TicketObject*>> tickets = findTicketsInInventory(creature, closestPoint);
 
 		// Do they have any tickets for this location?
 		if (tickets.size() == 0) {
-			creature->sendSystemMessage("@travel:no_ticket"); //You do not have a ticket to board this shuttle.
+			creature->sendSystemMessage("@travel:no_ticket"); // You do not have a ticket to board this shuttle.
 			return GENERALERROR;
 		}
 
 		// Is shuttle ready to board yet?
 		// Shuttle at Theed Spaceport, Naboo should always be available. Even when the shuttle isn't there.
-		if (!closestPoint->isPoint("naboo","Theed Spaceport")){
+		if (!closestPoint->isPoint("naboo", "Theed Spaceport")) {
 			if (!planetManager->checkShuttleStatus(creature, shuttle))
 				return GENERALERROR;
 		}
@@ -102,7 +99,7 @@ public:
 
 		ManagedReference<TicketObject*> ticketObject = server->getZoneServer()->getObject(ticketoid).castTo<TicketObject*>();
 
-		//If no ticket was passed as the target, then send the selection box.
+		// If no ticket was passed as the target, then send the selection box.
 		if (ticketObject == nullptr) {
 			sendTicketSelectionBoxTo(creature, tickets);
 			return SUCCESS;
@@ -112,7 +109,7 @@ public:
 		String departurePoint = ticketObject->getDeparturePoint();
 
 		if (!closestPoint->isPoint(departurePlanet, departurePoint)) {
-			creature->sendSystemMessage("@travel:no_ticket"); //You do not have a ticket to board this shuttle.
+			creature->sendSystemMessage("@travel:no_ticket"); // You do not have a ticket to board this shuttle.
 			return GENERALERROR;
 		}
 
@@ -122,14 +119,14 @@ public:
 		ManagedReference<Zone*> arrivalZone = server->getZoneServer()->getZone(arrivalPlanet);
 
 		if (arrivalZone == nullptr) {
-			creature->sendSystemMessage("@travel:route_not_available"); //This ticket's route is no longer available.
+			creature->sendSystemMessage("@travel:route_not_available"); // This ticket's route is no longer available.
 			return GENERALERROR;
 		}
 
 		Reference<PlanetTravelPoint*> arrivalPoint = arrivalZone->getPlanetManager()->getPlanetTravelPoint(arrivalPointName);
 
 		if (arrivalPoint == nullptr || !closestPoint->canTravelTo(arrivalPoint)) {
-			creature->sendSystemMessage("@travel:wrong_shuttle"); //The ticket is not valid for the given shuttle.
+			creature->sendSystemMessage("@travel:wrong_shuttle"); // The ticket is not valid for the given shuttle.
 			return GENERALERROR;
 		}
 
@@ -154,7 +151,7 @@ public:
 
 		ManagedReference<CityRegion*> departCity = shuttle->getCityRegion().get();
 
-		if (departCity != nullptr){
+		if (departCity != nullptr) {
 			if (departCity->isBanned(creature->getObjectID())) {
 				creature->sendSystemMessage("@city/city:city_cant_board"); // You are banned from using the services of this city.\nYou may not board the transport.
 				return GENERALERROR;
@@ -179,7 +176,6 @@ public:
 			y = p.getPositionY();
 
 		} else {
-
 			// relative orientation of the shuttle
 			float oy = targetShuttleObject->getDirection()->getY();
 			float dirDegrees = (acos(oy) * 180 / M_PI) * 2;
@@ -204,14 +200,14 @@ public:
 
 			group->scheduleUpdateNearestMissionForGroup(zone->getPlanetCRC());
 
-			if(departurePlanet != arrivalPlanet) {
+			if (departurePlanet != arrivalPlanet) {
 				group->scheduleUpdateNearestMissionForGroup(arrivalZone->getPlanetCRC());
 			}
 		}
 
 		Locker ticketLocker(ticketObject);
 
-		//remove the ticket from inventory and destroy it.
+		// remove the ticket from inventory and destroy it.
 		ticketObject->destroyObjectFromWorld(true);
 		ticketObject->destroyObjectFromDatabase(true);
 
@@ -219,8 +215,8 @@ public:
 	}
 
 private:
-	SortedVector<ManagedReference<TicketObject*> > findTicketsInInventory(CreatureObject* creature, PlanetTravelPoint* departurePoint) const {
-		SortedVector<ManagedReference<TicketObject*> > tickets;
+	SortedVector<ManagedReference<TicketObject*>> findTicketsInInventory(CreatureObject* creature, PlanetTravelPoint* departurePoint) const {
+		SortedVector<ManagedReference<TicketObject*>> tickets;
 
 		ManagedReference<SceneObject*> inventory = creature->getSlottedObject("inventory");
 
@@ -238,9 +234,9 @@ private:
 			if (!obj->isTangibleObject() || !(cast<TangibleObject*>(obj.get()))->isTicketObject())
 				continue;
 
-			TicketObject* ticket = cast<TicketObject*>( obj.get());
+			TicketObject* ticket = cast<TicketObject*>(obj.get());
 
-			//Check to see if the ticket is for this destination
+			// Check to see if the ticket is for this destination
 			if (!departurePoint->isPoint(ticket->getDeparturePlanet(), ticket->getDeparturePoint()))
 				continue;
 
@@ -250,25 +246,24 @@ private:
 		return tickets;
 	}
 
-	void sendTicketSelectionBoxTo(CreatureObject* creature, SortedVector<ManagedReference<TicketObject*> > tickets) const {
-		//Make sure it's a player before sending it a sui box...
+	void sendTicketSelectionBoxTo(CreatureObject* creature, SortedVector<ManagedReference<TicketObject*>> tickets) const {
+		// Make sure it's a player before sending it a sui box...
 		if (!creature->isPlayerCreature())
 			return;
 
 		CreatureObject* player = cast<CreatureObject*>(creature);
 
-		ManagedReference<PlayerObject* > ghost = player->getPlayerObject();
+		ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
 
 		if (ghost == nullptr)
 			return;
 
-		if (ghost->hasSuiBoxWindowType(SuiWindowType::TRAVEL_TICKET_SELECTION))
-		{
+		if (ghost->hasSuiBoxWindowType(SuiWindowType::TRAVEL_TICKET_SELECTION)) {
 			ghost->closeSuiWindowType(SuiWindowType::TRAVEL_TICKET_SELECTION);
 		}
 
 		ManagedReference<SuiListBox*> suiListBox = new SuiListBox(player, SuiWindowType::TRAVEL_TICKET_SELECTION);
-		creature->sendSystemMessage("@travel:boarding_ticket_selection"); //You must select a ticket to use before boarding.
+		creature->sendSystemMessage("@travel:boarding_ticket_selection"); // You must select a ticket to use before boarding.
 		suiListBox->setPromptTitle("Select Destination");
 		suiListBox->setPromptText("Select Destination");
 
@@ -284,4 +279,4 @@ private:
 	}
 };
 
-#endif //BOARDSHUTTLECOMMAND_H_
+#endif // BOARDSHUTTLECOMMAND_H_

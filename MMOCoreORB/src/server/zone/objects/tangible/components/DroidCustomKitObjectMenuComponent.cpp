@@ -16,19 +16,17 @@
 #include "server/zone/objects/player/sui/callbacks/CustomDroidSuiCallback.h"
 
 void DroidCustomKitObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
-	if(!sceneObject->isTangibleObject())
+	if (!sceneObject->isTangibleObject())
 		return;
 
 	TangibleObject* tano = cast<TangibleObject*>(sceneObject);
-	if(tano == nullptr)
+	if (tano == nullptr)
 		return;
 
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
 }
 
 int DroidCustomKitObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
-
 	if (player == nullptr)
 		return 0;
 
@@ -38,11 +36,11 @@ int DroidCustomKitObjectMenuComponent::handleObjectMenuSelect(SceneObject* scene
 	if (selectedID != 20)
 		return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject, player, selectedID);
 
-	if(!sceneObject->isTangibleObject())
+	if (!sceneObject->isTangibleObject())
 		return 0;
 
 	ManagedReference<TangibleObject*> kitTano = cast<TangibleObject*>(sceneObject);
-	if(kitTano == nullptr)
+	if (kitTano == nullptr)
 		return 0;
 
 	uint64 targetID = player->getTargetID();
@@ -55,44 +53,41 @@ int DroidCustomKitObjectMenuComponent::handleObjectMenuSelect(SceneObject* scene
 		player->sendSystemMessage("You can only use this tool to customize droids");
 		return 0;
 	}
-	//permission check
+	// permission check
 	CreatureObject* droid = cast<CreatureObject*>(target.get());
 	uint64 ownerID = droid->getCreatureLinkID();
-	if ( ownerID != player->getObjectID()){
+	if (ownerID != player->getObjectID()) {
 		bool hasConsent = false;
 
 		ManagedReference<CreatureObject*> targetOwner = server->getObject(ownerID, true).castTo<CreatureObject*>();
-		if (targetOwner != nullptr)
-		{
+		if (targetOwner != nullptr) {
 			Locker crossLock(targetOwner, player);
 			ManagedReference<PlayerObject*> ghostOwner = targetOwner->getPlayerObject();
 			for (int i = 0; i < ghostOwner->getConsentListSize(); ++i) {
 				String entryName = ghostOwner->getConsentName(i);
-				if (!entryName.isEmpty()){
-					if (entryName == player->getFirstName().toLowerCase()){
+				if (!entryName.isEmpty()) {
+					if (entryName == player->getFirstName().toLowerCase()) {
 						hasConsent = true;
 					}
 				}
 			}
 		}
-		if (!hasConsent){
+		if (!hasConsent) {
 			player->sendSystemMessage("You require consent to customize another player's droid");
 			return 0;
 		}
 	}
-	//end permission check
+	// end permission check
 
 	Locker clocker(droid, player);
 
 	String appearanceFilename = target->getObjectTemplate()->getAppearanceFilename();
-	VectorMap<String, Reference<CustomizationVariable*> > variables;
+	VectorMap<String, Reference<CustomizationVariable*>> variables;
 	AssetCustomizationManagerTemplate::instance()->getCustomizationVariables(appearanceFilename.hashCode(), variables, false);
 	int numPalette = 0;
-	for(int i = 0; i< variables.size(); ++i)
-	{
+	for (int i = 0; i < variables.size(); ++i) {
 		String varkey = variables.elementAt(i).getKey();
-		if (varkey.contains("color"))
-		{
+		if (varkey.contains("color")) {
 			++numPalette;
 		}
 	}
@@ -103,7 +98,7 @@ int DroidCustomKitObjectMenuComponent::handleObjectMenuSelect(SceneObject* scene
 	}
 
 	DroidObject* painted = cast<DroidObject*>(droid);
-	if (painted != nullptr){
+	if (painted != nullptr) {
 		painted->refreshPaint();
 	}
 
@@ -116,11 +111,11 @@ int DroidCustomKitObjectMenuComponent::handleObjectMenuSelect(SceneObject* scene
 
 	frameTrimSelector->addMenuItem("Color Frame");
 
-	if (numPalette > 1 ) {
+	if (numPalette > 1) {
 		frameTrimSelector->addMenuItem("Color Trim");
 	}
 
-	if (numPalette > 2 ) {
+	if (numPalette > 2) {
 		frameTrimSelector->addMenuItem("Color Extra Trim");
 	}
 

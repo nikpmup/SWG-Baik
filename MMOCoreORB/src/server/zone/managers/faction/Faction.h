@@ -18,7 +18,6 @@ class Faction : public Object {
 	float adjustFactor;
 
 public:
-
 	Faction() : Object() {
 		playerAllowed = true;
 		adjustFactor = 1.0;
@@ -38,7 +37,7 @@ public:
 		adjustFactor = f.adjustFactor;
 	}
 
-	Faction& operator= (const Faction& f) {
+	Faction& operator=(const Faction& f) {
 		if (this == &f)
 			return *this;
 
@@ -103,6 +102,5 @@ public:
 		return adjustFactor;
 	}
 };
-
 
 #endif /* FACTIONRELATIONSHIP_H_ */

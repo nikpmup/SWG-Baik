@@ -23,9 +23,8 @@ class ResourceSpawner;
  */
 class RandomPool : public ResourcePool {
 private:
-
 	/// SIze of pool (From script)
-	Vector<ManagedReference<ResourceSpawn*> > pool;
+	Vector<ManagedReference<ResourceSpawn*>> pool;
 
 public:
 	/**
@@ -62,7 +61,6 @@ public:
 	void print();
 
 private:
-
 	/**
 	 * Adds resource to this pool
 	 * \param resourceSpawn Spawn object to add to the pool

@@ -12,7 +12,7 @@
 
 class Skill;
 
-class SkillList : public DeltaVector<Reference<Skill*> > {
+class SkillList : public DeltaVector<Reference<Skill*>> {
 #ifdef ODB_SERIALIZATION
 	Vector<String> skills;
 #endif

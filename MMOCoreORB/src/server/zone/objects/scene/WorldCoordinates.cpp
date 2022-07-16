@@ -9,7 +9,6 @@
 #include "server/zone/objects/cell/CellObject.h"
 
 WorldCoordinates::WorldCoordinates() : Object() {
-
 }
 
 WorldCoordinates::WorldCoordinates(const WorldCoordinates& c) : Object() {
@@ -42,7 +41,6 @@ WorldCoordinates::WorldCoordinates(const Vector3& position, CellObject* parent) 
 	if (parent != nullptr)
 		cell = parent;
 }
-
 
 bool WorldCoordinates::toBinaryStream(ObjectOutputStream* stream) {
 	point.toBinaryStream(stream);
@@ -78,7 +76,6 @@ Vector3 WorldCoordinates::getWorldPosition() const {
 
 	return pos;
 }
-
 
 bool WorldCoordinates::isInRange(const WorldCoordinates& obj, float range) const {
 	Vector3 thisWorldPos = getWorldPosition();

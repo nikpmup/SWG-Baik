@@ -12,50 +12,50 @@
 
 namespace server {
 namespace zone {
-	class ZoneClientSession;
-	class ZoneProcessServer;
-}
-}
+class ZoneClientSession;
+class ZoneProcessServer;
+} // namespace zone
+} // namespace server
 
 using namespace server::zone;
 
 namespace server {
-	namespace zone {
-		namespace managers {
-			namespace holocron {
+namespace zone {
+namespace managers {
+namespace holocron {
 
-				class HolocronManager : public Singleton<HolocronManager>, public Logger, public Object {
-					ZoneProcessServer* processor;
-					SortedVector<BugCategory> categories;
+class HolocronManager : public Singleton<HolocronManager>, public Logger, public Object {
+	ZoneProcessServer* processor;
+	SortedVector<BugCategory> categories;
 
-				public:
-					HolocronManager(ZoneProcessServer* pserv) {
-						processor = pserv;
+public:
+	HolocronManager(ZoneProcessServer* pserv) {
+		processor = pserv;
 
-						setLoggingName("HolocronManager");
-						setGlobalLogging(false);
-						setLogging(false);
+		setLoggingName("HolocronManager");
+		setGlobalLogging(false);
+		setLogging(false);
 
-						loadBugCategories();
-					}
-
-					void loadBugCategories();
-					void sendRequestCategoriesResponseTo(ZoneClientSession* client);
-
-					void submitTicket(ZoneClientSession* client, const UnicodeString& ticketBody);
-
-					uint32 getReporterId(ZoneClientSession* client);
-					uint32 createReporterId(ZoneClientSession* client);
-
-					String getTokenValue(const String& token, const UnicodeString& report);
-					uint32 getReproducibilityFromString(const String& str);
-					uint32 getSeverityFromString(const String& str);
-				};
-
-			}
-		}
+		loadBugCategories();
 	}
-}
+
+	void loadBugCategories();
+	void sendRequestCategoriesResponseTo(ZoneClientSession* client);
+
+	void submitTicket(ZoneClientSession* client, const UnicodeString& ticketBody);
+
+	uint32 getReporterId(ZoneClientSession* client);
+	uint32 createReporterId(ZoneClientSession* client);
+
+	String getTokenValue(const String& token, const UnicodeString& report);
+	uint32 getReproducibilityFromString(const String& str);
+	uint32 getSeverityFromString(const String& str);
+};
+
+} // namespace holocron
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::holocron;
 

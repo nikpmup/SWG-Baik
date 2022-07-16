@@ -11,7 +11,6 @@
 #include "server/zone/objects/player/sui/SuiCallback.h"
 
 class PlayerTeachSuiCallback : public SuiCallback {
-
 public:
 	PlayerTeachSuiCallback(ZoneServer* serv) : SuiCallback(serv) {
 	}
@@ -47,6 +46,5 @@ public:
 		playerManager->offerTeaching(teacher, student, skill);
 	}
 };
-
 
 #endif /* PLAYERTEACHSUICALLBACK_H_ */

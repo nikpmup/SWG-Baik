@@ -1,6 +1,6 @@
 /*
-                Copyright <SWGEmu>
-        See file COPYING for copying conditions.*/
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
 
 /**
  * @author      : lordkator (lordkator@swgemu.com)
@@ -15,19 +15,19 @@
 #include "server/zone/ZoneServer.h"
 
 namespace server {
- namespace web3 {
-	class BaseAPIProxy {
-		private:
-			String mManagerName;
+namespace web3 {
+class BaseAPIProxy {
+private:
+	String mManagerName;
 
-		public:
-			BaseAPIProxy(const String& managerName) {
-				mManagerName = managerName;
-			}
+public:
+	BaseAPIProxy(const String& managerName) {
+		mManagerName = managerName;
+	}
 
-			static server::zone::ZoneServer* getZoneServer() {
-				return ServerCore::getZoneServer();
-			}
-	};
- }
-}
+	static server::zone::ZoneServer* getZoneServer() {
+		return ServerCore::getZoneServer();
+	}
+};
+} // namespace web3
+} // namespace server

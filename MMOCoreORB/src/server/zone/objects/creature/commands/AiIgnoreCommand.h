@@ -7,14 +7,10 @@
 
 class AiIgnoreCommand : public QueueCommand {
 public:
-
-	AiIgnoreCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	AiIgnoreCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //AIIGNORECOMMAND_H_
+#endif // AIIGNORECOMMAND_H_

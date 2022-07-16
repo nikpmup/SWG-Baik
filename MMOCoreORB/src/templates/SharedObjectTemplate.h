@@ -62,7 +62,7 @@ protected:
 	FloatParam noBuildRadius;
 	BoolParam onlyVisibleInTools;
 	FloatParam locationReservationRadius;
-	//uint32 clientObjectCRC;
+	// uint32 clientObjectCRC;
 	String clientTemplateFileName;
 
 	Reference<const PlanetMapCategory*> planetMapCategory;
@@ -198,11 +198,11 @@ public:
 	const static int DROIDMODULEPERSONALITY = 0x4000057;
 	const static int VEHICLE = 0x4000058;
 	const static int XPPURCHASE = 0x4000059;
+
 public:
 	SharedObjectTemplate();
 
 	virtual ~SharedObjectTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData);
@@ -305,9 +305,9 @@ public:
 	const PortalLayout* getPortalLayout();
 	AppearanceTemplate* getAppearanceTemplate();
 
-	const Vector <Vector<String>>& getArrangementDescriptors() const {
+	const Vector<Vector<String>>& getArrangementDescriptors() const {
 		if (arrangementDescriptors == nullptr) {
-			const static Vector < Vector<String> > EMPTY_DESCRIPTORS;
+			const static Vector<Vector<String>> EMPTY_DESCRIPTORS;
 			return EMPTY_DESCRIPTORS;
 		} else
 			return arrangementDescriptors->getArrangementSlots();
@@ -707,15 +707,15 @@ public:
 	}
 
 	virtual bool isRecycleToolTemplate() const {
-	    	return false;
+		return false;
 	}
 
 	virtual bool isVehicleCustomKitTemplate() {
-	    	return false;
+		return false;
 	}
 
 	virtual bool isDnaSampleTemplate() {
-	    	return false;
+		return false;
 	}
 
 	virtual bool isPetDeedTemplate() {
@@ -723,19 +723,19 @@ public:
 	}
 
 	virtual bool isDroidCustomKitTemplate() {
-	    	return false;
+		return false;
 	}
 
 	virtual bool isDroidComponentTemplate() {
-	    	return false;
+		return false;
 	}
 
 	virtual bool isDroidCraftingModuleTemplate() {
-	    	return false;
+		return false;
 	}
 
 	virtual bool isDroidEffectsModuleTemplate() {
-	    	return false;
+		return false;
 	}
 
 	virtual bool isVehicleObjectTemplate() {

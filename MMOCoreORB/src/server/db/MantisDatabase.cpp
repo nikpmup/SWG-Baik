@@ -10,7 +10,7 @@
 
 #include "conf/ConfigManager.h"
 
-UniqueReference<ArrayList<UniqueReference<Database*> >* > MantisDatabase::databases;
+UniqueReference<ArrayList<UniqueReference<Database*>>*> MantisDatabase::databases;
 AtomicInteger MantisDatabase::currentDB;
 String MantisDatabase::tablePrefix;
 
@@ -20,7 +20,7 @@ MantisDatabase::MantisDatabase(ConfigManager* configManager) {
 	const String& dbPass = configManager->getMantisPass();
 	const String& dbName = configManager->getMantisName();
 	tablePrefix = configManager->getMantisPrefix();
-	const int     dbPort = configManager->getMantisPort();
+	const int dbPort = configManager->getMantisPort();
 
 	databases = new ArrayList<UniqueReference<Database*>>();
 

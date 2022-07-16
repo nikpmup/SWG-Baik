@@ -13,15 +13,14 @@
 class PayPropertyTaxTask : public Task {
 	ManagedWeakReference<CityRegion*> cityObject;
 	float amount;
+
 public:
 	PayPropertyTaxTask(CityRegion* city, float tax) {
-
 		cityObject = city;
 		amount = tax;
 	}
 
 	void run() {
-
 		ManagedReference<CityRegion*> strongRefCity = cityObject.get();
 
 		if (strongRefCity == nullptr)

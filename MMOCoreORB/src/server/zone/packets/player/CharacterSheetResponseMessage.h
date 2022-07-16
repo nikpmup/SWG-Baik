@@ -10,11 +10,11 @@
 
 class CharacterSheetResponseMessage : public BaseMessage {
 public:
-    CharacterSheetResponseMessage(CreatureObject* player) : BaseMessage() {
+	CharacterSheetResponseMessage(CreatureObject* player) : BaseMessage() {
 		insertShort(0x0D);
 		insertInt(0x9B3A17C4); // CRC
 
-		//We should be passing playerobject into this method, rather than PlayerCreature.
+		// We should be passing playerobject into this method, rather than PlayerCreature.
 		ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
 
 		insertInt(0); //??
@@ -27,28 +27,28 @@ public:
 			insertFloat(cloningFacility->getPositionX());
 			insertFloat(cloningFacility->getPositionZ());
 			insertFloat(cloningFacility->getPositionY());
-			insertAscii(cloningFacility->getZone()->getZoneName()); //note: the client ignores the tutorial zone
+			insertAscii(cloningFacility->getZone()->getZoneName()); // note: the client ignores the tutorial zone
 		} else {
-			insertFloat(0); //Bind Location X
-			insertFloat(0); //Bind Location Z
-			insertFloat(0); //Bind Location Y
-			insertAscii(""); //Bind Planet
+			insertFloat(0);	 // Bind Location X
+			insertFloat(0);	 // Bind Location Z
+			insertFloat(0);	 // Bind Location Y
+			insertAscii(""); // Bind Planet
 		}
 
-		insertFloat(0); //Bank Location X
-		insertFloat(0); //Bank Location Z
-		insertFloat(0); //Bank Location Y
-		insertAscii(ghost->getBankLocation()); //Bank Planet
+		insertFloat(0);						   // Bank Location X
+		insertFloat(0);						   // Bank Location Z
+		insertFloat(0);						   // Bank Location Y
+		insertAscii(ghost->getBankLocation()); // Bank Planet
 
 		uint64 declaredOidResidence = ghost->getDeclaredResidence();
 
 		ManagedReference<SceneObject*> declaredResidence = player->getZoneServer()->getObject(declaredOidResidence);
 
 		if (declaredResidence != nullptr && declaredResidence->getZone() != nullptr) {
-			insertFloat(declaredResidence->getPositionX()); //Home Location X
-			insertFloat(declaredResidence->getPositionZ()); //Home Location Z
-			insertFloat(declaredResidence->getPositionY()); //Home Location Y
-			insertAscii(declaredResidence->getZone()->getZoneName()); //Home Planet
+			insertFloat(declaredResidence->getPositionX());			  // Home Location X
+			insertFloat(declaredResidence->getPositionZ());			  // Home Location Z
+			insertFloat(declaredResidence->getPositionY());			  // Home Location Y
+			insertAscii(declaredResidence->getZone()->getZoneName()); // Home Planet
 		} else {
 			insertFloat(0);
 			insertFloat(0);
@@ -56,15 +56,14 @@ public:
 			insertAscii("");
 		}
 
-		insertUnicode(ghost->getSpouseName()); //Spouse Name
-		insertInt(ghost->getLotsRemaining()); //Lots Remaining
+		insertUnicode(ghost->getSpouseName()); // Spouse Name
+		insertInt(ghost->getLotsRemaining());  // Lots Remaining
 
-		insertInt(player->getFaction()); //Faction CRC (or hashCode?)
-		insertInt(player->getFactionStatus()); //Faction Status
+		insertInt(player->getFaction());	   // Faction CRC (or hashCode?)
+		insertInt(player->getFactionStatus()); // Faction Status
 
 		setCompression(true);
 	}
-
 };
 
 #endif /*CHARACTERSHEETRESPONSEMESSAGE_H_*/

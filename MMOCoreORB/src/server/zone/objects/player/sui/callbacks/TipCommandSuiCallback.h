@@ -13,14 +13,13 @@
 #include "server/chat/ChatManager.h"
 #include "server/zone/objects/transaction/TransactionLog.h"
 
-class TipCommandSuiCallback: public SuiCallback {
+class TipCommandSuiCallback : public SuiCallback {
 private:
 	ManagedReference<CreatureObject*> targetPlayer;
 	int amount;
 
 public:
-	TipCommandSuiCallback(ZoneServer* server, CreatureObject* target, int amount) :
-		SuiCallback(server) {
+	TipCommandSuiCallback(ZoneServer* server, CreatureObject* target, int amount) : SuiCallback(server) {
 		this->targetPlayer = target;
 		this->amount = amount;
 	}
@@ -80,27 +79,24 @@ public:
 		pwps.setTO(targetPlayer->getCreatureName());
 		player->sendSystemMessage(pwps);
 
-		ManagedReference<ChatManager*> cman =
-				player->getZoneServer()->getChatManager();
+		ManagedReference<ChatManager*> cman = player->getZoneServer()->getChatManager();
 		if (cman == nullptr)
 			return;
 
 		UnicodeString subject("@base_player:wire_mail_subject"); // Bank Transfer Complete...
-		String sender = "bank"; // As per Live. TODO: locale aware. Possibly @acct_n:bank
+		String sender = "bank";									 // As per Live. TODO: locale aware. Possibly @acct_n:bank
 
 		StringIdChatParameter body("@base_player:prose_wire_mail_target");
 		// %DI credits from %TO have been successfully delivered from escrow to your bank account.
 		body.setTO(player->getCreatureName());
 		body.setDI(amount);
-		cman->sendMail(sender, subject, body,
-				targetPlayer->getFirstName());
+		cman->sendMail(sender, subject, body, targetPlayer->getFirstName());
 
 		StringIdChatParameter bodyself("@base_player:prose_wire_mail_self");
 		// %TO has received %DI credits from you, via bank wire transfer.
 		bodyself.setTO(targetPlayer->getCreatureName());
 		bodyself.setDI(amount);
-		cman->sendMail(sender, subject, bodyself,
-				player->getFirstName());
+		cman->sendMail(sender, subject, bodyself, player->getFirstName());
 	}
 };
 

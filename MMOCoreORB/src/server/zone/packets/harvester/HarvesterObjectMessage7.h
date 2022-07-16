@@ -9,12 +9,10 @@
 
 class HarvesterObjectMessage7 : public BaseLineMessage {
 public:
-	HarvesterObjectMessage7(InstallationObject* hino)
-			: BaseLineMessage(hino->getObjectID(), 0x48494E4F, 7, 0x05) {
-
+	HarvesterObjectMessage7(InstallationObject* hino) : BaseLineMessage(hino->getObjectID(), 0x48494E4F, 7, 0x05) {
 		insertByte(1);
 
-		Vector<ManagedReference<ResourceSpawn*> > resourceList;
+		Vector<ManagedReference<ResourceSpawn*>> resourceList;
 
 		ResourceManager* resourceManager = hino->getZoneServer()->getResourceManager();
 		resourceManager->getResourceListByType(resourceList, hino->getInstallationType(), hino->getZone()->getZoneName());
@@ -24,8 +22,6 @@ public:
 		insertResourceIDList(&resourceList);
 		insertResourceNameList(&resourceList);
 		insertResourceTypeList(&resourceList);
-
-
 
 		/*insertLong(hino->getActiveResourceID());
 		insertByte(hino->isOperating());
@@ -39,7 +35,7 @@ public:
 		insertLong(hino->getActiveResourceSpawnID());
 		insertByte(hino->isOperating());
 		insertInt((int)hino->getExtractionRate()); // Extraction Rate Displayed
-		insertFloat(hino->getExtractionRate()); // Extract Rate Max
+		insertFloat(hino->getExtractionRate());	   // Extract Rate Max
 
 		insertFloat(hino->getActualRate()); // Current Extract Rate
 
@@ -50,10 +46,9 @@ public:
 		insertByte(100); // Percentage of Condition
 
 		setSize();
-
 	}
 
-	void insertHopperSpawnObjects(Vector<ManagedReference<ResourceSpawn*> >* resourceList, InstallationObject* hino) {
+	void insertHopperSpawnObjects(Vector<ManagedReference<ResourceSpawn*>>* resourceList, InstallationObject* hino) {
 		HopperList* list = hino->getHopperList();
 
 		for (int i = 0; i < list->size(); ++i) {
@@ -62,10 +57,9 @@ public:
 			if (!spawn->inShift())
 				resourceList->add(spawn);
 		}
-
 	}
 
-	void insertResourceIDList(const Vector<ManagedReference<ResourceSpawn*> >* hino) {
+	void insertResourceIDList(const Vector<ManagedReference<ResourceSpawn*>>* hino) {
 		for (int x = 0; x < 2; x++) {
 			insertInt(hino->size());
 			insertInt(hino->size());
@@ -75,7 +69,7 @@ public:
 		}
 	}
 
-	void insertResourceNameList(const Vector<ManagedReference<ResourceSpawn*> >* hino) {
+	void insertResourceNameList(const Vector<ManagedReference<ResourceSpawn*>>* hino) {
 		insertInt(hino->size());
 		insertInt(hino->size());
 		for (int i = 0; i < hino->size(); i++) {
@@ -83,7 +77,7 @@ public:
 		}
 	}
 
-	void insertResourceTypeList(const Vector<ManagedReference<ResourceSpawn*> >* hino) {
+	void insertResourceTypeList(const Vector<ManagedReference<ResourceSpawn*>>* hino) {
 		insertInt(hino->size());
 		insertInt(hino->size());
 		for (int i = 0; i < hino->size(); i++) {
@@ -91,7 +85,7 @@ public:
 		}
 	}
 
-	void insertHopperItems(InstallationObject * hino) {
+	void insertHopperItems(InstallationObject* hino) {
 		HopperList* hopperList = hino->getHopperList();
 
 		if (hopperList->size() == 0)

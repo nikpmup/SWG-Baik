@@ -18,9 +18,9 @@ class BitMapFamily : public TemplateVariable<'MFAM'> {
 	String file;
 
 	TargaBitmap map;
+
 public:
 	BitMapFamily() : var1(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {
@@ -32,7 +32,7 @@ public:
 
 		iffStream->closeChunk('DATA');
 
-		int size = 0 ;
+		int size = 0;
 		byte* data = DataArchiveStore::instance()->getData(file, size);
 
 		if (data != nullptr) {
@@ -45,7 +45,7 @@ public:
 				Logger::console.error(e.getMessage());
 			}
 
-			delete [] data;
+			delete[] data;
 		}
 	}
 

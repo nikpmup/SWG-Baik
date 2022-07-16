@@ -10,20 +10,18 @@
 #include "engine/engine.h"
 #include "system/lang/SignalException.h"
 
-template<uint32 signal>
+template <uint32 signal>
 class ODB3SignalHandler {
-	public:
-		static void SignalHandler(int cause) {
-			ObjectDatabaseManager::instance()->closeDatabases();
+public:
+	static void SignalHandler(int cause) {
+		ObjectDatabaseManager::instance()->closeDatabases();
 
-			exit(cause);
-		}
+		exit(cause);
+	}
 
-		static int GetSignalNumber() {
-			return signal;
-		}
+	static int GetSignalNumber() {
+		return signal;
+	}
 };
 
-
 #endif /* end of include guard OBJECTDATABASECORESIGNALS_H */
-

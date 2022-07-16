@@ -50,7 +50,7 @@ Behavior::Status ParallelSequence::execute(AiAgent* agent, unsigned int startIdx
 }
 
 Behavior::Status RandomSequence::execute(AiAgent* agent, unsigned int startIdx) const {
-	Vector<Reference<Behavior*> > ranChildren = shuffleChildren();
+	Vector<Reference<Behavior*>> ranChildren = shuffleChildren();
 	for (int i = 0; i < ranChildren.size(); ++i) {
 		Behavior* currentChild = ranChildren.get(i);
 		assert(currentChild != nullptr);

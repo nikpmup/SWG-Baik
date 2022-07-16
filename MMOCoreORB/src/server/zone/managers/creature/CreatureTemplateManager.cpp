@@ -19,7 +19,7 @@ int CreatureTemplateManager::ERROR_CODE = NO_ERROR;
 CreatureTemplateManager::CreatureTemplateManager() : Logger("CreatureTemplateManager") {
 	/*setLogging(false);
 		setGlobalLogging(true);*/
-	//setLoggingName("CreatureTemplateManager");
+	// setLoggingName("CreatureTemplateManager");
 	globalAttackSpeedOverride = 0.0f;
 
 	lua = new Lua();
@@ -128,7 +128,6 @@ void CreatureTemplateManager::loadLuaConfig() {
 }
 
 CreatureTemplateManager::~CreatureTemplateManager() {
-
 }
 
 int CreatureTemplateManager::loadTemplates() {
@@ -202,8 +201,8 @@ int CreatureTemplateManager::addTemplate(lua_State* L) {
 		return 0;
 	}
 
-	String ascii =  lua_tostring(L, -2);
-	uint32 crc = (uint32) ascii.hashCode();
+	String ascii = lua_tostring(L, -2);
+	uint32 crc = (uint32)ascii.hashCode();
 
 	LuaObject obj(L);
 	CreatureTemplate* newTemp = new CreatureTemplate();
@@ -211,7 +210,7 @@ int CreatureTemplateManager::addTemplate(lua_State* L) {
 	newTemp->readObject(&obj);
 
 	if (instance()->hashTable.containsKey(crc)) {
-		luaL_where (L, 2);
+		luaL_where(L, 2);
 		String luaMethodName = lua_tostring(L, -1);
 
 		lua_pop(L, 1);
@@ -238,14 +237,14 @@ int CreatureTemplateManager::addConversationTemplate(lua_State* L) {
 		return 0;
 	}
 
-	String ascii =  lua_tostring(L, -2);
-	uint32 crc = (uint32) ascii.hashCode();
+	String ascii = lua_tostring(L, -2);
+	uint32 crc = (uint32)ascii.hashCode();
 
 	LuaObject obj(L);
 	Reference<ConversationTemplate*> newTemp = new ConversationTemplate(crc);
 
 	if (instance()->conversations.containsKey(crc)) {
-		luaL_where (L, 2);
+		luaL_where(L, 2);
 		String luaMethodName = lua_tostring(L, -1);
 
 		lua_pop(L, 1);
@@ -270,7 +269,7 @@ int CreatureTemplateManager::addWeapon(lua_State* L) {
 	}
 
 	String ascii = lua_tostring(L, -2);
-	uint32 crc = (uint32) ascii.hashCode();
+	uint32 crc = (uint32)ascii.hashCode();
 
 	LuaObject obj(L);
 	if (obj.isValidTable()) {
@@ -302,7 +301,7 @@ int CreatureTemplateManager::addSpawnGroup(lua_State* L) {
 	}
 
 	String ascii = lua_tostring(L, -2);
-	uint32 crc = (uint32) ascii.hashCode();
+	uint32 crc = (uint32)ascii.hashCode();
 
 	LuaObject obj(L);
 	CreatureTemplateManager::instance()->spawnGroupMap.put(crc, new SpawnGroup(ascii, obj));
@@ -318,7 +317,7 @@ int CreatureTemplateManager::addLairTemplate(lua_State* L) {
 	}
 
 	String ascii = lua_tostring(L, -2);
-	uint32 crc = (uint32) ascii.hashCode();
+	uint32 crc = (uint32)ascii.hashCode();
 
 	LuaObject obj(L);
 
@@ -338,7 +337,7 @@ int CreatureTemplateManager::addDestroyMissionGroup(lua_State* L) {
 	}
 
 	String ascii = lua_tostring(L, -2);
-	uint32 crc = (uint32) ascii.hashCode();
+	uint32 crc = (uint32)ascii.hashCode();
 
 	LuaObject obj(L);
 	CreatureTemplateManager::instance()->destroyMissionGroupMap.put(crc, new SpawnGroup(ascii, obj));
@@ -392,7 +391,7 @@ int CreatureTemplateManager::addDressGroup(lua_State* L) {
 	}
 
 	String ascii = lua_tostring(L, -2);
-	uint32 crc = (uint32) ascii.hashCode();
+	uint32 crc = (uint32)ascii.hashCode();
 
 	LuaObject obj(L);
 

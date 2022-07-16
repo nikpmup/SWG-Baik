@@ -57,7 +57,7 @@ int SurveyMissionObjectiveImplementation::notifyObserverEvent(MissionObserver* o
 			return 0;
 		}
 
-		ResourceSpawn* sampledSpawn = cast<ResourceSpawn*>( arg1);
+		ResourceSpawn* sampledSpawn = cast<ResourceSpawn*>(arg1);
 
 		if (sampledSpawn == nullptr) {
 			return 0;

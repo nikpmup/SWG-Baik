@@ -35,13 +35,13 @@ void SurveyToolImplementation::loadTemplateData(SharedObjectTemplate* templateDa
 void SurveyToolImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuResponse, CreatureObject* player) {
 	TangibleObjectImplementation::fillObjectMenuResponse(menuResponse, player);
 	menuResponse->addRadialMenuItem(135, 3, "@sui:tool_options");
-	menuResponse->addRadialMenuItemToRadialID(135,133, 3, "@sui:survey_range");
+	menuResponse->addRadialMenuItemToRadialID(135, 133, 3, "@sui:survey_range");
 }
 
 int SurveyToolImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
 	PlayerObject* playerObject = player->getPlayerObject();
 
-	if(isASubChildOf(player)) {
+	if (isASubChildOf(player)) {
 		if (!playerObject->hasAbility("survey")) {
 			player->sendSystemMessage("@error_message:insufficient_skill");
 			return 0;
@@ -50,7 +50,7 @@ int SurveyToolImplementation::handleObjectMenuSelect(CreatureObject* player, byt
 		if (selectedID == 20) { // use object
 			int range = getRange(player);
 
-			if(range <= 0 || range > 384) {
+			if (range <= 0 || range > 384) {
 				sendRangeSui(player);
 				return 0;
 			}
@@ -58,7 +58,7 @@ int SurveyToolImplementation::handleObjectMenuSelect(CreatureObject* player, byt
 			Locker locker(_this.getReferenceUnsafeStaticCast());
 
 			ManagedReference<SurveySession*> session = player->getActiveSession(SessionFacadeType::SURVEY).castTo<SurveySession*>();
-			if(session == nullptr) {
+			if (session == nullptr) {
 				session = new SurveySession(player);
 				session->initializeSession(_this.getReferenceUnsafeStaticCast());
 			}
@@ -66,7 +66,7 @@ int SurveyToolImplementation::handleObjectMenuSelect(CreatureObject* player, byt
 			session->setOpenSurveyTool(_this.getReferenceUnsafeStaticCast());
 
 			ManagedReference<ResourceManager*> resourceManager = cast<ResourceManager*>(server->getZoneServer()->getResourceManager());
-			if(resourceManager == nullptr) {
+			if (resourceManager == nullptr) {
 				error("null resource manager");
 				return 0;
 			}
@@ -119,7 +119,6 @@ void SurveyToolImplementation::sendRangeSui(CreatureObject* player) {
 }
 
 int SurveyToolImplementation::getRange(CreatureObject* player) {
-
 	int surveyMod = player->getSkillMod("surveying");
 	int rangeBasedOnSkill = getSkillBasedRange(surveyMod);
 
@@ -130,7 +129,6 @@ int SurveyToolImplementation::getRange(CreatureObject* player) {
 }
 
 int SurveyToolImplementation::getSkillBasedRange(int skillLevel) {
-
 	if (skillLevel >= 120)
 		return 384;
 	else if (skillLevel >= 100)
@@ -148,7 +146,7 @@ int SurveyToolImplementation::getSkillBasedRange(int skillLevel) {
 }
 
 void SurveyToolImplementation::setRange(int r) {
-	range = r;  // Distance the tool checks during survey
+	range = r; // Distance the tool checks during survey
 
 	// Set number of grid points in survey SUI 3x3 to 5x5
 	if (range >= 256) {
@@ -161,8 +159,7 @@ void SurveyToolImplementation::setRange(int r) {
 }
 
 void SurveyToolImplementation::sendRadioactiveWarning(CreatureObject* player) {
-
-	ManagedReference<SuiMessageBox* > messageBox = new SuiMessageBox(player, SuiWindowType::SAMPLE_RADIOACTIVE_CONFIRM);
+	ManagedReference<SuiMessageBox*> messageBox = new SuiMessageBox(player, SuiWindowType::SAMPLE_RADIOACTIVE_CONFIRM);
 	messageBox->setPromptTitle("Confirm Radioactive Sample");
 	messageBox->setPromptText("Sampling a radioactive material will result in harmful effects. Are you sure you wish to continue?");
 	messageBox->setCancelButton(true, "");

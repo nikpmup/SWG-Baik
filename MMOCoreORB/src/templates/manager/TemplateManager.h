@@ -29,7 +29,7 @@ class PaletteTemplate;
 class TemplateManager : public Singleton<TemplateManager>, public Logger, public Object {
 	TemplateCRCMap* templateCRCMap;
 
-	ObjectFactory<SharedObjectTemplate* (), uint32> templateFactory;
+	ObjectFactory<SharedObjectTemplate*(), uint32> templateFactory;
 	ClientTemplateCRCMap* clientTemplateCRCMap;
 	PortalLayoutMap* portalLayoutMap;
 	FloorMeshMap* floorMeshMap;
@@ -38,11 +38,11 @@ class TemplateManager : public Singleton<TemplateManager>, public Logger, public
 
 	PlanetMapCategoryList planetMapCategoryList;
 
-	SynchronizedVectorMap<String, Reference<StructureFootprint*> > structureFootprints;
+	SynchronizedVectorMap<String, Reference<StructureFootprint*>> structureFootprints;
 
-	SynchronizedVectorMap<String, Reference<SlotId*> > slotDefinitions;
-	SynchronizedVectorMap<String, Reference<SlotDescriptor*> > slotDescriptors;
-	SynchronizedVectorMap<String, Reference<ArrangementDescriptor*> > arrangementDescriptors;
+	SynchronizedVectorMap<String, Reference<SlotId*>> slotDefinitions;
+	SynchronizedVectorMap<String, Reference<SlotDescriptor*>> slotDescriptors;
+	SynchronizedVectorMap<String, Reference<ArrangementDescriptor*>> arrangementDescriptors;
 
 	ReadWriteLock appearanceMapLock;
 
@@ -60,15 +60,23 @@ public:
 #undef NO_ERROR
 #endif
 
-	enum TEMPLATE_ERROR_CODE { NO_ERROR = 0, GENERAL_ERROR, NO_TRE_PATH, NO_TRE_FILES,
-		LOAD_TRES_ERROR, SLOT_DEFINITION_FILE_NOT_FOUND,
+	enum TEMPLATE_ERROR_CODE {
+		NO_ERROR = 0,
+		GENERAL_ERROR,
+		NO_TRE_PATH,
+		NO_TRE_FILES,
+		LOAD_TRES_ERROR,
+		SLOT_DEFINITION_FILE_NOT_FOUND,
 		ASSETCUSTOMIZATIONMANAGER_FILE_NOT_FOUND,
 		CUSTOMIZATION_ID_MANAGER_FILE_NOT_FOUND,
-		PALLETE_COLUMNS_FILE_NOT_FOUND, HAIR_ASSETS_FILE_NOT_FOUND,
-		PLANET_CAT_FILE_NOT_FOUND, LOAD_LUA_TEMPLATE_ERROR};
+		PALLETE_COLUMNS_FILE_NOT_FOUND,
+		HAIR_ASSETS_FILE_NOT_FOUND,
+		PLANET_CAT_FILE_NOT_FOUND,
+		LOAD_LUA_TEMPLATE_ERROR
+	};
 
 protected:
-	//this is only to be used when loading client dervs
+	// this is only to be used when loading client dervs
 	LuaObject* getLuaObject(const String& iffTemplateName);
 
 public:

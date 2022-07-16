@@ -9,13 +9,10 @@
 
 class StartleShot1Command : public CombatQueueCommand {
 public:
-
-	StartleShot1Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	StartleShot1Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //STARTLESHOT1COMMAND_H_
+#endif // STARTLESHOT1COMMAND_H_

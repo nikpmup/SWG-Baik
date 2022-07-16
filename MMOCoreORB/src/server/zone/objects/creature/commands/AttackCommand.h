@@ -9,13 +9,10 @@
 
 class AttackCommand : public CombatQueueCommand {
 public:
-
-	AttackCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	AttackCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -26,4 +23,4 @@ public:
 	}
 };
 
-#endif //ATTACKCOMMAND_H_
+#endif // ATTACKCOMMAND_H_

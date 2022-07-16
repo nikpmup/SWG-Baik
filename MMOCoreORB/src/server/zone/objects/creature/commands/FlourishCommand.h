@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef FLOURISHCOMMAND_H_
@@ -7,16 +7,12 @@
 
 #include "server/zone/objects/player/sessions/EntertainingSession.h"
 
-class FlourishCommand: public QueueCommand {
+class FlourishCommand : public QueueCommand {
 public:
-
-	FlourishCommand(const String& name, ZoneProcessServer* server) :
-		QueueCommand(name, server) {
-
+	FlourishCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -71,12 +67,11 @@ public:
 			return 0.0f;
 		}
 
-		//calculating cooldown as defaultTime(5s) - 1s per 30 skill mod val
-		//gives a minimum time of 2s at master
+		// calculating cooldown as defaultTime(5s) - 1s per 30 skill mod val
+		// gives a minimum time of 2s at master
 		float duration = defaultTime - (knowledgeSkillMod / 30.0f);
 		return duration;
 	}
-
 };
 
-#endif //FLOURISHCOMMAND_H_
+#endif // FLOURISHCOMMAND_H_

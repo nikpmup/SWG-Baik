@@ -39,8 +39,6 @@ public:
 		try {
 			Locker playerLocker(player);
 
-
-
 			PlayerObject* ghost = player->getPlayerObject();
 
 			if (ghost == nullptr) {
@@ -91,14 +89,13 @@ public:
 			player->error("unreported exception caught in PlayerRecoveryEvent::activate");
 		}
 	}
-
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace player
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::player::events;
 

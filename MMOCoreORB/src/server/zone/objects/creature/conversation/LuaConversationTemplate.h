@@ -8,7 +8,6 @@
 #ifndef LUACONVERSATIONTEMPLATE_H_
 #define LUACONVERSATIONTEMPLATE_H_
 
-
 #include "ConversationTemplate.h"
 
 #include "engine/engine.h"
@@ -20,7 +19,7 @@ public:
 	static Luna<LuaConversationTemplate>::RegType Register[];
 
 	// Initialize the pointer
-	LuaConversationTemplate(lua_State *L);
+	LuaConversationTemplate(lua_State* L);
 	~LuaConversationTemplate();
 
 	int _setObject(lua_State* L);

@@ -8,10 +8,8 @@
 
 #include "server/zone/objects/creature/commands/QueueCommand.h"
 
-CommandQueueEnqueueCallback::CommandQueueEnqueueCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-	MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()),
-	size(0), actionCount(0), actionCRC(0), targetID(0), actionName(nullptr), objectControllerMain(objectControllerCallback) {
-
+CommandQueueEnqueueCallback::CommandQueueEnqueueCallback(ObjectControllerMessageCallback* objectControllerCallback)
+	: MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()), size(0), actionCount(0), actionCRC(0), targetID(0), actionName(nullptr), objectControllerMain(objectControllerCallback) {
 }
 
 void CommandQueueEnqueueCallback::parse(Message* message) {
@@ -57,7 +55,7 @@ void CommandQueueEnqueueCallback::run() {
 			commandCooldown->updateToCurrentTime();
 		}
 
-		player->enqueueCommand(actionCRC, actionCount, targetID, arguments, -1, actionCount&0x3FFFFFFF);
+		player->enqueueCommand(actionCRC, actionCount, targetID, arguments, -1, actionCount & 0x3FFFFFFF);
 	}
 }
 

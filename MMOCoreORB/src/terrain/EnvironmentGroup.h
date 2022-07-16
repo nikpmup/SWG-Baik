@@ -14,9 +14,7 @@ class EnvironmentGroup : public TemplateVariable<'EGRP'> {
 	Vector<EnvironmentData*> data;
 
 public:
-
 	EnvironmentGroup() {
-
 	}
 
 	~EnvironmentGroup() {
@@ -50,9 +48,7 @@ public:
 
 			data.add(efamData);
 		}
-
 	}
 };
-
 
 #endif /* ENVIRONMENTGROUP_H_ */

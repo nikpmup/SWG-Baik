@@ -7,14 +7,10 @@
 
 class StopTraceLoggingCommand : public QueueCommand {
 public:
-
-	StopTraceLoggingCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	StopTraceLoggingCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //STOPTRACELOGGINGCOMMAND_H_
+#endif // STOPTRACELOGGINGCOMMAND_H_

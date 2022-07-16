@@ -14,7 +14,6 @@ DroidDataStorageModuleDataComponent::DroidDataStorageModuleDataComponent() {
 }
 
 DroidDataStorageModuleDataComponent::~DroidDataStorageModuleDataComponent() {
-
 }
 
 String DroidDataStorageModuleDataComponent::getModuleName() const {
@@ -38,22 +37,22 @@ void DroidDataStorageModuleDataComponent::updateCraftingValues(CraftingValues* v
 }
 
 int DroidDataStorageModuleDataComponent::getStorageRating() {
-	switch(rating) {
-		case 1:
-		case 2:
-			return 1;
-		case 3:
-		case 4:
-			return 2;
-		case 5:
-		case 6:
-			return 3;
-		case 7:
-		case 8:
-			return 4;
-		case 9:
-		case 10:
-			return 5;
+	switch (rating) {
+	case 1:
+	case 2:
+		return 1;
+	case 3:
+	case 4:
+		return 2;
+	case 5:
+	case 6:
+		return 3;
+	case 7:
+	case 8:
+		return 4;
+	case 9:
+	case 10:
+		return 5;
 	}
 
 	return 6;
@@ -128,17 +127,15 @@ void DroidDataStorageModuleDataComponent::initialize(DroidObject* droid) {
 }
 
 int DroidDataStorageModuleDataComponent::handleObjectMenuSelect(CreatureObject* player, byte selectedID, PetControlDevice* controller) {
-
 	// Handle open droid storage
 	if (selectedID == DATA_STORAGE_MODULE_OPEN) {
-
 		ManagedReference<DroidObject*> droid = getDroidObject();
 		if (droid == nullptr) {
-			info( "Droid is null");
+			info("Droid is null");
 			return 0;
 		}
 
-		Locker dlock (droid, player);
+		Locker dlock(droid, player);
 
 		// open the inventory slot of the droid
 		ManagedReference<SceneObject*> inventory = droid->getSlottedObject("datapad");

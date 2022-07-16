@@ -17,11 +17,10 @@
 class TerrainManager;
 class TerrainGenerator;
 
-class TerrainCache : public SynchronizedLRUCache2<uint64, float, float,
-	Pair<QuadTreeEntryInterface*, float> >, public Logger {
+class TerrainCache : public SynchronizedLRUCache2<uint64, float, float, Pair<QuadTreeEntryInterface*, float>>, public Logger {
 public:
 	typedef Pair<QuadTreeEntryInterface*, float> lru_value_t;
-	typedef SynchronizedLRUCache2<uint64, float, float, lru_value_t > lru_cache_t;
+	typedef SynchronizedLRUCache2<uint64, float, float, lru_value_t> lru_cache_t;
 
 protected:
 	BasicQuadTree quadTree;

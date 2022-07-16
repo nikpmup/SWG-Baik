@@ -12,8 +12,7 @@ class PlayerObjectDeltaMessage8 : public DeltaMessage {
 	PlayerObjectImplementation* play;
 
 public:
-	PlayerObjectDeltaMessage8(PlayerObjectImplementation* pl)
-			: DeltaMessage(pl->getObjectID(), 0x504C4159, 8) {
+	PlayerObjectDeltaMessage8(PlayerObjectImplementation* pl) : DeltaMessage(pl->getObjectID(), 0x504C4159, 8) {
 		play = pl;
 	}
 

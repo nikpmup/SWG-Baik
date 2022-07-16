@@ -12,14 +12,10 @@
 
 class DeathBlowCommand : public QueueCommand {
 public:
-
-	DeathBlowCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DeathBlowCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -34,15 +30,15 @@ public:
 		if (creature == targetObject || targetObject == nullptr)
 			return GENERALERROR;
 
-		//TODO: play coup_de_grace combat animations - ranged_coup_de_grace, melee_coup_de_grace, unarmed_coup_de_grace
+		// TODO: play coup_de_grace combat animations - ranged_coup_de_grace, melee_coup_de_grace, unarmed_coup_de_grace
 
 		if (targetObject->isPlayerCreature()) {
-			CreatureObject* player = cast<CreatureObject*>( targetObject.get());
+			CreatureObject* player = cast<CreatureObject*>(targetObject.get());
 
 			Locker clocker(player, creature);
 
 			if (!CollisionManager::checkLineOfSight(creature, player)) {
-				creature->sendSystemMessage("@combat_effects:cansee_fail");// You cannot see your target.
+				creature->sendSystemMessage("@combat_effects:cansee_fail"); // You cannot see your target.
 				return GENERALERROR;
 			}
 
@@ -50,8 +46,8 @@ public:
 				return GENERALERROR;
 			}
 
-			if (!player->isIncapacitated() || player->isFeigningDeath()){
-				creature->sendSystemMessage("@error_message:target_not_incapacitated"); //You cannot perform the death blow. Your target is not incapacitated.
+			if (!player->isIncapacitated() || player->isFeigningDeath()) {
+				creature->sendSystemMessage("@error_message:target_not_incapacitated"); // You cannot perform the death blow. Your target is not incapacitated.
 				return GENERALERROR;
 			}
 
@@ -61,12 +57,12 @@ public:
 				playerManager->killPlayer(creature, player, 1);
 			}
 		} else if (targetObject->isPet()) {
-			AiAgent* pet = cast<AiAgent*>( targetObject.get());
+			AiAgent* pet = cast<AiAgent*>(targetObject.get());
 
 			Locker clocker(pet, creature);
 
 			if (!CollisionManager::checkLineOfSight(creature, pet)) {
-				creature->sendSystemMessage("@combat_effects:cansee_fail");// You cannot see your target.
+				creature->sendSystemMessage("@combat_effects:cansee_fail"); // You cannot see your target.
 				return GENERALERROR;
 			}
 
@@ -74,8 +70,8 @@ public:
 				return GENERALERROR;
 			}
 
-			if (!pet->isIncapacitated()){
-				creature->sendSystemMessage("@error_message:target_not_incapacitated"); //You cannot perform the death blow. Your target is not incapacitated.
+			if (!pet->isIncapacitated()) {
+				creature->sendSystemMessage("@error_message:target_not_incapacitated"); // You cannot perform the death blow. Your target is not incapacitated.
 				return GENERALERROR;
 			}
 
@@ -94,7 +90,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DEATHBLOWCOMMAND_H_
+#endif // DEATHBLOWCOMMAND_H_

@@ -58,9 +58,10 @@ protected:
 	int stateAccuracyBonus;
 
 public:
-	CreatureAttackData(const UnicodeString & dataString, const CombatQueueCommand *base, uint64 target);
+	CreatureAttackData(const UnicodeString& dataString, const CombatQueueCommand* base, uint64 target);
 	CreatureAttackData(const CreatureAttackData& data);
-	virtual ~CreatureAttackData() {}
+	virtual ~CreatureAttackData() {
+	}
 
 	void fillFromBase();
 	void setVariable(const String& var, const String& val);

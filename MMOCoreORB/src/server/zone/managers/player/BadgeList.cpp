@@ -26,7 +26,7 @@ void BadgeList::loadData() {
 	// previsouly I was hopeing to use the Templatemanager
 	// but that ends up to be a cyclic dependncy with DirectorManager being involed..
 	// so I had to duplicate a bit of code here.
-	//ConfigManager::instance()->loadConfigData();
+	// ConfigManager::instance()->loadConfigData();
 	String path = ConfigManager::instance()->getTrePath();
 
 	if (path.length() <= 0) {
@@ -60,8 +60,7 @@ void BadgeList::loadData() {
 
 		badge->readFromRow(row);
 
-		debug() << "Adding badge " <<
-			badge->getKey() << " " << badge->getIndex();
+		debug() << "Adding badge " << badge->getKey() << " " << badge->getIndex();
 
 		add(badge);
 	}
@@ -70,7 +69,8 @@ void BadgeList::loadData() {
 }
 
 void BadgeList::add(Badge* badge) {
-	if (badge == nullptr) return;
+	if (badge == nullptr)
+		return;
 
 	badges.put(badge->getIndex(), badge);
 	names.put(badge->getKey(), badge);

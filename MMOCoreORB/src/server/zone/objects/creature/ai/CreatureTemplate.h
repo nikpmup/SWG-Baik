@@ -495,11 +495,11 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::ai;
 

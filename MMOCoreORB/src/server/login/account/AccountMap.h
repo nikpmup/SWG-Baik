@@ -14,18 +14,16 @@ namespace server {
 namespace login {
 namespace account {
 
-	class AccountMap : public VectorMap<uint32, ManagedReference<Account*> >, public ReadWriteLock {
+class AccountMap : public VectorMap<uint32, ManagedReference<Account*>>, public ReadWriteLock {
+public:
+	AccountMap() : VectorMap<uint32, ManagedReference<Account*>>(), ReadWriteLock("AccountMap") {
+		setInsertPlan(VectorMap<uint32, ManagedReference<Account*>>::NO_DUPLICATE);
+		setNullValue(nullptr);
+	}
+};
 
-	public:
-		AccountMap() : VectorMap<uint32, ManagedReference<Account*> >(), ReadWriteLock("AccountMap") {
-			setInsertPlan(VectorMap<uint32, ManagedReference<Account*> >::NO_DUPLICATE);
-			setNullValue(nullptr);
-		}
-	};
-
-}
-}
-}
-
+} // namespace account
+} // namespace login
+} // namespace server
 
 #endif /* ACCOUNTMAP_H_ */

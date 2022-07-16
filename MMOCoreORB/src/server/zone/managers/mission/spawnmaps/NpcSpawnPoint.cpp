@@ -16,7 +16,7 @@ NpcSpawnPoint::NpcSpawnPoint() {
 }
 
 NpcSpawnPoint::NpcSpawnPoint(CreatureObject* player, const String& spawnTypes) {
-	//Parse spawn types.
+	// Parse spawn types.
 	String st = spawnTypes.toLowerCase();
 	spawnType = 0;
 	if (st.contains("neutral")) {
@@ -38,7 +38,7 @@ NpcSpawnPoint::NpcSpawnPoint(CreatureObject* player, const String& spawnTypes) {
 		spawnType |= CONTAINMENTTEAMSPAWN;
 	}
 	if (st.contains("nospawn")) {
-		//No spawn overrides all other spawn types.
+		// No spawn overrides all other spawn types.
 		spawnType = NOSPAWN;
 	}
 	position.setX(player->getPosition().getX());
@@ -90,13 +90,13 @@ void NpcSpawnPoint::allocateNpc(TerrainManager* terrainManager, CreatureManager*
 		}
 
 		if (!npcSpawned) {
-			//Spawn the NPC.
+			// Spawn the NPC.
 			String deliverNpc = "deliver_npc";
 			float z = terrainManager->getHeight(position.getX(), position.getY());
 			npc = cast<AiAgent*>(creatureManager->spawnCreature(deliverNpc.hashCode(), 0, position.getX(), z, position.getY(), 0));
 			if (npc != nullptr) {
 				npc->updateDirection(direction.getW(), direction.getX(), direction.getY(), direction.getZ());
-				//Set the name of the NPC.
+				// Set the name of the NPC.
 				NameManager* nm = npc->getZoneProcessServer()->getNameManager();
 				npc->setCustomObjectName(nm->makeCreatureName(), true);
 				npcSpawned = true;
@@ -118,7 +118,7 @@ void NpcSpawnPoint::freeNpc(Reference<MissionManager*> missionManager) {
 		if (despawnMissionNpcTask->isScheduled()) {
 			return;
 		} else {
-			//Despawn after 1 minute.
+			// Despawn after 1 minute.
 			despawnMissionNpcTask->schedule(60 * 1000);
 		}
 	}

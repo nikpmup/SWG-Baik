@@ -11,10 +11,7 @@
 
 class FindPlayerCommand : public QueueCommand {
 public:
-
-	FindPlayerCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	FindPlayerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -79,7 +76,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //FINDPLAYERCOMMAND_H_
+#endif // FINDPLAYERCOMMAND_H_

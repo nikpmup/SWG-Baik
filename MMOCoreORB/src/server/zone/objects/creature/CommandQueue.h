@@ -3,11 +3,11 @@
 	See file COPYING for copying conditions.*/
 
 /*
-* CommandQueue.h
-*
-* Created on: Jan. 1, 2022
-* Author: Hakry
-*/
+ * CommandQueue.h
+ *
+ * Created on: Jan. 1, 2022
+ * Author: Hakry
+ */
 
 #ifndef COMMANDQUEUE_H_
 #define COMMANDQUEUE_H_
@@ -22,9 +22,7 @@ class CommandQueueTask;
 class CommandQueue : public Object {
 	mutable Mutex queueMutex;
 
-	enum State {
-		NONE, WAITING, RUNNING, DELAY
-	};
+	enum State { NONE, WAITING, RUNNING, DELAY };
 
 	WeakReference<CreatureObject*> weakCreature;
 	CommandQueueActionVector queueVector;
@@ -68,16 +66,15 @@ public:
 };
 
 class CommandQueueTask : public Task {
-	private:
-		WeakReference<CommandQueue*> weakQueue;
+private:
+	WeakReference<CommandQueue*> weakQueue;
 
-	public:
-		CommandQueueTask(CommandQueue* queue) {
-			weakQueue = queue;
-		}
+public:
+	CommandQueueTask(CommandQueue* queue) {
+		weakQueue = queue;
+	}
 
 	void run() {
-
 		auto commandQueue = weakQueue.get();
 
 		if (commandQueue == nullptr) {

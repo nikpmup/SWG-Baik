@@ -8,10 +8,10 @@
 class ForceIntimidateTask : public Task {
 	ManagedReference<CreatureObject*> targetCreature;
 	const CreatureAttackData data;
-	Reference<SortedVector<ManagedReference<TangibleObject*> >* > targets;
+	Reference<SortedVector<ManagedReference<TangibleObject*>>*> targets;
 
 public:
-	ForceIntimidateTask(CreatureObject* targetCreo, SortedVector<ManagedReference<TangibleObject*> >* targets, const CombatQueueCommand *command) : data("", command, 0) {
+	ForceIntimidateTask(CreatureObject* targetCreo, SortedVector<ManagedReference<TangibleObject*>>* targets, const CombatQueueCommand* command) : data("", command, 0) {
 		targetCreature = targetCreo;
 		this->targets = targets;
 	}
@@ -21,7 +21,7 @@ public:
 			return;
 		}
 
-		for (int i = 0;  i < targets->size(); i++) {
+		for (int i = 0; i < targets->size(); i++) {
 			TangibleObject* chainTarget = targets->get(i);
 
 			if (chainTarget == nullptr) {

@@ -9,10 +9,7 @@
 
 class AnimalCalmCommand : public ForcePowersQueueCommand {
 public:
-
-	AnimalCalmCommand(const String& name, ZoneProcessServer* server)
-		: ForcePowersQueueCommand(name, server) {
-
+	AnimalCalmCommand(const String& name, ZoneProcessServer* server) : ForcePowersQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -67,7 +64,6 @@ public:
 				failCalc += 75;
 
 			if (failCalc < 300) {
-
 				CombatManager::instance()->forcePeace(agent);
 				param.setStringId("@jedi_spam:calm_target");
 			} else {
@@ -81,4 +77,4 @@ public:
 	}
 };
 
-#endif //ANIMALCALMCOMMAND_H_
+#endif // ANIMALCALMCOMMAND_H_

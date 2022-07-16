@@ -18,7 +18,8 @@ protected:
 	String arguments;
 
 public:
-	CreatureAttack() {}
+	CreatureAttack() {
+	}
 
 	bool toBinaryStream(ObjectOutputStream* stream) {
 		bool val = command.toBinaryStream(stream);
@@ -58,8 +59,10 @@ public:
 
 class CreatureAttackMap : public Vector<CreatureAttack> {
 public:
-	CreatureAttackMap() {}
-	virtual ~CreatureAttackMap() {}
+	CreatureAttackMap() {
+	}
+	virtual ~CreatureAttackMap() {
+	}
 
 	void addAttack(String c, String a) {
 		CreatureAttack attack;

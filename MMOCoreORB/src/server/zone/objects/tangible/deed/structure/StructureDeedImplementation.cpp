@@ -49,18 +49,18 @@ void StructureDeedImplementation::fillAttributeList(AttributeListMessage* alm, C
 	if (structureTemplate == nullptr)
 		return;
 
-	//Base Maintenance Rate
+	// Base Maintenance Rate
 	int baseMaintenanceRate = structureTemplate->getBaseMaintenanceRate();
 	int basePowerRate = structureTemplate->getBasePowerRate();
 
 	if (baseMaintenanceRate > 0)
-		alm->insertAttribute("examine_maintenance_rate", String::valueOf(baseMaintenanceRate) + " / hour"); //Base Maintenance Rate
+		alm->insertAttribute("examine_maintenance_rate", String::valueOf(baseMaintenanceRate) + " / hour"); // Base Maintenance Rate
 
 	if (surplusMaintenance > 0)
-		alm->insertAttribute("examine_maintenance", String::valueOf(surplusMaintenance)); //Surplus Maintenance
+		alm->insertAttribute("examine_maintenance", String::valueOf(surplusMaintenance)); // Surplus Maintenance
 
 	if (surplusPower > 0)
-		alm->insertAttribute("examine_power", String::valueOf(surplusPower)); //Surplus Power
+		alm->insertAttribute("examine_power", String::valueOf(surplusPower)); // Surplus Power
 
 	if (hopperSizeMax > 0)
 		alm->insertAttribute("examine_hoppersize", String::valueOf((int)hopperSizeMax));
@@ -74,11 +74,11 @@ void StructureDeedImplementation::fillAttributeList(AttributeListMessage* alm, C
 		if (zoneName.isEmpty())
 			continue;
 
-		alm->insertAttribute("examine_scene", "@planet_n:" + zoneName); //Can Be Built On
+		alm->insertAttribute("examine_scene", "@planet_n:" + zoneName); // Can Be Built On
 	}
 }
 
-void StructureDeedImplementation::updateCraftingValues(CraftingValues* values, bool firstUpdate){
+void StructureDeedImplementation::updateCraftingValues(CraftingValues* values, bool firstUpdate) {
 	setExtractionRate(values->getCurrentValue("extractrate"));
 	setHopperSize(values->getCurrentValue("hoppersize"));
 }

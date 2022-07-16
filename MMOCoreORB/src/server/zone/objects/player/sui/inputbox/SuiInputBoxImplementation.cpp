@@ -10,7 +10,7 @@
 BaseMessage* SuiInputBoxImplementation::generateMessage() {
 	SuiCreatePageMessage* message = new SuiCreatePageMessage(boxID, "Script.inputBox");
 
-	//Declare Headers:
+	// Declare Headers:
 	if (isFilterBox()) {
 		addHeader("Prompt.lblPrompt", "Text");
 		addHeader("bg.caption.lblTitle", "Text");
@@ -21,7 +21,7 @@ BaseMessage* SuiInputBoxImplementation::generateMessage() {
 		addHeader("cmbInput", "SelectedText");
 	}
 
-	//Declare Body Settings:
+	// Declare Body Settings:
 	addSetting("3", "Prompt.lblPrompt", "Text", promptText);
 	addSetting("3", "bg.caption.lblTitle", "Text", promptTitle);
 
@@ -52,7 +52,7 @@ BaseMessage* SuiInputBoxImplementation::generateMessage() {
 		addSetting("3", "cmbInput", "MaxLength", String::valueOf(maxInputSize));
 	}
 
-	//Generate Packet:
+	// Generate Packet:
 	if (isFilterBox()) {
 		setHandlerText("handleFilterInput");
 		generateHeader(message);
@@ -67,4 +67,3 @@ BaseMessage* SuiInputBoxImplementation::generateMessage() {
 
 	return message;
 }
-

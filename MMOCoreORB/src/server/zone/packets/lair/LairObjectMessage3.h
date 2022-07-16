@@ -11,9 +11,7 @@ class LairObject;
 
 class LairObjectMessage3 : public TangibleObjectMessage3 {
 public:
-	LairObjectMessage3(LairObject* tano)
-			: TangibleObjectMessage3(tano, 0x54414E4F, 0x0D) {
-
+	LairObjectMessage3(LairObject* tano) : TangibleObjectMessage3(tano, 0x54414E4F, 0x0D) {
 		setSize();
 	}
 };

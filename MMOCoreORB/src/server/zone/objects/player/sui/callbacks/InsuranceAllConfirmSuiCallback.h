@@ -15,8 +15,7 @@
 
 class InsuranceAllConfirmSuiCallback : public SuiCallback {
 public:
-	InsuranceAllConfirmSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	InsuranceAllConfirmSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -52,7 +51,7 @@ public:
 
 		PlayerManager* playerManager = player->getZoneServer()->getPlayerManager();
 
-		Vector<ManagedReference<SceneObject*> > insurableItems = playerManager->getInsurableItems(player);
+		Vector<ManagedReference<SceneObject*>> insurableItems = playerManager->getInsurableItems(player);
 
 		if (insurableItems.size() == 0) {
 			player->sendSystemMessage("@terminal_ui:no_uninsured_insurables");
@@ -79,7 +78,7 @@ public:
 
 			if (obj != nullptr && obj->isTangibleObject()) {
 				j++;
-				TangibleObject* item = cast<TangibleObject*>( obj);
+				TangibleObject* item = cast<TangibleObject*>(obj);
 
 				Locker locker(item, player);
 

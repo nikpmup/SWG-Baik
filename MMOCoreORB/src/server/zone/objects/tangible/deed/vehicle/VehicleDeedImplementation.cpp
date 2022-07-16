@@ -6,7 +6,7 @@
  */
 
 #include "server/zone/objects/tangible/deed/vehicle/VehicleDeed.h"
-#include"server/zone/ZoneServer.h"
+#include "server/zone/ZoneServer.h"
 #include "server/zone/packets/object/ObjectMenuResponse.h"
 #include "templates/tangible/VehicleDeedTemplate.h"
 #include "server/zone/objects/intangible/VehicleControlDevice.h"
@@ -43,7 +43,7 @@ void VehicleDeedImplementation::updateCraftingValues(CraftingValues* values, boo
 	 * hitpoints			varies, integrity of vehicle
 	 */
 
-	hitPoints = (int) values->getCurrentValue("hit_points");
+	hitPoints = (int)values->getCurrentValue("hit_points");
 }
 
 void VehicleDeedImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuResponse, CreatureObject* player) {
@@ -59,7 +59,7 @@ int VehicleDeedImplementation::handleObjectMenuSelect(CreatureObject* player, by
 			return 1;
 
 		if (player->isInCombat() || player->getParentRecursively(SceneObjectType::BUILDING) != nullptr) {
-			player->sendSystemMessage("@pet/pet_menu:cant_call_vehicle"); //You can only unpack vehicles while Outside and not in Combat.
+			player->sendSystemMessage("@pet/pet_menu:cant_call_vehicle"); // You can only unpack vehicles while Outside and not in Combat.
 			return 1;
 		}
 
@@ -77,11 +77,10 @@ int VehicleDeedImplementation::handleObjectMenuSelect(CreatureObject* player, by
 		int maxStoredVehicles = playerManager->getBaseStoredVehicles();
 
 		for (int i = 0; i < datapad->getContainerObjectsSize(); i++) {
-			Reference<SceneObject*> obj =  datapad->getContainerObject(i).castTo<SceneObject*>();
+			Reference<SceneObject*> obj = datapad->getContainerObject(i).castTo<SceneObject*>();
 
-			if (obj != nullptr && obj->isVehicleControlDevice() )
+			if (obj != nullptr && obj->isVehicleControlDevice())
 				vehiclesInDatapad++;
-
 		}
 
 		if (vehiclesInDatapad >= maxStoredVehicles) {
@@ -131,4 +130,3 @@ int VehicleDeedImplementation::handleObjectMenuSelect(CreatureObject* player, by
 
 	return DeedImplementation::handleObjectMenuSelect(player, selectedID);
 }
-

@@ -46,7 +46,7 @@ public:
 		setLogging(false);
 	}
 
-	TreeFileRecord& operator= (const TreeFileRecord& tfr) {
+	TreeFileRecord& operator=(const TreeFileRecord& tfr) {
 		if (this == &tfr)
 			return *this;
 
@@ -74,36 +74,36 @@ public:
 	}
 
 	void read(FileInputStream* fileStream) {
-		fileStream->read((byte*) &checksum, 4);
-		fileStream->read((byte*) &uncompressedSize, 4);
-		fileStream->read((byte*) &fileOffset, 4);
-		fileStream->read((byte*) &compressionType, 4);
-		fileStream->read((byte*) &compressedSize, 4);
-		fileStream->read((byte*) &nameOffset, 4);
+		fileStream->read((byte*)&checksum, 4);
+		fileStream->read((byte*)&uncompressedSize, 4);
+		fileStream->read((byte*)&fileOffset, 4);
+		fileStream->read((byte*)&compressionType, 4);
+		fileStream->read((byte*)&compressedSize, 4);
+		fileStream->read((byte*)&nameOffset, 4);
 	}
 
 	uint32 readFromBuffer(const byte* buffer) {
-	    uint32 bufferOffset = 0;
+		uint32 bufferOffset = 0;
 
-	    checksum = *(uint32*)(buffer + bufferOffset);
-	    bufferOffset += sizeof(checksum);
+		checksum = *(uint32*)(buffer + bufferOffset);
+		bufferOffset += sizeof(checksum);
 
-	    uncompressedSize = *(uint32*)(buffer + bufferOffset);
-	    bufferOffset += sizeof(uncompressedSize);
+		uncompressedSize = *(uint32*)(buffer + bufferOffset);
+		bufferOffset += sizeof(uncompressedSize);
 
-	    fileOffset = *(uint32*)(buffer + bufferOffset);
-	    bufferOffset += sizeof(fileOffset);
+		fileOffset = *(uint32*)(buffer + bufferOffset);
+		bufferOffset += sizeof(fileOffset);
 
-	    compressionType = *(uint32*)(buffer + bufferOffset);
-	    bufferOffset += sizeof(compressionType);
+		compressionType = *(uint32*)(buffer + bufferOffset);
+		bufferOffset += sizeof(compressionType);
 
-	    compressedSize = *(uint32*)(buffer + bufferOffset);
-	    bufferOffset += sizeof(compressedSize);
+		compressedSize = *(uint32*)(buffer + bufferOffset);
+		bufferOffset += sizeof(compressedSize);
 
-	    nameOffset = *(uint32*)(buffer + bufferOffset);
-	    bufferOffset += sizeof(nameOffset);
+		nameOffset = *(uint32*)(buffer + bufferOffset);
+		bufferOffset += sizeof(nameOffset);
 
-	    return bufferOffset;
+		return bufferOffset;
 	}
 
 	byte* getBytes() {

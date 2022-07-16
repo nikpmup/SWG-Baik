@@ -59,7 +59,6 @@ public:
 	bool parseFromBinaryStream(ObjectInputStream* stream);
 
 	friend void to_json(nlohmann::json& j, const CustomizationVariables& vars);
-
 };
 
 #endif /*CUSTOMIZATIONVARIABLES_H_*/

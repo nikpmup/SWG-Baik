@@ -11,14 +11,11 @@
 #include "templates/SharedTangibleObjectTemplate.h"
 
 class SharedBattlefieldMarkerObjectTemplate : public SharedTangibleObjectTemplate {
-
 public:
 	SharedBattlefieldMarkerObjectTemplate() {
-
 	}
 
 	~SharedBattlefieldMarkerObjectTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -29,7 +26,7 @@ public:
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'SBMK') {
-			//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 			SharedTangibleObjectTemplate::readObject(iffStream);
 
@@ -53,7 +50,7 @@ public:
 		iffStream->openForm(derv);
 
 		try {
-			//parseFileData(iffStream);
+			// parseFileData(iffStream);
 		} catch (Exception& e) {
 			String msg;
 			msg += "exception caught parsing file data ->";
@@ -70,8 +67,6 @@ public:
 
 		iffStream->closeForm('SBMK');
 	}
-
 };
-
 
 #endif /* SHAREDBATTLEFIELDMARKEROBJECTTEMPLATE_H_ */

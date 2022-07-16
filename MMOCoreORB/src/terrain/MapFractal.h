@@ -49,7 +49,7 @@ public:
 	void parseFromIffStream(engine::util::IffStream* iffStream);
 	void parseFromIffStream(engine::util::IffStream* iffStream, Version<'0001'>);
 
-	float getNoise(float x, float y, int i = 0, int  j = 0);
+	float getNoise(float x, float y, int i = 0, int j = 0);
 	float getNoise(float x, int i = 0, int j = 0);
 
 	double calculateCombination1(float v39);
@@ -124,6 +124,5 @@ public:
 		combination = comb; // combination
 	}
 };
-
 
 #endif /* MFRC_H_ */

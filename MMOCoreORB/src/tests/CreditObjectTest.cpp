@@ -12,10 +12,10 @@
 #include "server/zone/managers/credit/CreditManager.h"
 
 using ::testing::_;
-using ::testing::Return;
-using ::testing::AnyNumber;
-using ::testing::TypedEq;
 using ::testing::An;
+using ::testing::AnyNumber;
+using ::testing::Return;
+using ::testing::TypedEq;
 
 class CreditObjectTest : public ::testing::Test {
 protected:
@@ -28,6 +28,7 @@ protected:
 	Locker* locker = nullptr;
 	Reference<CreditManager*> creditManager = nullptr;
 	Reference<CreditObject*> creditObject = nullptr;
+
 public:
 	CreditObjectTest() {
 		creditManager = CreditManager::instance();
@@ -60,20 +61,20 @@ public:
 
 		logger->setLogToConsole(false);
 
-		logger->setLoggerCallback([=] (Logger::LogLevel level, const char* msg) -> int {
-				stackTraceOutput << msg;
-				return Logger::SUCCESS;
+		logger->setLoggerCallback([=](Logger::LogLevel level, const char* msg) -> int {
+			stackTraceOutput << msg;
+			return Logger::SUCCESS;
 		});
 
 		// Capture log output from CreditManager
-		creditManager->setLoggerCallback([=] (Logger::LogLevel level, const char* msg) -> int {
-				creditManagerLogOutput << msg;
+		creditManager->setLoggerCallback([=](Logger::LogLevel level, const char* msg) -> int {
+			creditManagerLogOutput << msg;
 
-				if (isVerbose) {
-					std::cerr << "[>>>>>>>>> ]    Log Message: " << msg << std::endl;
-				}
+			if (isVerbose) {
+				std::cerr << "[>>>>>>>>> ]    Log Message: " << msg << std::endl;
+			}
 
-				return Logger::SUCCESS;
+			return Logger::SUCCESS;
 		});
 	}
 

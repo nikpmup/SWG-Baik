@@ -38,7 +38,6 @@ void JukeboxImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuRespo
 		menuResponse->addRadialMenuItemToRadialID(68, 69, 3, "@event_perk:jukebox_start_music");
 		menuResponse->addRadialMenuItemToRadialID(68, 70, 3, "@event_perk:jukebox_stop_music");
 
-
 		if (playerObject->isPrivileged() && player->getParentID() == 0) {
 			menuResponse->addRadialMenuItem(72, 3, "Staff Functionality");
 			menuResponse->addRadialMenuItemToRadialID(72, 73, 3, "@ui_radial:item_pickup");
@@ -50,7 +49,6 @@ void JukeboxImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuRespo
 		}
 	}
 }
-
 
 int JukeboxImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
 	ManagedReference<CreatureObject*> perkOwner = owner.get();
@@ -135,7 +133,7 @@ void JukeboxImplementation::notifyInsertToZone(Zone* zone) {
 	else
 		setRadius(30);
 
-	SortedVector<ManagedReference<SceneObject*> >* children = jbox->getChildObjects();
+	SortedVector<ManagedReference<SceneObject*>>* children = jbox->getChildObjects();
 
 	for (int i = 0; i < children->size(); ++i) {
 		ManagedReference<SceneObject*> child = children->get(i);
@@ -151,7 +149,7 @@ void JukeboxImplementation::notifyInsertToZone(Zone* zone) {
 void JukeboxImplementation::setRadius(float newRadius) {
 	ManagedReference<Jukebox*> jbox = _this.getReferenceUnsafeStaticCast();
 
-	SortedVector<ManagedReference<SceneObject*> >* children = jbox->getChildObjects();
+	SortedVector<ManagedReference<SceneObject*>>* children = jbox->getChildObjects();
 
 	if (newRadius == radius)
 		return;
@@ -186,9 +184,9 @@ void JukeboxImplementation::doMusicSelection(CreatureObject* player) {
 		return;
 
 	ManagedReference<SuiListBox*> listbox = new SuiListBox(player, SuiWindowType::JUKEBOX_SELECTION);
-    listbox->setCallback(new JukeboxSelectionSuiCallback(server->getZoneServer()));
+	listbox->setCallback(new JukeboxSelectionSuiCallback(server->getZoneServer()));
 	listbox->setPromptTitle("@event_perk_jukebox_songs:songs_t"); // Music Select
-	listbox->setPromptText("@event_perk_jukebox_songs:songs_d"); // Select a song to play from the list below.
+	listbox->setPromptText("@event_perk_jukebox_songs:songs_d");  // Select a song to play from the list below.
 	listbox->setUsingObject(_this.getReferenceUnsafeStaticCast());
 	listbox->setForceCloseDistance(32.f);
 	listbox->setCancelButton(true, "@cancel");
@@ -225,7 +223,7 @@ void JukeboxImplementation::changeMusic(const String& song) {
 
 	curSong = song;
 
-	SortedVector<ManagedReference<QuadTreeEntry*> > closeObjects;
+	SortedVector<ManagedReference<QuadTreeEntry*>> closeObjects;
 	zone->getInRangeObjects(getWorldPositionX(), getWorldPositionY(), radius, &closeObjects, true);
 
 	PlayMusicMessage* pmm = new PlayMusicMessage(song);
@@ -259,7 +257,6 @@ void JukeboxImplementation::stopPlaying() {
 	isPlaying = false;
 	changeMusic("sound/music_silence.snd");
 }
-
 
 void JukeboxImplementation::destroyObjectFromDatabase(bool destroyContainedObjects) {
 	ManagedReference<CreatureObject*> strongOwner = owner.get();

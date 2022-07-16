@@ -11,14 +11,11 @@
 #include "templates/SharedTangibleObjectTemplate.h"
 
 class SharedCountingObjectTemplate : public SharedTangibleObjectTemplate {
-
 public:
 	SharedCountingObjectTemplate() {
-
 	}
 
 	~SharedCountingObjectTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -29,7 +26,7 @@ public:
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'SCOU') {
-			//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 			SharedTangibleObjectTemplate::readObject(iffStream);
 
@@ -46,11 +43,10 @@ public:
 			derv = iffStream->getNextFormType();
 		}
 
-
 		iffStream->openForm(derv);
 
 		try {
-			//parseFileData(iffStream);
+			// parseFileData(iffStream);
 		} catch (Exception& e) {
 			String msg;
 			msg += "exception caught parsing file data ->";
@@ -68,6 +64,5 @@ public:
 		iffStream->closeForm('SCOU');
 	}
 };
-
 
 #endif /* SHAREDCOUNTINGOBJECTTEMPLATE_H_ */

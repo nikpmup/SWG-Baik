@@ -17,14 +17,10 @@
 
 class CreateSpawningElementCommand : public QueueCommand {
 public:
-
-	CreateSpawningElementCommand(const String& name, ZoneProcessServer* server)
-	: QueueCommand(name, server) {
-
+	CreateSpawningElementCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -36,7 +32,7 @@ public:
 
 		ZoneServer* zserv = server->getZoneServer();
 
-		ManagedReference<SceneObject* > object = zserv->getObject(target);
+		ManagedReference<SceneObject*> object = zserv->getObject(target);
 
 		StringTokenizer args(arguments.toString());
 
@@ -101,7 +97,6 @@ public:
 						creature->sendSystemMessage("error spawning lair");
 						return GENERALERROR;
 					}
-
 				}
 			} else if (action.toLowerCase() == "spawn") {
 				String objectTemplate;
@@ -143,7 +138,7 @@ public:
 					return SUCCESS;
 				}
 
-				ManagedReference<SceneObject*> object =  zserv->createObject(objectTemplate.hashCode(), 0);
+				ManagedReference<SceneObject*> object = zserv->createObject(objectTemplate.hashCode(), 0);
 
 				if (object == nullptr)
 					return GENERALERROR;
@@ -169,7 +164,6 @@ public:
 				planet->addEventObject(objectID);
 
 			} else if (action.toLowerCase() == "delete") {
-
 				String chatObjectID;
 				args.getStringToken(chatObjectID);
 				uint64 oid = UnsignedLong::valueOf(chatObjectID);
@@ -194,7 +188,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CREATESPAWNINGELEMENTCOMMAND_H_
+#endif // CREATESPAWNINGELEMENTCOMMAND_H_

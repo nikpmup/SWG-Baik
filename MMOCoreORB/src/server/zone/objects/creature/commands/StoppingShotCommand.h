@@ -9,13 +9,10 @@
 
 class StoppingShotCommand : public CombatQueueCommand {
 public:
-
-	StoppingShotCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	StoppingShotCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //STOPPINGSHOTCOMMAND_H_
+#endif // STOPPINGSHOTCOMMAND_H_

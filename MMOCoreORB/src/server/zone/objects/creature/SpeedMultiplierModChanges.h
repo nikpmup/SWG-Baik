@@ -52,8 +52,7 @@ public:
 	}
 
 	bool parseFromBinaryStream(ObjectInputStream* stream) {
-		//TypeInfo<float>::parseFromBinaryStream(&newSpeed, stream);
-
+		// TypeInfo<float>::parseFromBinaryStream(&newSpeed, stream);
 
 		return false;
 	}
@@ -68,8 +67,6 @@ public:
 	}
 };
 
-class SpeedMultiplierModChanges : public ArrayList<SpeedModChange> {
-
-};
+class SpeedMultiplierModChanges : public ArrayList<SpeedModChange> {};
 
 #endif /* SPEEDMULTIPLIERMODCHANGES_H_ */

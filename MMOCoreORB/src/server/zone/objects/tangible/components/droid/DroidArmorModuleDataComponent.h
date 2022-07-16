@@ -15,7 +15,6 @@ namespace components {
 namespace droid {
 
 class DroidArmorModuleDataComponent : public BaseDroidModuleComponent {
-
 protected:
 	int armorModule;
 
@@ -36,7 +35,9 @@ public:
 
 	String toString() const;
 
-    	bool isStackable() { return true; }
+	bool isStackable() {
+		return true;
+	}
 
 	void updateCraftingValues(CraftingValues* values, bool firstUpdate);
 
@@ -45,12 +46,12 @@ public:
 	void copy(BaseDroidModuleComponent* other);
 };
 
-} // droid
-} // components
-} // tangible
-} // objects
-} // zone
-} // server
+} // namespace droid
+} // namespace components
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 using namespace server::zone::objects::tangible::components::droid;
 
 #endif /* DROIDARMORMODULEDATACOMPONENT_H_ */

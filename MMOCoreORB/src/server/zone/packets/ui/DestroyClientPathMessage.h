@@ -10,14 +10,12 @@
 
 class DestroyClientPathMessage : public BaseMessage {
 public:
-   DestroyClientPathMessage() : BaseMessage() {
+	DestroyClientPathMessage() : BaseMessage() {
 		insertShort(0x01);
-		insertInt(0xA75E85EB);  // CRC
+		insertInt(0xA75E85EB); // CRC
 
-		//Destroys the path
-
-   }
-
+		// Destroys the path
+	}
 };
 
 #endif /* DESTROYCLIENTPATHMESSAGE_H_ */

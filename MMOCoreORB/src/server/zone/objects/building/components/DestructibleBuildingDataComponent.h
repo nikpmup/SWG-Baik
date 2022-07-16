@@ -14,7 +14,6 @@
 #include "server/zone/objects/scene/SceneObject.h"
 
 class DestructibleBuildingDataComponent : public BuildingDataComponent, public Logger {
-
 private:
 	Vector<String> dnaStrand;
 	Vector<int> dnaLocks;
@@ -23,24 +22,24 @@ private:
 	Vector<int> powerSwitchRules;
 	Vector<bool> powerSwitchStates;
 
-	int  intCurrentState; // serialized
-	bool terminalDamaged; //serialized
-	bool inRepair; // serialized
+	int intCurrentState;  // serialized
+	bool terminalDamaged; // serialized
+	bool inRepair;		  // serialized
 
 	Vector<uint64> turretSlots;
 	Vector<uint64> minefieldSlots;
 	Vector<uint64> scannerSlots;
 
-	Time lastVulnerableTime; // serialized
-	Time nextVulnerableTime; // serialized
-	Time vulnerabilityEndTime; //serialized
-	Time placementTime; // serialized
-	Time lastResetTime; // serialized
-	int uplinkBand; // secret code used to jam the uplink
+	Time lastVulnerableTime;   // serialized
+	Time nextVulnerableTime;   // serialized
+	Time vulnerabilityEndTime; // serialized
+	Time placementTime;		   // serialized
+	Time lastResetTime;		   // serialized
+	int uplinkBand;			   // secret code used to jam the uplink
 	bool activeDefenses;
 	bool defenseAddedThisVuln;
 	bool terminalsSpawned;
-	Vector<ManagedReference<SceneObject*> > baseTerminals;
+	Vector<ManagedReference<SceneObject*>> baseTerminals;
 	Vector<uint64> hackBaseAlarms;
 	Vector<uint64> destructBaseAlarms;
 
@@ -71,7 +70,6 @@ public:
 	}
 
 	virtual ~DestructibleBuildingDataComponent() {
-
 	}
 
 	void writeJSON(nlohmann::json& j) const;
@@ -260,7 +258,7 @@ public:
 	}
 
 	void addScanner(int indx, uint64 scannerOID) {
-		scannerSlots.add(indx,scannerOID);
+		scannerSlots.add(indx, scannerOID);
 	}
 
 	void addTurret(int indx, uint64 turretOID) {
@@ -388,12 +386,8 @@ public:
 	}
 
 private:
-
 	int writeObjectMembers(ObjectOutputStream* stream);
 	bool readObjectMember(ObjectInputStream* stream, const String& name);
 };
-
-
-
 
 #endif /* DESTRUCTIBLEBUILDINGDATACOMPONENT_H_ */

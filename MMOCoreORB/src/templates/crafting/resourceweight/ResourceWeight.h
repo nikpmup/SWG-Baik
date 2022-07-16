@@ -10,7 +10,6 @@
 
 class ResourceWeight : public Object {
 private:
-
 	Vector<uint8> properties;
 	Vector<short> weights;
 	Vector<float> percentages;
@@ -30,7 +29,6 @@ public:
 	}
 
 	~ResourceWeight() {
-
 	}
 
 	void addProperties(const String& title, const String& name, float min, float max, int prec, short combine) {
@@ -40,7 +38,6 @@ public:
 		maxValue = max;
 		precision = prec;
 		combineType = combine;
-
 	}
 
 	void addWeight(const String& property, int weight) {
@@ -71,7 +68,6 @@ public:
 	}
 
 	uint8 convertStringValue(const String& property) {
-
 		uint8 expPropType = 0x00;
 
 		if (property == "PO") {
@@ -115,11 +111,10 @@ public:
 		return expPropType;
 	}
 
-
 	void insertBatchToMessage(BaseMessage* msg) {
 		if (getTypeAndWeight(0) == 0) {
 			msg->insertByte(0);
-			//msg->insertByte(0x00);
+			// msg->insertByte(0x00);
 		} else {
 			msg->insertByte(properties.size());
 
@@ -132,7 +127,7 @@ public:
 	void insertToMessage(BaseMessage* msg) {
 		if (getTypeAndWeight(0) == 0) {
 			msg->insertByte(0);
-			//msg->insertByte(0x00);
+			// msg->insertByte(0x00);
 		} else {
 			msg->insertByte(properties.size());
 
@@ -149,35 +144,34 @@ public:
 	// Zero is returned if index is out of bounds
 	uint8 getTypeAndWeight(int index) {
 		if (index < properties.size()) {
-			uint8 typeAndWeight =  properties.get(index);
+			uint8 typeAndWeight = properties.get(index);
 
 			typeAndWeight = (typeAndWeight << 4);
 			typeAndWeight += weights.get(index);
 
 			return typeAndWeight;
 		} else
-			return 0x00;  // 0
+			return 0x00; // 0
 	}
 
 	uint8 getBatchTypeAndWeight(int index) {
 		if (index < properties.size()) {
-			uint8 typeAndWeight =  properties.get(index);
+			uint8 typeAndWeight = properties.get(index);
 
 			typeAndWeight = (typeAndWeight << 4);
 			typeAndWeight += 1;
 
 			return typeAndWeight;
 		} else
-			return 0x00;  // 0
+			return 0x00; // 0
 	}
 
 	float getPropertyPercentage(int index) {
-
 		if (index < percentages.size()) {
 			return percentages.get(index);
 
 		} else
-			return 0x00;  // 0
+			return 0x00; // 0
 	}
 
 	String getExperimentalTitle() {
@@ -207,7 +201,6 @@ public:
 	short getCombineType() {
 		return combineType;
 	}
-
 };
 
 #endif /* RESOURCEWEIGHT_H_ */

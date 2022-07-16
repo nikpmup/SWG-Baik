@@ -19,7 +19,6 @@ public:
 	static uint64 parse(Packet* pack) {
 		return pack->parseInt(10);
 	}
-
 };
 
 #endif /*SELECTCHARACTER_H_*/

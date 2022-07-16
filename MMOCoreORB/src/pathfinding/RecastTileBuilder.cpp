@@ -23,11 +23,11 @@
 
 inline unsigned int nextPow2(unsigned int v) {
 	v--;
-	v |= v>>1;
-	v |= v>>2;
-	v |= v>>4;
-	v |= v>>8;
-	v |= v>>16;
+	v |= v >> 1;
+	v |= v >> 2;
+	v |= v >> 4;
+	v |= v >> 8;
+	v |= v >> 16;
 	v++;
 	return v;
 }
@@ -35,73 +35,57 @@ inline unsigned int nextPow2(unsigned int v) {
 inline unsigned int ilog2(unsigned int v) {
 	unsigned int r;
 	unsigned int shift;
-	r = (v > 0xffff)<<4;
+	r = (v > 0xffff) << 4;
 	v >>= r;
-	shift = (v > 0xff)<<3;
+	shift = (v > 0xff) << 3;
 	v >>= shift;
 	r |= shift;
-	shift = (v > 0xf)<<2;
+	shift = (v > 0xf) << 2;
 	v >>= shift;
 	r |= shift;
-	shift = (v > 0x3)<<1;
+	shift = (v > 0x3) << 1;
 	v >>= shift;
 	r |= shift;
-	r |= (v>>1);
+	r |= (v >> 1);
 	return r;
 }
 
 RecastSettings::RecastSettings() {
 	m_tileSize = 128.0f;
-	m_cellSize = 0.15;            //buildSettings->cellSize;
-	m_cellHeight = 0.15;        //buildSettings->cellHeight;
-	m_agentHeight = 1.5f;        //buildSettings->agentHeight;
-	m_agentRadius = 0.5f;        //buildSettings->agentRadius;
-	m_agentMaxClimb = 0.75f;        //buildSettings->agentMaxClimb;
-	m_agentMaxSlope = 85;        //buildSettings->agentMaxSlope;
-	m_regionMinSize = 8;        //buildSettings->regionMinSize;
-	m_regionMergeSize = 28;        //buildSettings->regionMergeSize;
-	m_edgeMaxLen = 12;            //buildSettings->edgeMaxLen;
-	m_edgeMaxError = 1.3;            //buildSettings->edgeMaxError;
-	m_vertsPerPoly = 6;            //buildSettings->vertsPerPoly;
-	m_detailSampleDist = 3;        //buildSettings->detailSampleDist;
-	m_detailSampleMaxError = 1;    //buildSettings->detailSampleMaxError;
-	m_partitionType = 0;        //buildSettings->partitionType;
+	m_cellSize = 0.15;			// buildSettings->cellSize;
+	m_cellHeight = 0.15;		// buildSettings->cellHeight;
+	m_agentHeight = 1.5f;		// buildSettings->agentHeight;
+	m_agentRadius = 0.5f;		// buildSettings->agentRadius;
+	m_agentMaxClimb = 0.75f;	// buildSettings->agentMaxClimb;
+	m_agentMaxSlope = 85;		// buildSettings->agentMaxSlope;
+	m_regionMinSize = 8;		// buildSettings->regionMinSize;
+	m_regionMergeSize = 28;		// buildSettings->regionMergeSize;
+	m_edgeMaxLen = 12;			// buildSettings->edgeMaxLen;
+	m_edgeMaxError = 1.3;		// buildSettings->edgeMaxError;
+	m_vertsPerPoly = 6;			// buildSettings->vertsPerPoly;
+	m_detailSampleDist = 3;		// buildSettings->detailSampleDist;
+	m_detailSampleMaxError = 1; // buildSettings->detailSampleMaxError;
+	m_partitionType = 0;		// buildSettings->partitionType;
 	distanceBetweenPoles = 0;
 }
 
-RecastTileBuilder::RecastTileBuilder(float waterTableHeight, float x, float y, const AABB& bounds,
-									 const rcChunkyTriMesh* mesh, const RecastSettings& settings) :
-		m_keepInterResults(false),
-		m_buildAll(true),
-		m_totalBuildTimeMs(0),
-		m_triareas(0),
-		m_solid(0),
-		m_chf(0),
-		m_cset(0),
-		m_pmesh(0),
-		m_dmesh(0),
-		m_maxTiles(0),
-		m_maxPolysPerTile(0),
-		bounds(Vector3(0, 0, 0), Vector3(0, 0, 0)),
-		m_tileTriCount(0),
-		waterTableHeight(waterTableHeight),
-		lastTileBounds(bounds) {
-
+RecastTileBuilder::RecastTileBuilder(float waterTableHeight, float x, float y, const AABB& bounds, const rcChunkyTriMesh* mesh, const RecastSettings& settings)
+	: m_keepInterResults(false), m_buildAll(true), m_totalBuildTimeMs(0), m_triareas(0), m_solid(0), m_chf(0), m_cset(0), m_pmesh(0), m_dmesh(0), m_maxTiles(0), m_maxPolysPerTile(0), bounds(Vector3(0, 0, 0), Vector3(0, 0, 0)), m_tileTriCount(0), waterTableHeight(waterTableHeight), lastTileBounds(bounds) {
 	this->settings = settings;
 	// Init build configuration from GUI
 	memset(&m_cfg, 0, sizeof(m_cfg));
 	m_cfg.cs = settings.m_cellSize;
 	m_cfg.ch = settings.m_cellHeight;
 	m_cfg.walkableSlopeAngle = settings.m_agentMaxSlope;
-	m_cfg.walkableHeight = (int) ceilf(settings.m_agentHeight / m_cfg.ch);
-	m_cfg.walkableClimb = (int) floorf(settings.m_agentMaxClimb / m_cfg.ch);
-	m_cfg.walkableRadius = (int) ceilf(settings.m_agentRadius / m_cfg.cs);
-	m_cfg.maxEdgeLen = (int) (settings.m_edgeMaxLen / settings.m_cellSize);
+	m_cfg.walkableHeight = (int)ceilf(settings.m_agentHeight / m_cfg.ch);
+	m_cfg.walkableClimb = (int)floorf(settings.m_agentMaxClimb / m_cfg.ch);
+	m_cfg.walkableRadius = (int)ceilf(settings.m_agentRadius / m_cfg.cs);
+	m_cfg.maxEdgeLen = (int)(settings.m_edgeMaxLen / settings.m_cellSize);
 	m_cfg.maxSimplificationError = settings.m_edgeMaxError;
-	m_cfg.minRegionArea = (int) rcSqr(settings.m_regionMinSize);        // Note: area = size*size
-	m_cfg.mergeRegionArea = (int) rcSqr(settings.m_regionMergeSize);    // Note: area = size*size
-	m_cfg.maxVertsPerPoly = (int) settings.m_vertsPerPoly;
-	m_cfg.tileSize = (int) settings.m_tileSize;
+	m_cfg.minRegionArea = (int)rcSqr(settings.m_regionMinSize);		// Note: area = size*size
+	m_cfg.mergeRegionArea = (int)rcSqr(settings.m_regionMergeSize); // Note: area = size*size
+	m_cfg.maxVertsPerPoly = (int)settings.m_vertsPerPoly;
+	m_cfg.tileSize = (int)settings.m_tileSize;
 	m_cfg.borderSize = m_cfg.walkableRadius + 3; // Reserve enough padding.
 	m_cfg.width = m_cfg.tileSize + m_cfg.borderSize * 2;
 	m_cfg.height = m_cfg.tileSize + m_cfg.borderSize * 2;
@@ -144,29 +128,28 @@ unsigned char* RecastTileBuilder::build(float x, float y, const AABB& lastTileBo
 	bmin[1] = bounds.getYMin();
 	bmin[2] = bounds.getZMin();
 
-
 	bmax[0] = bounds.getXMax();
 	bmax[1] = bounds.getYMax();
 	bmax[2] = bounds.getZMax();
 
 	rcCalcGridSize(bmin, bmax, settings.m_cellSize, &gw, &gh);
-	const int ts = (int) settings.m_tileSize;
+	const int ts = (int)settings.m_tileSize;
 	const int tw = (gw + ts - 1) / ts;
 	const int th = (gh + ts - 1) / ts;
 
 	// Max tiles and max polys affect how the tile IDs are caculated.
 	// There are 22 bits available for identifying a tile and a polygon.
-	int tileBits = rcMin((int) ilog2(nextPow2(tw * th)), 14);
+	int tileBits = rcMin((int)ilog2(nextPow2(tw * th)), 14);
 	int polyBits = 22 - tileBits;
-	m_maxTiles = 1<<tileBits;
-	m_maxPolysPerTile = 1<<polyBits;
+	m_maxTiles = 1 << tileBits;
+	m_maxPolysPerTile = 1 << polyBits;
 
 	dtNavMeshParams params;
 	params.orig[0] = bounds.getXMin();
 	params.orig[1] = bounds.getYMin();
 	params.orig[2] = bounds.getZMin();
 
-	//rcVcopy(params.orig, m_geom->getNavMeshBoundsMin());
+	// rcVcopy(params.orig, m_geom->getNavMeshBoundsMin());
 	params.tileWidth = settings.m_tileSize * settings.m_cellSize;
 	params.tileHeight = settings.m_tileSize * settings.m_cellSize;
 	params.maxTiles = m_maxTiles;
@@ -178,13 +161,14 @@ unsigned char* RecastTileBuilder::build(float x, float y, const AABB& lastTileBo
 }
 
 void RecastTileBuilder::getTilePos(const Vector3& pos, int& tx, int& ty) {
-	if (!m_geom) return;
+	if (!m_geom)
+		return;
 
 	const Vector3& bmin = *bounds.getMinBound();
 
 	const float ts = settings.m_tileSize * settings.m_cellSize;
-	tx = (int) ((pos.getX() - bmin.getX()) / ts);
-	ty = (int) ((pos.getZ() - bmin.getZ()) / ts);
+	tx = (int)((pos.getX() - bmin.getX()) / ts);
+	ty = (int)((pos.getZ() - bmin.getZ()) / ts);
 }
 
 unsigned char* RecastTileBuilder::buildTileMesh(const int tx, const int ty, int& dataSize) {
@@ -219,13 +203,12 @@ unsigned char* RecastTileBuilder::buildTileMesh(const int tx, const int ty, int&
 	m_cfg.bmin[1] = lastTileBounds.getYMin();
 	m_cfg.bmin[2] = lastTileBounds.getZMin();
 
-
 	m_cfg.bmax[0] = lastTileBounds.getXMax();
 	m_cfg.bmax[1] = lastTileBounds.getYMax();
 	m_cfg.bmax[2] = lastTileBounds.getZMax();
 
-	//rcVcopy(m_cfg.bmin, bmin);
-	//rcVcopy(m_cfg.bmax, bmax);
+	// rcVcopy(m_cfg.bmin, bmin);
+	// rcVcopy(m_cfg.bmax, bmax);
 	m_cfg.bmin[0] -= m_cfg.borderSize * m_cfg.cs;
 	m_cfg.bmin[2] -= m_cfg.borderSize * m_cfg.cs;
 	m_cfg.bmax[0] += m_cfg.borderSize * m_cfg.cs;
@@ -257,17 +240,17 @@ unsigned char* RecastTileBuilder::buildTileMesh(const int tx, const int ty, int&
 	tbmin[1] = m_cfg.bmin[2];
 	tbmax[0] = m_cfg.bmax[0];
 	tbmax[1] = m_cfg.bmax[2];
-	int cid[512];// TODO: Make grow when returning too many items.
+	int cid[512]; // TODO: Make grow when returning too many items.
 	const int ncid = rcGetChunksOverlappingRect(chunkyMesh, tbmin, tbmax, cid, 512);
 
 	if (!ncid) {
 		return 0;
 	}
 
-	const Vector <Vector3>* vertArray = m_geom->getVerts();
+	const Vector<Vector3>* vertArray = m_geom->getVerts();
 
 	const int nverts = vertArray->size();
-	float* verts = new float[nverts * 3];//m_geom->getMesh()->getVerts();
+	float* verts = new float[nverts * 3]; // m_geom->getMesh()->getVerts();
 
 	for (int i = 0; i < nverts; i++) {
 		const Vector3& vert = vertArray->getUnsafe(i);
@@ -286,8 +269,7 @@ unsigned char* RecastTileBuilder::buildTileMesh(const int tx, const int ty, int&
 		m_tileTriCount += nctris;
 
 		memset(m_triareas, 0, nctris * sizeof(unsigned char));
-		rcMarkWalkableTriangles(m_ctx, m_cfg.walkableSlopeAngle,
-								verts, nverts, ctris, nctris, m_triareas);
+		rcMarkWalkableTriangles(m_ctx, m_cfg.walkableSlopeAngle, verts, nverts, ctris, nctris, m_triareas);
 
 		if (!rcRasterizeTriangles(m_ctx, verts, nverts, ctris, m_triareas, nctris, *m_solid, m_cfg.walkableClimb)) {
 			delete[] verts;
@@ -326,7 +308,6 @@ unsigned char* RecastTileBuilder::buildTileMesh(const int tx, const int ty, int&
 	rcFreeHeightField(m_solid);
 	m_solid = 0;
 
-
 	// Erode the walkable area by agent radius.
 	if (!rcErodeWalkableArea(m_ctx, m_cfg.walkableRadius, *m_chf)) {
 		error("buildNavigation: Could not erode.");
@@ -335,7 +316,7 @@ unsigned char* RecastTileBuilder::buildTileMesh(const int tx, const int ty, int&
 
 	// (Optional) Mark areas.
 	for (int i = 0; i < water.size(); ++i) {
-		Reference < RecastPolygon * > poly = water.get(i);
+		Reference<RecastPolygon*> poly = water.get(i);
 		rcMarkConvexPolyArea(m_ctx, poly->verts, poly->numVerts, poly->hmin, poly->hmax, poly->type, *m_chf);
 	}
 
@@ -349,7 +330,6 @@ unsigned char* RecastTileBuilder::buildTileMesh(const int tx, const int ty, int&
 	max[2] = bmax.getZ();
 
 	rcMarkBoxArea(m_ctx, min, max, SAMPLE_POLYAREA_WATER, *m_chf);
-
 
 	rcMedianFilterWalkableArea(m_ctx, *m_chf);
 
@@ -442,9 +422,7 @@ unsigned char* RecastTileBuilder::buildTileMesh(const int tx, const int ty, int&
 		return 0;
 	}
 
-	if (!rcBuildPolyMeshDetail(m_ctx, *m_pmesh, *m_chf,
-							   m_cfg.detailSampleDist, m_cfg.detailSampleMaxError,
-							   *m_dmesh)) {
+	if (!rcBuildPolyMeshDetail(m_ctx, *m_pmesh, *m_chf, m_cfg.detailSampleDist, m_cfg.detailSampleMaxError, *m_dmesh)) {
 		error("buildNavigation: Could build polymesh detail.");
 		return 0;
 	}
@@ -453,7 +431,6 @@ unsigned char* RecastTileBuilder::buildTileMesh(const int tx, const int ty, int&
 	m_chf = 0;
 	rcFreeContourSet(m_cset);
 	m_cset = 0;
-
 
 	unsigned char* navData = 0;
 	int navDataSize = 0;
@@ -469,9 +446,7 @@ unsigned char* RecastTileBuilder::buildTileMesh(const int tx, const int ty, int&
 			if (m_pmesh->areas[i] == RC_WALKABLE_AREA)
 				m_pmesh->areas[i] = SAMPLE_POLYAREA_GROUND;
 
-			if (m_pmesh->areas[i] == SAMPLE_POLYAREA_GROUND ||
-				m_pmesh->areas[i] == SAMPLE_POLYAREA_GRASS ||
-				m_pmesh->areas[i] == SAMPLE_POLYAREA_ROAD) {
+			if (m_pmesh->areas[i] == SAMPLE_POLYAREA_GROUND || m_pmesh->areas[i] == SAMPLE_POLYAREA_GRASS || m_pmesh->areas[i] == SAMPLE_POLYAREA_ROAD) {
 				m_pmesh->flags[i] = SAMPLE_POLYFLAGS_WALK;
 			} else if (m_pmesh->areas[i] == SAMPLE_POLYAREA_WATER) {
 				m_pmesh->flags[i] = SAMPLE_POLYFLAGS_SWIM;
@@ -494,13 +469,13 @@ unsigned char* RecastTileBuilder::buildTileMesh(const int tx, const int ty, int&
 		params.detailVertsCount = m_dmesh->nverts;
 		params.detailTris = m_dmesh->tris;
 		params.detailTriCount = m_dmesh->ntris;
-		params.offMeshConVerts = NULL;//m_geom->getOffMeshConnectionVerts();
-		params.offMeshConRad = NULL;//m_geom->getOffMeshConnectionRads();
-		params.offMeshConDir = NULL;//m_geom->getOffMeshConnectionDirs();
-		params.offMeshConAreas = NULL;//m_geom->getOffMeshConnectionAreas();
-		params.offMeshConFlags = NULL;//m_geom->getOffMeshConnectionFlags();
-		params.offMeshConUserID = NULL;//m_geom->getOffMeshConnectionId();
-		params.offMeshConCount = 0;//m_geom->getOffMeshConnectionCount();
+		params.offMeshConVerts = NULL;	// m_geom->getOffMeshConnectionVerts();
+		params.offMeshConRad = NULL;	// m_geom->getOffMeshConnectionRads();
+		params.offMeshConDir = NULL;	// m_geom->getOffMeshConnectionDirs();
+		params.offMeshConAreas = NULL;	// m_geom->getOffMeshConnectionAreas();
+		params.offMeshConFlags = NULL;	// m_geom->getOffMeshConnectionFlags();
+		params.offMeshConUserID = NULL; // m_geom->getOffMeshConnectionId();
+		params.offMeshConCount = 0;		// m_geom->getOffMeshConnectionCount();
 		params.walkableHeight = settings.m_agentHeight;
 		params.walkableRadius = settings.m_agentRadius;
 		params.walkableClimb = settings.m_agentMaxClimb;
@@ -513,21 +488,20 @@ unsigned char* RecastTileBuilder::buildTileMesh(const int tx, const int ty, int&
 		params.ch = m_cfg.ch;
 		params.buildBvTree = true;
 
-
 		if (!dtCreateNavMeshData(&params, &navData, &navDataSize)) {
 			error("Could not build Detour navmesh.");
 			return 0;
 		}
 	}
-	//m_tileMemUsage = navDataSize/1024.0f;
+	// m_tileMemUsage = navDataSize/1024.0f;
 
 	m_ctx->stopTimer(RC_TIMER_TOTAL);
 
 	// Show performance stats.
-	//duLogBuildTimes(*m_ctx, m_ctx->getAccumulatedTime(RC_TIMER_TOTAL));
-	//m_ctx->log(RC_LOG_PROGRESS, ">> Polymesh: %d vertices  %d polygons", m_pmesh->nverts, m_pmesh->npolys);
+	// duLogBuildTimes(*m_ctx, m_ctx->getAccumulatedTime(RC_TIMER_TOTAL));
+	// m_ctx->log(RC_LOG_PROGRESS, ">> Polymesh: %d vertices  %d polygons", m_pmesh->nverts, m_pmesh->npolys);
 
-	//m_tileBuildTime = m_ctx->getAccumulatedTime(RC_TIMER_TOTAL)/1000.0f;
+	// m_tileBuildTime = m_ctx->getAccumulatedTime(RC_TIMER_TOTAL)/1000.0f;
 
 	dataSize = navDataSize;
 	return navData;

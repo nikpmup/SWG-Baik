@@ -14,8 +14,9 @@
 
 class BoundingVolumeFactory {
 public:
-	BoundingVolumeFactory() { }
-	static BaseBoundingVolume* getVolume(IffStream *iff);
+	BoundingVolumeFactory() {
+	}
+	static BaseBoundingVolume* getVolume(IffStream* iff);
 };
 
 #endif /* BOUNDINGVOLUMEFACTORY_H_ */

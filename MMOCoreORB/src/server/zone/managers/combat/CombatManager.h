@@ -18,7 +18,6 @@ class CreatureAttackData;
 class CombatQueueCommand;
 
 class CombatManager : public Singleton<CombatManager>, public Logger, public Object {
-
 public:
 	// hitstatus: 0x0-MISS 0x1-HIT 0x2-BLOCK 0x3-DODGE 0x5-COUNTER 0x7-RICOCHET 0x8-REFLECT 0x9-REFLECT_TO_TARGET
 	const static int MISS = 0x00;
@@ -48,7 +47,7 @@ public:
 	// hitLocations
 	enum HitLocations { HIT_NONE, HIT_BODY, HIT_LARM, HIT_RARM, HIT_LLEG, HIT_RLEG, HIT_HEAD };
 
-	//Mitigation types
+	// Mitigation types
 	const static int PSG = 0x1;
 	const static int FORCESHIELD = 0x02;
 	const static int FORCEFEEDBACK = 0x03;
@@ -109,7 +108,7 @@ public:
 	int doCombatAction(TangibleObject* attacker, WeaponObject* weapon, TangibleObject* defenderObject, const CombatQueueCommand* command) const;
 	int doCombatAction(CreatureObject* attacker, WeaponObject* weapon, TangibleObject* defenderObject, const CreatureAttackData& data) const;
 
-	Reference<SortedVector<ManagedReference<TangibleObject*> >* > getAreaTargets(TangibleObject* attacker, WeaponObject* weapon, TangibleObject* defenderObject, const CreatureAttackData& data) const;
+	Reference<SortedVector<ManagedReference<TangibleObject*>>*> getAreaTargets(TangibleObject* attacker, WeaponObject* weapon, TangibleObject* defenderObject, const CreatureAttackData& data) const;
 
 	/**
 	 * Requests duel
@@ -150,9 +149,9 @@ public:
 
 	float calculateWeaponAttackSpeed(CreatureObject* attacker, WeaponObject* weapon, float skillSpeedRatio) const;
 
-	void broadcastCombatAction(CreatureObject * attacker, WeaponObject* weapon, SortedVector<DefenderHitList*> targetDefenders, const CreatureAttackData & data) const;
+	void broadcastCombatAction(CreatureObject* attacker, WeaponObject* weapon, SortedVector<DefenderHitList*> targetDefenders, const CreatureAttackData& data) const;
 
-	void finalCombatSpam(TangibleObject* attacker, WeaponObject* item, SortedVector<DefenderHitList*> targetDefenders, const CreatureAttackData & data) const;
+	void finalCombatSpam(TangibleObject* attacker, WeaponObject* item, SortedVector<DefenderHitList*> targetDefenders, const CreatureAttackData& data) const;
 	void broadcastCombatSpam(TangibleObject* attacker, TangibleObject* defender, TangibleObject* item, int damage, const String& file, const String& stringName, byte color) const;
 	void sendMitigationCombatSpam(CreatureObject* defender, TangibleObject* item, uint32 damage, int type) const;
 
@@ -165,7 +164,7 @@ public:
 	int getArmorObjectReduction(ArmorObject* armor, int damageType) const;
 	ArmorObject* getPSGArmor(CreatureObject* defender) const;
 
-	//all the combat math will go here
+	// all the combat math will go here
 protected:
 	int doTargetCombatAction(CreatureObject* attacker, WeaponObject* weapon, TangibleObject* defenderObject, SortedVector<DefenderHitList*>* targetDefenders, const CreatureAttackData& data, bool* shouldGcwCrackdownTef, bool* shouldGcwTef, bool* shouldBhTef) const;
 	int creoTargetCombatAction(CreatureObject* attacker, WeaponObject* weapon, CreatureObject* defenderObject, DefenderHitList* defenderHitList, const CreatureAttackData& data, bool* shouldGcwCrackdownTef, bool* shouldGcwTef, bool* shouldBhTef) const;
@@ -202,8 +201,8 @@ protected:
 	float getDefenderToughnessModifier(CreatureObject* defender, int attackType, int damType, float damage) const;
 
 	/**
-	* @returns 0 - hit, 1 - block, 2 - dodge, 3 - counter-attack, 4 - miss
-	*/
+	 * @returns 0 - hit, 1 - block, 2 - dodge, 3 - counter-attack, 4 - miss
+	 */
 	int getHitChance(TangibleObject* attacker, CreatureObject* targetCreature, WeaponObject* weapon, const CreatureAttackData& data, int damage, int accuracyBonus) const;
 
 	int getSpeedModifier(CreatureObject* attacker, WeaponObject* weapon) const;
@@ -217,7 +216,7 @@ protected:
 	int getArmorTurretReduction(CreatureObject* attacker, TangibleObject* defender, int damageType) const;
 	ArmorObject* getArmorObject(CreatureObject* defender, uint8 hitLocation) const;
 
-	void showHitLocationFlyText(CreatureObject *attacker, CreatureObject *defender, uint8 location) const;
+	void showHitLocationFlyText(CreatureObject* attacker, CreatureObject* defender, uint8 location) const;
 	void doMiss(TangibleObject* attacker, WeaponObject* weapon, CreatureObject* defender, const CreatureAttackData& data, int damage) const;
 	void doCounterAttack(TangibleObject* attacker, WeaponObject* weapon, CreatureObject* defender, int damage) const;
 	void doBlock(TangibleObject* attacker, WeaponObject* weapon, CreatureObject* defender, int damage) const;

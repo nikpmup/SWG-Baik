@@ -25,13 +25,11 @@ MissionObject* DeliverMissionScreenHandler::getRelevantMissionObject(CreatureObj
 		if (datapad->getContainerObject(i)->isMissionObject()) {
 			Reference<MissionObject*> mission = datapad->getContainerObject(i).castTo<MissionObject*>();
 
-			if (mission != nullptr && (mission->getTypeCRC() == MissionTypes::DELIVER ||
-					mission->getTypeCRC() == MissionTypes::CRAFTING)) {
+			if (mission != nullptr && (mission->getTypeCRC() == MissionTypes::DELIVER || mission->getTypeCRC() == MissionTypes::CRAFTING)) {
 				DeliverMissionObjective* objective = cast<DeliverMissionObjective*>(mission->getMissionObjective());
 				if (objective != nullptr) {
-					//Check if it is target or destination NPC
-					if (isTargetNpc(objective, npc) ||
-							isDestinationNpc(objective, npc)) {
+					// Check if it is target or destination NPC
+					if (isTargetNpc(objective, npc) || isDestinationNpc(objective, npc)) {
 						return mission;
 					}
 				}
@@ -39,7 +37,7 @@ MissionObject* DeliverMissionScreenHandler::getRelevantMissionObject(CreatureObj
 		}
 	}
 
-	//No relevant mission found.
+	// No relevant mission found.
 	return nullptr;
 }
 
@@ -120,54 +118,54 @@ void DeliverMissionScreenHandler::performDeliverConversation(ConversationScreen*
 }
 
 ConversationScreen* DeliverMissionScreenHandler::handleScreen(CreatureObject* conversingPlayer, CreatureObject* conversingNPC, int selectedOption, ConversationScreen* conversationScreen) {
-	//Get relevant mission object if it exists.
+	// Get relevant mission object if it exists.
 	MissionObject* mission = getRelevantMissionObject(conversingPlayer, conversingNPC);
 
 	if (mission == nullptr) {
-		//NPC is not related to any mission for this player.
+		// NPC is not related to any mission for this player.
 		int randomAnswer = System::random(4);
 		conversationScreen->setDialogText("@mission/mission_generic:deliver_incorrect_player_" + String::valueOf(randomAnswer));
 	} else {
-		//NPC is related to a mission for this player.
+		// NPC is related to a mission for this player.
 		Reference<DeliverMissionObjective*> objective = cast<DeliverMissionObjective*>(mission->getMissionObjective());
 		if (objective != nullptr) {
 			Locker locker(objective, conversingPlayer);
 
-			//Run mission logic.
+			// Run mission logic.
 
 			String text;
 			if (isTargetNpc(objective, conversingNPC)) {
-				//Target NPC.
+				// Target NPC.
 				if (objective->getObjectiveStatus() == DeliverMissionObjective::INITSTATUS) {
-					//Update mission objective status.
+					// Update mission objective status.
 					objective->updateMissionStatus(conversingPlayer);
 
-					//Converse with the player.
+					// Converse with the player.
 					performPickupConversation(conversationScreen, mission);
 				} else {
-					//Target NPC already talked to.
+					// Target NPC already talked to.
 					text = "@mission/mission_generic:deliver_already_picked_up";
 					conversationScreen->setDialogText(text);
 				}
 			} else {
-				//Destination NPC.
+				// Destination NPC.
 				if (objective->getObjectiveStatus() == DeliverMissionObjective::PICKEDUPSTATUS) {
-					//Update mission objective status.
+					// Update mission objective status.
 					objective->updateMissionStatus(conversingPlayer);
 					if (objective->getObjectiveStatus() == DeliverMissionObjective::DELIVEREDSTATUS) {
-						//Item delivered.
+						// Item delivered.
 						performDeliverConversation(conversationScreen, mission);
 					} else {
-						//Item not found.
+						// Item not found.
 						text = "@mission/mission_generic:give_item";
 						conversationScreen->setDialogText(text);
 					}
 				} else if (objective->getObjectiveStatus() == DeliverMissionObjective::INITSTATUS) {
-					//Item not picked up yet.
+					// Item not picked up yet.
 					text = "@mission/mission_generic:give_item";
 					conversationScreen->setDialogText(text);
 				} else {
-					//Item already dropped off.
+					// Item already dropped off.
 					text = "@mission/mission_generic:deliver_already_dropped_off";
 					conversationScreen->setDialogText(text);
 				}

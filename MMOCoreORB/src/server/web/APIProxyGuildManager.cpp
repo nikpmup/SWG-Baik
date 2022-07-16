@@ -1,6 +1,6 @@
 /*
-                Copyright <SWGEmu>
-        See file COPYING for copying conditions.*/
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
 
 /**
  * @author      : lordkator (lordkator@swgemu.com)
@@ -20,7 +20,7 @@
 #include "APIRequest.h"
 
 namespace server {
- namespace web3 {
+namespace web3 {
 
 server::zone::managers::guild::GuildManager* APIProxyGuildManager::getGuildManager() {
 	auto server = getZoneServer();
@@ -113,7 +113,7 @@ void APIProxyGuildManager::lookupGuild(APIRequest& apiRequest) {
 		if (!qSearch.isEmpty() && (guildAbbr.contains(qSearch) || guildName.contains(qSearch))) {
 			hits.put(guild->getObjectID());
 		} else {
-			for (auto name: names) {
+			for (auto name : names) {
 				if (name == guildAbbr || (qCaseInsensitive && name.toLowerCase() == guildAbbr)) {
 					hits.put(guild->getObjectID());
 					break;
@@ -184,7 +184,7 @@ void APIProxyGuildManager::handle(APIRequest& apiRequest) {
 	apiRequest.fail("Unsupported method");
 }
 
-}
-}
+} // namespace web3
+} // namespace server
 
 #endif // WITH_REST_API

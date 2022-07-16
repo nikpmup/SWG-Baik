@@ -10,14 +10,10 @@
 
 class ImagedesignCommand : public QueueCommand {
 public:
-
-	ImagedesignCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ImagedesignCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -32,17 +28,17 @@ public:
 			return GENERALERROR;
 		}
 
-		//Disabled again for public use until bugs can be worked out.
-		//return SUCCESS;
+		// Disabled again for public use until bugs can be worked out.
+		// return SUCCESS;
 
 		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target);
 		CreatureObject* playerTarget = nullptr;
-		CreatureObject* designer = cast<CreatureObject*>( creature);
+		CreatureObject* designer = cast<CreatureObject*>(creature);
 
 		if (object == nullptr || !object->isPlayerCreature())
 			playerTarget = designer;
 		else
-			playerTarget = cast<CreatureObject*>( object.get());
+			playerTarget = cast<CreatureObject*>(object.get());
 
 		Locker clocker(playerTarget, creature);
 
@@ -63,7 +59,7 @@ public:
 			stringIdNotGrp.setTT(playerTarget->getObjectID());
 
 			if (!designer->isGrouped() || designer->getGroupID() != playerTarget->getGroupID()) {
-				//You must be within the same group as %TT in order to use your Image Design abilites.
+				// You must be within the same group as %TT in order to use your Image Design abilites.
 				designer->sendSystemMessage(stringIdNotGrp);
 				return GENERALERROR;
 			}
@@ -106,14 +102,13 @@ public:
 			return GENERALERROR;
 		}
 
-		//Create Session
+		// Create Session
 		session = new ImageDesignSession(designer);
 		session->deploy();
 		session->startImageDesign(designer, playerTarget);
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //IMAGEDESIGNCOMMAND_H_
+#endif // IMAGEDESIGNCOMMAND_H_

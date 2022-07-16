@@ -34,13 +34,13 @@
 #define COMBAT_SPAM_RANGE 85 // Range at which players will see Combat Log Info
 
 /*
-* Notes:
-* Every player that uses an attack ability, including peace, is considered the attacker in a CombatManager instance.
-*
-* Each Attacker has their Defender List stored on their Object.
-* Peace will clear a Object's defender list, but they will not be able to exit Combat if checks are not passed.
-*
-*/
+ * Notes:
+ * Every player that uses an attack ability, including peace, is considered the attacker in a CombatManager instance.
+ *
+ * Each Attacker has their Defender List stored on their Object.
+ * Peace will clear a Object's defender list, but they will not be able to exit Combat if checks are not passed.
+ *
+ */
 
 // Sets attackers mainDefender and puts both in combat
 bool CombatManager::startCombat(CreatureObject* attacker, TangibleObject* defender, bool lockDefender, bool allowIncapTarget) const {
@@ -156,42 +156,43 @@ bool CombatManager::attemptPeace(CreatureObject* attacker) const {
 void CombatManager::forcePeace(CreatureObject* attacker) const {
 	Reference<CreatureObject*> attackerRef = attacker;
 
-	Core::getTaskManager()->scheduleTask([attackerRef] () {
-		Locker lock(attackerRef);
+	Core::getTaskManager()->scheduleTask(
+		[attackerRef]() {
+			Locker lock(attackerRef);
 
-		const DeltaVector<ManagedReference<SceneObject*>>* defenderList = attackerRef->getDefenderList();
+			const DeltaVector<ManagedReference<SceneObject*>>* defenderList = attackerRef->getDefenderList();
 
-		for (int i = defenderList->size() - 1; i >= 0; --i) {
-			ManagedReference<SceneObject*> object = defenderList->getSafe(i);
+			for (int i = defenderList->size() - 1; i >= 0; --i) {
+				ManagedReference<SceneObject*> object = defenderList->getSafe(i);
 
-			if (object == nullptr || !object->isTangibleObject())
-				continue;
+				if (object == nullptr || !object->isTangibleObject())
+					continue;
 
-			TangibleObject* defender = cast<TangibleObject*>(object.get());
+				TangibleObject* defender = cast<TangibleObject*>(object.get());
 
-			Locker clocker(defender, attackerRef);
+				Locker clocker(defender, attackerRef);
 
-			if (defender->hasDefender(attackerRef)) {
-				attackerRef->removeDefender(defender);
-				defender->removeDefender(attackerRef);
-			} else {
-				attackerRef->removeDefender(defender);
+				if (defender->hasDefender(attackerRef)) {
+					attackerRef->removeDefender(defender);
+					defender->removeDefender(attackerRef);
+				} else {
+					attackerRef->removeDefender(defender);
+				}
+
+				clocker.release();
 			}
 
-			clocker.release();
-		}
-
-		attackerRef->clearCombatState(false);
-		attackerRef->setState(CreatureState::PEACE);
-
-	}, "ForcePeaceLambda", 250);
+			attackerRef->clearCombatState(false);
+			attackerRef->setState(CreatureState::PEACE);
+		},
+		"ForcePeaceLambda", 250);
 }
 
 /*
-*
-*	Start Combat Action
-*
-*/
+ *
+ *	Start Combat Action
+ *
+ */
 
 /*
 	CreO attacker -- doCombatAction
@@ -713,7 +714,6 @@ void CombatManager::finalCombatSpam(TangibleObject* attacker, WeaponObject* weap
 		return;
 	}
 
-
 	for (int i = 0; i < targetDefenders.size(); ++i) {
 		DefenderHitList* hitList = targetDefenders.get(i);
 
@@ -887,10 +887,10 @@ void CombatManager::sendMitigationCombatSpam(CreatureObject* defender, TangibleO
 }
 
 /*
-*
-*	Other Combat Functions Below
-*
-*/
+ *
+ *	Other Combat Functions Below
+ *
+ */
 
 // Get Attackers Area Targets
 Reference<SortedVector<ManagedReference<TangibleObject*>>*> CombatManager::getAreaTargets(TangibleObject* attacker, WeaponObject* weapon, TangibleObject* defenderObject, const CreatureAttackData& data) const {
@@ -2616,7 +2616,7 @@ void CombatManager::doMiss(TangibleObject* attacker, WeaponObject* weapon, Creat
 				Locker agentLock(agent);
 
 				if (targetMissCount->contains(attackerID)) {
-					for (int i = 0; i < targetMissCount->size(); i++){
+					for (int i = 0; i < targetMissCount->size(); i++) {
 						uint64 listTarget = targetMissCount->elementAt(i).getKey();
 
 						if (listTarget == attackerID) {
@@ -3016,11 +3016,13 @@ void CombatManager::requestEndDuel(CreatureObject* player, CreatureObject* targe
 
 				ManagedReference<CreatureObject*> target = targetPlayer;
 
-				Core::getTaskManager()->executeTask([=]() {
-					 Locker locker(pet);
+				Core::getTaskManager()->executeTask(
+					[=]() {
+						Locker locker(pet);
 
-					 pet->removeDefender(target);
-				 }, "PetRemoveDefenderLambda");
+						pet->removeDefender(target);
+					},
+					"PetRemoveDefenderLambda");
 			}
 		}
 
@@ -3039,11 +3041,13 @@ void CombatManager::requestEndDuel(CreatureObject* player, CreatureObject* targe
 
 				ManagedReference<CreatureObject*> play = player;
 
-				Core::getTaskManager()->executeTask([=]() {
-					 Locker locker(pet);
+				Core::getTaskManager()->executeTask(
+					[=]() {
+						Locker locker(pet);
 
-					 pet->removeDefender(play);
-				 }, "PetRemoveDefenderLambda2");
+						pet->removeDefender(play);
+					},
+					"PetRemoveDefenderLambda2");
 			}
 		}
 
@@ -3088,11 +3092,13 @@ void CombatManager::freeDuelList(CreatureObject* player, bool spam) const {
 							targetPlayer->removeDefender(pet);
 							pet->sendPvpStatusTo(targetPlayer);
 
-							Core::getTaskManager()->executeTask([=]() {
-								 Locker locker(pet);
+							Core::getTaskManager()->executeTask(
+								[=]() {
+									Locker locker(pet);
 
-								 pet->removeDefender(targetPlayer);
-							 }, "PetRemoveDefenderLambda3");
+									pet->removeDefender(targetPlayer);
+								},
+								"PetRemoveDefenderLambda3");
 						}
 					}
 
@@ -3113,11 +3119,13 @@ void CombatManager::freeDuelList(CreatureObject* player, bool spam) const {
 
 							ManagedReference<CreatureObject*> play = player;
 
-							Core::getTaskManager()->executeTask([=]() {
-								 Locker locker(pet);
+							Core::getTaskManager()->executeTask(
+								[=]() {
+									Locker locker(pet);
 
-								 pet->removeDefender(play);
-							 }, "PetRemoveDefenderLambda4");
+									pet->removeDefender(play);
+								},
+								"PetRemoveDefenderLambda4");
 						}
 					}
 

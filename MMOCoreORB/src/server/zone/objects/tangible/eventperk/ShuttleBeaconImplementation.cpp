@@ -63,12 +63,14 @@ int ShuttleBeaconImplementation::handleObjectMenuSelect(CreatureObject* player, 
 
 		ManagedReference<ShuttleBeacon*> tempBeacon = _this.getReferenceUnsafeStaticCast();
 		Reference<CreatureObject*> creo = player;
-		Core::getTaskManager()->scheduleTask([tempBeacon, creo]{
-			if(tempBeacon != nullptr) {
-				Locker locker(tempBeacon);
-				tempBeacon->dismissShuttle(creo);
-			}
-		}, "DismissShuttleTask", 250);
+		Core::getTaskManager()->scheduleTask(
+			[tempBeacon, creo] {
+				if (tempBeacon != nullptr) {
+					Locker locker(tempBeacon);
+					tempBeacon->dismissShuttle(creo);
+				}
+			},
+			"DismissShuttleTask", 250);
 	}
 
 	return 0;
@@ -89,9 +91,9 @@ void ShuttleBeaconImplementation::callShuttle(CreatureObject* player) {
 		ghost->closeSuiWindowType(SuiWindowType::SHUTTLE_BEACON);
 
 	ManagedReference<SuiListBox*> listbox = new SuiListBox(player, SuiWindowType::SHUTTLE_BEACON);
-    listbox->setCallback(new ShuttleBeaconSuiCallback(getZoneServer()));
+	listbox->setCallback(new ShuttleBeaconSuiCallback(getZoneServer()));
 	listbox->setPromptTitle("@event_perk:shuttle_beacon_t"); // Select Shuttle Landing Type
-	listbox->setPromptText("@event_perk:shuttle_beacon_d"); // Select the type of shuttle landing you would like to call. Contacting the shuttle again after it lands will order the shuttle to leave.
+	listbox->setPromptText("@event_perk:shuttle_beacon_d");	 // Select the type of shuttle landing you would like to call. Contacting the shuttle again after it lands will order the shuttle to leave.
 	listbox->setUsingObject(_this.getReferenceUnsafeStaticCast());
 	listbox->setForceCloseDistance(32.f);
 	listbox->setCancelButton(true, "@cancel");
@@ -124,11 +126,20 @@ void ShuttleBeaconImplementation::spawnShuttle(CreatureObject* player, int type)
 	uint32 shuttleTemplate;
 
 	switch (type) {
-	case 3: shuttleTemplate = 0xB120E676; break; // object/creature/npc/theme_park/event_transport_theed_hangar.iff
-	case 2: shuttleTemplate = 0xD3D6FBA1; break; // object/creature/npc/theme_park/event_transport.iff
-	case 1: shuttleTemplate = 0x62A585E7; break; // object/creature/npc/theme_park/player_shuttle.iff
-	case 0: shuttleTemplate = 0xCB59CE5C; break; // object/creature/npc/theme_park/lambda_shuttle.iff
-	default: return;
+	case 3:
+		shuttleTemplate = 0xB120E676;
+		break; // object/creature/npc/theme_park/event_transport_theed_hangar.iff
+	case 2:
+		shuttleTemplate = 0xD3D6FBA1;
+		break; // object/creature/npc/theme_park/event_transport.iff
+	case 1:
+		shuttleTemplate = 0x62A585E7;
+		break; // object/creature/npc/theme_park/player_shuttle.iff
+	case 0:
+		shuttleTemplate = 0xCB59CE5C;
+		break; // object/creature/npc/theme_park/lambda_shuttle.iff
+	default:
+		return;
 	}
 
 	shuttleType = type;
@@ -138,7 +149,7 @@ void ShuttleBeaconImplementation::spawnShuttle(CreatureObject* player, int type)
 	if (object == nullptr)
 		return;
 
-	CreatureObject* newShuttle = cast<CreatureObject*>( object.get());
+	CreatureObject* newShuttle = cast<CreatureObject*>(object.get());
 
 	if (newShuttle == nullptr)
 		return;
@@ -168,10 +179,12 @@ void ShuttleBeaconImplementation::spawnShuttle(CreatureObject* player, int type)
 		return;
 
 	Reference<CreatureObject*> creo = player;
-	Core::getTaskManager()->scheduleTask([tempBeacon, creo] {
-		Locker locker(tempBeacon);
-		tempBeacon->landShuttle(creo);
-	}, "LandShuttleTask", 250);
+	Core::getTaskManager()->scheduleTask(
+		[tempBeacon, creo] {
+			Locker locker(tempBeacon);
+			tempBeacon->landShuttle(creo);
+		},
+		"LandShuttleTask", 250);
 }
 
 void ShuttleBeaconImplementation::landShuttle(CreatureObject* player) {
@@ -203,11 +216,12 @@ void ShuttleBeaconImplementation::landShuttle(CreatureObject* player) {
 
 	shuttleStatus = 1;
 
-
-	Core::getTaskManager()->scheduleTask([tempBeacon] {
-		Locker locker(tempBeacon);
-		tempBeacon->setReadyToTakeOff(true);
-	}, "ShuttleTakeOffTask", 40000);
+	Core::getTaskManager()->scheduleTask(
+		[tempBeacon] {
+			Locker locker(tempBeacon);
+			tempBeacon->setReadyToTakeOff(true);
+		},
+		"ShuttleTakeOffTask", 40000);
 }
 
 void ShuttleBeaconImplementation::dismissShuttle(CreatureObject* player) {
@@ -237,12 +251,13 @@ void ShuttleBeaconImplementation::dismissShuttle(CreatureObject* player) {
 	shuttleStatus = 0;
 	player->sendSystemMessage("@event_perk:shuttle_is_leaving"); // Transmission Recieved: Shuttle is leaving the area.
 
-
 	Reference<CreatureObject*> creo = player;
-	Core::getTaskManager()->scheduleTask([tempBeacon, creo] {
-		Locker locker(tempBeacon);
-		tempBeacon->destroyShuttle(creo);
-	}, "DestroyShuttleTask", 20000);
+	Core::getTaskManager()->scheduleTask(
+		[tempBeacon, creo] {
+			Locker locker(tempBeacon);
+			tempBeacon->destroyShuttle(creo);
+		},
+		"DestroyShuttleTask", 20000);
 }
 
 void ShuttleBeaconImplementation::destroyShuttle(CreatureObject* player) {
@@ -301,7 +316,7 @@ bool ShuttleBeaconImplementation::canSpawnShuttle(CreatureObject* player) {
 	int y = player->getWorldPositionY();
 	int nearbyPerks = 0;
 
-	CloseObjectsVector* vec = (CloseObjectsVector*) player->getCloseObjects();
+	CloseObjectsVector* vec = (CloseObjectsVector*)player->getCloseObjects();
 
 	if (vec == nullptr)
 		return false;
@@ -334,7 +349,7 @@ bool ShuttleBeaconImplementation::canSpawnShuttle(CreatureObject* player) {
 			return false;
 	}
 
-	SortedVector<ManagedReference<ActiveArea* > > activeAreas;
+	SortedVector<ManagedReference<ActiveArea*>> activeAreas;
 	zone->getInRangeActiveAreas(x, y, &activeAreas, true);
 
 	for (int i = 0; i < activeAreas.size(); ++i) {
@@ -390,28 +405,27 @@ void ShuttleBeaconImplementation::activateRemoveEvent(bool immediate) {
 }
 
 String ShuttleBeaconImplementation::getDurationString() {
-
 	Time currentTime;
 	uint32 timeDelta = currentTime.getMiliTime() - purchaseTime.getMiliTime();
 	uint32 timestamp = (EventPerkDeedTemplate::TIME_TO_LIVE - timeDelta) / 1000;
 
-	if( timestamp == 0 ) {
+	if (timestamp == 0) {
 		return "";
 	}
 
-	String abbrvs[3] = { "seconds", "minutes", "hours" };
+	String abbrvs[3] = {"seconds", "minutes", "hours"};
 
-	int intervals[3] = { 1, 60, 3600 };
-	int values[3] = { 0, 0, 0 };
+	int intervals[3] = {1, 60, 3600};
+	int values[3] = {0, 0, 0};
 
 	StringBuffer str;
 
 	for (int i = 2; i > -1; --i) {
-		values[i] = floor((float) timestamp / intervals[i]);
+		values[i] = floor((float)timestamp / intervals[i]);
 		timestamp -= values[i] * intervals[i];
 
 		if (values[i] > 0) {
-			if (str.length() > 0){
+			if (str.length() > 0) {
 				str << ", ";
 			}
 

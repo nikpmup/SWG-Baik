@@ -7,14 +7,10 @@
 
 class PlaceBattlefieldStructureCommand : public QueueCommand {
 public:
-
-	PlaceBattlefieldStructureCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	PlaceBattlefieldStructureCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -25,4 +21,4 @@ public:
 	}
 };
 
-#endif //PLACEBATTLEFIELDSTRUCTURECOMMAND_H_
+#endif // PLACEBATTLEFIELDSTRUCTURECOMMAND_H_

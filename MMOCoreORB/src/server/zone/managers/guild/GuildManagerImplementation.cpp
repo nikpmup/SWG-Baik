@@ -114,10 +114,10 @@ void GuildManagerImplementation::loadGuilds() {
 			if (object == nullptr || !object->isGuildObject())
 				continue;
 
-			GuildObject* guild = cast<GuildObject*>( object.get());
+			GuildObject* guild = cast<GuildObject*>(object.get());
 			guildList.add(guild->getGuildKey(), guild);
 
-			//Add sponsored player to the sponsoredPlayers VectorMap.
+			// Add sponsored player to the sponsoredPlayers VectorMap.
 			for (int i = 0; i < guild->getSponsoredPlayerCount(); ++i) {
 				uint64 playerID = guild->getSponsoredPlayer(i);
 
@@ -127,7 +127,7 @@ void GuildManagerImplementation::loadGuilds() {
 				addSponsoredPlayer(playerID, guild);
 			}
 
-			//Recreate the guild chat rooms on load
+			// Recreate the guild chat rooms on load
 			createGuildChannels(guild);
 		}
 
@@ -237,7 +237,6 @@ void GuildManagerImplementation::processGuildUpdate(GuildObject* guild) {
 				toRemove.add(playerID);
 			}
 		}
-
 	}
 
 	for (int i = 0; i < toRemove.size(); i++) {
@@ -302,7 +301,7 @@ void GuildManagerImplementation::processGuildElection(GuildObject* guild) {
 		oldLeaderCreo = oldLeader.castTo<CreatureObject*>();
 	}
 
-	//Loop through the candidate votes.
+	// Loop through the candidate votes.
 	for (int i = 0; i < candidates->size(); ++i) {
 		VectorMapEntry<uint64, int> entry = candidates->elementAt(i);
 
@@ -317,7 +316,6 @@ void GuildManagerImplementation::processGuildElection(GuildObject* guild) {
 		ManagedReference<SceneObject*> candidateObj = server->getObject(candidateID);
 
 		if (candidateObj != nullptr && candidateObj->isPlayerCreature()) {
-
 			if (votes > topVotes || (votes == topVotes && candidateID == oldLeaderID)) {
 				topCandidate = candidateID;
 				topVotes = votes;
@@ -359,7 +357,7 @@ void GuildManagerImplementation::processGuildElection(GuildObject* guild) {
 
 	if (topCandidate == oldLeaderID) {
 		emailbody.setStringId("@guild:public_election_inc_body"); // The elections for %TT have been held. The incumbent guild leader is victorious! Please congratulate %TO on retaining their office. The voting system will now be disabled. The new leader can enable it if they wish to run new elections.
-		subject = "@guild:public_election_inc_subject"; // Election Results!
+		subject = "@guild:public_election_inc_subject";			  // Election Results!
 	} else {
 		emailbody.setStringId("@guild:public_election_body"); // The leader elections for %TT have been held. The incumbent guild leader has lost the election! The new guild leader is %TO. Please congratulate the new guild leader! The voting system will now be disabled. The new leader can enable it if they wish to run new elections.
 		subject = "@guild:public_election_subject"; // Election Results!
@@ -369,13 +367,12 @@ void GuildManagerImplementation::processGuildElection(GuildObject* guild) {
 	emailbody.setTO(winnerName);
 
 	sendGuildMail(subject, emailbody, guild);
-
 }
 
 void GuildManagerImplementation::destroyGuild(GuildObject* guild, StringIdChatParameter& mailbody) {
 	Locker _lock(_this.getReferenceUnsafeStaticCast());
 
-	//Destroy GuildChat
+	// Destroy GuildChat
 	ManagedReference<ChatRoom*> guildChat = guild->getChatRoom();
 	if (guildChat != nullptr) {
 		ManagedReference<ChatRoom*> guildLobby = guildChat->getParent();
@@ -385,7 +382,7 @@ void GuildManagerImplementation::destroyGuild(GuildObject* guild, StringIdChatPa
 			chatManager->destroyRoom(guildLobby);
 	}
 
-	//Remove all sponsored members from the sponsoredPlayers vectormap
+	// Remove all sponsored members from the sponsoredPlayers vectormap
 	for (int i = 0; i < guild->getSponsoredPlayerCount(); ++i) {
 		uint64 playerID = guild->getSponsoredPlayer(i);
 
@@ -404,19 +401,18 @@ void GuildManagerImplementation::destroyGuild(GuildObject* guild, StringIdChatPa
 		byte status = oguild->getWarStatus(guild->getObjectID());
 
 		if (status != 0) {
-			//setWarStatus uses its own mutex, no need to lock the guild
+			// setWarStatus uses its own mutex, no need to lock the guild
 			oguild->setWarStatus(guild->getObjectID(), GuildObject::WAR_NONE);
 		}
 	}
 
 	_lock.release();
 
-	//We have to remove the guild tag from everyone currently online in this guild!
+	// We have to remove the guild tag from everyone currently online in this guild!
 	GuildMemberList* memberList = guild->getGuildMemberList();
 
 	if (memberList != nullptr) {
-
-		//TODO: This could probably be moved to the GuildObject destructor!
+		// TODO: This could probably be moved to the GuildObject destructor!
 		for (int i = 0; i < memberList->size(); ++i) {
 			Locker locker(guild);
 			GuildMemberInfo* gmi = &memberList->get(i);
@@ -429,7 +425,7 @@ void GuildManagerImplementation::destroyGuild(GuildObject* guild, StringIdChatPa
 			if (obj == nullptr || !obj->isPlayerCreature())
 				continue;
 
-			CreatureObject* member = cast<CreatureObject*>( obj.get());
+			CreatureObject* member = cast<CreatureObject*>(obj.get());
 
 			Locker clocker(member, guild);
 
@@ -469,10 +465,9 @@ void GuildManagerImplementation::destroyGuild(GuildObject* guild, StringIdChatPa
 		guild->destroyObjectFromDatabase(true);
 
 		_locker.release();
-		//Send the delta to everyone currently online!
+		// Send the delta to everyone currently online!
 		chatManager->broadcastMessage(gildd3);
 	}
-
 }
 
 void GuildManagerImplementation::sendGuildCreateNameTo(CreatureObject* player, GuildTerminal* terminal) {
@@ -642,10 +637,10 @@ GuildObject* GuildManagerImplementation::createGuild(CreatureObject* player, con
 	if (isCreatingGuild(playerID))
 		removePendingGuild(playerID);
 	// Strip out any errant escaped newlines from the guild name and tags and any errant color code starts
-	String tmp = guildName.replaceAll("\n|\r|#","");
-	String tabbrev = guildAbbrev.replaceAll("\n|\r|#","");
+	String tmp = guildName.replaceAll("\n|\r|#", "");
+	String tabbrev = guildAbbrev.replaceAll("\n|\r|#", "");
 
-	ManagedReference<GuildObject*> guild = cast<GuildObject*>( ObjectManager::instance()->createObject(0xD6888614, 1, "guilds")); //object/guild/guild_object.iff
+	ManagedReference<GuildObject*> guild = cast<GuildObject*>(ObjectManager::instance()->createObject(0xD6888614, 1, "guilds")); // object/guild/guild_object.iff
 
 	Locker clocker(guild, player);
 
@@ -661,7 +656,7 @@ GuildObject* GuildManagerImplementation::createGuild(CreatureObject* player, con
 	guildChat->sendTo(player);
 	server->getChatManager()->handleChatEnterRoomById(player, guildChat->getRoomID(), -1, true);
 
-	//Handle setting of the guild leader.
+	// Handle setting of the guild leader.
 	GuildMemberInfo* gmi = guild->getMember(playerID);
 	gmi->setPermissions(GuildObject::PERMISSION_ALL);
 
@@ -674,7 +669,7 @@ GuildObject* GuildManagerImplementation::createGuild(CreatureObject* player, con
 
 	_lock.release();
 
-	//Send the delta to everyone currently online!
+	// Send the delta to everyone currently online!
 	chatManager->broadcastMessage(gildd3);
 
 	CreatureObjectDeltaMessage6* creod6 = new CreatureObjectDeltaMessage6(player);
@@ -764,7 +759,7 @@ void GuildManagerImplementation::renameGuild(GuildObject* guild) {
 		gildd3->close();
 
 		_lock.release();
-		//Send the delta to everyone currently online!
+		// Send the delta to everyone currently online!
 		chatManager->broadcastMessage(gildd3);
 	}
 
@@ -780,7 +775,7 @@ void GuildManagerImplementation::renameGuild(GuildObject* guild) {
 
 	_locker.release();
 
-	//Send the delta to everyone currently online!
+	// Send the delta to everyone currently online!
 	chatManager->broadcastMessage(gildd3);
 
 	guild->resetRename();
@@ -854,7 +849,6 @@ void GuildManagerImplementation::sendGuildDisbandConfirmTo(CreatureObject* playe
 }
 
 bool GuildManagerImplementation::disbandGuild(CreatureObject* player, GuildObject* guild) {
-
 	if (guild == nullptr)
 		return false;
 
@@ -875,13 +869,12 @@ bool GuildManagerImplementation::disbandGuild(CreatureObject* player, GuildObjec
 }
 
 void GuildManagerImplementation::sendGuildTransferTo(CreatureObject* player, GuildTerminal* guildTerminal) {
-
 	player->getPlayerObject()->closeSuiWindowType(SuiWindowType::GUILD_TRANSFER_LEADER);
 
 	ManagedReference<SuiInputBox*> suiBox = new SuiInputBox(player, SuiWindowType::GUILD_TRANSFER_LEADER);
 	suiBox->setCallback(new GuildTransferLeadershipSuiCallback(server));
 	suiBox->setPromptTitle("@guild:make_leader_t"); // Transfer PA Leadership
-	suiBox->setPromptText("@guild:make_leader_d"); // You are about to transfer leadership of this Player Association!  Once you take this action you will be made a normal member and your leader permissions will be revoked.
+	suiBox->setPromptText("@guild:make_leader_d");	// You are about to transfer leadership of this Player Association!  Once you take this action you will be made a normal member and your leader permissions will be revoked.
 	suiBox->setCancelButton(true, "@cancel");
 	suiBox->setUsingObject(guildTerminal);
 	suiBox->setForceCloseDistance(32);
@@ -890,7 +883,7 @@ void GuildManagerImplementation::sendGuildTransferTo(CreatureObject* player, Gui
 	player->sendMessage(suiBox->generateMessage());
 }
 
-void GuildManagerImplementation::sendTransferAckTo(CreatureObject* player, const String& newOwnerName, SceneObject* sceoTerminal){
+void GuildManagerImplementation::sendTransferAckTo(CreatureObject* player, const String& newOwnerName, SceneObject* sceoTerminal) {
 	ManagedReference<BuildingObject*> building = sceoTerminal->getParentRecursively(SceneObjectType::BUILDING).castTo<BuildingObject*>();
 	if (building == nullptr) {
 		return;
@@ -919,26 +912,26 @@ void GuildManagerImplementation::sendTransferAckTo(CreatureObject* player, const
 		return;
 	}
 
-	if(target->getObjectID() == guild->getGuildLeaderID()) {
+	if (target->getObjectID() == guild->getGuildLeaderID()) {
 		player->sendSystemMessage("@guild:already_leader"); // You are already the guild leader.
 		return;
 	}
 
 	// make sure target is in the guild
-	if ( !guild->hasMember(target->getObjectID())) {
+	if (!guild->hasMember(target->getObjectID())) {
 		player->sendSystemMessage("@guild:ml_fail"); // unable to find a member of the PA with that name
 		return;
 	}
 
 	// make sure player transferring to is nearby
 	if (!target->isOnline() || !target->isInRange(sceoTerminal, 32)) {
-		StringIdChatParameter params("@guild:ml_not_loaded");  // That person is not loaded or is too far away.
+		StringIdChatParameter params("@guild:ml_not_loaded"); // That person is not loaded or is too far away.
 		player->sendSystemMessage(params);
 		return;
 	}
 
-	if ( !target->getPlayerObject()->hasLotsRemaining(5) ) {
-		target->sendSystemMessage("@guild:ml_no_lots_free");  // That person does not have enough free lots to own the PA hall.  PA hall ownership is a requirement be guild leader
+	if (!target->getPlayerObject()->hasLotsRemaining(5)) {
+		target->sendSystemMessage("@guild:ml_no_lots_free"); // That person does not have enough free lots to own the PA hall.  PA hall ownership is a requirement be guild leader
 		return;
 	}
 
@@ -953,7 +946,7 @@ void GuildManagerImplementation::sendTransferAckTo(CreatureObject* player, const
 	ManagedReference<SuiMessageBox*> suiBox = new SuiMessageBox(target, SuiWindowType::GUILD_TRANSFER_LEADER_CONFIRM);
 	suiBox->setCallback(new GuildTransferLeaderAckSuiCallback(server));
 	suiBox->setPromptTitle("@guild:make_leader_t"); // Transfer PA leadership
-	suiBox->setPromptText("@guild:make_leader_p");  // The leader of this PA wants to transfer leadership to you. Do you accept?
+	suiBox->setPromptText("@guild:make_leader_p");	// The leader of this PA wants to transfer leadership to you. Do you accept?
 	suiBox->setUsingObject(sceoTerminal);
 	suiBox->setForceCloseDistance(32);
 	suiBox->setCancelButton(true, "@no");
@@ -976,15 +969,14 @@ void GuildManagerImplementation::transferLeadership(CreatureObject* newLeader, C
 	// change admin privs for old and new leader
 	GuildMemberInfo* gmiLeader = guild->getMember(newLeader->getObjectID());
 
-	if (gmiLeader!= nullptr){
+	if (gmiLeader != nullptr) {
 		gmiLeader->setPermissions(GuildObject::PERMISSION_ALL);
 	}
 
 	if (oldLeader != nullptr && oldLeader != newLeader) {
-
 		GuildMemberInfo* gmiOldLeader = guild->getMember(oldLeader->getObjectID());
 
-		if (gmiOldLeader != nullptr){
+		if (gmiOldLeader != nullptr) {
 			gmiOldLeader->setPermissions(GuildObject::PERMISSION_NONE);
 		}
 	}
@@ -995,7 +987,7 @@ void GuildManagerImplementation::transferLeadership(CreatureObject* newLeader, C
 		return;
 
 	if (oldLeader != nullptr) {
-		oldLeader->sendSystemMessage("@guild:ml_success");  // PA leadership transferred.  YOu are now a normal member of the PA.
+		oldLeader->sendSystemMessage("@guild:ml_success"); // PA leadership transferred.  YOu are now a normal member of the PA.
 	}
 
 	newLeader->sendSystemMessage("@guild:ml_you_are_leader"); // You have been made leader of your PA
@@ -1017,28 +1009,26 @@ bool GuildManagerImplementation::transferGuildHall(CreatureObject* newOwner, Sce
 	if (!terminal->isGuildTerminal())
 		return false;
 
-	GuildTerminal* guildTerminal = cast<GuildTerminal*>( terminal);
+	GuildTerminal* guildTerminal = cast<GuildTerminal*>(terminal);
 
-	if ( guildTerminal == nullptr )
+	if (guildTerminal == nullptr)
 		return false;
 
 	ManagedReference<BuildingObject*> buildingObject = guildTerminal->getParentRecursively(SceneObjectType::BUILDING).castTo<BuildingObject*>();
 
+	if (buildingObject != nullptr) {
+		ManagedReference<CreatureObject*> oldOwner = buildingObject->getOwnerCreatureObject();
 
-	if ( buildingObject != nullptr ) {
-
-			ManagedReference<CreatureObject*> oldOwner = buildingObject->getOwnerCreatureObject();
-
-			if ( oldOwner != nullptr && oldOwner != newOwner ) {
-				if (TransferstructureCommand::doTransferStructure(oldOwner, newOwner, buildingObject, true) == QueueCommand::SUCCESS) {
-					newOwner->sendSystemMessage("@guild:pa_owner_now"); // You are now the owner of this PA Hall.
-					return true;
-				}
-
-			} else {
-				newOwner->sendSystemMessage("@player_structure:already_owner"); // You are already the owner.
+		if (oldOwner != nullptr && oldOwner != newOwner) {
+			if (TransferstructureCommand::doTransferStructure(oldOwner, newOwner, buildingObject, true) == QueueCommand::SUCCESS) {
+				newOwner->sendSystemMessage("@guild:pa_owner_now"); // You are now the owner of this PA Hall.
+				return true;
 			}
+
+		} else {
+			newOwner->sendSystemMessage("@player_structure:already_owner"); // You are already the owner.
 		}
+	}
 
 	return false;
 }
@@ -1087,7 +1077,7 @@ void GuildManagerImplementation::sendGuildMemberListTo(CreatureObject* player, G
 		if (obj == nullptr || !obj->isPlayerCreature())
 			continue;
 
-		CreatureObject* member = cast<CreatureObject*>( obj.get());
+		CreatureObject* member = cast<CreatureObject*>(obj.get());
 		suiBox->addMenuItem(member->getDisplayedName(), playerID);
 	}
 
@@ -1124,8 +1114,8 @@ void GuildManagerImplementation::sendGuildMemberOptionsTo(CreatureObject* player
 	suiBox->setForceCloseDistance(32);
 	suiBox->setCancelButton(true, "@cancel");
 
-	suiBox->addMenuItem("@guild:title", memberID); // Set Title
-	suiBox->addMenuItem("@guild:kick", memberID); // Kick
+	suiBox->addMenuItem("@guild:title", memberID);		 // Set Title
+	suiBox->addMenuItem("@guild:kick", memberID);		 // Kick
 	suiBox->addMenuItem("@guild:permissions", memberID); // Change Permissions
 
 	player->getPlayerObject()->addSuiBox(suiBox);
@@ -1185,7 +1175,7 @@ void GuildManagerImplementation::setMemberTitle(CreatureObject* player, Creature
 	uint64 targetID = target->getObjectID();
 
 	if (!guild->hasMember(targetID))
-			return;
+		return;
 
 	guild->setGuildMemberTitle(targetID, title);
 
@@ -1200,7 +1190,6 @@ void GuildManagerImplementation::setMemberTitle(CreatureObject* player, Creature
 		params.setTU(player->getDisplayedName());
 		target->sendSystemMessage(params);
 	}
-
 }
 
 void GuildManagerImplementation::sendGuildKickPromptTo(CreatureObject* player, CreatureObject* target) {
@@ -1272,16 +1261,18 @@ void GuildManagerImplementation::kickMember(CreatureObject* player, CreatureObje
 		if (guildChat != nullptr) {
 			ManagedReference<CreatureObject*> targetCreo = target->asCreatureObject();
 
-			Core::getTaskManager()->executeTask([=] () {
-				Locker locker(targetCreo);
-				Locker cLocker(guildChat, targetCreo);
-				guildChat->removePlayer(targetCreo);
-				guildChat->sendDestroyTo(targetCreo);
+			Core::getTaskManager()->executeTask(
+				[=]() {
+					Locker locker(targetCreo);
+					Locker cLocker(guildChat, targetCreo);
+					guildChat->removePlayer(targetCreo);
+					guildChat->sendDestroyTo(targetCreo);
 
-				ManagedReference<ChatRoom*> parentRoom = guildChat->getParent();
-				if (parentRoom != nullptr)
-					parentRoom->sendDestroyTo(targetCreo);
-			}, "RemovePlayerFromGuildChatLambda");
+					ManagedReference<ChatRoom*> parentRoom = guildChat->getParent();
+					if (parentRoom != nullptr)
+						parentRoom->sendDestroyTo(targetCreo);
+				},
+				"RemovePlayerFromGuildChatLambda");
 		}
 
 		PlayerObject* targetGhost = target->getPlayerObject();
@@ -1343,7 +1334,6 @@ void GuildManagerImplementation::sendMemberPermissionsTo(CreatureObject* player,
 }
 
 void GuildManagerImplementation::toggleGuildPermission(CreatureObject* player, uint64 targetID, int permissionIndex, GuildTerminal* guildTerminal) {
-
 	ManagedReference<GuildObject*> guild = player->getGuildObject().get();
 
 	if (guild == nullptr || !guild->isGuildLeader(player) || player->getObjectID() == targetID) {
@@ -1357,35 +1347,35 @@ void GuildManagerImplementation::toggleGuildPermission(CreatureObject* player, u
 		return;
 
 	switch (permissionIndex) {
-	case 0: //mail
+	case 0: // mail
 		guild->toggleMemberPermission(targetID, GuildObject::PERMISSION_MAIL);
 		break;
-	case 1: //sponsor
+	case 1: // sponsor
 		guild->toggleMemberPermission(targetID, GuildObject::PERMISSION_SPONSOR);
 		break;
-	case 2: //title
+	case 2: // title
 		guild->toggleMemberPermission(targetID, GuildObject::PERMISSION_TITLE);
 		break;
-	case 3: //accept
+	case 3: // accept
 		guild->toggleMemberPermission(targetID, GuildObject::PERMISSION_ACCEPT);
 		break;
-	case 4: //kick
+	case 4: // kick
 		guild->toggleMemberPermission(targetID, GuildObject::PERMISSION_KICK);
 		break;
-	case 5: //war
+	case 5: // war
 		guild->toggleMemberPermission(targetID, GuildObject::PERMISSION_WAR);
 		break;
-	case 6: //namechange
+	case 6: // namechange
 		guild->toggleMemberPermission(targetID, GuildObject::PERMISSION_NAME);
 		break;
-	case 7: //disband
+	case 7: // disband
 		guild->toggleMemberPermission(targetID, GuildObject::PERMISSION_DISBAND);
 		break;
 	default:
 		return;
 	}
 
-	//Resend the permissions sui
+	// Resend the permissions sui
 	sendMemberPermissionsTo(player, targetID, guildTerminal);
 }
 
@@ -1515,7 +1505,7 @@ void GuildManagerImplementation::acceptSponsorshipRequest(CreatureObject* player
 	addSponsoredPlayer(targetID, guild);
 	guild->addSponsoredPlayer(targetID);
 
-	//Send emails
+	// Send emails
 	params.setStringId("@guildmail:sponsor_text"); // %TU has sponsored %TT for membership in the guild.
 	params.setTU(player->getDisplayedName());
 	params.setTT(target->getDisplayedName());
@@ -1547,7 +1537,7 @@ void GuildManagerImplementation::sendGuildSponsoredListTo(CreatureObject* player
 		if (obj == nullptr || !obj->isPlayerCreature())
 			continue;
 
-		CreatureObject* sponsoredPlayer = cast<CreatureObject*>( obj.get());
+		CreatureObject* sponsoredPlayer = cast<CreatureObject*>(obj.get());
 
 		suiBox->addMenuItem(sponsoredPlayer->getDisplayedName(), playerID);
 	}
@@ -1587,7 +1577,7 @@ void GuildManagerImplementation::sendGuildSponsoredOptionsTo(CreatureObject* pla
 	suiBox->setForceCloseDistance(32);
 	suiBox->setCancelButton(true, "@cancel");
 
-	suiBox->addMenuItem("@guild:accept", playerID); // Accept
+	suiBox->addMenuItem("@guild:accept", playerID);	 // Accept
 	suiBox->addMenuItem("@guild:decline", playerID); // Decline
 
 	player->getPlayerObject()->addSuiBox(suiBox);
@@ -1607,7 +1597,7 @@ void GuildManagerImplementation::acceptSponsoredPlayer(CreatureObject* player, u
 	if (obj == nullptr || !obj->isPlayerCreature())
 		return;
 
-	CreatureObject* target = cast<CreatureObject*>( obj.get());
+	CreatureObject* target = cast<CreatureObject*>(obj.get());
 
 	Locker _lock(target, player);
 
@@ -1663,7 +1653,7 @@ void GuildManagerImplementation::declineSponsoredPlayer(CreatureObject* player, 
 	ManagedReference<GuildObject*> guild = player->getGuildObject().get();
 
 	if (guild == nullptr || !guild->hasAcceptPermission(player->getObjectID())) {
-		player->sendSystemMessage("@guild:generic_fail_no_permission"); //You do not have permission to perform that operation.
+		player->sendSystemMessage("@guild:generic_fail_no_permission"); // You do not have permission to perform that operation.
 		return;
 	}
 
@@ -1672,7 +1662,7 @@ void GuildManagerImplementation::declineSponsoredPlayer(CreatureObject* player, 
 	if (obj == nullptr || !obj->isPlayerCreature())
 		return;
 
-	CreatureObject* target = cast<CreatureObject*>( obj.get());
+	CreatureObject* target = cast<CreatureObject*>(obj.get());
 
 	StringIdChatParameter params;
 	params.setStringId("@guild:decline_self"); // You decline %TU for membership in %TT.
@@ -1728,7 +1718,7 @@ void GuildManagerImplementation::sendGuildWarStatusTo(CreatureObject* player, Gu
 		Locker _lock(waringGuild);
 
 		String listing;
-		listing += (char) entry->getValue();
+		listing += (char)entry->getValue();
 
 		listbox->addMenuItem(listing + " " + waringGuild->getGuildName() + " <" + waringGuild->getGuildAbbrev() + ">", entry->getKey());
 	}
@@ -1799,28 +1789,28 @@ void GuildManagerImplementation::toggleWarStatus(CreatureObject* creature, Guild
 	GuildObject* waringGuild = obj.castTo<GuildObject*>();
 
 	if (guild->hasDeclaredWarOn(guildoid)) {
-		//This means that they have no mutual war
+		// This means that they have no mutual war
 		guild->setWarStatus(guildoid, GuildObject::WAR_NONE);
 		waringGuild->setWarStatus(guild->getObjectID(), GuildObject::WAR_NONE);
 
 	} else if (guild->hasDeclaredWarBy(guildoid)) {
-		//They have received a war declaration, and are accepting it.
+		// They have received a war declaration, and are accepting it.
 		guild->setWarStatus(guildoid, GuildObject::WAR_MUTUAL);
 		waringGuild->setWarStatus(guild->getObjectID(), GuildObject::WAR_MUTUAL);
 
-		//Both guilds are now at war with each other, update everyone.
+		// Both guilds are now at war with each other, update everyone.
 		updateWarStatusToWaringGuild(guild, waringGuild);
 
 	} else if (guild->isAtWarWith(guildoid)) {
-		//Both guilds are at war, but this guild is rescinding their declaration.
+		// Both guilds are at war, but this guild is rescinding their declaration.
 		guild->setWarStatus(guildoid, GuildObject::WAR_IN);
 		waringGuild->setWarStatus(guild->getObjectID(), GuildObject::WAR_OUT);
 
-		//Both guilds are no longer at war with each other, update everyone.
+		// Both guilds are no longer at war with each other, update everyone.
 		updateWarStatusToWaringGuild(guild, waringGuild);
 
 	} else {
-		//Neither guild is at war, but this guild is declaring.
+		// Neither guild is at war, but this guild is declaring.
 		guild->setWarStatus(guildoid, GuildObject::WAR_OUT);
 		waringGuild->setWarStatus(guild->getObjectID(), GuildObject::WAR_IN);
 	}
@@ -2007,7 +1997,6 @@ void GuildManagerImplementation::sendAdminGuildInfoTo(CreatureObject* player, Gu
 		CreatureObject* sponsored = player->getZoneServer()->getObject(sponsoredID).castTo<CreatureObject*>();
 
 		if (sponsored != nullptr) {
-
 			promptText << "\t" << sponsored->getFirstName() << endl;
 		}
 	}
@@ -2023,7 +2012,7 @@ void GuildManagerImplementation::sendAdminGuildInfoTo(CreatureObject* player, Gu
 		String statusString;
 
 		if (warGuild != nullptr) {
-			promptText << "\t" << (char) status << "" << warGuild->getGuildName() << " <" << warGuild->getGuildAbbrev() << ">" << endl;
+			promptText << "\t" << (char)status << "" << warGuild->getGuildName() << " <" << warGuild->getGuildAbbrev() << ">" << endl;
 		}
 	}
 
@@ -2117,7 +2106,6 @@ void GuildManagerImplementation::leaveGuild(CreatureObject* player, GuildObject*
 		if (parentRoom != nullptr)
 			parentRoom->sendDestroyTo(player);
 	}
-
 }
 
 void GuildManagerImplementation::sendGuildMail(const String& subject, StringIdChatParameter& body, GuildObject* guild) {
@@ -2158,7 +2146,7 @@ void GuildManagerImplementation::toggleElection(GuildObject* guild, CreatureObje
 			player->sendSystemMessage("@guild:vote_elections_closed"); // Elections for the position of guild leader are now closed.
 		}
 
-		params.setStringId("@guild:closed_elections_email_body"); // Your guild's election for a new guild leader has been closed by the current guild leader.
+		params.setStringId("@guild:closed_elections_email_body");			   // Your guild's election for a new guild leader has been closed by the current guild leader.
 		sendGuildMail("@guild:closed_elections_email_subject", params, guild); // Guild Leader Elections Closed!
 	} else {
 		guild->resetElection(false);
@@ -2171,7 +2159,6 @@ void GuildManagerImplementation::toggleElection(GuildObject* guild, CreatureObje
 		params.setStringId("@guild:open_elections_email_body"); // Your guild has started an election for a new guild leader! You may vote at the guild terminal in your PA Hall. If you are a full member of the guild, you may opt to run for the position of guild leader by registering at the guild terminal. A new guild leader will be elected in exactly two weeks. The guild member with the most votes at that time will become guild leader.
 		sendGuildMail("@guild:open_elections_email_subject", params, guild); // Guild Leader Elections Open!
 	}
-
 }
 
 void GuildManagerImplementation::resetElection(GuildObject* guild, CreatureObject* player) {
@@ -2225,7 +2212,7 @@ void GuildManagerImplementation::promptCastVote(GuildObject* guild, CreatureObje
 	ManagedReference<SuiListBox*> suiBox = new SuiListBox(player, SuiWindowType::GUILD_VOTE);
 	suiBox->setCallback(new GuildVoteSuiCallback(server));
 	suiBox->setPromptTitle("@guild:leader_vote_t"); // Place Vote
-	suiBox->setPromptText("@guild:leader_vote_d"); // Select your desired candidate from the list below. You may change your vote at any time.
+	suiBox->setPromptText("@guild:leader_vote_d");	// Select your desired candidate from the list below. You may change your vote at any time.
 	suiBox->setUsingObject(terminal);
 	suiBox->setForceCloseDistance(32);
 	suiBox->setCancelButton(true, "@cancel");
@@ -2289,7 +2276,7 @@ void GuildManagerImplementation::viewElectionStandings(GuildObject* guild, Creat
 	}
 
 	ManagedReference<SuiListBox*> listbox = new SuiListBox(player, SuiWindowType::GUILD_ELECTION_STANDING);
-	listbox->setPromptText("@guild:leader_standings_d"); // A complete list of current guild leader candidates and their vote standing follows.
+	listbox->setPromptText("@guild:leader_standings_d");  // A complete list of current guild leader candidates and their vote standing follows.
 	listbox->setPromptTitle("@guild:leader_standings_t"); // Guild Leader Race Standings
 	listbox->setUsingObject(terminal);
 	listbox->setForceCloseDistance(32);

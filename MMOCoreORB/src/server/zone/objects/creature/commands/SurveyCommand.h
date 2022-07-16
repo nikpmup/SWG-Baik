@@ -7,14 +7,10 @@
 
 class SurveyCommand : public QueueCommand {
 public:
-
-	SurveyCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SurveyCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SURVEYCOMMAND_H_
+#endif // SURVEYCOMMAND_H_

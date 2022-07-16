@@ -9,14 +9,10 @@
 
 class PeaceCommand : public QueueCommand {
 public:
-
-	PeaceCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	PeaceCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,7 +25,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //PEACECOMMAND_H_
+#endif // PEACECOMMAND_H_

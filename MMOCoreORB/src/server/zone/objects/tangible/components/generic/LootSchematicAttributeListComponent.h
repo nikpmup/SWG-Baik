@@ -11,9 +11,8 @@
 #include "templates/tangible/LootSchematicTemplate.h"
 #include "server/zone/managers/stringid/StringIdManager.h"
 
-class LootSchematicAttributeListComponent: public AttributeListComponent {
+class LootSchematicAttributeListComponent : public AttributeListComponent {
 public:
-
 	/**
 	 * Fills the Attributes
 	 * @pre { this object is locked }
@@ -21,8 +20,7 @@ public:
 	 * @param menuResponse ObjectMenuResponse that will be sent to the client
 	 */
 	void fillAttributeList(AttributeListMessage* alm, CreatureObject* creature, SceneObject* object) const {
-
-		LootSchematicTemplate* schematicData = cast<LootSchematicTemplate*> (object->getObjectTemplate());
+		LootSchematicTemplate* schematicData = cast<LootSchematicTemplate*>(object->getObjectTemplate());
 		if (schematicData == nullptr) {
 			return;
 		}
@@ -32,10 +30,9 @@ public:
 
 		UnicodeString skill = stringIdManager->getStringId(skillNeeded.hashCode());
 
-		if(!skill.isEmpty())
+		if (!skill.isEmpty())
 			alm->insertAttribute("skill_required", skill);
 	}
-
 };
 
 #endif /* ATTIBUTELISTCOMPONENT_H_ */

@@ -2,8 +2,7 @@
 
 using namespace server::zone;
 
-ActiveAreaQuadTreeNode::ActiveAreaQuadTreeNode(float minx, float miny, float maxx, float maxy, const ActiveAreaQuadTreeNode* parent)
-	: minX(minx), minY(miny), maxX(maxx), maxY(maxy), parentNode(parent) {
+ActiveAreaQuadTreeNode::ActiveAreaQuadTreeNode(float minx, float miny, float maxx, float maxy, const ActiveAreaQuadTreeNode* parent) : minX(minx), minY(miny), maxX(maxx), maxY(maxy), parentNode(parent) {
 	dividerX = (minX + maxX) / 2;
 	dividerY = (minY + maxY) / 2;
 

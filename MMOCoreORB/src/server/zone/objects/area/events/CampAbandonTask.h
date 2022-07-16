@@ -13,9 +13,8 @@ namespace objects {
 namespace area {
 namespace events {
 
-class CampAbandonTask: public Task {
+class CampAbandonTask : public Task {
 	ManagedReference<CampSiteActiveArea*> campSite;
-
 
 public:
 	CampAbandonTask(CampSiteActiveArea* camp) {
@@ -31,11 +30,10 @@ public:
 	}
 };
 
-
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace area
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif /* CAMPABANDONTASK_H_ */

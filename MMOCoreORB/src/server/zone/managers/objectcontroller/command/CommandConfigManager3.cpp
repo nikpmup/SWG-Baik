@@ -337,7 +337,6 @@
 
 using namespace server::zone::managers::objectcontroller::command;
 
-
 void CommandConfigManager::registerCommands3() {
 	commandFactory.registerCommand<Melee1hBlindHit1Command>(String("melee1hBlindHit1").toLowerCase());
 	commandFactory.registerCommand<Melee1hBlindHit2Command>(String("melee1hBlindHit2").toLowerCase());

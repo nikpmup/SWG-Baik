@@ -92,7 +92,7 @@ public:
 					return;
 				}
 
-				//pay bank portion
+				// pay bank portion
 				TransactionLog trxBank(player, TrxCode::CLONINGSYSTEM, cost - diff);
 
 				player->subtractBankCredits(cost - diff);
@@ -120,7 +120,6 @@ public:
 		}
 
 		player->sendSystemMessage("@base_player:clone_success");
-
 	}
 };
 

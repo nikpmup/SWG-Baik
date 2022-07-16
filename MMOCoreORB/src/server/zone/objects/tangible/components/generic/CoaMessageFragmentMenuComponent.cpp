@@ -9,8 +9,7 @@
 void CoaMessageFragmentMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
 
-	menuResponse->addRadialMenuItem(20,3,"@sui:read_option"); // Read
-
+	menuResponse->addRadialMenuItem(20, 3, "@sui:read_option"); // Read
 }
 
 int CoaMessageFragmentMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {

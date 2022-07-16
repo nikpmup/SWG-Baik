@@ -11,12 +11,11 @@
 #include "server/zone/objects/tangible/TangibleObject.h"
 
 class ClearDefenderListsTask : public Task {
-	DeltaVector<ManagedReference<SceneObject* > > defenderList;
+	DeltaVector<ManagedReference<SceneObject*>> defenderList;
 	ManagedReference<TangibleObject*> tangibleObject;
-public:
-	ClearDefenderListsTask(const DeltaVector<ManagedReference<SceneObject* > >& list, TangibleObject* tano) :
-		defenderList(list), tangibleObject(tano) {
 
+public:
+	ClearDefenderListsTask(const DeltaVector<ManagedReference<SceneObject*>>& list, TangibleObject* tano) : defenderList(list), tangibleObject(tano) {
 	}
 
 	void run() {
@@ -36,7 +35,5 @@ public:
 		tangibleObject->removeDefenders();
 	}
 };
-
-
 
 #endif /* CLEARDEFENDERLISTS_H_ */

@@ -8,9 +8,9 @@
 class RecycleToolContainerComponent : public ContainerComponent {
 public:
 	int notifyObjectInserted(SceneObject* sceneObject, SceneObject* object) const {
-		RecycleTool* recycler = cast <RecycleTool* >(sceneObject);
+		RecycleTool* recycler = cast<RecycleTool*>(sceneObject);
 
-		TangibleObject* tano = cast <TangibleObject* >(object);
+		TangibleObject* tano = cast<TangibleObject*>(object);
 
 		if (recycler != nullptr && tano != nullptr) {
 			RecycleResourceTask* task = new RecycleResourceTask(recycler, tano);
@@ -24,7 +24,6 @@ public:
 	}
 
 	bool removeObject(SceneObject* sceneObject, SceneObject* object, SceneObject* destination, bool notifyClient) const {
-
 		return ContainerComponent::removeObject(sceneObject, object, destination, notifyClient);
 	}
 

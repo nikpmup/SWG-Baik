@@ -36,7 +36,4 @@ public:
 	}
 };
 
-
-
-
 #endif /* REMOVENOSPAWNAREATASK_H_ */

@@ -7,14 +7,10 @@
 
 class SocialCommand : public QueueCommand {
 public:
-
-	SocialCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SocialCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SOCIALCOMMAND_H_
+#endif // SOCIALCOMMAND_H_

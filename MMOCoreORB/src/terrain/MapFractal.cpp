@@ -42,22 +42,22 @@ float MapFractal::getNoise(float x, float y, int i, int j) {
 	double result = 0;
 
 	switch (combination) {
-		case 0:
-		case 1:
-			result = calculateCombination1(v39, v41);
-			break;
-		case 2:
-			result = calculateCombination2(v39, v41);
-			break;
-		case 3:
-			result = calculateCombination3(v39, v41);
-			break;
-		case 4:
-			result = calculateCombination4(v39, v41);
-			break;
-		case 5:
-			result = calculateCombination5(v39, v41);
-			break;
+	case 0:
+	case 1:
+		result = calculateCombination1(v39, v41);
+		break;
+	case 2:
+		result = calculateCombination2(v39, v41);
+		break;
+	case 3:
+		result = calculateCombination3(v39, v41);
+		break;
+	case 4:
+		result = calculateCombination4(v39, v41);
+		break;
+	case 5:
+		result = calculateCombination5(v39, v41);
+		break;
 	}
 
 	if (bias) {
@@ -139,7 +139,7 @@ void MapFractal::parseFromIffStream(engine::util::IffStream* iffStream) {
 		parseFromIffStream(iffStream, Version<'0001'>());
 		break;
 	default:
-		//System::out << "unknown MFRC version " << version << endl;
+		// System::out << "unknown MFRC version " << version << endl;
 		break;
 	}
 
@@ -148,7 +148,6 @@ void MapFractal::parseFromIffStream(engine::util::IffStream* iffStream) {
 
 void MapFractal::parseFromIffStream(engine::util::IffStream* iffStream, Version<'0001'>) {
 	iffStream->openChunk('DATA');
-
 
 	int seed = iffStream->getInt();
 	setSeed(seed);
@@ -161,17 +160,17 @@ void MapFractal::parseFromIffStream(engine::util::IffStream* iffStream, Version<
 	////System::out << "setting biasValue to:" << biasValue << endl;
 	gainType = iffStream->getInt();
 
-	//System::out << "setting gainType to:" << gainType << endl;
+	// System::out << "setting gainType to:" << gainType << endl;
 	gainValue = iffStream->getFloat();
 
-	//System::out << "setting gainValue to:" << gainValue << endl;
+	// System::out << "setting gainValue to:" << gainValue << endl;
 
 	octaves = iffStream->getUnsignedInt();
 
-	//System::out << "setting octaves to:" << octaves << endl;
+	// System::out << "setting octaves to:" << octaves << endl;
 	octavesParam = iffStream->getFloat();
 	setAmplitude(iffStream->getFloat());
-	//System::out << "setting amplitude to:" << amplitude << endl;
+	// System::out << "setting amplitude to:" << amplitude << endl;
 
 	xFrequency = iffStream->getFloat();
 	yFrequency = iffStream->getFloat();
@@ -197,7 +196,7 @@ double MapFractal::calculateCombination1(float v39, float v41) {
 
 		v33 = noise->noise2(coord) * v47 + v33;
 		v48 = v48 * octavesParam; // + 24 octaves param
-		v47 = v47 * amplitude; // + 28 amplitude
+		v47 = v47 * amplitude;	  // + 28 amplitude
 	}
 
 	if (unkown) // v6 + 52 initialized to 0
@@ -221,7 +220,7 @@ double MapFractal::calculateCombination1(float v39) {
 
 		v33 = noise->noise1(coord[0]) * v47 + v33;
 		v48 = v48 * octavesParam; // + 24 octaves param
-		v47 = v47 * amplitude; // + 28 amplitude
+		v47 = v47 * amplitude;	  // + 28 amplitude
 	}
 
 	if (unkown) // v6 + 52 initialized to 0
@@ -246,11 +245,11 @@ double MapFractal::calculateCombination2(float v39, float v41) {
 		coord[1] = v43 * v48;
 
 		v34 = (1.0 - fabs(noise->noise2(coord))) * v47 + v34;
-		v48 = v48 * octavesParam;  // + 24 octaves param
-		v47 = v47 * amplitude; // + 28 amplitude
+		v48 = v48 * octavesParam; // + 24 octaves param
+		v47 = v47 * amplitude;	  // + 28 amplitude
 	}
 
-	if (unkown) //v6 + 52 initialized to 0
+	if (unkown) // v6 + 52 initialized to 0
 		v34 = sin(v34 + v39);
 
 	result = v34 * offset32; //
@@ -274,10 +273,10 @@ double MapFractal::calculateCombination3(float v39, float v41) {
 
 		v34 = fabs(noise->noise2(coord)) * v47 + v34;
 		v48 = v48 * octavesParam; // + 24 octaves param
-		v47 = v47 * amplitude;  // + 28 amplitude
+		v47 = v47 * amplitude;	  // + 28 amplitude
 	}
 
-	if (unkown) //v6 + 52 initialized to 0
+	if (unkown) // v6 + 52 initialized to 0
 		v34 = sin(v34 + v39);
 
 	result = v34 * offset32; //
@@ -301,8 +300,8 @@ double MapFractal::calculateCombination4(float v39, float v41) {
 		coord[1] = v45 * v48;
 
 		v26 = noise->noise2(coord);
-		if ( v26 >= 0.0 ) {
-			if ( v26 > 1.0 )
+		if (v26 >= 0.0) {
+			if (v26 > 1.0)
 				v26 = 1.0;
 		} else {
 			v26 = 0.0;
@@ -310,10 +309,10 @@ double MapFractal::calculateCombination4(float v39, float v41) {
 
 		v34 = (1.0 - v26) * v47 + v34;
 		v48 = v48 * octavesParam; // + 24 octaves param
-		v47 = v47 * amplitude; // + 28 amplitude
+		v47 = v47 * amplitude;	  // + 28 amplitude
 	}
 
-	if (unkown) //v6 + 52 initialized to 0
+	if (unkown) // v6 + 52 initialized to 0
 		v34 = sin(v34 + v39);
 
 	result = v34 * offset32; //
@@ -338,7 +337,7 @@ double MapFractal::calculateCombination5(float v39, float v41) {
 
 		v30 = noise->noise2(coord); //
 
-		if ( v30 >= 0.0 ) {
+		if (v30 >= 0.0) {
 			if (v30 > 1.0)
 				v30 = 1.0;
 		} else {
@@ -347,10 +346,10 @@ double MapFractal::calculateCombination5(float v39, float v41) {
 
 		v34 = v30 * v47 + v34;
 		v48 = v48 * octavesParam; // v6 + 24 octaves param
-		v47 = v47 * amplitude; // v6 + 28 amplitude
+		v47 = v47 * amplitude;	  // v6 + 28 amplitude
 	}
 
-	if (unkown) //v6 + 52 initialized to 0
+	if (unkown) // v6 + 52 initialized to 0
 		v34 = sin(v34 + v39);
 
 	result = v34 * offset32; //

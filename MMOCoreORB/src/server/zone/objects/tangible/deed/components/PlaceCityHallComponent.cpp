@@ -26,7 +26,7 @@ int PlaceCityHallComponent::placeStructure(StructureDeed* deed, CreatureObject* 
 	if (zone == nullptr)
 		return 1;
 
-	//Check the capped cities on this planet.
+	// Check the capped cities on this planet.
 	CityManager* cityManager = zone->getZoneServer()->getCityManager();
 
 	if (cityManager->isCityRankCapped(zone->getZoneName(), CityManager::OUTPOST)) {
@@ -42,14 +42,14 @@ int PlaceCityHallComponent::placeStructure(StructureDeed* deed, CreatureObject* 
 		ManagedReference<CityRegion*> city = declaredResidence->getCityRegion().get();
 
 		if (city != nullptr && city->isMayor(creature->getObjectID())) {
-			creature->sendSystemMessage("@city/city:already_mayor"); //You are already the mayor of a city.  You may not be mayor of another city.
+			creature->sendSystemMessage("@city/city:already_mayor"); // You are already the mayor of a city.  You may not be mayor of another city.
 			return 1;
 		}
 	}
 
 	ManagedReference<SuiInputBox*> inputBox = new SuiInputBox(creature, SuiWindowType::CITY_CREATE, 0);
-	inputBox->setPromptTitle("@city/city:city_name_t"); //Enter City Name
-	inputBox->setPromptText("@city/city:city_name_d"); //Enter the desired name for your new city. Note that you must have at least 10 citizens join your city within 24 hours of placement in order for your city to be approved.
+	inputBox->setPromptTitle("@city/city:city_name_t"); // Enter City Name
+	inputBox->setPromptText("@city/city:city_name_d");	// Enter the desired name for your new city. Note that you must have at least 10 citizens join your city within 24 hours of placement in order for your city to be approved.
 	inputBox->setForceCloseDisabled();
 	inputBox->setMaxInputSize(40);
 	inputBox->setCallback(new PlaceCityHallSuiCallback(creature->getZone(), deed, x, y, angle));

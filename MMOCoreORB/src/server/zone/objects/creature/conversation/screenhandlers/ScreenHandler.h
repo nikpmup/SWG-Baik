@@ -18,9 +18,12 @@ namespace screenhandlers {
 class ScreenHandler {
 protected:
 	String nextScreenId;
+
 public:
-	ScreenHandler() {}
-	~ScreenHandler() {}
+	ScreenHandler() {
+	}
+	~ScreenHandler() {
+	}
 
 	String getNextScreenId() {
 		return nextScreenId;

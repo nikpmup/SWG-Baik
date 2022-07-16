@@ -9,33 +9,32 @@ namespace zone {
 namespace objects {
 namespace creature {
 namespace variables {
-	class LuaSkill {
-	public:
-		static const char className[];
-		static Luna<LuaSkill>::RegType Register[];
+class LuaSkill {
+public:
+	static const char className[];
+	static Luna<LuaSkill>::RegType Register[];
 
-		LuaSkill(lua_State *L);
-		~LuaSkill();
+	LuaSkill(lua_State* L);
+	~LuaSkill();
 
-		int _setObject(lua_State* L);
-		int getName(lua_State* L);
-		int getMoneyRequired(lua_State* L);
-		int getSkillPointsRequired(lua_State* L);
-		int getSkillsRequired(lua_State* L);
-		int getXpType(lua_State* L);
-		int getXpCost(lua_State* L);
+	int _setObject(lua_State* L);
+	int getName(lua_State* L);
+	int getMoneyRequired(lua_State* L);
+	int getSkillPointsRequired(lua_State* L);
+	int getSkillsRequired(lua_State* L);
+	int getXpType(lua_State* L);
+	int getXpCost(lua_State* L);
 
-	private:
-		Reference<Skill*> realObject;
-	};
+private:
+	Reference<Skill*> realObject;
+};
 
-}
-}
-}
-}
-}
+} // namespace variables
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::variables;
-
 
 #endif /* LUASKILL_H_ */

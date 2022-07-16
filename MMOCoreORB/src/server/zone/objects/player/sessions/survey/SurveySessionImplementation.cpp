@@ -51,12 +51,10 @@ int SurveySessionImplementation::cancelSession() {
 	if (ref != nullptr)
 		ref->dropActiveSession(SessionFacadeType::SURVEY);
 
-
 	return clearSession();
 }
 
 int SurveySessionImplementation::clearSession() {
-
 	return 0;
 }
 
@@ -81,7 +79,7 @@ void SurveySessionImplementation::startSurvey(const String& resname) {
 	}
 
 	if (surveyer->getParent() != nullptr && surveyer->getParent().get()->isCellObject()) {
-		surveyer->sendSystemMessage("@error_message:survey_in_structure"); //You cannot perform survey-related actions inside a structure.
+		surveyer->sendSystemMessage("@error_message:survey_in_structure"); // You cannot perform survey-related actions inside a structure.
 		return;
 	}
 
@@ -102,12 +100,12 @@ void SurveySessionImplementation::startSurvey(const String& resname) {
 		}
 	}
 
-	//Get actual cost based upon player's Focus
-	int mindCost = 100 - (int)(surveyer->getHAM(CreatureAttribute::FOCUS)/15.f);
+	// Get actual cost based upon player's Focus
+	int mindCost = 100 - (int)(surveyer->getHAM(CreatureAttribute::FOCUS) / 15.f);
 
 	if (surveyer->getHAM(CreatureAttribute::MIND) < mindCost) {
 		surveyer->setPosture(CreaturePosture::UPRIGHT, true);
-		surveyer->sendSystemMessage("@error_message:survey_mind"); //You are exhausted. You nee to clear your head before you can survey again.
+		surveyer->sendSystemMessage("@error_message:survey_mind"); // You are exhausted. You nee to clear your head before you can survey again.
 		return;
 	}
 
@@ -123,10 +121,7 @@ void SurveySessionImplementation::startSurvey(const String& resname) {
 		return;
 	}
 
-	PlayClientEffectLoc* effect = new PlayClientEffectLoc(activeSurveyTool->getSurveyAnimation(),
-			surveyer->getZone()->getZoneName(),
-			surveyer->getPositionX(), surveyer->getPositionZ(),
-			surveyer->getPositionY());
+	PlayClientEffectLoc* effect = new PlayClientEffectLoc(activeSurveyTool->getSurveyAnimation(), surveyer->getZone()->getZoneName(), surveyer->getPositionX(), surveyer->getPositionZ(), surveyer->getPositionY());
 
 	surveyer->broadcastMessage(effect, true);
 
@@ -158,20 +153,20 @@ void SurveySessionImplementation::startSample(const String& resname) {
 		return;
 
 	if (!resname.isEmpty())
-		 lastResourceSampleName = resname;
+		lastResourceSampleName = resname;
 
-	ManagedReference<ResourceSpawn* > resourceSpawn = resourceManager->getResourceSpawn(lastResourceSampleName);
+	ManagedReference<ResourceSpawn*> resourceSpawn = resourceManager->getResourceSpawn(lastResourceSampleName);
 	if (resourceSpawn == nullptr) {
 		return;
 	}
 
 	if (surveyer->isInCombat()) {
-		surveyer->sendSystemMessage("@survey:sample_cancel_attack"); //You can't take samples while under attack!
+		surveyer->sendSystemMessage("@survey:sample_cancel_attack"); // You can't take samples while under attack!
 		return;
 	}
 
 	if (surveyer->getParent() != nullptr && surveyer->getParent().get()->isCellObject()) {
-		surveyer->sendSystemMessage("@error_message:survey_in_structure"); //You cannot perform survey-related actions inside a structure.
+		surveyer->sendSystemMessage("@error_message:survey_in_structure"); // You cannot perform survey-related actions inside a structure.
 		return;
 	}
 
@@ -191,12 +186,12 @@ void SurveySessionImplementation::startSample(const String& resname) {
 		return;
 	}
 
-	//Get actual cost based upon player's Quickness
-	int actionCost = 124 - (int)(surveyer->getHAM(CreatureAttribute::QUICKNESS)/12.5f);
+	// Get actual cost based upon player's Quickness
+	int actionCost = 124 - (int)(surveyer->getHAM(CreatureAttribute::QUICKNESS) / 12.5f);
 
 	if (surveyer->getHAM(CreatureAttribute::ACTION) < actionCost) {
 		surveyer->setPosture(CreaturePosture::UPRIGHT, true);
-		surveyer->sendSystemMessage("@error_message:sample_mind"); //You are exhausted. You need to clear your head before you can sample again.
+		surveyer->sendSystemMessage("@error_message:sample_mind"); // You are exhausted. You need to clear your head before you can sample again.
 		return;
 	}
 
@@ -208,7 +203,6 @@ void SurveySessionImplementation::startSample(const String& resname) {
 	}
 
 	if (!lastResourceSampleName.isEmpty() && !activeSurveyTool->canSampleRadioactive()) {
-
 		if (resourceSpawn->isType("radioactive") && !activeSurveyTool->canSampleRadioactive()) {
 			activeSurveyTool->sendRadioactiveWarning(surveyer);
 			return;
@@ -216,7 +210,7 @@ void SurveySessionImplementation::startSample(const String& resname) {
 	}
 
 	// Player must be kneeling to sample
-	if (!surveyer->isKneeling() ) {
+	if (!surveyer->isKneeling()) {
 		surveyer->setPosture(CreaturePosture::CROUCHED, true);
 	}
 
@@ -224,12 +218,11 @@ void SurveySessionImplementation::startSample(const String& resname) {
 		return;
 	}
 
-	StringIdChatParameter message("survey","start_sampling");
+	StringIdChatParameter message("survey", "start_sampling");
 	message.setTO(lastResourceSampleName);
 	surveyer->sendSystemMessage(message);
 
 	if (!doGamble && richSampleLocation.getPosition() == Vector3(0, 0, 0) && System::random(50) == 7) {
-
 		if (ghost->hasSuiBoxWindowType(SuiWindowType::SURVEY_TOOL_CONCENTRATED_MINIGAME)) {
 			ghost->removeSuiBoxType(SuiWindowType::SURVEY_TOOL_CONCENTRATED_MINIGAME);
 		}
@@ -244,20 +237,17 @@ void SurveySessionImplementation::startSample(const String& resname) {
 			surveyGnodeMinigameSui();
 
 	} else {
-
 		if (!lastResourceSampleName.isEmpty())
-			resourceManager->sendSample(surveyer, lastResourceSampleName,
-					activeSurveyTool->getSampleAnimation());
+			resourceManager->sendSample(surveyer, lastResourceSampleName, activeSurveyTool->getSampleAnimation());
 	}
 }
 
 void SurveySessionImplementation::surveyCnodeMinigameSui() {
 	ManagedReference<CreatureObject*> surveyer = this->surveyer.get();
 
-	//int surveyMod = surveyer->getSkillMod("surveying");
+	// int surveyMod = surveyer->getSkillMod("surveying");
 
-	ManagedReference<SuiListBox*> suiConcMinigameBox = new SuiListBox(
-			surveyer, SuiWindowType::SURVEY_TOOL_CONCENTRATED_MINIGAME, 0);
+	ManagedReference<SuiListBox*> suiConcMinigameBox = new SuiListBox(surveyer, SuiWindowType::SURVEY_TOOL_CONCENTRATED_MINIGAME, 0);
 
 	suiConcMinigameBox->setPromptTitle("@survey:cnode_t");
 	suiConcMinigameBox->setPromptText("@survey:cnode_d");
@@ -299,7 +289,7 @@ void SurveySessionImplementation::surveyCnodeMinigame(int value) {
 
 	// Create new waypoint
 	if (waypoint == nullptr)
-		newwaypoint = ( surveyer->getZoneServer()->createObject(0xc456e788, 1)).castTo<WaypointObject*>();
+		newwaypoint = (surveyer->getZoneServer()->createObject(0xc456e788, 1)).castTo<WaypointObject*>();
 	else {
 		ghost->removeWaypoint(waypoint->getObjectID(), true, false);
 		newwaypoint = waypoint.get();
@@ -319,14 +309,14 @@ void SurveySessionImplementation::surveyCnodeMinigame(int value) {
 	surveyer->sendSystemMessage("@survey:node_waypoint");
 
 	// Player must be kneeling to sample
-	if (!surveyer->isStanding() )
+	if (!surveyer->isStanding())
 		surveyer->setPosture(CreaturePosture::UPRIGHT, true);
 }
 
 void SurveySessionImplementation::surveyGnodeMinigameSui() {
 	ManagedReference<CreatureObject*> surveyer = this->surveyer.get();
 
-	//int surveyMod = surveyer->getSkillMod("surveying");
+	// int surveyMod = surveyer->getSkillMod("surveying");
 
 	ManagedReference<SuiListBox*> suiConcMinigameBox = new SuiListBox(surveyer, SuiWindowType::SURVEY_TOOL_CONCENTRATED_MINIGAME2, 0);
 
@@ -350,7 +340,6 @@ void SurveySessionImplementation::surveyGnodeMinigame(int value) {
 		return;
 
 	if (value == 1) {
-
 		if (surveyer->getHAM(CreatureAttribute::ACTION) < 300) {
 			surveyer->sendSystemMessage("@survey:gamble_no_action");
 			return;
@@ -399,4 +388,3 @@ void SurveySessionImplementation::rescheduleSampleResults(const ResourceSpawner*
 		surveyer->addPendingTask("sampleresults", sampleResultsTask, 3000);
 	}
 }
-

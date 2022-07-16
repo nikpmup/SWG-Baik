@@ -9,13 +9,10 @@
 
 class WildShot2Command : public CombatQueueCommand {
 public:
-
-	WildShot2Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	WildShot2Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,9 +20,7 @@ public:
 			return INVALIDLOCOMOTION;
 
 		return doCombatAction(creature, target);
-
 	}
-
 };
 
-#endif //WILDSHOT2COMMAND_H_
+#endif // WILDSHOT2COMMAND_H_

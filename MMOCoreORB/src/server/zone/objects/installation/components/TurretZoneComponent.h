@@ -13,7 +13,6 @@
 #include "server/zone/QuadTreeEntry.h"
 
 class TurretZoneComponent : public ZoneComponent {
-
 public:
 	void notifyInsertToZone(SceneObject* sceneObject, Zone* zne) const;
 

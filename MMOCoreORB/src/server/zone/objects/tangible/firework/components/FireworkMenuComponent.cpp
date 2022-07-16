@@ -11,19 +11,14 @@
 #include "FireworkMenuComponent.h"
 #include "server/zone/objects/tangible/firework/FireworkObject.h"
 
-void FireworkMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject,
-		ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
+void FireworkMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
 	if (!sceneObject->isFireworkObject())
 		return;
 
-	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject,
-			menuResponse, player);
-
+	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
 }
 
-int FireworkMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
-		CreatureObject* player, byte selectedID) const {
+int FireworkMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
 	if (!sceneObject->isFireworkObject())
 		return 0;
 
@@ -45,9 +40,7 @@ int FireworkMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject,
 
 		return 0;
 	} else
-		return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject,
-				player, selectedID);
+		return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject, player, selectedID);
 
 	return 0;
 }
-

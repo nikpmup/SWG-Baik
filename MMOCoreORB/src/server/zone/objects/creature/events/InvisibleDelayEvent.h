@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 /**
@@ -15,7 +15,7 @@
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "templates/creature/PlayerCreatureTemplate.h"
 
-class InvisibleDelayEvent: public Task {
+class InvisibleDelayEvent : public Task {
 	ManagedReference<CreatureObject*> player;
 
 public:
@@ -71,9 +71,7 @@ public:
 		} catch (Exception& e) {
 			player->error("unreported exception caught in InvisibleDelayEvent::run");
 		}
-
 	}
-
 };
 
 #endif /* INVISIBLEDELAYEVENT_H_ */

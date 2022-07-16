@@ -51,8 +51,8 @@ public:
 	}
 };
 
-}
-}
+} // namespace chat
+} // namespace server
 using namespace server::chat;
 
 #endif /* CHATMESSAGEPARAMETER_H_ */

@@ -9,14 +9,10 @@
 
 class GrantBadgeCommand : public QueueCommand {
 public:
-
-	GrantBadgeCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GrantBadgeCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -38,7 +34,6 @@ public:
 		float endBadge = 0;
 
 		if (args.hasMoreTokens()) {
-
 			String arg;
 			args.getStringToken(arg);
 			bool validOption = false;
@@ -91,8 +86,6 @@ public:
 						creature->sendSystemMessage("End badge must be greater than 0 and greater than the start badge.");
 						return INVALIDPARAMETERS;
 					}
-
-
 				}
 
 				if (!validOption) {
@@ -113,9 +106,8 @@ public:
 				creature->info("Null closeobjects vector in GrantBadgeCommand::doQueueCommand", true);
 #endif
 				zone->getInRangeObjects(creature->getPositionX(), creature->getPositionY(), range, &closeObjects, true);
-			}
-			else {
-				CloseObjectsVector* closeVector = (CloseObjectsVector*) creature->getCloseObjects();
+			} else {
+				CloseObjectsVector* closeVector = (CloseObjectsVector*)creature->getCloseObjects();
 				closeVector->safeCopyReceiversTo(closeObjects, CloseObjectsVector::PLAYERTYPE);
 			}
 
@@ -138,8 +130,8 @@ public:
 
 		} else {
 			if (targetObject == nullptr || !targetObject->isPlayerCreature()) {
-					creature->sendSystemMessage("Invalid target.");
-					return INVALIDTARGET;
+				creature->sendSystemMessage("Invalid target.");
+				return INVALIDTARGET;
 			} else {
 				ManagedReference<CreatureObject*> player = cast<CreatureObject*>(targetObject.get());
 
@@ -161,7 +153,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //GRANTBADGECOMMAND_H_
+#endif // GRANTBADGECOMMAND_H_

@@ -17,9 +17,7 @@
 
 class DataTransform : public ObjectControllerMessage {
 public:
-	DataTransform(SceneObject* creo)
-			: ObjectControllerMessage(creo->getObjectID(), 0x1B, 0x71) {
-
+	DataTransform(SceneObject* creo) : ObjectControllerMessage(creo->getObjectID(), 0x1B, 0x71) {
 		insertInt(creo->getMovementCounter());
 
 		insertFloat(creo->getDirectionX());
@@ -33,7 +31,6 @@ public:
 
 		insertInt(0);
 	}
-
 };
 
 class DataTransformCallback : public MessageCallback {
@@ -45,9 +42,9 @@ class DataTransformCallback : public MessageCallback {
 	float parsedSpeed;
 
 	ObjectControllerMessageCallback* objectControllerMain;
+
 public:
-	DataTransformCallback(ObjectControllerMessageCallback* objectControllerCallback) :
-		MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()) {
+	DataTransformCallback(ObjectControllerMessageCallback* objectControllerCallback) : MessageCallback(objectControllerCallback->getClient(), objectControllerCallback->getServer()) {
 		movementStamp = 0;
 		movementCounter = 0;
 		directionX = 0;
@@ -89,7 +86,7 @@ public:
 
 		parsedSpeed = message->parseFloat();
 
-		//client->info(message->toStringData(), true);
+		// client->info(message->toStringData(), true);
 
 		debug("datatransform parsed");
 	}
@@ -125,11 +122,8 @@ public:
 		}
 
 		try {
-			//TODO: This should be derived from the locomotion table
-			if (ghost->isForcedTransform() || (!object->hasDizzyEvent()
-					&& (posture == CreaturePosture::UPRIGHT || posture == CreaturePosture::PRONE || posture == CreaturePosture::CROUCHED || posture == CreaturePosture::DRIVINGVEHICLE || posture == CreaturePosture::RIDINGCREATURE
-					|| posture == CreaturePosture::SKILLANIMATING))) {
-
+			// TODO: This should be derived from the locomotion table
+			if (ghost->isForcedTransform() || (!object->hasDizzyEvent() && (posture == CreaturePosture::UPRIGHT || posture == CreaturePosture::PRONE || posture == CreaturePosture::CROUCHED || posture == CreaturePosture::DRIVINGVEHICLE || posture == CreaturePosture::RIDINGCREATURE || posture == CreaturePosture::SKILLANIMATING))) {
 				updatePosition(object);
 			} else {
 				object->setCurrentSpeed(0);
@@ -214,9 +208,9 @@ public:
 
 		IntersectionResults intersections;
 
-		CollisionManager::getWorldFloorCollisions(positionX, positionY, object->getZone(), &intersections, (CloseObjectsVector*) object->getCloseObjects());
+		CollisionManager::getWorldFloorCollisions(positionX, positionY, object->getZone(), &intersections, (CloseObjectsVector*)object->getCloseObjects());
 
-		float z = planetManager->findClosestWorldFloor(positionX, positionY, positionZ, object->getSwimHeight(), &intersections, (CloseObjectsVector*) object->getCloseObjects());
+		float z = planetManager->findClosestWorldFloor(positionX, positionY, positionZ, object->getSwimHeight(), &intersections, (CloseObjectsVector*)object->getCloseObjects());
 
 		if (z != positionZ) {
 			positionZ = z;
@@ -274,10 +268,10 @@ public:
 			return;
 		}
 
-		playerManager->updateSwimmingState(object, positionZ, &intersections, (CloseObjectsVector*) object->getCloseObjects());
+		playerManager->updateSwimmingState(object, positionZ, &intersections, (CloseObjectsVector*)object->getCloseObjects());
 
 		object->setMovementCounter(movementCounter);
-		//object->setDirection(directionW, directionX, directionY, directionZ);
+		// object->setDirection(directionW, directionX, directionY, directionZ);
 
 		float oldX = object->getPositionX();
 		float oldY = object->getPositionY();
@@ -290,9 +284,7 @@ public:
 
 		ghost->setClientLastMovementStamp(movementStamp);
 
-		if (oldX == positionX && oldY == positionY && oldZ == positionZ &&
-			dirw == directionW && dirz == directionZ && dirx == directionX && diry == directionY) {
-
+		if (oldX == positionX && oldY == positionY && oldZ == positionZ && dirw == directionW && dirz == directionZ && dirx == directionX && diry == directionY) {
 			return;
 		}
 

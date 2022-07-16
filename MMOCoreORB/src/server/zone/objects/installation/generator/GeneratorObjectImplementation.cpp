@@ -16,7 +16,7 @@ void GeneratorObjectImplementation::fillObjectMenuResponse(ObjectMenuResponse* m
 
 	InstallationObjectImplementation::fillObjectMenuResponse(menuResponse, player);
 
-	menuResponse->addRadialMenuItemToRadialID(118, 78, 3, "@harvester:manage"); //Operate Machinery
+	menuResponse->addRadialMenuItemToRadialID(118, 78, 3, "@harvester:manage"); // Operate Machinery
 }
 
 void GeneratorObjectImplementation::synchronizedUIListen(CreatureObject* player, int value) {
@@ -45,7 +45,6 @@ int GeneratorObjectImplementation::handleObjectMenuSelect(CreatureObject* player
 		return 1;
 
 	switch (selectedID) {
-
 	case 78: {
 		ResourceHarvesterActivatePageMessage* rhapm = new ResourceHarvesterActivatePageMessage(getObjectID());
 		player->sendMessage(rhapm);
@@ -60,13 +59,11 @@ int GeneratorObjectImplementation::handleObjectMenuSelect(CreatureObject* player
 }
 
 String GeneratorObjectImplementation::getRedeedMessage() {
-
-	if(operating)
+	if (operating)
 		return "destroy_deactivate_first";
 
-	if(getHopperSize() > 0)
+	if (getHopperSize() > 0)
 		return "destroy_empty_hopper";
-
 
 	return "";
 }

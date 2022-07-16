@@ -16,7 +16,6 @@
 #include "server/zone/objects/player/sui/listbox/SuiListBox.h"
 
 void InsuranceTerminalMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
 }
 
@@ -27,17 +26,16 @@ int InsuranceTerminalMenuComponent::handleObjectMenuSelect(SceneObject* sceneObj
 	if (!player->isPlayerCreature())
 		return 0;
 
-	ManagedReference<CityRegion* > region = sceneObject->getCityRegion().get();
+	ManagedReference<CityRegion*> region = sceneObject->getCityRegion().get();
 
 	if (region != nullptr) {
 		if (region->isBanned(player->getObjectID())) {
-				player->sendSystemMessage("@city/city:banned_services"); // You are banned from using this city's services.
-				return 0;
+			player->sendSystemMessage("@city/city:banned_services"); // You are banned from using this city's services.
+			return 0;
 		}
 	}
 
-	if(selectedID == 20) {
-
+	if (selectedID == 20) {
 		/*inline void setInsured(bool insure) {
 			if (insure) {
 				optionsBitmask |= OPTIONS_INSURED;
@@ -57,7 +55,7 @@ int InsuranceTerminalMenuComponent::handleObjectMenuSelect(SceneObject* sceneObj
 
 		PlayerManager* playerManager = player->getZoneServer()->getPlayerManager();
 
-		Vector<ManagedReference<SceneObject*> > insurableItems = playerManager->getInsurableItems(player);
+		Vector<ManagedReference<SceneObject*>> insurableItems = playerManager->getInsurableItems(player);
 
 		if (insurableItems.size() == 0) {
 			player->sendSystemMessage("@terminal_ui:no_insurable_items");
@@ -87,4 +85,3 @@ int InsuranceTerminalMenuComponent::handleObjectMenuSelect(SceneObject* sceneObj
 
 	return 0;
 }
-

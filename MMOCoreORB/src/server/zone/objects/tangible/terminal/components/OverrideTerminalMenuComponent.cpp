@@ -27,18 +27,18 @@ void OverrideTerminalMenuComponent::fillObjectMenuResponse(SceneObject* sceneObj
 	}
 
 	switch (terminalID) {
-		case 367410: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923847: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923862: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367410: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923847: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923862: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	if (building == nullptr)
@@ -61,7 +61,6 @@ void OverrideTerminalMenuComponent::fillObjectMenuResponse(SceneObject* sceneObj
 		return;
 
 	menuResponse->addRadialMenuItem(20, 3, "@hq:mnu_dna"); // Provide DNA Profile
-
 }
 
 int OverrideTerminalMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
@@ -81,18 +80,18 @@ int OverrideTerminalMenuComponent::handleObjectMenuSelect(SceneObject* sceneObje
 	}
 
 	switch (terminalID) {
-		case 367410: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923847: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923862: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367410: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923847: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923862: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	ManagedReference<TangibleObject*> overrideTerminal = cast<TangibleObject*>(sceneObject);
@@ -120,7 +119,7 @@ int OverrideTerminalMenuComponent::handleObjectMenuSelect(SceneObject* sceneObje
 	} else if (gcwMan->isDNASampled(building)) {
 		player->sendSystemMessage("You stop sequencing as the fail-safe sequence has already been overridden.");
 		return 1;
-	} else if (!gcwMan->isSecurityTermSliced(building))	{
+	} else if (!gcwMan->isSecurityTermSliced(building)) {
 		player->sendSystemMessage("@faction/faction_hq/faction_hq_response:other_objectives"); // Other objectives must be disabled prior to gaining access to this one.
 		return 1;
 	} else if (player->isInCombat()) {
@@ -140,12 +139,14 @@ int OverrideTerminalMenuComponent::handleObjectMenuSelect(SceneObject* sceneObje
 	player->sendSystemMessage("\"Retrieving new DNA sample...\"");
 	Reference<CreatureObject*> playerRef = player;
 
-	Core::getTaskManager()->executeTask([=] () {
-		Locker locker(playerRef);
-		Locker clocker(building, playerRef);
+	Core::getTaskManager()->executeTask(
+		[=]() {
+			Locker locker(playerRef);
+			Locker clocker(building, playerRef);
 
-		gcwMan->sendDNASampleMenu(playerRef, building, overrideTerminal);
-	}, "SendDNASampleMenuLambda");
+			gcwMan->sendDNASampleMenu(playerRef, building, overrideTerminal);
+		},
+		"SendDNASampleMenuLambda");
 
 	return 0;
 }

@@ -98,7 +98,7 @@ void SharedObjectTemplate::parseVariableData(const String& varName, LuaObject* t
 	} else if (varName == "collisionActionBlockFlags") {
 		collisionActionBlockFlags = Lua::getIntParameter(state);
 	} else if (varName == "scale") {
-		LuaObject scaleObject(state);// = templateData->getObjectField("scale");
+		LuaObject scaleObject(state); // = templateData->getObjectField("scale");
 
 		if (scaleObject.isValidTable()) {
 			/*scale.removeAll(2, 0);
@@ -141,9 +141,9 @@ void SharedObjectTemplate::parseVariableData(const String& varName, LuaObject* t
 	} else if (varName == "planetMapSubCategory") {
 		planetMapSubCategory = templateManager->getPlanetMapCategoryByName(Lua::getStringParameter(state));
 	} else if (varName == "autoRegisterWithPlanetMap") {
-		autoRegisterWithPlanetMap = (bool) Lua::getByteParameter(state);
+		autoRegisterWithPlanetMap = (bool)Lua::getByteParameter(state);
 	} else if (varName == "childObjects") {
-		LuaObject luaItemList(state);// = templateData->getObjectField("childObjects");
+		LuaObject luaItemList(state); // = templateData->getObjectField("childObjects");
 
 		int size = luaItemList.getTableSize();
 
@@ -179,9 +179,9 @@ void SharedObjectTemplate::parseVariableData(const String& varName, LuaObject* t
 	} else if (varName == "inheritPermissionsFromParent") {
 		inheritPermissionsFromParent = Lua::getBooleanParameter(state);
 	} else if (varName == "noTrade") {
-		noTrade = (bool) Lua::getByteParameter(state);
+		noTrade = (bool)Lua::getByteParameter(state);
 	} else if (varName == "forceNoTrade") {
-		forceNoTrade = (bool) Lua::getByteParameter(state);
+		forceNoTrade = (bool)Lua::getByteParameter(state);
 	} else if (varName == "groupPermissions") {
 		groupPermissions.removeAll();
 
@@ -203,10 +203,9 @@ void SharedObjectTemplate::parseVariableData(const String& varName, LuaObject* t
 	} else if (varName == "delayedContainerLoad") {
 		delayedContainerLoad = Lua::getBooleanParameter(state);
 	} else {
-		//Logger::console.error("unknown variable " + varName);
+		// Logger::console.error("unknown variable " + varName);
 		templateData->pop();
 	}
-
 }
 
 void SharedObjectTemplate::parseVariableData(const String& varName, Chunk* data) {
@@ -283,7 +282,7 @@ void SharedObjectTemplate::parseFileData(IffStream* iffStream) {
 	iffStream->closeChunk('PCNT');
 
 	for (int i = 0; i < variableCount; ++i) {
-	//while (iffStream->getRemainingSubChunksNumber() > 0) {
+		// while (iffStream->getRemainingSubChunksNumber() > 0) {
 		Chunk* chunk = iffStream->openChunk('XXXX');
 
 		if (chunk == nullptr)
@@ -292,7 +291,7 @@ void SharedObjectTemplate::parseFileData(IffStream* iffStream) {
 		String varName;
 		iffStream->getString(varName);
 
-		//std::cout << "parsing wtf shit:[" << varName.toStdString() << "]\n";
+		// std::cout << "parsing wtf shit:[" << varName.toStdString() << "]\n";
 		parseVariableData(varName, chunk);
 
 		iffStream->closeChunk();
@@ -309,7 +308,7 @@ void SharedObjectTemplate::loadDerv(IffStream* stream) {
 	String file;
 	chunk->readString(file);
 
-	//mainWindow->printToConsole(file);
+	// mainWindow->printToConsole(file);
 
 	if (loadedDerivedFiles.contains(file)) {
 		stream->closeChunk();
@@ -338,7 +337,7 @@ void SharedObjectTemplate::loadDerv(IffStream* stream) {
 	LuaObject* luaObject = TemplateManager::instance()->getLuaObject(serverTemplate);
 
 	if (luaObject != nullptr) {
-		//Logger::console.info("loading derv from " + serverTemplate, true);
+		// Logger::console.info("loading derv from " + serverTemplate, true);
 
 		readObject(luaObject);
 
@@ -355,7 +354,7 @@ void SharedObjectTemplate::loadDerv(IffStream* stream) {
 }
 
 String SharedObjectTemplate::getType(int type) {
-	//char* chars = (char*)&type;
+	// char* chars = (char*)&type;
 	int reversed = htonl(type);
 	char chars[5];
 	memcpy(chars, &reversed, 4);
@@ -400,7 +399,6 @@ void SharedObjectTemplate::readObject(IffStream* iffStream) {
 	iffStream->closeForm(derv);
 
 	iffStream->closeForm('SHOT');
-
 }
 
 void SharedObjectTemplate::readObject(LuaObject* templateData) {
@@ -409,18 +407,18 @@ void SharedObjectTemplate::readObject(LuaObject* templateData) {
 	if (!templateData->isValidTable())
 		return;
 
-	//int tableSize = templateData->getTableSize();
+	// int tableSize = templateData->getTableSize();
 
 	int i = 0;
 
-	//int tablePos = lua_gettop(L);
+	// int tablePos = lua_gettop(L);
 
-	//lua_pushvalue(L, -1); //push table again
+	// lua_pushvalue(L, -1); //push table again
 
 	lua_pushnil(L);
 	while (lua_next(L, -2) != 0) {
 		// 'key' is at index -2 and 'value' at index -1
-		//printf("%s - %s\n",
+		// printf("%s - %s\n",
 		//		lua_tostring(L, -2), lua_typename(L, lua_type(L, -1)));
 
 		int type = lua_type(L, -2);
@@ -432,7 +430,6 @@ void SharedObjectTemplate::readObject(LuaObject* templateData) {
 			parseVariableData(varName, templateData);
 		} else
 			lua_pop(L, 1);
-
 
 		++i;
 	}
@@ -451,7 +448,7 @@ const PortalLayout* SharedObjectTemplate::getPortalLayout() {
 		if (portalLayoutFilename.get().length() > 1) {
 			try {
 				portalLayout = TemplateManager::instance()->getPortalLayout(portalLayoutFilename);
-			} catch(Exception& e) {
+			} catch (Exception& e) {
 				e.printStackTrace();
 			}
 		}
@@ -469,7 +466,7 @@ AppearanceTemplate* SharedObjectTemplate::getAppearanceTemplate() {
 		if (appearanceFilename.get().length() > 1) {
 			try {
 				appearanceTemplate = TemplateManager::instance()->getAppearanceTemplate(appearanceFilename);
-			} catch(Exception& e) {
+			} catch (Exception& e) {
 				e.printStackTrace();
 			}
 		}
@@ -479,14 +476,13 @@ AppearanceTemplate* SharedObjectTemplate::getAppearanceTemplate() {
 }
 
 bool SharedObjectTemplate::isDerivedFrom(const String& iffPath, bool includeSelf) const {
-	if(includeSelf && iffPath == fullTemplateString) {
+	if (includeSelf && iffPath == fullTemplateString) {
 		return true;
 	}
 
-	if(loadedDerivedFiles.contains(iffPath)) {
+	if (loadedDerivedFiles.contains(iffPath)) {
 		return true;
 	}
 
 	return false;
 }
-

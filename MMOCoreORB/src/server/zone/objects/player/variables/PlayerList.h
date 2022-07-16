@@ -14,18 +14,14 @@
 
 template <int DeltaUpdate>
 class PlayerList : public DeltaVector<String> {
-
 public:
 	const static int MAXSIZE = 100;
 
 public:
-
 	PlayerList() {
-
 	}
 
 	PlayerList(const PlayerList& list) : DeltaVector<String>(list) {
-
 	}
 
 	PlayerList& operator=(const PlayerList& list) {
@@ -84,7 +80,6 @@ public:
 			delta->insertAscii(get(i));
 	}
 
-
 	void insertToListMessage(Message* message) const {
 		message->insertInt(size());
 
@@ -98,7 +93,6 @@ public:
 	inline bool canAddMorePlayers() const {
 		return size() < MAXSIZE;
 	}
-
 };
 
 #endif /* PLAYERLIST_H_ */

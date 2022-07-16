@@ -15,22 +15,16 @@ namespace tangible {
 namespace components {
 namespace droid {
 
-
 class DroidHarvestModuleDataComponent : public BaseDroidModuleComponent {
-
 protected:
 	int harvestBonus;
 	int interest;
 	bool active;
 	ManagedReference<DroidHarvestObserver*> observer;
 	Vector<uint64> harvestTargets;
+
 public:
-	enum {
-		INTEREST_RANDOM,
-		INTEREST_BONE,
-		INTEREST_MEAT,
-		INTEREST_HIDE
-	};
+	enum { INTEREST_RANDOM, INTEREST_BONE, INTEREST_MEAT, INTEREST_HIDE };
 
 	DroidHarvestModuleDataComponent();
 	~DroidHarvestModuleDataComponent();
@@ -59,7 +53,7 @@ public:
 		return active;
 	}
 
-	int getHarvestPower(){
+	int getHarvestPower() {
 		return harvestBonus;
 	}
 
@@ -77,7 +71,7 @@ public:
 
 	void addHarvestTarget(uint64 target, bool first = false) {
 		if (first)
-			harvestTargets.add(0,target);
+			harvestTargets.add(0, target);
 		else
 			harvestTargets.add(target);
 	}
@@ -98,12 +92,11 @@ public:
 	}
 };
 
-
-} // droid
-} // components
-} // tangible
-} // objects
-} // zone
-} // server
+} // namespace droid
+} // namespace components
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 using namespace server::zone::objects::tangible::components::droid;
 #endif /* DROIDHARVESTMODULEDATACOMPONENT_H_ */

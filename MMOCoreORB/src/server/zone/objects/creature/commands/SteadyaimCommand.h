@@ -9,13 +9,10 @@
 
 class SteadyaimCommand : public SquadLeaderCommand {
 public:
-
-	SteadyaimCommand(const String& name, ZoneProcessServer* server)
-		: SquadLeaderCommand(name, server) {
+	SteadyaimCommand(const String& name, ZoneProcessServer* server) : SquadLeaderCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -40,8 +37,8 @@ public:
 		if (!checkGroupLeader(player, group))
 			return GENERALERROR;
 
-		float skillMod = (float) creature->getSkillMod("steadyaim");
-		int hamCost = (int) (100.0f * (1.0f - (skillMod / 100.0f))) * calculateGroupModifier(group);
+		float skillMod = (float)creature->getSkillMod("steadyaim");
+		int hamCost = (int)(100.0f * (1.0f - (skillMod / 100.0f))) * calculateGroupModifier(group);
 
 		int healthCost = creature->calculateCostAdjustment(CreatureAttribute::STRENGTH, hamCost);
 		int actionCost = creature->calculateCostAdjustment(CreatureAttribute::QUICKNESS, hamCost);
@@ -50,7 +47,7 @@ public:
 		if (!inflictHAM(player, healthCost, actionCost, mindCost))
 			return GENERALERROR;
 
-//		shoutCommand(player, group);
+		//		shoutCommand(player, group);
 
 		int amount = 5 + skillMod;
 
@@ -59,8 +56,8 @@ public:
 
 		if (!ghost->getCommandMessageString(STRING_HASHCODE("steadyaim")).isEmpty() && creature->checkCooldownRecovery("command_message")) {
 			UnicodeString shout(ghost->getCommandMessageString(STRING_HASHCODE("steadyaim")));
- 	 	 	server->getChatManager()->broadcastChatMessage(player, shout, 0, 80, player->getMoodID(), 0, ghost->getLanguageID());
- 	 	 	creature->updateCooldownTimer("command_message", 30 * 1000);
+			server->getChatManager()->broadcastChatMessage(player, shout, 0, 80, player->getMoodID(), 0, ghost->getLanguageID());
+			creature->updateCooldownTimer("command_message", 30 * 1000);
 		}
 
 		return SUCCESS;
@@ -105,7 +102,6 @@ public:
 
 		return true;
 	}
-
 };
 
-#endif //STEADYAIMCOMMAND_H_
+#endif // STEADYAIMCOMMAND_H_

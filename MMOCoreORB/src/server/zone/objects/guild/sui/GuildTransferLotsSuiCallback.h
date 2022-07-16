@@ -12,8 +12,7 @@
 
 class GuildTransferLotsSuiCallback : public SuiCallback {
 public:
-	GuildTransferLotsSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	GuildTransferLotsSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -35,7 +34,7 @@ public:
 		if (terminal == nullptr || !terminal->isGuildTerminal())
 			return;
 
-		GuildTerminal* guildTerminal = cast<GuildTerminal*>( terminal);
+		GuildTerminal* guildTerminal = cast<GuildTerminal*>(terminal);
 		if (guildTerminal == nullptr)
 			return;
 
@@ -60,9 +59,7 @@ public:
 		if (guildObject->getGuildLeaderID() == player->getObjectID() && !ownerGhost->isOnline() && ownerGhost->getDaysSinceLastLogout() >= 28) {
 			guildManager->transferGuildHall(player, usingObject);
 		}
-
 	}
-
 };
 
 #endif /* GUILDTRANSFERLOTSSUICALLBACK_H_ */

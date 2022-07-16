@@ -10,9 +10,7 @@
 
 class RotateFurnitureCommand : public QueueCommand {
 public:
-
 	RotateFurnitureCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
-
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -65,7 +63,7 @@ public:
 				creature->sendSystemMessage("Format: /rotateFurniture <yaw/pitch/roll> [degrees]. Degrees can be -180 to 180 when using this format.");
 				creature->sendSystemMessage("Reset position: /rotateFurniture reset 1");
 			} else {
-				creature->sendSystemMessage("@player_structure:formet_rotratefurniture_degrees"); //Format: /rotateFurniture <LEFT/RIGHT> <degrees>
+				creature->sendSystemMessage("@player_structure:formet_rotratefurniture_degrees"); // Format: /rotateFurniture <LEFT/RIGHT> <degrees>
 			}
 
 			return INVALIDPARAMETERS;
@@ -146,7 +144,7 @@ public:
 		}
 
 		ManagedReference<SceneObject*> rootParent = player->getRootParent();
-		BuildingObject* buildingObject = rootParent != nullptr ? (rootParent->isBuildingObject() ? cast<BuildingObject*>( rootParent.get()) : nullptr) : nullptr;
+		BuildingObject* buildingObject = rootParent != nullptr ? (rootParent->isBuildingObject() ? cast<BuildingObject*>(rootParent.get()) : nullptr) : nullptr;
 
 		if (buildingObject == nullptr) {
 			player->sendSystemMessage("@player_structure:must_be_in_building"); // You must be in a building to do that.
@@ -182,7 +180,6 @@ public:
 
 		return true;
 	}
-
 };
 
-#endif //ROTATEFURNITURECOMMAND_H_
+#endif // ROTATEFURNITURECOMMAND_H_

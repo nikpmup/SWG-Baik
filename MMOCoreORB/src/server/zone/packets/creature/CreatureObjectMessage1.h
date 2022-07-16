@@ -11,8 +11,7 @@
 
 class CreatureObjectMessage1 : public BaseLineMessage {
 public:
-	CreatureObjectMessage1(const CreatureObject* creo)
-			: BaseLineMessage(creo, 0x4352454F, 1, 0x04) {
+	CreatureObjectMessage1(const CreatureObject* creo) : BaseLineMessage(creo, 0x4352454F, 1, 0x04) {
 		insertInt(creo->getBankCredits());
 		insertInt(creo->getCashCredits());
 
@@ -27,7 +26,6 @@ public:
 
 		setCompression(true);
 	}
-
 };
 
 #endif /*CREATUREOBJECTMESSAGE1_H_*/

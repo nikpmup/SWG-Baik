@@ -13,8 +13,7 @@
 #include "server/zone/objects/structure/StructureObject.h"
 #include "server/zone/objects/area/CampSiteActiveArea.h"
 
-SkillModManager::SkillModManager()
-		: Logger("SkillModManager") {
+SkillModManager::SkillModManager() : Logger("SkillModManager") {
 	skillModMin.setNullValue(0);
 	skillModMax.setNullValue(0);
 	disabledWearableSkillMods.setNoDuplicateInsertPlan();
@@ -23,7 +22,6 @@ SkillModManager::SkillModManager()
 }
 
 SkillModManager::~SkillModManager() {
-
 }
 
 void SkillModManager::init() {
@@ -44,8 +42,7 @@ void SkillModManager::init() {
 		error("Invalid configuration");
 		setDefaults();
 	} else {
-
-		for(int i = 1; i <= skillLimits.getTableSize(); ++i) {
+		for (int i = 1; i <= skillLimits.getTableSize(); ++i) {
 			LuaObject entry = skillLimits.getObjectAt(i);
 
 			uint32 type = entry.getIntAt(1);
@@ -64,7 +61,7 @@ void SkillModManager::init() {
 	LuaObject disabledMods = lua->getGlobalObject("disabledWearableSkillMods");
 
 	if (disabledMods.isValidTable()) {
-		for(int i = 1; i <= disabledMods.getTableSize(); ++i) {
+		for (int i = 1; i <= disabledMods.getTableSize(); ++i) {
 			String mod = disabledMods.getStringAt(i);
 			disabledWearableSkillMods.put(mod);
 		}
@@ -75,7 +72,6 @@ void SkillModManager::init() {
 	delete lua;
 	lua = nullptr;
 	return;
-
 }
 
 void SkillModManager::setDefaults() {
@@ -102,18 +98,17 @@ void SkillModManager::verifyWearableSkillMods(CreatureObject* creature) {
 	mods.setAllowOverwriteInsertPlan();
 	mods.setNullValue(0);
 
-	SortedVector<ManagedReference<SceneObject*> > usedObjects;
+	SortedVector<ManagedReference<SceneObject*>> usedObjects;
 	usedObjects.setNoDuplicateInsertPlan();
 
-	for(int i = 0; i < creature->getSlottedObjectsSize(); ++i) {
+	for (int i = 0; i < creature->getSlottedObjectsSize(); ++i) {
 		ManagedReference<TangibleObject*> object = creature->getSlottedObject(i).castTo<TangibleObject*>();
-		if(object == nullptr || usedObjects.contains(object.get()))
+		if (object == nullptr || usedObjects.contains(object.get()))
 			continue;
 
-		if(object->isWearableObject()) {
+		if (object->isWearableObject()) {
 			WearableObject* wearable = cast<WearableObject*>(object.get());
-			if(wearable != nullptr) {
-
+			if (wearable != nullptr) {
 				const VectorMap<String, int>* wearableSkillMods = wearable->getWearableSkillMods();
 
 				for (int j = 0; j < wearableSkillMods->size(); ++j) {
@@ -124,7 +119,7 @@ void SkillModManager::verifyWearableSkillMods(CreatureObject* creature) {
 
 					int value = wearableSkillMods->get(name);
 
-					if(mods.contains(name)) {
+					if (mods.contains(name)) {
 						value += mods.get(name);
 					}
 
@@ -133,8 +128,7 @@ void SkillModManager::verifyWearableSkillMods(CreatureObject* creature) {
 			}
 		} else if (object->isWearableContainerObject()) {
 			WearableContainerObject* wearable = cast<WearableContainerObject*>(object.get());
-			if(wearable != nullptr) {
-
+			if (wearable != nullptr) {
 				const VectorMap<String, int>* wearableSkillMods = wearable->getWearableSkillMods();
 
 				for (int j = 0; j < wearableSkillMods->size(); ++j) {
@@ -145,7 +139,7 @@ void SkillModManager::verifyWearableSkillMods(CreatureObject* creature) {
 
 					int value = wearableSkillMods->get(name);
 
-					if(mods.contains(name)) {
+					if (mods.contains(name)) {
 						value += mods.get(name);
 					}
 
@@ -154,8 +148,7 @@ void SkillModManager::verifyWearableSkillMods(CreatureObject* creature) {
 			}
 		} else if (object->isWeaponObject()) {
 			WeaponObject* weapon = cast<WeaponObject*>(object.get());
-			if(weapon != nullptr) {
-
+			if (weapon != nullptr) {
 				const VectorMap<String, int>* wearableSkillMods = weapon->getWearableSkillMods();
 
 				for (int j = 0; j < wearableSkillMods->size(); ++j) {
@@ -166,7 +159,7 @@ void SkillModManager::verifyWearableSkillMods(CreatureObject* creature) {
 
 					int value = wearableSkillMods->get(name);
 
-					if(mods.contains(name)) {
+					if (mods.contains(name)) {
 						value += mods.get(name);
 					}
 
@@ -178,13 +171,12 @@ void SkillModManager::verifyWearableSkillMods(CreatureObject* creature) {
 		usedObjects.put(object.get());
 	}
 
-	if(!compareMods(mods, creature, WEARABLE)) {
+	if (!compareMods(mods, creature, WEARABLE)) {
 		warning("Wearable mods don't match for " + creature->getFirstName());
 	}
 }
 
 void SkillModManager::verifyStructureSkillMods(TangibleObject* tano) {
-
 	if (!tano->isCreatureObject())
 		return;
 
@@ -192,7 +184,7 @@ void SkillModManager::verifyStructureSkillMods(TangibleObject* tano) {
 	if (creature == nullptr)
 		return;
 
-	//Locker locker(creature);
+	// Locker locker(creature);
 	VectorMap<String, int> mods;
 	mods.setAllowOverwriteInsertPlan();
 	mods.setNullValue(0);
@@ -212,18 +204,16 @@ void SkillModManager::verifyStructureSkillMods(TangibleObject* tano) {
 		const auto templateMods = structure->getTemplateSkillMods();
 
 		for (int i = 0; i < templateMods->size(); ++i) {
-
 			String name = templateMods->elementAt(i).getKey();
 			int value = templateMods->get(name);
 
-			if(mods.contains(name)) {
+			if (mods.contains(name)) {
 				value += mods.get(name);
 			}
 
 			mods.put(name, value);
 		}
 	}
-
 
 	if (!compareMods(mods, creature, STRUCTURE)) {
 		creature->info() << "Structure mods don't match.";
@@ -238,14 +228,14 @@ void SkillModManager::verifySkillBoxSkillMods(CreatureObject* creature) {
 	mods.setNullValue(0);
 
 	const SkillList* skillList = creature->getSkillList();
-	for(int i = 0; i < skillList->size(); ++i) {
+	for (int i = 0; i < skillList->size(); ++i) {
 		Reference<Skill*> skill = skillList->get(i);
 		auto skillMods = skill->getSkillModifiers();
-		for(int j = 0; j < skillMods->size(); ++j) {
+		for (int j = 0; j < skillMods->size(); ++j) {
 			const String& name = skillMods->elementAt(j).getKey();
 			int value = skillMods->get(name);
 
-			if(mods.contains(name)) {
+			if (mods.contains(name)) {
 				value += mods.get(name);
 			}
 
@@ -253,7 +243,7 @@ void SkillModManager::verifySkillBoxSkillMods(CreatureObject* creature) {
 		}
 	}
 
-	if(!compareMods(mods, creature, SKILLBOX)) {
+	if (!compareMods(mods, creature, SKILLBOX)) {
 		creature->info() << "SkillBox mods don't match";
 	}
 }
@@ -266,14 +256,14 @@ void SkillModManager::verifyBuffSkillMods(CreatureObject* creature) {
 	mods.setNullValue(0);
 
 	const BuffList* buffList = creature->getBuffList();
-	for(int i = 0; i < buffList->getBuffListSize(); ++i) {
+	for (int i = 0; i < buffList->getBuffListSize(); ++i) {
 		ManagedReference<Buff*> buff = buffList->getBuffByIndex(i);
 		const VectorMap<String, int>* skillMods = buff->getSkillModifiers();
-		for(int j = 0; j < skillMods->size(); ++j) {
+		for (int j = 0; j < skillMods->size(); ++j) {
 			const String& name = skillMods->elementAt(j).getKey();
 			int value = skillMods->elementAt(j).getValue();
 
-			if(mods.contains(name)) {
+			if (mods.contains(name)) {
 				value += mods.get(name);
 			}
 
@@ -281,7 +271,7 @@ void SkillModManager::verifyBuffSkillMods(CreatureObject* creature) {
 		}
 	}
 
-	if(!compareMods(mods, creature, BUFF)) {
+	if (!compareMods(mods, creature, BUFF)) {
 		warning("Buff mods don't match for " + creature->getFirstName());
 	}
 }
@@ -303,7 +293,7 @@ bool SkillModManager::compareMods(VectorMap<String, int>& mods, CreatureObject* 
 
 	const SkillModGroup* group = skillModList->getSkillModGroup(type);
 
-	if(group == nullptr){
+	if (group == nullptr) {
 		error("nullptr SkillModGroup for " + creature->getFirstName());
 		return false;
 	}
@@ -311,9 +301,15 @@ bool SkillModManager::compareMods(VectorMap<String, int>& mods, CreatureObject* 
 	bool match = true;
 
 	StringBuffer compare;
-	compare << endl << "	" << "SkillMod" << "  " << "Player" << "	" << "Computed" << endl;
+	compare << endl
+			<< "	"
+			<< "SkillMod"
+			<< "  "
+			<< "Player"
+			<< "	"
+			<< "Computed" << endl;
 
-	for(int i = 0; i < group->size(); ++i) {
+	for (int i = 0; i < group->size(); ++i) {
 		String key = group->elementAt(i).getKey();
 		int value = group->get(key);
 
@@ -337,15 +333,17 @@ bool SkillModManager::compareMods(VectorMap<String, int>& mods, CreatureObject* 
 			String key = mods.elementAt(i).getKey();
 			int currentValue = mods.get(key);
 
-			compare << "	" << key << "	" << "none" << "	" << currentValue << endl;
+			compare << "	" << key << "	"
+					<< "none"
+					<< "	" << currentValue << endl;
 		}
 	}
 
 	if (match == false) {
 		creature->info() << compare;
 
-		if(creature->getPlayerObject() != nullptr) {
-			if(creature->getPlayerObject()->getDebug()) {
+		if (creature->getPlayerObject() != nullptr) {
+			if (creature->getPlayerObject()->getDebug()) {
 				creature->sendSystemMessage(compare.toString());
 			}
 		}

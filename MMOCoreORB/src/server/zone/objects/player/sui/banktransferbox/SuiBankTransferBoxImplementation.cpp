@@ -11,11 +11,11 @@
 BaseMessage* SuiBankTransferBoxImplementation::generateMessage() {
 	SuiCreatePageMessage* message = new SuiCreatePageMessage(boxID, "Script.transfer");
 
-	//Declare Headers:
+	// Declare Headers:
 	addHeader("transaction.txtInputFrom", "Text");
 	addHeader("transaction.txtInputTo", "Text");
 
-	//Set Body Options:
+	// Set Body Options:
 	promptTitle = "@base_player:bank_title";
 	promptText = "@base_player:bank_prompt";
 	addSetting("3", "bg.caption.lblTitle", "Text", promptTitle);
@@ -35,12 +35,11 @@ BaseMessage* SuiBankTransferBoxImplementation::generateMessage() {
 
 	setHandlerText("handleDepositWithdraw");
 
-	//Generate Packet:
+	// Generate Packet:
 	generateHeader(message);
 	generateBody(message);
-	generateFooter(message, 1); //special banktransferbox footer? nfi
+	generateFooter(message, 1); // special banktransferbox footer? nfi
 	hasGenerated = true;
 
 	return message;
 }
-

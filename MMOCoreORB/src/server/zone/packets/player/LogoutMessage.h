@@ -10,12 +10,11 @@
 
 class LogoutMessage : public BaseMessage {
 public:
-   LogoutMessage() : BaseMessage() {
+	LogoutMessage() : BaseMessage() {
 		insertShort(0x01);
-		insertInt(0x42FD19DD);  // CRC
+		insertInt(0x42FD19DD); // CRC
 
-		//Logs out the player.
-   }
-
+		// Logs out the player.
+	}
 };
 #endif /* LOGOUTMESSAGE_H_ */

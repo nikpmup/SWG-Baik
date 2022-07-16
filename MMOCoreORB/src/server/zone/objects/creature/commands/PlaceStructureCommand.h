@@ -10,10 +10,7 @@
 
 class PlaceStructureCommand : public QueueCommand {
 public:
-
-	PlaceStructureCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	PlaceStructureCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -29,14 +26,14 @@ public:
 			return INVALIDLOCOMOTION;
 
 		if (creature->getParent() != nullptr) {
-			creature->sendSystemMessage("@player_structure:not_inside"); //You can not place a structure while you are inside a building.
+			creature->sendSystemMessage("@player_structure:not_inside"); // You can not place a structure while you are inside a building.
 			return GENERALERROR;
 		}
 
 		ManagedReference<CityRegion*> city = creature->getCityRegion().get();
 
 		if (city != nullptr && city->isClientRegion()) {
-			creature->sendSystemMessage("@player_structure:not_permitted"); //Building is not permitted here.
+			creature->sendSystemMessage("@player_structure:not_permitted"); // Building is not permitted here.
 			return GENERALERROR;
 		}
 
@@ -68,17 +65,8 @@ public:
 
 				player->sendSystemMessage("@system_msg:out_of_range");
 
-				player->error(player->getFirstName()
-					+ " attempted invalid placeStructure on "
-					+ zone->getZoneName()
-					+ " @ x: " + String::valueOf(x)
-					+ ", y: " + String::valueOf(y)
-					+ ", z: " + String::valueOf(zone->getHeight(x, y))
-					+ " while player @ x: " + String::valueOf(playerPosition.getX())
-					+ ", y: " + String::valueOf(playerPosition.getY())
-					+ ", z: " + String::valueOf(playerPosition.getZ())
-					+ " range: " + String::valueOf(position.distanceTo(playerPosition)) + "m"
-				);
+				player->error(player->getFirstName() + " attempted invalid placeStructure on " + zone->getZoneName() + " @ x: " + String::valueOf(x) + ", y: " + String::valueOf(y) + ", z: " + String::valueOf(zone->getHeight(x, y)) + " while player @ x: " + String::valueOf(playerPosition.getX()) +
+							  ", y: " + String::valueOf(playerPosition.getY()) + ", z: " + String::valueOf(playerPosition.getZ()) + " range: " + String::valueOf(position.distanceTo(playerPosition)) + "m");
 
 				return GENERALERROR;
 			}
@@ -87,7 +75,7 @@ public:
 			return INVALIDPARAMETERS;
 		}
 
-		//We want to begin the session here.
+		// We want to begin the session here.
 		ManagedReference<StructureDeed*> deed = server->getZoneServer()->getObject(deedID).castTo<StructureDeed*>();
 
 		if (deed != nullptr)
@@ -95,7 +83,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //PLACESTRUCTURECOMMAND_H_
+#endif // PLACESTRUCTURECOMMAND_H_

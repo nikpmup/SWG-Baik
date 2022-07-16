@@ -11,8 +11,7 @@
 
 class GotoCommand : public QueueCommand {
 public:
-	GotoCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
+	GotoCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -38,7 +37,7 @@ public:
 			try {
 				int numWaypoints = ghost->getWaypointListSize();
 
-				if(numWaypoints == 0) {
+				if (numWaypoints == 0) {
 					creature->sendSystemMessage("You don't have any waypoints to search!");
 					return SUCCESS;
 				}
@@ -48,7 +47,7 @@ public:
 				if (searchTerm == "?")
 					allWaypoints = 1;
 
-				VectorMap<float, ManagedReference<WaypointObject*> > waypointsFound;
+				VectorMap<float, ManagedReference<WaypointObject*>> waypointsFound;
 
 				waypointsFound.setAllowDuplicateInsertPlan();
 
@@ -84,7 +83,7 @@ public:
 					String planet = getPlanetNameByCRC(wp->getPlanetCRC());
 
 					if (planet == "")
-					    return SUCCESS;
+						return SUCCESS;
 
 					creature->sendSystemMessage("Found only one match, automatically going to " + wp->getDisplayedName() + ".");
 
@@ -105,16 +104,14 @@ public:
 
 					String planet = getPlanetNameByCRC(wp->getPlanetCRC());
 
-					if(planet == "")
-					    continue;
+					if (planet == "")
+						continue;
 
 					String name = wp->getDisplayedName();
 
 					StringBuffer menuText;
 
-					menuText << name
-					    << " (" << String::valueOf(wp->getWorldPositionX()) << ", " << String::valueOf(wp->getWorldPositionY())
-					    << " on " << planet << ")";
+					menuText << name << " (" << String::valueOf(wp->getWorldPositionX()) << ", " << String::valueOf(wp->getWorldPositionY()) << " on " << planet << ")";
 
 					gotoListBox->addMenuItem(menuText.toString(), wp->getObjectID());
 				}
@@ -149,14 +146,14 @@ private:
 				continue;
 
 			if (zone->getZoneName().hashCode() == planetCRC)
-				return(zone->getZoneName());
+				return (zone->getZoneName());
 		}
 
 		return "";
 	}
 
 	float calculateWaypointManhattanDistance(CreatureObject* creature, WaypointObject* wp) const {
-		if(creature == nullptr || wp == nullptr)
+		if (creature == nullptr || wp == nullptr)
 			return std::numeric_limits<float>::max();
 
 		Zone* creatureZone = creature->getZone();
@@ -194,4 +191,4 @@ private:
 	}
 };
 
-#endif //GOTOCOMMAND_H_
+#endif // GOTOCOMMAND_H_

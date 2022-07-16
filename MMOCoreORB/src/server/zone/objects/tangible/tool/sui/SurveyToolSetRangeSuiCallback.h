@@ -8,14 +8,12 @@
 #ifndef SURVEYTOOLSETRANGECALLBACK_H_
 #define SURVEYTOOLSETRANGECALLBACK_H_
 
-
 #include "server/zone/objects/tangible/tool/SurveyTool.h"
 #include "server/zone/objects/player/sui/SuiCallback.h"
 
 class SurveyToolSetRangeSuiCallback : public SuiCallback {
 public:
-	SurveyToolSetRangeSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	SurveyToolSetRangeSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -29,7 +27,7 @@ public:
 
 		ManagedReference<SurveyTool*> surveyTool = cast<SurveyTool*>(suiBox->getUsingObject().get().get());
 
-		if(surveyTool == nullptr)
+		if (surveyTool == nullptr)
 			return;
 
 		int range = 64 * Integer::valueOf(args->get(0).toString()) + 64;

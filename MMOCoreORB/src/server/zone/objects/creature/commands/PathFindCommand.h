@@ -84,4 +84,4 @@ public:
 	}
 };
 
-#endif //CORE3_PATHFINDCOMMAND_H
+#endif // CORE3_PATHFINDCOMMAND_H

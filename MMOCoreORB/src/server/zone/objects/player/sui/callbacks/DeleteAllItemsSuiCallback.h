@@ -23,8 +23,8 @@ public:
 		if (!sui->isMessageBox() || cancelPressed)
 			return;
 
-		//Send another confirmation just to be sure.
-		sui->setPromptText("@player_structure:delete_all_items_second_d"); //Again, this command will delete every object in your house. Objects destroyed in this manner are not reimbursable. Are you really sure you want to do this?
+		// Send another confirmation just to be sure.
+		sui->setPromptText("@player_structure:delete_all_items_second_d"); // Again, this command will delete every object in your house. Objects destroyed in this manner are not reimbursable. Are you really sure you want to do this?
 		sui->setCallback(new DeleteAllItemsConfirmSuiCallback(server));
 
 		ManagedReference<PlayerObject*> ghost = creature->getPlayerObject();

@@ -11,7 +11,7 @@
 #include "templates/IffTemplate.h"
 
 class ArrangementDescriptor : public IffTemplate {
-	Vector< Vector<String> > arrangementSlots;
+	Vector<Vector<String>> arrangementSlots;
 
 public:
 	ArrangementDescriptor() {
@@ -23,11 +23,10 @@ public:
 		Chunk* versionForm = iffStream->openForm(version);
 
 		switch (version) {
-		case '0000':
-		{
+		case '0000': {
 			for (int i = 0; i < versionForm->getChunksSize(); ++i) {
 				Chunk* arg = iffStream->openChunk('ARG ');
-				Vector<String>  slot;
+				Vector<String> slot;
 
 				while (arg->hasData()) {
 					String slotName;
@@ -49,11 +48,11 @@ public:
 		iffStream->closeForm('ARGD');
 	}
 
-	void clone(Vector< Vector<String> >& copyVec) const {
+	void clone(Vector<Vector<String>>& copyVec) const {
 		arrangementSlots.clone(copyVec);
 	}
 
-	const Vector< Vector<String> >& getArrangementSlots() const {
+	const Vector<Vector<String>>& getArrangementSlots() const {
 		return arrangementSlots;
 	}
 };

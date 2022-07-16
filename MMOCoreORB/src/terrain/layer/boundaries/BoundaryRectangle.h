@@ -8,7 +8,6 @@
 #ifndef BOUNDARYRECTANGLE_H_
 #define BOUNDARYRECTANGLE_H_
 
-
 #include "../ProceduralRule.h"
 #include "Boundary.h"
 #include "../../ProceduralTerrainAppearance.h"
@@ -26,22 +25,20 @@ class BoundaryRectangle : public Boundary {
 
 	float newX0, newX1, newY0, newY1;
 
-    /*
-     * result of process() is modified based on this feathering types and then multiplied by the affectors
-     * feathering types:
-     * 1: x^2
-     * 2: sqrt(x)
-     * 3: x^2 * (3 - 2x)
-     */
+	/*
+	 * result of process() is modified based on this feathering types and then multiplied by the affectors
+	 * feathering types:
+	 * 1: x^2
+	 * 2: sqrt(x)
+	 * 3: x^2 * (3 - 2x)
+	 */
 
 public:
-	BoundaryRectangle() : Boundary('BREC'), x0(0), y0(0), x1(0), y1(0), var7(0), localWaterTableEnabled(0), localWaterTableHeight(0),
-		shaderSize(0), newX0(0), newX1(0), newY0(0), newY1(0) {
-		//ruleType = BOUNDARYRECTANGLE;
+	BoundaryRectangle() : Boundary('BREC'), x0(0), y0(0), x1(0), y1(0), var7(0), localWaterTableEnabled(0), localWaterTableHeight(0), shaderSize(0), newX0(0), newX1(0), newY0(0), newY1(0) {
+		// ruleType = BOUNDARYRECTANGLE;
 	}
 
-	BoundaryRectangle(float x0, float y0, float x1, float y1) : Boundary('BREC'), var7(0), localWaterTableEnabled(0), localWaterTableHeight(0),
-			shaderSize(0), newX0(0), newX1(0), newY0(0), newY1(0)  {
+	BoundaryRectangle(float x0, float y0, float x1, float y1) : Boundary('BREC'), var7(0), localWaterTableEnabled(0), localWaterTableHeight(0), shaderSize(0), newX0(0), newX1(0), newY0(0), newY1(0) {
 		this->x0 = x0;
 		this->x1 = x1;
 		this->y0 = y0;
@@ -49,7 +46,6 @@ public:
 	}
 
 	~BoundaryRectangle() {
-
 	}
 
 	void executeRule(ProceduralTerrainAppearance* generator) final {
@@ -58,7 +54,7 @@ public:
 	}
 
 	bool containsPoint(float X, float Y) const final {
-		//System::out << "checking in rectangle if contains point" << endl;
+		// System::out << "checking in rectangle if contains point" << endl;
 		float w = fabs(x1 - x0);
 		float h = fabs(y1 - y0);
 
@@ -137,7 +133,7 @@ public:
 			featheringAmount = 1;
 
 		var7 = iffStream->getInt();
-		localWaterTableEnabled = iffStream->getInt(); // local water table enabled?
+		localWaterTableEnabled = iffStream->getInt();  // local water table enabled?
 		localWaterTableHeight = iffStream->getFloat(); // local water table height
 		shaderSize = iffStream->getFloat();
 		iffStream->getString(shaderName);
@@ -159,18 +155,18 @@ public:
 		/*v3 = this;
 		  if ( *(_BYTE *)(this + 60) ) initialized to 0
 		  {
-		    v31 = x;
-		    v32 = y;
-		    sub_ABB330(this + 64, (int)&v33, (int)&v31);
-		    x = v33;
-		    y = v34;
+			v31 = x;
+			v32 = y;
+			sub_ABB330(this + 64, (int)&v33, (int)&v31);
+			x = v33;
+			y = v34;
 		  }*/
 
 		if (x < x0)
 			return 0.0;
 
 		if (x > x1 || y < (double)y0) {
-			//System::out << "x > x1" << x << " " << x1 << " o y < y0" << y << " " << y0 << endl;
+			// System::out << "x > x1" << x << " " << x1 << " o y < y0" << y << " " << y0 << endl;
 			return 0.0;
 		}
 
@@ -191,24 +187,24 @@ public:
 		float v28 = y1 - y0;
 		float v32 = v28;
 		float* v27 = &v32;
-		if ( v28 >= x )
+		if (v28 >= x)
 			v27 = &x;
 
 		float v30 = featheringAmount * *v27 * 0.5;
 		float v29 = v30;
-		if ( v36 < v30 )
+		if (v36 < v30)
 			v29 = v36;
-		if ( v35 < v29 )
+		if (v35 < v29)
 			v29 = v35;
-		if ( v34 < v29 )
+		if (v34 < v29)
 			v29 = v34;
-		if ( y < v29 )
+		if (y < v29)
 			v29 = y;
 
 		return v29 / v30;
 	}
 
-	void translateBoundary(float x, float y)  {
+	void translateBoundary(float x, float y) {
 		x0 += x;
 		x1 += x;
 
@@ -259,9 +255,6 @@ public:
 	float getMaxY() const final {
 		return y1;
 	}
-
 };
-
-
 
 #endif /* BOUNDARYRECTANGLE_H_ */

@@ -89,19 +89,19 @@ void CraftingStationImplementation::fillObjectMenuResponse(ObjectMenuResponse* m
 	TangibleObjectImplementation::fillObjectMenuResponse(menuResponse, player);
 	SceneObject* parent = getParent().get();
 
-		if (parent != nullptr && parent->isCellObject()) {
-			SceneObject* rootParent = getRootParent();
+	if (parent != nullptr && parent->isCellObject()) {
+		SceneObject* rootParent = getRootParent();
 
-			if (rootParent != nullptr && rootParent->isBuildingObject()) {
-				ManagedReference<BuildingObject*> building = cast<BuildingObject*>(rootParent);
+		if (rootParent != nullptr && rootParent->isBuildingObject()) {
+			ManagedReference<BuildingObject*> building = cast<BuildingObject*>(rootParent);
 
-				if (building != nullptr && !isASubChildOf(player)) {
-					if (building->isOnAdminList(player)) {
-						menuResponse->addRadialMenuItem(68, 3, "@ui_radial:craft_hopper_input"); // Input Hopper
-					}
+			if (building != nullptr && !isASubChildOf(player)) {
+				if (building->isOnAdminList(player)) {
+					menuResponse->addRadialMenuItem(68, 3, "@ui_radial:craft_hopper_input"); // Input Hopper
 				}
 			}
 		}
+	}
 }
 
 int CraftingStationImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
@@ -157,7 +157,7 @@ SceneObject* CraftingStationImplementation::findCraftingTool(CreatureObject* pla
 		SceneObject* object = inventory->getContainerObject(i);
 
 		if (object != nullptr && object->isCraftingTool()) {
-			CraftingTool* tool = cast<CraftingTool*>( object);
+			CraftingTool* tool = cast<CraftingTool*>(object);
 
 			if (!tool->isReady()) {
 				continue;

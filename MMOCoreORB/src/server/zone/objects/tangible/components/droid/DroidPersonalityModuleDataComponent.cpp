@@ -15,7 +15,6 @@ DroidPersonalityModuleDataComponent::DroidPersonalityModuleDataComponent() {
 }
 
 DroidPersonalityModuleDataComponent::~DroidPersonalityModuleDataComponent() {
-
 }
 
 String DroidPersonalityModuleDataComponent::getModuleName() const {
@@ -114,7 +113,7 @@ void DroidPersonalityModuleDataComponent::copy(BaseDroidModuleComponent* other) 
 	// no Op when the new object is made, init transient is called so all info is set.
 }
 
-void DroidPersonalityModuleDataComponent::quip(String m,DroidObject* droid) {
+void DroidPersonalityModuleDataComponent::quip(String m, DroidObject* droid) {
 	StringBuffer message;
 	message << personalityBase << ":" << m << "_" << (System::random(15) + 1);
 

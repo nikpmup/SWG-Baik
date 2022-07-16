@@ -9,23 +9,19 @@
 
 class RequestResourceWeightsBatchCommand : public QueueCommand {
 public:
-
-	RequestResourceWeightsBatchCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RequestResourceWeightsBatchCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
 
-		ManagedReference<CraftingManager* > craftingManager = creature->getZoneServer()->getCraftingManager();
+		ManagedReference<CraftingManager*> craftingManager = creature->getZoneServer()->getCraftingManager();
 
-		if(craftingManager == nullptr || !creature->isPlayerCreature())
+		if (craftingManager == nullptr || !creature->isPlayerCreature())
 			return GENERALERROR;
 
 		StringTokenizer tokenizer(arguments.toString());
@@ -33,21 +29,20 @@ public:
 		String value;
 		uint32 schematicID;
 
-		while(tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) {
 			tokenizer.getStringToken(value);
 
 			try {
 				schematicID = Integer::valueOf(value);
 
 				craftingManager->sendResourceWeightsTo(creature, schematicID);
-			} catch(Exception& e) {
+			} catch (Exception& e) {
 				warning("Invalid draft slot request: " + value);
 			}
 		}
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REQUESTRESOURCEWEIGHTSBATCHCOMMAND_H_
+#endif // REQUESTRESOURCEWEIGHTSBATCHCOMMAND_H_

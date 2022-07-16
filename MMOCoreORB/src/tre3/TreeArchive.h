@@ -12,7 +12,7 @@
 #include "TreeDirectory.h"
 
 class TreeArchive : public Logger {
-	HashTable<String, Reference<TreeDirectory*> > nodeMap;
+	HashTable<String, Reference<TreeDirectory*>> nodeMap;
 
 public:
 	TreeArchive() {
@@ -21,7 +21,7 @@ public:
 
 		nodeMap.setNullValue(nullptr);
 
-		//nodeMap.setNoDuplicateInsertPlan();
+		// nodeMap.setNoDuplicateInsertPlan();
 	}
 
 	void unpackFile(const String& file) {
@@ -34,7 +34,7 @@ public:
 			int pos = path.lastIndexOf("/");
 
 			String dir = path.subString(0, pos);
-			String fileName = path.subString(pos+1, path.length());
+			String fileName = path.subString(pos + 1, path.length());
 
 			record->setRecordName(fileName);
 
@@ -65,7 +65,7 @@ public:
 	byte* getBytes(const String& recordPath, int& size) const {
 		int pos = recordPath.lastIndexOf("/");
 
-		//Only folders are allowed at the root level of TRE directories.
+		// Only folders are allowed at the root level of TRE directories.
 		if (pos == -1)
 			return nullptr;
 
@@ -97,11 +97,11 @@ public:
 	}
 
 	Vector<String>* getFilesAndSubDirectoryFiles(const String& directory) const {
-		HashTableIterator<String, Reference<TreeDirectory*> > iterator = nodeMap.iterator();
+		HashTableIterator<String, Reference<TreeDirectory*>> iterator = nodeMap.iterator();
 		Vector<String>* files = nullptr;
 
 		while (iterator.hasNext()) {
-			//String directoryName = iterator.getNextKey();
+			// String directoryName = iterator.getNextKey();
 			String* directoryName;
 			Reference<TreeDirectory*>* directoryEntry;
 			iterator.getNextKeyAndValue(directoryName, directoryEntry);

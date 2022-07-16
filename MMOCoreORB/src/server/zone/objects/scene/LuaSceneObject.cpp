@@ -17,90 +17,89 @@
 
 const char LuaSceneObject::className[] = "LuaSceneObject";
 
-Luna<LuaSceneObject>::RegType LuaSceneObject::Register[] = {
-		{ "_setObject", &LuaSceneObject::_setObject },
-		{ "_getObject", &LuaSceneObject::_getObject },
-		{ "getParent", &LuaSceneObject::getParent },
-		{ "getObjectID", &LuaSceneObject::getObjectID },
-		{ "getPositionX", &LuaSceneObject::getPositionX },
-		{ "getPositionY", &LuaSceneObject::getPositionY },
-		{ "getPositionZ", &LuaSceneObject::getPositionZ },
-		{ "getDirectionAngle", &LuaSceneObject::getDirectionAngle },
-		{ "getWorldPositionX", &LuaSceneObject::getWorldPositionX },
-		{ "getWorldPositionY", &LuaSceneObject::getWorldPositionY },
-		{ "getWorldPositionZ", &LuaSceneObject::getWorldPositionZ },
-		{ "getParentID", &LuaSceneObject::getParentID },
-		{ "isInRange", &LuaSceneObject::isInRange },
-		{ "isInRangeWithObject", &LuaSceneObject::isInRangeWithObject },
-		{ "isInRangeWithObject3d", &LuaSceneObject::isInRangeWithObject3d },
-		{ "setCustomObjectName", &LuaSceneObject::setCustomObjectName},
-		{ "getDistanceTo", &LuaSceneObject::getDistanceTo },
-		{ "getDistanceToPosition", &LuaSceneObject::getDistanceToPosition },
-		{ "updateDirection", &LuaSceneObject::updateDirection },
-		{ "getServerObjectCRC", &LuaSceneObject::getServerObjectCRC },
-		{ "showFlyText", &LuaSceneObject::showFlyText },
-		{ "getContainerObject", &LuaSceneObject::getContainerObject },
-		{ "getContainerObjectById", &LuaSceneObject::getContainerObjectById },
-		{ "getContainerObjectsSize", &LuaSceneObject::getContainerObjectsSize },
-		{ "getCountableObjectsRecursive", &LuaSceneObject::getCountableObjectsRecursive },
-		{ "getContainerVolumeLimit", &LuaSceneObject::getContainerVolumeLimit },
-		{ "isContainerFull", &LuaSceneObject::isContainerFull },
-		{ "isContainerFullRecursive", &LuaSceneObject::isContainerFullRecursive },
-		{ "getSlottedObject", &LuaSceneObject::getSlottedObject },
-		{ "transferObject", &LuaSceneObject::transferObject },
-//		{ "removeObject", &LuaSceneObject::removeObject },
-		{ "getGameObjectType", &LuaSceneObject::getGameObjectType },
-		{ "faceObject", &LuaSceneObject::faceObject },
-		{ "isFacingObject", &LuaSceneObject::isFacingObject },
-		{ "destroyObjectFromWorld", &LuaSceneObject::destroyObjectFromWorld },
-		{ "destroyObjectFromDatabase", &LuaSceneObject::destroyObjectFromDatabase },
-		{ "isCreatureObject", &LuaSceneObject::isCreatureObject },
-		{ "isAiAgent", &LuaSceneObject::isAiAgent },
-		{ "isPlayerCreature", &LuaSceneObject::isPlayerCreature },
-		{ "isCreature", &LuaSceneObject::isCreature },
-		{ "isBuildingObject", &LuaSceneObject::isBuildingObject },
-		{ "isActiveArea", &LuaSceneObject::isActiveArea },
-		{ "sendTo", &LuaSceneObject::sendTo },
-		{ "getCustomObjectName", &LuaSceneObject::getCustomObjectName },
-		{ "getDisplayedName", &LuaSceneObject::getDisplayedName },
-		{ "getObjectName", &LuaSceneObject::getObjectName },
-		{ "setDirectionalHeading", &LuaSceneObject::setDirectionalHeading },
-		{ "getZoneName", &LuaSceneObject::getZoneName },
-		{ "getTemplateObjectPath", &LuaSceneObject::getTemplateObjectPath },
-		{ "teleport", &LuaSceneObject::teleport },
-		{ "setObjectMenuComponent", &LuaSceneObject::setObjectMenuComponent },
-		{ "setContainerComponent", &LuaSceneObject::setContainerComponent },
-		{ "switchZone", &LuaSceneObject::switchZone },
-		{ "setContainerInheritPermissionsFromParent", &LuaSceneObject::setContainerInheritPermissionsFromParent },
-		{ "setContainerAllowPermission", &LuaSceneObject::setContainerAllowPermission },
-		{ "setContainerDenyPermission", &LuaSceneObject::setContainerDenyPermission },
-		{ "setContainerDefaultAllowPermission", &LuaSceneObject::setContainerDefaultAllowPermission },
-		{ "clearContainerDefaultAllowPermission", &LuaSceneObject::clearContainerDefaultAllowPermission },
-		{ "setContainerDefaultDenyPermission", &LuaSceneObject::setContainerDefaultDenyPermission },
-		{ "clearContainerDefaultDenyPermission", &LuaSceneObject::clearContainerDefaultDenyPermission },
-		{ "setContainerOwnerID", &LuaSceneObject::setContainerOwnerID },
-		{ "setContainerLockedStatus", &LuaSceneObject::setContainerLockedStatus },
-		{ "setObjectName", &LuaSceneObject::setObjectName },
-		{ "isASubChildOf", &LuaSceneObject::isASubChildOf },
-		{ "isOwned", &LuaSceneObject::isOwned },
-		{ "playEffect", &LuaSceneObject::playEffect },
-		{ "addPendingTask", &LuaSceneObject::addPendingTask },
-		{ "hasPendingTask", &LuaSceneObject::hasPendingTask },
-		{ "cancelPendingTask", &LuaSceneObject::cancelPendingTask },
-		{ "getChildObject", &LuaSceneObject::getChildObject },
-		{ "getContainerOwnerID", &LuaSceneObject::getContainerOwnerID },
-		{ "info", &LuaSceneObject::info },
-		{ "getPlayersInRange", &LuaSceneObject::getPlayersInRange },
-		{ "isInNavMesh", &LuaSceneObject::isInNavMesh },
-		{ 0, 0 }
+Luna<LuaSceneObject>::RegType LuaSceneObject::Register[] = {{"_setObject", &LuaSceneObject::_setObject},
+															{"_getObject", &LuaSceneObject::_getObject},
+															{"getParent", &LuaSceneObject::getParent},
+															{"getObjectID", &LuaSceneObject::getObjectID},
+															{"getPositionX", &LuaSceneObject::getPositionX},
+															{"getPositionY", &LuaSceneObject::getPositionY},
+															{"getPositionZ", &LuaSceneObject::getPositionZ},
+															{"getDirectionAngle", &LuaSceneObject::getDirectionAngle},
+															{"getWorldPositionX", &LuaSceneObject::getWorldPositionX},
+															{"getWorldPositionY", &LuaSceneObject::getWorldPositionY},
+															{"getWorldPositionZ", &LuaSceneObject::getWorldPositionZ},
+															{"getParentID", &LuaSceneObject::getParentID},
+															{"isInRange", &LuaSceneObject::isInRange},
+															{"isInRangeWithObject", &LuaSceneObject::isInRangeWithObject},
+															{"isInRangeWithObject3d", &LuaSceneObject::isInRangeWithObject3d},
+															{"setCustomObjectName", &LuaSceneObject::setCustomObjectName},
+															{"getDistanceTo", &LuaSceneObject::getDistanceTo},
+															{"getDistanceToPosition", &LuaSceneObject::getDistanceToPosition},
+															{"updateDirection", &LuaSceneObject::updateDirection},
+															{"getServerObjectCRC", &LuaSceneObject::getServerObjectCRC},
+															{"showFlyText", &LuaSceneObject::showFlyText},
+															{"getContainerObject", &LuaSceneObject::getContainerObject},
+															{"getContainerObjectById", &LuaSceneObject::getContainerObjectById},
+															{"getContainerObjectsSize", &LuaSceneObject::getContainerObjectsSize},
+															{"getCountableObjectsRecursive", &LuaSceneObject::getCountableObjectsRecursive},
+															{"getContainerVolumeLimit", &LuaSceneObject::getContainerVolumeLimit},
+															{"isContainerFull", &LuaSceneObject::isContainerFull},
+															{"isContainerFullRecursive", &LuaSceneObject::isContainerFullRecursive},
+															{"getSlottedObject", &LuaSceneObject::getSlottedObject},
+															{"transferObject", &LuaSceneObject::transferObject},
+															//		{ "removeObject", &LuaSceneObject::removeObject },
+															{"getGameObjectType", &LuaSceneObject::getGameObjectType},
+															{"faceObject", &LuaSceneObject::faceObject},
+															{"isFacingObject", &LuaSceneObject::isFacingObject},
+															{"destroyObjectFromWorld", &LuaSceneObject::destroyObjectFromWorld},
+															{"destroyObjectFromDatabase", &LuaSceneObject::destroyObjectFromDatabase},
+															{"isCreatureObject", &LuaSceneObject::isCreatureObject},
+															{"isAiAgent", &LuaSceneObject::isAiAgent},
+															{"isPlayerCreature", &LuaSceneObject::isPlayerCreature},
+															{"isCreature", &LuaSceneObject::isCreature},
+															{"isBuildingObject", &LuaSceneObject::isBuildingObject},
+															{"isActiveArea", &LuaSceneObject::isActiveArea},
+															{"sendTo", &LuaSceneObject::sendTo},
+															{"getCustomObjectName", &LuaSceneObject::getCustomObjectName},
+															{"getDisplayedName", &LuaSceneObject::getDisplayedName},
+															{"getObjectName", &LuaSceneObject::getObjectName},
+															{"setDirectionalHeading", &LuaSceneObject::setDirectionalHeading},
+															{"getZoneName", &LuaSceneObject::getZoneName},
+															{"getTemplateObjectPath", &LuaSceneObject::getTemplateObjectPath},
+															{"teleport", &LuaSceneObject::teleport},
+															{"setObjectMenuComponent", &LuaSceneObject::setObjectMenuComponent},
+															{"setContainerComponent", &LuaSceneObject::setContainerComponent},
+															{"switchZone", &LuaSceneObject::switchZone},
+															{"setContainerInheritPermissionsFromParent", &LuaSceneObject::setContainerInheritPermissionsFromParent},
+															{"setContainerAllowPermission", &LuaSceneObject::setContainerAllowPermission},
+															{"setContainerDenyPermission", &LuaSceneObject::setContainerDenyPermission},
+															{"setContainerDefaultAllowPermission", &LuaSceneObject::setContainerDefaultAllowPermission},
+															{"clearContainerDefaultAllowPermission", &LuaSceneObject::clearContainerDefaultAllowPermission},
+															{"setContainerDefaultDenyPermission", &LuaSceneObject::setContainerDefaultDenyPermission},
+															{"clearContainerDefaultDenyPermission", &LuaSceneObject::clearContainerDefaultDenyPermission},
+															{"setContainerOwnerID", &LuaSceneObject::setContainerOwnerID},
+															{"setContainerLockedStatus", &LuaSceneObject::setContainerLockedStatus},
+															{"setObjectName", &LuaSceneObject::setObjectName},
+															{"isASubChildOf", &LuaSceneObject::isASubChildOf},
+															{"isOwned", &LuaSceneObject::isOwned},
+															{"playEffect", &LuaSceneObject::playEffect},
+															{"addPendingTask", &LuaSceneObject::addPendingTask},
+															{"hasPendingTask", &LuaSceneObject::hasPendingTask},
+															{"cancelPendingTask", &LuaSceneObject::cancelPendingTask},
+															{"getChildObject", &LuaSceneObject::getChildObject},
+															{"getContainerOwnerID", &LuaSceneObject::getContainerOwnerID},
+															{"info", &LuaSceneObject::info},
+															{"getPlayersInRange", &LuaSceneObject::getPlayersInRange},
+															{"isInNavMesh", &LuaSceneObject::isInNavMesh},
+															{0, 0}
 
 };
 
-LuaSceneObject::LuaSceneObject(lua_State *L) {
+LuaSceneObject::LuaSceneObject(lua_State* L) {
 	realObject = reinterpret_cast<SceneObject*>(lua_touserdata(L, 1));
 }
 
-LuaSceneObject::~LuaSceneObject(){
+LuaSceneObject::~LuaSceneObject() {
 }
 
 int LuaSceneObject::_getObject(lua_State* L) {
@@ -265,7 +264,7 @@ int LuaSceneObject::getParentID(lua_State* L) {
 }
 
 int LuaSceneObject::isInRange(lua_State* L) {
-//public boolean isInRange(float x, float y, float range) {
+	// public boolean isInRange(float x, float y, float range) {
 	float range = lua_tonumber(L, -1);
 	float y = lua_tonumber(L, -2);
 	float x = lua_tonumber(L, -3);
@@ -405,7 +404,7 @@ int LuaSceneObject::getContainerObjectById(lua_State* L) {
 		lua_pushnil(L);
 	}
 
-    return 1;
+	return 1;
 }
 
 int LuaSceneObject::getContainerObjectsSize(lua_State* L) {
@@ -463,11 +462,11 @@ int LuaSceneObject::getSlottedObject(lua_State* L) {
 }
 
 int LuaSceneObject::transferObject(lua_State* L) {
-	//transferObject(SceneObject object, int containmentType, boolean notifyClient = false);
+	// transferObject(SceneObject object, int containmentType, boolean notifyClient = false);
 
 	bool notifyClient = lua_tonumber(L, -1);
 	int containmentType = lua_tonumber(L, -2);
-	SceneObject* obj = (SceneObject*) lua_touserdata(L, -3);
+	SceneObject* obj = (SceneObject*)lua_touserdata(L, -3);
 
 	realObject->transferObject(obj, containmentType, notifyClient);
 
@@ -487,7 +486,7 @@ int LuaSceneObject::transferObject(lua_State* L) {
 }*/
 
 int LuaSceneObject::showFlyText(lua_State* L) {
-	//final string file, final string uax, byte red, byte green, byte blue
+	// final string file, final string uax, byte red, byte green, byte blue
 
 	byte blue = lua_tonumber(L, -1);
 	byte green = lua_tonumber(L, -2);
@@ -502,7 +501,7 @@ int LuaSceneObject::showFlyText(lua_State* L) {
 }
 
 int LuaSceneObject::playEffect(lua_State* L) {
-	//public native void playEffect(final string file, final string aux);
+	// public native void playEffect(final string file, final string aux);
 
 	String aux = lua_tostring(L, -1);
 	String file = lua_tostring(L, -2);
@@ -511,7 +510,6 @@ int LuaSceneObject::playEffect(lua_State* L) {
 
 	return 0;
 }
-
 
 int LuaSceneObject::updateDirection(lua_State* L) {
 	int numberOfArguments = lua_gettop(L) - 1;
@@ -602,7 +600,7 @@ int LuaSceneObject::unlock(lua_State* L) {
 }
 
 int LuaSceneObject::sendTo(lua_State* L) {
-	SceneObject* obj = (SceneObject*) lua_touserdata(L, -1);
+	SceneObject* obj = (SceneObject*)lua_touserdata(L, -1);
 
 	realObject->sendTo(obj, true);
 
@@ -636,7 +634,7 @@ int LuaSceneObject::getObjectName(lua_State* L) {
 int LuaSceneObject::setDirectionalHeading(lua_State* L) {
 	float heading = lua_tonumber(L, -1);
 
-	//SceneObject* obj = (SceneObject*) lua_touserdata(L, -2);
+	// SceneObject* obj = (SceneObject*) lua_touserdata(L, -2);
 
 	realObject->setDirection(heading);
 
@@ -763,7 +761,7 @@ int LuaSceneObject::setObjectName(lua_State* L) {
 }
 
 int LuaSceneObject::isASubChildOf(lua_State* L) {
-	SceneObject* obj = (SceneObject*) lua_touserdata(L, -1);
+	SceneObject* obj = (SceneObject*)lua_touserdata(L, -1);
 
 	lua_pushboolean(L, realObject->isASubChildOf(obj));
 
@@ -801,7 +799,6 @@ int LuaSceneObject::hasPendingTask(lua_State* L) {
 	return 1;
 }
 
-
 int LuaSceneObject::cancelPendingTask(lua_State* L) {
 	String play = lua_tostring(L, -2);
 	String key = lua_tostring(L, -1);
@@ -836,8 +833,7 @@ int LuaSceneObject::getChildObject(lua_State* L) {
 	return 1;
 }
 
-int LuaSceneObject::getContainerOwnerID(lua_State *L) {
-
+int LuaSceneObject::getContainerOwnerID(lua_State* L) {
 	lua_pushnumber(L, realObject->getContainerPermissions()->getOwnerID());
 
 	return 1;
@@ -851,7 +847,7 @@ int LuaSceneObject::info(lua_State* L) {
 	return 0;
 }
 
-int LuaSceneObject::getPlayersInRange(lua_State *L) {
+int LuaSceneObject::getPlayersInRange(lua_State* L) {
 	int range = lua_tonumber(L, -1);
 
 	Zone* thisZone = realObject->getZone();
@@ -863,7 +859,7 @@ int LuaSceneObject::getPlayersInRange(lua_State *L) {
 
 	lua_newtable(L);
 
-	Reference<SortedVector<ManagedReference<QuadTreeEntry*> >*> playerObjects = new SortedVector<ManagedReference<QuadTreeEntry*> >();
+	Reference<SortedVector<ManagedReference<QuadTreeEntry*>>*> playerObjects = new SortedVector<ManagedReference<QuadTreeEntry*>>();
 	thisZone->getInRangePlayers(realObject->getWorldPositionX(), realObject->getWorldPositionY(), range, playerObjects);
 	int numPlayers = 0;
 

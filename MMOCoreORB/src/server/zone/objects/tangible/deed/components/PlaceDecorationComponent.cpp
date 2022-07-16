@@ -12,7 +12,7 @@
 #include "server/zone/managers/structure/StructureManager.h"
 
 int PlaceDecorationComponent::placeStructure(StructureDeed* deed, CreatureObject* creature, float x, float y, int angle) const {
-	if(creature == nullptr || creature->getZoneServer() == nullptr)
+	if (creature == nullptr || creature->getZoneServer() == nullptr)
 		return 1;
 
 	ManagedReference<CityRegion*> city = creature->getCityRegion().get();
@@ -21,10 +21,10 @@ int PlaceDecorationComponent::placeStructure(StructureDeed* deed, CreatureObject
 		return 1;
 
 	CityManager* cityManager = creature->getZoneServer()->getCityManager();
-	if(cityManager == nullptr)
+	if (cityManager == nullptr)
 		return 1;
 
-	if(!cityManager->canSupportMoreDecorations(city)) {
+	if (!cityManager->canSupportMoreDecorations(city)) {
 		StringIdChatParameter param("city/city", "no_more_decos");
 		creature->sendSystemMessage(param);
 		return 1;

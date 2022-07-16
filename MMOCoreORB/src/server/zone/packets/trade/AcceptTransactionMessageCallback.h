@@ -8,21 +8,15 @@
 #ifndef ACCEPTTRANSACTIONMESSAGECALLBACK_H_
 #define ACCEPTTRANSACTIONMESSAGECALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 #include "server/zone/managers/player/PlayerManager.h"
 
 class AcceptTransactionMessageCallback : public MessageCallback {
-
-
 public:
-	AcceptTransactionMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	AcceptTransactionMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {
-
 	}
 
 	void run() {
@@ -34,9 +28,6 @@ public:
 		PlayerManager* playerManager = server->getZoneServer()->getPlayerManager();
 		playerManager->handleAcceptTransactionMessage(player);
 	}
-
 };
-
-
 
 #endif /* ACCEPTRANSACTIONMESSAGECALLBACK_H_ */

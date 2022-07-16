@@ -38,13 +38,12 @@ public:
 		creature->destroyObjectFromWorld(false);
 		creature->notifyDespawn(zone);
 
-		//creature->printReferenceHolders();
+		// creature->printReferenceHolders();
 
 		/*PatrolPoint* homeLocation = creature->getHomeLocation();
 
 		if (homeLocation->getPosit)*/
 	}
 };
-
 
 #endif /* DESPAWNCREATURETASK_H_ */

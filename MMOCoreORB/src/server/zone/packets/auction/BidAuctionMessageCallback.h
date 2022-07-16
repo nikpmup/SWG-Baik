@@ -8,10 +8,8 @@
 #ifndef BIDAUCTIONMESSAGECALLBACK_H_
 #define BIDAUCTIONMESSAGECALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 #include "server/zone/managers/auction/AuctionManager.h"
-
 
 class BidAuctionMessageCallback : public MessageCallback {
 	uint64 objectid;
@@ -19,9 +17,7 @@ class BidAuctionMessageCallback : public MessageCallback {
 	uint32 price2;
 
 public:
-	BidAuctionMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-			MessageCallback(client, server), objectid(0), price1(0), price2(0) {
-
+	BidAuctionMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), objectid(0), price1(0), price2(0) {
 		setCustomTaskQueue("slowQueue");
 	}
 
@@ -47,7 +43,6 @@ public:
 			auctionManager->buyItem(player, objectid, price1, price2);
 		}
 	}
-
 };
 
 #endif /* BIDAUCTIONMESSAGECALLBACK_H_ */

@@ -9,14 +9,10 @@
 
 class TeleportToCommand : public QueueCommand {
 public:
-
-	TeleportToCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	TeleportToCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -62,7 +58,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //TELEPORTTOCOMMAND_H_
+#endif // TELEPORTTOCOMMAND_H_

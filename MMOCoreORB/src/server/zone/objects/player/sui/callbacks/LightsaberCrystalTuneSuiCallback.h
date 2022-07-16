@@ -10,11 +10,9 @@
 
 #include "server/zone/objects/player/sui/SuiCallback.h"
 
-class LightsaberCrystalTuneSuiCallback: public SuiCallback {
-
+class LightsaberCrystalTuneSuiCallback : public SuiCallback {
 public:
-	LightsaberCrystalTuneSuiCallback(ZoneServer* serv) :
-		SuiCallback(serv) {
+	LightsaberCrystalTuneSuiCallback(ZoneServer* serv) : SuiCallback(serv) {
 	}
 
 	void run(CreatureObject* creature, SuiBox* sui, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -35,6 +33,5 @@ public:
 		}
 	}
 };
-
 
 #endif /* LIGHTSABERCRYSTALTUNESUICALLBACK_H_ */

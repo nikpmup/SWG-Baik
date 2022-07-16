@@ -25,7 +25,6 @@ class ComponentMapEntry : public Object {
 	String hardpoint;
 
 public:
-
 	ComponentMapEntry() {
 		id = 0;
 		templateFilename = "";
@@ -81,7 +80,7 @@ public:
 };
 
 class ComponentMap : public VectorMap<uint32, ComponentMapEntry>, public Singleton<ComponentMap>, public Logger {
-	VectorMap<uint32, VectorMap<uint32, VectorMap<uint32, uint32> > > visibleComponentMap;
+	VectorMap<uint32, VectorMap<uint32, VectorMap<uint32, uint32>>> visibleComponentMap;
 
 public:
 	ComponentMap() {
@@ -103,7 +102,6 @@ public:
 		String templateFilename, hardpoint;
 
 		for (int i = 0; i < dtiff.getTotalRows(); ++i) {
-
 			DataTableRow* row = dtiff.getRow(i);
 
 			row->getCell(0)->getValue(id);
@@ -216,7 +214,7 @@ public:
 					stockScript.pop();
 				}
 
-				VectorMap<uint32, VectorMap<uint32, uint32> > weaponEntryMap;
+				VectorMap<uint32, VectorMap<uint32, uint32>> weaponEntryMap;
 
 				weaponEntryMap.put(barrelCrc, barrelMap);
 				weaponEntryMap.put(scopeCrc, scopeMap);

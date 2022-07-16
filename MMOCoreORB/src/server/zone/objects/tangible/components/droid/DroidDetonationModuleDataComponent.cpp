@@ -19,7 +19,6 @@ DroidDetonationModuleDataComponent::DroidDetonationModuleDataComponent() {
 }
 
 DroidDetonationModuleDataComponent::~DroidDetonationModuleDataComponent() {
-
 }
 
 String DroidDetonationModuleDataComponent::getModuleName() const {
@@ -41,7 +40,6 @@ void DroidDetonationModuleDataComponent::initialize(DroidObject* droid) {
 }
 
 void DroidDetonationModuleDataComponent::initializeTransientMembers() {
-
 	// Pull module stat from parent sceno
 	DroidComponent* droidComponent = cast<DroidComponent*>(getParent());
 	if (droidComponent == nullptr) {
@@ -75,7 +73,7 @@ void DroidDetonationModuleDataComponent::fillAttributeList(AttributeListMessage*
 		int bonus = moduleCount * 10;
 		alm->insertAttribute("bomb_level", rating + bonus);
 	} else {
-		alm->insertAttribute( "bomb_level", rating);
+		alm->insertAttribute("bomb_level", rating);
 	}
 }
 
@@ -100,7 +98,7 @@ void DroidDetonationModuleDataComponent::fillObjectMenuResponse(SceneObject* dro
 }
 
 int DroidDetonationModuleDataComponent::calculateDamage(DroidObject* droid) {
-	int bonus  = 0;
+	int bonus = 0;
 	if (droid->getSpecies() == DroidObject::MSE)
 		bonus = moduleCount * 10;
 
@@ -164,16 +162,18 @@ void DroidDetonationModuleDataComponent::onCall() {
 
 	owner->sendSystemMessage("@pet/droid_modules:detonation_warmup");
 
-	Core::getTaskManager()->scheduleTask([droid]{
-		if(droid != nullptr) {
-			Locker locker(droid);
+	Core::getTaskManager()->scheduleTask(
+		[droid] {
+			if (droid != nullptr) {
+				Locker locker(droid);
 
-			auto module = droid->getModule("detonation_module").castTo<DroidDetonationModuleDataComponent*>();
+				auto module = droid->getModule("detonation_module").castTo<DroidDetonationModuleDataComponent*>();
 
-			if (module != nullptr)
-				module->setReadyForDetonation();
-		}
-	}, "InitDetModuleTask", 10000);
+				if (module != nullptr)
+					module->setReadyForDetonation();
+			}
+		},
+		"InitDetModuleTask", 10000);
 }
 
 void DroidDetonationModuleDataComponent::onStore() {

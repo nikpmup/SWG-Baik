@@ -19,13 +19,12 @@ namespace creature {
 namespace events {
 
 class DroidStimpackTask : public Task {
-
 	ManagedReference<DroidObject*> droid;
 	ManagedReference<CreatureObject*> target;
 	String droidName;
 
 public:
-	DroidStimpackTask(DroidObject* droid, CreatureObject* player,String droidName) : Task() {
+	DroidStimpackTask(DroidObject* droid, CreatureObject* player, String droidName) : Task() {
 		this->droid = droid;
 		this->target = player;
 		this->droidName = droidName;
@@ -54,7 +53,7 @@ public:
 		}
 
 		// Check if droid is spawned
-		if (droid->getLocalZone() == nullptr) {  // Not outdoors
+		if (droid->getLocalZone() == nullptr) { // Not outdoors
 			ManagedReference<SceneObject*> parent = droid->getParent().get();
 
 			if (parent == nullptr || !parent->isCellObject()) { // Not indoors either
@@ -69,7 +68,7 @@ public:
 
 		// Droid must have power
 		if (!droid->hasPower()) {
-			droid->showFlyText("npc_reaction/flytext","low_power", 204, 0, 0);  // "*Low Power*"
+			droid->showFlyText("npc_reaction/flytext", "low_power", 204, 0, 0); // "*Low Power*"
 			return;
 		}
 
@@ -115,7 +114,7 @@ public:
 
 		for (int i = 0; i < atts.size(); i++) {
 			if (target->hasDamage(atts.get(i)))
-					needsHeals = true;
+				needsHeals = true;
 		}
 
 		if (!needsHeals) {
@@ -135,7 +134,6 @@ public:
 
 			int healthHealed = 0, actionHealed = 0, mindHealed = 0;
 			bool notifyObservers = true;
-
 
 			if (atts.contains(CreatureAttribute::HEALTH)) {
 				healthHealed = target->healDamage(droid, CreatureAttribute::HEALTH, stimPower);
@@ -160,7 +158,7 @@ public:
 			}
 
 			stimpack->decreaseUseCount();
-			droid->getCooldownTimerMap()->updateToCurrentAndAddMili("RequestStimpack",module->rate);
+			droid->getCooldownTimerMap()->updateToCurrentAndAddMili("RequestStimpack", module->rate);
 
 			// send heal message
 			StringBuffer msgPlayer, msgTarget, msgBody, msgTail;
@@ -194,11 +192,11 @@ public:
 	}
 };
 
-} // events
-} // creature
-} // objects
-} // zone
-} // server
+} // namespace events
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::events;
 

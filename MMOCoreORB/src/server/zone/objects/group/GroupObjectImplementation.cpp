@@ -35,7 +35,7 @@ void GroupObjectImplementation::sendBaselinesTo(SceneObject* player) {
 	client->sendMessage(grup6);
 
 	if (player->isPlayerCreature() && chatRoom != nullptr)
-		chatRoom->sendTo(cast<CreatureObject*>( player));
+		chatRoom->sendTo(cast<CreatureObject*>(player));
 }
 
 void GroupObjectImplementation::startChatRoom(CreatureObject* leader) {
@@ -74,7 +74,7 @@ void GroupObjectImplementation::broadcastMessage(CreatureObject* player, BaseMes
 	for (int i = 0; i < groupMembers.size(); i++) {
 		CreatureObject* member = groupMembers.get(i).get().get();
 
-		if(!sendSelf && member == player)
+		if (!sendSelf && member == player)
 			continue;
 
 		if (member->isPlayerCreature())
@@ -85,7 +85,7 @@ void GroupObjectImplementation::broadcastMessage(CreatureObject* player, BaseMes
 }
 
 void GroupObjectImplementation::updatePvPStatusNearCreature(CreatureObject* creature) {
-	CloseObjectsVector* creatureCloseObjects = (CloseObjectsVector*) creature->getCloseObjects();
+	CloseObjectsVector* creatureCloseObjects = (CloseObjectsVector*)creature->getCloseObjects();
 	SortedVector<QuadTreeEntry*> closeObjectsVector;
 
 	creatureCloseObjects->safeCopyReceiversTo(closeObjectsVector, CloseObjectsVector::CREOTYPE);
@@ -94,7 +94,6 @@ void GroupObjectImplementation::updatePvPStatusNearCreature(CreatureObject* crea
 		CreatureObject* member = groupMembers.get(i).get().get();
 
 		if (closeObjectsVector.contains(member)) {
-
 			if (creature->isPlayerCreature())
 				member->sendPvpStatusTo(creature);
 
@@ -157,7 +156,7 @@ void GroupObjectImplementation::removeMember(CreatureObject* member) {
 		RemovePetsFromGroupTask* task = new RemovePetsFromGroupTask(member, _this.getReferenceUnsafeStaticCast());
 		task->execute();
 
-		//Close any open Group SUIs.
+		// Close any open Group SUIs.
 		ManagedReference<PlayerObject*> ghost = member->getPlayerObject();
 		if (ghost != nullptr) {
 			ghost->closeSuiWindowType(SuiWindowType::GROUP_LOOT_RULE);
@@ -167,7 +166,7 @@ void GroupObjectImplementation::removeMember(CreatureObject* member) {
 			ghost->removeWaypointBySpecialType(WaypointObject::SPECIALTYPE_NEARESTMISSIONFORGROUP);
 		}
 
-		//Reset Master Looter if needed.
+		// Reset Master Looter if needed.
 		if (getMasterLooterID() == member->getObjectID()) {
 			ManagedReference<CreatureObject*> groupLeader = getLeader();
 			GroupManager::instance()->changeMasterLooter(_this.getReferenceUnsafeStaticCast(), groupLeader, false);
@@ -241,7 +240,7 @@ void GroupObjectImplementation::makeLeader(CreatureObject* player) {
 }
 
 void GroupObjectImplementation::disband() {
-	//Group is locked
+	// Group is locked
 
 	for (int i = 0; i < groupMembers.size(); i++) {
 		if (groupMembers.get(i) == nullptr)
@@ -288,7 +287,7 @@ bool GroupObjectImplementation::hasSquadLeader() {
 		return false;
 
 	if (leader->isPlayerCreature() && leader->hasSkill("outdoors_squadleader_novice")) {
-			return true;
+		return true;
 	}
 
 	return false;
@@ -376,7 +375,6 @@ void GroupObjectImplementation::removeGroupModifiers(CreatureObject* player) {
 }
 
 float GroupObjectImplementation::getGroupHarvestModifier(CreatureObject* player) {
-
 	String skillNovice = "outdoors_ranger_novice";
 	String skillMaster = "outdoors_ranger_master";
 
@@ -386,14 +384,11 @@ float GroupObjectImplementation::getGroupHarvestModifier(CreatureObject* player)
 		Reference<CreatureObject*> groupMember = getGroupMember(i);
 
 		if (groupMember->isPlayerCreature()) {
-
 			if (groupMember == player)
 				continue;
 
 			if (groupMember->hasSkill(skillNovice)) {
-
 				if (groupMember->isInRange(player, 64.0f)) {
-
 					if (groupMember->hasSkill(skillMaster)) {
 						modifier = 1.4f;
 						break;
@@ -417,13 +412,13 @@ void GroupObjectImplementation::calcGroupLevel() {
 		Reference<CreatureObject*> member = getGroupMember(i);
 
 		if (member->isPet()) {
-				ManagedReference<PetControlDevice*> pcd = member->getControlDevice().get().castTo<PetControlDevice*>();
+			ManagedReference<PetControlDevice*> pcd = member->getControlDevice().get().castTo<PetControlDevice*>();
 
-				if (pcd != nullptr && pcd->getPetType() == PetManager::FACTIONPET) {
-					factionPetLevel += member->getLevel() / 5;
-				}
+			if (pcd != nullptr && pcd->getPetType() == PetManager::FACTIONPET) {
+				factionPetLevel += member->getLevel() / 5;
+			}
 
-				groupLevel += member->getLevel() / 5;
+			groupLevel += member->getLevel() / 5;
 		} else if (member->isPlayerCreature()) {
 			int memberLevel = member->getLevel();
 
@@ -529,8 +524,7 @@ void GroupObjectImplementation::scheduleUpdateNearestMissionForGroup(unsigned in
 
 	if (task->isScheduled()) {
 		task->reschedule(10000);
-	}
-	else {
+	} else {
 		task->schedule(10000);
 	}
 }

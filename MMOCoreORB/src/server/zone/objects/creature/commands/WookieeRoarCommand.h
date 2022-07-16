@@ -10,14 +10,10 @@
 
 class WookieeRoarCommand : public CombatQueueCommand {
 public:
-
-	WookieeRoarCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
-
+	WookieeRoarCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -64,15 +60,13 @@ public:
 		}
 
 		player->sendSystemMessage("@innate:roar_active"); // You let out a mighty roar.
-		player->addCooldown("innate_roar", 300 * 1000); // 5min reuse time.
+		player->addCooldown("innate_roar", 300 * 1000);	  // 5min reuse time.
 
 		if (res == GENERALERROR)
 			creature->sendSystemMessage("@combat_effects:wookiee_roar_miss");
 
 		return res;
-
 	}
-
 };
 
-#endif //WOOKIEEROARCOMMAND_H_
+#endif // WOOKIEEROARCOMMAND_H_

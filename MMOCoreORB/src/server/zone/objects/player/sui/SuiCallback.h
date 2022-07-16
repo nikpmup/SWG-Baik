@@ -15,33 +15,31 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
 namespace player {
 
 namespace sui {
 
-	class SuiBox;
+class SuiBox;
 
-	class SuiCallback : public Object {
-	protected:
-		ManagedReference<ZoneServer*> server;
+class SuiCallback : public Object {
+protected:
+	ManagedReference<ZoneServer*> server;
 
-	public:
-		SuiCallback(ZoneServer* serv) {
-			server = serv;
-		}
+public:
+	SuiCallback(ZoneServer* serv) {
+		server = serv;
+	}
 
-		/**
-		 * @param player The player that this suibox is assigned to.
-		 * @param suiBox The actual SuiBox object.
-		 * @param eventIndex Index of the event triggered by SUI, cancel button usually returns 1
-		 * @param args A vector of UnicodeStrings containing the arguments passed to the sui box from the client.
-		 */
-		virtual void run(server::zone::objects::creature::CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) = 0;
-	};
-
-
+	/**
+	 * @param player The player that this suibox is assigned to.
+	 * @param suiBox The actual SuiBox object.
+	 * @param eventIndex Index of the event triggered by SUI, cancel button usually returns 1
+	 * @param args A vector of UnicodeStrings containing the arguments passed to the sui box from the client.
+	 */
+	virtual void run(server::zone::objects::creature::CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) = 0;
+};
 
 /*
  * Usage:
@@ -51,25 +49,23 @@ registerObserver(ObserverEventType::CREATUREREVIVED, new LambdaObserver(
 }, "TestObserver")));
 */
 
-	class LambdaSuiCallback : public SuiCallback {
-		LambdaFunction<std::function<void(server::zone::objects::creature::CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args)> > function;
+class LambdaSuiCallback : public SuiCallback {
+	LambdaFunction<std::function<void(server::zone::objects::creature::CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args)>> function;
 
-	public:
-		template<class L>
-		LambdaSuiCallback(L&& l, ZoneServer* zserver, const char* name) : SuiCallback(zserver), function(std::forward<L>(l)) {
+public:
+	template <class L>
+	LambdaSuiCallback(L&& l, ZoneServer* zserver, const char* name) : SuiCallback(zserver), function(std::forward<L>(l)) {
+	}
 
-		}
-
-		virtual void run(server::zone::objects::creature::CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
-			return function.getLambda()(player, suiBox, eventIndex, args);
-		}
-
-	};
-}
-}
-}
-}
-}
+	virtual void run(server::zone::objects::creature::CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
+		return function.getLambda()(player, suiBox, eventIndex, args);
+	}
+};
+} // namespace sui
+} // namespace player
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::player::sui;
 

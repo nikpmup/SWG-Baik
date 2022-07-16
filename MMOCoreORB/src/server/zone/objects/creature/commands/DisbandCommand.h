@@ -10,14 +10,10 @@
 
 class DisbandCommand : public QueueCommand {
 public:
-
-	DisbandCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DisbandCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -31,8 +27,8 @@ public:
 		if (group == nullptr)
 			return GENERALERROR;
 
-		//If player not is leader, he will leave the group instead.
-		//Fix 13 feb 2009 - Bankler
+		// If player not is leader, he will leave the group instead.
+		// Fix 13 feb 2009 - Bankler
 		if (creature != group->getLeader())
 			groupManager->leaveGroup(group.get(), creature);
 		else
@@ -40,8 +36,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DISBANDCOMMAND_H_
-
+#endif // DISBANDCOMMAND_H_

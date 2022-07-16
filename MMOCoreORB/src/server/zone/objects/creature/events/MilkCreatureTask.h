@@ -10,9 +10,8 @@
 #include "engine/engine.h"
 
 class MilkCreatureTask : public Task {
-
 private:
-	enum Phase { INITIAL, ONESUCCESS, ONEFAILURE, FINAL} currentPhase;
+	enum Phase { INITIAL, ONESUCCESS, ONEFAILURE, FINAL } currentPhase;
 	ManagedReference<Creature*> creature;
 	ManagedReference<CreatureObject*> player;
 
@@ -47,7 +46,7 @@ public:
 		if (player->hasBuff(STRING_HASHCODE("skill_buff_mask_scent_self"))) {
 			skill += player->getSkillMod("mask_scent");
 		} else if (player->hasBuff(STRING_HASHCODE("skill_buff_mask_scent"))) {
-			skill +=  player->getSkillMod("private_conceal");
+			skill += player->getSkillMod("private_conceal");
 		}
 
 		failureChance /= (skill / 100);
@@ -67,12 +66,12 @@ public:
 			break;
 		case ONESUCCESS:
 			if (success) {
-					player->sendSystemMessage("@skl_use:milk_success"); // You have successfully gathered milk from the creature!
-					giveMilkToPlayer();
+				player->sendSystemMessage("@skl_use:milk_success"); // You have successfully gathered milk from the creature!
+				giveMilkToPlayer();
 			} else {
-					player->sendSystemMessage("@skl_use:milk_continue"); // You continue to milk the creature.
-					currentPhase = FINAL;
-					this->reschedule(10000);
+				player->sendSystemMessage("@skl_use:milk_continue"); // You continue to milk the creature.
+				currentPhase = FINAL;
+				this->reschedule(10000);
 			}
 			break;
 		case ONEFAILURE:

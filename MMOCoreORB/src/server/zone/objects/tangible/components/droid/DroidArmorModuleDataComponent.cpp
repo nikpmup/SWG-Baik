@@ -12,7 +12,6 @@ DroidArmorModuleDataComponent::DroidArmorModuleDataComponent() {
 }
 
 DroidArmorModuleDataComponent::~DroidArmorModuleDataComponent() {
-
 }
 
 String DroidArmorModuleDataComponent::getModuleName() const {
@@ -20,7 +19,6 @@ String DroidArmorModuleDataComponent::getModuleName() const {
 }
 
 void DroidArmorModuleDataComponent::initializeTransientMembers() {
-
 	// Pull module stat from parent sceno
 	DroidComponent* droidComponent = cast<DroidComponent*>(getParent());
 	if (droidComponent == nullptr) {
@@ -47,22 +45,18 @@ void DroidArmorModuleDataComponent::initialize(DroidObject* droid) {
 	// Set armor type
 	if (level == 0) {
 		armor = 0; // NO ARMOR
-	}
-	else if (level <= 3) {
+	} else if (level <= 3) {
 		armor = 1; // LIGHT ARMOR
-	}
-	else if (level <= 6) {
+	} else if (level <= 6) {
 		armor = 2; // MEDIUM ARMOR
 	}
 
 	// Set damage resistance
 	if (level == 1 || level == 4) {
 		resist = 15;
-	}
-	else if (level == 2 || level == 5) {
+	} else if (level == 2 || level == 5) {
 		resist = 25;
-	}
-	else if (level == 3 || level == 6) {
+	} else if (level == 3 || level == 6) {
 		resist = 40;
 	} else {
 		resist = 0;
@@ -90,7 +84,6 @@ void DroidArmorModuleDataComponent::updateCraftingValues(CraftingValues* values,
 }
 
 void DroidArmorModuleDataComponent::addToStack(BaseDroidModuleComponent* other) {
-
 	DroidArmorModuleDataComponent* otherModule = cast<DroidArmorModuleDataComponent*>(other);
 	if (otherModule == nullptr)
 		return;
@@ -103,14 +96,13 @@ void DroidArmorModuleDataComponent::addToStack(BaseDroidModuleComponent* other) 
 		return;
 
 	// Attribute should have already been created in copy method
-	if (!droidComponent->changeAttributeValue( "armor_module", armorModule)) {
-		info( "addToStack updateAttributeValue failed");
+	if (!droidComponent->changeAttributeValue("armor_module", armorModule)) {
+		info("addToStack updateAttributeValue failed");
 		return;
 	}
 }
 
 void DroidArmorModuleDataComponent::copy(BaseDroidModuleComponent* other) {
-
 	DroidArmorModuleDataComponent* otherModule = cast<DroidArmorModuleDataComponent*>(other);
 	if (otherModule == nullptr)
 		return;

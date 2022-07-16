@@ -10,13 +10,10 @@
 
 class RallyCommand : public SquadLeaderCommand {
 public:
-
-	RallyCommand(const String& name, ZoneProcessServer* server)
-		: SquadLeaderCommand(name, server) {
+	RallyCommand(const String& name, ZoneProcessServer* server) : SquadLeaderCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -32,7 +29,7 @@ public:
 		if (!checkGroupLeader(player, group))
 			return GENERALERROR;
 
-		int hamCost = (int) (100.0f * calculateGroupModifier(group));
+		int hamCost = (int)(100.0f * calculateGroupModifier(group));
 
 		int healthCost = creature->calculateCostAdjustment(CreatureAttribute::STRENGTH, hamCost);
 		int actionCost = creature->calculateCostAdjustment(CreatureAttribute::QUICKNESS, hamCost);
@@ -101,8 +98,8 @@ public:
 			checkForTef(leader, member);
 		}
 
-//		What is this used for?
-//		leader->updateCooldownTimer("rally", (duration + 30) * 1000);
+		//		What is this used for?
+		//		leader->updateCooldownTimer("rally", (duration + 30) * 1000);
 
 		return true;
 	}
@@ -128,7 +125,7 @@ public:
 		  For leader or group member, defender has to be any third party object.
 		  For bystanders, the defender is themselves.*/
 
-		//Send to group members if they are on the same planet.
+		// Send to group members if they are on the same planet.
 		for (int i = 0; i < group->getGroupSize(); i++) {
 			ManagedReference<CreatureObject*> member = group->getGroupMember(i);
 			if (member == nullptr || !member->isPlayerCreature() || member->getZone() != leader->getZone())
@@ -138,8 +135,8 @@ public:
 			member->sendMessage(spam);
 		}
 
-		//Send to players near the leader and not in group.
-		CloseObjectsVector* vec = (CloseObjectsVector*) leader->getCloseObjects();
+		// Send to players near the leader and not in group.
+		CloseObjectsVector* vec = (CloseObjectsVector*)leader->getCloseObjects();
 		SortedVector<QuadTreeEntry*> closeObjects;
 		if (vec != nullptr) {
 			closeObjects.removeAll(vec->size(), 10);
@@ -152,17 +149,16 @@ public:
 		}
 
 		for (int i = 0; i < closeObjects.size(); ++i) {
-			SceneObject* object = cast<SceneObject*>( closeObjects.get(i));
+			SceneObject* object = cast<SceneObject*>(closeObjects.get(i));
 			if (object == nullptr || !object->isPlayerCreature() || !checkDistance(leader, object, 70) || group->hasMember(object->getObjectID()))
 				continue;
 
-			CreatureObject* receiver = cast<CreatureObject*>( object); //in range player who isn't in group.
+			CreatureObject* receiver = cast<CreatureObject*>(object); // in range player who isn't in group.
 
 			CombatSpam* spam = new CombatSpam(leader, receiver, receiver, nullptr, 0, "cbt_spam", stringName, color);
 			receiver->sendMessage(spam);
 		}
 	}
-
 };
 
-#endif //RALLYCOMMAND_H_
+#endif // RALLYCOMMAND_H_

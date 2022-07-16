@@ -8,7 +8,6 @@
 #ifndef ARMOROBJECTTEMPLATE_H_
 #define ARMOROBJECTTEMPLATE_H_
 
-
 #include "templates/SharedTangibleObjectTemplate.h"
 
 class ArmorObjectTemplate : public SharedTangibleObjectTemplate {
@@ -34,7 +33,6 @@ class ArmorObjectTemplate : public SharedTangibleObjectTemplate {
 	uint8 hitLocation;
 
 public:
-
 	// hit locations (for serverside armor checks)
 	enum SuitLocations { NOLOCATION = 0x0, CHEST = 0x1, ARMS = 0x2, LEGS = 0x4, HEAD = 0x8 };
 
@@ -62,7 +60,6 @@ public:
 	}
 
 	~ArmorObjectTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -214,6 +211,5 @@ public:
 		return true;
 	}
 };
-
 
 #endif /* ARMOROBJECTTEMPLATE_H_ */

@@ -9,7 +9,6 @@
 #include "templates/SharedTangibleObjectTemplate.h"
 
 class DroidPersonalityModuleTemplate : public SharedTangibleObjectTemplate {
-
 protected:
 	String reactionName;
 	String attrName;
@@ -17,8 +16,10 @@ protected:
 	String personalityStf;
 
 public:
-	DroidPersonalityModuleTemplate()  {}
-	~DroidPersonalityModuleTemplate() {}
+	DroidPersonalityModuleTemplate() {
+	}
+	~DroidPersonalityModuleTemplate() {
+	}
 
 	void readObject(LuaObject* templateData) {
 		SharedTangibleObjectTemplate::readObject(templateData);
@@ -44,9 +45,9 @@ public:
 		return personalityStf;
 	}
 
-	 bool isDroidPersonalityModuleTemplate() {
-		 return true;
-	 }
+	bool isDroidPersonalityModuleTemplate() {
+		return true;
+	}
 };
 
 #endif /*DROIDPERSONALITYMODULETEMPLATE_H_*/

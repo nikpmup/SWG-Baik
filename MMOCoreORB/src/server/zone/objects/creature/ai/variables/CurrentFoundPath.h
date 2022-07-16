@@ -12,9 +12,6 @@
 
 #include "server/zone/objects/scene/WorldCoordinates.h"
 
-class CurrentFoundPath : public Vector<WorldCoordinates> {
-
-};
-
+class CurrentFoundPath : public Vector<WorldCoordinates> {};
 
 #endif /* CURRENTFOUNDPATH_H_ */

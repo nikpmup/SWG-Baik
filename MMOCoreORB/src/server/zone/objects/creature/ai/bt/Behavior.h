@@ -14,20 +14,20 @@
 #include "BlackboardData.h"
 #include "BehaviorTreeSlot.h"
 
-#define _ARGPAIR(bigT, getter) \
-template <> \
-struct getArg<bigT> { \
-	bigT operator()(LuaObject args, const String& key) { \
-		if (!args.isValidTable()) \
-			return static_cast<bigT>(0); \
-		return static_cast<bigT>(args.getter(key)); \
-	} \
-	bigT operator()(LuaObject args, const String& key, bigT defaultVal) { \
-		if (!args.isValidTable()) \
-			return defaultVal; \
-		return static_cast<bigT>(args.getter(key, defaultVal)); \
-	} \
-};
+#define _ARGPAIR(bigT, getter)                                                \
+	template <>                                                               \
+	struct getArg<bigT> {                                                     \
+		bigT operator()(LuaObject args, const String& key) {                  \
+			if (!args.isValidTable())                                         \
+				return static_cast<bigT>(0);                                  \
+			return static_cast<bigT>(args.getter(key));                       \
+		}                                                                     \
+		bigT operator()(LuaObject args, const String& key, bigT defaultVal) { \
+			if (!args.isValidTable())                                         \
+				return defaultVal;                                            \
+			return static_cast<bigT>(args.getter(key, defaultVal));           \
+		}                                                                     \
+	};
 
 namespace server {
 namespace zone {
@@ -44,12 +44,12 @@ class AiAgent;
 
 namespace bt {
 
-template<typename T> struct getArg {
-};
+template <typename T>
+struct getArg {};
 // String is special...
-template<> struct getArg<String> {
-	String operator()(LuaObject args, const String& key,
-			const char* defaultVal = "") {
+template <>
+struct getArg<String> {
+	String operator()(LuaObject args, const String& key, const char* defaultVal = "") {
 		return args.getStringField(key, defaultVal);
 	}
 };
@@ -67,7 +67,7 @@ namespace node {
 class Composite;
 }
 
-class Behavior: public Object {
+class Behavior : public Object {
 protected:
 	String className;
 	uint32 id;
@@ -75,11 +75,11 @@ protected:
 
 public:
 	enum Status {
-		INVALID,   // finished without result
-		SUCCESS,   // finished with success
-		FAILURE,   // finished with failure
-		RUNNING,   // running and not finished
-		SUSPEND,   // not yet started, or temporarily paused
+		INVALID, // finished without result
+		SUCCESS, // finished with success
+		FAILURE, // finished with failure
+		RUNNING, // running and not finished
+		SUSPEND, // not yet started, or temporarily paused
 	};
 
 	/**
@@ -88,8 +88,7 @@ public:
 	 */
 	Behavior(const String& className, const uint32 id, const LuaObject& args);
 
-	Behavior(const Behavior& b) :
-			Object(), className(b.className), id(b.id), parent(b.parent) {
+	Behavior(const Behavior& b) : Object(), className(b.className), id(b.id), parent(b.parent) {
 	}
 
 	Behavior& operator=(const Behavior& b) {
@@ -177,8 +176,7 @@ protected:
 	 * @param startIdx The start index for children (unused for leafs)
 	 * @return The result of the execution
 	 */
-	virtual Behavior::Status execute(AiAgent* agent,
-			unsigned int startIdx = 0) const = 0;
+	virtual Behavior::Status execute(AiAgent* agent, unsigned int startIdx = 0) const = 0;
 
 	/**
 	 * Virtual to provide termination logic
@@ -200,11 +198,11 @@ public:
 	virtual Behavior::Status doAction(AiAgent* agent) const;
 };
 
-}
-}
-}
-}
-}
-}
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif /* BEHAVIOR_H_ */

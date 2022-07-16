@@ -17,7 +17,7 @@ class WorldSnapshotNode : public Object {
 	uint32 objectID;
 	uint32 parentID;
 	uint32 nameID;
-	uint32 cellid; //cellid in the cells
+	uint32 cellid; // cellid in the cells
 
 	Quaternion direction;
 	Vector3 position;
@@ -27,7 +27,6 @@ class WorldSnapshotNode : public Object {
 
 public:
 	WorldSnapshotNode() : Object(), objectID(0), parentID(0), nameID(0), cellid(0), gameObjectType(0), unknown2(0) {
-
 	}
 
 	WorldSnapshotNode(const WorldSnapshotNode& wsn) : Object() {
@@ -42,7 +41,7 @@ public:
 		unknown2 = wsn.unknown2;
 	}
 
-	WorldSnapshotNode& operator= (const WorldSnapshotNode& wsn) {
+	WorldSnapshotNode& operator=(const WorldSnapshotNode& wsn) {
 		if (this == &wsn)
 			return *this;
 
@@ -66,8 +65,7 @@ public:
 		Chunk* versionForm = iffStream->openForm(version);
 
 		switch (version) {
-		case '0000':
-		{
+		case '0000': {
 			Chunk* data = iffStream->openChunk('DATA');
 			objectID = data->readInt();
 			parentID = data->readInt();
@@ -90,8 +88,7 @@ public:
 			unknown2 = data->readInt();
 
 			iffStream->closeChunk('DATA');
-		}
-			break;
+		} break;
 		default:
 			break;
 		}

@@ -11,17 +11,12 @@
 #include "server/zone/managers/crafting/ComponentMap.h"
 #include "server/zone/objects/tangible/terminal/characterbuilder/CharacterBuilderTerminal.h"
 
-
 class ObjectCommand : public QueueCommand {
 public:
-
-	ObjectCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ObjectCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -39,7 +34,7 @@ public:
 				args.getStringToken(objectTemplate);
 
 				ManagedReference<CraftingManager*> craftingManager = creature->getZoneServer()->getCraftingManager();
-				if(craftingManager == nullptr) {
+				if (craftingManager == nullptr) {
 					return GENERALERROR;
 				}
 
@@ -73,7 +68,7 @@ public:
 				object->setCraftersName(name);
 
 				StringBuffer customName;
-				customName << object->getDisplayedName() <<  " (System Generated)";
+				customName << object->getDisplayedName() << " (System Generated)";
 
 				object->setCustomObjectName(customName.toString(), false);
 
@@ -85,7 +80,7 @@ public:
 				if (args.hasMoreTokens())
 					quantity = args.getIntToken();
 
-				if(quantity > 1 && quantity <= 100)
+				if (quantity > 1 && quantity <= 100)
 					object->setUseCount(quantity);
 
 				// load visible components
@@ -155,10 +150,10 @@ public:
 				if (args.hasMoreTokens())
 					range = args.getIntToken();
 
-				if( range < 0 )
+				if (range < 0)
 					range = 32;
 
-				if( range > 128 )
+				if (range > 128)
 					range = 128;
 
 				int level = 1;
@@ -175,7 +170,7 @@ public:
 
 				// Find all objects in range
 				SortedVector<QuadTreeEntry*> closeObjects;
-				CloseObjectsVector* closeObjectsVector = (CloseObjectsVector*) creature->getCloseObjects();
+				CloseObjectsVector* closeObjectsVector = (CloseObjectsVector*)creature->getCloseObjects();
 				if (closeObjectsVector == nullptr) {
 					zone->getInRangeObjects(creature->getPositionX(), creature->getPositionY(), range, &closeObjects, true);
 				} else {
@@ -187,9 +182,8 @@ public:
 					SceneObject* targetObject = static_cast<SceneObject*>(closeObjects.get(i));
 
 					if (targetObject->isPlayerCreature() && creature->isInRange(targetObject, range)) {
-
 						CreatureObject* targetPlayer = cast<CreatureObject*>(targetObject);
-						Locker tlock( targetPlayer, creature );
+						Locker tlock(targetPlayer, creature);
 
 						ManagedReference<SceneObject*> inventory = targetPlayer->getSlottedObject("inventory");
 						if (inventory != nullptr) {
@@ -198,7 +192,7 @@ public:
 							if (lootManager->createLoot(trx, inventory, lootGroup, level) > 0) {
 								creature->info(true) << "/object creatlootarea " << lootGroup << " trxId: " << trx.getTrxID();
 								trx.commit(true);
-								targetPlayer->sendSystemMessage( "You have received a loot item!");
+								targetPlayer->sendSystemMessage("You have received a loot item!");
 							} else {
 								trx.abort() << "createLoot failed for lootGroup " << lootGroup << " level " << level;
 							}
@@ -225,7 +219,7 @@ public:
 				ZoneServer* zserv = server->getZoneServer();
 
 				String blueFrogTemplate = "object/tangible/terminal/terminal_character_builder.iff";
-				ManagedReference<CharacterBuilderTerminal*> blueFrog = ( zserv->createObject(blueFrogTemplate.hashCode(), 0)).castTo<CharacterBuilderTerminal*>();
+				ManagedReference<CharacterBuilderTerminal*> blueFrog = (zserv->createObject(blueFrogTemplate.hashCode(), 0)).castTo<CharacterBuilderTerminal*>();
 
 				if (blueFrog == nullptr)
 					return GENERALERROR;
@@ -246,7 +240,8 @@ public:
 				else
 					creature->getZone()->transferObject(blueFrog, -1, true);
 
-				creature->info(true) << "/object characterbuilder " << " created oid: " << blueFrog->getObjectID() << " \"" << blueFrog->getDisplayedName() << "\" as " << creature->getWorldPosition() << " on " << creature->getZone()->getZoneName();
+				creature->info(true) << "/object characterbuilder "
+									 << " created oid: " << blueFrog->getObjectID() << " \"" << blueFrog->getDisplayedName() << "\" as " << creature->getWorldPosition() << " on " << creature->getZone()->getZoneName();
 			}
 
 		} catch (Exception& e) {
@@ -256,13 +251,12 @@ public:
 			creature->sendSystemMessage("SYNTAX: /object createarealoot <loottemplate> [<range>] [<level>]");
 			creature->sendSystemMessage("SYNTAX: /object checklooted");
 			creature->sendSystemMessage("SYNTAX: /object characterbuilder");
-                  
+
 			return INVALIDPARAMETERS;
 		}
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //OBJECTCOMMAND_H_
+#endif // OBJECTCOMMAND_H_

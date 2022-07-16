@@ -25,7 +25,6 @@ public:
 
 		return 0;
 	}
-
 };
 
 #endif /* REVISIONINFOCOMMAND_H_ */

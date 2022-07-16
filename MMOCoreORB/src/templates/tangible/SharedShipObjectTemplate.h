@@ -15,13 +15,12 @@ class SharedShipObjectTemplate : public SharedTangibleObjectTemplate {
 	StringParam cockpitFilename;
 	BoolParam hasWings;
 	BoolParam playerControlled;
+
 public:
 	SharedShipObjectTemplate() {
-
 	}
 
 	~SharedShipObjectTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -48,7 +47,7 @@ public:
 		iffStream->closeChunk('PCNT');
 
 		for (int i = 0; i < variableCount; ++i) {
-			//while (iffStream->getRemainingSubChunksNumber() > 0) {
+			// while (iffStream->getRemainingSubChunksNumber() > 0) {
 			Chunk* chunk = iffStream->openChunk('XXXX');
 
 			if (chunk == nullptr)
@@ -58,7 +57,7 @@ public:
 
 			iffStream->getString(varName);
 
-			//std::cout << "parsing wtf shit:[" << varName.toStdString() << "]\n";
+			// std::cout << "parsing wtf shit:[" << varName.toStdString() << "]\n";
 			parseVariableData(varName, chunk);
 
 			iffStream->closeChunk();
@@ -69,7 +68,7 @@ public:
 		uint32 nextType = iffStream->getNextFormType();
 
 		if (nextType != 'SSHP') {
-			//Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
+			// Logger::console.error("expecting SHOT got " + String::hexvalueOf((int)nextType));
 
 			SharedTangibleObjectTemplate::readObject(iffStream);
 

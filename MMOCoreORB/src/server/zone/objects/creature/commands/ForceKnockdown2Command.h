@@ -9,14 +9,10 @@
 
 class ForceKnockdown2Command : public ForcePowersQueueCommand {
 public:
-
-	ForceKnockdown2Command(const String& name, ZoneProcessServer* server)
-		: ForcePowersQueueCommand(name, server) {
-
+	ForceKnockdown2Command(const String& name, ZoneProcessServer* server) : ForcePowersQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -35,7 +31,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //FORCEKNOCKDOWN2COMMAND_H_
+#endif // FORCEKNOCKDOWN2COMMAND_H_

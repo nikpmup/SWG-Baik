@@ -18,16 +18,16 @@ namespace creature {
 namespace events {
 
 class ThrowTrapTask : public Task {
-	ManagedReference<CreatureObject* > player;
-	ManagedReference<CreatureObject* > target;
+	ManagedReference<CreatureObject*> player;
+	ManagedReference<CreatureObject*> target;
 	ManagedReference<Buff*> buff;
 	StringIdChatParameter message;
 	int damage;
 	short pool;
 	bool hit;
+
 public:
-	ThrowTrapTask(CreatureObject* p, CreatureObject* t,
-			Buff* b, const StringIdChatParameter& m, short po, int d, bool h) : Task(2300) {
+	ThrowTrapTask(CreatureObject* p, CreatureObject* t, Buff* b, const StringIdChatParameter& m, short po, int d, bool h) : Task(2300) {
 		player = p;
 		target = t;
 		buff = b;
@@ -50,14 +50,13 @@ public:
 
 		Locker locker(target, player);
 
-		if(!CombatManager::instance()->startCombat(player, target))
+		if (!CombatManager::instance()->startCombat(player, target))
 			return;
 
 		player->sendSystemMessage(message);
 
-		if(hit) {
-
-			if(buff != nullptr) {
+		if (hit) {
+			if (buff != nullptr) {
 				Locker buffLocker(buff);
 
 				target->addBuff(buff);
@@ -70,22 +69,21 @@ public:
 			if (target->isAiAgent() && target->asAiAgent()->isEventMob())
 				eventMob = true;
 
-			//Not sure on exact xp value, estimate now and update later
+			// Not sure on exact xp value, estimate now and update later
 			int xp = target->getLevel() * 15;
 			ManagedReference<PlayerManager*> playerManager = player->getZoneServer()->getPlayerManager();
 
 			if (playerManager != nullptr && !eventMob)
 				playerManager->awardExperience(player, "trapping", xp, true);
 		}
-
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace events
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::events;
 

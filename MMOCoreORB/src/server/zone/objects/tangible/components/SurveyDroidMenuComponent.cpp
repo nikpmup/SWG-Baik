@@ -27,7 +27,7 @@ int SurveyDroidMenuComponent::handleObjectMenuSelect(SceneObject* droidObject, C
 	if (!player->isPlayerCreature()) {
 		return 0;
 	}
-	TangibleObject* tano = cast<TangibleObject*>( droidObject);
+	TangibleObject* tano = cast<TangibleObject*>(droidObject);
 
 	if (selectedID == 20) { // Use radial menu
 		// check for inventory
@@ -44,7 +44,7 @@ int SurveyDroidMenuComponent::handleObjectMenuSelect(SceneObject* droidObject, C
 			return 0;
 		}
 		ManagedReference<InterplanetarySurveyDroidSession*> session = new InterplanetarySurveyDroidSession(player);
-		player->addActiveSession(SessionFacadeType::INTERPLANETARYSURVEYDROID,session);
+		player->addActiveSession(SessionFacadeType::INTERPLANETARYSURVEYDROID, session);
 		session->initalizeDroid(tano);
 		return 0;
 	} else {

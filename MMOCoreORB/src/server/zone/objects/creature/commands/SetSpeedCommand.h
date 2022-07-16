@@ -7,14 +7,10 @@
 
 class SetSpeedCommand : public QueueCommand {
 public:
-
-	SetSpeedCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetSpeedCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -45,7 +41,7 @@ public:
 		StringIdChatParameter startMessage("admin", "Speed set to " + String::valueOf(speed) + " for " + String::valueOf(duration) + " minutes.");
 		StringIdChatParameter endMessage("admin", "Speed has been reset to default.");
 
-		duration *= 60; //Convert duration to seconds.
+		duration *= 60; // Convert duration to seconds.
 
 		uint32 buffCRC = STRING_HASHCODE("setSpeed");
 
@@ -62,7 +58,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETSPEEDCOMMAND_H_
+#endif // SETSPEEDCOMMAND_H_

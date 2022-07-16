@@ -10,8 +10,7 @@
 
 class PlayerObjectMessage3 : public IntangibleObjectMessage3 {
 public:
-	PlayerObjectMessage3(PlayerObject* play)
-			: IntangibleObjectMessage3(play, 0x504C4159, 0x0B) {
+	PlayerObjectMessage3(PlayerObject* play) : IntangibleObjectMessage3(play, 0x504C4159, 0x0B) {
 		/*insertFloat(1);
 
 		insertAscii("String_id_table");
@@ -42,7 +41,6 @@ public:
 
 		setSize();
 	}
-
 };
 
 #endif /*PLAYEROBJECTMESSAGE3_H_*/

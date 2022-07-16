@@ -16,10 +16,8 @@ public:
 		if (!creature->isPlayerCreature())
 			return 1;
 
-
 		return 0;
 	}
-
 };
 
 #endif /* VENDORINFOCOMMAND_H_ */

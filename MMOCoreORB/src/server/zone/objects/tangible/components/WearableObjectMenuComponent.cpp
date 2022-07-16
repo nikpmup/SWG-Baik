@@ -22,7 +22,6 @@ void WearableObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObjec
 	}
 
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
-
 }
 
 int WearableObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
@@ -30,11 +29,11 @@ int WearableObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject
 		return 0;
 
 	if (selectedID == 70) {
-		if(!sceneObject->isTangibleObject())
+		if (!sceneObject->isTangibleObject())
 			return 0;
 
 		TangibleObject* tano = cast<TangibleObject*>(sceneObject);
-		if(tano == nullptr)
+		if (tano == nullptr)
 			return 0;
 
 		tano->repair(player);

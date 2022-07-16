@@ -19,85 +19,82 @@
 
 const char LuaPlayerObject::className[] = "LuaPlayerObject";
 
-Luna<LuaPlayerObject>::RegType LuaPlayerObject::Register[] = {
-		{ "_setObject", &LuaPlayerObject::_setObject },
-		{ "_getObject", &LuaSceneObject::_getObject },
-		{ "getFactionStanding", &LuaPlayerObject::getFactionStanding },
-		{ "increaseFactionStanding", &LuaPlayerObject::increaseFactionStanding },
-		{ "decreaseFactionStanding", &LuaPlayerObject::decreaseFactionStanding },
-		{ "setFactionStanding", &LuaPlayerObject::setFactionStanding },
-		{ "addWaypoint", &LuaPlayerObject::addWaypoint },
-		{ "removeWaypoint", &LuaPlayerObject::removeWaypoint },
-		{ "removeWaypointBySpecialType", &LuaPlayerObject::removeWaypointBySpecialType },
-		{ "getWaypointAt", &LuaPlayerObject::getWaypointAt },
-		{ "updateWaypoint", &LuaPlayerObject::updateWaypoint },
-		{ "addRewardedSchematic", &LuaPlayerObject::addRewardedSchematic },
-		{ "removeRewardedSchematic", &LuaPlayerObject::removeRewardedSchematic },
-		{ "hasSchematic", &LuaPlayerObject::hasSchematic },
-		{ "addPermissionGroup", &LuaPlayerObject::addPermissionGroup },
-		{ "removePermissionGroup", &LuaPlayerObject::removePermissionGroup },
-		{ "hasPermissionGroup", &LuaPlayerObject::hasPermissionGroup },
-		{ "awardBadge", &LuaPlayerObject::awardBadge },
-		{ "hasBadge", &LuaPlayerObject::hasBadge },
-		{ "addHologrindProfession", &LuaPlayerObject::addHologrindProfession },
-		{ "getHologrindProfessions", &LuaPlayerObject::getHologrindProfessions },
-		{ "getForcePower", &LuaPlayerObject::getForcePower },
-		{ "getForcePowerMax", &LuaPlayerObject::getForcePowerMax },
-		{ "setForcePower", &LuaPlayerObject::setForcePower },
-		{ "isJedi", &LuaPlayerObject::isJedi },
-		{ "isJediLight", &LuaPlayerObject::isJediLight },
-		{ "isJediDark", &LuaPlayerObject::isJediDark },
-		{ "setJediState", &LuaPlayerObject::setJediState },
-		{ "getJediState", &LuaPlayerObject::getJediState },
-		{ "isOnline", &LuaPlayerObject::isOnline },
-		{ "activateJournalQuest", &LuaPlayerObject::activateJournalQuest },
-		{ "completeJournalQuest", &LuaPlayerObject::completeJournalQuest },
-		{ "clearJournalQuest", &LuaPlayerObject::clearJournalQuest },
-		{ "activateJournalQuestTask", &LuaPlayerObject::activateJournalQuestTask },
-		{ "completeJournalQuestTask", &LuaPlayerObject::completeJournalQuestTask },
-		{ "clearJournalQuestTask", &LuaPlayerObject::clearJournalQuestTask },
-		{ "isJournalQuestActive", &LuaPlayerObject::isJournalQuestActive },
-		{ "isJournalQuestComplete", &LuaPlayerObject::isJournalQuestComplete },
-		{ "isJournalQuestTaskActive", &LuaPlayerObject::isJournalQuestTaskActive },
-		{ "isJournalQuestTaskComplete", &LuaPlayerObject::isJournalQuestTaskComplete },
-		{ "setActiveQuestsBit", &LuaPlayerObject::setActiveQuestsBit },
-		{ "clearActiveQuestsBit", &LuaPlayerObject::clearActiveQuestsBit },
-		{ "hasActiveQuestBitSet", &LuaPlayerObject::hasActiveQuestBitSet },
-		{ "hasCompletedQuestsBitSet", &LuaPlayerObject::hasCompletedQuestsBitSet },
-		{ "setCompletedQuestsBit", &LuaPlayerObject::setCompletedQuestsBit },
-		{ "clearCompletedQuestsBit", &LuaPlayerObject::clearCompletedQuestsBit },
-		{ "hasAbility", &LuaPlayerObject::hasAbility},
-		{ "addAbility", &LuaPlayerObject::addAbility},
-		{ "getExperience", &LuaPlayerObject::getExperience },
-		{ "addEventPerk", &LuaPlayerObject::addEventPerk},
-		{ "getEventPerkCount", &LuaPlayerObject::getEventPerkCount},
-		{ "hasEventPerk", &LuaPlayerObject::hasEventPerk},
-		{ "getCharacterAgeInDays", &LuaPlayerObject::getCharacterAgeInDays},
-		{ "hasGodMode", &LuaPlayerObject::hasGodMode},
-		{ "isPrivileged", &LuaPlayerObject::isPrivileged},
-		{ "closeSuiWindowType", &LuaPlayerObject::closeSuiWindowType},
-		{ "getExperienceList", &LuaPlayerObject::getExperienceList},
-		{ "getExperienceCap", &LuaPlayerObject::getExperienceCap},
-		{ "activateQuest", &LuaPlayerObject::activateQuest },
-		{ "canActivateQuest", &LuaPlayerObject::canActivateQuest },
-		{ "getSuiBox", &LuaPlayerObject::getSuiBox },
-		{ "addSuiBox", &LuaPlayerObject::addSuiBox },
-		{ "removeSuiBox", &LuaPlayerObject::removeSuiBox },
-		{ "isJediTrainer", &LuaPlayerObject::isJediTrainer },
-		{ "getVisibility", &LuaPlayerObject::getVisibility },
-		{ "setFrsCouncil", &LuaPlayerObject::setFrsCouncil },
-		{ "setFrsRank", &LuaPlayerObject::setFrsRank },
-		{ "getFrsRank", &LuaPlayerObject::getFrsRank },
-		{ "getFrsCouncil", &LuaPlayerObject::getFrsCouncil },
-		{ "startSlicingSession", &LuaPlayerObject::startSlicingSession },
-		{ "setVisibility", &LuaPlayerObject::setVisibility },
-		{ "getPlayedTimeString", &LuaPlayerObject::getPlayedTimeString },
-		{ "getAccountID", &LuaPlayerObject::getAccountID },
-		{ 0, 0 }
-};
+Luna<LuaPlayerObject>::RegType LuaPlayerObject::Register[] = {{"_setObject", &LuaPlayerObject::_setObject},
+															  {"_getObject", &LuaSceneObject::_getObject},
+															  {"getFactionStanding", &LuaPlayerObject::getFactionStanding},
+															  {"increaseFactionStanding", &LuaPlayerObject::increaseFactionStanding},
+															  {"decreaseFactionStanding", &LuaPlayerObject::decreaseFactionStanding},
+															  {"setFactionStanding", &LuaPlayerObject::setFactionStanding},
+															  {"addWaypoint", &LuaPlayerObject::addWaypoint},
+															  {"removeWaypoint", &LuaPlayerObject::removeWaypoint},
+															  {"removeWaypointBySpecialType", &LuaPlayerObject::removeWaypointBySpecialType},
+															  {"getWaypointAt", &LuaPlayerObject::getWaypointAt},
+															  {"updateWaypoint", &LuaPlayerObject::updateWaypoint},
+															  {"addRewardedSchematic", &LuaPlayerObject::addRewardedSchematic},
+															  {"removeRewardedSchematic", &LuaPlayerObject::removeRewardedSchematic},
+															  {"hasSchematic", &LuaPlayerObject::hasSchematic},
+															  {"addPermissionGroup", &LuaPlayerObject::addPermissionGroup},
+															  {"removePermissionGroup", &LuaPlayerObject::removePermissionGroup},
+															  {"hasPermissionGroup", &LuaPlayerObject::hasPermissionGroup},
+															  {"awardBadge", &LuaPlayerObject::awardBadge},
+															  {"hasBadge", &LuaPlayerObject::hasBadge},
+															  {"addHologrindProfession", &LuaPlayerObject::addHologrindProfession},
+															  {"getHologrindProfessions", &LuaPlayerObject::getHologrindProfessions},
+															  {"getForcePower", &LuaPlayerObject::getForcePower},
+															  {"getForcePowerMax", &LuaPlayerObject::getForcePowerMax},
+															  {"setForcePower", &LuaPlayerObject::setForcePower},
+															  {"isJedi", &LuaPlayerObject::isJedi},
+															  {"isJediLight", &LuaPlayerObject::isJediLight},
+															  {"isJediDark", &LuaPlayerObject::isJediDark},
+															  {"setJediState", &LuaPlayerObject::setJediState},
+															  {"getJediState", &LuaPlayerObject::getJediState},
+															  {"isOnline", &LuaPlayerObject::isOnline},
+															  {"activateJournalQuest", &LuaPlayerObject::activateJournalQuest},
+															  {"completeJournalQuest", &LuaPlayerObject::completeJournalQuest},
+															  {"clearJournalQuest", &LuaPlayerObject::clearJournalQuest},
+															  {"activateJournalQuestTask", &LuaPlayerObject::activateJournalQuestTask},
+															  {"completeJournalQuestTask", &LuaPlayerObject::completeJournalQuestTask},
+															  {"clearJournalQuestTask", &LuaPlayerObject::clearJournalQuestTask},
+															  {"isJournalQuestActive", &LuaPlayerObject::isJournalQuestActive},
+															  {"isJournalQuestComplete", &LuaPlayerObject::isJournalQuestComplete},
+															  {"isJournalQuestTaskActive", &LuaPlayerObject::isJournalQuestTaskActive},
+															  {"isJournalQuestTaskComplete", &LuaPlayerObject::isJournalQuestTaskComplete},
+															  {"setActiveQuestsBit", &LuaPlayerObject::setActiveQuestsBit},
+															  {"clearActiveQuestsBit", &LuaPlayerObject::clearActiveQuestsBit},
+															  {"hasActiveQuestBitSet", &LuaPlayerObject::hasActiveQuestBitSet},
+															  {"hasCompletedQuestsBitSet", &LuaPlayerObject::hasCompletedQuestsBitSet},
+															  {"setCompletedQuestsBit", &LuaPlayerObject::setCompletedQuestsBit},
+															  {"clearCompletedQuestsBit", &LuaPlayerObject::clearCompletedQuestsBit},
+															  {"hasAbility", &LuaPlayerObject::hasAbility},
+															  {"addAbility", &LuaPlayerObject::addAbility},
+															  {"getExperience", &LuaPlayerObject::getExperience},
+															  {"addEventPerk", &LuaPlayerObject::addEventPerk},
+															  {"getEventPerkCount", &LuaPlayerObject::getEventPerkCount},
+															  {"hasEventPerk", &LuaPlayerObject::hasEventPerk},
+															  {"getCharacterAgeInDays", &LuaPlayerObject::getCharacterAgeInDays},
+															  {"hasGodMode", &LuaPlayerObject::hasGodMode},
+															  {"isPrivileged", &LuaPlayerObject::isPrivileged},
+															  {"closeSuiWindowType", &LuaPlayerObject::closeSuiWindowType},
+															  {"getExperienceList", &LuaPlayerObject::getExperienceList},
+															  {"getExperienceCap", &LuaPlayerObject::getExperienceCap},
+															  {"activateQuest", &LuaPlayerObject::activateQuest},
+															  {"canActivateQuest", &LuaPlayerObject::canActivateQuest},
+															  {"getSuiBox", &LuaPlayerObject::getSuiBox},
+															  {"addSuiBox", &LuaPlayerObject::addSuiBox},
+															  {"removeSuiBox", &LuaPlayerObject::removeSuiBox},
+															  {"isJediTrainer", &LuaPlayerObject::isJediTrainer},
+															  {"getVisibility", &LuaPlayerObject::getVisibility},
+															  {"setFrsCouncil", &LuaPlayerObject::setFrsCouncil},
+															  {"setFrsRank", &LuaPlayerObject::setFrsRank},
+															  {"getFrsRank", &LuaPlayerObject::getFrsRank},
+															  {"getFrsCouncil", &LuaPlayerObject::getFrsCouncil},
+															  {"startSlicingSession", &LuaPlayerObject::startSlicingSession},
+															  {"setVisibility", &LuaPlayerObject::setVisibility},
+															  {"getPlayedTimeString", &LuaPlayerObject::getPlayedTimeString},
+															  {"getAccountID", &LuaPlayerObject::getAccountID},
+															  {0, 0}};
 
-
-LuaPlayerObject::LuaPlayerObject(lua_State *L) : LuaIntangibleObject(L) {
+LuaPlayerObject::LuaPlayerObject(lua_State* L) : LuaIntangibleObject(L) {
 #ifdef DYNAMIC_CAST_LUAOBJECTS
 	realObject = dynamic_cast<PlayerObject*>(_getRealSceneObject());
 
@@ -125,7 +122,7 @@ int LuaPlayerObject::_setObject(lua_State* L) {
 }
 
 int LuaPlayerObject::getFactionStanding(lua_State* L) {
-	//String faction = lua_tostring(L, -1);
+	// String faction = lua_tostring(L, -1);
 
 	const char* str = lua_tostring(L, -1);
 
@@ -165,7 +162,7 @@ int LuaPlayerObject::setFactionStanding(lua_State* L) {
 	return 0;
 }
 
-//addWaypoint(planet, name, desc, x, y, color, active, notifyClient, specialTypeID, persistence = 1)
+// addWaypoint(planet, name, desc, x, y, color, active, notifyClient, specialTypeID, persistence = 1)
 int LuaPlayerObject::addWaypoint(lua_State* L) {
 	int numberOfArguments = lua_gettop(L) - 1;
 
@@ -258,7 +255,7 @@ int LuaPlayerObject::updateWaypoint(lua_State* L) {
 	return 0;
 }
 
-int LuaPlayerObject::addRewardedSchematic(lua_State* L){
+int LuaPlayerObject::addRewardedSchematic(lua_State* L) {
 	String templateString = lua_tostring(L, -4);
 	short type = lua_tointeger(L, -3);
 	int quantity = lua_tointeger(L, -2);
@@ -287,7 +284,7 @@ int LuaPlayerObject::hasSchematic(lua_State* L) {
 	return 1;
 }
 
-int LuaPlayerObject::removeRewardedSchematic(lua_State* L){
+int LuaPlayerObject::removeRewardedSchematic(lua_State* L) {
 	String templateString = lua_tostring(L, -2);
 	bool notifyClient = lua_toboolean(L, -1);
 
@@ -299,7 +296,7 @@ int LuaPlayerObject::removeRewardedSchematic(lua_State* L){
 	return 0;
 }
 
-int LuaPlayerObject::addPermissionGroup(lua_State* L){
+int LuaPlayerObject::addPermissionGroup(lua_State* L) {
 	String permissionGroup = lua_tostring(L, -2);
 	bool updateBuildings = lua_toboolean(L, -1);
 
@@ -308,7 +305,7 @@ int LuaPlayerObject::addPermissionGroup(lua_State* L){
 	return 0;
 }
 
-int LuaPlayerObject::removePermissionGroup(lua_State* L){
+int LuaPlayerObject::removePermissionGroup(lua_State* L) {
 	String permissionGroup = lua_tostring(L, -2);
 	bool updateBuildings = lua_toboolean(L, -1);
 
@@ -317,7 +314,7 @@ int LuaPlayerObject::removePermissionGroup(lua_State* L){
 	return 0;
 }
 
-int LuaPlayerObject::hasPermissionGroup(lua_State* L){
+int LuaPlayerObject::hasPermissionGroup(lua_State* L) {
 	String permissionGroup = lua_tostring(L, -1);
 
 	lua_pushboolean(L, realObject->hasPermissionGroup(permissionGroup));
@@ -325,7 +322,7 @@ int LuaPlayerObject::hasPermissionGroup(lua_State* L){
 	return 1;
 }
 
-int LuaPlayerObject::awardBadge(lua_State* L){
+int LuaPlayerObject::awardBadge(lua_State* L) {
 	int badgeId = lua_tointeger(L, -1);
 
 	realObject->awardBadge(badgeId);
@@ -333,7 +330,7 @@ int LuaPlayerObject::awardBadge(lua_State* L){
 	return 0;
 }
 
-int LuaPlayerObject::hasBadge(lua_State* L){
+int LuaPlayerObject::hasBadge(lua_State* L) {
 	int badgeId = lua_tointeger(L, -1);
 
 	lua_pushboolean(L, realObject->hasBadge(badgeId));
@@ -341,7 +338,7 @@ int LuaPlayerObject::hasBadge(lua_State* L){
 	return 1;
 }
 
-int LuaPlayerObject::addHologrindProfession(lua_State* L){
+int LuaPlayerObject::addHologrindProfession(lua_State* L) {
 	byte profession = lua_tointeger(L, -1);
 
 	realObject->addHologrindProfession(profession);
@@ -590,7 +587,6 @@ int LuaPlayerObject::canActivateQuest(lua_State* L) {
 	return 1;
 }
 
-
 int LuaPlayerObject::hasAbility(lua_State* L) {
 	String value = lua_tostring(L, -1);
 
@@ -599,7 +595,6 @@ int LuaPlayerObject::hasAbility(lua_State* L) {
 	lua_pushboolean(L, check);
 
 	return 1;
-
 }
 
 int LuaPlayerObject::addAbility(lua_State* L) {
@@ -611,7 +606,6 @@ int LuaPlayerObject::addAbility(lua_State* L) {
 		skillManager->addAbility(realObject, value);
 
 	return 1;
-
 }
 
 int LuaPlayerObject::getExperience(lua_State* L) {
@@ -637,7 +631,7 @@ int LuaPlayerObject::hasEventPerk(lua_State* L) {
 }
 
 int LuaPlayerObject::addEventPerk(lua_State* L) {
-	SceneObject* item = (SceneObject*) lua_touserdata(L, -1);
+	SceneObject* item = (SceneObject*)lua_touserdata(L, -1);
 
 	if (item == nullptr) {
 		return 0;
@@ -693,7 +687,7 @@ int LuaPlayerObject::closeSuiWindowType(lua_State* L) {
 	int type = lua_tointeger(L, -1);
 	unsigned suiType = (unsigned)type;
 
-	realObject->closeSuiWindowType( suiType );
+	realObject->closeSuiWindowType(suiType);
 
 	return 0;
 }
@@ -728,14 +722,14 @@ int LuaPlayerObject::getSuiBox(lua_State* L) {
 		lua_pushnil(L);
 	} else {
 		lua_pushlightuserdata(L, object.get());
-		object->_setUpdated(true); //mark updated so the GC doesnt delete it while in LUA
+		object->_setUpdated(true); // mark updated so the GC doesnt delete it while in LUA
 	}
 
 	return 1;
 }
 
 int LuaPlayerObject::addSuiBox(lua_State* L) {
-	Reference<SuiBox*> box = (SuiBox*) lua_touserdata(L, -1);
+	Reference<SuiBox*> box = (SuiBox*)lua_touserdata(L, -1);
 
 	if (box == nullptr)
 		return 0;
@@ -751,7 +745,6 @@ int LuaPlayerObject::removeSuiBox(lua_State* L) {
 
 	return 1;
 }
-
 
 int LuaPlayerObject::isJediTrainer(lua_State* L) {
 	CreatureObject* trainer = (CreatureObject*)lua_touserdata(L, -1);
@@ -791,7 +784,6 @@ int LuaPlayerObject::setVisibility(lua_State* L) {
 	return 0;
 }
 
-
 int LuaPlayerObject::setFrsRank(lua_State* L) {
 	int rank = lua_tointeger(L, -1);
 
@@ -825,7 +817,7 @@ int LuaPlayerObject::getFrsCouncil(lua_State* L) {
 }
 
 int LuaPlayerObject::startSlicingSession(lua_State* L) {
-	TangibleObject* objToSlice = (TangibleObject*) lua_touserdata(L, -2);
+	TangibleObject* objToSlice = (TangibleObject*)lua_touserdata(L, -2);
 	bool isKeypadSlice = lua_toboolean(L, -1);
 
 	if (objToSlice == nullptr)
@@ -841,7 +833,7 @@ int LuaPlayerObject::startSlicingSession(lua_State* L) {
 		return 0;
 	}
 
-	//Create Session
+	// Create Session
 	ManagedReference<SlicingSession*> session = new SlicingSession(player);
 	session->setKeypadSlice(isKeypadSlice);
 	session->initalizeSlicingMenu(player, objToSlice);

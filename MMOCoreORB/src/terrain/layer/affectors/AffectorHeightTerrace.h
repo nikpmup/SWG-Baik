@@ -8,7 +8,6 @@
 #ifndef AFFECTORHEIGHTTERRACE_H_
 #define AFFECTORHEIGHTTERRACE_H_
 
-
 #include "../ProceduralRule.h"
 
 class AffectorHeightTerrace : public ProceduralRule<'AHTR'>, public AffectorProceduralRule {
@@ -55,7 +54,7 @@ public:
 		if (height <= 0)
 			return;
 
-		//float var1 = height + height;
+		// float var1 = height + height;
 		float var1 = fmod(baseValue, height);
 
 		if (baseValue == 0) {

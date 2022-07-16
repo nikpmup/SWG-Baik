@@ -7,14 +7,10 @@
 
 class CsGetTicketsCommand : public QueueCommand {
 public:
-
-	CsGetTicketsCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CsGetTicketsCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CSGETTICKETSCOMMAND_H_
+#endif // CSGETTICKETSCOMMAND_H_

@@ -11,14 +11,10 @@
 
 class GuildstatusCommand : public QueueCommand {
 public:
-
-	GuildstatusCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	GuildstatusCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -52,11 +48,11 @@ public:
 			obj = zoneServer->getObject(target);
 
 		if (obj == nullptr || !obj->isPlayerCreature()) {
-			player->sendSystemMessage("@base_player:guildstatus_not_player"); //You may only check the guild status of players.
+			player->sendSystemMessage("@base_player:guildstatus_not_player"); // You may only check the guild status of players.
 			return GENERALERROR;
 		}
 
-		CreatureObject* targetCreature = cast<CreatureObject*>( obj.get());
+		CreatureObject* targetCreature = cast<CreatureObject*>(obj.get());
 
 		StringIdChatParameter params;
 		params.setTU(targetCreature->getDisplayedName());
@@ -97,7 +93,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //GUILDSTATUSCOMMAND_H_
+#endif // GUILDSTATUSCOMMAND_H_

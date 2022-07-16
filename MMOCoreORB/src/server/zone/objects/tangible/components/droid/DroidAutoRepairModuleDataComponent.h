@@ -15,7 +15,6 @@ namespace components {
 namespace droid {
 
 class DroidAutoRepairModuleDataComponent : public BaseDroidModuleComponent {
-
 protected:
 	int autoRepairPower;
 	bool active;
@@ -34,19 +33,25 @@ public:
 	void onCall();
 	void onStore();
 	void updateCraftingValues(CraftingValues* values, bool firstUpdate);
-	bool isActive(){ return active; }
-	int getAutoRepairPower(){ return autoRepairPower; }
-	virtual bool isStackable() { return true; }
+	bool isActive() {
+		return active;
+	}
+	int getAutoRepairPower() {
+		return autoRepairPower;
+	}
+	virtual bool isStackable() {
+		return true;
+	}
 	virtual void addToStack(BaseDroidModuleComponent* other);
 	virtual void copy(BaseDroidModuleComponent* other);
 };
 
-} // droid
-} // components
-} // tangible
-} // objects
-} // zone
-} // server
+} // namespace droid
+} // namespace components
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 using namespace server::zone::objects::tangible::components::droid;
 
 #endif /* DROIDAUTOREPAIRMODULEDATACOMPONENT_H_ */

@@ -1,5 +1,5 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef ADDBANNEDPLAYERCOMMAND_H_
@@ -8,17 +8,12 @@
 #include "server/zone/objects/player/PlayerObject.h"
 #include "server/login/account/Account.h"
 
-class AddBannedPlayerCommand: public QueueCommand {
+class AddBannedPlayerCommand : public QueueCommand {
 public:
-
-	AddBannedPlayerCommand(const String& name, ZoneProcessServer* server) :
-		QueueCommand(name, server) {
-
+	AddBannedPlayerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
-	int doQueueCommand(CreatureObject* creature, const uint64& target,
-			const UnicodeString& arguments) const {
-
+	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -43,9 +38,7 @@ public:
 			targetCreature = playerManager->getPlayer(character);
 
 		} else {
-
 			targetCreature = server->getZoneServer()->getObject(target).castTo<CreatureObject*>();
-
 		}
 
 		if (targetCreature == nullptr || !targetCreature->isPlayerCreature())
@@ -75,7 +68,7 @@ public:
 			banReason << reason << " ";
 		}
 
-		if(banReason.toString().isEmpty()) {
+		if (banReason.toString().isEmpty()) {
 			creature->sendSystemMessage("Usage: /AddBannedPlayer <player name> <reason>");
 			return GENERALERROR;
 		}
@@ -90,7 +83,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //ADDBANNEDPLAYERCOMMAND_H_
+#endif // ADDBANNEDPLAYERCOMMAND_H_

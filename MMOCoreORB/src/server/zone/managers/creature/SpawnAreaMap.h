@@ -11,44 +11,30 @@
 #include "server/zone/objects/area/SpawnArea.h"
 #include "server/zone/Zone.h"
 
-class SpawnAreaMap : public SynchronizedVectorMap<uint32, ManagedReference<SpawnArea*> > , public Logger {
+class SpawnAreaMap : public SynchronizedVectorMap<uint32, ManagedReference<SpawnArea*>>, public Logger {
 	Reference<Lua*> lua;
-protected:
 
+protected:
 	ManagedReference<Zone*> zone;
 
-	SynchronizedVector<ManagedReference<SpawnArea*> > noSpawnAreas;
+	SynchronizedVector<ManagedReference<SpawnArea*>> noSpawnAreas;
 
-	SynchronizedVector<ManagedReference<SpawnArea*> > worldSpawnAreas;
+	SynchronizedVector<ManagedReference<SpawnArea*>> worldSpawnAreas;
 
 	void readAreaObject(LuaObject& areaObj);
 	void loadRegions();
 
 public:
+	enum { UNDEFINEDAREA = 0x00000000, SPAWNAREA = 0x00000001, NOSPAWNAREA = 0x00000002, WORLDSPAWNAREA = 0x00000010, NOWORLDSPAWNAREA = 0x00000020, NOBUILDZONEAREA = 0x00000100 };
 
-	enum {
-		UNDEFINEDAREA       = 0x00000000,
-		SPAWNAREA           = 0x00000001,
-		NOSPAWNAREA         = 0x00000002,
-		WORLDSPAWNAREA      = 0x00000010,
-		NOWORLDSPAWNAREA    = 0x00000020,
-		NOBUILDZONEAREA     = 0x00000100
-	};
-
-	enum {
-		CIRCLE = 1,
-		RECTANGLE,
-		RING
-	};
+	enum { CIRCLE = 1, RECTANGLE, RING };
 
 	SpawnAreaMap() : Logger("SpawnAreaMap") {
 		lua = new Lua();
 		setAllowDuplicateInsertPlan();
 	}
 
-	SpawnAreaMap(const SpawnAreaMap& l) : SynchronizedVectorMap<uint32, ManagedReference<SpawnArea*> >(l) , Logger("SpawnAreaMap"),
-			zone(l.zone), noSpawnAreas(l.noSpawnAreas), worldSpawnAreas(l.worldSpawnAreas) {
-
+	SpawnAreaMap(const SpawnAreaMap& l) : SynchronizedVectorMap<uint32, ManagedReference<SpawnArea*>>(l), Logger("SpawnAreaMap"), zone(l.zone), noSpawnAreas(l.noSpawnAreas), worldSpawnAreas(l.worldSpawnAreas) {
 		lua = l.lua;
 	}
 
@@ -72,11 +58,9 @@ public:
 
 	void unloadMap();
 
-	SynchronizedVector<ManagedReference<SpawnArea*> >* getWorldSpawnAreas() {
+	SynchronizedVector<ManagedReference<SpawnArea*>>* getWorldSpawnAreas() {
 		return &worldSpawnAreas;
 	}
-
 };
-
 
 #endif /* SPAWNAREAMAP_H_ */

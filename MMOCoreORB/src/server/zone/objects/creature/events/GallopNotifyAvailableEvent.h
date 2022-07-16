@@ -30,7 +30,6 @@ public:
 		if (owner != nullptr)
 			owner->sendSystemMessage("@combat_effects:mount_not_tired"); // Your mount is no longer winded.
 	}
-
 };
 
 #endif /*GALLOPNOTIFYAVAILABLEEVENT_H_*/

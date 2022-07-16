@@ -7,29 +7,29 @@ namespace server {
 namespace zone {
 namespace managers {
 namespace sui {
-	class SuiManager;
+class SuiManager;
 
-	class LuaSkillManager {
-	public:
-		static const char className[];
-		static Luna<LuaSkillManager>::RegType Register[];
+class LuaSkillManager {
+public:
+	static const char className[];
+	static Luna<LuaSkillManager>::RegType Register[];
 
-		LuaSkillManager(lua_State *L);
-		~LuaSkillManager();
+	LuaSkillManager(lua_State* L);
+	~LuaSkillManager();
 
-		int fulfillsSkillPrerequisitesAndXp(lua_State* L);
-		int fulfillsSkillPrerequisites(lua_State* L);
-		int getSkill(lua_State* L);
-		int awardSkill(lua_State* L);
-		int canLearnSkill(lua_State* L);
+	int fulfillsSkillPrerequisitesAndXp(lua_State* L);
+	int fulfillsSkillPrerequisites(lua_State* L);
+	int getSkill(lua_State* L);
+	int awardSkill(lua_State* L);
+	int canLearnSkill(lua_State* L);
 
-	private:
-		Reference<SkillManager*> realObject;
-	};
-}
-}
-}
-}
+private:
+	Reference<SkillManager*> realObject;
+};
+} // namespace sui
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::sui;
 

@@ -52,11 +52,10 @@ void VendorManager::loadLuaVendors() {
 }
 
 bool VendorManager::isValidVendorName(const String& name) {
-
-	if(nameManager == nullptr)
+	if (nameManager == nullptr)
 		nameManager = server->getNameManager();
 
-	if(nameManager == nullptr) {
+	if (nameManager == nullptr) {
 		error("Name manager is nullptr");
 		return false;
 	}
@@ -65,20 +64,19 @@ bool VendorManager::isValidVendorName(const String& name) {
 }
 
 void VendorManager::handleDisplayStatus(CreatureObject* player, TangibleObject* vendor) {
-
-	if(vendor->getZone() == nullptr) {
+	if (vendor->getZone() == nullptr) {
 		error("nullptr zone in VendorManager::handleDisplayStatus");
 		return;
 	}
 
 	DataObjectComponentReference* data = vendor->getDataObjectComponent();
-	if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
+	if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
 		error("Vendor has no data component");
 		return;
 	}
 
 	VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-	if(vendorData == nullptr) {
+	if (vendorData == nullptr) {
 		error("Vendor has wrong data component");
 		return;
 	}
@@ -102,22 +100,20 @@ void VendorManager::handleDisplayStatus(CreatureObject* player, TangibleObject* 
 	statusBox->addMenuItem("Condition: " + String::valueOf(condition) + "%");
 
 	float secsRemaining = 0.f;
-	if( vendorData->getMaint() > 0 ){
-		secsRemaining = (vendorData->getMaint() / vendorData->getMaintenanceRate())*3600;
+	if (vendorData->getMaint() > 0) {
+		secsRemaining = (vendorData->getMaint() / vendorData->getMaintenanceRate()) * 3600;
 	}
 
-	statusBox->addMenuItem("Maintenance Pool: " +
-			               String::valueOf(vendorData->getMaint()) +
-			               "cr " + getTimeString( (uint32)secsRemaining ) );
+	statusBox->addMenuItem("Maintenance Pool: " + String::valueOf(vendorData->getMaint()) + "cr " + getTimeString((uint32)secsRemaining));
 	statusBox->addMenuItem("Maintenance Rate: " + String::valueOf((int)vendorData->getMaintenanceRate()) + " cr/hr");
 
 	ManagedReference<AuctionManager*> auctionManager = server->getZoneServer()->getAuctionManager();
-	if(auctionManager == nullptr) {
+	if (auctionManager == nullptr) {
 		error("null auction manager");
 		return;
 	}
 	ManagedReference<AuctionsMap*> auctionsMap = auctionManager->getAuctionMap();
-	if(auctionsMap == nullptr) {
+	if (auctionsMap == nullptr) {
 		error("null auctionsMap");
 		return;
 	}
@@ -125,17 +121,15 @@ void VendorManager::handleDisplayStatus(CreatureObject* player, TangibleObject* 
 	String planet = vendor->getZone()->getZoneName();
 	String region = "@planet_n:" + vendor->getZone()->getZoneName();
 
-
 	ManagedReference<CityRegion*> regionObject = vendor->getCityRegion().get();
-	if(regionObject != nullptr)
+	if (regionObject != nullptr)
 		region = regionObject->getRegionName();
 
 	TerminalListVector vendorList = auctionsMap->getVendorTerminalData(planet, region, vendor);
 
 	uint32 itemsForSaleCount = 0;
 
-	if(vendorList.size() > 0) {
-
+	if (vendorList.size() > 0) {
 		Reference<TerminalItemList*> list = vendorList.get(0);
 		if (list != nullptr) {
 			ReadLocker rlocker(list);
@@ -157,7 +151,6 @@ void VendorManager::handleDisplayStatus(CreatureObject* player, TangibleObject* 
 		}
 	}
 
-
 	statusBox->addMenuItem("Number of Items For Sale: " + String::valueOf(itemsForSaleCount));
 
 	if (vendorData->isVendorSearchEnabled())
@@ -170,28 +163,26 @@ void VendorManager::handleDisplayStatus(CreatureObject* player, TangibleObject* 
 
 	player->getPlayerObject()->addSuiBox(statusBox);
 	player->sendMessage(statusBox->generateMessage());
-
 }
 
 String VendorManager::getTimeString(uint32 timestamp) {
-
-	if( timestamp == 0 ){
+	if (timestamp == 0) {
 		return "";
 	}
 
-	String abbrvs[3] = { "minutes", "hours", "days" };
+	String abbrvs[3] = {"minutes", "hours", "days"};
 
-	int intervals[3] = { 60, 3600, 86400 };
-	int values[3] = { 0, 0, 0 };
+	int intervals[3] = {60, 3600, 86400};
+	int values[3] = {0, 0, 0};
 
 	StringBuffer str;
 
 	for (int i = 2; i > -1; --i) {
-		values[i] = floor((float) timestamp / intervals[i]);
+		values[i] = floor((float)timestamp / intervals[i]);
 		timestamp -= values[i] * intervals[i];
 
 		if (values[i] > 0) {
-			if (str.length() > 0){
+			if (str.length() > 0) {
 				str << ", ";
 			}
 
@@ -203,15 +194,14 @@ String VendorManager::getTimeString(uint32 timestamp) {
 }
 
 void VendorManager::promptDestroyVendor(CreatureObject* player, TangibleObject* vendor) {
-
 	DataObjectComponentReference* data = vendor->getDataObjectComponent();
-	if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
+	if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
 		error("Vendor has no data component");
 		return;
 	}
 
 	VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-	if(vendorData == nullptr) {
+	if (vendorData == nullptr) {
 		error("Vendor has wrong data component");
 		return;
 	}
@@ -222,14 +212,13 @@ void VendorManager::promptDestroyVendor(CreatureObject* player, TangibleObject* 
 	SuiMessageBox* destroyBox = new SuiMessageBox(player, SuiWindowType::STRUCTURE_DESTROY_VENDOR_CONFIRM);
 	destroyBox->setCallback(new DestroyVendorSuiCallback(player->getZoneServer()));
 	destroyBox->setUsingObject(vendor);
-	destroyBox->setPromptTitle("@player_structure:destroy_vendor_t"); //DestroyVendor?
+	destroyBox->setPromptTitle("@player_structure:destroy_vendor_t"); // DestroyVendor?
 	destroyBox->setPromptText("@player_structure:destroy_vendor_d");
 	destroyBox->setOkButton(true, "@yes");
 	destroyBox->setCancelButton(true, "@no");
 
 	player->getPlayerObject()->addSuiBox(destroyBox);
 	player->sendMessage(destroyBox->generateMessage());
-
 }
 
 void VendorManager::promptRenameVendorTo(CreatureObject* player, TangibleObject* vendor) {
@@ -286,7 +275,6 @@ void VendorManager::destroyVendor(TangibleObject* vendor) {
 }
 
 void VendorManager::sendRegisterVendorTo(CreatureObject* player, TangibleObject* vendor) {
-
 	SuiListBox* registerBox = new SuiListBox(player, SuiWindowType::STRUCTURE_VENDOR_REGISTER);
 	registerBox->setCallback(new RegisterVendorSuiCallback(player->getZoneServer()));
 	registerBox->setPromptTitle("@player_structure:vendor_mapcat_t");
@@ -310,24 +298,22 @@ void VendorManager::sendRegisterVendorTo(CreatureObject* player, TangibleObject*
 
 	player->sendMessage(registerBox->generateMessage());
 	player->getPlayerObject()->addSuiBox(registerBox);
-
 }
 
 void VendorManager::handleRegisterVendorCallback(CreatureObject* player, TangibleObject* vendor, const String& planetMapCategoryName) {
-
 	Zone* zone = vendor->getZone();
 
 	if (zone == nullptr)
 		return;
 
 	DataObjectComponentReference* data = vendor->getDataObjectComponent();
-	if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
+	if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
 		error("Vendor has no data component");
 		return;
 	}
 
 	VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-	if(vendorData == nullptr) {
+	if (vendorData == nullptr) {
 		error("Vendor has wrong data component");
 		return;
 	}
@@ -352,7 +338,6 @@ void VendorManager::handleRegisterVendorCallback(CreatureObject* player, Tangibl
 	zone->registerObjectWithPlanetaryMap(vendor);
 
 	player->sendSystemMessage("@player_structure:register_vendor_not");
-
 }
 
 void VendorManager::handleUnregisterVendor(CreatureObject* player, TangibleObject* vendor) {
@@ -365,13 +350,13 @@ void VendorManager::handleUnregisterVendor(CreatureObject* player, TangibleObjec
 		return;
 
 	DataObjectComponentReference* data = vendor->getDataObjectComponent();
-	if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
+	if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
 		error("Vendor has no data component");
 		return;
 	}
 
 	VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-	if(vendorData == nullptr) {
+	if (vendorData == nullptr) {
 		error("Vendor has wrong data component");
 		return;
 	}
@@ -400,15 +385,14 @@ void VendorManager::handleRenameVendor(CreatureObject* player, TangibleObject* v
 		return;
 	}
 
-
 	DataObjectComponentReference* data = vendor->getDataObjectComponent();
-	if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
+	if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
 		error("Vendor has no data component");
 		return;
 	}
 
 	VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-	if(vendorData == nullptr) {
+	if (vendorData == nullptr) {
 		error("Vendor has wrong data component");
 		return;
 	}
@@ -416,14 +400,11 @@ void VendorManager::handleRenameVendor(CreatureObject* player, TangibleObject* v
 	Locker _locker(vendor);
 	vendor->setCustomObjectName("Vendor: " + name, true);
 
-
 	if (vendorData->isRegistered()) {
-
 		vendorData->setRegistered(false);
 		zone->unregisterObjectWithPlanetaryMap(vendor);
 
 		player->sendSystemMessage("@player_structure:vendor_rename_unreg");
 	} else
 		player->sendSystemMessage("@player_structure:vendor_rename");
-
 }

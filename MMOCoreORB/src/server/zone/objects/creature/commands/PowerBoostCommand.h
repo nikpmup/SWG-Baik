@@ -10,31 +10,26 @@
 
 #include "server/zone/objects/player/events/ForceMeditateTask.h"
 
-
 class PowerBoostCommand : public QueueCommand {
 public:
-
-	PowerBoostCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
+	PowerBoostCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
 		if (!creature->isPlayerCreature())
 			return GENERALERROR;
 
-		//return GENERALERROR;
+		// return GENERALERROR;
 
-		//TODO: fix powerboost cancel
+		// TODO: fix powerboost cancel
 
 		// Replaced INVALIDLOCOMOTION check to return message if user is not meditating.
-		if(!creature->isMeditating()) {
+		if (!creature->isMeditating()) {
 			creature->sendSystemMessage("@teraskasi:powerboost_fail"); // You must be meditating to perform that command.
 			return GENERALERROR;
-
 		}
 		// check if user is FORCE meditating as Jedi instead of just regular TK meditate.
 		Reference<ForceMeditateTask*> medTask = creature->getPendingTask("forcemeditate").castTo<ForceMeditateTask*>();
@@ -48,7 +43,7 @@ public:
 
 		uint32 buffcrc = BuffCRC::SKILL_BUFF_POWERBOOST;
 
-		if(player->hasBuff(buffcrc)) {
+		if (player->hasBuff(buffcrc)) {
 			player->sendSystemMessage("@teraskasi:powerboost_active"); // [meditation] You are unable to channel your energies any further.
 			return GENERALERROR;
 		}
@@ -63,9 +58,9 @@ public:
 		 * Taken from scrapbook
 		 * Duration: 5 min + (meditate skill mod/100 * 5min)
 		 */
-		int duration = 300 + ((meditateMod/100) * 300);
+		int duration = 300 + ((meditateMod / 100) * 300);
 
-		if(player->getHAM(CreatureAttribute::MIND) <= pbBonus) {
+		if (player->getHAM(CreatureAttribute::MIND) <= pbBonus) {
 			player->sendSystemMessage("@teraskasi:powerboost_mind"); // [mediation] You currently lack the mental capacity to focus your energies.
 			return GENERALERROR;
 		}
@@ -79,7 +74,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //POWERBOOSTCOMMAND_H_
+#endif // POWERBOOSTCOMMAND_H_

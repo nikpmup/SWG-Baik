@@ -14,8 +14,7 @@ class DeleteTrackConfirmationSuiCallback : public SuiCallback {
 public:
 	Reference<DroidPlaybackModuleDataComponent*> module;
 	int track;
-	DeleteTrackConfirmationSuiCallback(ZoneServer* server, DroidPlaybackModuleDataComponent* m, int index)
-		: SuiCallback(server) {
+	DeleteTrackConfirmationSuiCallback(ZoneServer* server, DroidPlaybackModuleDataComponent* m, int index) : SuiCallback(server) {
 		track = index;
 		module = m;
 	}
@@ -26,7 +25,7 @@ public:
 		if (!suiBox->isMessageBox())
 			return;
 
-		SuiMessageBox* listBox = cast<SuiMessageBox*>( suiBox);
+		SuiMessageBox* listBox = cast<SuiMessageBox*>(suiBox);
 		ManagedReference<SceneObject*> object = suiBox->getUsingObject().get();
 
 		if (object == nullptr)

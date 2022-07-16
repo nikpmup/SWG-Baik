@@ -18,9 +18,9 @@ protected:
 	String sharedObjectTemplate;
 	String componentType;
 	String compatibility;
+
 public:
 	ShipComponent() {
-
 	}
 
 	void readObject(DataTableRow* row) {
@@ -51,7 +51,5 @@ public:
 		return sharedObjectTemplate;
 	}
 };
-
-
 
 #endif /* SHIPCOMPONENT_H_ */

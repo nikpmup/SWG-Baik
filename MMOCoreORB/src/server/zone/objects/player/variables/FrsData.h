@@ -40,9 +40,7 @@ public:
 	}
 
 	bool operator==(const FrsData& data) const {
-		return
-			councilType == data.councilType &&
-			rank == data.rank;
+		return councilType == data.councilType && rank == data.rank;
 	}
 
 	void setCouncilType(int type) {
@@ -62,13 +60,12 @@ public:
 	}
 
 	bool toBinaryStream(ObjectOutputStream* stream) {
-		return TypeInfo<int >::toBinaryStream(&councilType, stream) &&
-				TypeInfo<int >::toBinaryStream(&rank, stream);
+		return TypeInfo<int>::toBinaryStream(&councilType, stream) && TypeInfo<int>::toBinaryStream(&rank, stream);
 	}
 
 	bool parseFromBinaryStream(ObjectInputStream* stream) {
-		TypeInfo<int >::parseFromBinaryStream(&councilType, stream);
-		TypeInfo<int >::parseFromBinaryStream(&rank, stream);
+		TypeInfo<int>::parseFromBinaryStream(&councilType, stream);
+		TypeInfo<int>::parseFromBinaryStream(&rank, stream);
 
 		return true;
 	}

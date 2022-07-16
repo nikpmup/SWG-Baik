@@ -1,6 +1,6 @@
 /*
-                Copyright <SWGEmu>
-        See file COPYING for copying conditions.*/
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
 
 /**
  * @author      : lordkator (lordkator@swgemu.com)
@@ -59,7 +59,7 @@
  */
 
 namespace server {
- namespace web3 {
+namespace web3 {
 
 String APIProxyChatManager::expandTo(String toExpr, Function<String(String playerName)> process, bool skipOffline) const {
 	auto server = getZoneServer();
@@ -106,7 +106,7 @@ String APIProxyChatManager::expandTo(String toExpr, Function<String(String playe
 			return "Did not find members for guild [" + guildAbbrev + "]";
 		}
 
-		for (int i = 0;i < memberList->size(); ++i) {
+		for (int i = 0; i < memberList->size(); ++i) {
 			auto memberInfo = &memberList->get(i);
 
 			if (memberInfo != nullptr) {
@@ -207,25 +207,27 @@ void APIProxyChatManager::handle(APIRequest& apiRequest) {
 
 		JSONSerializationType sent;
 
-		auto errMsg = expandTo(to, [&] (String playerName) -> String {
+		auto errMsg = expandTo(
+			to,
+			[&](String playerName) -> String {
+				Reference<PersistentMessage*> msg;
 
-			Reference<PersistentMessage*> msg;
+				auto ret = chatManager->sendMail(from, subject, body, playerName, &stringIdParameters, &waypointParameters, &msg);
 
-			auto ret = chatManager->sendMail(from, subject, body, playerName, &stringIdParameters, &waypointParameters, &msg);
+				if (ret != ChatManager::IM_SUCCESS) {
+					return "sendMail [" + playerName + "] failed, ret=0x" + String::hexvalueOf(ret);
+				}
 
-			if (ret != ChatManager::IM_SUCCESS) {
-				return "sendMail [" + playerName + "] failed, ret=0x" + String::hexvalueOf(ret);
-			}
+				auto mail = msg.get();
 
-			auto mail = msg.get();
+				if (mail != nullptr) {
+					sent[playerName] = mail->getObjectID();
+				}
 
-			if (mail != nullptr) {
-				sent[playerName] = mail->getObjectID();
-			}
-
-			countSent++;
-			return "";
-		}, false);
+				countSent++;
+				return "";
+			},
+			false);
 
 		result["count_sent"] = countSent;
 		result["action_result"] = errMsg.isEmpty() ? "SUCCESS" : "FAILED";
@@ -236,20 +238,23 @@ void APIProxyChatManager::handle(APIRequest& apiRequest) {
 		}
 	} else if (msgType == "message") {
 		int countSent = 0;
-		auto errMsg = expandTo(to, [&] (String playerName) -> String {
-			Reference<CreatureObject*> player = chatManager->getPlayer(playerName);
+		auto errMsg = expandTo(
+			to,
+			[&](String playerName) -> String {
+				Reference<CreatureObject*> player = chatManager->getPlayer(playerName);
 
-			if (player == nullptr) {
-				auto msg = "Invalid request, player [" + playerName + "] not found";
-				apiRequest.fail(msg);
-				return msg;
-			}
+				if (player == nullptr) {
+					auto msg = "Invalid request, player [" + playerName + "] not found";
+					apiRequest.fail(msg);
+					return msg;
+				}
 
-			Locker lock(player);
-			player->sendMessage(new ChatInstantMessageToClient("SWG", getZoneServer()->getGalaxyName(), from, body));
-			countSent++;
-			return "";
-		}, true);
+				Locker lock(player);
+				player->sendMessage(new ChatInstantMessageToClient("SWG", getZoneServer()->getGalaxyName(), from, body));
+				countSent++;
+				return "";
+			},
+			true);
 
 		result["count_sent"] = countSent;
 		result["action_result"] = errMsg.isEmpty() ? "SUCCESS" : "FAILED";
@@ -259,17 +264,13 @@ void APIProxyChatManager::handle(APIRequest& apiRequest) {
 		}
 	}
 
-	apiRequest.info(true)
-		<< msgType << " from: "
-		<< from << "; to: "
-		<< to << "; body: "
-		<< body.replaceAll("\n", "\\n") << "; "
-		<< "result = " << result["action_result"].get<std::string>();
+	apiRequest.info(true) << msgType << " from: " << from << "; to: " << to << "; body: " << body.replaceAll("\n", "\\n") << "; "
+						  << "result = " << result["action_result"].get<std::string>();
 
 	apiRequest.success(result);
 }
 
-server::chat::ChatManager *APIProxyChatManager::getChatManager() const {
+server::chat::ChatManager* APIProxyChatManager::getChatManager() const {
 	auto server = getZoneServer();
 
 	if (server == nullptr) {
@@ -279,7 +280,7 @@ server::chat::ChatManager *APIProxyChatManager::getChatManager() const {
 	return server->getChatManager();
 }
 
-}
-}
+} // namespace web3
+} // namespace server
 
 #endif // WITH_REST_API

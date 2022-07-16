@@ -16,8 +16,8 @@ class AppearanceTemplate : public Object {
 	String fileName;
 	BaseBoundingVolume* volume = nullptr;
 	BaseBoundingVolume* collisionVolume = nullptr;
-public:
 
+public:
 	virtual uint32 getType() const {
 		return 'APPR';
 	}
@@ -44,17 +44,14 @@ public:
 	 * Checks for intersection against ray, stops on any intersection
 	 * @return intersectionDistance, triangle which it intersects
 	 */
-	virtual bool intersects(const Ray& ray, float distance, float& intersectionDistance, Triangle*& triangle,
-							bool checkPrimitives = false) const = 0;
+	virtual bool intersects(const Ray& ray, float distance, float& intersectionDistance, Triangle*& triangle, bool checkPrimitives = false) const = 0;
 
 	/**
 	 * Checks for all intersections
 	 */
-	virtual int intersects(const Ray& ray, float maxDistance, SortedVector <IntersectionResult>& result) const = 0;
-
+	virtual int intersects(const Ray& ray, float maxDistance, SortedVector<IntersectionResult>& result) const = 0;
 
 	virtual void readObject(IffStream* iffStream) {
-
 		fileName = iffStream->getFileName();
 
 		iffStream->openForm('APPR');
@@ -63,7 +60,6 @@ public:
 			iffStream->openForm('0003');
 			volume = BoundingVolumeFactory::getVolume(iffStream);
 			collisionVolume = BoundingVolumeFactory::getVolume(iffStream);
-
 
 			iffStream->openForm('HPTS');
 
@@ -80,12 +76,10 @@ public:
 
 			iffStream->closeForm('0003');
 		} else {
-			String msg = "AppearanceTemplate::readObject unknown version (" + String::hexvalueOf(
-					(int64) formType) + ")";
+			String msg = "AppearanceTemplate::readObject unknown version (" + String::hexvalueOf((int64)formType) + ")";
 			throw Exception(msg);
 		}
 		iffStream->closeForm('APPR');
-
 	}
 
 	virtual ~AppearanceTemplate() {
@@ -93,7 +87,7 @@ public:
 		delete collisionVolume;
 	}
 
-	virtual Vector <Reference<MeshData*>> getTransformedMeshData(const Matrix4& parentTransform) const = 0;
+	virtual Vector<Reference<MeshData*>> getTransformedMeshData(const Matrix4& parentTransform) const = 0;
 };
 
 #endif /* APPEARANCETEMPLATE_H_ */

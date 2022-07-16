@@ -12,8 +12,6 @@
 
 #include "PatrolPoint.h"
 
-class PatrolPointsVector : public Vector<PatrolPoint> {
-
-};
+class PatrolPointsVector : public Vector<PatrolPoint> {};
 
 #endif /* PATROLPOINTSVECTOR_H_ */

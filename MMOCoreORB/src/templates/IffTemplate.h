@@ -16,7 +16,6 @@ public:
 	virtual void readObject(IffStream* templateData) = 0;
 
 	virtual ~IffTemplate() {
-
 	}
 };
 

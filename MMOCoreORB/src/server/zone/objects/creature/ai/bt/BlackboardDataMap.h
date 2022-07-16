@@ -21,7 +21,8 @@ public:
 		setNoDuplicateInsertPlan();
 	}
 
-	~BlackboardDataMap() {}
+	~BlackboardDataMap() {
+	}
 
 	BlackboardDataMap& operator=(const BlackboardDataMap& b) {
 		if (this == &b)
@@ -34,11 +35,11 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
-}
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif // BLACKBOARDDATAMAP_H_

@@ -13,7 +13,6 @@
 #include "server/zone/objects/structure/StructureObject.h"
 #include "server/zone/managers/structure/StructureManager.h"
 
-
 class StructurePayMaintenanceSuiCallback : public SuiCallback {
 public:
 	StructurePayMaintenanceSuiCallback(ZoneServer* serv) : SuiCallback(serv) {
@@ -37,7 +36,7 @@ public:
 			return;
 		}
 
-		//Deposit/Withdraw the maintenance
+		// Deposit/Withdraw the maintenance
 		StructureObject* structure = cast<StructureObject*>(obj.get());
 
 		ManagedReference<Zone*> zone = structure->getZone();
@@ -45,7 +44,7 @@ public:
 		if (zone == nullptr)
 			return;
 
-		//Creature is already locked (done in handleSuiEventNotification in SuiManager).
+		// Creature is already locked (done in handleSuiEventNotification in SuiManager).
 		Locker _lock(structure, creature);
 
 		StructureManager::instance()->payMaintenance(structure, creature, amount);

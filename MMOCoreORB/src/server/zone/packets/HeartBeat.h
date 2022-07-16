@@ -7,15 +7,14 @@
 
 #include "engine/service/proto/BaseMessage.h"
 
-//Even though this opcode isnt in our tables, its required for some reason to make things work :(
+// Even though this opcode isnt in our tables, its required for some reason to make things work :(
 
 class HeartBeat : public BaseMessage {
 public:
 	HeartBeat() : BaseMessage() {
 		insertShort(0x01);
-		insertInt(0xA16CF9AF); //opcode: HeartBeat
+		insertInt(0xA16CF9AF); // opcode: HeartBeat
 	}
-
 };
 
 #endif /*HEARTBEAT_H_*/

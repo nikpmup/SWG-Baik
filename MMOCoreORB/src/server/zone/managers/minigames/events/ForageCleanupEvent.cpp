@@ -2,7 +2,6 @@
 				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
-
 #include "ForageCleanupEvent.h"
 #include "server/zone/managers/minigames/ForageManager.h"
 #include "server/zone/ZoneProcessServer.h"
@@ -20,9 +19,4 @@ void ForageCleanupEvent::run() {
 
 	if (forageManager != nullptr)
 		forageManager->deleteForageAreaCollection(playerName);
-
 }
-
-
-
-

@@ -15,11 +15,11 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 
@@ -27,11 +27,11 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace player {
-	class PlayerObject;
+class PlayerObject;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::player;
 
@@ -43,8 +43,8 @@ namespace skill {
 class SkillManager : public Singleton<SkillManager>, public Logger, public Object {
 	PerformanceManager* performanceManager;
 
-	HashTable<String, Reference<Ability*> > abilityMap;
-	HashTable<uint32, Reference<Skill*> > skillMap;
+	HashTable<String, Reference<Ability*>> abilityMap;
+	HashTable<uint32, Reference<Skill*>> skillMap;
 
 	Reference<Skill*> rootNode;
 
@@ -132,10 +132,10 @@ public:
 	void removeSkillRelatedMissions(CreatureObject* creature, Skill* skill);
 };
 
-}
-}
-}
-}
+} // namespace skill
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::skill;
 

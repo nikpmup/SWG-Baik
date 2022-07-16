@@ -10,21 +10,17 @@
 
 class KillPlayerCommand : public QueueCommand {
 public:
-
-	KillPlayerCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	KillPlayerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
 		if (!checkInvalidLocomotions(creature))
 			return INVALIDLOCOMOTION;
 
-		//Explain syntax
+		// Explain syntax
 		if (arguments.isEmpty() && target == 0) {
 			creature->sendSystemMessage("Syntax: /killPlayer [player name] [-area [range]] -wounds [<health> [action] [mind]]");
 			return GENERALERROR;
@@ -46,40 +42,39 @@ public:
 
 		StringTokenizer args(arguments.toString());
 
-		//Initialize default damage amount
+		// Initialize default damage amount
 		int healthDamage = 9999999;
 		int actionDamage = healthDamage;
 		int mindDamage = healthDamage;
 
-		//Initialize components used to kill nearby creatures
+		// Initialize components used to kill nearby creatures
 		bool area = false;
 		bool wounds = false;
 		bool damage = false;
 		float range = 64;
 
 		while (args.hasMoreTokens()) {
-
 			String arg;
 			args.getStringToken(arg);
 			bool validOption = false;
 
-			//If first argument is player name, break loop and kill player
-			ManagedReference<CreatureObject*>findPlayer = playerManager->getPlayer(arg);
+			// If first argument is player name, break loop and kill player
+			ManagedReference<CreatureObject*> findPlayer = playerManager->getPlayer(arg);
 			if (findPlayer != nullptr) {
 				targetPlayer = findPlayer;
 				break;
 			}
 
-			//Command Options
+			// Command Options
 			if (arg.charAt(0) == '-') {
-				//Help Syntax
+				// Help Syntax
 				if (arg.toLowerCase() == "-help" || arg == "-H") {
 					validOption = true;
 					creature->sendSystemMessage("Syntax: /kill [-area [range]] [-wounds] [<health> [action] [mind]]");
 					return GENERALERROR;
 				}
 
-				//Make command area affect with optional range
+				// Make command area affect with optional range
 				if (arg.toLowerCase() == "-area" || arg == "-a") {
 					validOption = true;
 					area = true;
@@ -93,7 +88,7 @@ public:
 					}
 				}
 
-				//Make command apply wounds as well as damage
+				// Make command apply wounds as well as damage
 				if (arg.toLowerCase() == "-wounds" || arg == "-w") {
 					validOption = true;
 					wounds = true;
@@ -106,9 +101,9 @@ public:
 			}
 
 			else {
-				//Override default damage amount
+				// Override default damage amount
 				try {
-					//Test if value is integer
+					// Test if value is integer
 					for (int i = 0; i < arg.length(); i++) {
 						if (!Character::isDigit(arg.charAt(i)))
 							throw Exception("Invalid damage amount.");
@@ -121,7 +116,7 @@ public:
 
 					if (args.hasMoreTokens()) {
 						args.getStringToken(arg);
-						//Test if value is integer
+						// Test if value is integer
 						for (int i = 0; i < arg.length(); i++) {
 							if (!Character::isDigit(arg.charAt(i)))
 								throw Exception("Invalid action damage amount.");
@@ -132,7 +127,7 @@ public:
 
 						if (args.hasMoreTokens()) {
 							args.getStringToken(arg);
-							//Test if value is integer
+							// Test if value is integer
 							for (int i = 0; i < arg.length(); i++) {
 								if (!Character::isDigit(arg.charAt(i)))
 									throw Exception("Invalid mind damage amount.");
@@ -151,9 +146,9 @@ public:
 			}
 		}
 
-		//Deal area damage if specified
+		// Deal area damage if specified
 		if (area) {
-			//Retrieve nearby objects
+			// Retrieve nearby objects
 			SortedVector<QuadTreeEntry*> closeObjects;
 			Zone* zone = creature->getZone();
 
@@ -162,15 +157,14 @@ public:
 				creature->info("Null closeobjects vector in KillPlayerCommand::doQueueCommand", true);
 #endif
 				zone->getInRangeObjects(creature->getPositionX(), creature->getPositionY(), range, &closeObjects, true);
-			}
-			else {
-				CloseObjectsVector* closeVector = (CloseObjectsVector*) creature->getCloseObjects();
+			} else {
+				CloseObjectsVector* closeVector = (CloseObjectsVector*)creature->getCloseObjects();
 				closeVector->safeCopyReceiversTo(closeObjects, CloseObjectsVector::CREOTYPE);
 			}
 
 			int count = 0;
 
-			//Deal area damage if specified
+			// Deal area damage if specified
 			if (damage) {
 				for (int i = 0; i < closeObjects.size(); i++) {
 					SceneObject* targetObject = static_cast<SceneObject*>(closeObjects.get(i));
@@ -178,22 +172,22 @@ public:
 						targetPlayer = cast<CreatureObject*>(targetObject);
 
 						Locker locker(targetPlayer, creature);
-						//Deal damage if target is in range and is a player or pet
+						// Deal damage if target is in range and is a player or pet
 						if (creature->isInRange(targetPlayer, range) && (targetPlayer->isPlayerCreature() || targetPlayer->isPet()) && targetPlayer != creature) {
 							targetPlayer->inflictDamage(creature, 0, healthDamage, true, true);
 							targetPlayer->inflictDamage(creature, 3, actionDamage, true, true);
 							targetPlayer->inflictDamage(creature, 6, mindDamage, true, true);
 
-							if( wounds ){
-								targetPlayer->addWounds( 0, healthDamage, true );
-								targetPlayer->addWounds( 1, healthDamage, true );
-								targetPlayer->addWounds( 2, healthDamage, true );
-								targetPlayer->addWounds( 3, actionDamage, true );
-								targetPlayer->addWounds( 4, actionDamage, true );
-								targetPlayer->addWounds( 5, actionDamage, true );
-								targetPlayer->addWounds( 6, mindDamage, true );
-								targetPlayer->addWounds( 7, mindDamage, true );
-								targetPlayer->addWounds( 8, mindDamage, true );
+							if (wounds) {
+								targetPlayer->addWounds(0, healthDamage, true);
+								targetPlayer->addWounds(1, healthDamage, true);
+								targetPlayer->addWounds(2, healthDamage, true);
+								targetPlayer->addWounds(3, actionDamage, true);
+								targetPlayer->addWounds(4, actionDamage, true);
+								targetPlayer->addWounds(5, actionDamage, true);
+								targetPlayer->addWounds(6, mindDamage, true);
+								targetPlayer->addWounds(7, mindDamage, true);
+								targetPlayer->addWounds(8, mindDamage, true);
 							}
 
 							if (targetPlayer->isPlayerCreature())
@@ -207,7 +201,7 @@ public:
 				return SUCCESS;
 			}
 
-			//Kill players in area
+			// Kill players in area
 			else {
 				for (int i = 0; i < closeObjects.size(); i++) {
 					SceneObject* targetObject = static_cast<SceneObject*>(closeObjects.get(i));
@@ -215,7 +209,7 @@ public:
 						targetPlayer = cast<CreatureObject*>(targetObject);
 
 						if (targetPlayer->isPlayerCreature() && targetPlayer != creature) {
-							Locker locker (targetPlayer, creature);
+							Locker locker(targetPlayer, creature);
 
 							playerManager->killPlayer(creature, targetPlayer, 1);
 							targetPlayer->notifyObservers(ObserverEventType::OBJECTDESTRUCTION, creature, 0);
@@ -241,7 +235,7 @@ public:
 			}
 		}
 
-		//Deal damage to single target
+		// Deal damage to single target
 		else if (damage) {
 			if (targetPlayer != nullptr) {
 				if (targetPlayer->isPlayerCreature() || targetPlayer->isPet()) {
@@ -251,16 +245,16 @@ public:
 					targetPlayer->inflictDamage(creature, 3, actionDamage, true, true);
 					targetPlayer->inflictDamage(creature, 6, mindDamage, true, true);
 
-					if( wounds ){
-						targetPlayer->addWounds( 0, healthDamage, true );
-						targetPlayer->addWounds( 1, healthDamage, true );
-						targetPlayer->addWounds( 2, healthDamage, true );
-						targetPlayer->addWounds( 3, actionDamage, true );
-						targetPlayer->addWounds( 4, actionDamage, true );
-						targetPlayer->addWounds( 5, actionDamage, true );
-						targetPlayer->addWounds( 6, mindDamage, true );
-						targetPlayer->addWounds( 7, mindDamage, true );
-						targetPlayer->addWounds( 8, mindDamage, true );
+					if (wounds) {
+						targetPlayer->addWounds(0, healthDamage, true);
+						targetPlayer->addWounds(1, healthDamage, true);
+						targetPlayer->addWounds(2, healthDamage, true);
+						targetPlayer->addWounds(3, actionDamage, true);
+						targetPlayer->addWounds(4, actionDamage, true);
+						targetPlayer->addWounds(5, actionDamage, true);
+						targetPlayer->addWounds(6, mindDamage, true);
+						targetPlayer->addWounds(7, mindDamage, true);
+						targetPlayer->addWounds(8, mindDamage, true);
 					}
 
 					if (targetPlayer->isPlayerCreature())
@@ -270,14 +264,13 @@ public:
 
 					return SUCCESS;
 				}
-			}
-			else {
+			} else {
 				creature->sendSystemMessage("Invalid target.");
 				return INVALIDTARGET;
 			}
 		}
 
-		//Kill single target
+		// Kill single target
 		else {
 			if (targetPlayer != nullptr) {
 				if (targetPlayer->isPlayerCreature()) {
@@ -296,8 +289,7 @@ public:
 						pet->notifyObservers(ObserverEventType::OBJECTDESTRUCTION, creature, 0);
 					}
 				}
-			}
-			else {
+			} else {
 				creature->sendSystemMessage("Invalid target.");
 				return INVALIDTARGET;
 			}
@@ -305,7 +297,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //KILLPLAYERCOMMAND_H_
+#endif // KILLPLAYERCOMMAND_H_

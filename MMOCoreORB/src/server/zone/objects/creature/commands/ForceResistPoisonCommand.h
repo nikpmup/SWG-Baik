@@ -7,21 +7,16 @@
 
 class ForceResistPoisonCommand : public JediQueueCommand {
 public:
-
-	ForceResistPoisonCommand(const String& name, ZoneProcessServer* server)
-		: JediQueueCommand(name, server) {
-
+	ForceResistPoisonCommand(const String& name, ZoneProcessServer* server) : JediQueueCommand(name, server) {
 		buffCRC = BuffCRC::JEDI_RESIST_POISON;
 
 		skillMods.put("resistance_poison", 25);
 		skillMods.put("absorption_poison", 25);
-
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
 		return doJediSelfBuffCommand(creature);
 	}
-
 };
 
-#endif //FORCERESISTPOISONCOMMAND_H_
+#endif // FORCERESISTPOISONCOMMAND_H_

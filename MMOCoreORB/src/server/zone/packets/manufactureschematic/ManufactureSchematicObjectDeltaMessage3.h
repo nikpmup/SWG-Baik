@@ -2,7 +2,6 @@
 				Copyright <SWGEmu>
 		See file COPYING for copying conditions.*/
 
-
 #ifndef MANUFACTURESCHEMATICOBJECTDELTAMESSAGE3_H_
 #define MANUFACTURESCHEMATICOBJECTDELTAMESSAGE3_H_
 
@@ -10,8 +9,7 @@
 
 class ManufactureSchematicObjectDeltaMessage3 : public DeltaMessage {
 public:
-	ManufactureSchematicObjectDeltaMessage3(SceneObject* schematic)
-			: DeltaMessage(schematic->getObjectID(), 0x4D53434F, 3) {
+	ManufactureSchematicObjectDeltaMessage3(SceneObject* schematic) : DeltaMessage(schematic->getObjectID(), 0x4D53434F, 3) {
 	}
 
 	void updateComplexity(float complexity) {
@@ -30,8 +28,7 @@ public:
 		addIntUpdate(5, limit);
 	}
 
-	void updateCraftingValues(ManufactureSchematic* manufactureSchematic){
-
+	void updateCraftingValues(ManufactureSchematic* manufactureSchematic) {
 		CraftingValues* craftingValues = manufactureSchematic->getCraftingValues();
 
 		String name;
@@ -43,8 +40,7 @@ public:
 
 		startList(count, count);
 
-		for (int i = 0; i < count; ++i){
-
+		for (int i = 0; i < count; ++i) {
 			insertByte(0);
 			insertAscii("crafting");
 			insertInt(0);
@@ -52,7 +48,6 @@ public:
 			value = craftingValues->getCurrentValue(name);
 			insertAscii(name);
 			insertFloat(value);
-
 		}
 	}
 };

@@ -8,7 +8,6 @@ namespace managers {
 namespace reaction {
 
 class ReactionRankData : public Object {
-
 protected:
 	int minRank, maxRank;
 	String templateName;
@@ -30,12 +29,11 @@ public:
 	int getRandomRank() {
 		return minRank + System::random(maxRank - minRank);
 	}
-
 };
 
-}
-}
-}
-}
+} // namespace reaction
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 #endif /* REACTIONRANKDATA_H_ */

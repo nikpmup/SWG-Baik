@@ -13,20 +13,20 @@
 #include "SceneObjectComponent.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace scene {
-    class SceneObject;
-   }
-
-   namespace building {
-    class BuildingObject;
-   }
-  }
-
-  class Zone;
- }
+namespace zone {
+namespace objects {
+namespace scene {
+class SceneObject;
 }
+
+namespace building {
+class BuildingObject;
+}
+} // namespace objects
+
+class Zone;
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::scene;
 using namespace server::zone::objects::building;
@@ -85,7 +85,6 @@ public:
 	virtual void updateZoneWithParent(SceneObject* sceneObject, SceneObject* newParent, bool lightUpdate, bool sendPackets = true) const;
 
 	virtual void notifyPositionUpdate(SceneObject* sceneObject, QuadTreeEntry* entry) const {
-
 	}
 
 	virtual void notifySelfPositionUpdate(SceneObject* sceneObject) const;
@@ -102,10 +101,7 @@ public:
 
 	void removeObjectFromZone(SceneObject* sceneObject, Zone* zone, SceneObject* par) const;
 
-	static void removeAllObjectsFromCOV(CloseObjectsVector *closeobjects,
-										SortedVector<ManagedReference<QuadTreeEntry *> > &closeSceneObjects,
-										SceneObject *sceneObject, SceneObject *vectorOwner);
+	static void removeAllObjectsFromCOV(CloseObjectsVector* closeobjects, SortedVector<ManagedReference<QuadTreeEntry*>>& closeSceneObjects, SceneObject* sceneObject, SceneObject* vectorOwner);
 };
-
 
 #endif /* ZONECOMPONENT_H_ */

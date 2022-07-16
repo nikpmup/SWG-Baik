@@ -17,6 +17,7 @@ class EnqueuePetCommand : public Task {
 	UnicodeString arguments;
 	uint64 target;
 	int priority;
+
 public:
 	EnqueuePetCommand(CreatureObject* pet, uint32 command, const String& args, uint64 target, int priority = -1) {
 		this->pet = pet;
@@ -32,6 +33,5 @@ public:
 		pet->enqueueCommand(commandCRC, 0, target, arguments, priority);
 	}
 };
-
 
 #endif /* ENQUEUEPETCOMMAND_H_ */

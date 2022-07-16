@@ -12,11 +12,9 @@ class HealMindCommand : public QueueCommand {
 	float mindCost;
 	float mindWoundCost;
 	float range;
+
 public:
-
-	HealMindCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HealMindCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		mindCost = 250;
 		mindWoundCost = 250;
 		range = 5;
@@ -42,7 +40,7 @@ public:
 		if (mindDamage > 0) {
 			msgBody << mindDamage << " mind";
 		} else {
-			return; //No damage to heal.
+			return; // No damage to heal.
 		}
 
 		msgTail << " damage.";
@@ -61,11 +59,10 @@ public:
 
 	int calculateWound(int wound, int poolWounds, int poolMax) const {
 		int maxWound = poolMax - poolWounds - 1;
-		return (Math::max(0,Math::min(maxWound,wound)));
+		return (Math::max(0, Math::min(maxWound, wound)));
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		int result = doCommonMedicalCommandChecks(creature);
 
 		if (result != SUCCESS)
@@ -83,7 +80,7 @@ public:
 				if (tangibleObject != nullptr && tangibleObject->isAttackableBy(creature)) {
 					object = creature;
 				} else {
-					creature->sendSystemMessage("@healing:heal_mind_invalid_target"); //Target must be a player or a creature pet in order to heal mind.
+					creature->sendSystemMessage("@healing:heal_mind_invalid_target"); // Target must be a player or a creature pet in order to heal mind.
 					return GENERALERROR;
 				}
 			}
@@ -91,16 +88,16 @@ public:
 			object = creature;
 		}
 
-		CreatureObject* creatureTarget = cast<CreatureObject*>( object.get());
+		CreatureObject* creatureTarget = cast<CreatureObject*>(object.get());
 
 		Locker clocker(creatureTarget, creature);
 
 		CreatureObject* player = cast<CreatureObject*>(creature);
 
 		if (creatureTarget == creature) {
-			creature->sendSystemMessage("@healing:no_heal_mind_self"); //You can not heal your own mind.
+			creature->sendSystemMessage("@healing:no_heal_mind_self"); // You can not heal your own mind.
 			return GENERALERROR;
-		}		
+		}
 
 		if (creatureTarget->isDead() || (creatureTarget->isAiAgent() && !creatureTarget->isPet()) || creatureTarget->isDroidObject()) {
 			creature->sendSystemMessage("@healing:heal_mind_invalid_target"); // Target must be a player or a creature pet in order to heal mind.
@@ -113,12 +110,12 @@ public:
 		}
 
 		if (!creatureTarget->isHealableBy(creature)) {
-			creature->sendSystemMessage("@healing:pvp_no_help"); //It would be unwise to help such a patient.
+			creature->sendSystemMessage("@healing:pvp_no_help"); // It would be unwise to help such a patient.
 			return GENERALERROR;
 		}
 
 		if (creature->getHAM(CreatureAttribute::MIND) < mindCost) {
-			creature->sendSystemMessage("@healing_response:not_enough_mind"); //You do not have enough mind to do that.
+			creature->sendSystemMessage("@healing_response:not_enough_mind"); // You do not have enough mind to do that.
 			return GENERALERROR;
 		}
 
@@ -126,7 +123,7 @@ public:
 			if (creatureTarget->isPlayerCreature()) {
 				StringIdChatParameter stringId("healing", "no_mind_to_heal_target"); //%NT has no mind to heal.
 				stringId.setTT(creatureTarget->getObjectID());
-				creature->sendSystemMessage(stringId); 
+				creature->sendSystemMessage(stringId);
 			} else {
 				StringBuffer message;
 				message << creatureTarget->getDisplayedName() << " has no mind to heal.";
@@ -135,7 +132,7 @@ public:
 			return GENERALERROR;
 		}
 
-		if(!checkDistance(creature, creatureTarget, range))
+		if (!checkDistance(creature, creatureTarget, range))
 			return TOOFAR;
 
 		PlayerManager* playerManager = server->getPlayerManager();
@@ -149,11 +146,11 @@ public:
 			return GENERALERROR;
 		}
 
-		float modSkill = (float) creature->getSkillMod("combat_medic_effectiveness");
-		int healPower = (int) (System::random(500)+800) * modSkill / 100;
+		float modSkill = (float)creature->getSkillMod("combat_medic_effectiveness");
+		int healPower = (int)(System::random(500) + 800) * modSkill / 100;
 
 		// Check BF
-		healPower = (int) (healPower * creature->calculateBFRatio());
+		healPower = (int)(healPower * creature->calculateBFRatio());
 
 		int healedMind = creatureTarget->healDamage(creature, CreatureAttribute::MIND, healPower);
 
@@ -162,7 +159,7 @@ public:
 		}
 
 		sendHealMessage(creature, creatureTarget, healedMind);
-		int mindWound = (int) healedMind * .05; // 5% of mind healed in wounds
+		int mindWound = (int)healedMind * .05; // 5% of mind healed in wounds
 
 		creature->addWounds(CreatureAttribute::MIND, mindWound, true, false);
 		creature->addWounds(CreatureAttribute::FOCUS, mindWound, true, false);
@@ -176,7 +173,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //HEALMINDCOMMAND_H_
+#endif // HEALMINDCOMMAND_H_

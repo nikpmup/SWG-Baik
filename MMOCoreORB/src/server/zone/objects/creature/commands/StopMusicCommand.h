@@ -10,10 +10,7 @@
 
 class StopMusicCommand : public QueueCommand {
 public:
-
-	StopMusicCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	StopMusicCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -36,7 +33,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //STOPMUSICCOMMAND_H_
+#endif // STOPMUSICCOMMAND_H_

@@ -10,14 +10,10 @@
 
 class MeditateCommand : public QueueCommand {
 public:
-
-	MeditateCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	MeditateCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature)) {
 			creature->sendSystemMessage("@teraskasi:med_fail");
 			return INVALIDSTATE;
@@ -57,9 +53,7 @@ public:
 		player->registerObserver(ObserverEventType::POSTURECHANGED, playermgr);
 
 		return SUCCESS;
-
 	}
-
 };
 
-#endif //MEDITATECOMMAND_H_
+#endif // MEDITATECOMMAND_H_

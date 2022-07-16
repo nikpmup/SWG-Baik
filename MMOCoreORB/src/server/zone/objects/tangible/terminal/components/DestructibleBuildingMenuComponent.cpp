@@ -8,7 +8,6 @@
 #include "server/zone/managers/structure/tasks/DestroyStructureTask.h"
 
 void DestructibleBuildingMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
 	ManagedReference<BuildingObject*> building = sceneObject->getParentRecursively(SceneObjectType::BUILDING).castTo<BuildingObject*>();
 
 	if (building == nullptr || player->isDead() || player->isIncapacitated())
@@ -16,22 +15,21 @@ void DestructibleBuildingMenuComponent::fillObjectMenuResponse(SceneObject* scen
 
 	Zone* zone = building->getZone();
 
-	if(zone == nullptr)
+	if (zone == nullptr)
 		return;
 
 	Reference<Task*> pendingTask = building->getPendingTask("destruction");
 
 	if (pendingTask == nullptr && building->isOwnerOf(player)) {
-		menuResponse->addRadialMenuItem(227, 3, "@self_destruct:self_destruct"); // Set Self Destruct
+		menuResponse->addRadialMenuItem(227, 3, "@self_destruct:self_destruct");		  // Set Self Destruct
 		menuResponse->addRadialMenuItemToRadialID(227, 128, 3, "@self_destruct:fifteen"); // 15 seconds
-		menuResponse->addRadialMenuItemToRadialID(227, 129, 3, "@self_destruct:thirty"); // 30 seconds
+		menuResponse->addRadialMenuItemToRadialID(227, 129, 3, "@self_destruct:thirty");  // 30 seconds
 	}
 
 	return;
 }
 
 int DestructibleBuildingMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
-
 	ManagedReference<BuildingObject*> building = sceneObject->getParentRecursively(SceneObjectType::BUILDING).castTo<BuildingObject*>();
 
 	if (building == nullptr || player->isDead() || player->isIncapacitated())

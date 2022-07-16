@@ -1,6 +1,6 @@
 /*
-                Copyright <SWGEmu>
-        See file COPYING for copying conditions.*/
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
 
 /**
  * @author      : lordkator (lordkator@swgemu.com)
@@ -13,18 +13,19 @@
 #include "BaseAPIProxy.h"
 
 namespace server {
- namespace web3 {
-	class APIRequest;
+namespace web3 {
+class APIRequest;
 
-	class APIProxyChatManager : public BaseAPIProxy {
-	public:
-		APIProxyChatManager() : BaseAPIProxy("ChatManager")  {
-		}
+class APIProxyChatManager : public BaseAPIProxy {
+public:
+	APIProxyChatManager() : BaseAPIProxy("ChatManager") {
+	}
 
-		server::chat::ChatManager *getChatManager() const;
-		void handle(APIRequest& apiRequest);
-	private:
-		String expandTo(String toExpr, Function<String(String playerName)> process, bool skipOffline = true) const;
-	};
- }
-}
+	server::chat::ChatManager* getChatManager() const;
+	void handle(APIRequest& apiRequest);
+
+private:
+	String expandTo(String toExpr, Function<String(String playerName)> process, bool skipOffline = true) const;
+};
+} // namespace web3
+} // namespace server

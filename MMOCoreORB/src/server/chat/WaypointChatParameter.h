@@ -16,11 +16,11 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace waypoint {
-	class WaypointObject;
+class WaypointObject;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::waypoint;
 
@@ -76,7 +76,7 @@ public:
 		j["positionZ"] = p.positionZ;
 		j["color"] = p.color;
 		j["active"] = p.active;
-       	}
+	}
 
 	WaypointChatParameter& operator=(const WaypointChatParameter& par) {
 		if (this == &par)
@@ -142,10 +142,9 @@ public:
 	}
 };
 
-}
-}
+} // namespace chat
+} // namespace server
 
 using namespace server::chat;
-
 
 #endif /* WAYPOINTCHATPARAMETER_H_ */

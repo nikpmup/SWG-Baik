@@ -74,5 +74,4 @@ public:
 	}
 };
 
-
 #endif /* LOGINSESSION_H_ */

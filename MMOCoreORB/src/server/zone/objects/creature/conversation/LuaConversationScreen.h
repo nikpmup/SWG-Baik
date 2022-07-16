@@ -19,7 +19,7 @@ public:
 	static Luna<LuaConversationScreen>::RegType Register[];
 
 	// Initialize the pointer
-	LuaConversationScreen(lua_State *L);
+	LuaConversationScreen(lua_State* L);
 	~LuaConversationScreen();
 
 	int _setObject(lua_State* L);
@@ -42,11 +42,10 @@ public:
 	int setStopConversation(lua_State* L);
 
 private:
-	//removed Reference<> because we are cloning in lua and returning
+	// removed Reference<> because we are cloning in lua and returning
 	ConversationScreen* realObject;
 
 	static void setDialogText(StringIdParameter* param, lua_State* L, bool forceString = false);
 };
-
 
 #endif /* LUACONVERSATIONSCREEN_H_ */

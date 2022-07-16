@@ -16,11 +16,9 @@ public:
 
 public:
 	FactoryObjectTemplate() {
-
 	}
 
 	~FactoryObjectTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -34,9 +32,8 @@ public:
 		craftingTabsSupportedList.pop();
 	}
 
-	Vector<int> getCraftingTabsSupported()
-	{
-	    return craftingTabsSupported;
+	Vector<int> getCraftingTabsSupported() {
+		return craftingTabsSupported;
 	}
 
 	bool isFactoryObjectTemplate() {

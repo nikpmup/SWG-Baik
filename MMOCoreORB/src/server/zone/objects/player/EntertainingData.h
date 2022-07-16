@@ -14,6 +14,7 @@ class EntertainingData : public Serializable {
 	int duration;
 	int strength;
 	int timeStarted;
+
 public:
 	EntertainingData() {
 		duration = 0;

@@ -10,13 +10,10 @@
 class ChatOnAddFriend : public BaseMessage {
 public:
 	ChatOnAddFriend() : BaseMessage() {
-
 		insertShort(0x03);
-		insertInt(0x2B2A0D94);  // CRC
+		insertInt(0x2B2A0D94); // CRC
 		insertLong(0);
-
 	}
-
 };
 
 #endif /*CHATONADDFRIEND_H_*/

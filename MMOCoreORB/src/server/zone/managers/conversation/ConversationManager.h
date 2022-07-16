@@ -23,7 +23,7 @@ class ConversationManager : public Singleton<ConversationManager>, public Logger
 	/**
 	 * Map with conversation template crc as the key and the created conversation observer as the value.
 	 */
-	HashTable<uint32, Reference<objects::creature::conversation::ConversationObserver*> > conversationObservers;
+	HashTable<uint32, Reference<objects::creature::conversation::ConversationObserver*>> conversationObservers;
 
 public:
 	/**
@@ -44,10 +44,10 @@ public:
 	objects::creature::conversation::ConversationObserver* getConversationObserver(uint32 conversationTemplateCRC);
 };
 
-}
-}
-}
-}
+} // namespace conversation
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::conversation;
 

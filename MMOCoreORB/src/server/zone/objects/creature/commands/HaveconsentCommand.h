@@ -10,14 +10,10 @@
 
 class HaveconsentCommand : public QueueCommand {
 public:
-
-	HaveconsentCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HaveconsentCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -35,7 +31,7 @@ public:
 		ghost->closeSuiWindowType(SuiWindowType::MEDIC_CONSENT);
 
 		if (ghost->getConsentListSize() <= 0) {
-			creature->sendSystemMessage("@error_message:consent_to_empty"); //You have not granted consent to anyone.
+			creature->sendSystemMessage("@error_message:consent_to_empty"); // You have not granted consent to anyone.
 			return GENERALERROR;
 		}
 
@@ -58,7 +54,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //HAVECONSENTCOMMAND_H_
+#endif // HAVECONSENTCOMMAND_H_

@@ -8,7 +8,7 @@
 #ifndef TERMINALLISTVECTOR_H_
 #define TERMINALLISTVECTOR_H_
 
-class TerminalItemList : public SortedVector<ManagedReference<AuctionItem*> >, public ReadWriteLock {
+class TerminalItemList : public SortedVector<ManagedReference<AuctionItem*>>, public ReadWriteLock {
 protected:
 	bool searchable;
 
@@ -17,7 +17,7 @@ public:
 		searchable = false;
 	}
 
-	TerminalItemList(const TerminalItemList& list) : SortedVector<ManagedReference<AuctionItem*> >(list), ReadWriteLock() {
+	TerminalItemList(const TerminalItemList& list) : SortedVector<ManagedReference<AuctionItem*>>(list), ReadWriteLock() {
 		searchable = list.searchable;
 	}
 
@@ -41,31 +41,22 @@ public:
 	int put(const ManagedReference<AuctionItem*>& o) {
 		Locker locker(this);
 
-		return SortedVector<ManagedReference<AuctionItem*> >::put(o);
+		return SortedVector<ManagedReference<AuctionItem*>>::put(o);
 	}
 
 	bool drop(const ManagedReference<AuctionItem*>& o) {
 		Locker locker(this);
 
-		return SortedVector<ManagedReference<AuctionItem*> >::drop(o);
+		return SortedVector<ManagedReference<AuctionItem*>>::drop(o);
 	}
-
 };
 
-class TerminalRegionList : public VectorMap<uint64, Reference<TerminalItemList*> >, public ReadWriteLock {
+class TerminalRegionList : public VectorMap<uint64, Reference<TerminalItemList*>>, public ReadWriteLock {};
 
-};
+class TerminalPlanetList : public VectorMap<String, Reference<TerminalRegionList*>>, public ReadWriteLock {};
 
-class TerminalPlanetList : public VectorMap<String, Reference<TerminalRegionList*> >, public ReadWriteLock {
+class TerminalGalaxyList : public VectorMap<String, Reference<TerminalPlanetList*>>, public ReadWriteLock {};
 
-};
-
-class TerminalGalaxyList : public VectorMap<String, Reference<TerminalPlanetList*> >, public ReadWriteLock {
-
-};
-
-class TerminalListVector : public SortedVector<Reference<TerminalItemList*> > {
-
-};
+class TerminalListVector : public SortedVector<Reference<TerminalItemList*>> {};
 
 #endif /* TERMINALLISTVECTOR_H_ */

@@ -18,7 +18,6 @@
  */
 class NewbieTutorialEnableHudElement : public BaseMessage {
 public:
-
 	/**
 	 * Enables or disables a HUD element on the client.
 	 * @param element String of element
@@ -27,13 +26,12 @@ public:
 	 */
 	NewbieTutorialEnableHudElement(const String& element, bool enable = true, float blinkCount = 0.f) : BaseMessage() {
 		insertShort(0x04);
-		insertInt(0xCA375124);  // CRC
+		insertInt(0xCA375124); // CRC
 
-		insertAscii(element); //see elements above.
+		insertAscii(element); // see elements above.
 		insertBoolean(enable);
 		insertFloat(blinkCount); // times the element blinks
-   }
-
+	}
 };
 
 #endif /* NEWBIETUTORIALENABLEHUDELEMENT_H_ */

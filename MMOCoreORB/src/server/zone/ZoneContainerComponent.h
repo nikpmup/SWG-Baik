@@ -11,16 +11,16 @@
 #include "server/zone/objects/scene/components/ContainerComponent.h"
 
 namespace server {
-	namespace zone {
-		class Zone;
+namespace zone {
+class Zone;
 
-		namespace objects {
-			namespace area {
-				class ActiveArea;
-			}
-		}
-	}
+namespace objects {
+namespace area {
+class ActiveArea;
 }
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone;
 using namespace server::zone::objects::area;
@@ -29,6 +29,7 @@ class ZoneContainerComponent : public ContainerComponent {
 protected:
 	bool insertActiveArea(Zone* zone, ActiveArea* activeArea) const;
 	bool removeActiveArea(Zone* zone, ActiveArea* activeArea) const;
+
 public:
 	/**
 	 * Tries to add/link object
@@ -59,20 +60,19 @@ public:
 	 * @param error error string that the player will receive on error
 	 * @return returns 0 on success, or error code
 	 */
-	//virtual int canAddObject(SceneObject* sceneObject, SceneObject* object, int containmentType, String& errorDescription);
+	// virtual int canAddObject(SceneObject* sceneObject, SceneObject* object, int containmentType, String& errorDescription);
 
 	/**
 	 * Is called when this object has been inserted with an object
 	 * @param object object that has been inserted
 	 */
-	//virtual int notifyObjectInserted(SceneObject* sceneObject, SceneObject* object);
+	// virtual int notifyObjectInserted(SceneObject* sceneObject, SceneObject* object);
 
 	/**
 	 * Is called when an object was removed
 	 * @param object object that has been inserted
 	 */
-	//virtual int notifyObjectRemoved(SceneObject* sceneObject, SceneObject* object);
-
+	// virtual int notifyObjectRemoved(SceneObject* sceneObject, SceneObject* object);
 };
 
 #endif /* ZONECONTAINERCOMPONENT_H_ */

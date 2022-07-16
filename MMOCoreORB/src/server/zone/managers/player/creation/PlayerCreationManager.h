@@ -15,9 +15,9 @@
 
 namespace server {
 namespace zone {
-	class ZoneServer;
+class ZoneServer;
 }
-}
+} // namespace server
 
 using namespace server::zone;
 
@@ -25,11 +25,11 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace creature {
-	class CreatureObject;
+class CreatureObject;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 
@@ -37,11 +37,11 @@ namespace server {
 namespace zone {
 namespace objects {
 namespace scene {
-	class SceneObject;
+class SceneObject;
 }
-}
-}
-}
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::scene;
 
@@ -58,10 +58,10 @@ class ProfessionDefaultsInfo;
 class PlayerCreationManager : public Singleton<PlayerCreationManager>, public Logger, public Object {
 	ManagedReference<ZoneServer*> zoneServer;
 
-	VectorMap<String, Reference<RacialCreationData*> > racialCreationData;
-	VectorMap<String, Reference<ProfessionDefaultsInfo*> > professionDefaultsInfo;
-	VectorMap<String, SortedVector<String> > defaultCharacterEquipment;
-	VectorMap<String, Reference<HairStyleInfo*> > hairStyleInfo;
+	VectorMap<String, Reference<RacialCreationData*>> racialCreationData;
+	VectorMap<String, Reference<ProfessionDefaultsInfo*>> professionDefaultsInfo;
+	VectorMap<String, SortedVector<String>> defaultCharacterEquipment;
+	VectorMap<String, Reference<HairStyleInfo*>> hairStyleInfo;
 
 	/**
 	 * Vector containing starting items common for all races and professions.
@@ -95,7 +95,7 @@ class PlayerCreationManager : public Singleton<PlayerCreationManager>, public Lo
 	void addRacialMods(CreatureObject* creature, const String& race, const Vector<String>* startingSkills, const Vector<String>* startingItems, bool equipmentOnly) const;
 	void addStartingItems(CreatureObject* creature, const String& clientTemplate, bool equipmentOnly) const;
 	void addProfessionStartingItems(CreatureObject* creature, const String& profession, const String& clientTemplate, bool equipmentOnly) const;
-	//void generateHologrindProfessions(CreatureObject* creature);
+	// void generateHologrindProfessions(CreatureObject* creature);
 
 public:
 	PlayerCreationManager();
@@ -149,11 +149,11 @@ public:
 	void addStartingItemsInto(CreatureObject* creature, SceneObject* container) const;
 };
 
-}
-}
-}
-}
-}
+} // namespace creation
+} // namespace player
+} // namespace managers
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::managers::player::creation;
 

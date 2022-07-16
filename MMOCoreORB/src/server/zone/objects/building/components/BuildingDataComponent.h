@@ -10,22 +10,20 @@
 #include "server/zone/objects/scene/components/DataObjectComponent.h"
 
 class BuildingDataComponent : public DataObjectComponent {
-
 public:
-	BuildingDataComponent(){
+	BuildingDataComponent() {
 	}
 
-	virtual ~BuildingDataComponent(){
+	virtual ~BuildingDataComponent() {
 	}
 
-	virtual bool isGCWBaseData(){
+	virtual bool isGCWBaseData() {
 		return false;
 	}
 
-	bool isBuildingData(){
+	bool isBuildingData() {
 		return true;
 	}
 };
-
 
 #endif /* BUILDINGDATACOMPONENT_H_ */

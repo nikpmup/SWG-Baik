@@ -19,7 +19,6 @@ class AffectorRadialFarConstant : public ProceduralRule<'AFDF'>, public Affector
 
 public:
 	AffectorRadialFarConstant() : familyId(0), var2(0), flag(0), featheringType(0), featheringAmount(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {

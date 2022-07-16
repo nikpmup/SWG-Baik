@@ -8,8 +8,6 @@
 #ifndef INTERSECTIONRESULTS_H_
 #define INTERSECTIONRESULTS_H_
 
-class IntersectionResults : public SortedVector<IntersectionResult> {
-
-};
+class IntersectionResults : public SortedVector<IntersectionResult> {};
 
 #endif /* INTERSECTIONRESULTS_H_ */

@@ -61,11 +61,9 @@ public:
 			a = (one & 0x80);
 			break;
 		}
-
 		}
 	}
 };
-
 
 TargaBitmap::TargaBitmap() {
 	pixelData = nullptr;
@@ -79,7 +77,7 @@ TargaBitmap::~TargaBitmap() {
 			}
 		}
 
-		delete [] pixelData;
+		delete[] pixelData;
 		pixelData = nullptr;
 	}
 }
@@ -107,7 +105,6 @@ void TargaBitmap::readObject(ObjectInputStream* stream) {
 		case 2:
 			obj = new TargaColorPixel();
 			break;
-
 		}
 
 		pixelData[i] = obj;
@@ -117,7 +114,7 @@ void TargaBitmap::readObject(ObjectInputStream* stream) {
 
 	int skip = header.idlength + (header.colourmaptype * header.colourmaplength);
 
-	//printf("reading tga %d x %d type:%d skipping:%d after header\n", header.width, header.height, header.datatypecode, skip);
+	// printf("reading tga %d x %d type:%d skipping:%d after header\n", header.width, header.height, header.datatypecode, skip);
 
 	stream->shiftOffset(skip);
 

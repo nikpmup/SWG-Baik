@@ -13,7 +13,7 @@
 
 int ContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject* object, int containmentType, String& errorDescription) const {
 	if (sceneObject == object) {
-		errorDescription = "@container_error_message:container02"; //You cannot add something to itself.
+		errorDescription = "@container_error_message:container02"; // You cannot add something to itself.
 
 		return TransferErrorCode::CANTADDTOITSELF;
 	}
@@ -27,14 +27,13 @@ int ContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject* obje
 		ManagedReference<SceneObject*> objNpcCreatureParent = object->getParentRecursively(SceneObjectType::NPCCREATURE);
 		ManagedReference<SceneObject*> objBuildingParent = object->getParentRecursively(SceneObjectType::BUILDING);
 
-
 		if (containerFactoryParent != nullptr) {
 			errorDescription = "@container_error_message:container28";
 			return TransferErrorCode::CANTADD;
 		} else if (objPlayerParent == nullptr && objCreatureParent == nullptr && objNpcCreatureParent == nullptr && objBuildingParent != nullptr) {
-			ManagedReference<BuildingObject*> buio = cast<BuildingObject*>( objBuildingParent.get());
+			ManagedReference<BuildingObject*> buio = cast<BuildingObject*>(objBuildingParent.get());
 
-			if (buio != nullptr ) {
+			if (buio != nullptr) {
 				uint64 bid = buio->getOwnerObjectID();
 
 				if ((containerPlayerParent != nullptr && bid != containerPlayerParent->getObjectID()) || (sceneObject->isPlayerCreature() && bid != sceneObject->getObjectID())) {
@@ -43,7 +42,7 @@ int ContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject* obje
 				}
 			}
 		} else if (objPlayerParent != nullptr && containerPlayerParent == nullptr && containerBuildingParent != nullptr && !sceneObject->isPlayerCreature()) {
-			ManagedReference<BuildingObject*> buio = cast<BuildingObject*>( containerBuildingParent.get());
+			ManagedReference<BuildingObject*> buio = cast<BuildingObject*>(containerBuildingParent.get());
 
 			if (buio != nullptr && (buio->getOwnerObjectID() != objPlayerParent->getObjectID() || buio->isCivicStructure())) {
 				errorDescription = "@container_error_message:container28";
@@ -112,20 +111,15 @@ int ContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject* obje
 	}
 
 	if (!validationError.isEmpty()) {
-		sceneObject->error()
-			<< "canAddObject: invalid attempt for containmentType "
-			<< containmentType << " to add " << object->getObjectID()
-			<< " into " << sceneObject->getObjectID() << " (ContainerType " << sceneObject->getContainerType() << ") - "
-			<< validationError
-			;
+		sceneObject->error() << "canAddObject: invalid attempt for containmentType " << containmentType << " to add " << object->getObjectID() << " into " << sceneObject->getObjectID() << " (ContainerType " << sceneObject->getContainerType() << ") - " << validationError;
 		errorDescription = "@container_error_message:container28";
 		return TransferErrorCode::CANTADD;
 	}
 
 	Locker contLocker(sceneObject->getContainerLock());
 
-	const VectorMap<String, ManagedReference<SceneObject*> >* slottedObjects = sceneObject->getSlottedObjects();
-	VectorMap<uint64, ManagedReference<SceneObject*> >* containerObjects = sceneObject->getContainerObjects();
+	const VectorMap<String, ManagedReference<SceneObject*>>* slottedObjects = sceneObject->getSlottedObjects();
+	VectorMap<uint64, ManagedReference<SceneObject*>>* containerObjects = sceneObject->getContainerObjects();
 
 	if (containmentType >= 4) {
 		int arrangementGroup = containmentType - 4;
@@ -133,18 +127,18 @@ int ContainerComponent::canAddObject(SceneObject* sceneObject, SceneObject* obje
 		if (object->getArrangementDescriptorSize() > arrangementGroup) {
 			const Vector<String>* descriptors = object->getArrangementDescriptor(arrangementGroup);
 
-			for (int i = 0; i < descriptors->size(); ++i){
+			for (int i = 0; i < descriptors->size(); ++i) {
 				const String& childArrangement = descriptors->get(i);
 
 				if (slottedObjects->contains(childArrangement)) {
-					errorDescription = "@container_error_message:container04"; //This slot is already occupied.
+					errorDescription = "@container_error_message:container04"; // This slot is already occupied.
 					return TransferErrorCode::SLOTOCCUPIED;
 				}
 			}
 		}
 	} else if (containmentType == -1) {
 		if (containerObjects->size() >= sceneObject->getContainerVolumeLimit()) {
-			errorDescription = "@container_error_message:container03"; //This container is full.
+			errorDescription = "@container_error_message:container03"; // This container is full.
 
 			return TransferErrorCode::CONTAINERFULL;
 		}
@@ -243,25 +237,25 @@ bool ContainerComponent::transferObject(SceneObject* sceneObject, SceneObject* o
 
 	Locker contLocker(sceneObject->getContainerLock());
 
-	VectorMap<String, ManagedReference<SceneObject*> >* slottedObjects = sceneObject->getSlottedObjects();
-	VectorMap<uint64, ManagedReference<SceneObject*> >* containerObjects = sceneObject->getContainerObjects();
+	VectorMap<String, ManagedReference<SceneObject*>>* slottedObjects = sceneObject->getSlottedObjects();
+	VectorMap<uint64, ManagedReference<SceneObject*>>* containerObjects = sceneObject->getContainerObjects();
 
-	//if (containerType == 1 || containerType == 5) {
+	// if (containerType == 1 || containerType == 5) {
 	if (containmentType >= 4) {
 		int arrangementGroup = containmentType - 4;
 
 		if (object->getArrangementDescriptorSize() > arrangementGroup) {
 			const Vector<String>* descriptors = object->getArrangementDescriptor(arrangementGroup);
 
-			for (int i = 0; i < descriptors->size(); ++i){
+			for (int i = 0; i < descriptors->size(); ++i) {
 				const String& childArrangement = descriptors->get(i);
 				if (slottedObjects->contains(childArrangement)) {
 					return false;
 				}
 			}
 
-			for (int i = 0; i < descriptors->size(); ++i)	{
-				 slottedObjects->put(descriptors->get(i), object);
+			for (int i = 0; i < descriptors->size(); ++i) {
+				slottedObjects->put(descriptors->get(i), object);
 			}
 		} else {
 			return false;
@@ -270,7 +264,7 @@ bool ContainerComponent::transferObject(SceneObject* sceneObject, SceneObject* o
 		object->setParent(sceneObject);
 		object->setContainmentType(containmentType);
 	} else if (containmentType == -1) { /* else if (containerType == 2 || containerType == 3) {*/
-		if (!allowOverflow && containerObjects->size() >= sceneObject->getContainerVolumeLimit()){
+		if (!allowOverflow && containerObjects->size() >= sceneObject->getContainerVolumeLimit()) {
 			return false;
 		}
 
@@ -305,7 +299,7 @@ bool ContainerComponent::transferObject(SceneObject* sceneObject, SceneObject* o
 
 	if (update) {
 		sceneObject->updateToDatabase();
-		//object->updateToDatabaseWithoutChildren()();
+		// object->updateToDatabaseWithoutChildren()();
 	}
 
 	ManagedReference<SceneObject*> rootParent = object->getRootParent();
@@ -321,8 +315,8 @@ bool ContainerComponent::transferObject(SceneObject* sceneObject, SceneObject* o
 bool ContainerComponent::removeObject(SceneObject* sceneObject, SceneObject* object, SceneObject* destination, bool notifyClient) const {
 	Locker contLocker(sceneObject->getContainerLock());
 
-	VectorMap<String, ManagedReference<SceneObject*> >* slottedObjects = sceneObject->getSlottedObjects();
-	VectorMap<uint64, ManagedReference<SceneObject*> >* containerObjects = sceneObject->getContainerObjects();
+	VectorMap<String, ManagedReference<SceneObject*>>* slottedObjects = sceneObject->getSlottedObjects();
+	VectorMap<uint64, ManagedReference<SceneObject*>>* containerObjects = sceneObject->getContainerObjects();
 
 	ManagedReference<SceneObject*> objectKeeper = object;
 
@@ -351,7 +345,7 @@ bool ContainerComponent::removeObject(SceneObject* sceneObject, SceneObject* obj
 
 		const Vector<String>* descriptors = object->getArrangementDescriptor(arrangementGroup);
 
-		for (int i = 0; i < descriptors->size(); ++i){
+		for (int i = 0; i < descriptors->size(); ++i) {
 			const String& childArrangement = descriptors->get(i);
 
 			ManagedReference<SceneObject*> obj = slottedObjects->get(childArrangement);
@@ -369,7 +363,7 @@ bool ContainerComponent::removeObject(SceneObject* sceneObject, SceneObject* obj
 	}
 
 	if (containerObjects->contains(object->getObjectID())) {
-		//object->setParent(nullptr);
+		// object->setParent(nullptr);
 
 		//			return false;
 
@@ -381,7 +375,7 @@ bool ContainerComponent::removeObject(SceneObject* sceneObject, SceneObject* obj
 	contLocker.release();
 
 	if (notifyClient)
-		sceneObject->broadcastMessage(object->link((uint64) 0, 0xFFFFFFFF), true);
+		sceneObject->broadcastMessage(object->link((uint64)0, 0xFFFFFFFF), true);
 
 	notifyObjectRemoved(sceneObject, object, destination);
 
@@ -417,4 +411,3 @@ int ContainerComponent::notifyObjectInserted(SceneObject* sceneObject, SceneObje
 int ContainerComponent::notifyObjectRemoved(SceneObject* sceneObject, SceneObject* object, SceneObject* destination) const {
 	return sceneObject->notifyObjectRemoved(object);
 }
-

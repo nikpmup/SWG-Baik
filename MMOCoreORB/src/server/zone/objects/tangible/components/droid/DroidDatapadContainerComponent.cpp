@@ -17,19 +17,19 @@ bool DroidDatapadContainerComponent::checkContainerPermission(SceneObject* scene
 
 	DroidObject* droid = p.castTo<DroidObject*>();
 
-	if(droid == nullptr){
+	if (droid == nullptr) {
 		return false;
 	}
 
-	if (!creature->getPlayerObject()->isPrivileged() && droid->getLinkedCreature() != creature){
+	if (!creature->getPlayerObject()->isPrivileged() && droid->getLinkedCreature() != creature) {
 		return false;
 	}
 
-	if(permission == ContainerPermissions::MOVEIN){
+	if (permission == ContainerPermissions::MOVEIN) {
 		return true;
-	}else if (permission == ContainerPermissions::MOVEOUT ){
+	} else if (permission == ContainerPermissions::MOVEOUT) {
 		return true;
-	} else if ( permission == ContainerPermissions::OPEN  ) {
+	} else if (permission == ContainerPermissions::OPEN) {
 		return true;
 	}
 	return false;

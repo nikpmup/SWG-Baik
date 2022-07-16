@@ -9,10 +9,7 @@
 
 class CreateMissionElementCommand : public QueueCommand {
 public:
-
-	CreateMissionElementCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	CreateMissionElementCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
@@ -33,12 +30,11 @@ public:
 			return GENERALERROR;
 		}
 
-		//Try to create a mission NPC spawn point.
+		// Try to create a mission NPC spawn point.
 		creature->getZoneServer()->getMissionManager()->createSpawnPoint(creature, arguments.toString());
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CREATEMISSIONELEMENTCOMMAND_H_
+#endif // CREATEMISSIONELEMENTCOMMAND_H_

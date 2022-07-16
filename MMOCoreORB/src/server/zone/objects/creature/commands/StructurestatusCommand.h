@@ -10,14 +10,10 @@
 
 class StructurestatusCommand : public QueueCommand {
 public:
-
-	StructurestatusCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	StructurestatusCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -30,11 +26,11 @@ public:
 		ManagedReference<SceneObject*> obj = playerManager->getInRangeStructureWithAdminRights(creature, targetid);
 
 		if (obj == nullptr || !obj->isStructureObject() || obj->getZone() == nullptr) {
-			creature->sendSystemMessage("@player_structure:no_building"); //you must be in a building, be near an installation, or have one targeted to do that.
+			creature->sendSystemMessage("@player_structure:no_building"); // you must be in a building, be near an installation, or have one targeted to do that.
 			return INVALIDTARGET;
 		}
 
-		StructureObject* structure = cast<StructureObject*>( obj.get());
+		StructureObject* structure = cast<StructureObject*>(obj.get());
 
 		StructureManager::instance()->reportStructureStatus(creature, structure, nullptr);
 
@@ -76,7 +72,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //STRUCTURESTATUSCOMMAND_H_
+#endif // STRUCTURESTATUSCOMMAND_H_

@@ -14,6 +14,7 @@
 class PositionUpdateTask : public Task {
 	ManagedReference<SceneObject*> object;
 	ManagedReference<QuadTreeEntry*> entry;
+
 public:
 	PositionUpdateTask(SceneObject* obj, QuadTreeEntry* ent) {
 		object = obj;
@@ -28,6 +29,5 @@ public:
 		object->notifyObservers(ObserverEventType::OBJECTINRANGEMOVED, entry);
 	}
 };
-
 
 #endif /* POSITIONUPDATETASK_H_ */

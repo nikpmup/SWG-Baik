@@ -18,12 +18,11 @@ public:
 	}
 
 	void run() {
-
 		Locker locker(player);
 
 		player->removePendingTask("call_pet");
 
-		if(player->isInCombat())
+		if (player->isInCombat())
 			return;
 
 		Locker locker2(device);

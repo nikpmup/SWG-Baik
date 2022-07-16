@@ -21,14 +21,12 @@ class ResourceSpawner;
  */
 class NativePool : public ResourcePool {
 private:
-
 	/// Current zones with active resources
 	Vector<String> activeResourceZones;
 
-	VectorMap<String, VectorMap<String, ManagedReference<ResourceSpawn*> > > spawnsPerZone;
+	VectorMap<String, VectorMap<String, ManagedReference<ResourceSpawn*>>> spawnsPerZone;
 
 public:
-
 	/**
 	 * Ctor
 	 * \param spawner The pointer to the resource spawner object
@@ -47,7 +45,6 @@ public:
 	 */
 	void initialize(const String& includes, const String& excludes);
 
-
 	void addZone(const String& zoneName);
 
 	void addZoneMap(const String& zoneName);
@@ -61,8 +58,7 @@ public:
 	 */
 	void print();
 
-	private:
-
+private:
 	/**
 	 * Adds resource to this pool
 	 * \param resourceSpawn Spawn object to add to the pool

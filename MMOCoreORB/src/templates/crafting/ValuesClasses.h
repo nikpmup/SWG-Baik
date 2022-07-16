@@ -54,14 +54,10 @@ public:
 		combineType = val.combineType;
 	}
 
-	Values(Values&& val) : Object(), values(std::move(val.values)),
-					  name(std::move(val.name)), minValue(val.minValue),
-					  maxValue(val.maxValue), precision(val.precision),
-	      				  combineType(val.combineType), locked(val.locked),
-					  experimentalProperties(val.experimentalProperties) {
+	Values(Values&& val) : Object(), values(std::move(val.values)), name(std::move(val.name)), minValue(val.minValue), maxValue(val.maxValue), precision(val.precision), combineType(val.combineType), locked(val.locked), experimentalProperties(val.experimentalProperties) {
 	}
 
-	~Values(){
+	~Values() {
 	}
 
 	inline float getPercentage() const {
@@ -105,15 +101,15 @@ public:
 	}
 
 	inline void lockValue() {
-		//minValue = getValue();
-		//maxValue = getValue();
+		// minValue = getValue();
+		// maxValue = getValue();
 		locked = true;
 	}
 
 	inline void unlockValue() {
 		// why did this reset the values? that doesnt make sense locking it should freeze it not change it.
-		//minValue = getValue();
-		//maxValue = getValue();
+		// minValue = getValue();
+		// maxValue = getValue();
 		locked = false;
 	}
 
@@ -169,7 +165,7 @@ public:
 		if (locked)
 			return;
 
-		if(value < 0)
+		if (value < 0)
 			return;
 
 		precision = value;
@@ -179,10 +175,10 @@ public:
 		if (locked)
 			return;
 
-		if(value > 100)
+		if (value > 100)
 			value = 100;
 
-		if(value < 0)
+		if (value < 0)
 			value = 0;
 
 		if (values.contains("maxPercentage")) {
@@ -193,14 +189,13 @@ public:
 	}
 
 	inline void setPercentage(float& value) {
-
 		if (locked)
 			return;
 
-		if(value > values.get("maxPercentage"))
+		if (value > values.get("maxPercentage"))
 			value = values.get("maxPercentage");
 
-		if(value < 0)
+		if (value < 0)
 			value = 0;
 
 		if (values.contains("currentPercentage")) {
@@ -220,11 +215,10 @@ public:
 			newvalue = ((1.0f - reset) * (minValue - maxValue)) + maxValue;
 		setValue(newvalue);
 	}
-
 };
 
 class Subclasses : public Object {
-	VectorMap<String, Reference<Values*> > valueList;
+	VectorMap<String, Reference<Values*>> valueList;
 	float avePercentage;
 	String name, classTitle;
 
@@ -233,9 +227,7 @@ class Subclasses : public Object {
 public:
 	Subclasses() = delete;
 
-	Subclasses(const String& title, const String& subtitle, const float
-			min, const float max, const int precision, const bool filler, const int combine) {
-
+	Subclasses(const String& title, const String& subtitle, const float min, const float max, const int precision, const bool filler, const int combine) {
 		classTitle = title;
 
 		name = subtitle;
@@ -270,16 +262,13 @@ public:
 		}
 	}
 
-	Subclasses(Subclasses&& sub) : Object(), valueList(std::move(sub.valueList)),
-					avePercentage(sub.avePercentage), name(std::move(sub.name)),
-					classTitle(std::move(sub.classTitle)), hidden(sub.hidden) {
+	Subclasses(Subclasses&& sub) : Object(), valueList(std::move(sub.valueList)), avePercentage(sub.avePercentage), name(std::move(sub.name)), classTitle(std::move(sub.classTitle)), hidden(sub.hidden) {
 	}
 
-	~Subclasses(){
+	~Subclasses() {
 	}
 
 	void addSubtitle(const String& s, const float min, const float max, const int precision, const bool filler, const int combine) {
-
 		if (valueList.contains(s)) {
 			Values* value = valueList.get(s);
 
@@ -315,9 +304,9 @@ public:
 	}
 
 	inline bool hasAllHiddenItems() const {
-		for(int i = 0; i < valueList.size(); ++i) {
+		for (int i = 0; i < valueList.size(); ++i) {
 			auto values = valueList.get(i);
-			if(!values->isFiller() && values->getMaxValue() != values->getMinValue())
+			if (!values->isFiller() && values->getMaxValue() != values->getMinValue())
 				return false;
 		}
 		return true;
@@ -338,9 +327,9 @@ public:
 		return values->getValue();
 	}
 
-	//inline String& getName() {
+	// inline String& getName() {
 	//	return name;
-	//}
+	// }
 
 	inline const String& getClassTitle() const {
 		return classTitle;
@@ -349,7 +338,6 @@ public:
 	inline void setMaxPercentage(const String& subtitle, float value) {
 		Values* values = valueList.get(subtitle);
 		values->setMaxPercentage(value);
-
 	}
 
 	inline void setValue(const String& subtitle, const float value) {
@@ -367,12 +355,12 @@ public:
 
 		StringBuffer str;
 
-		for (int i = 0;i < valueList.size(); ++i) {
+		for (int i = 0; i < valueList.size(); ++i) {
 			tempValues = valueList.get(i);
 
 			str << "Property Name: " << tempValues->getName();
 
-			if(tempValues->isFiller()) {
+			if (tempValues->isFiller()) {
 				str << " HIDDEN" << endl;
 			} else {
 				str << endl;

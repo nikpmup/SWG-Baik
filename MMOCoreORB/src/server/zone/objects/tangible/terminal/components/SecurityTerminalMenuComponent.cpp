@@ -29,18 +29,18 @@ void SecurityTerminalMenuComponent::fillObjectMenuResponse(SceneObject* sceneObj
 	}
 
 	switch (terminalID) {
-		case 367428: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923854: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923864: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367428: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923854: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923864: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	if (building == nullptr || player == nullptr || player->isDead() || player->isIncapacitated()) {
@@ -84,18 +84,18 @@ int SecurityTerminalMenuComponent::handleObjectMenuSelect(SceneObject* sceneObje
 	}
 
 	switch (terminalID) {
-		case 367428: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923848: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923864: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367428: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923848: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923864: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = sceneObject->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	if (building == nullptr) {
@@ -117,16 +117,13 @@ int SecurityTerminalMenuComponent::handleObjectMenuSelect(SceneObject* sceneObje
 	if (!gcwMan->isBaseVulnerable(building))
 		return 1;
 
-
 	if (!gcwMan->canStartSlice(player, securityTerminal))
 		return 1;
 
 	if (gcwMan->isTerminalDamaged(securityTerminal)) {
 		Reference<CreatureObject*> playerRef = player;
 
-		Core::getTaskManager()->executeTask([=] () {
-			gcwMan->repairTerminal(playerRef, securityTerminal);
-		}, "RepairTerminalLambda");
+		Core::getTaskManager()->executeTask([=]() { gcwMan->repairTerminal(playerRef, securityTerminal); }, "RepairTerminalLambda");
 
 	} else {
 		if (player->containsActiveSession(SessionFacadeType::SLICING)) {

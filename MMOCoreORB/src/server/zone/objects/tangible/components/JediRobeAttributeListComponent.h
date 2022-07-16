@@ -5,9 +5,8 @@
 #include "server/zone/objects/tangible/wearables/RobeObject.h"
 #include "server/zone/objects/scene/components/AttributeListComponent.h"
 
-class JediRobeAttributeListComponent: public AttributeListComponent {
+class JediRobeAttributeListComponent : public AttributeListComponent {
 public:
-
 	/**
 	 * Fills the Attributes
 	 * @pre { this object is locked }
@@ -15,8 +14,7 @@ public:
 	 * @param menuResponse ObjectMenuResponse that will be sent to the client
 	 */
 	void fillAttributeList(AttributeListMessage* alm, CreatureObject* creature, SceneObject* object) const {
-
-		ManagedReference<RobeObject*> robe = cast<RobeObject*> (object);
+		ManagedReference<RobeObject*> robe = cast<RobeObject*>(object);
 		if (robe == nullptr) {
 			return;
 		}

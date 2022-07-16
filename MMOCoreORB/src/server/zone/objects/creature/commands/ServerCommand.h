@@ -23,10 +23,7 @@ class ServerCommand : public QueueCommand {
 	MethodFactory<String, CreatureObject*, uint64, const String&> methodFactory;
 
 public:
-
-	ServerCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ServerCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		methodFactory.registerMethod<WeatherCommand>("weather");
 		methodFactory.registerMethod<VendorInfoCommand>("vendorinfo");
 		methodFactory.registerMethod<RevisionInfoCommand>("revision");
@@ -39,7 +36,7 @@ public:
 		methodFactory.registerMethod<PathFindCommand>("pathfind");
 		methodFactory.registerMethod<SpawnPointInAreaCommand>("spawnpointinarea");
 		methodFactory.registerMethod<ServerWhoCommand>("who");
-}
+	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
 		if (!checkStateMask(creature))
@@ -61,12 +58,11 @@ public:
 			tokenizer.finalToken(restOfArguments);
 
 		ServerCommand* unconst = const_cast<ServerCommand*>(this);
-		
+
 		int ret = unconst->methodFactory.runMethod(commandName, creature, target, restOfArguments);
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SERVERCOMMAND_H_
+#endif // SERVERCOMMAND_H_

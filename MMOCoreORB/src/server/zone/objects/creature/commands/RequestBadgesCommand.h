@@ -9,14 +9,10 @@
 
 class RequestBadgesCommand : public QueueCommand {
 public:
-
-	RequestBadgesCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	RequestBadgesCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -31,7 +27,7 @@ public:
 		if (!object->isPlayerCreature())
 			return GENERALERROR;
 
-		CreatureObject* playerCreature = cast<CreatureObject*>( object.get());
+		CreatureObject* playerCreature = cast<CreatureObject*>(object.get());
 
 		Reference<PlayerObject*> playerObject = playerCreature->getSlottedObject("ghost").castTo<PlayerObject*>();
 
@@ -40,7 +36,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //REQUESTBADGESCOMMAND_H_
+#endif // REQUESTBADGESCOMMAND_H_

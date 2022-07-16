@@ -51,11 +51,10 @@ void QueueCommand::setInvalidLocomotions(const String& lStr) {
 	while (tokenizer.hasMoreTokens()) {
 		tokenizer.getStringToken(token);
 
-		if(!token.isEmpty())
+		if (!token.isEmpty())
 			invalidLocomotion.add(Integer::valueOf(token));
 	}
 }
-
 
 /*
  * Checks each invalid locomotion with the player's current locomotion
@@ -70,8 +69,8 @@ bool QueueCommand::checkInvalidLocomotions(CreatureObject* creature) const {
 }
 
 /*
-*	Checks cell access for the player creature if the target is in a cell
-*/
+ *	Checks cell access for the player creature if the target is in a cell
+ */
 bool QueueCommand::playerEntryCheck(CreatureObject* creature, TangibleObject* target) const {
 	if (creature == nullptr || target == nullptr) {
 		return false;
@@ -122,10 +121,8 @@ void QueueCommand::onStateFail(CreatureObject* creature, uint32 actioncntr) cons
 
 	while (num < 34) {
 		if (states & state) {
-
 			creature->clearQueueAction(actioncntr, 0, 5, num);
 			return;
-
 		}
 
 		state *= 2;
@@ -205,11 +202,11 @@ void QueueCommand::onFail(uint32 actioncntr, CreatureObject* creature, uint32 er
 		break;
 
 	case ALREADYAFFECTEDJEDIPOWER:
-			creature->sendSystemMessage("@jedi_spam:power_already_active"); // This target is already affected by that power.
-			if (addToQueue)
-				creature->clearQueueAction(actioncntr);
+		creature->sendSystemMessage("@jedi_spam:power_already_active"); // This target is already affected by that power.
+		if (addToQueue)
+			creature->clearQueueAction(actioncntr);
 
-			break;
+		break;
 
 	case NOPRONE:
 		if (addToQueue)
@@ -223,7 +220,7 @@ void QueueCommand::onFail(uint32 actioncntr, CreatureObject* creature, uint32 er
 
 		break;
 	case INSUFFICIENTPERMISSION:
-		creature->sendSystemMessage("@error_message:insufficient_permissions"); //You do not have sufficient permissions to perform the requested action.
+		creature->sendSystemMessage("@error_message:insufficient_permissions"); // You do not have sufficient permissions to perform the requested action.
 
 		if (addToQueue)
 			creature->clearQueueAction(actioncntr);
@@ -266,12 +263,12 @@ int QueueCommand::doCommonMedicalCommandChecks(CreatureObject* creature) const {
 		return INVALIDLOCOMOTION;
 
 	if (creature->isProne() || creature->isMeditating() || creature->isSwimming()) {
-		creature->sendSystemMessage("@error_message:wrong_state"); //You cannot complete that action while in your current state.
+		creature->sendSystemMessage("@error_message:wrong_state"); // You cannot complete that action while in your current state.
 		return GENERALERROR;
 	}
 
 	if (creature->isRidingMount()) {
-		creature->sendSystemMessage("@error_message:survey_on_mount"); //You cannot perform that action while mounted on a creature or driving a vehicle.
+		creature->sendSystemMessage("@error_message:survey_on_mount"); // You cannot perform that action while mounted on a creature or driving a vehicle.
 		return GENERALERROR;
 	}
 

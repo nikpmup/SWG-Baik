@@ -26,18 +26,16 @@ void MissionNpcSpawnMap::loadSpawnPointsFromLua() {
 
 		delete lua;
 		lua = nullptr;
-	}
-	catch (Exception& e) {
+	} catch (Exception& e) {
 		info(e.getMessage(), true);
 	}
 }
 
-NpcSpawnPoint* MissionNpcSpawnMap::getRandomNpcSpawnPoint(const uint32 planetCRC, const Vector3* position,
-		const int spawnType, const float minDistance, const float maxDistance) {
-	Reference<PlanetSpawnMap* > planet = spawnMap.getPlanet(planetCRC);
+NpcSpawnPoint* MissionNpcSpawnMap::getRandomNpcSpawnPoint(const uint32 planetCRC, const Vector3* position, const int spawnType, const float minDistance, const float maxDistance) {
+	Reference<PlanetSpawnMap*> planet = spawnMap.getPlanet(planetCRC);
 
 	if (planet != nullptr) {
-		Reference<CitySpawnMap* > city = planet->getClosestCity(position);
+		Reference<CitySpawnMap*> city = planet->getClosestCity(position);
 
 		if (city != nullptr) {
 			Reference<NpcSpawnPoint*> npc = city->getRandomNpcSpawnPoint(position, spawnType, minDistance, maxDistance);
@@ -45,23 +43,23 @@ NpcSpawnPoint* MissionNpcSpawnMap::getRandomNpcSpawnPoint(const uint32 planetCRC
 		}
 	}
 
-	//Planet or city not found.
+	// Planet or city not found.
 	return nullptr;
 }
 
 const Vector3* MissionNpcSpawnMap::getRandomCityCoordinates(const uint32 planetCRC, const Vector3* notCloseToPosition) const {
-	Reference<const PlanetSpawnMap* > planet = spawnMap.getPlanet(planetCRC);
+	Reference<const PlanetSpawnMap*> planet = spawnMap.getPlanet(planetCRC);
 
 	if (planet != nullptr) {
 		return planet->getRandomCityNotCloseTo(notCloseToPosition)->getCityCenter();
 	}
 
-	//Planet not found.
+	// Planet not found.
 	return nullptr;
 }
 
-NpcSpawnPoint* MissionNpcSpawnMap::addSpawnPoint(uint32 planetCRC, Reference<NpcSpawnPoint* > npc) {
-	Reference<PlanetSpawnMap* > planet = spawnMap.getPlanet(planetCRC);
+NpcSpawnPoint* MissionNpcSpawnMap::addSpawnPoint(uint32 planetCRC, Reference<NpcSpawnPoint*> npc) {
+	Reference<PlanetSpawnMap*> planet = spawnMap.getPlanet(planetCRC);
 
 	if (planet != nullptr) {
 		return planet->addToClosestCity(npc, true);
@@ -71,7 +69,7 @@ NpcSpawnPoint* MissionNpcSpawnMap::addSpawnPoint(uint32 planetCRC, Reference<Npc
 }
 
 void MissionNpcSpawnMap::removeSpawnPoint(uint32 planetCRC, NpcSpawnPoint* npc) {
-	Reference<PlanetSpawnMap* > planet = spawnMap.getPlanet(planetCRC);
+	Reference<PlanetSpawnMap*> planet = spawnMap.getPlanet(planetCRC);
 
 	if (planet != nullptr) {
 		return planet->remove(npc);
@@ -79,7 +77,7 @@ void MissionNpcSpawnMap::removeSpawnPoint(uint32 planetCRC, NpcSpawnPoint* npc) 
 }
 
 NpcSpawnPoint* MissionNpcSpawnMap::findSpawnAt(uint32 planetCRC, const Vector3* position) const {
-	Reference<const PlanetSpawnMap* > planet = spawnMap.getPlanet(planetCRC);
+	Reference<const PlanetSpawnMap*> planet = spawnMap.getPlanet(planetCRC);
 
 	if (planet != nullptr) {
 		return planet->findSpawnAt(position);

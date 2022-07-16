@@ -235,7 +235,6 @@ void SpawnAreaMap::readAreaObject(LuaObject& areaObj) {
 	if (tier & NOBUILDZONEAREA) {
 		area->setNoBuildArea(true);
 	}
-
 }
 
 void SpawnAreaMap::unloadMap() {

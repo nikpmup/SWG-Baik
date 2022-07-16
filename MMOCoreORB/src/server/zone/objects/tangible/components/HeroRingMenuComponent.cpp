@@ -7,7 +7,6 @@
 #include "server/zone/packets/object/PlayClientEffectObjectMessage.h"
 
 void HeroRingMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
-
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
 
 	TangibleObject* ring = cast<TangibleObject*>(sceneObject);
@@ -22,11 +21,9 @@ void HeroRingMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, Obj
 
 	if (data->getCharges() > 0)
 		menuResponse->addRadialMenuItem(20, 3, "@quest/hero_of_tatooine/system_messages:menu_restore"); // Restore Life
-
 }
 
 int HeroRingMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
-
 	if (selectedID == 20) { // Restore Life
 
 		if (!sceneObject->isASubChildOf(player))
@@ -90,11 +87,9 @@ int HeroRingMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Crea
 	} else {
 		return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject, player, selectedID);
 	}
-
 }
 
 String HeroRingMenuComponent::getCooldownString(uint32 delta) const {
-
 	int seconds = delta / 1000;
 
 	int hours = seconds / 3600;

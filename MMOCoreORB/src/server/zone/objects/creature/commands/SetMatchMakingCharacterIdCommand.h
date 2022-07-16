@@ -7,14 +7,10 @@
 
 class SetMatchMakingCharacterIdCommand : public QueueCommand {
 public:
-
-	SetMatchMakingCharacterIdCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetMatchMakingCharacterIdCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETMATCHMAKINGCHARACTERIDCOMMAND_H_
+#endif // SETMATCHMAKINGCHARACTERIDCOMMAND_H_

@@ -12,7 +12,6 @@
 #include "templates/datatables/DataTableIff.h"
 
 class StartingLocationList : public SortedVector<StartingLocation> {
-
 public:
 	StartingLocationList() : SortedVector<StartingLocation>() {
 	}
@@ -45,6 +44,5 @@ public:
 			get(i).insertToMessage(msg);
 	}
 };
-
 
 #endif /* STARTINGLOCATIONLIST_H_ */

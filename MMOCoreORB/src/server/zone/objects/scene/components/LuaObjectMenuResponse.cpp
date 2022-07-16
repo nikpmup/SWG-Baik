@@ -10,18 +10,13 @@
 
 const char LuaObjectMenuResponse::className[] = "LuaObjectMenuResponse";
 
-Luna<LuaObjectMenuResponse>::RegType LuaObjectMenuResponse::Register[] = {
-		{ "_setObject", &LuaObjectMenuResponse::_setObject },
-		{ "addRadialMenuItem", &LuaObjectMenuResponse::addRadialMenuItem },
-		{ "addRadialMenuItemToRadialID", &LuaObjectMenuResponse::addRadialMenuItemToRadialID },
-		{ 0, 0 }
-};
+Luna<LuaObjectMenuResponse>::RegType LuaObjectMenuResponse::Register[] = {{"_setObject", &LuaObjectMenuResponse::_setObject}, {"addRadialMenuItem", &LuaObjectMenuResponse::addRadialMenuItem}, {"addRadialMenuItemToRadialID", &LuaObjectMenuResponse::addRadialMenuItemToRadialID}, {0, 0}};
 
-LuaObjectMenuResponse::LuaObjectMenuResponse(lua_State *L) {
+LuaObjectMenuResponse::LuaObjectMenuResponse(lua_State* L) {
 	realObject = (ObjectMenuResponse*)lua_touserdata(L, 1);
 }
 
-LuaObjectMenuResponse::~LuaObjectMenuResponse(){
+LuaObjectMenuResponse::~LuaObjectMenuResponse() {
 }
 
 int LuaObjectMenuResponse::_setObject(lua_State* L) {

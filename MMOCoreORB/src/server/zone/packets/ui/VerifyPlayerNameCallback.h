@@ -18,11 +18,8 @@ class VerifyPlayerNameCallback : public MessageCallback {
 	uint64 playerID;
 
 public:
-	VerifyPlayerNameCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server), playerID(0) {
-
+	VerifyPlayerNameCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server), playerID(0) {
 	}
-
 
 	void parse(Message* message) {
 		message->parseUnicode(name);

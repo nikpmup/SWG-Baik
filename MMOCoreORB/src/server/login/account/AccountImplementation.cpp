@@ -2,7 +2,6 @@
 				Copyright <SWGEmu>
 		See file COPYING for copying conditions.*/
 
-
 #include "../objects.h"
 #include "server/login/account/Account.h"
 #include "../objects/GalaxyBanEntry.h"
@@ -32,7 +31,7 @@ void AccountImplementation::updateFromDatabase() {
 Reference<GalaxyAccountInfo*> AccountImplementation::getGalaxyAccountInfo(const String& galaxyName) {
 	Reference<GalaxyAccountInfo*> info = galaxyAccountInfo.get(galaxyName);
 
-	if(info == nullptr) {
+	if (info == nullptr) {
 		info = new GalaxyAccountInfo();
 
 		galaxyAccountInfo.put(galaxyName, info);
@@ -48,10 +47,10 @@ void AccountImplementation::addGalaxyBan(GalaxyBanEntry* ban, uint32 galaxy) {
 void AccountImplementation::updateAccount() {
 	StringBuffer query;
 	query << "SELECT a.active, a.admin_level, "
-			<< "IFNULL((SELECT b.reason FROM account_bans b WHERE b.account_id = a.account_id AND b.expires > UNIX_TIMESTAMP() ORDER BY b.expires DESC LIMIT 1), ''), "
-			<< "IFNULL((SELECT b.expires FROM account_bans b WHERE b.account_id = a.account_id AND b.expires > UNIX_TIMESTAMP() ORDER BY b.expires DESC LIMIT 1), 0), "
-			<< "IFNULL((SELECT b.issuer_id FROM account_bans b WHERE b.account_id = a.account_id AND b.expires > UNIX_TIMESTAMP() ORDER BY b.expires DESC LIMIT 1), 0) "
-			<< "FROM accounts a WHERE a.account_id = '" << accountID << "' LIMIT 1;";
+		  << "IFNULL((SELECT b.reason FROM account_bans b WHERE b.account_id = a.account_id AND b.expires > UNIX_TIMESTAMP() ORDER BY b.expires DESC LIMIT 1), ''), "
+		  << "IFNULL((SELECT b.expires FROM account_bans b WHERE b.account_id = a.account_id AND b.expires > UNIX_TIMESTAMP() ORDER BY b.expires DESC LIMIT 1), 0), "
+		  << "IFNULL((SELECT b.issuer_id FROM account_bans b WHERE b.account_id = a.account_id AND b.expires > UNIX_TIMESTAMP() ORDER BY b.expires DESC LIMIT 1), 0) "
+		  << "FROM accounts a WHERE a.account_id = '" << accountID << "' LIMIT 1;";
 
 	UniqueReference<ResultSet*> result(ServerDatabase::instance()->executeQuery(query));
 
@@ -111,9 +110,7 @@ const CharacterListEntry* AccountImplementation::getCharacterBan(const uint32 ga
 	for (int i = 0; i < characterList->size(); ++i) {
 		const CharacterListEntry* entry = &characterList->get(i);
 
-		if (entry->getFirstName() == name &&
-				entry->getGalaxyID() == galaxy &&
-				entry->isBanned())
+		if (entry->getFirstName() == name && entry->getGalaxyID() == galaxy && entry->isBanned())
 			return entry;
 	}
 
@@ -124,9 +121,7 @@ CharacterListEntry* AccountImplementation::getCharacterBan(const uint32 galaxy, 
 	for (int i = 0; i < characterList->size(); ++i) {
 		CharacterListEntry* entry = &characterList->get(i);
 
-		if (entry->getFirstName() == name &&
-				entry->getGalaxyID() == galaxy &&
-				entry->isBanned())
+		if (entry->getFirstName() == name && entry->getGalaxyID() == galaxy && entry->isBanned())
 			return entry;
 	}
 

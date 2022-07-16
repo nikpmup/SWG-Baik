@@ -13,7 +13,7 @@
 #include "../Road.h"
 #include "../Hdta.h"
 
-class Point2D  {
+class Point2D {
 public:
 	float x, y;
 
@@ -25,7 +25,6 @@ public:
 		return y;
 	}
 };
-
 
 class AffectorRiver : public ProceduralRule<'ARIV'>, public AffectorProceduralRule {
 	Road road;
@@ -50,9 +49,7 @@ class AffectorRiver : public ProceduralRule<'ARIV'>, public AffectorProceduralRu
 	String var15;
 
 public:
-	AffectorRiver() : var1(0), var2(0), var3(0), var4(0), var5(0), var6(0), var7(0), var8(0),
-		var9(0), var10(0), var11(0), var12(0) {
-
+	AffectorRiver() : var1(0), var2(0), var3(0), var4(0), var5(0), var6(0), var7(0), var8(0), var9(0), var10(0), var11(0), var12(0) {
 	}
 
 	~AffectorRiver() {
@@ -127,6 +124,5 @@ public:
 		iffStream->closeForm('DATA');
 	}
 };
-
 
 #endif /* AFFECTORRIVER_H_ */

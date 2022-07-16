@@ -16,7 +16,6 @@
 #include "server/zone/managers/structure/StructureManager.h"
 
 int PlaceGCWBaseComponent::placeStructure(StructureDeed* deed, CreatureObject* creature, float x, float y, int angle) const {
-
 	PlayerObject* ghost = creature->getPlayerObject();
 
 	if (ghost == nullptr)
@@ -27,7 +26,7 @@ int PlaceGCWBaseComponent::placeStructure(StructureDeed* deed, CreatureObject* c
 	if (zone == nullptr)
 		return 1;
 
-	//Check the gcwmanager to make sure more are allowed on this planet
+	// Check the gcwmanager to make sure more are allowed on this planet
 	GCWManager* gcwMan = zone->getGCWManager();
 
 	if (gcwMan == nullptr)

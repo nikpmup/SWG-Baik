@@ -10,13 +10,10 @@
 
 class AimCommand : public CombatQueueCommand {
 public:
-
-	AimCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	AimCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -31,16 +28,15 @@ public:
 
 		creature->setAimingState();
 
-		//Send combat spam.
+		// Send combat spam.
 		ManagedReference<SceneObject*> targetObject = server->getZoneServer()->getObject(target);
 		if (targetObject != nullptr && targetObject->isTangibleObject() && creature != targetObject) {
-			TangibleObject* defender = cast<TangibleObject*>( targetObject.get());
+			TangibleObject* defender = cast<TangibleObject*>(targetObject.get());
 			CombatManager::instance()->broadcastCombatSpam(creature, defender, nullptr, 0, "cbt_spam", combatSpam, 0);
 		}
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //AIMCOMMAND_H_
+#endif // AIMCOMMAND_H_

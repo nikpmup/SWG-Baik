@@ -9,8 +9,7 @@
 void CoaMessageMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
 
-	menuResponse->addRadialMenuItem(20,3,"@sui:read_option"); // Read
-
+	menuResponse->addRadialMenuItem(20, 3, "@sui:read_option"); // Read
 }
 
 int CoaMessageMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
@@ -45,9 +44,11 @@ int CoaMessageMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, Cr
 		body << "@encoded_disk/message_fragment:complete_event";
 
 		if (data->getFaction().toLowerCase() == "imperial") {
-			body << "imp1\n\n" << "@encoded_disk/message_fragment:frag_eventimp1_" << String::valueOf(data->getNumber());
+			body << "imp1\n\n"
+				 << "@encoded_disk/message_fragment:frag_eventimp1_" << String::valueOf(data->getNumber());
 		} else if (data->getFaction().toLowerCase() == "rebel") {
-			body << "reb1\n\n" << "@encoded_disk/message_fragment:frag_eventreb1_" << String::valueOf(data->getNumber());
+			body << "reb1\n\n"
+				 << "@encoded_disk/message_fragment:frag_eventreb1_" << String::valueOf(data->getNumber());
 		} else {
 			return 0;
 		}

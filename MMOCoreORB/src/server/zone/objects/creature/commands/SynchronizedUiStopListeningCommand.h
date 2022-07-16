@@ -9,14 +9,10 @@
 
 class SynchronizedUiStopListeningCommand : public QueueCommand {
 public:
-
-	SynchronizedUiStopListeningCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SynchronizedUiStopListeningCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -38,12 +34,10 @@ public:
 				object->synchronizedUIStopListen(creature, value);
 			} catch (Exception& e) {
 			}
-
 		}
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SYNCHRONIZEDUISTOPLISTENINGCOMMAND_H_
+#endif // SYNCHRONIZEDUISTOPLISTENINGCOMMAND_H_

@@ -20,9 +20,7 @@ class HealDamageCommand : public QueueCommand {
 	float mindCost;
 
 public:
-	HealDamageCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	HealDamageCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 		range = 5;
 		mindCost = 50;
 	}
@@ -38,7 +36,7 @@ public:
 		int delay = (int)round(20.0f - (modSkill / 5));
 
 		if (creature->hasBuff(BuffCRC::FOOD_HEAL_RECOVERY)) {
-			DelayedBuff* buff = cast<DelayedBuff*>( creature->getBuff(BuffCRC::FOOD_HEAL_RECOVERY));
+			DelayedBuff* buff = cast<DelayedBuff*>(creature->getBuff(BuffCRC::FOOD_HEAL_RECOVERY));
 
 			if (buff != nullptr) {
 				float percent = buff->getSkillModifierValue("heal_recovery");
@@ -47,10 +45,10 @@ public:
 			}
 		}
 
-		//Force the delay to be at least 4 seconds.
+		// Force the delay to be at least 4 seconds.
 		delay = (delay < 4) ? 4 : delay;
 
-		StringIdChatParameter message("healing_response", "healing_response_58"); //You are now ready to heal more damage.
+		StringIdChatParameter message("healing_response", "healing_response_58"); // You are now ready to heal more damage.
 		Reference<InjuryTreatmentTask*> task = new InjuryTreatmentTask(creature, message, "injuryTreatment");
 		creature->addPendingTask("injuryTreatment", task, delay * 1000);
 	}
@@ -69,15 +67,13 @@ public:
 
 		if (range < 10.0f) {
 			crc = "throw_grenade_near_healing";
-		}
-		else if (10.0f <= range && range < 20.0f) {
+		} else if (10.0f <= range && range < 20.0f) {
 			crc = "throw_grenade_medium_healing";
-		}
-		else {
+		} else {
 			crc = "throw_grenade_far_healing";
 		}
 
-		CombatAction* action = new CombatAction(creature, creatureTarget,  crc.hashCode(), 1, 0L);
+		CombatAction* action = new CombatAction(creature, creatureTarget, crc.hashCode(), 1, 0L);
 		creature->broadcastMessage(action, true);
 	}
 
@@ -141,17 +137,17 @@ public:
 
 	bool canPerformSkill(CreatureObject* creature, CreatureObject* creatureTarget, StimPack* stimPack, int mindCostNew) const {
 		if (!creature->canTreatInjuries()) {
-			creature->sendSystemMessage("@healing_response:healing_must_wait"); //You must wait before you can do that.
+			creature->sendSystemMessage("@healing_response:healing_must_wait"); // You must wait before you can do that.
 			return false;
 		}
 
 		if (stimPack == nullptr) {
-			creature->sendSystemMessage("@healing_response:healing_response_60"); //No valid medicine found.
+			creature->sendSystemMessage("@healing_response:healing_response_60"); // No valid medicine found.
 			return false;
 		}
 
 		if (creature->getHAM(CreatureAttribute::MIND) < mindCostNew) {
-			creature->sendSystemMessage("@healing_response:not_enough_mind"); //You do not have enough mind to do that.
+			creature->sendSystemMessage("@healing_response:not_enough_mind"); // You do not have enough mind to do that.
 			return false;
 		}
 
@@ -161,7 +157,7 @@ public:
 		}
 
 		if (!creatureTarget->isHealableBy(creature)) {
-			creature->sendSystemMessage("@healing:pvp_no_help"); //It would be unwise to help such a patient.
+			creature->sendSystemMessage("@healing:pvp_no_help"); // It would be unwise to help such a patient.
 			return false;
 		}
 
@@ -175,7 +171,7 @@ public:
 
 		if (!needsHeals) {
 			if (creatureTarget == creature) {
-				creature->sendSystemMessage("@healing_response:healing_response_61"); //You have no damage to heal.
+				creature->sendSystemMessage("@healing_response:healing_response_61"); // You have no damage to heal.
 			} else if (creatureTarget->isPlayerCreature()) {
 				StringIdChatParameter stringId("healing_response", "healing_response_63"); //%NT has no damage to heal.
 				stringId.setTT(creatureTarget->getObjectID());
@@ -194,9 +190,8 @@ public:
 			int combatMedicineUse = creature->getSkillMod("combat_healing_ability");
 
 			if (rangedStimPack->getMedicineUseRequired() > combatMedicineUse || !rangedStimPack->getRange(creature)) {
-				creature->sendSystemMessage("@error_message:insufficient_skill"); //You lack the skill to use this item.
+				creature->sendSystemMessage("@error_message:insufficient_skill"); // You lack the skill to use this item.
 				return false;
-
 			}
 		}
 
@@ -226,7 +221,7 @@ public:
 		} else if (mindDamage > 0) {
 			msgBody << mindDamage << " mind";
 		} else {
-			return; //No damage to heal.
+			return; // No damage to heal.
 		}
 
 		msgTail << " damage.";
@@ -274,7 +269,6 @@ public:
 			int healthHealed = 0, actionHealed = 0, mindHealed = 0;
 			bool notifyObservers = true;
 
-
 			if (atts.contains(CreatureAttribute::HEALTH)) {
 				healthHealed = targetCreature->healDamage(creature, CreatureAttribute::HEALTH, stimPower);
 				notifyObservers = false;
@@ -305,14 +299,13 @@ public:
 			sendHealMessage(creature, targetCreature, healthHealed, actionHealed, mindHealed);
 
 			if (targetCreature != creature && !targetCreature->isPet())
-				awardXp(creature, "medical", (healthHealed + actionHealed)); //No experience for healing yourself or pets.
+				awardXp(creature, "medical", (healthHealed + actionHealed)); // No experience for healing yourself or pets.
 
 			checkForTef(creature, targetCreature);
 		}
 	}
 
 	void handleArea(CreatureObject* creature, CreatureObject* areaCenter, StimPack* pharma, float range) const {
-
 		// TODO: Replace this with a CombatManager::getAreaTargets() call
 
 		Zone* zone = creature->getZone();
@@ -321,15 +314,15 @@ public:
 			return;
 
 		try {
-			//zone->rlock();
+			// zone->rlock();
 
-			CloseObjectsVector* closeObjectsVector = (CloseObjectsVector*) areaCenter->getCloseObjects();
+			CloseObjectsVector* closeObjectsVector = (CloseObjectsVector*)areaCenter->getCloseObjects();
 
 			SortedVector<QuadTreeEntry*> closeObjects;
 			closeObjectsVector->safeCopyReceiversTo(closeObjects, CloseObjectsVector::CREOTYPE);
 
 			for (int i = 0; i < closeObjects.size(); i++) {
-				SceneObject* object = static_cast<SceneObject*>( closeObjects.get(i));
+				SceneObject* object = static_cast<SceneObject*>(closeObjects.get(i));
 
 				if (!object->isPlayerCreature() && !object->isPet())
 					continue;
@@ -340,7 +333,7 @@ public:
 				if (areaCenter->getWorldPosition().distanceTo(object->getWorldPosition()) - object->getTemplateRadius() > range)
 					continue;
 
-				CreatureObject* creatureTarget = cast<CreatureObject*>( object);
+				CreatureObject* creatureTarget = cast<CreatureObject*>(object);
 
 				if (creatureTarget->isAttackableBy(creature))
 					continue;
@@ -351,10 +344,9 @@ public:
 				if (creature != creatureTarget && checkForArenaDuel(creatureTarget))
 					continue;
 
-				//zone->runlock();
+				// zone->runlock();
 
 				try {
-
 					Locker crossLocker(creatureTarget, creature);
 
 					if (checkTarget(creature, creatureTarget)) {
@@ -362,21 +354,18 @@ public:
 					}
 
 				} catch (Exception& e) {
-
 				}
 
-				//zone->rlock();
-
+				// zone->rlock();
 			}
 
-			//zone->runlock();
+			// zone->runlock();
 		} catch (Exception& e) {
-			//zone->runlock();
+			// zone->runlock();
 		}
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		int result = doCommonMedicalCommandChecks(creature);
 
 		if (result != SUCCESS)
@@ -391,7 +380,7 @@ public:
 				if (tangibleObject != nullptr && tangibleObject->isAttackableBy(creature)) {
 					object = creature;
 				} else {
-					creature->sendSystemMessage("@healing_response:healing_response_62"); //Target must be a player or a creature pet in order to heal damage.
+					creature->sendSystemMessage("@healing_response:healing_response_62"); // Target must be a player or a creature pet in order to heal damage.
 					return GENERALERROR;
 				}
 			}
@@ -399,7 +388,7 @@ public:
 			object = creature;
 		}
 
-		CreatureObject* targetCreature = cast<CreatureObject*>( object.get());
+		CreatureObject* targetCreature = cast<CreatureObject*>(object.get());
 
 		Locker clocker(targetCreature, creature);
 
@@ -412,7 +401,6 @@ public:
 			if (!arguments.isEmpty())
 				pharmaceuticalObjectID = UnsignedLong::valueOf(arguments.toString());
 		} catch (Exception& e) {
-
 		}
 
 		ManagedReference<StimPack*> stimPack;
@@ -444,7 +432,7 @@ public:
 			rangeToCheck = packRange + healRange;
 		}
 
-		if(!checkDistance(creature, targetCreature, rangeToCheck))
+		if (!checkDistance(creature, targetCreature, rangeToCheck))
 			return TOOFAR;
 
 		if (creature != targetCreature && !CollisionManager::checkLineOfSight(creature, targetCreature)) {
@@ -461,7 +449,6 @@ public:
 		Vector<byte> atts = stimPack->getAttributes();
 		int healthHealed = 0, actionHealed = 0, mindHealed = 0;
 		bool notifyObservers = true;
-
 
 		if (atts.contains(CreatureAttribute::HEALTH)) {
 			healthHealed = targetCreature->healDamage(creature, CreatureAttribute::HEALTH, stimPower);
@@ -498,7 +485,7 @@ public:
 		stimPack->decreaseUseCount();
 
 		if (targetCreature != creature && !targetCreature->isPet())
-			awardXp(creature, "medical", (healthHealed + actionHealed)); //No experience for healing yourself.
+			awardXp(creature, "medical", (healthHealed + actionHealed)); // No experience for healing yourself.
 
 		if (targetCreature != creature)
 			clocker.release();
@@ -521,7 +508,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //HEALDAMAGECOMMAND_H_
+#endif // HEALDAMAGECOMMAND_H_

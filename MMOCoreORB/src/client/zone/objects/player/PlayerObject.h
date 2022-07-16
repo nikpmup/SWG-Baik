@@ -15,5 +15,4 @@ public:
 	PlayerObject(LuaObject* templateData);
 };
 
-
 #endif /* PLAYEROBJECT_H_ */

@@ -9,14 +9,10 @@
 
 class ResetJediCommand : public QueueCommand {
 public:
-
-	ResetJediCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ResetJediCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -28,7 +24,7 @@ public:
 		if (object == nullptr || !object->isCreatureObject())
 			return INVALIDTARGET;
 
-		CreatureObject* targetCreature = cast<CreatureObject*>( object.get());
+		CreatureObject* targetCreature = cast<CreatureObject*>(object.get());
 
 		Locker clocker(targetCreature, creature);
 
@@ -36,7 +32,7 @@ public:
 
 		for (int i = 0; i < skillList->size(); ++i) {
 			Skill* skill = skillList->get(i);
-			if (skill->getSkillName().indexOf("force_") != -1){
+			if (skill->getSkillName().indexOf("force_") != -1) {
 				SkillManager::instance()->surrenderSkill(skill->getSkillName(), targetCreature, true);
 			}
 		}
@@ -52,7 +48,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //RESETJEDICOMMAND_H_
+#endif // RESETJEDICOMMAND_H_

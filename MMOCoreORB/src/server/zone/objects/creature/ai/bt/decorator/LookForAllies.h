@@ -38,7 +38,7 @@ public:
 		assert(child != nullptr);
 
 		if (agent->peekBlackboard("allyTarget")) {
-			ManagedReference<SceneObject*> currAlly = agent->readBlackboard("allyProspect").get<ManagedReference<SceneObject*> >().get();
+			ManagedReference<SceneObject*> currAlly = agent->readBlackboard("allyProspect").get<ManagedReference<SceneObject*>>().get();
 			if (currAlly != nullptr && currAlly->isCreatureObject()) {
 				if (isInvalidTarget(currAlly->asCreatureObject(), agent)) {
 					agent->eraseBlackboard("allyProspect");
@@ -50,11 +50,11 @@ public:
 		}
 
 		// Get allied targets we want to apply our child tree to
-		CloseObjectsVector* vec = (CloseObjectsVector*) agent->getCloseObjects();
+		CloseObjectsVector* vec = (CloseObjectsVector*)agent->getCloseObjects();
 		if (vec == nullptr)
 			return FAILURE;
 
-		SortedVector<QuadTreeEntry* > closeObjects;
+		SortedVector<QuadTreeEntry*> closeObjects;
 		vec->safeCopyReceiversTo(closeObjects, CloseObjectsVector::CREOTYPE);
 
 		for (int i = 0; i < closeObjects.size(); ++i) {
@@ -75,8 +75,7 @@ public:
 	}
 
 	bool isInvalidTarget(CreatureObject* target, AiAgent* agent) const {
-		if (target == nullptr || target->isDead() || target == agent || !target->isAiAgent() || !(target->getPvpStatusBitmask() & CreatureFlag::ATTACKABLE) ||
-			!(target->getOptionsBitmask() & OptionBitmask::AIENABLED) || target->isInCombat())
+		if (target == nullptr || target->isDead() || target == agent || !target->isAiAgent() || !(target->getPvpStatusBitmask() & CreatureFlag::ATTACKABLE) || !(target->getOptionsBitmask() & OptionBitmask::AIENABLED) || target->isInCombat())
 			return true;
 
 		AiAgent* tarAgent = target->asAiAgent();
@@ -106,12 +105,12 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
-}
-}
+} // namespace decorator
+} // namespace bt
+} // namespace ai
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 #endif // LOOKFORALLIES_H_

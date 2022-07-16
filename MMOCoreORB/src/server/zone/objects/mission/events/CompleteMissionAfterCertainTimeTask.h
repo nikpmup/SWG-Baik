@@ -22,7 +22,7 @@ public:
 	}
 
 	void run() {
-		//Complete mission.
+		// Complete mission.
 		objective->complete();
 	}
 };

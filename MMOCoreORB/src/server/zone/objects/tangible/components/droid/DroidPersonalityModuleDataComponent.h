@@ -15,9 +15,7 @@ namespace tangible {
 namespace components {
 namespace droid {
 
-
 class DroidPersonalityModuleDataComponent : public BaseDroidModuleComponent {
-
 protected:
 	String personalityBase;
 	String chipName;
@@ -52,23 +50,24 @@ public:
 
 	void copy(BaseDroidModuleComponent* other);
 
-	void notifyEvent(unsigned int eventType, ManagedObject* arg1, int64 arg2,bool forced = false);
+	void notifyEvent(unsigned int eventType, ManagedObject* arg1, int64 arg2, bool forced = false);
 
-	void quip(String message,DroidObject* droid);
+	void quip(String message, DroidObject* droid);
 
 	String getPersonalityBase();
 
 	uint32 getPersonalityConversationTemplate();
 
-	String getPersonalityStf() { return personalityStf; }
+	String getPersonalityStf() {
+		return personalityStf;
+	}
 };
 
-
-} // droid
-} // components
-} // tangible
-} // objects
-} // zone
-} // server
+} // namespace droid
+} // namespace components
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 using namespace server::zone::objects::tangible::components::droid;
 #endif /* DROIDPERSONALITYMODULEDATACOMPONENT_H_ */

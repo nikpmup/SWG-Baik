@@ -13,7 +13,7 @@
 
 class PaletteColorCustomizationVariables : public Param {
 protected:
-	//QMap<QString, PaletteColorCustomizationVariable*> variables;
+	// QMap<QString, PaletteColorCustomizationVariable*> variables;
 	Vector<PaletteColorCustomizationVariable*> variables;
 
 public:
@@ -33,14 +33,14 @@ public:
 		for (int i = 0; i < variables.size(); ++i)
 			delete variables.get(i);
 
-		//std::cout << "DELETING PaletteColorCustomizationVariables\n";
+		// std::cout << "DELETING PaletteColorCustomizationVariables\n";
 	}
 
 	String toString() const;
 
 	void toString(String& str) const {
-		//std::cout << "entering void toString(QString& str)\n";
-		//str = test;
+		// std::cout << "entering void toString(QString& str)\n";
+		// str = test;
 	}
 
 	bool parse(Chunk* source);

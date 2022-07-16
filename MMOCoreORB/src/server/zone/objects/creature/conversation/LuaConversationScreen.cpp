@@ -9,32 +9,30 @@
 
 const char LuaConversationScreen::className[] = "LuaConversationScreen";
 
-Luna<LuaConversationScreen>::RegType LuaConversationScreen::Register[] = {
-		{ "_setObject", &LuaConversationScreen::_setObject },
-		{ "getOptionText", &LuaConversationScreen::getOptionText},
-		{ "getOptionLink", &LuaConversationScreen::getOptionLink},
-		{ "getOptionCount", &LuaConversationScreen::getOptionCount},
-		{ "sendTo", &LuaConversationScreen::sendTo},
-		{ "getScreenID", &LuaConversationScreen::getScreenID},
-		{ "cloneScreen", &LuaConversationScreen::cloneScreen},
-		{ "addOption", &LuaConversationScreen::addOption},
-		{ "removeAllOptions", &LuaConversationScreen::removeAllOptions},
-		{ "setDialogTextStringId", &LuaConversationScreen::setDialogTextStringId},
-		{ "setDialogTextTT", &LuaConversationScreen::setDialogTextTT},
-		{ "setDialogTextTO", &LuaConversationScreen::setDialogTextTO},
-		{ "setDialogTextTU", &LuaConversationScreen::setDialogTextTU},
-		{ "setDialogTextDF", &LuaConversationScreen::setDialogTextDF},
-		{ "setDialogTextDI", &LuaConversationScreen::setDialogTextDI},
-		{ "setCustomDialogText", &LuaConversationScreen::setCustomDialogText},
-		{ "setStopConversation", &LuaConversationScreen::setStopConversation},
-		{ 0, 0 }
-};
+Luna<LuaConversationScreen>::RegType LuaConversationScreen::Register[] = {{"_setObject", &LuaConversationScreen::_setObject},
+																		  {"getOptionText", &LuaConversationScreen::getOptionText},
+																		  {"getOptionLink", &LuaConversationScreen::getOptionLink},
+																		  {"getOptionCount", &LuaConversationScreen::getOptionCount},
+																		  {"sendTo", &LuaConversationScreen::sendTo},
+																		  {"getScreenID", &LuaConversationScreen::getScreenID},
+																		  {"cloneScreen", &LuaConversationScreen::cloneScreen},
+																		  {"addOption", &LuaConversationScreen::addOption},
+																		  {"removeAllOptions", &LuaConversationScreen::removeAllOptions},
+																		  {"setDialogTextStringId", &LuaConversationScreen::setDialogTextStringId},
+																		  {"setDialogTextTT", &LuaConversationScreen::setDialogTextTT},
+																		  {"setDialogTextTO", &LuaConversationScreen::setDialogTextTO},
+																		  {"setDialogTextTU", &LuaConversationScreen::setDialogTextTU},
+																		  {"setDialogTextDF", &LuaConversationScreen::setDialogTextDF},
+																		  {"setDialogTextDI", &LuaConversationScreen::setDialogTextDI},
+																		  {"setCustomDialogText", &LuaConversationScreen::setCustomDialogText},
+																		  {"setStopConversation", &LuaConversationScreen::setStopConversation},
+																		  {0, 0}};
 
-LuaConversationScreen::LuaConversationScreen(lua_State *L) {
+LuaConversationScreen::LuaConversationScreen(lua_State* L) {
 	realObject = reinterpret_cast<ConversationScreen*>(lua_touserdata(L, 1));
 }
 
-LuaConversationScreen::~LuaConversationScreen(){
+LuaConversationScreen::~LuaConversationScreen() {
 }
 
 int LuaConversationScreen::_setObject(lua_State* L) {
@@ -51,7 +49,6 @@ int LuaConversationScreen::getOptionText(lua_State* L) {
 	try {
 		text = realObject->getOptionText(idx);
 	} catch (Exception& e) {
-
 	}
 
 	lua_pushstring(L, text.toCharArray());
@@ -59,9 +56,8 @@ int LuaConversationScreen::getOptionText(lua_State* L) {
 	return 1;
 }
 
-
 int LuaConversationScreen::getOptionLink(lua_State* L) {
-	//String getOptionLink(int idx) const {
+	// String getOptionLink(int idx) const {
 	int idx = lua_tonumber(L, -1);
 
 	String text;
@@ -69,7 +65,6 @@ int LuaConversationScreen::getOptionLink(lua_State* L) {
 	try {
 		text = realObject->getOptionLink(idx);
 	} catch (Exception& e) {
-
 	}
 
 	lua_pushstring(L, text.toCharArray());
@@ -86,10 +81,10 @@ int LuaConversationScreen::getOptionCount(lua_State* L) {
 }
 
 int LuaConversationScreen::sendTo(lua_State* L) {
-	//void sendTo(CreatureObject* player, CreatureObject* npc) {
+	// void sendTo(CreatureObject* player, CreatureObject* npc) {
 
-	CreatureObject* player = (CreatureObject*) lua_touserdata(L, -2);
-	CreatureObject* npc = (CreatureObject*) lua_touserdata(L, -1);
+	CreatureObject* player = (CreatureObject*)lua_touserdata(L, -2);
+	CreatureObject* npc = (CreatureObject*)lua_touserdata(L, -1);
 
 	realObject->sendTo(player, npc);
 
@@ -97,7 +92,7 @@ int LuaConversationScreen::sendTo(lua_State* L) {
 }
 
 int LuaConversationScreen::getScreenID(lua_State* L) {
-	//inline String& getScreenID() {
+	// inline String& getScreenID() {
 
 	String text;
 
@@ -116,7 +111,7 @@ int LuaConversationScreen::cloneScreen(lua_State* L) {
 }
 
 int LuaConversationScreen::addOption(lua_State* L) {
-	//void addOption(const String& optionText, const String& linkedScreenID) {
+	// void addOption(const String& optionText, const String& linkedScreenID) {
 
 	String linked = lua_tostring(L, -1);
 	String text = lua_tostring(L, -2);
@@ -126,16 +121,14 @@ int LuaConversationScreen::addOption(lua_State* L) {
 	return 0;
 }
 
-int LuaConversationScreen::removeAllOptions(lua_State* L)
-{
-	//void removeAllOptions()
+int LuaConversationScreen::removeAllOptions(lua_State* L) {
+	// void removeAllOptions()
 	realObject->removeAllOptions();
 
 	return 0;
 }
 
-int LuaConversationScreen::setDialogTextStringId(lua_State* L)
-{
+int LuaConversationScreen::setDialogTextStringId(lua_State* L) {
 	const char* str1 = lua_tostring(L, -1);
 	StringIdChatParameter stringToSet(str1);
 

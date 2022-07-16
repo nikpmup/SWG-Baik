@@ -23,7 +23,7 @@ void SpawnAreaImplementation::buildSpawnList(Vector<uint32>* groupCRCs) {
 	for (int i = 0; i < groupCRCs->size(); i++) {
 		SpawnGroup* group = ctm->getSpawnGroup(groupCRCs->get(i));
 
-		const Vector<Reference<LairSpawn*> >& spawnList = group->getSpawnList();
+		const Vector<Reference<LairSpawn*>>& spawnList = group->getSpawnList();
 
 		for (int j = 0; j < spawnList.size(); j++) {
 			const auto& spawn = spawnList.get(j);
@@ -161,8 +161,8 @@ void SpawnAreaImplementation::tryToSpawn(SceneObject* object) {
 
 	randomPosition.setZ(spawnZ);
 
-	//lets check if we intersect with some object (buildings, etc..)
-	//if (CollisionManager::checkSphereCollision(randomPosition, 64.f + finalSpawn->getSize(), zone))
+	// lets check if we intersect with some object (buildings, etc..)
+	// if (CollisionManager::checkSphereCollision(randomPosition, 64.f + finalSpawn->getSize(), zone))
 	//	return;
 
 	// Check the spot to see if spawning is allowed

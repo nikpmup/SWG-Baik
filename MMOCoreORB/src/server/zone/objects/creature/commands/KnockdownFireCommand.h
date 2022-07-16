@@ -9,13 +9,10 @@
 
 class KnockdownFireCommand : public CombatQueueCommand {
 public:
-
-	KnockdownFireCommand(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	KnockdownFireCommand(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -24,7 +21,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //KNOCKDOWNFIRECOMMAND_H_
+#endif // KNOCKDOWNFIRECOMMAND_H_

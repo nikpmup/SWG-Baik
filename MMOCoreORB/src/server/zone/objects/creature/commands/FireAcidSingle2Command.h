@@ -9,13 +9,10 @@
 
 class FireAcidSingle2Command : public CombatQueueCommand {
 public:
-
-	FireAcidSingle2Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	FireAcidSingle2Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,7 +26,6 @@ public:
 
 		return doCombatAction(creature, target);
 	}
-
 };
 
-#endif //FIREACIDSINGLE2COMMAND_H_
+#endif // FIREACIDSINGLE2COMMAND_H_

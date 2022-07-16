@@ -47,11 +47,11 @@ public:
 	}
 };
 
-}
-}
-}
-}
-}
+} // namespace tasks
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::tangible::tasks;
 

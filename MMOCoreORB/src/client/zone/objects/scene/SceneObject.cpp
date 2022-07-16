@@ -149,4 +149,3 @@ bool SceneObject::removeObject(SceneObject* object) {
 
 	return true;
 }
-

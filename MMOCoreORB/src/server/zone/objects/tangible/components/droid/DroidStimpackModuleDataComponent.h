@@ -15,13 +15,12 @@ namespace tangible {
 namespace components {
 namespace droid {
 
-
 class DroidStimpackModuleDataComponent : public BaseDroidModuleComponent {
-
 protected:
 	int capacity;
 	int speed;
 	int loaded;
+
 public:
 	int rate;
 
@@ -43,7 +42,9 @@ public:
 
 	void onStore();
 
-	bool isStackable() { return true; }
+	bool isStackable() {
+		return true;
+	}
 
 	void copy(BaseDroidModuleComponent* other);
 
@@ -68,12 +69,11 @@ public:
 	StimPack* findStimPack();
 };
 
-
-} // droid
-} // components
-} // tangible
-} // objects
-} // zone
-} // server
+} // namespace droid
+} // namespace components
+} // namespace tangible
+} // namespace objects
+} // namespace zone
+} // namespace server
 using namespace server::zone::objects::tangible::components::droid;
 #endif /* DROIDSTIMPACKMODULEDATACOMPONENT_H_ */

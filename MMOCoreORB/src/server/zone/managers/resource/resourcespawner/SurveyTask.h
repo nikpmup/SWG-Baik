@@ -15,14 +15,14 @@
 #include "server/zone/objects/player/PlayerObject.h"
 
 class SurveyTask : public Task {
-	ManagedReference<CreatureObject* > playerCreature;
+	ManagedReference<CreatureObject*> playerCreature;
 	SurveyMessage* surveyMessage;
 	ManagedReference<WaypointObject*> waypoint;
 	float density;
 	ManagedReference<ResourceSpawn*> resourceSpawn;
 
 public:
-	SurveyTask(ManagedReference<CreatureObject* > play, SurveyMessage* surveyM, ManagedReference<WaypointObject*> way, float density, ManagedReference<ResourceSpawn*> resourceSpawn) {
+	SurveyTask(ManagedReference<CreatureObject*> play, SurveyMessage* surveyM, ManagedReference<WaypointObject*> way, float density, ManagedReference<ResourceSpawn*> resourceSpawn) {
 		playerCreature = play;
 		surveyMessage = surveyM;
 		waypoint = way;
@@ -42,7 +42,7 @@ public:
 			// Send Waypoint System Message
 			playerCreature->sendSystemMessage("@survey:survey_waypoint");
 
-			//Notify any survey mission observers.
+			// Notify any survey mission observers.
 			playerCreature->notifyObservers(ObserverEventType::SURVEY, resourceSpawn, density);
 		}
 

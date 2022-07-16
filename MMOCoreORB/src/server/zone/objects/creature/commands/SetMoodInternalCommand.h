@@ -7,14 +7,10 @@
 
 class SetMoodInternalCommand : public QueueCommand {
 public:
-
-	SetMoodInternalCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	SetMoodInternalCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -32,7 +28,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //SETMOODINTERNALCOMMAND_H_
+#endif // SETMOODINTERNALCOMMAND_H_

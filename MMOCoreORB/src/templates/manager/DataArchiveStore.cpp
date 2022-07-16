@@ -18,7 +18,7 @@ DataArchiveStore::~DataArchiveStore() {
 }
 
 byte* DataArchiveStore::getData(const String& path, int& size) const {
-	//read from local dir else from tres
+	// read from local dir else from tres
 	File file(path);
 	byte* data = nullptr;
 	size = 0;
@@ -46,7 +46,7 @@ byte* DataArchiveStore::getData(const String& path, int& size) const {
 	data = treeDirectory->getBytes(path, size);
 
 	if (size == 0) {
-		delete [] data;
+		delete[] data;
 		return nullptr;
 	}
 
@@ -57,7 +57,7 @@ int DataArchiveStore::loadTres(const String& path, const Vector<String>& treFile
 	Locker locker(this);
 
 	if (treeDirectory != nullptr) {
-		//error("tree directory already loaded");
+		// error("tree directory already loaded");
 
 		return 0;
 	}
@@ -73,7 +73,6 @@ int DataArchiveStore::loadTres(const String& path, const Vector<String>& treFile
 	treeDirectory = new TreeArchive();
 
 	int j = 0;
-
 
 	for (int i = 0; i < treFilesToLoad.size(); ++i) {
 		const String& file = treFilesToLoad.get(i);
@@ -120,8 +119,7 @@ IffStream* DataArchiveStore::openIffFile(const String& fileName) const {
 		}
 	}
 
-	delete [] data;
+	delete[] data;
 
 	return iffStream;
 }
-

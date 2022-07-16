@@ -10,14 +10,10 @@
 
 class ClearVeteranRewardCommand : public QueueCommand {
 public:
-
-	ClearVeteranRewardCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	ClearVeteranRewardCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* player, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(player))
 			return INVALIDSTATE;
 
@@ -29,10 +25,10 @@ public:
 
 		int milestone = -1;
 
-		if(tokenizer.hasMoreTokens())
+		if (tokenizer.hasMoreTokens())
 			milestone = tokenizer.getIntToken();
 
-		if( milestone < 0 ){
+		if (milestone < 0) {
 			player->sendSystemMessage("SYNTAX: /clearVeteranReward player milestone");
 			return INVALIDPARAMETERS;
 		}
@@ -43,13 +39,13 @@ public:
 			return INVALIDPARAMETERS;
 		}
 
-		CreatureObject* targetCreature = cast<CreatureObject*>( obj.get());
+		CreatureObject* targetCreature = cast<CreatureObject*>(obj.get());
 		PlayerObject* targetGhost = targetCreature->getPlayerObject();
 
 		Locker clocker(targetCreature, player);
 
-		String reward = targetGhost->getChosenVeteranReward( milestone );
-		if( reward.isEmpty() ){
+		String reward = targetGhost->getChosenVeteranReward(milestone);
+		if (reward.isEmpty()) {
 			player->sendSystemMessage("Player has not chosen a reward for that milestone");
 			return GENERALERROR;
 		}
@@ -57,7 +53,7 @@ public:
 		// Get account
 		ManagedReference<Account*> account = targetGhost->getAccount();
 
-		if( account == nullptr ){
+		if (account == nullptr) {
 			player->sendSystemMessage("Error finding account");
 			return GENERALERROR;
 		}
@@ -66,18 +62,17 @@ public:
 
 		// Clear reward in all characters registered to the account
 
-		GalaxyAccountInfo *info = targetGhost->getGalaxyAccountInfo();
+		GalaxyAccountInfo* info = targetGhost->getGalaxyAccountInfo();
 
-		if(info == nullptr)
+		if (info == nullptr)
 			return GENERALERROR;
 
 		info->clearVeteranReward(milestone);
 
-		player->sendSystemMessage( targetGhost->getAccount()->getUsername() + "'s " + String::valueOf(milestone) + "-day reward has been cleared" );
+		player->sendSystemMessage(targetGhost->getAccount()->getUsername() + "'s " + String::valueOf(milestone) + "-day reward has been cleared");
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //CLEARVETERANREWARDCOMMAND_H_
+#endif // CLEARVETERANREWARDCOMMAND_H_

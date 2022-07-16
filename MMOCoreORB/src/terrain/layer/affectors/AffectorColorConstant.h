@@ -19,7 +19,6 @@ class AffectorColorConstant : public ProceduralRule<'ACCN'>, public AffectorProc
 
 public:
 	AffectorColorConstant() : id(0), r(0), g(0), b(0) {
-
 	}
 
 	void parseFromIffStream(engine::util::IffStream* iffStream) {
@@ -52,6 +51,5 @@ public:
 		iffStream->closeChunk('DATA');
 	}
 };
-
 
 #endif /* AFFECTORCOLORCONSTANT_H_ */

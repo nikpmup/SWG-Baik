@@ -53,12 +53,11 @@ public:
 		_offset = stream->getOffset();
 		stream->writeInt(0);
 		TypeInfo<Vector<String>>::toBinaryStream(&reverseTable, stream);
-		_totalSize = (uint32) (stream->getOffset() - (_offset + 4));
+		_totalSize = (uint32)(stream->getOffset() - (_offset + 4));
 		stream->writeInt(_offset, _totalSize);
 
 		return 1 + PlayerList<7>::writeObjectMembers(stream);
 	}
-
 
 	bool toBinaryStream(ObjectOutputStream* stream) {
 		int _currentOffset = stream->getOffset();
@@ -87,7 +86,7 @@ public:
 
 			int _currentOffset = stream->getOffset();
 
-			if(readObjectMember(stream, _name)) {
+			if (readObjectMember(stream, _name)) {
 			}
 
 			stream->setOffset(_currentOffset + _varSize);
@@ -95,10 +94,6 @@ public:
 
 		return true;
 	}
-
-
-
-
 
 	void addReversePlayer(const String& name) {
 		Locker locker(getLock());
@@ -145,7 +140,6 @@ public:
 	int reversePlayerCount() {
 		return reverseTable.size();
 	}
-
 };
 
 #endif /* FRIENDLIST_H_ */

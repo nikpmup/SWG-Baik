@@ -7,14 +7,10 @@
 
 class EditAppearanceCommand : public QueueCommand {
 public:
-
-	EditAppearanceCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	EditAppearanceCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -23,7 +19,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //EDITAPPEARANCECOMMAND_H_
+#endif // EDITAPPEARANCECOMMAND_H_

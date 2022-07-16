@@ -10,14 +10,10 @@
 
 class DuelCommand : public QueueCommand {
 public:
-
-	DuelCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	DuelCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -32,7 +28,7 @@ public:
 		if (targetObject == nullptr || !targetObject->isPlayerCreature() || targetObject == creature)
 			return INVALIDTARGET;
 
-		if(!checkDistance(creature, targetObject, 25.0f))
+		if (!checkDistance(creature, targetObject, 25.0f))
 			return TOOFAR;
 
 		auto combatManager = CombatManager::instance();
@@ -43,7 +39,6 @@ public:
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //DUELCOMMAND_H_
+#endif // DUELCOMMAND_H_

@@ -11,16 +11,14 @@
 #include "server/zone/objects/tangible/components/vendor/VendorDataComponent.h"
 
 class IsVendorOwnerResponseMessage : public BaseMessage {
-
 public:
-    IsVendorOwnerResponseMessage(SceneObject* vendor, CreatureObject* player, const String& planet, const String& region) {
-
-    	insertShort(3);
+	IsVendorOwnerResponseMessage(SceneObject* vendor, CreatureObject* player, const String& planet, const String& region) {
+		insertShort(3);
 		insertInt(0xCE04173E);
 
 		// Make sure sceno is a valid Vendor Object.
 		if (!vendor->isVendor() && !vendor->isBazaarTerminal()) {
-			//returning half built packets on errors is bad, mmkay
+			// returning half built packets on errors is bad, mmkay
 			insertInt(1);
 			insertInt(2); // 2 == invalid object
 			insertLong(vendor->getObjectID());
@@ -34,23 +32,20 @@ public:
 		int rights = 2;
 		uint32 errorCode = auctionManager->isMarketEnabled() == false; // 1 == auctioneer issue
 
-
-		if(vendor->isVendor()) {
-
-
+		if (vendor->isVendor()) {
 			DataObjectComponentReference* data = vendor->getDataObjectComponent();
-			if(data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
+			if (data == nullptr || data->get() == nullptr || !data->get()->isVendorData()) {
 				return;
 			}
 
 			VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-			if(vendorData == nullptr) {
+			if (vendorData == nullptr) {
 				return;
 			}
 
 			rights = vendorData->getOwnershipRightsOf(player);
 
-			if(vendorData->isOnStrike()) {
+			if (vendorData->isOnStrike()) {
 				errorCode = 1;
 				player->sendSystemMessage("@ui_auc:err_vendor_deactivated");
 			}
@@ -62,22 +57,21 @@ public:
 		insertInt(rights);
 
 		insertInt(errorCode);
-		
+
 		insertLong(objectID);
 
 		StringBuffer title;
 		title << planet << ".";
-		
+
 		int x = vendor->getWorldPositionX();
 		int y = vendor->getWorldPositionY();
 
 		String uuid = auctionManager->getVendorUID(vendor);
 
 		insertAscii(uuid);
-		
+
 		insertShort(0x64); // ?? 64
 	}
-
 };
 
 #endif /*ISVENDOROWNERRESPONSEMESSAGE_H_*/

@@ -9,22 +9,21 @@
 #include "server/zone/objects/creature/conversation/LuaConversationObserver.h"
 #include "server/zone/objects/creature/conversation/PetTrainingConversationObserver.h"
 
-ConversationManager::ConversationManager()
-	: Logger("ConversationManager") {
+ConversationManager::ConversationManager() : Logger("ConversationManager") {
 }
 
 ConversationManager::~ConversationManager() {
-	//Do nothing.
+	// Do nothing.
 }
 
 ConversationObserver* ConversationManager::getConversationObserver(uint32 conversationTemplateCRC) {
 	if (conversationObservers.containsKey(conversationTemplateCRC)) {
-		//Observer does already exist, return it.
+		// Observer does already exist, return it.
 		return conversationObservers.get(conversationTemplateCRC).get();
 	} else {
 		if (CreatureTemplateManager::DEBUG_MODE)
 			return nullptr;
-		//No observer, create it.
+		// No observer, create it.
 		ManagedReference<ConversationObserver*> conversationObserver = nullptr;
 		ConversationTemplate* conversationTemplate = CreatureTemplateManager::instance()->getConversationTemplate(conversationTemplateCRC);
 		if (conversationTemplate != nullptr) {
@@ -50,7 +49,7 @@ ConversationObserver* ConversationManager::getConversationObserver(uint32 conver
 			}
 
 			if (conversationObserver != nullptr) {
-				//Add it to the map.
+				// Add it to the map.
 				conversationObservers.put(conversationTemplateCRC, conversationObserver);
 			}
 		}

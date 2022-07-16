@@ -13,7 +13,7 @@
 LuaObjectMenuComponent::LuaObjectMenuComponent(const String& className) : luaClassName(className) {
 }
 
-LuaObjectMenuComponent::~LuaObjectMenuComponent(){
+LuaObjectMenuComponent::~LuaObjectMenuComponent() {
 }
 
 void LuaObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
@@ -29,7 +29,6 @@ void LuaObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, Ob
 
 	runMethod.callFunction();
 }
-
 
 int LuaObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
 	if (sceneObject == nullptr)

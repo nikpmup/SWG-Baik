@@ -10,9 +10,8 @@
 
 #include "templates/SharedTangibleObjectTemplate.h"
 
-class DnaSampleTemplate: public SharedTangibleObjectTemplate {
+class DnaSampleTemplate : public SharedTangibleObjectTemplate {
 protected:
-
 	uint32 cleverness;
 	uint32 endurance;
 	uint32 fierceness;
@@ -69,7 +68,6 @@ public:
 	}
 
 	~DnaSampleTemplate() {
-
 	}
 
 	void readObject(LuaObject* templateData) {
@@ -78,203 +76,203 @@ public:
 	}
 
 	float getAcidResist() const {
-	    return acidResist;
+		return acidResist;
 	}
 
 	float getSaberResist() const {
-	    return saberResist;
+		return saberResist;
 	}
 
 	int getArmorRating() const {
-	    return armorRating;
+		return armorRating;
 	}
 
 	float getBlastResist() const {
-	    return blastResist;
+		return blastResist;
 	}
 
 	uint32 getCleverness() const {
-	    return cleverness;
+		return cleverness;
 	}
 
 	float getColdResist() const {
-	    return coldResist;
+		return coldResist;
 	}
 
 	uint32 getCourage() const {
-	    return courage;
+		return courage;
 	}
 
 	uint32 getDependency() const {
-	    return dependency;
+		return dependency;
 	}
 
 	uint32 getDexterity() const {
-	    return dexterity;
+		return dexterity;
 	}
 
 	float getElecResist() const {
-	    return elecResist;
+		return elecResist;
 	}
 
 	uint32 getEndurance() const {
-	    return endurance;
+		return endurance;
 	}
 
 	float getEnergyResist() const {
-	    return energyResist;
+		return energyResist;
 	}
 
 	uint32 getFierceness() const {
-	    return fierceness;
+		return fierceness;
 	}
 
 	uint32 getFortitude() const {
-	    return fortitude;
+		return fortitude;
 	}
 
 	uint32 getHardiness() const {
-	    return hardiness;
+		return hardiness;
 	}
 
 	float getHeatResist() const {
-	    return heatResist;
+		return heatResist;
 	}
 
 	uint32 getIntelligence() const {
-	    return intelligence;
+		return intelligence;
 	}
 
 	float getKinResist() const {
-	    return kinResist;
+		return kinResist;
 	}
 
 	uint32 getPower() const {
-	    return power;
+		return power;
 	}
 
 	String getQuality() const {
-	    return quality;
+		return quality;
 	}
 
 	bool getRanged() const {
-	    return ranged;
+		return ranged;
 	}
 
 	String getSource() const {
-	    return source;
+		return source;
 	}
 
 	String getSpecial1() const {
-	    return special1;
+		return special1;
 	}
 
 	String getSpecial2() const {
-	    return special2;
+		return special2;
 	}
 
 	int getStunResist() const {
-	    return stunResist;
+		return stunResist;
 	}
 
 	void setAcidResist(float acidResist) {
-	    this->acidResist = acidResist;
+		this->acidResist = acidResist;
 	}
 
 	void setSaberResist(float value) {
-	    this->saberResist = value;
+		this->saberResist = value;
 	}
 
 	void setArmorRating(int armorRating) {
-	    this->armorRating = armorRating;
+		this->armorRating = armorRating;
 	}
 
 	void setBlastResist(float blastResist) {
-	    this->blastResist = blastResist;
+		this->blastResist = blastResist;
 	}
 
 	void setCleverness(uint32 cleverness) {
-	    this->cleverness = cleverness;
+		this->cleverness = cleverness;
 	}
 
 	void setColdResist(float coldResist) {
-	    this->coldResist = coldResist;
+		this->coldResist = coldResist;
 	}
 
 	void setCourage(uint32 courage) {
-	    this->courage = courage;
+		this->courage = courage;
 	}
 
 	void setDependency(uint32 dependency) {
-	    this->dependency = dependency;
+		this->dependency = dependency;
 	}
 
 	void setDexterity(uint32 dexterity) {
-	    this->dexterity = dexterity;
+		this->dexterity = dexterity;
 	}
 
 	void setElecResist(int elecResist) {
-	    this->elecResist = elecResist;
+		this->elecResist = elecResist;
 	}
 
 	void setEndurance(uint32 endurance) {
-	    this->endurance = endurance;
+		this->endurance = endurance;
 	}
 
 	void setEnergyResist(int energyResist) {
-	    this->energyResist = energyResist;
+		this->energyResist = energyResist;
 	}
 
 	void setFierceness(uint32 fierceness) {
-	    this->fierceness = fierceness;
+		this->fierceness = fierceness;
 	}
 
 	void setFortitude(uint32 fortitude) {
-	    this->fortitude = fortitude;
+		this->fortitude = fortitude;
 	}
 
 	void setHardiness(uint32 hardiness) {
-	    this->hardiness = hardiness;
+		this->hardiness = hardiness;
 	}
 
 	void setHeatResist(float heatResist) {
-	    this->heatResist = heatResist;
+		this->heatResist = heatResist;
 	}
 
 	void setIntelligence(uint32 intelligence) {
-	    this->intelligence = intelligence;
+		this->intelligence = intelligence;
 	}
 
 	void setKinResist(float kinResist) {
-	    this->kinResist = kinResist;
+		this->kinResist = kinResist;
 	}
 
 	void setPower(uint32 power) {
-	    this->power = power;
+		this->power = power;
 	}
 
 	void setQuality(String quality) {
-	    this->quality = quality;
+		this->quality = quality;
 	}
 
 	void setRanged(bool ranged) {
-	    this->ranged = ranged;
+		this->ranged = ranged;
 	}
 
 	void setSource(String source) {
-	    this->source = source;
+		this->source = source;
 	}
 
 	void setSpecial1(String special1) {
-	    this->special1 = special1;
+		this->special1 = special1;
 	}
 
 	void setSpecial2(String special2) {
-	    this->special2 = special2;
+		this->special2 = special2;
 	}
 
 	void setStunResist(float stunResist) {
-	    this->stunResist = stunResist;
+		this->stunResist = stunResist;
 	}
 
 	bool isDnaSampleTemplate() {

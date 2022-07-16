@@ -8,44 +8,43 @@
 #include "LoginPacketHandler.h"
 
 namespace server {
-	namespace login {
+namespace login {
 
-		class LoginMessageProcessorTask : public Task {
-			Reference<Message*> message;
+class LoginMessageProcessorTask : public Task {
+	Reference<Message*> message;
 
-			LoginPacketHandler* packetHandler;
+	LoginPacketHandler* packetHandler;
 
-		public:
-			LoginMessageProcessorTask(Message* msg, LoginPacketHandler* handler) {
-				message = msg;
+public:
+	LoginMessageProcessorTask(Message* msg, LoginPacketHandler* handler) {
+		message = msg;
 
-				packetHandler = handler;
-			}
+		packetHandler = handler;
+	}
 
-			~LoginMessageProcessorTask() {
-			}
+	~LoginMessageProcessorTask() {
+	}
 
-			void run() {
-				static Logger logger("LoginMessageProcessorTask", Logger::INFO);
+	void run() {
+		static Logger logger("LoginMessageProcessorTask", Logger::INFO);
 
-				try {
-					message->reset();
+		try {
+			message->reset();
 
-					packetHandler->handleMessage(message);
-				} catch (const PacketIndexOutOfBoundsException& e) {
-					logger.error() << e.getMessage();
+			packetHandler->handleMessage(message);
+		} catch (const PacketIndexOutOfBoundsException& e) {
+			logger.error() << e.getMessage();
 
-					logger.debug() << "incorrect packet - " << *message;
-				} catch (const Exception& e) {
-					logger.error() << e.getMessage();
+			logger.debug() << "incorrect packet - " << *message;
+		} catch (const Exception& e) {
+			logger.error() << e.getMessage();
 
-					logger.debug() << "incorrect packet - " << *message;
-				}
-			}
+			logger.debug() << "incorrect packet - " << *message;
+		}
+	}
+};
 
-		};
-
-	} // namespace login
+} // namespace login
 } // namespace server
 
 using namespace server::login;

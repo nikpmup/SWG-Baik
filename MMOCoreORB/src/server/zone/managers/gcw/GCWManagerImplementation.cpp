@@ -214,8 +214,7 @@ void GCWManagerImplementation::loadLuaConfig() {
 	}
 	difficulties.pop();
 
-	info("Loaded " + String::valueOf(imperialStrongholds.size()) + " imperial strongholds and " + String::valueOf(rebelStrongholds.size()) +
-		 " rebel strongholds.");
+	info("Loaded " + String::valueOf(imperialStrongholds.size()) + " imperial strongholds and " + String::valueOf(rebelStrongholds.size()) + " rebel strongholds.");
 
 	LuaObject terminalSpawnTable = lua->getGlobalObject("terminalSpawns");
 
@@ -514,7 +513,6 @@ void GCWManagerImplementation::updateWinningFaction() {
 }
 
 void GCWManagerImplementation::spawnGcwControlBanners() {
-
 	if (zone == nullptr) {
 		return;
 	}
@@ -763,13 +761,13 @@ void GCWManagerImplementation::addBaseAlarm(BuildingObject* building, SceneObjec
 	}
 }
 
-uint64 GCWManagerImplementation::spawnSecurityPatrol(BuildingObject* building, String &patrol, Vector3 &location, uint64 parentID, float direction, bool stationary, bool attackable) {
+uint64 GCWManagerImplementation::spawnSecurityPatrol(BuildingObject* building, String& patrol, Vector3& location, uint64 parentID, float direction, bool stationary, bool attackable) {
 	if (zone == nullptr || patrol == "")
 		return 0;
 
 	Vector<String>* squadSpawns = nullptr;
 
-	for (int i = 0; i < squadFormations.size(); i ++) {
+	for (int i = 0; i < squadFormations.size(); i++) {
 		String formation = squadFormations.elementAt(i).getKey();
 
 		// Check for proper faction and size in the squad string
@@ -804,7 +802,7 @@ uint64 GCWManagerImplementation::spawnSecurityPatrol(BuildingObject* building, S
 		if (j > 0) {
 			if (j % 2) {
 				xOffset = 0.5;
-				yOffset = j* -1;
+				yOffset = j * -1;
 			} else {
 				xOffset = -0.5;
 				yOffset = (j - 1) * -1;
@@ -1150,7 +1148,7 @@ void GCWManagerImplementation::checkVulnerabilityData(BuildingObject* building) 
 	} else {
 		spawnBaseTerminals(building);
 
-		//Resets PVE Bases state on server reset
+		// Resets PVE Bases state on server reset
 		baseData->setState(DestructibleBuildingDataComponent::VULNERABLE);
 	}
 
@@ -1179,8 +1177,7 @@ String GCWManagerImplementation::getVulnerableStatus(BuildingObject* building, C
 	dif = dif - (hours * 3600);
 	int minutes = (int)ceil(dif / 60.f);
 
-	return "@player_structure:next_vulnerability_prompt " + String::valueOf(days) + " days, " + String::valueOf(hours) + " hours, " + String::valueOf(minutes) +
-		   " minutes";
+	return "@player_structure:next_vulnerability_prompt " + String::valueOf(days) + " days, " + String::valueOf(hours) + " hours, " + String::valueOf(minutes) + " minutes";
 }
 
 bool GCWManagerImplementation::isBaseVulnerable(BuildingObject* building) {
@@ -1227,18 +1224,18 @@ bool GCWManagerImplementation::isTerminalDamaged(TangibleObject* securityTermina
 	}
 
 	switch (terminalID) {
-		case 367428: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923854: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923864: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = securityTerminal->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367428: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923854: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923864: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = securityTerminal->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	if (building == nullptr) {
@@ -1329,7 +1326,7 @@ bool GCWManagerImplementation::canUseTerminals(CreatureObject* creature, Buildin
 	uint64 creoParentID = creature->getParentID();
 	uint64 terminalParentID = terminal->getParentID();
 
-	if (creoParentID != terminalParentID || creature->getDistanceTo(terminal) > 5)  {
+	if (creoParentID != terminalParentID || creature->getDistanceTo(terminal) > 5) {
 		creature->sendSystemMessage("@pvp_rating:ch_terminal_too_far"); // you are too far away from the terminal to use it
 		return false;
 	}
@@ -1427,13 +1424,13 @@ void GCWManagerImplementation::verifyUplinkBand(CreatureObject* creature, Buildi
 			creature->sendSystemMessage("Jamming complete! You disable the uplink...");
 			awardSlicingXP(creature, "bountyhunter", 1000);
 
-			//Schedule PVE base uplink reset
+			// Schedule PVE base uplink reset
 			if (!(building->getPvpStatusBitmask() & CreatureFlag::OVERT)) {
 				GCWManager* gcwManager = zone->getGCWManager();
 
 				UplinkTerminalResetTask* task = new UplinkTerminalResetTask(building, gcwManager, baseData);
 
-				//Task Resets Base state 24 hours after uplink is jammed
+				// Task Resets Base state 24 hours after uplink is jammed
 				task->schedule(24 * 60 * 60 * 1000);
 			}
 
@@ -1493,18 +1490,18 @@ bool GCWManagerImplementation::canStartSlice(CreatureObject* creature, TangibleO
 	}
 
 	switch (terminalID) {
-		case 367428: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923854: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923864: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = tano->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367428: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923854: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923864: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = tano->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	if (building == nullptr) {
@@ -1556,18 +1553,18 @@ void GCWManagerImplementation::completeSecuritySlice(CreatureObject* creature, T
 	}
 
 	switch (terminalID) {
-		case 367428: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923854: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923864: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = securityTerminal->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367428: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923854: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923864: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = securityTerminal->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	if (building == nullptr) {
@@ -1603,18 +1600,18 @@ void GCWManagerImplementation::failSecuritySlice(TangibleObject* securityTermina
 	}
 
 	switch (terminalID) {
-		case 367428: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923854: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923864: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = securityTerminal->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367428: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923854: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923864: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = securityTerminal->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	if (building == nullptr)
@@ -1650,18 +1647,18 @@ void GCWManagerImplementation::repairTerminal(CreatureObject* creature, Tangible
 	}
 
 	switch (terminalID) {
-		case 367428: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923854: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923864: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = securityTerminal->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367428: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923854: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923864: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = securityTerminal->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	if (building == nullptr)
@@ -1760,8 +1757,7 @@ void GCWManagerImplementation::sendDNASampleMenu(CreatureObject* creature, Build
 
 	baseData->setCurrentDnaChain(chain);
 
-	String prompt = "DNA Sequence Processing...\nComplete the missing pairs: AT,TA,GC,CG\nMatched Pairs: " + String::valueOf(numLocks) +
-					"\nSampled Chain: " + chain + "\n\nSelect the DNA index to match the chain to...";
+	String prompt = "DNA Sequence Processing...\nComplete the missing pairs: AT,TA,GC,CG\nMatched Pairs: " + String::valueOf(numLocks) + "\nSampled Chain: " + chain + "\n\nSelect the DNA index to match the chain to...";
 	status->setPromptText(prompt);
 
 	for (int i = 0; i < dnaEntries.size(); i++)
@@ -1786,18 +1782,18 @@ void GCWManagerImplementation::processDNASample(CreatureObject* creature, Tangib
 	}
 
 	switch (terminalID) {
-		case 367410: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923847: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923862: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = overrideTerminal->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367410: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923847: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923862: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = overrideTerminal->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	if (building == nullptr || creature == nullptr)
@@ -1945,18 +1941,18 @@ void GCWManagerImplementation::handlePowerRegulatorSwitch(CreatureObject* creatu
 	}
 
 	switch (terminalID) {
-		case 367432: // Corellia - Stronghold
-			building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
-			break;
-		case 923849: // Rori - Imperial Encampment
-			building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
-			break;
-		case 923861: // Rori - Rebel Military Base
-			building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
-			break;
-		default:
-			building = powerRegulator->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
-			break;
+	case 367432: // Corellia - Stronghold
+		building = cast<BuildingObject*>(zoneServer->getObject(2715899).get());
+		break;
+	case 923849: // Rori - Imperial Encampment
+		building = cast<BuildingObject*>(zoneServer->getObject(2935404).get());
+		break;
+	case 923861: // Rori - Rebel Military Base
+		building = cast<BuildingObject*>(zoneServer->getObject(7555646).get());
+		break;
+	default:
+		building = powerRegulator->getParentRecursively(SceneObjectType::FACTIONBUILDING).castTo<BuildingObject*>();
+		break;
 	}
 
 	if (building == nullptr) {
@@ -2415,8 +2411,7 @@ void GCWManagerImplementation::notifyInstallationDestruction(InstallationObject*
 	if (installation == nullptr)
 		return;
 
-	PlayClientEffectLoc* explodeLoc = new PlayClientEffectLoc("clienteffect/lair_damage_heavy.cef", zone->getZoneName(), installation->getPositionX(),
-															  installation->getPositionZ(), installation->getPositionY());
+	PlayClientEffectLoc* explodeLoc = new PlayClientEffectLoc("clienteffect/lair_damage_heavy.cef", zone->getZoneName(), installation->getPositionX(), installation->getPositionZ(), installation->getPositionY());
 	installation->broadcastMessage(explodeLoc, false);
 
 	uint64 ownerid = installation->getOwnerObjectID();
@@ -2429,8 +2424,7 @@ void GCWManagerImplementation::notifyInstallationDestruction(InstallationObject*
 	Reference<SceneObject*> ownerObject = server->getObject(ownerid);
 
 	if (ownerObject == nullptr) {
-		PlayClientEffectLoc* explodeLoc = new PlayClientEffectLoc("clienteffect/lair_damage_heavy.cef", zone->getZoneName(), installation->getPositionX(),
-																  installation->getPositionZ(), installation->getPositionY());
+		PlayClientEffectLoc* explodeLoc = new PlayClientEffectLoc("clienteffect/lair_damage_heavy.cef", zone->getZoneName(), installation->getPositionX(), installation->getPositionZ(), installation->getPositionY());
 		installation->broadcastMessage(explodeLoc, false);
 
 		Locker _lock(installation);
@@ -2668,7 +2662,7 @@ void GCWManagerImplementation::performDefenseDonation(BuildingObject* building, 
 	Reference<SharedObjectTemplate*> generatedTemplate = TemplateManager::instance()->getTemplate(deed->getGeneratedObjectTemplate().hashCode());
 
 	if (generatedTemplate == nullptr)
-			return;
+		return;
 
 	const int objectType = generatedTemplate->getGameObjectType();
 
@@ -2769,7 +2763,7 @@ void GCWManagerImplementation::performDonateMinefield(BuildingObject* building, 
 	}
 }
 
-void GCWManagerImplementation::performDonateScanner(BuildingObject* building, CreatureObject* creature,  Deed* scannerDeed) {
+void GCWManagerImplementation::performDonateScanner(BuildingObject* building, CreatureObject* creature, Deed* scannerDeed) {
 	if (building == nullptr || creature == nullptr || scannerDeed == nullptr)
 		return;
 
@@ -2781,7 +2775,7 @@ void GCWManagerImplementation::performDonateScanner(BuildingObject* building, Cr
 	const ChildObject* child = nullptr;
 	int currentScannerIndex = 0;
 
-	Locker block(building,creature);
+	Locker block(building, creature);
 
 	DestructibleBuildingDataComponent* baseData = getDestructibleBuildingData(building);
 
@@ -2837,7 +2831,7 @@ void GCWManagerImplementation::performDonateScanner(BuildingObject* building, Cr
 			baseData->setDefenseAddedThisVuln(true);
 
 		StringIdChatParameter params;
-		params.setStringId("@faction/faction_hq/faction_hq_response:terminal_response45");  //"You successfully donate a %TO deed to the current facility."
+		params.setStringId("@faction/faction_hq/faction_hq_response:terminal_response45"); //"You successfully donate a %TO deed to the current facility."
 		params.setTO(scannerDeed->getObjectNameStringIdFile(), scannerDeed->getObjectNameStringIdName());
 		creature->sendSystemMessage(params);
 
@@ -3251,13 +3245,10 @@ String GCWManagerImplementation::getCrackdownInfo(CreatureObject* player) const 
 		return "No zone information";
 	} else {
 		return "Crackdown scan information:"
-			"\nScans enabled - " + String::valueOf(crackdownScansEnabled) +
-			"\nScans enabled (privileged players) - " + String::valueOf(crackdownScanPrivilegedPlayers) +
-			"\nScans enabled on this planet - " + String::valueOf(planetsWithWildScans.find(zone->getZoneName()) != Vector<String>::npos) +
-			"\nPlayer has no scan cooldown - " + String::valueOf(player->checkCooldownRecovery("crackdown_scan")) +
-			"\nPlayer outside - " + String::valueOf(player->getParentID() == 0 || player->isRidingMount()) +
-			"\nIs spawning permitted at the coordinates - " + String::valueOf(zone->getPlanetManager()->isSpawningPermittedAt(player->getWorldPositionX(), player->getWorldPositionY())) +
-			"\nIs player privileged - " + String::valueOf(player->getPlayerObject()->isPrivileged());
+			   "\nScans enabled - " +
+			   String::valueOf(crackdownScansEnabled) + "\nScans enabled (privileged players) - " + String::valueOf(crackdownScanPrivilegedPlayers) + "\nScans enabled on this planet - " + String::valueOf(planetsWithWildScans.find(zone->getZoneName()) != Vector<String>::npos) + "\nPlayer has no scan cooldown - " +
+			   String::valueOf(player->checkCooldownRecovery("crackdown_scan")) + "\nPlayer outside - " + String::valueOf(player->getParentID() == 0 || player->isRidingMount()) + "\nIs spawning permitted at the coordinates - " +
+			   String::valueOf(zone->getPlanetManager()->isSpawningPermittedAt(player->getWorldPositionX(), player->getWorldPositionY())) + "\nIs player privileged - " + String::valueOf(player->getPlayerObject()->isPrivileged());
 	}
 }
 

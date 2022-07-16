@@ -12,16 +12,11 @@
 #include "server/zone/managers/player/PlayerManager.h"
 
 class VerifyTradeMessageCallback : public MessageCallback {
-
-
 public:
-	VerifyTradeMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) :
-		MessageCallback(client, server) {
-
+	VerifyTradeMessageCallback(ZoneClientSession* client, ZoneProcessServer* server) : MessageCallback(client, server) {
 	}
 
 	void parse(Message* message) {
-
 	}
 
 	void run() {
@@ -33,8 +28,6 @@ public:
 		PlayerManager* playerManager = server->getZoneServer()->getPlayerManager();
 		playerManager->handleVerifyTradeMessage(player);
 	}
-
 };
-
 
 #endif /* VERIFYTRADEMESSAGECALLBACK_H_ */

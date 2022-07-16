@@ -17,7 +17,6 @@ BlueprintEntry::BlueprintEntry() : Serializable() {
 }
 
 BlueprintEntry::BlueprintEntry(const BlueprintEntry& entry) : Object(), Serializable() {
-
 	type = entry.type;
 	key = entry.key;
 	displayedName = entry.displayedName;
@@ -29,7 +28,6 @@ BlueprintEntry::BlueprintEntry(const BlueprintEntry& entry) : Object(), Serializ
 }
 
 BlueprintEntry::~BlueprintEntry() {
-
 }
 
 BlueprintEntry& BlueprintEntry::operator=(const BlueprintEntry& entry) {
@@ -52,19 +50,11 @@ bool BlueprintEntry::operator==(const BlueprintEntry& entry) {
 	if (this == &entry)
 		return true;
 
-	return((type == entry.type) &&
-			(key == entry.key) &&
-			(displayedName == entry.displayedName) &&
-			(serialNumber == entry.serialNumber) &&
-			(identical == entry.identical));
+	return ((type == entry.type) && (key == entry.key) && (displayedName == entry.displayedName) && (serialNumber == entry.serialNumber) && (identical == entry.identical));
 }
 
 bool BlueprintEntry::equals(BlueprintEntry* entry) {
-
-	return((type == entry->type) &&
-			(key == entry->key) &&
-			(serialNumber == entry->serialNumber) &&
-			(identical == entry->identical));
+	return ((type == entry->type) && (key == entry->key) && (serialNumber == entry->serialNumber) && (identical == entry->identical));
 }
 
 void BlueprintEntry::addSerializableVariables() {
@@ -77,24 +67,22 @@ void BlueprintEntry::addSerializableVariables() {
 }
 
 void BlueprintEntry::insertSchematicAttribute(AttributeListMessage* alm) {
-
 	String name = "cat_manf_schem_ing_resource.\"" + displayedName;
 	StringBuffer value;
 	value << quantity;
 
-	if(type == "component")
+	if (type == "component")
 		value << "\n" << serialNumber;
 
 	alm->insertAttribute(name, value);
 }
 
 void BlueprintEntry::insertFactoryIngredient(SuiListBox* ingredientList) {
-
 	StringBuffer sendstring;
 	sendstring << displayedName;
 
-	if(type == "component")
-		sendstring  << " " << serialNumber;
+	if (type == "component")
+		sendstring << " " << serialNumber;
 
 	sendstring << ":\\>200" << quantity;
 
@@ -106,13 +94,12 @@ void BlueprintEntry::clearMatches() {
 }
 
 bool BlueprintEntry::hasEnoughResources() {
-
-	if(inputHopper == nullptr)
+	if (inputHopper == nullptr)
 		return false;
 
 	int count = 0;
 
-	for(int i = 0; i < matchingHopperItems.size(); ++i) {
+	for (int i = 0; i < matchingHopperItems.size(); ++i) {
 		TangibleObject* object = matchingHopperItems.get(i);
 
 		if (object == nullptr) {
@@ -121,7 +108,7 @@ bool BlueprintEntry::hasEnoughResources() {
 			continue;
 		}
 
-		if(object->getParentID() != inputHopper->getObjectID()) {
+		if (object->getParentID() != inputHopper->getObjectID()) {
 			continue;
 		}
 
@@ -129,7 +116,7 @@ bool BlueprintEntry::hasEnoughResources() {
 		count += (useCount == 0 ? 1 : useCount);
 	}
 
-	if(count >= quantity)
+	if (count >= quantity)
 		return true;
 
 	return false;
@@ -138,19 +125,19 @@ bool BlueprintEntry::hasEnoughResources() {
 void BlueprintEntry::removeResources(FactoryObject* factory) {
 	int count = 0;
 
-	while(matchingHopperItems.size() > 0) {
+	while (matchingHopperItems.size() > 0) {
 		TangibleObject* object = matchingHopperItems.get(0);
 
 		Locker locker(object);
 
 		int useCount = object->getUseCount();
 
-		if(useCount == 0)
+		if (useCount == 0)
 			useCount = 1;
 
 		int amountNeeded = quantity - count;
 
-		if(useCount < amountNeeded) {
+		if (useCount < amountNeeded) {
 			count += useCount;
 			matchingHopperItems.removeElement(object);
 			object->decreaseUseCount(useCount);
@@ -159,18 +146,16 @@ void BlueprintEntry::removeResources(FactoryObject* factory) {
 
 		object->decreaseUseCount(amountNeeded, false);
 
-		if(!object->isResourceContainer()) {
+		if (!object->isResourceContainer()) {
 			TangibleObjectDeltaMessage3* dtano3 = new TangibleObjectDeltaMessage3(object);
 			dtano3->updateCountdownTimer();
 			dtano3->close();
 
 			factory->broadcastToOperators(dtano3);
 		} else {
-
 			ResourceContainer* container = cast<ResourceContainer*>(object);
 
-			ResourceContainerObjectDeltaMessage3* rcnod3 =
-					new ResourceContainerObjectDeltaMessage3(container);
+			ResourceContainerObjectDeltaMessage3* rcnod3 = new ResourceContainerObjectDeltaMessage3(container);
 
 			rcnod3->updateQuantity();
 			rcnod3->close();
@@ -178,7 +163,7 @@ void BlueprintEntry::removeResources(FactoryObject* factory) {
 			factory->broadcastToOperators(rcnod3);
 		}
 
-		if(object->getUseCount() <= 0)
+		if (object->getUseCount() <= 0)
 			matchingHopperItems.removeElement(object);
 
 		break;
@@ -196,7 +181,7 @@ void BlueprintEntry::print() {
 	System::out << "Quantity: " << quantity << endl;
 
 	System::out << "Matching Items:" << endl;
-	for(int i = 0; i < matchingHopperItems.size(); ++i) {
+	for (int i = 0; i < matchingHopperItems.size(); ++i) {
 		TangibleObject* object = matchingHopperItems.get(i);
 		System::out << object->getObjectID() << " " << object->getDisplayedName() << " " << object->getUseCount() << endl;
 	}

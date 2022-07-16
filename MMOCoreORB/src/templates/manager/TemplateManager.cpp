@@ -130,7 +130,6 @@
 #include "conf/ConfigManager.h"
 #include "tre3/TreeArchive.h"
 
-
 Lua* TemplateManager::luaTemplatesInstance = nullptr;
 
 AtomicInteger TemplateManager::loadedTemplatesCount;
@@ -199,8 +198,8 @@ void TemplateManager::loadSlotDefinitions() {
 		return;
 	}
 
-	//TODO: Should we fool with encapsulating this within a SlotDefinitionsMap?
-	//Note: There is no parent form type, just the version: 0006...
+	// TODO: Should we fool with encapsulating this within a SlotDefinitionsMap?
+	// Note: There is no parent form type, just the version: 0006...
 
 	iffStream->openForm('0006');
 
@@ -288,12 +287,12 @@ void TemplateManager::loadAssetCustomizationManager() {
 }
 
 Reference<SlotDescriptor*> TemplateManager::getSlotDescriptor(const String& filename) {
-	//If the slot descriptor doesn't already exist, attempt to load it.
+	// If the slot descriptor doesn't already exist, attempt to load it.
 	if (!slotDescriptors.contains(filename)) {
 		IffStream* iffStream = openIffFile(filename);
 
 		if (iffStream == nullptr)
-			return nullptr; //Descriptor does not exist.
+			return nullptr; // Descriptor does not exist.
 
 		Reference<SlotDescriptor*> slotDesc = new SlotDescriptor();
 		slotDesc->readObject(iffStream);
@@ -331,12 +330,12 @@ PaletteTemplate* TemplateManager::getPaletteTemplate(const String& fileName) {
 }
 
 Reference<ArrangementDescriptor*> TemplateManager::getArrangementDescriptor(const String& filename) {
-	//If the slot descriptor doesn't already exist, attempt to load it.
+	// If the slot descriptor doesn't already exist, attempt to load it.
 	if (!arrangementDescriptors.contains(filename)) {
 		IffStream* iffStream = openIffFile(filename);
 
 		if (iffStream == nullptr)
-			return nullptr; //Descriptor does not exist.
+			return nullptr; // Descriptor does not exist.
 
 		Reference<ArrangementDescriptor*> slotDesc = new ArrangementDescriptor();
 		slotDesc->readObject(iffStream);
@@ -465,7 +464,7 @@ void TemplateManager::addTemplate(uint32 key, const String& fullName, LuaObject*
 	debug() << "loaded " << fullName;
 
 	if (templateCRCMap->put(key, templateObject) != nullptr) {
-		//error("duplicate template for " + fullName);
+		// error("duplicate template for " + fullName);
 	}
 }
 
@@ -557,7 +556,7 @@ void TemplateManager::registerTemplateObjects() {
 }
 
 void TemplateManager::registerFunctions() {
-	//lua generic
+	// lua generic
 	luaTemplatesInstance->registerFunction("includeFile", includeFile);
 	luaTemplatesInstance->registerFunction("crcString", crcString);
 	luaTemplatesInstance->registerFunction("addTemplateCRC", addTemplateCRC);
@@ -793,7 +792,7 @@ ObjectInputStream* TemplateManager::openTreFile(const String& fileName) {
 	IffStream* iffStream = nullptr;
 
 	int size = 0;
-	//byte* data = treeDirectory->getBytes(fileName, size);
+	// byte* data = treeDirectory->getBytes(fileName, size);
 
 	byte* data = DataArchiveStore::instance()->getData(fileName, size);
 
@@ -802,7 +801,7 @@ ObjectInputStream* TemplateManager::openTreFile(const String& fileName) {
 
 	ObjectInputStream* stream = new ObjectInputStream((char*)data, size);
 
-	delete [] data;
+	delete[] data;
 
 	return stream;
 }
@@ -841,7 +840,7 @@ FloorMesh* TemplateManager::getFloorMesh(const String& fileName) {
 	}
 
 	return floorMesh;
-	//return nullptr;
+	// return nullptr;
 }
 
 AppearanceTemplate* TemplateManager::getAppearanceTemplate(const String& fileName) {
@@ -1031,24 +1030,24 @@ int TemplateManager::crcString(lua_State* L) {
 }
 
 int TemplateManager::addTemplateCRC(lua_State* L) {
-	String ascii =  lua_tostring(L, -2);
+	String ascii = lua_tostring(L, -2);
 
 	LuaObject obj(L);
 
-	uint32 crc = (uint32) ascii.hashCode();
+	uint32 crc = (uint32)ascii.hashCode();
 
 	TemplateManager::instance()->addTemplate(crc, ascii, &obj);
 
-//	uint64 seconds = Logger::getElapsedTime();
+	//	uint64 seconds = Logger::getElapsedTime();
 
 	int val = loadedTemplatesCount.increment();
 
 	if (ConfigManager::instance()->isProgressMonitorActivated()) {
 		if (val % 159 == 0)
-			printf("\r\tLoading templates: [%d%%]\t", (int) (float(val) / 15998.f * 100.f));
+			printf("\r\tLoading templates: [%d%%]\t", (int)(float(val) / 15998.f * 100.f));
 	}
 
-	//System::out << str;
+	// System::out << str;
 
 	return 0;
 }
@@ -1056,7 +1055,7 @@ int TemplateManager::addTemplateCRC(lua_State* L) {
 int TemplateManager::addClientTemplate(lua_State* L) {
 	String ascii = lua_tostring(L, -2);
 
-	uint32 crc = (uint32) ascii.hashCode();
+	uint32 crc = (uint32)ascii.hashCode();
 
 	TemplateManager::instance()->clientTemplateCRCMap->put(crc, ascii);
 	return 0;

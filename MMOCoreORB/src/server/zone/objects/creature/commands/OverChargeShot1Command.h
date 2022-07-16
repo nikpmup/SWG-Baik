@@ -9,13 +9,10 @@
 
 class OverChargeShot1Command : public CombatQueueCommand {
 public:
-
-	OverChargeShot1Command(const String& name, ZoneProcessServer* server)
-		: CombatQueueCommand(name, server) {
+	OverChargeShot1Command(const String& name, ZoneProcessServer* server) : CombatQueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -29,7 +26,6 @@ public:
 
 		return result;
 	}
-
 };
 
-#endif //OVERCHARGESHOT1COMMAND_H_
+#endif // OVERCHARGESHOT1COMMAND_H_

@@ -19,10 +19,10 @@
 #include "server/login/objects/GalaxyList.h"
 
 using ::testing::_;
-using ::testing::Return;
-using ::testing::AnyNumber;
-using ::testing::TypedEq;
 using ::testing::An;
+using ::testing::AnyNumber;
+using ::testing::Return;
+using ::testing::TypedEq;
 
 class ZoneTest : public ::testing::Test {
 protected:
@@ -32,6 +32,7 @@ protected:
 	Reference<ZoneProcessServer*> processServer;
 	AtomicLong nextObjectId;
 	Reference<PlayerManager*> playerManager;
+
 public:
 	ZoneTest() {
 		// Perform creation setup here.
@@ -115,22 +116,22 @@ public:
 TEST_F(ZoneTest, GalaxyList) {
 	auto galaxies = GalaxyList(1);
 
-	while(galaxies.next()) {
+	while (galaxies.next()) {
 		std::cerr << "[>>>>>>>>>>] " << galaxies.toString().toCharArray() << std::endl;
 
 #ifdef USE_RANDOM_EXTRA_PORTS
 		// Make a couple calls to getRandomPort()
 		std::cerr << "[>>>>>>>>>>] getRandomPort " << galaxies.getRandomPort();
-		for (int i = 0; i < 3;i++) {
+		for (int i = 0; i < 3; i++) {
 			std::cerr << " " << galaxies.getRandomPort();
 		}
-		std::cerr<< std::endl;
+		std::cerr << std::endl;
 #endif // USE_RANDOM_EXTRA_PORTS
 	}
 }
 
 TEST_F(ZoneTest, PlayerManager) {
-	playerManager = new PlayerManager( zoneServer, processServer, false);
+	playerManager = new PlayerManager(zoneServer, processServer, false);
 }
 
 TEST_F(ZoneTest, TreLoad) {
@@ -208,7 +209,7 @@ TEST_F(ZoneTest, InRangeTest) {
 
 	ASSERT_TRUE(scene->getZone() != nullptr);
 
-	SortedVector<ManagedReference<QuadTreeEntry*> > objects;
+	SortedVector<ManagedReference<QuadTreeEntry*>> objects;
 
 	zone->getInRangeObjects(0, 0, 128, &objects, true);
 

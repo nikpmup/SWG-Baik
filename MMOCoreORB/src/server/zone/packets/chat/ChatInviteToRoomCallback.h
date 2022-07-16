@@ -8,13 +8,12 @@
 #ifndef CHATINVITETOROOMCALLBACK_H_
 #define CHATINVITETOROOMCALLBACK_H_
 
-
 #include "server/zone/packets/MessageCallback.h"
 #include "server/chat/ChatManager.h"
 
 class ChatInviteToRoomCallback : public MessageCallback {
-	String inviteeName; //Player to invite.
-	String roomPath; //Room to invite player to.
+	String inviteeName; // Player to invite.
+	String roomPath;	// Room to invite player to.
 	int requestID;
 
 public:
@@ -27,12 +26,11 @@ public:
 	void parse(Message* message) {
 		String unused;
 
-		message->parseAscii(unused); //Game name
-		message->parseAscii(unused); //Galaxy name
-		message->parseAscii(inviteeName); //Player invited
-		message->parseAscii(roomPath); //Path to room
-		requestID = message->parseInt(); //Request ID
-
+		message->parseAscii(unused);	  // Game name
+		message->parseAscii(unused);	  // Galaxy name
+		message->parseAscii(inviteeName); // Player invited
+		message->parseAscii(roomPath);	  // Path to room
+		requestID = message->parseInt();  // Request ID
 	}
 
 	void run() {
@@ -45,8 +43,6 @@ public:
 		if (chatManager != nullptr)
 			chatManager->handleChatInvitePlayer(player, inviteeName, roomPath, requestID);
 	}
-
 };
-
 
 #endif /* CHATINVITETOROOMCALLBACK_H_ */

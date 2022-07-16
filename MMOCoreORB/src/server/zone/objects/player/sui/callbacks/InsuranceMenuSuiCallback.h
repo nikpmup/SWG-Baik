@@ -17,8 +17,7 @@
 
 class InsuranceMenuSuiCallback : public SuiCallback {
 public:
-	InsuranceMenuSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
+	InsuranceMenuSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -33,7 +32,7 @@ public:
 		bool otherPressed = Bool::valueOf(args->get(0).toString());
 		int index = Integer::valueOf(args->get(1).toString());
 
-		SuiListBox* listBox = cast<SuiListBox*>( suiBox);
+		SuiListBox* listBox = cast<SuiListBox*>(suiBox);
 
 		ZoneServer* zoneServer = player->getZoneServer();
 
@@ -61,7 +60,6 @@ public:
 		}
 
 		if (otherPressed) {
-
 			int items = listBox->getMenuSize();
 
 			StringBuffer promptText;
@@ -74,7 +72,6 @@ public:
 			insureAll->setCancelButton(true, "");
 			insureAll->setForceCloseDistance(32.f);
 			insureAll->setCallback(new InsuranceAllConfirmSuiCallback(server));
-
 
 			player->getPlayerObject()->addSuiBox(insureAll);
 			player->sendMessage(insureAll->generateMessage());
@@ -89,12 +86,11 @@ public:
 					return;
 				}
 
-				TangibleObject* item = cast<TangibleObject*>( obj.get());
+				TangibleObject* item = cast<TangibleObject*>(obj.get());
 
 				Locker locker(item, player);
 
 				if (!(item->getOptionsBitmask() & OptionBitmask::INSURED) && (item->isArmorObject() || item->isWearableObject())) {
-
 					if (bank < cost) {
 						int diff = cost - bank;
 
@@ -106,7 +102,7 @@ public:
 							return;
 						}
 
-						//pay bank portion
+						// pay bank portion
 						TransactionLog trxBank(player, TrxCode::INSURANCESYSTEM, cost - diff);
 						trxBank.addRelatedObject(objectID);
 

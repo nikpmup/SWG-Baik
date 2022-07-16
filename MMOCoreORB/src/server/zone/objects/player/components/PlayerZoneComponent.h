@@ -38,8 +38,6 @@ public:
 	 * @param lightUpdate if true a standalone message is sent to the in range objects
 	 */
 	void updateZoneWithParent(SceneObject* sceneObject, SceneObject* newParent, bool lightUpdate, bool sendPackets = true) const;
-
 };
-
 
 #endif /* PLAYERZONECOMPONENT_H_ */

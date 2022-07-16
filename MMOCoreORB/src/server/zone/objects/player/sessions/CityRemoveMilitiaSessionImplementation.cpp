@@ -37,7 +37,7 @@ int CityRemoveMilitiaSessionImplementation::initializeSession() {
 	text << "@city/city:remove_militia_prefix " << militiaMember->getDisplayedName() << " @city/city:remove_militia_suffix";
 
 	ManagedReference<SuiMessageBox*> sui = new SuiMessageBox(creature, SuiWindowType::CITY_REMOVE_MILITIA);
-	sui->setPromptTitle("@city/city:remove_militia_confirm"); //Confirm Removal
+	sui->setPromptTitle("@city/city:remove_militia_confirm"); // Confirm Removal
 	sui->setPromptText(text.toString());
 	sui->setCallback(new CityRemoveMilitiaMemberSuiCallback(creature->getZoneServer(), city));
 	sui->setUsingObject(terminalObject.get());

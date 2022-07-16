@@ -1,20 +1,16 @@
 /*
- 				Copyright <SWGEmu>
+				Copyright <SWGEmu>
 		See file COPYING for copying conditions. */
 
 #ifndef EQUILIBRIUMCOMMAND_H_
 #define EQUILIBRIUMCOMMAND_H_
 
-class EquilibriumCommand: public QueueCommand {
+class EquilibriumCommand : public QueueCommand {
 public:
-
-	EquilibriumCommand(const String& name, ZoneProcessServer* server)
-		: QueueCommand(name, server) {
-
+	EquilibriumCommand(const String& name, ZoneProcessServer* server) : QueueCommand(name, server) {
 	}
 
 	int doQueueCommand(CreatureObject* creature, const uint64& target, const UnicodeString& arguments) const {
-
 		if (!checkStateMask(creature))
 			return INVALIDSTATE;
 
@@ -36,7 +32,7 @@ public:
 			const Time* cdTime = player->getCooldownTime("innate_equilibrium");
 
 			// Returns -time. Multiple by -1 to return positive.
-			int timeLeft = floor((float)cdTime->miliDifference() / 1000) *-1;
+			int timeLeft = floor((float)cdTime->miliDifference() / 1000) * -1;
 
 			stringId.setStringId("@innate:equil_wait"); // You are still recovering from your last equilization. Command available in %DI seconds.
 			stringId.setDI(timeLeft);
@@ -58,37 +54,33 @@ public:
 
 		// Check rather to Heal or inflict damage to the player.
 		if (health < balValue) {
-			player->healDamage(player,CreatureAttribute::HEALTH, diffHealth, true);
+			player->healDamage(player, CreatureAttribute::HEALTH, diffHealth, true);
 
 		} else {
 			player->inflictDamage(player, CreatureAttribute::HEALTH, diffHealth, true);
-
 		}
 
 		if (action < balValue) {
-			player->healDamage(player,CreatureAttribute::ACTION, diffAction, true);
+			player->healDamage(player, CreatureAttribute::ACTION, diffAction, true);
 
 		} else {
 			player->inflictDamage(player, CreatureAttribute::ACTION, diffAction, true);
-
 		}
 
 		if (mind < balValue) {
-			player->healDamage(player,CreatureAttribute::MIND, diffMind, true);
+			player->healDamage(player, CreatureAttribute::MIND, diffMind, true);
 
 		} else {
 			player->inflictDamage(player, CreatureAttribute::MIND, diffMind, true);
-
 		}
 
-		player->sendSystemMessage("@innate:equil_active"); // Through sheer willpower, you force yourself into a state of equilibrium.
+		player->sendSystemMessage("@innate:equil_active");						// Through sheer willpower, you force yourself into a state of equilibrium.
 		player->showFlyText("combat_effects", "innate_equilibrium", 0, 255, 0); // +Equilibrium+
 
 		player->addCooldown("innate_equilibrium", 3600 * 1000);
 
 		return SUCCESS;
 	}
-
 };
 
-#endif //EQUILIBRIUMCOMMAND_H_
+#endif // EQUILIBRIUMCOMMAND_H_

@@ -12,11 +12,8 @@
 #include "server/zone/managers/gcw/GCWManager.h"
 
 class DonateDefenseSuiCallback : public SuiCallback {
-
 public:
-	DonateDefenseSuiCallback(ZoneServer* server)
-		: SuiCallback(server) {
-
+	DonateDefenseSuiCallback(ZoneServer* server) : SuiCallback(server) {
 	}
 
 	void run(CreatureObject* player, SuiBox* suiBox, uint32 eventIndex, Vector<UnicodeString>* args) {
@@ -44,10 +41,7 @@ public:
 			return;
 
 		gcwMan->performDefenseDonation(building, player, objectid);
-
 	}
 };
-
-
 
 #endif /* DONATEDEFENSESUICALLBACK_H_ */

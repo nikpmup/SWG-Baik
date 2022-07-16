@@ -11,12 +11,9 @@
 #include "VeteranReward.h"
 
 class VeteranRewardList : public Vector<VeteranReward> {
-
 public:
-
 	VeteranRewardList() : Vector<VeteranReward>() {
 	}
-
 };
 
 #endif /* VETERANREWARDLIST_H_ */

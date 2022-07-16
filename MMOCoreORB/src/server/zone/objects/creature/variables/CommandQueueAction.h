@@ -8,26 +8,26 @@
 #include "engine/engine.h"
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace scene {
-	   class SceneObject;
-   }
-  }
- }
+namespace zone {
+namespace objects {
+namespace scene {
+class SceneObject;
 }
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::scene;
 
 namespace server {
- namespace zone {
-  namespace objects {
-   namespace creature {
-	   class CreatureObject;
-   }
-  }
- }
+namespace zone {
+namespace objects {
+namespace creature {
+class CreatureObject;
 }
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature;
 
@@ -36,12 +36,12 @@ namespace zone {
 namespace objects {
 namespace creature {
 namespace commands {
-	class QueueCommand;
+class QueueCommand;
 }
-}
-}
-}
-}
+} // namespace creature
+} // namespace objects
+} // namespace zone
+} // namespace server
 
 using namespace server::zone::objects::creature::commands;
 
@@ -108,7 +108,6 @@ public:
 	inline UnicodeString getArguments() {
 		return arguments;
 	}
-
 };
 
 #endif /*COMMANDQUEUEACTION_H_*/

@@ -17,7 +17,7 @@ class Zone;
 class ObjectManager : public Mutex, public Logger {
 	ObjectMap* objectMap;
 
-	static ObjectFactory<SceneObject* (LuaObject*), uint32> objectFactory;
+	static ObjectFactory<SceneObject*(LuaObject*), uint32> objectFactory;
 	static Lua* luaInstance;
 	static Mutex luaMutex;
 
@@ -47,8 +47,6 @@ public:
 	static int includeFile(lua_State* L);
 	static int crcString(lua_State* L);
 	static int addTemplateCRC(lua_State* L);
-
 };
-
 
 #endif /* OBJECTMANAGER_H_ */

@@ -15,12 +15,12 @@ public:
 		insertShort(0x08);
 		insertInt(0xC867AB5A);
 		insertLong(object->getParentID());
-	    insertLong(object->getObjectID());
+		insertLong(object->getObjectID());
 
 		// add coordinates
-		insertSignedShort((int16) (object->getPositionX() * 8));
-		insertSignedShort((int16) (object->getPositionZ() * 8));
-		insertSignedShort((int16) (object->getPositionY() * 8));
+		insertSignedShort((int16)(object->getPositionX() * 8));
+		insertSignedShort((int16)(object->getPositionZ() * 8));
+		insertSignedShort((int16)(object->getPositionY() * 8));
 
 		// add movement counter
 		insertInt(object->getMovementCounter());
@@ -29,27 +29,25 @@ public:
 			insertByte((int8)object->asCreatureObject()->getCurrentSpeed());
 		else
 			insertByte(0);
-		
+
 		// add direction
-		insertByte((int8) object->getSpecialDirectionAngle());
-		
-		/*System::out << "Position Update [" << player->getObjectID() << "] (" 
-			 << (int) (player->getPositionX()) << "," << (int) (player->getPositionZ()) << "," 
+		insertByte((int8)object->getSpecialDirectionAngle());
+
+		/*System::out << "Position Update [" << player->getObjectID() << "] ("
+			 << (int) (player->getPositionX()) << "," << (int) (player->getPositionZ()) << ","
 			 << (int) (player->getPositionY()) << ") - Dir = " << (int) (player->getDirectionAngle()) << "\n";*/
 	}
-	
-	UpdateTransformWithParentMessage(SceneObject* object, float posX, float posZ, float posY, uint64 parentID) : 
-		BaseMessage(50) {
-		
+
+	UpdateTransformWithParentMessage(SceneObject* object, float posX, float posZ, float posY, uint64 parentID) : BaseMessage(50) {
 		insertShort(0x08);
 		insertInt(0xC867AB5A);
 		insertLong(parentID);
 		insertLong(object->getObjectID());
 
 		// add coordinates
-		insertSignedShort((int16) (posX * 8));
-		insertSignedShort((int16) (posZ * 8));
-		insertSignedShort((int16) (posY * 8));
+		insertSignedShort((int16)(posX * 8));
+		insertSignedShort((int16)(posZ * 8));
+		insertSignedShort((int16)(posY * 8));
 
 		// add movement counter
 		insertInt(object->getMovementCounter());
@@ -60,13 +58,12 @@ public:
 			insertByte(0);
 
 		// add direction
-		insertByte((int8) object->getSpecialDirectionAngle());
+		insertByte((int8)object->getSpecialDirectionAngle());
 
-		/*System::out << "Position Update [" << player->getObjectID() << "] (" 
-				 << (int) (player->getPositionX()) << "," << (int) (player->getPositionZ()) << "," 
+		/*System::out << "Position Update [" << player->getObjectID() << "] ("
+				 << (int) (player->getPositionX()) << "," << (int) (player->getPositionZ()) << ","
 				 << (int) (player->getPositionY()) << ") - Dir = " << (int) (player->getDirectionAngle()) << "\n";*/
 	}
-
 };
 
 #endif /*UPDATETRANSFORMWITHPARENTMESSAGE_H_*/

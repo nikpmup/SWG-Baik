@@ -8,14 +8,13 @@
 #ifndef FLORAGROUP_H_
 #define FLORAGROUP_H_
 
-
 #include "TemplateVariable.h"
 #include "FloraFamily.h"
 
 class FloraGroup : public TemplateVariable<'FGRP'> {
 	Vector<FloraFamily*> data;
-public:
 
+public:
 	~FloraGroup() {
 		while (data.size() > 0)
 			delete data.remove(0);
@@ -49,6 +48,5 @@ public:
 		}
 	}
 };
-
 
 #endif /* FLORAGROUP_H_ */

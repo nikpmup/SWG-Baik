@@ -8,8 +8,7 @@
 #include "server/zone/ZoneServer.h"
 #include "server/zone/Zone.h"
 
-UpdateNearestMissionForGroupTask::UpdateNearestMissionForGroupTask(GroupObject* group, const unsigned int planetCRC)
-	: Task() {
+UpdateNearestMissionForGroupTask::UpdateNearestMissionForGroupTask(GroupObject* group, const unsigned int planetCRC) : Task() {
 	this->groupRef = group;
 	this->planetCRC = planetCRC;
 }
@@ -23,7 +22,7 @@ void UpdateNearestMissionForGroupTask::run() {
 	Locker locker(group);
 
 	// Filter the group by planet.
-	Vector<Reference<CreatureObject*> > groupMembersOnPlanet;
+	Vector<Reference<CreatureObject*>> groupMembersOnPlanet;
 	for (int i = 0; i < group->getGroupSize(); i++) {
 		Reference<CreatureObject*> groupMember = group->getGroupMember(i);
 
@@ -58,7 +57,7 @@ void UpdateNearestMissionForGroupTask::run() {
 	Vector3 averageGroupMemberLocation = Vector3(totalX / groupMembersOnPlanet.size(), totalY / groupMembersOnPlanet.size(), totalZ / groupMembersOnPlanet.size());
 
 	// Find all of the missions for the group members on the planet.
-	Vector<Reference<MissionObject*> > missionsOnPlanet;
+	Vector<Reference<MissionObject*>> missionsOnPlanet;
 
 	for (int i = 0; i < groupMembersOnPlanet.size(); i++) {
 		CreatureObject* groupMember = groupMembersOnPlanet.get(i);
@@ -94,8 +93,7 @@ void UpdateNearestMissionForGroupTask::run() {
 	Reference<MissionObject*> nearestMission = nullptr;
 	if (missionsOnPlanet.size() == 1) {
 		nearestMission = missionsOnPlanet.get(0);
-	}
-	else {
+	} else {
 		float shortestDistanceSoFar = std::numeric_limits<float>::max();
 
 		for (int i = 0; i < missionsOnPlanet.size(); i++) {
@@ -131,8 +129,7 @@ float UpdateNearestMissionForGroupTask::calculateManhattanDistanceToMission(cons
 		return std::numeric_limits<float>::max();
 	}
 
-	return fabs(position.getX() - mission->getWaypointToMission()->getWorldPositionX())
-		+ fabs(position.getY() - mission->getWaypointToMission()->getWorldPositionY());
+	return fabs(position.getX() - mission->getWaypointToMission()->getWorldPositionX()) + fabs(position.getY() - mission->getWaypointToMission()->getWorldPositionY());
 }
 
 void UpdateNearestMissionForGroupTask::setPlayersNearestMissionForGroupWaypoint(PlayerObject* ghost, MissionObject* nearestMissionForGroup) {
@@ -142,8 +139,7 @@ void UpdateNearestMissionForGroupTask::setPlayersNearestMissionForGroupWaypoint(
 
 	if (nearestMissionForGroup == nullptr) {
 		ghost->removeWaypointBySpecialType(WaypointObject::SPECIALTYPE_NEARESTMISSIONFORGROUP, true);
-	}
-	else {
+	} else {
 		Zone* zone = nearestMissionForGroup->getZone();
 		uint32 crc = zone ? zone->getZoneCRC() : 0;
 
@@ -158,9 +154,7 @@ void UpdateNearestMissionForGroupTask::setPlayersNearestMissionForGroupWaypoint(
 		waypoint->setCustomObjectName("@group:groupwaypoint", false); // Nearest mission for group
 		waypoint->setSpecialTypeID(WaypointObject::SPECIALTYPE_NEARESTMISSIONFORGROUP);
 		waypoint->setPlanetCRC(crc);
-		waypoint->setPosition(nearestMissionForGroup->getWaypointToMission()->getPositionX(),
-			nearestMissionForGroup->getWaypointToMission()->getPositionZ(),
-			nearestMissionForGroup->getWaypointToMission()->getPositionY());
+		waypoint->setPosition(nearestMissionForGroup->getWaypointToMission()->getPositionX(), nearestMissionForGroup->getWaypointToMission()->getPositionZ(), nearestMissionForGroup->getWaypointToMission()->getPositionY());
 		waypoint->setColor(WaypointObject::COLOR_YELLOW);
 		waypoint->setActive(true);
 		ghost->addWaypoint(waypoint, false);

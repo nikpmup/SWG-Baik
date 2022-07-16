@@ -16,7 +16,7 @@
 
 #include "client/zone/Zone.h"
 
-ObjectFactory<SceneObject* (LuaObject*), uint32> ObjectManager::objectFactory;
+ObjectFactory<SceneObject*(LuaObject*), uint32> ObjectManager::objectFactory;
 Lua* ObjectManager::luaInstance = nullptr;
 Mutex ObjectManager::luaMutex;
 
@@ -51,7 +51,7 @@ ObjectManager::~ObjectManager() {
 
 void ObjectManager::registerObjectTypes() {
 	info("registering object types");
-	//objectFactory.registerObject<SceneObject>(0);
+	// objectFactory.registerObject<SceneObject>(0);
 	objectFactory.registerObject<CreatureObject>(SceneObject::CREATURE);
 	objectFactory.registerObject<CreatureObject>(SceneObject::NPCCREATURE);
 	objectFactory.registerObject<CreatureObject>(SceneObject::DROIDCREATURE);
@@ -65,11 +65,9 @@ void ObjectManager::registerObjectTypes() {
 	objectFactory.registerObject<TangibleObject>(SceneObject::WEARABLECONTAINER);
 
 	objectFactory.registerObject<TangibleObject>(SceneObject::ARMOR);
-	objectFactory.registerObject<TangibleObject>(SceneObject::BODYARMOR); //chest plates
+	objectFactory.registerObject<TangibleObject>(SceneObject::BODYARMOR); // chest plates
 
-	objectFactory.registerObject<TangibleObject>(SceneObject::CONTAINER); //chest plates
-
-
+	objectFactory.registerObject<TangibleObject>(SceneObject::CONTAINER); // chest plates
 
 	/*objectFactory.registerObject<IntangibleObject>(SceneObject::INTANGIBLE);
 
@@ -98,7 +96,6 @@ void ObjectManager::registerObjectTypes() {
 
 	//temporary
 	objectFactory.registerObject<CreatureObject>(SceneObject::HOVERVEHICLE);*/
-
 }
 
 SceneObject* ObjectManager::createObject(uint32 objectCRC, uint64 objectID) {
@@ -157,7 +154,7 @@ SceneObject* ObjectManager::getObject(uint64 objectID) {
 SceneObject* ObjectManager::getObject(const UnicodeString& customName) {
 	Locker _locker(this);
 
-	HashTableIterator<uint64, Reference<SceneObject*> > iterator(objectMap);
+	HashTableIterator<uint64, Reference<SceneObject*>> iterator(objectMap);
 
 	while (iterator.hasNext()) {
 		SceneObject* object = iterator.next();
@@ -196,7 +193,7 @@ void ObjectManager::destroyObject(uint64 objectID) {
 			destroyObject(obj->getObjectID());
 		}
 
-		//object->finalize();
+		// object->finalize();
 	}
 }
 
@@ -207,7 +204,7 @@ uint32 ObjectManager::getObjectMapSize() {
 }
 
 void ObjectManager::registerFunctions() {
-	//lua generic
+	// lua generic
 	luaInstance->registerFunction("includeFile", includeFile);
 	luaInstance->registerFunction("crcString", crcString);
 	luaInstance->registerFunction("addTemplateCRC", addTemplateCRC);
