@@ -237,7 +237,10 @@ void PlayerManagerImplementation::loadLuaConfig() {
 
 	groupExpMultiplier = lua->getGlobalFloat("groupExpMultiplier");
 
-	globalExpMultiplier = lua->getGlobalFloat("globalExpMultiplier");
+	// BAIK_MOD_BEGIN
+	const auto globalExpMultiplierDefault = lua->getGlobalFloat("globalExpMultiplier");
+	globalExpMultiplier = ConfigManager::instance()->getFloat("Core3.PlayerManager.GlobalExpMultiplier", globalExpMultiplierDefault);
+	// BAIK_MOD_END
 
 	baseStoredCreaturePets = lua->getGlobalInt("baseStoredCreaturePets");
 	baseStoredFactionPets = lua->getGlobalInt("baseStoredFactionPets");
